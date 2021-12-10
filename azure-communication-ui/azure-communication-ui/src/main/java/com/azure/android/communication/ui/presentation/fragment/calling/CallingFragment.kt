@@ -1,0 +1,160 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+package com.azure.android.communication.ui.presentation.fragment.calling
+
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.os.Bundle
+import android.os.PowerManager
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.presentation.VideoViewManager
+import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView
+import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarView
+import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayView
+import com.azure.android.communication.ui.presentation.fragment.calling.header.InfoHeaderView
+import com.azure.android.communication.ui.presentation.fragment.calling.lobby.LobbyOverlayView
+import com.azure.android.communication.ui.presentation.fragment.calling.localuser.LocalParticipantView
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridView
+import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListView
+import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListView
+import com.azure.android.communication.ui.presentation.navigation.BackNavigation
+import kotlinx.coroutines.launch
+
+internal class CallingFragment(
+    private val viewModel: CallingViewModel,
+    private val videoViewManager: VideoViewManager,
+) :
+    Fragment(R.layout.azure_communication_ui_call_fragment), BackNavigation, SensorEventListener {
+
+    private val closeToUser = 0f
+    private lateinit var controlBarView: ControlBarView
+    private lateinit var confirmLeaveOverlayView: ConfirmLeaveOverlayView
+    private lateinit var localParticipantView: LocalParticipantView
+    private lateinit var infoHeaderView: InfoHeaderView
+    private lateinit var participantGridView: ParticipantGridView
+    private lateinit var audioDeviceListView: AudioDeviceListView
+    private lateinit var participantListView: ParticipantListView
+    private lateinit var bannerView: BannerView
+    private lateinit var lobbyOverlay: LobbyOverlayView
+    private lateinit var sensorManager: SensorManager
+    private lateinit var powerManager: PowerManager
+    private lateinit var wakeLock: PowerManager.WakeLock
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.init(viewLifecycleOwner.lifecycleScope)
+
+        confirmLeaveOverlayView = view.findViewById(R.id.azure_communication_ui_call_leave_overlay)
+        confirmLeaveOverlayView.start(viewModel.getCallHangupConfirmViewModel())
+
+        controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
+        controlBarView.start(
+            viewLifecycleOwner,
+            viewModel.getControlBarViewModel(),
+            this::requestCallEnd
+        )
+
+        participantGridView =
+            view.findViewById(R.id.azure_communication_ui_call_participant_container)
+        participantGridView.start(
+            viewModel.getParticipantGridViewModel(),
+            videoViewManager,
+            viewLifecycleOwner,
+        )
+
+        lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
+        lobbyOverlay.start(viewLifecycleOwner, viewModel.getLobbyOverlayViewModel())
+
+        localParticipantView = view.findViewById(R.id.azure_communication_ui_call_local_user_view)
+        localParticipantView.start(
+            viewLifecycleOwner,
+            viewModel.getLocalParticipantViewModel(),
+            videoViewManager,
+        )
+
+        infoHeaderView = view.findViewById(R.id.azure_communication_ui_call_floating_header)
+        infoHeaderView.start(viewLifecycleOwner, viewModel.getFloatingHeaderViewModel())
+
+        audioDeviceListView =
+            AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
+        audioDeviceListView.start(viewLifecycleOwner)
+
+        participantListView = ParticipantListView(
+            viewModel.getParticipantListViewModel(),
+            this.requireContext(),
+        )
+        participantListView.start(viewLifecycleOwner)
+
+        bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
+        bannerView.start(
+            viewModel.getBannerViewModel(),
+            viewLifecycleOwner,
+        )
+
+        participantGridView.setOnClickListener {
+            viewModel.switchFloatingHeader()
+        }
+
+        if (savedInstanceState == null) {
+            viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
+        }
+
+        sensorManager = context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        powerManager = context?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, javaClass.name)
+        wakeLock.acquire()
+        sensorManager.registerListener(
+            this,
+            sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (activity?.isChangingConfigurations == false) {
+            participantGridView.stop()
+            confirmLeaveOverlayView.stop()
+        }
+        localParticipantView.stop()
+        participantListView.stop()
+        audioDeviceListView.stop()
+        if (wakeLock.isHeld) {
+            wakeLock.setReferenceCounted(false)
+            wakeLock.release()
+        }
+        sensorManager.unregisterListener(this)
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+
+    override fun onSensorChanged(event: SensorEvent) {
+        if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
+            if (event.values[0] == closeToUser) {
+                if (!wakeLock.isHeld) {
+                    wakeLock.acquire()
+                }
+            } else {
+                if (!wakeLock.isHeld) {
+                    wakeLock.setReferenceCounted(false)
+                    wakeLock.release()
+                }
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        requestCallEnd()
+    }
+
+    private fun requestCallEnd() {
+        confirmLeaveOverlayView.showHangupOverlay()
+    }
+}

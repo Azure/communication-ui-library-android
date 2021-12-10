@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AzureCommunicationUICalling.Button" parent="Widget.FluentUI.Button">
+        <item name="android:background">
+            @drawable/azure_communication_ui_corner_radius_rectangle_4dp
+        </item>
+        <item name="android:backgroundTint">
+            @color/azure_communication_ui_primary_enabled_disabled_selector
+        </item>
+    </style>
+
+    <style name="AzureCommunicationUICalling.ButtonText" parent="TextAppearance.FluentUI.Button">
+        <item name="textAllCaps">false</item>
+    </style>
+</resources>
