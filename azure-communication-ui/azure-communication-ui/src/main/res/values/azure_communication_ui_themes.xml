@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base theme. -->
+    <style name="AzureCommunicationUI.Theme.Calling" parent="AzureCommunicationUI.Base.Theme.Calling">
+        <!-- Primary brand color. -->
+        <item name="azure_communication_ui_calling_primary_color">
+            @color/azure_communication_ui_color_primary
+        </item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

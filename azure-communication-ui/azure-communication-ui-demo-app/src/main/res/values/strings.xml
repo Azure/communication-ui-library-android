@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Communication UI Demo</string>
+    <string name="tokenUrlHint">Token function URL</string>
+    <string name="nameHint">Your Name</string>
+    <string name="groupCallLabel">Group call</string>
+    <string name="teamsMeetingLabel">Teams meeting</string>
+    <string name="groupCallIdOrTeamsMeetingHint">Group ID or Meeting link</string>
+    <string name="kotlin">Kotlin</string>
+    <string name="java">Java</string>
+    <string name="launchButtonText">Launch</string>
+    <string name="acsTokenHint">ACS Token</string>
+    <string name="launchTypeText">Launch In:</string>
+    <string name="tokenFunctionRadioButtonText">Token Function</string>
+    <string name="acsTokenRadioButtonText">@string/acsTokenHint</string>
+</resources>

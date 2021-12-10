@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- these are the colors configurable by application -->
+    <attr name="azure_communication_ui_calling_primary_color" type="color" />
+</resources>
