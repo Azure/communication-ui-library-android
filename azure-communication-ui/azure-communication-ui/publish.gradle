@@ -1,0 +1,83 @@
+apply plugin: 'maven-publish'
+
+def LIB_GROUP_ID = 'com.azure.android'
+def LIB_ARTIFACT_ID = 'azure-communication-ui'
+def LIB_VERSION = "$ui_library_version_name"
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    archiveClassifier.set("javadoc")
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'github'
+            url = 'https://maven.pkg.github.com/{repository owner}/{repository}'
+            credentials {
+                username '{username}'
+                password '{password}'
+            }
+        }
+        maven {
+            name = 'localDirectory'
+            url = "file://${buildDir}/publish"
+        }
+    }
+
+    publications {
+        release(MavenPublication) {
+            pom {
+                name = "${LIB_GROUP_ID}:${LIB_ARTIFACT_ID}"
+                description = "Azure Communication UI for Android."
+                url = "https://github.com/Azure/communication-ui-library-android"
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/Azure/communication-ui-library-android/blob/main/LICENSE.md'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'Microsoft'
+                        name = 'Microsoft'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/Azure/communication-ui-library-android.git'
+                    developerConnection = 'scm:git:ssh:github.com:Azure/communication-ui-library-android.git'
+                    url = 'https://github.com/Azure/communication-ui-library-android'
+                }
+            }
+            groupId LIB_GROUP_ID
+            artifactId LIB_ARTIFACT_ID
+            version LIB_VERSION
+
+            artifact("$buildDir/outputs/aar/azure-communication-ui-release.aar")
+
+            artifact javadocJar
+            artifact sourcesJar
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.implementation.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
+                }
+            }
+        }
+    }
+}

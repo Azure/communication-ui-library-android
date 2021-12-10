@@ -1,0 +1,58 @@
+<resources>
+    <string name="azure_communication_ui_title_activity_main">MainActivity</string>
+    <string name="azure_communication_ui_switch_camera_button">Switch Camera Button</string>
+    <string name="azure_communication_ui_setup_gradient">Setup Gradient</string>
+    <string name="azure_communication_ui_setup_video_off">Video off</string>
+    <string name="azure_communication_ui_setup_video_on">Video on</string>
+    <string name="azure_communication_ui_setup_mic_off">Mic off</string>
+    <string name="azure_communication_ui_setup_mic_on">Mic on</string>
+    <string name="azure_communication_ui_setup_audio_device_android">Android</string>
+    <string name="azure_communication_ui_setup_audio_device_speaker">Speaker</string>
+    <string name="azure_communication_ui_setup_name_hint">John Smith</string>
+    <string name="azure_communication_ui_setup_join_call">Join call</string>
+    <string name="azure_communication_ui_setup_missing_mic">Your audio is disabled. To enable, please go to Settings to allow access. You must
+        enable audio to start this call.</string>
+    <string name="azure_communication_ui_setup_missing_video">Your camera is disabled. To enable, please go to Settings
+        to allow access.</string>
+    <string name="azure_communication_ui_setup_missing_text">Permissions required</string>
+    <string name="azure_communication_ui_call_toggle_video">Toggle Video</string>
+    <string name="azure_communication_ui_call_toggle_audio">Toggle Audio</string>
+    <string name="azure_communication_ui_call_device_options">Device Options</string>
+    <string name="azure_communication_ui_call_hang_up">Hang Up</string>
+    <string name="azure_communication_ui_call_leave_call">Leave call</string>
+    <string name="azure_communication_ui_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_call_lobby_waiting">Waiting for host</string>
+    <string name="azure_communication_ui_call_lobby_waiting_details">Someone in the meeting will let you in soon</string>
+    <string name="azure_communication_ui_call_open_participant_list">Open Participant List</string>
+    <string name="azure_communication_ui_call_learn_more_url">
+        https://support.microsoft.com/en-us/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+    </string>
+    <string name="azure_communication_ui_call_privacy_policy_url">
+        https://privacy.microsoft.com/en-US/privacystatement#mainnoticetoendusersmodule
+    </string>
+    <string name="azure_communication_ui_call_recording_started"><b>Recording has started.</b> By joining, you are
+        giving consent for this meeting to be transcribed.
+         <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_call_recording_stopped"><b>Recording is being saved.</b> Recording has stopped.
+         <u>Learn More</u></string>
+    <string name="azure_communication_ui_call_transcription_started"><b>Transcription has started.</b> By joining, you
+        are giving consent for this meeting to be transcribed. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped"><b>Transcription is being saved.</b> Transcription
+        has stopped. <u>Learn More</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_started"><b>Recording and transcription have
+        started.</b> By joining, you are giving consent for this meeting to be transcribed
+        . <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_stopped"><b>Recording and transcription are
+        being saved.</b> Recording and transcription have stopped. <u>Learn More</u></string>
+    <string name="azure_communication_ui_call_recording_stopped_still_transcribing"><b>Recording has stopped.</b> You
+        are now only transcribing this meeting. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped_still_recording"><b>Transcription has stopped.
+    </b> You are now only recording this meeting. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_call_waiting_for_others_to_join">Waiting for others to join</string>
+    <string name="azure_communication_ui_call_call_with_1_person">Call with 1 person</string>
+    <string name="azure_communication_ui_call_call_with_n_people">Call with %1$d people</string>
+    <string name="azure_communication_ui_snack_bar_dismiss">Dismiss</string>
+    <string name="azure_communication_ui_cal_state_error_call_end">You were removed from the call due to an error.</string>
+    <string name="azure_communication_ui_cal_state_error_call_join">Unable to join the call due to an error.</string>
+    <string name="azure_communication_ui_service_notification_message">Tap to return to the call</string>
+</resources>

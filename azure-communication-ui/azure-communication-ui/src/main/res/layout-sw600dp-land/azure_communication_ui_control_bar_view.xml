@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/azure_communication_ui_call_call_buttons"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azure_communication_ui_color_background"
+    android:gravity="center"
+    android:orientation="horizontal"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        >
+
+        <ImageButton
+            android:id="@+id/azure_communication_ui_call_cameraToggle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/azure_communication_ui_color_button_background_transparent"
+            android:contentDescription="@string/azure_communication_ui_call_toggle_video"
+            android:src="@drawable/azure_communication_ui_toggle_selector_camera_for_call"
+            />
+
+        <ImageButton
+            android:id="@+id/azure_communication_ui_call_call_audio"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/azure_communication_ui_color_button_background_transparent"
+            android:contentDescription="@string/azure_communication_ui_call_toggle_audio"
+            android:src="@drawable/azure_communication_ui_toggle_selector_mic_for_call"
+            />
+
+        <ImageButton
+            android:id="@+id/azure_communication_ui_call_audio_device_button"
+            style="@style/Widget.FluentUI.Button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/azure_communication_ui_color_button_background_transparent"
+            android:contentDescription="@string/azure_communication_ui_call_device_options"
+            android:src="@drawable/azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled"
+            />
+
+        <ImageButton
+            android:id="@+id/azure_communication_ui_call_end_call_button"
+            style="@style/Widget.FluentUI.Button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp"
+            android:backgroundTint="@color/azure_communication_ui_color_background_red"
+            android:contentDescription="@string/azure_communication_ui_call_hang_up"
+            android:src="@drawable/azure_communication_ui_ic_fluent_call_end_28_filled_composite_button_filled"
+            />
+    </LinearLayout>
+</com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarView>

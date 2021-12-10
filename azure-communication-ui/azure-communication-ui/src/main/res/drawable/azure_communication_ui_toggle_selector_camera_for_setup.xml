@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_24_filled_composite_button_enabled" android:state_checked="@null" android:state_enabled="true" android:state_selected="true" />
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_24_filled_composite_button_enabled" android:state_checked="@null" android:state_enabled="false" android:state_selected="true" />
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled" android:state_checked="@null" android:state_enabled="true" android:state_selected="false" />
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled" android:state_checked="@null" android:state_enabled="false" android:state_selected="false" />
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_24_filled_composite_button_enabled" android:state_checked="true" android:state_enabled="true" android:state_selected="@null" />
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_24_filled_composite_button_enabled" android:state_checked="true" android:state_enabled="false" android:state_selected="@null" />
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled" android:state_checked="false" android:state_enabled="true" android:state_selected="@null" />
+    <item android:drawable="@drawable/azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled" android:state_checked="false" android:state_enabled="false" android:state_selected="@null" />
+</selector>

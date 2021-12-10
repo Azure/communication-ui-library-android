@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/azure_communication_ui_call_banner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/azure_communication_ui_color_background"
+    android:visibility="gone"
+    app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_call_floating_header"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+
+    <TextView
+        android:id="@+id/azure_communication_ui_call_banner_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginEnd="54.5dp"
+        android:layout_marginBottom="9dp"
+        android:gravity="top"
+        android:lineSpacingExtra="2sp"
+        android:textColor="@color/azure_communication_ui_color_on_background"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/azure_communication_ui_call_banner_close"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@null"
+        android:src="@drawable/azure_communication_ui_ic_fluent_dismiss_12_regular"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+</com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView>
