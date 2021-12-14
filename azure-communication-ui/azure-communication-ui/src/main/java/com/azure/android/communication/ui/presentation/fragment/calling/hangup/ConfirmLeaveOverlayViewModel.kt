@@ -3,21 +3,18 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
-import android.view.View
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.CallingAction
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class ConfirmLeaveOverlayViewModel(
     private val dispatch: (Action) -> Unit,
 ) {
-    private var isConfirmLeaveOverlayDisplayed: Int = View.INVISIBLE
+    private var shouldDisplayConfirmLeaveOverlayStateFlow = MutableStateFlow(false)
 
-    fun setConfirmLeaveOverlayState(confirmLeaveOverlayState: Int) {
-        isConfirmLeaveOverlayDisplayed = confirmLeaveOverlayState
-    }
-
-    fun getConfirmLeaveOverlayState(): Int {
-        return isConfirmLeaveOverlayDisplayed
+    fun getShouldDisplayConfirmLeaveOverlayFlow(): StateFlow<Boolean> {
+        return shouldDisplayConfirmLeaveOverlayStateFlow
     }
 
     fun confirm() {
@@ -25,7 +22,11 @@ internal class ConfirmLeaveOverlayViewModel(
     }
 
     fun cancel() {
-        setConfirmLeaveOverlayState(View.INVISIBLE)
+        shouldDisplayConfirmLeaveOverlayStateFlow.value = false
+    }
+
+    fun show() {
+        shouldDisplayConfirmLeaveOverlayStateFlow.value = true
     }
 
     private fun dispatchAction(action: Action) {

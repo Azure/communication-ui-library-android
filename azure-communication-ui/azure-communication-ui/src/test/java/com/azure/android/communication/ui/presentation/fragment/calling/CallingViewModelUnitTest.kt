@@ -87,7 +87,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
@@ -161,7 +161,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
@@ -235,7 +235,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
@@ -316,7 +316,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }

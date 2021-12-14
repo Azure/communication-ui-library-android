@@ -31,7 +31,7 @@ internal class CallingViewModel(
         callingViewModelProvider.provideParticipantGridViewModel()
     private val controlBarViewModel = callingViewModelProvider.provideControlBarViewModel()
     private val confirmLeaveOverlayViewModel =
-        callingViewModelProvider.provideCallHangupConfirmViewModel()
+        callingViewModelProvider.provideConfirmLeaveOverlayViewModel()
     private val localParticipantViewModel =
         callingViewModelProvider.provideLocalParticipantViewModel()
     private val floatingHeaderViewModel = callingViewModelProvider.provideFloatingHeaderViewModel()
@@ -58,7 +58,7 @@ internal class CallingViewModel(
         return controlBarViewModel
     }
 
-    fun getCallHangupConfirmViewModel(): ConfirmLeaveOverlayViewModel {
+    fun getConfirmLeaveOverlayViewModel(): ConfirmLeaveOverlayViewModel {
         return confirmLeaveOverlayViewModel
     }
 
@@ -154,8 +154,6 @@ internal class CallingViewModel(
         audioDeviceListViewModel.update(
             state.localParticipantState.audioState.device
         )
-
-        lobbyOverlayViewModel.update(state.callState.CallingStatus)
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
