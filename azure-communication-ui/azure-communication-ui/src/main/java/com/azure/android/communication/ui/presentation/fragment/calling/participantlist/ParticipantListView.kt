@@ -150,7 +150,6 @@ internal class ParticipantListView(
             R.color.azure_communication_ui_color_participant_list_mute_mic,
             isMuted
         ) {
-            participantListDrawer.dismiss()
         }
     }
 }
