@@ -46,13 +46,13 @@ class MainActivity : AppCompatActivity() {
         binding.run {
             tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
 
-            if (!deeplinkAcsToken.isNullOrEmpty() ) {
+            if (!deeplinkAcsToken.isNullOrEmpty()) {
                 acsTokenText.setText(deeplinkAcsToken)
             } else {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
             }
 
-            if (!deeplinkName.isNullOrEmpty() ) {
+            if (!deeplinkName.isNullOrEmpty()) {
                 userNameText.setText(deeplinkName)
             } else {
                 userNameText.setText(BuildConfig.USER_NAME)
