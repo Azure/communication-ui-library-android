@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -22,6 +23,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val data: Uri? = intent?.data
+        val deeplinkAcsToken = data?.getQueryParameter("acstoken")
+        val deeplinkName = data?.getQueryParameter("name")
+        val deeplinkGroupId = data?.getQueryParameter("groupid")
+        val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
+
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(isTokenFunctionOptionSelected)) {
                 mainViewModel.useTokenFunction()
@@ -38,9 +45,30 @@ class MainActivity : AppCompatActivity() {
 
         binding.run {
             tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
-            userNameText.setText(BuildConfig.USER_NAME)
-            groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
-            acsTokenText.setText(BuildConfig.ACS_TOKEN)
+
+            if (!deeplinkAcsToken.isNullOrEmpty() ) {
+                acsTokenText.setText(deeplinkAcsToken)
+            } else {
+                acsTokenText.setText(BuildConfig.ACS_TOKEN)
+            }
+
+            if (!deeplinkName.isNullOrEmpty() ) {
+                userNameText.setText(deeplinkName)
+            } else {
+                userNameText.setText(BuildConfig.USER_NAME)
+            }
+
+            if (!deeplinkGroupId.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
+                groupCallRadioButton.isChecked = true
+                teamsMeetingRadioButton.isChecked = false
+            } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
+                groupCallRadioButton.isChecked = false
+                teamsMeetingRadioButton.isChecked = true
+            } else {
+                groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
+            }
 
             launchButton.setOnClickListener {
                 launchButton.isEnabled = false
