@@ -26,7 +26,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="acsui.azure.com" android:pathPrefix="/calling" />
+                <data android:scheme="https" android:host="alkwa-msft-glowing-octo-doodle-5g4rp9g57f467j-3000.githubpreview.dev" android:pathPrefix="/calling" />
+                <data android:scheme="http" android:host="alkwa-msft-glowing-octo-doodle-5g4rp9g57f467j-3000.githubpreview.dev" android:pathPrefix="/calling" />
             </intent-filter>
 
         </activity>
