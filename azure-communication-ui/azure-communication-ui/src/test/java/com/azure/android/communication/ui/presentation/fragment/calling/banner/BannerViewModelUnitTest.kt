@@ -1497,7 +1497,7 @@ internal class BannerViewModelUnitTest {
             isTranscribing = false,
         )
         val expectedBannerInfoType: BannerInfoType =
-            BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED
+            BannerInfoType.BLANK
 
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
@@ -1546,7 +1546,7 @@ internal class BannerViewModelUnitTest {
             isTranscribing = true,
         )
         val expectedBannerInfoType: BannerInfoType =
-            BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING
+            BannerInfoType.TRANSCRIPTION_STARTED
 
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
@@ -1595,7 +1595,7 @@ internal class BannerViewModelUnitTest {
             isTranscribing = false,
         )
         val expectedBannerInfoType: BannerInfoType =
-            BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING
+            BannerInfoType.RECORDING_STARTED
 
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
