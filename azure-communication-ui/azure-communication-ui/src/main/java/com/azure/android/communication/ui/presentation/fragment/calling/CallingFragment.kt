@@ -122,6 +122,7 @@ internal class CallingFragment(
         if (activity?.isChangingConfigurations == false) {
             participantGridView.stop()
             confirmLeaveOverlayView.stop()
+            viewModel.getBannerViewModel().dismissBanner()
         }
         localParticipantView.stop()
         participantListView.stop()
