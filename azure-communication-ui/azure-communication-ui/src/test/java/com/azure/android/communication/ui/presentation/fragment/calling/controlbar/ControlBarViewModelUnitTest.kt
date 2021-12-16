@@ -11,8 +11,6 @@ import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
-import com.azure.android.communication.ui.redux.state.CallingState
-import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
@@ -99,7 +97,6 @@ internal class ControlBarViewModelUnitTest {
             val permissionState = PermissionState(PermissionStatus.DENIED, PermissionStatus.DENIED)
             val cameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val callingState = CallingState(CallingStatus.CONNECTED)
 
             val appStore = mock<AppStore<ReduxState>> { }
             val audioDeviceListViewModel = mock<AudioDeviceListViewModel>()
@@ -107,8 +104,7 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 permissionState,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -126,14 +122,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState1,
-                callingState
+                audioState1
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState2,
-                callingState
+                audioState2
             )
 
             // assert
@@ -164,7 +158,6 @@ internal class ControlBarViewModelUnitTest {
 
             val cameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val callingState = CallingState(CallingStatus.CONNECTED)
 
             val resultListFromCameraPermissionStateFlow =
                 mutableListOf<ControlBarViewModel.CameraModel>()
@@ -179,8 +172,7 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 initialPermissionState,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             val flowJob = launch {
@@ -192,14 +184,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState1,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
             callingViewModel.update(
                 permissionState2,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             // assert
@@ -231,7 +221,6 @@ internal class ControlBarViewModelUnitTest {
             )
 
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val callingState = CallingState(CallingStatus.CONNECTED)
             val cameraDeviceSelectionStatus = CameraDeviceSelectionStatus.FRONT
             val cameraTransmissionStatus = CameraTransmissionStatus.REMOTE
 
@@ -246,8 +235,7 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 permissionState,
                 initialCameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
@@ -259,14 +247,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState,
                 cameraState1,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
             callingViewModel.update(
                 permissionState,
                 cameraState2,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             // assert

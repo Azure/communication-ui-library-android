@@ -94,8 +94,7 @@ internal class CallingViewModel(
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
+            state.localParticipantState.audioState
         )
 
         localParticipantViewModel.init(
@@ -138,8 +137,7 @@ internal class CallingViewModel(
         controlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
+            state.localParticipantState.audioState
         )
 
         localParticipantViewModel.update(
