@@ -131,7 +131,8 @@ internal class ParticipantListView(
                 localParticipantCellModel.displayName, localParticipantCellModel.isMuted
             )
         )
-        for (remoteParticipant in remoteParticipantCellModels) {
+        val sortedRemoteParticipantCellModels = remoteParticipantCellModels.sortedBy { it.displayName }
+        for (remoteParticipant in sortedRemoteParticipantCellModels) {
             bottomCellItems.add(
                 generateBottomCellItem(remoteParticipant.displayName, remoteParticipant.isMuted)
             )
