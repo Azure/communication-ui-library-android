@@ -155,6 +155,6 @@ internal class CallingFragment(
     }
 
     private fun requestCallEnd() {
-        viewModel.getConfirmLeaveOverlayViewModel().show()
+        viewModel.requestCallEnd()
     }
 }

@@ -25,7 +25,7 @@ internal class ConfirmLeaveOverlayViewModel(
         shouldDisplayConfirmLeaveOverlayStateFlow.value = false
     }
 
-    fun show() {
+    fun requestExitConfirmation() {
         shouldDisplayConfirmLeaveOverlayStateFlow.value = true
     }
 

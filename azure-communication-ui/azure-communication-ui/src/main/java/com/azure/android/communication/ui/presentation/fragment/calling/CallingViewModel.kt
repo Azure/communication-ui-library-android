@@ -88,6 +88,10 @@ internal class CallingViewModel(
         floatingHeaderViewModel.switchFloatingHeader()
     }
 
+    fun requestCallEnd() {
+        confirmLeaveOverlayViewModel.requestExitConfirmation()
+    }
+
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
 
