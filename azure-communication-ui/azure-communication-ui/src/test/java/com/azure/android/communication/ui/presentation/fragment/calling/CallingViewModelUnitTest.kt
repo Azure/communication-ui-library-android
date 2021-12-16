@@ -65,7 +65,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -113,7 +113,7 @@ internal class CallingViewModelUnitTest {
 
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any())
-            verify(mockControlBarViewModel, times(1)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(1)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(1)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -139,7 +139,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -187,7 +187,7 @@ internal class CallingViewModelUnitTest {
 
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -214,7 +214,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -269,7 +269,7 @@ internal class CallingViewModelUnitTest {
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
             verify(mockParticipantListViewModel, times(1)).update(any(), any())
             verify(mockBannerViewModel, times(1)).update(any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -295,7 +295,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -345,7 +345,7 @@ internal class CallingViewModelUnitTest {
             verify(mockFloatingHeaderViewModel, times(0)).update(any())
             verify(mockParticipantListViewModel, times(0)).update(any(), any())
             verify(mockBannerViewModel, times(0)).update(any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
