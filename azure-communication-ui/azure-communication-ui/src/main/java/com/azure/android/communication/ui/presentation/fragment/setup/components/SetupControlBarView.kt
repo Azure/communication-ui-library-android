@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.LinearLayout
@@ -166,17 +167,18 @@ internal class SetupControlBarView : LinearLayout {
             }
         }
 
-        val setupAudioDeviceButtonColor =
-            if (setupCameraButton.isSelected) R.color.azure_communication_ui_color_on_surface_camera_active
-            else R.color.azure_communication_ui_toggle_selector
-
-        setupAudioDeviceButton.compoundDrawableTintList =
-            ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    setupAudioDeviceButtonColor
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val setupAudioDeviceButtonColor =
+                if (setupCameraButton.isSelected) R.color.azure_communication_ui_color_on_surface_camera_active
+                else R.color.azure_communication_ui_toggle_selector
+            setupAudioDeviceButton.compoundDrawableTintList =
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        context,
+                        setupAudioDeviceButtonColor
+                    )
                 )
-            )
+        }
     }
 
     private fun toggleAudio() {
@@ -200,8 +202,16 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun setButtonColor(button: Button, colorId: Int) {
-        button.setTextColor(ContextCompat.getColor(context, colorId))
-        button.compoundDrawableTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            button.setTextColor(ContextCompat.getColor(context, colorId))
+            button.compoundDrawableTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
+            button.background.setTint(
+                ContextCompat.getColor(
+                    this.context,
+                    R.color.azure_communication_ui_toggle_selector
+                )
+            )
+        }
     }
 }

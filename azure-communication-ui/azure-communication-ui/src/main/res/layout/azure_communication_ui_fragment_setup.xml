@@ -119,7 +119,6 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/azure_communication_ui_toggle_selector_camera_for_setup"
                 android:drawablePadding="5dp"
-                android:drawableTint="@color/azure_communication_ui_toggle_selector"
                 android:text="@string/azure_communication_ui_setup_video_off"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_toggle_selector"
@@ -134,7 +133,6 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/azure_communication_ui_toggle_selector_mic_for_setup"
                 android:drawablePadding="5dp"
-                android:drawableTint="@color/azure_communication_ui_toggle_selector"
                 android:text="@string/azure_communication_ui_setup_mic_off"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_toggle_selector"
@@ -149,7 +147,6 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled"
                 android:drawablePadding="5dp"
-                android:drawableTint="@color/azure_communication_ui_toggle_selector"
                 android:text="@string/azure_communication_ui_setup_audio_device_speaker"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_toggle_selector"
@@ -170,7 +167,7 @@
 
         <com.microsoft.fluentui.widget.Button
             android:id="@+id/azure_communication_ui_setup_join_call_button"
-            style="@style/AzureCommunicationUICalling.Button"
+            style="@style/Widget.FluentUI.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"

@@ -14,7 +14,7 @@ android {
     resourcePrefix 'azure_communication_ui_'
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 30
 
         buildConfigField ('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
