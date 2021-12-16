@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.Button
@@ -202,8 +204,8 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun setButtonColor(button: Button, colorId: Int) {
+        button.setTextColor(ContextCompat.getColor(context, colorId))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            button.setTextColor(ContextCompat.getColor(context, colorId))
             button.compoundDrawableTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
             button.background.setTint(
@@ -211,6 +213,11 @@ internal class SetupControlBarView : LinearLayout {
                     this.context,
                     R.color.azure_communication_ui_toggle_selector
                 )
+            )
+        } else {
+            button.compoundDrawables[1].colorFilter = PorterDuffColorFilter(
+                ContextCompat.getColor(context, colorId),
+                PorterDuff.Mode.SRC_IN
             )
         }
     }
