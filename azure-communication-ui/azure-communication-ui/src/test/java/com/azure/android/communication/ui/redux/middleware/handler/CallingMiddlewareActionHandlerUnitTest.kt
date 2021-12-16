@@ -1268,6 +1268,20 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
+                    action is CallingAction.IsTranscribingUpdated &&
+                        !action.isTranscribing
+                }
+            )
+
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CallingAction.IsRecordingUpdated &&
+                        !action.isRecording
+                }
+            )
+
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
                         action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.CALL_END
                 }
