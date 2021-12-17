@@ -169,18 +169,10 @@ internal class SetupControlBarView : LinearLayout {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val setupAudioDeviceButtonColor =
-                if (setupCameraButton.isSelected) R.color.azure_communication_ui_color_on_surface_camera_active
-                else R.color.azure_communication_ui_toggle_selector
-            setupAudioDeviceButton.compoundDrawableTintList =
-                ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        context,
-                        setupAudioDeviceButtonColor
-                    )
-                )
-        }
+        val setupAudioDeviceButtonColor =
+            if (setupCameraButton.isSelected) R.color.azure_communication_ui_color_on_surface_camera_active
+            else R.color.azure_communication_ui_toggle_selector
+        setButtonColor(setupAudioDeviceButton, setupAudioDeviceButtonColor)
     }
 
     private fun toggleAudio() {
