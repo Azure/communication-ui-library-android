@@ -126,12 +126,12 @@ internal class ParticipantListView(
         remoteParticipantCellModels: List<ParticipantListCellModel>,
     ): MutableList<BottomCellItem> {
         val bottomCellItems = mutableListOf<BottomCellItem>()
-        bottomCellItems.add(
-            generateBottomCellItem(
-                localParticipantCellModel.displayName, localParticipantCellModel.isMuted
-            )
+        val sortedRemoteParticipantCellModels = mutableListOf<ParticipantListCellModel>()
+        sortedRemoteParticipantCellModels.addAll(remoteParticipantCellModels)
+        sortedRemoteParticipantCellModels.add(localParticipantCellModel)
+        sortedRemoteParticipantCellModels.sortWith(
+            compareBy(String.CASE_INSENSITIVE_ORDER, {it.displayName})
         )
-        val sortedRemoteParticipantCellModels = remoteParticipantCellModels.sortedBy { it.displayName }
         for (remoteParticipant in sortedRemoteParticipantCellModels) {
             bottomCellItems.add(
                 generateBottomCellItem(remoteParticipant.displayName, remoteParticipant.isMuted)

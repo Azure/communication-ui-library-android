@@ -29,7 +29,12 @@ internal class ParticipantListViewModel {
 
     fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
         val remoteParticipantList: List<ParticipantListCellModel> =
-            participantMap.values.map { ParticipantListCellModel(it.displayName, it.isMuted) }
+            participantMap.values.map {
+                ParticipantListCellModel(
+                    if(it.displayName.isEmpty())"Unnamed participant" else it.displayName,
+                    it.isMuted
+                )
+            }
         remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
         localParticipantListCellStateFlow =
             MutableStateFlow(
@@ -42,7 +47,12 @@ internal class ParticipantListViewModel {
 
     fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
         val remoteParticipantList: List<ParticipantListCellModel> =
-            participantMap.values.map { ParticipantListCellModel(it.displayName, it.isMuted) }
+            participantMap.values.map {
+                ParticipantListCellModel(
+                    if(it.displayName.isEmpty())"Unnamed participant" else it.displayName,
+                    it.isMuted
+                )
+            }
         remoteParticipantListCellStateFlow.value = remoteParticipantList
         localParticipantListCellStateFlow.value =
             ParticipantListCellModel(
@@ -61,6 +71,6 @@ internal class ParticipantListViewModel {
 }
 
 internal data class ParticipantListCellModel(
-    val displayName: String?,
+    val displayName: String,
     val isMuted: Boolean,
 )
