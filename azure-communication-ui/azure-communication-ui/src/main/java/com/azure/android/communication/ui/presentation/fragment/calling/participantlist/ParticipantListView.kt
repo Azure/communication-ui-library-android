@@ -130,7 +130,7 @@ internal class ParticipantListView(
         sortedRemoteParticipantCellModels.addAll(remoteParticipantCellModels)
         sortedRemoteParticipantCellModels.add(localParticipantCellModel)
         sortedRemoteParticipantCellModels.sortWith(
-            compareBy(String.CASE_INSENSITIVE_ORDER, {it.displayName})
+            compareBy(String.CASE_INSENSITIVE_ORDER, { it.displayName })
         )
         for (remoteParticipant in sortedRemoteParticipantCellModels) {
             bottomCellItems.add(

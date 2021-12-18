@@ -31,7 +31,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraOnRequested()
 
@@ -55,7 +55,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraOnTriggered()
 
@@ -79,7 +79,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val videoStreamId = "some_videoStreamId"
         val action = LocalParticipantAction.CameraOnSucceeded(videoStreamId)
@@ -106,7 +106,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val error =
             CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_ON, Throwable("CameraOn has failed"))
@@ -133,7 +133,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraOffTriggered()
 
@@ -157,7 +157,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = "some video streamId",
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraOffSucceeded()
 
@@ -184,7 +184,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamId,
-            null
+            ""
         )
         val error = CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_OFF, Throwable("CameraOff failed"))
         val action = LocalParticipantAction.CameraOffFailed(error)
@@ -211,7 +211,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraPreviewOnRequested()
 
@@ -235,7 +235,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraPreviewOnTriggered()
 
@@ -259,7 +259,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val videoStreamId = "some_videoStreamId"
         val action = LocalParticipantAction.CameraPreviewOnSucceeded(videoStreamId)
@@ -286,7 +286,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val error =
             CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_ON, Throwable("CameraOn has failed"))
@@ -313,7 +313,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraPreviewOffTriggered()
 
@@ -339,7 +339,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.CameraSwitchTriggered()
 
@@ -364,7 +364,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = ""
         )
         val expectedNewCameraDevice = CameraDeviceSelectionStatus.BACK
         val action = LocalParticipantAction.CameraSwitchSucceeded(expectedNewCameraDevice)
@@ -390,7 +390,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
 
         val error = CallCompositeError(CallCompositeErrorCode.SWITCH_CAMERA, Throwable("CameraSwitch failed"))
@@ -419,7 +419,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.MicOnTriggered()
 
@@ -443,7 +443,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val expectedAudioOperationalStatus = AudioOperationalStatus.ON
         val action =
@@ -469,7 +469,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val error = CallCompositeError(CallCompositeErrorCode.TURN_MIC_ON, Throwable("MicOn failed"))
         val action = LocalParticipantAction.MicOnFailed(error)
@@ -495,7 +495,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val action = LocalParticipantAction.MicOffTriggered()
 
@@ -519,7 +519,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             ),
             AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
-            displayName = null
+            displayName = ""
         )
         val error = CallCompositeError(CallCompositeErrorCode.TURN_MIC_OFF, Throwable("Mic OFF failed"))
         val action = LocalParticipantAction.MicOffFailed(error)
