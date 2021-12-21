@@ -7,10 +7,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -71,6 +75,7 @@ internal class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()
+        setStatusBarColor()
         setActionBarVisibility()
         if (configuration.themeConfig?.theme != null) {
             theme.applyStyle(
@@ -230,6 +235,39 @@ internal class MainActivity : AppCompatActivity() {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.azure_communication_ui_fragment_container_view, fragment)
         transaction.commit()
+    }
+
+    private fun setStatusBarColor() {
+        window.statusBarColor = ContextCompat.getColor(
+            this,
+            R.color.azure_communication_ui_color_status_bar
+        )
+
+        val isNightMode = this.resources.configuration.uiMode
+            .and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
+        if (isNightMode) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
+            } else {
+                window.clearFlags(0)
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.insetsController?.setSystemBarsAppearance(
+                    APPEARANCE_LIGHT_STATUS_BARS,
+                    APPEARANCE_LIGHT_STATUS_BARS
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                window.decorView.systemUiVisibility =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                    } else {
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    }
+            }
+        }
     }
 
     private fun startService() {
