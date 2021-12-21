@@ -98,9 +98,14 @@ internal class CallingFragment(
             viewLifecycleOwner,
         )
 
+        participantGridView.setOnTouchListener { v, event ->
+            participantGridView.zoom(v,event)
+             true
+        }
+
         participantGridView.setOnClickListener {
             viewModel.switchFloatingHeader()
-        }
+       }
 
         if (savedInstanceState == null) {
             viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }

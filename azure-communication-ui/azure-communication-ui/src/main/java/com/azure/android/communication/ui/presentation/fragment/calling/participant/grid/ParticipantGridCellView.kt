@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid
 
 import android.content.Context
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -14,6 +15,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
+import com.azure.android.communication.ui.presentation.fragment.common.ZoomFrameLayoutView
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class ParticipantGridCellView(
@@ -58,10 +60,12 @@ internal class ParticipantGridCellView(
         )
     }
 
+    private lateinit var a: ParticipantGridCellVideoView
+
     private fun createVideoView() {
+
         val participantVideoContainerFrameLayout: FrameLayout =
             findViewById(R.id.azure_communication_ui_participant_video_view_frame)
-
         val videoContainer: ConstraintLayout =
             findViewById(R.id.azure_communication_ui_participant_video_view_container)
 
@@ -71,7 +75,7 @@ internal class ParticipantGridCellView(
         val micIndicatorOnVideoImageView: ImageView =
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
-        ParticipantGridCellVideoView(
+        a = ParticipantGridCellVideoView(
             participantVideoContainerFrameLayout,
             videoContainer,
             displayNameOnVideoTextView,
@@ -81,5 +85,12 @@ internal class ParticipantGridCellView(
             context,
             lifecycleScope
         )
+    }
+
+    fun zoom(v: View?, event: MotionEvent?) {
+        event?.let {
+            a.zoom(v,it)
+
+        }
     }
 }

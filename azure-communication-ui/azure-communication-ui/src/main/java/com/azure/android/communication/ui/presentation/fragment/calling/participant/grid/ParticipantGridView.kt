@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling.partici
 import android.content.Context
 import android.content.res.Configuration
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
@@ -87,12 +88,12 @@ internal class ParticipantGridView : GridLayout {
     fun stop() {
         removeAllViews()
     }
-
+    private val displayedRemoteParticipantsView: MutableList<ParticipantGridCellView> = mutableListOf()
     private fun updateGrid(
         displayedRemoteParticipantsViewModel: List<ParticipantGridCellViewModel>,
     ) {
         removeAllViews()
-        val displayedRemoteParticipantsView: MutableList<ParticipantGridCellView> = mutableListOf()
+        displayedRemoteParticipantsView.clear()
 
         displayedRemoteParticipantsViewModel.forEach {
             val participantView = createParticipantGridCellView(this.context, it)
@@ -208,4 +209,8 @@ internal class ParticipantGridView : GridLayout {
             getVideoStreamCallback,
             viewLifecycleOwner.lifecycleScope
         )
+
+    fun zoom(v: View?, event: MotionEvent?) {
+        displayedRemoteParticipantsView[0].zoom(v, event!!)
+    }
 }

@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell
 
 import android.content.Context
+import android.view.MotionEvent
+import android.view.SurfaceView
 import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
@@ -14,10 +16,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
+import com.azure.android.communication.ui.presentation.fragment.common.ZoomFrameLayoutView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -32,6 +36,7 @@ internal class ParticipantGridCellVideoView(
     lifecycleScope: LifecycleCoroutineScope,
 ) {
     private var videoStream: View? = null
+    private lateinit var aaa: ZoomFrameLayoutView
 
     init {
 
@@ -61,6 +66,7 @@ internal class ParticipantGridCellVideoView(
                 }
             }
         }
+
     }
 
     private fun updateVideoStream(
@@ -98,7 +104,9 @@ internal class ParticipantGridCellVideoView(
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
         )
         detachFromParentView(rendererView)
-        videoContainer.addView(rendererView, 0)
+        aaa = ZoomFrameLayoutView(this.context)
+        aaa.addView(rendererView)
+        videoContainer.addView(aaa, 0)
     }
 
     private fun setDisplayName(displayName: String) {
@@ -118,5 +126,9 @@ internal class ParticipantGridCellVideoView(
         if (view != null && view.parent != null) {
             (view.parent as ViewGroup).removeView(view)
         }
+    }
+
+    fun zoom(v: View?, event: MotionEvent) {
+        aaa.zoom(v,event )
     }
 }
