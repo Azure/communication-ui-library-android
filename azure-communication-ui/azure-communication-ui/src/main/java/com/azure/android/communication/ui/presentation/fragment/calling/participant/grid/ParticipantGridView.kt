@@ -89,13 +89,12 @@ internal class ParticipantGridView : GridLayout {
     fun stop() {
         removeAllViews()
     }
-    private val displayedRemoteParticipantsView: MutableList<ParticipantGridCellView> = mutableListOf()
+
     private fun updateGrid(
         displayedRemoteParticipantsViewModel: List<ParticipantGridCellViewModel>,
     ) {
         removeAllViews()
-        displayedRemoteParticipantsView.clear()
-
+        val displayedRemoteParticipantsView: MutableList<ParticipantGridCellView> = mutableListOf()
         displayedRemoteParticipantsViewModel.forEach {
             val participantView = createParticipantGridCellView(this.context, it)
             displayedRemoteParticipantsView.add(participantView)

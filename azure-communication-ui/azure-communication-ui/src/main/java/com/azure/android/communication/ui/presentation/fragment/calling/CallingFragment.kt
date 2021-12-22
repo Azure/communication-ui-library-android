@@ -99,9 +99,9 @@ internal class CallingFragment(
             viewLifecycleOwner,
         )
 
-        /*participantGridView.setOnClickListener {
+        participantGridView.setOnClickListener {
             showFloatingHeader()
-        }*/
+        }
 
         if (savedInstanceState == null) {
             viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
