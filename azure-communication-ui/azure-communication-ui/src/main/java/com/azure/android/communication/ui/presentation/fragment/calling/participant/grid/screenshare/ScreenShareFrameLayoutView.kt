@@ -8,10 +8,7 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import android.view.View
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
-import com.azure.android.communication.ui.R
 import kotlin.math.sign
 
 internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.OnScaleGestureListener {
@@ -40,8 +37,6 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
 
     private var showFloatingHeaderCallBack: (() -> Unit)? = null
 
-    private lateinit var child: View
-
     init {
         setOnTouchListener { _, motionEvent ->
             scaleGestureDetectorOnTouch(motionEvent)
@@ -50,12 +45,6 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
     }
 
     fun start(showFloatingHeaderCallBack: () -> Unit) {
-        this.background = context.let {
-            ContextCompat.getDrawable(
-                it,
-                R.color.azure_communication_ui_color_background_red
-            )
-        }
         this.showFloatingHeaderCallBack = showFloatingHeaderCallBack
         clickOnGestureDetector.setShowFloatingHeaderCallBack(this::onSingleClick, this::onDoubleClick)
     }
@@ -128,7 +117,7 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
         child.translationY = translY
     }
 
-    private fun child() = child
+    private fun child() = getChildAt(0)
 
     private fun onSingleClick() {
         showFloatingHeaderCallBack?.let {
