@@ -8,7 +8,10 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
+import android.view.View
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
+import com.azure.android.communication.ui.R
 import kotlin.math.sign
 
 internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.OnScaleGestureListener {
@@ -37,6 +40,7 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
 
     private var showFloatingHeaderCallBack: (() -> Unit)? = null
 
+    private lateinit var child: View
 
     init {
         setOnTouchListener { _, motionEvent ->
@@ -46,6 +50,12 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
     }
 
     fun start(showFloatingHeaderCallBack: () -> Unit) {
+        this.background = context.let {
+            ContextCompat.getDrawable(
+                it,
+                R.color.azure_communication_ui_color_background_red
+            )
+        }
         this.showFloatingHeaderCallBack = showFloatingHeaderCallBack
         clickOnGestureDetector.setShowFloatingHeaderCallBack(this::onSingleClick, this::onDoubleClick)
     }
@@ -78,33 +88,36 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
                     startY = motionEvent.y - prevTranslY
                 }
             }
-            MotionEvent.ACTION_MOVE -> if (mode == Mode.DRAG) {
-                translX = motionEvent.x - startX
-                translY = motionEvent.y - startY
-            }
-            MotionEvent.ACTION_POINTER_DOWN -> mode = Mode.ZOOM
-            MotionEvent.ACTION_POINTER_UP -> mode = Mode.DRAG
             MotionEvent.ACTION_UP -> {
                 mode = Mode.NONE
                 prevTranslX = translX
                 prevTranslY = translY
             }
+            MotionEvent.ACTION_MOVE -> if (mode == Mode.DRAG) {
+                translX = motionEvent.x - startX
+                translY = motionEvent.y - startY
+            }
+            MotionEvent.ACTION_POINTER_DOWN -> mode = Mode.ZOOM
         }
 
         clickGestureDetector.onTouchEvent(motionEvent)
         scaleGestureDetector.onTouchEvent(motionEvent)
 
         if (mode == Mode.DRAG && scale >= defaultMinScale || mode == Mode.ZOOM) {
-            parent.requestDisallowInterceptTouchEvent(true)
-            val maxDx: Float =
-                (child().width - child().width / scale) / 2 * scale
-            val maxDy: Float =
-                (child().height - child().height / scale) / 2 * scale
-            translX = translX.coerceAtLeast(-maxDx).coerceAtMost(maxDx)
-            translY = translY.coerceAtLeast(-maxDy).coerceAtMost(maxDy)
-
-            setScaleAndTranslation()
+            applyViewScaling()
         }
+    }
+
+    private fun applyViewScaling() {
+        parent.requestDisallowInterceptTouchEvent(true)
+        val child = child()
+        val maxDx: Float =
+            (child.width - child.width / scale) / 2 * scale
+        val maxDy: Float =
+            (child.height - child.height / scale) / 2 * scale
+        translX = translX.coerceAtLeast(-maxDx).coerceAtMost(maxDx)
+        translY = translY.coerceAtLeast(-maxDy).coerceAtMost(maxDy)
+        setScaleAndTranslation()
     }
 
     private fun setScaleAndTranslation() {
@@ -115,7 +128,7 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
         child.translationY = translY
     }
 
-    private fun child() = getChildAt(0)
+    private fun child() = child
 
     private fun onSingleClick() {
         showFloatingHeaderCallBack?.let {
@@ -124,6 +137,13 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
     }
 
     private fun onDoubleClick(motionEvent: MotionEvent?) {
-        motionEvent?.let { scaleGestureDetectorOnTouch(it) }
+        motionEvent?.let {
+            scale = if (scale == defaultMaxScale) {
+                defaultMinScale
+            } else {
+                defaultMaxScale
+            }
+            applyViewScaling()
+        }
     }
 }
