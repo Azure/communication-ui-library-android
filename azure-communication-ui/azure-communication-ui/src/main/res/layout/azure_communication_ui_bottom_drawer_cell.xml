@@ -48,7 +48,7 @@
         android:id="@+id/cell_check_mark"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="12dp"
         android:background="@android:color/transparent"
         android:clickable="false"
         android:src="@drawable/ms_ic_checkmark_24_filled"
