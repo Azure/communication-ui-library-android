@@ -52,7 +52,7 @@ internal class CallingFragment(
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
         confirmLeaveOverlayView = view.findViewById(R.id.azure_communication_ui_call_leave_overlay)
-        confirmLeaveOverlayView.start(viewModel.getCallHangupConfirmViewModel())
+        confirmLeaveOverlayView.start(viewLifecycleOwner, viewModel.getConfirmLeaveOverlayViewModel())
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
         controlBarView.start(
@@ -127,6 +127,7 @@ internal class CallingFragment(
         if (activity?.isChangingConfigurations == false) {
             participantGridView.stop()
             confirmLeaveOverlayView.stop()
+            viewModel.getBannerViewModel().dismissBanner()
         }
         localParticipantView.stop()
         participantListView.stop()
@@ -160,6 +161,6 @@ internal class CallingFragment(
     }
 
     private fun requestCallEnd() {
-        confirmLeaveOverlayView.showHangupOverlay()
+        viewModel.requestCallEnd()
     }
 }
