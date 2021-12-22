@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.presentation.fragment.calling.partici
 import android.content.Context
 import android.content.res.Configuration
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
@@ -29,6 +28,7 @@ internal class ParticipantGridView : GridLayout {
         private const val SIX_PARTICIPANTS = 6
     }
 
+    private lateinit var showFloatingHeaderCallBack: () -> Unit
     private lateinit var videoViewManager: VideoViewManager
     private lateinit var viewLifecycleOwner: LifecycleOwner
     private lateinit var participantGridViewModel: ParticipantGridViewModel
@@ -38,11 +38,12 @@ internal class ParticipantGridView : GridLayout {
         participantGridViewModel: ParticipantGridViewModel,
         videoViewManager: VideoViewManager,
         viewLifecycleOwner: LifecycleOwner,
+        showFloatingHeader: () -> Unit,
     ) {
         this.videoViewManager = videoViewManager
         this.viewLifecycleOwner = viewLifecycleOwner
         this.participantGridViewModel = participantGridViewModel
-
+        this.showFloatingHeaderCallBack = showFloatingHeader
         this.getVideoStreamCallback =
             { participantID: String, videoStreamID: String ->
                 this.videoViewManager.getRemoteVideoStreamRenderer(
@@ -207,10 +208,7 @@ internal class ParticipantGridView : GridLayout {
             context,
             participantGridCellViewModel,
             getVideoStreamCallback,
-            viewLifecycleOwner.lifecycleScope
+            viewLifecycleOwner.lifecycleScope,
+            showFloatingHeaderCallBack
         )
-
-    fun zoom(v: View?, event: MotionEvent?) {
-        displayedRemoteParticipantsView[0].zoom(v, event!!)
-    }
 }

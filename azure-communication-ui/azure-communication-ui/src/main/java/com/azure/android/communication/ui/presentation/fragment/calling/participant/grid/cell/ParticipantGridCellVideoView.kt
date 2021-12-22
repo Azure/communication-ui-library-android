@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell
 
 import android.content.Context
-import android.view.MotionEvent
-import android.view.SurfaceView
 import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
@@ -16,12 +14,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
-import com.azure.android.communication.ui.presentation.fragment.common.ZoomFrameLayoutView
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareFrameLayoutView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -34,9 +32,9 @@ internal class ParticipantGridCellVideoView(
     private val getVideoStream: (String, String) -> View?,
     private val context: Context,
     lifecycleScope: LifecycleCoroutineScope,
+    private val showFloatingHeaderCallBack: () -> Unit,
 ) {
     private var videoStream: View? = null
-    private lateinit var aaa: ZoomFrameLayoutView
 
     init {
 
@@ -66,24 +64,23 @@ internal class ParticipantGridCellVideoView(
                 }
             }
         }
-
     }
 
     private fun updateVideoStream(
-        it: VideoViewModel?,
+        videoViewModel: VideoViewModel?,
     ) {
         if (videoStream != null) {
             detachFromParentView(videoStream)
             videoStream = null
         }
 
-        if (it != null) {
+        if (videoViewModel != null) {
             getVideoStream(
                 participantViewModel.getParticipantUserIdentifier(),
-                it.videoStreamID
+                videoViewModel.videoStreamID
             )?.let { view ->
                 videoStream = view
-                setRendererView(view)
+                setRendererView(view, videoViewModel.streamType)
             }
         }
     }
@@ -98,15 +95,20 @@ internal class ParticipantGridCellVideoView(
         }
     }
 
-    private fun setRendererView(rendererView: View) {
+    private fun setRendererView(rendererView: View, streamType: StreamType) {
         rendererView.background = ContextCompat.getDrawable(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
         )
         detachFromParentView(rendererView)
-        aaa = ZoomFrameLayoutView(this.context)
-        aaa.addView(rendererView)
-        videoContainer.addView(aaa, 0)
+        if (streamType == StreamType.SCREEN_SHARING) {
+            val zoomFrameLayoutView = ScreenShareFrameLayoutView(this.context)
+            zoomFrameLayoutView.start(showFloatingHeaderCallBack)
+            zoomFrameLayoutView.addView(rendererView)
+            videoContainer.addView(zoomFrameLayoutView, 0)
+        } else {
+            videoContainer.addView(rendererView, 0)
+        }
     }
 
     private fun setDisplayName(displayName: String) {
@@ -114,7 +116,6 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
-
         if (!isMicButtonVisible) {
             micIndicatorOnVideoImageView.visibility = GONE
         } else {
@@ -126,9 +127,5 @@ internal class ParticipantGridCellVideoView(
         if (view != null && view.parent != null) {
             (view.parent as ViewGroup).removeView(view)
         }
-    }
-
-    fun zoom(v: View?, event: MotionEvent) {
-        aaa.zoom(v,event )
     }
 }
