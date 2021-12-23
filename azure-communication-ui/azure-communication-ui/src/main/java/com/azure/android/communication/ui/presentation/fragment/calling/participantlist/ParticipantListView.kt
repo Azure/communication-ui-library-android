@@ -42,7 +42,7 @@ internal class ParticipantListView(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getLocalParticipantListCellStateFlow().collect {
-                updateLocalParticipantCellContent(it)
+                updateLocalParticipantCellContent()
             }
         }
 
@@ -89,7 +89,6 @@ internal class ParticipantListView(
         if (this::bottomCellAdapter.isInitialized) {
             val bottomCellItems =
                 generateBottomCellItems(
-                    viewModel.getLocalParticipantListCellStateFlow().value,
                     participantListCellModelList
                 )
             updateRemoteParticipantListContent(bottomCellItems.size)
@@ -100,11 +99,10 @@ internal class ParticipantListView(
         }
     }
 
-    private fun updateLocalParticipantCellContent(participantListCellModel: ParticipantListCellModel) {
+    private fun updateLocalParticipantCellContent() {
         if (this::bottomCellAdapter.isInitialized) {
 
             val bottomCellItems = generateBottomCellItems(
-                participantListCellModel,
                 viewModel.getRemoteParticipantListCellStateFlow().value
             )
             with(bottomCellAdapter) {
@@ -122,13 +120,17 @@ internal class ParticipantListView(
     }
 
     private fun generateBottomCellItems(
-        localParticipantCellModel: ParticipantListCellModel,
         remoteParticipantCellModels: List<ParticipantListCellModel>,
     ): MutableList<BottomCellItem> {
         val bottomCellItems = mutableListOf<BottomCellItem>()
         val sortedRemoteParticipantCellModels = mutableListOf<ParticipantListCellModel>()
         sortedRemoteParticipantCellModels.addAll(remoteParticipantCellModels)
-        sortedRemoteParticipantCellModels.add(localParticipantCellModel)
+        // since we can not get resources from model class, we create the local participant list cell
+        // with suffix in this way
+        sortedRemoteParticipantCellModels
+            .add(viewModel.createLocalParticipantListCell
+                (resources.getString(R.string.azure_communication_ui_call_local_participant_suffix)))
+
         sortedRemoteParticipantCellModels.sortWith(
             compareBy(String.CASE_INSENSITIVE_ORDER, { it.displayName })
         )

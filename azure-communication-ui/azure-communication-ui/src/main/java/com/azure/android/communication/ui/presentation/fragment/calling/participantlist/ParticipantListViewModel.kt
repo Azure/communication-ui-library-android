@@ -27,6 +27,11 @@ internal class ParticipantListViewModel {
         return displayParticipantListStateFlow
     }
 
+    fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel (
+        localParticipantListCellStateFlow.value.displayName + suffix,
+                    localParticipantListCellStateFlow.value.isMuted
+            )
+
     fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
@@ -39,7 +44,7 @@ internal class ParticipantListViewModel {
         localParticipantListCellStateFlow =
             MutableStateFlow(
                 ParticipantListCellModel(
-                    localUserState.displayName,
+                    localUserState.displayName ?: "",
                     localUserState.audioState.operation == AudioOperationalStatus.OFF
                 )
             )
@@ -56,7 +61,7 @@ internal class ParticipantListViewModel {
         remoteParticipantListCellStateFlow.value = remoteParticipantList
         localParticipantListCellStateFlow.value =
             ParticipantListCellModel(
-                localUserState.displayName,
+                localUserState.displayName ?: "",
                 localUserState.audioState.operation == AudioOperationalStatus.OFF
             )
     }

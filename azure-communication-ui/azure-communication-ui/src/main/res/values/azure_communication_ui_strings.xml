@@ -24,6 +24,7 @@
     <string name="azure_communication_ui_call_lobby_waiting">Waiting for host</string>
     <string name="azure_communication_ui_call_lobby_waiting_details">Someone in the meeting will let you in soon</string>
     <string name="azure_communication_ui_call_open_participant_list">Open Participant List</string>
+    <string name="azure_communication_ui_call_local_participant_suffix">(me)</string>
     <string name="azure_communication_ui_call_learn_more_url">
         https://support.microsoft.com/en-us/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
     </string>

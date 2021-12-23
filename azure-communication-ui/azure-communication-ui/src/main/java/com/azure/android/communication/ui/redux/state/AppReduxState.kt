@@ -23,7 +23,7 @@ internal class AppReduxState(displayName: String?) : ReduxState {
                 device = AudioDeviceSelectionStatus.RECEIVER_SELECTED,
             ),
             videoStreamID = null,
-            displayName = "$displayName(me)"
+            displayName = displayName
         )
 
     override var permissionState: PermissionState =

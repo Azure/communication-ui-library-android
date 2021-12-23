@@ -53,5 +53,5 @@ internal data class LocalUserState(
     val cameraState: CameraState,
     val audioState: AudioState,
     val videoStreamID: String?,
-    val displayName: String,
+    val displayName: String?,
 )
