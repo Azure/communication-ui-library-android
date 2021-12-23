@@ -157,6 +157,8 @@ internal class CallingViewModel(
             state.localParticipantState.audioState.device
         )
 
+        lobbyOverlayViewModel.update(state.callState.CallingStatus)
+
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
                 state.remoteParticipantState.modifiedTimestamp,
