@@ -1,5 +1,14 @@
 # Release History
 
+## 1.0.0-beta.2 (Upcoming)
+
+### New Features
+- Screen share view can be zoomed
+
+### Breaking Changes
+
+### Bug Fixes
+
 ## 1.0.0-beta.1 (2021-12-08)
 This is the initial release of Azure Communication UI Library. For more information, please see the [README][read_me] and [QuickStart][documentation].
 
