@@ -128,8 +128,10 @@ internal class ParticipantListView(
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
         sortedRemoteParticipantCellModels
-            .add(viewModel.createLocalParticipantListCell
-                (resources.getString(R.string.azure_communication_ui_call_local_participant_suffix)))
+            .add(
+                viewModel.createLocalParticipantListCell
+                (resources.getString(R.string.azure_communication_ui_call_local_participant_suffix))
+            )
 
         sortedRemoteParticipantCellModels.sortWith(
             compareBy(String.CASE_INSENSITIVE_ORDER, { it.displayName })
