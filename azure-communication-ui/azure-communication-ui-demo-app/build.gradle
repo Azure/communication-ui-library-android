@@ -63,6 +63,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/AL2.0'
+        pickFirst 'META-INF/LGPL2.1'
+    }
+
     testOptions {
         packagingOptions {
             jniLibs {
@@ -91,6 +97,11 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     testImplementation "junit:junit:$junit"
+
+    androidTestImplementation 'net.java.dev.jna:jna:5.5.0'
+    androidTestImplementation ('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0') {
+        exclude group: "net.java.dev.jna", module: "jna"
+    }
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit"
     androidTestImplementation 'androidx.test:rules:1.4.1-alpha03'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
