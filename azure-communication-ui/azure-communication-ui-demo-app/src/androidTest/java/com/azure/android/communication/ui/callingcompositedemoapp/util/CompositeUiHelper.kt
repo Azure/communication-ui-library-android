@@ -1,7 +1,12 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.azure.android.communication.ui.callingcompositedemoapp.R
+import org.hamcrest.Matchers.allOf
+
 
 object CompositeUiHelper {
     fun setGroupId(groupId: String) {
@@ -47,5 +52,30 @@ object CompositeUiHelper {
             UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_start_call_button_text)
         }
         UiTestUtils.clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
+    }
+    fun checkParticipantList() {
+        val viewIds = Triple(
+            R.id.cell_icon,
+            R.id.azure_communication_ui_participant_list_avatar,
+            R.id.cell_text
+        )
+        UiTestUtils.check3IemRecyclerViewHolderAtPosition(R.id.bottom_drawer_table, 0, viewIds)
+    }
+
+    fun showParticipantList() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_call_floating_header)
+        }
+        UiTestUtils.clickViewWithId(R.id.azure_communication_ui_call_bottom_drawer_button)
+    }
+
+    fun dismissParticipantList() {
+        val rootView = Espresso.onView(
+            allOf(
+                withId(android.R.id.content),
+                isDisplayed()
+            )
+        )
+        rootView.perform(ViewActions.click())
     }
 }

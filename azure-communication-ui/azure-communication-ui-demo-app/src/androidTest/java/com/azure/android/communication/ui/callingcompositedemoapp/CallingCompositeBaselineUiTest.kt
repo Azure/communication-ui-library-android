@@ -5,36 +5,27 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 
 import android.view.View
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.hamcrest.Matchers
+import org.hamcrest.Description
+import org.hamcrest.Matcher
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.recyclerview.widget.RecyclerView
-
-import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import org.hamcrest.Description
-import org.hamcrest.Matcher
 
 
-@ExperimentalCoroutinesApi
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CallingCompositeHappyPathUiTest {
+class CallingCompositeBaselineUiTest {
     companion object {
         private var acsToken = ""
 
@@ -63,8 +54,7 @@ class CallingCompositeHappyPathUiTest {
             return token
         }
     }
-    /*@get:Rule
-    internal var mainCoroutineRule = MainCoroutineRule()*/
+
     @Rule
     @JvmField
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
@@ -81,7 +71,7 @@ class CallingCompositeHappyPathUiTest {
         )
 
     @Test
-    fun testJoinCallWithVideoEnabled() {
+    fun testJoinCallWithVideoDisabled() {
         CompositeUiHelper.run {
             setGroupId("74fce2c0-520f-11ec-97de-71411a9a8e13")
             Assert.assertTrue("empty token! ", acsToken.isNotBlank())
@@ -92,18 +82,9 @@ class CallingCompositeHappyPathUiTest {
 
             clickJoinCallButton()
             showParticipantList()
-            activityTestRule.scenario.onActivity {
-                Espresso.onView(ViewMatchers.withId(R.id.bottom_drawer_table))
-                    .inRoot(RootMatchers.withDecorView(Matchers.`is`(it.window.decorView)))
-                    .check(
-                        matches(withViewAtPosition(0, Matchers.allOf(
-                            ViewMatchers.withId(R.id.cell_icon),
-                            ViewMatchers.withId(R.id.azure_communication_ui_participant_list_avatar),
-                            isDisplayed()
-                        )))
-                    )
-            }
-            //dismissParticipantList()
+            checkParticipantList()
+
+            dismissParticipantList()
         }
     }
 
