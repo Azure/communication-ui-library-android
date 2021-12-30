@@ -4,17 +4,12 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.github.kittinunf.fuel.httpGet
-import org.hamcrest.Description
-import org.hamcrest.Matcher
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -71,33 +66,32 @@ class CallingCompositeBaselineUiTest {
         )
 
     @Test
-    fun testJoinCallWithVideoDisabled() {
+    fun testJoinGroupCallWithVideoDisabled() {
+        joinGroupCall(true)
+    }
+
+    @Test
+    fun testJoinGroupCallWithVideoEnabled() {
+        joinGroupCall(false)
+    }
+
+    private fun joinGroupCall(videoDisabled: Boolean) {
         CompositeUiHelper.run {
             setGroupId("74fce2c0-520f-11ec-97de-71411a9a8e13")
             Assert.assertTrue("empty token! ", acsToken.isNotBlank())
             setAcsToken(acsToken)
             clickLaunchButton()
 
-            toggleCameraButton()
-
+            if (videoDisabled) {
+                toggleCameraButton()
+            }
             clickJoinCallButton()
             showParticipantList()
             checkParticipantList()
 
             dismissParticipantList()
-        }
-    }
-
-    private fun withViewAtPosition(position: Int, itemMatcher: Matcher<View?>): Matcher<View?>? {
-        return object : BoundedMatcher<View?, RecyclerView>(RecyclerView::class.java) {
-            override fun describeTo(description: Description?) {
-                itemMatcher.describeTo(description)
-            }
-
-            override fun matchesSafely(recyclerView: RecyclerView): Boolean {
-                val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
-                return viewHolder != null && itemMatcher.matches(viewHolder.itemView)
-            }
+            clickEndCall()
+            clickLeaveCall()
         }
     }
 }

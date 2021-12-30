@@ -36,7 +36,7 @@ object CompositeUiHelper {
 
     fun toggleCameraButton() {
         ViewIsDisplayedResource().waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_camera_button)
+            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder)
         }
         Thread.sleep(3000)
         UiTestUtils.clickViewWithId(R.id.azure_communication_ui_setup_camera_button)
@@ -53,6 +53,7 @@ object CompositeUiHelper {
         }
         UiTestUtils.clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
     }
+
     fun checkParticipantList() {
         val viewIds = Triple(
             R.id.cell_icon,
@@ -77,5 +78,27 @@ object CompositeUiHelper {
             )
         )
         rootView.perform(ViewActions.click())
+    }
+
+    fun clickEndCall() {
+        val idlingResource = ViewIsDisplayedResource()
+        idlingResource.waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_call_call_buttons)
+        }
+        val endCallButton = idlingResource.waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdWithContentDescriptionIsDisplayed(
+                R.id.azure_communication_ui_call_end_call_button,
+                "Hang Up"
+            )
+        }
+        endCallButton.perform(ViewActions.click())
+    }
+
+    fun clickLeaveCall() {
+        val idlingResource = ViewIsDisplayedResource()
+        idlingResource.waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_call_leave_confirm)
+        }
+        UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_call_leave_confirm, "Leave call")
     }
 }
