@@ -114,11 +114,15 @@ internal class ParticipantGridCellVideoView(
 
 
             val newWidth = viewHeight * (sw / sh)
-            rendererView.layoutParams = ViewGroup.LayoutParams(newWidth.toInt(), viewHeight.toInt())
 
-            val zoomFrameLayoutView = LinearLayout(context)
-            //   zoomFrameLayoutView.start(showFloatingHeaderCallBack)
-            zoomFrameLayoutView.addView(rendererView)
+            val linearLayout = LinearLayout(context)
+            linearLayout.addView(rendererView)
+            linearLayout.layoutParams = ViewGroup.LayoutParams(newWidth.toInt(), viewHeight.toInt())
+
+
+            val zoomFrameLayoutView = ScreenShareFrameLayoutView(context)
+            zoomFrameLayoutView.start(showFloatingHeaderCallBack)
+            zoomFrameLayoutView.addView(linearLayout)
 
             val scrollView = ScrollView(context)
             scrollView.layoutParams =
