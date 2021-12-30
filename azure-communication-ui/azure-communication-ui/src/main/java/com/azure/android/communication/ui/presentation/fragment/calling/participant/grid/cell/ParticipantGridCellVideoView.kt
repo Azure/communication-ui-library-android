@@ -9,9 +9,7 @@ import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -102,10 +100,46 @@ internal class ParticipantGridCellVideoView(
         )
         detachFromParentView(rendererView)
         if (streamType == StreamType.SCREEN_SHARING) {
-            val zoomFrameLayoutView = ScreenShareFrameLayoutView(this.context)
-            zoomFrameLayoutView.start(showFloatingHeaderCallBack)
+            val viewWidth = videoContainer.width.toFloat()
+            val viewHeight = videoContainer.height.toFloat()
+            val videoWidth = 1920f
+            val videoHeight = 1080f
+
+            val scaleWidth = viewWidth / videoWidth
+            val scaleHeight = viewHeight / videoHeight
+            val scale = scaleWidth.coerceAtMost(scaleHeight)
+            val sw = (scale * videoWidth )
+            val sh = (scale * videoHeight )
+
+            //if(sh < sw) {
+             //   val newWidth = viewHeight * (sw / sh)
+             //   rendererView.layoutParams = ViewGroup.LayoutParams(newWidth.toInt(), viewHeight.toInt())
+           // } else {
+                val newHeight = viewWidth * (sh / sw)
+                rendererView.layoutParams = ViewGroup.LayoutParams(viewWidth.toInt(), newHeight.toInt())
+          //  }
+
+            val zoomFrameLayoutView = LinearLayout(context)
+            //   zoomFrameLayoutView.start(showFloatingHeaderCallBack)
             zoomFrameLayoutView.addView(rendererView)
-            videoContainer.addView(zoomFrameLayoutView, 0)
+
+            val scrollView = ScrollView(context)
+            scrollView.layoutParams =
+                ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            scrollView.addView(zoomFrameLayoutView)
+
+            val horizontalScrollView = HorizontalScrollView(context)
+            horizontalScrollView.layoutParams =
+                ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            horizontalScrollView.addView(scrollView)
+
+            videoContainer.addView(horizontalScrollView, 0)
         } else {
             videoContainer.addView(rendererView, 0)
         }
