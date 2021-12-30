@@ -100,6 +100,7 @@ internal class ParticipantGridCellVideoView(
         )
         detachFromParentView(rendererView)
         if (streamType == StreamType.SCREEN_SHARING) {
+
             val viewWidth = videoContainer.width.toFloat()
             val viewHeight = videoContainer.height.toFloat()
             val videoWidth = 1920f
@@ -111,13 +112,9 @@ internal class ParticipantGridCellVideoView(
             val sw = (scale * videoWidth )
             val sh = (scale * videoHeight )
 
-            //if(sh < sw) {
-             //   val newWidth = viewHeight * (sw / sh)
-             //   rendererView.layoutParams = ViewGroup.LayoutParams(newWidth.toInt(), viewHeight.toInt())
-           // } else {
-                val newHeight = viewWidth * (sh / sw)
-                rendererView.layoutParams = ViewGroup.LayoutParams(viewWidth.toInt(), newHeight.toInt())
-          //  }
+
+            val newWidth = viewHeight * (sw / sh)
+            rendererView.layoutParams = ViewGroup.LayoutParams(newWidth.toInt(), viewHeight.toInt())
 
             val zoomFrameLayoutView = LinearLayout(context)
             //   zoomFrameLayoutView.start(showFloatingHeaderCallBack)
