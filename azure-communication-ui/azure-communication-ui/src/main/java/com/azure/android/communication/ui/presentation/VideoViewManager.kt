@@ -18,13 +18,17 @@ internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDKWrapper,
     private val context: Context,
 ) {
+
+    companion object {
+        val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
+    }
+
     class VideoRenderer constructor(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
         var videoStreamID: String,
     )
 
-    private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
 
     fun destroy() {
@@ -114,6 +118,7 @@ internal class VideoViewManager(
                 if (stream != null) {
                     val isScreenShare = stream!!.mediaStreamType == MediaStreamType.SCREEN_SHARING
                     val videoStreamRenderer = VideoStreamRenderer(stream, context)
+
                     val viewOption =
                         if (isScreenShare) CreateViewOptions(ScalingMode.FIT) else CreateViewOptions(
                             ScalingMode.CROP
