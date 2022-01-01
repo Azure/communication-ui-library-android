@@ -3,31 +3,30 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
-import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 
 object UiTestUtils {
 
     @Throws(NoMatchingViewException::class)
     fun checkViewIdIsDisplayed(@IdRes viewId: Int): ViewInteraction =
         onView(withId(viewId)).check(ViewAssertions.matches(isDisplayed()))
+
+    @Throws(NoMatchingViewException::class)
+    fun checkViewIdIsNotDisplayed(@IdRes viewId: Int): ViewInteraction =
+        onView(withId(viewId)).check(ViewAssertions.matches(not(isDisplayed())))
 
     @Throws(NoMatchingViewException::class)
     fun checkViewIdWithContentDescriptionIsDisplayed(@IdRes viewId: Int, contentDescription: String): ViewInteraction =
@@ -41,6 +40,16 @@ object UiTestUtils {
     @Throws(NoMatchingViewException::class)
     fun checkViewTextIsDisplayed(@StringRes stringId: Int): ViewInteraction =
         onView(withText(stringId)).check(ViewAssertions.matches(isDisplayed()))
+
+    @Throws(NoMatchingViewException::class)
+    fun checkViewIdAndTextIsDisplayed(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
+        onView(
+            allOf(
+                withId(viewId),
+                withText(stringId)
+            )
+        ).check(ViewAssertions.matches(isDisplayed()))
+
 
     @Throws(NoMatchingViewException::class)
     fun clickViewWithId(@IdRes viewId: Int): ViewInteraction =
@@ -77,16 +86,11 @@ object UiTestUtils {
             )
     }
 
-    fun withViewAtPosition(position: Int, itemMatcher: Matcher<View?>): Matcher<View?>? {
-        return object : BoundedMatcher<View?, RecyclerView>(RecyclerView::class.java) {
-            override fun describeTo(description: Description?) {
-                itemMatcher.describeTo(description)
-            }
+    fun getTextFromTextView(@IdRes viewId: Int): String {
+        val textViewMatcher = allOf(withId(viewId), isDisplayed())
+        val getTextAction = GetButtonTextAction()
 
-            override fun matchesSafely(recyclerView: RecyclerView): Boolean {
-                val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
-                return viewHolder != null && itemMatcher.matches(viewHolder.itemView)
-            }
-        }
+        onView(textViewMatcher).perform(getTextAction)
+        return getTextAction.getText()
     }
 }

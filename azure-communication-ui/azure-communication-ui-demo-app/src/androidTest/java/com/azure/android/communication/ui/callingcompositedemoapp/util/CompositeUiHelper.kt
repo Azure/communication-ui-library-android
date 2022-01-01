@@ -6,15 +6,17 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import org.hamcrest.Matchers.allOf
+import org.junit.Assert
 
 
 object CompositeUiHelper {
-    fun setGroupId(groupId: String) {
+
+    fun setGroupIdOrTeamsMeetingUrl(groupIdOrTeamsMeetingUrl: String) {
         val idlingResource = ViewIsDisplayedResource()
         val appCompatEditText = idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdIsDisplayed(R.id.groupIdOrTeamsMeetingLinkText)
         }
-        appCompatEditText.perform(ViewActions.replaceText(groupId))
+        appCompatEditText.perform(ViewActions.replaceText(groupIdOrTeamsMeetingUrl))
         appCompatEditText.perform(ViewActions.closeSoftKeyboard())
     }
 
@@ -34,14 +36,48 @@ object CompositeUiHelper {
         UiTestUtils.clickViewWithId(R.id.launchButton)
     }
 
-    fun toggleCameraButton() {
-        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder)
+    fun turnCameraOn() {
+        UiTestUtils.run {
+            ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+                checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_buttons)
+            }
+            val cameraButtonText = getTextFromTextView(R.id.azure_communication_ui_setup_camera_button)
+            if (cameraButtonText == "Video off") {
+                clickViewWithIdAndText(
+                    R.id.azure_communication_ui_setup_camera_button,
+                    "Video off"
+                )
+            }
+            val viewDisplayResource = ViewIsDisplayedResource()
+            viewDisplayResource.waitUntilViewIsDisplayed {
+                checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder)
+            }
+            viewDisplayResource.waitUntilViewIsDisplayed {
+                checkViewIdIsNotDisplayed(R.id.azure_communication_ui_setup_default_avatar)
+            }
+            Thread.sleep(3000)
         }
-        Thread.sleep(3000)
-        UiTestUtils.clickViewWithId(R.id.azure_communication_ui_setup_camera_button)
     }
 
+    fun clickTeamsMeetingRadioButton() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdAndTextIsDisplayed(
+                R.id.teamsMeetingRadioButton,
+                R.string.teamsMeetingLabel
+            )
+        }
+        UiTestUtils.clickViewWithId(R.id.teamsMeetingRadioButton)
+    }
+
+    fun checkWaitForTeamsMeetingMessage() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_call_lobby_overlay)
+        }
+        UiTestUtils.clickViewWithIdAndText(
+            R.id.azure_communication_ui_call_lobby_overlay_title,
+            "Waiting for host"
+        )
+    }
     fun clickJoinCallButton() {
         val idlingResource = ViewIsDisplayedResource()
 
@@ -100,5 +136,17 @@ object CompositeUiHelper {
             UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_call_leave_confirm)
         }
         UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_call_leave_confirm, "Leave call")
+    }
+
+
+    fun startAndJoinCall(acsToken: String, videoEnabled: Boolean) {
+        Assert.assertTrue("empty token! ", acsToken.isNotBlank())
+        setAcsToken(acsToken)
+        clickLaunchButton()
+
+        if (videoEnabled) {
+            turnCameraOn()
+        }
+        clickJoinCallButton()
     }
 }
