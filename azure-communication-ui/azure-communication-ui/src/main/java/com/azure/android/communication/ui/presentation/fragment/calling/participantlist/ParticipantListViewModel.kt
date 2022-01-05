@@ -36,7 +36,7 @@ internal class ParticipantListViewModel {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 ParticipantListCellModel(
-                    if (it.displayName.isEmpty())"Unnamed participant" else it.displayName,
+                    it.displayName,
                     it.isMuted
                 )
             }
@@ -54,7 +54,7 @@ internal class ParticipantListViewModel {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 ParticipantListCellModel(
-                    if (it.displayName.isEmpty())"Unnamed participant" else it.displayName,
+                    it.displayName,
                     it.isMuted
                 )
             }

@@ -123,24 +123,29 @@ internal class ParticipantListView(
         remoteParticipantCellModels: List<ParticipantListCellModel>,
     ): MutableList<BottomCellItem> {
         val bottomCellItems = mutableListOf<BottomCellItem>()
-        val sortedRemoteParticipantCellModels = mutableListOf<ParticipantListCellModel>()
-        sortedRemoteParticipantCellModels.addAll(remoteParticipantCellModels)
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
-        sortedRemoteParticipantCellModels
-            .add(
-                viewModel.createLocalParticipantListCell
-                (resources.getString(R.string.azure_communication_ui_call_local_participant_suffix))
+        val localParticipant =
+            viewModel.createLocalParticipantListCell(
+                resources.getString(R.string.azure_communication_ui_call_local_participant_suffix)
             )
-
-        sortedRemoteParticipantCellModels.sortWith(
-            compareBy(String.CASE_INSENSITIVE_ORDER, { it.displayName })
-        )
-        for (remoteParticipant in sortedRemoteParticipantCellModels) {
+        bottomCellItems
+            .add(
+                generateBottomCellItem(localParticipant.displayName, localParticipant.isMuted)
+            )
+        for (remoteParticipant in remoteParticipantCellModels) {
             bottomCellItems.add(
-                generateBottomCellItem(remoteParticipant.displayName, remoteParticipant.isMuted)
+                generateBottomCellItem(
+                    if (remoteParticipant.displayName.isEmpty()) resources
+                        .getString(
+                            R.string.azure_communication_ui_call_participant_list_unnamed_participant
+                        ) // create xml string
+                    else remoteParticipant.displayName,
+                    remoteParticipant.isMuted
+                )
             )
         }
+        bottomCellItems.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.title!! }))
         return bottomCellItems
     }
 
