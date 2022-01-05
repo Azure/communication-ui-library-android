@@ -28,7 +28,7 @@ internal class ParticipantListViewModel {
     }
 
     fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
-        localParticipantListCellStateFlow.value.displayName + suffix,
+        localParticipantListCellStateFlow.value.displayName.trim() + suffix,
         localParticipantListCellStateFlow.value.isMuted
     )
 
@@ -36,7 +36,7 @@ internal class ParticipantListViewModel {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 ParticipantListCellModel(
-                    it.displayName,
+                    it.displayName.trim(),
                     it.isMuted
                 )
             }
@@ -54,7 +54,7 @@ internal class ParticipantListViewModel {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 ParticipantListCellModel(
-                    it.displayName,
+                    it.displayName.trim(),
                     it.isMuted
                 )
             }
