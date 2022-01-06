@@ -27,14 +27,24 @@ internal class ParticipantListViewModel {
         return displayParticipantListStateFlow
     }
 
+    fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
+        localParticipantListCellStateFlow.value.displayName.trim() + suffix,
+        localParticipantListCellStateFlow.value.isMuted
+    )
+
     fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
         val remoteParticipantList: List<ParticipantListCellModel> =
-            participantMap.values.map { ParticipantListCellModel(it.displayName, it.isMuted) }
+            participantMap.values.map {
+                ParticipantListCellModel(
+                    it.displayName.trim(),
+                    it.isMuted
+                )
+            }
         remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
         localParticipantListCellStateFlow =
             MutableStateFlow(
                 ParticipantListCellModel(
-                    localUserState.displayName,
+                    localUserState.displayName ?: "",
                     localUserState.audioState.operation == AudioOperationalStatus.OFF
                 )
             )
@@ -42,11 +52,16 @@ internal class ParticipantListViewModel {
 
     fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
         val remoteParticipantList: List<ParticipantListCellModel> =
-            participantMap.values.map { ParticipantListCellModel(it.displayName, it.isMuted) }
+            participantMap.values.map {
+                ParticipantListCellModel(
+                    it.displayName.trim(),
+                    it.isMuted
+                )
+            }
         remoteParticipantListCellStateFlow.value = remoteParticipantList
         localParticipantListCellStateFlow.value =
             ParticipantListCellModel(
-                localUserState.displayName,
+                localUserState.displayName ?: "",
                 localUserState.audioState.operation == AudioOperationalStatus.OFF
             )
     }
@@ -61,6 +76,6 @@ internal class ParticipantListViewModel {
 }
 
 internal data class ParticipantListCellModel(
-    val displayName: String?,
+    val displayName: String,
     val isMuted: Boolean,
 )

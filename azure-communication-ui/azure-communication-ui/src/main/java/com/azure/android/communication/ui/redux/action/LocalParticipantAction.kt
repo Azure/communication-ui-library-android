@@ -62,5 +62,5 @@ internal sealed class LocalParticipantAction : Action {
     ) :
         LocalParticipantAction()
 
-    class DisplayNameIsSet(val displayName: String?) : LocalParticipantAction()
+    class DisplayNameIsSet(val displayName: String) : LocalParticipantAction()
 }
