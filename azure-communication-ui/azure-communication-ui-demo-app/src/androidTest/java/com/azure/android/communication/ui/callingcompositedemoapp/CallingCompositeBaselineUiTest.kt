@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
+import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject
 import org.junit.*
@@ -35,13 +36,16 @@ class CallingCompositeBaselineUiTest {
                 .httpGet()
                 .responseString()
 
-            val resultBody = result.component1() ?: throw NullPointerException("Empty String!")
+            val resultBody = result.component1() ?: ""
             val cause = result.component2()
             Assert.assertTrue(
                 "network call error -> ${cause?.message}",
-                cause == null && resultBody.isNotBlank()
+                cause == null
             )
-
+            Assert.assertTrue(
+                "invalid response -> ${response?.statusCode}: ${response?.responseMessage}",
+                resultBody.isNotBlank()
+            )
             val token = JSONObject(resultBody).getString("token")
             Assert.assertTrue("empty token! ", token.isNotBlank())
             return token
@@ -62,6 +66,9 @@ class CallingCompositeBaselineUiTest {
             "android.permission.CAMERA",
             "android.permission.RECORD_AUDIO"
         )
+
+    @get:Rule
+    val screenLockRule = RunWhenScreenOffOrLockedRule()
 
     @After
     fun cleanup() {

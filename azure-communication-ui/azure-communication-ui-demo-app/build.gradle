@@ -67,6 +67,7 @@ android {
     packagingOptions {
         pickFirst 'META-INF/AL2.0'
         pickFirst 'META-INF/LGPL2.1'
+        pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
     }
 
     testOptions {
@@ -97,8 +98,8 @@ dependencies {
     implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
+    implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     testImplementation "junit:junit:$junit"
-
     androidTestImplementation 'net.java.dev.jna:jna:5.5.0'
     androidTestImplementation ('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0') {
         exclude group: "net.java.dev.jna", module: "jna"
