@@ -65,9 +65,9 @@ public final class CallComposite {
      *                          launch group call experience.
      *
      */
-    public void launch(final GroupCallOptions groupCallOptions) {
+    public void launch(final Context context, final GroupCallOptions groupCallOptions) {
         launch(
-                groupCallOptions.getContext(),
+                context,
                 groupCallOptions.getCommunicationTokenCredential(),
                 groupCallOptions.getDisplayName(),
                 groupCallOptions.getGroupId(),
@@ -94,9 +94,9 @@ public final class CallComposite {
      * @param teamsMeetingOptions The {@link TeamsMeetingOptions} has parameters to
      *                            launch Teams meeting experience.
      */
-    public void launch(final TeamsMeetingOptions teamsMeetingOptions) {
+    public void launch(final Context context, final TeamsMeetingOptions teamsMeetingOptions) {
         launch(
-                teamsMeetingOptions.getContext(),
+                context,
                 teamsMeetingOptions.getCommunicationTokenCredential(),
                 teamsMeetingOptions.getDisplayName(),
                 null,

@@ -57,15 +57,15 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         if (groupId != null) {
             final GroupCallOptions groupCallOptions =
-                    new GroupCallOptions(context, communicationTokenCredential, groupId, displayName);
+                    new GroupCallOptions(communicationTokenCredential, groupId, displayName);
 
-            callComposite.launch(groupCallOptions);
+            callComposite.launch(context, groupCallOptions);
 
         } else if (!TextUtils.isEmpty(meetingLink)) {
             final TeamsMeetingOptions teamsMeetingOptions =
-                    new TeamsMeetingOptions(context, communicationTokenCredential, meetingLink, displayName);
+                    new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
 
-            callComposite.launch(teamsMeetingOptions);
+            callComposite.launch(context, teamsMeetingOptions);
         }
     }
 }
