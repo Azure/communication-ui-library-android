@@ -70,9 +70,9 @@ class CallingCompositeBaselineUiTest {
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
-    @After
-    fun cleanup() {
-        Espresso.pressBackUnconditionally()
+    @Before
+    fun ciToolSetup() {
+        Thread.sleep(2000)
     }
 
     @Test

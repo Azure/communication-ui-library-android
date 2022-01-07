@@ -39,7 +39,7 @@ object CompositeUiHelper {
     fun turnCameraOn() {
         UiTestUtils.run {
             ViewIsDisplayedResource().waitUntilViewIsDisplayed {
-                checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_buttons)
+                checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_camera_button)
             }
             val cameraButtonText = getTextFromTextView(R.id.azure_communication_ui_setup_camera_button)
             if (cameraButtonText == "Video off") {
