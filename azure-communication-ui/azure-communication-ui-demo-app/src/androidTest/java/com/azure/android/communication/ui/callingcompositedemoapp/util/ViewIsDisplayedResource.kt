@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import android.os.SystemClock
-import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.EspressoException
 import androidx.test.espresso.ViewInteraction
 import junit.framework.AssertionFailedError
 
@@ -24,7 +24,7 @@ class ViewIsDisplayedResource {
                 viewInteraction = idlingCheck()
                 isReady = true
             } catch (ex: Throwable) {
-                if (ex is AssertionFailedError || ex is NoMatchingViewException) {
+                if (ex is AssertionFailedError || ex is EspressoException) {
                     SystemClock.sleep(DEFAULT_WAIT_TIME)
                     timeOut += DEFAULT_WAIT_TIME
                 } else throw ex
