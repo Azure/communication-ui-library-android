@@ -54,7 +54,7 @@ object CompositeUiHelper {
             viewDisplayResource.waitUntilViewIsDisplayed {
                 checkViewIdIsNotDisplayed(R.id.azure_communication_ui_setup_default_avatar)
             }
-            Thread.sleep(3000)
+            //Thread.sleep(3000)
         }
     }
 

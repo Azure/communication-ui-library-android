@@ -71,10 +71,6 @@ class CallingCompositeBaselineUiTest {
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
-    @Before
-    fun ciToolSetup() {
-        Thread.sleep(2000)
-    }
 
     @Test
     fun testJoinTeamsCallWithVideoEnabled() {

@@ -59,7 +59,6 @@ class CallingCompositeACSTokenTest {
             clickLaunchButton()
             ViewIsDisplayedResource().waitUntilViewIsDisplayed(::checkAlertDialogButtonIsDisplayed)
             UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
-            Thread.sleep(2000)
         }
     }
 
