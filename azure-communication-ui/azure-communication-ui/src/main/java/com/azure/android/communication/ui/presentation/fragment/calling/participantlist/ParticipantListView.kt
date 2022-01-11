@@ -143,7 +143,8 @@ internal class ParticipantListView(
         }
         bottomCellItems.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.title!! }))
         bottomCellItems
-            .add(0,
+            .add(
+                0,
                 generateBottomCellItem(localParticipant.displayName, localParticipant.isMuted)
             )
         return bottomCellItems
