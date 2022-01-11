@@ -11,6 +11,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -104,7 +105,11 @@ internal class ParticipantGridCellVideoView(
         if (streamType == StreamType.SCREEN_SHARING) {
             val zoomFrameLayoutView = ScreenShareFrameLayoutView(this.context)
             zoomFrameLayoutView.start(showFloatingHeaderCallBack)
-            zoomFrameLayoutView.addView(rendererView)
+
+            val rendererViewTransformationWrapper = LinearLayout(this.context)
+            rendererViewTransformationWrapper.addView(rendererView)
+
+            zoomFrameLayoutView.addView(rendererViewTransformationWrapper)
             videoContainer.addView(zoomFrameLayoutView, 0)
         } else {
             videoContainer.addView(rendererView, 0)
