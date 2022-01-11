@@ -9,8 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 
-
-class GetButtonTextAction: ViewAction {
+class GetButtonTextAction : ViewAction {
     private lateinit var stringHolder: String
 
     override fun getConstraints(): Matcher<View> =

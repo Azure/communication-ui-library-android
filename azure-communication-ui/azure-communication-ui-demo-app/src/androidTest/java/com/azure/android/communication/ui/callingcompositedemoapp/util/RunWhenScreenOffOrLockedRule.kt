@@ -9,7 +9,6 @@ import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-
 class RunWhenScreenOffOrLockedRule : TestRule {
     override fun apply(base: Statement, description: Description): Statement {
         return object : Statement() {
@@ -27,8 +26,8 @@ class RunWhenScreenOffOrLockedRule : TestRule {
                                 setShowWhenLocked(true)
                                 setTurnScreenOn(true)
                                 window.addFlags(
-                                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                                    or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                                        or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                                 )
                             }
                         }

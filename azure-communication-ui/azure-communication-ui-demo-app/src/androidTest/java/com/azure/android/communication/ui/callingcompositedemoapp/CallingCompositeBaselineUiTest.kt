@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-
-import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -13,9 +11,12 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.Composite
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject
-import org.junit.*
+import org.junit.Assert
+import org.junit.Before
+import org.junit.BeforeClass
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)

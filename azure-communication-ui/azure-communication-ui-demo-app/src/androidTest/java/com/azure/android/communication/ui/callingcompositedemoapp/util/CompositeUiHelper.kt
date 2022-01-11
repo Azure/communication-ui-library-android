@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R
 import org.hamcrest.Matchers.allOf
 import org.junit.Assert
 
-
 object CompositeUiHelper {
 
     fun setGroupIdOrTeamsMeetingUrl(groupIdOrTeamsMeetingUrl: String) {
@@ -137,7 +136,6 @@ object CompositeUiHelper {
         }
         UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_call_leave_confirm, "Leave call")
     }
-
 
     fun startAndJoinCall(acsToken: String, videoEnabled: Boolean) {
         Assert.assertTrue("empty token! ", acsToken.isNotBlank())

@@ -64,12 +64,6 @@ android {
         jvmTarget = '1.8'
     }
 
-    packagingOptions {
-        pickFirst 'META-INF/AL2.0'
-        pickFirst 'META-INF/LGPL2.1'
-        pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
-    }
-
     testOptions {
         animationsDisabled = true
         packagingOptions {
@@ -102,7 +96,7 @@ dependencies {
     testImplementation "junit:junit:$junit"
     androidTestImplementation 'net.java.dev.jna:jna:5.5.0'
     androidTestImplementation ('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0') {
-        exclude group: "net.java.dev.jna", module: "jna"
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit"
     androidTestImplementation 'androidx.test:rules:1.4.1-alpha03'

@@ -10,11 +10,11 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 
@@ -50,7 +50,6 @@ object UiTestUtils {
             )
         ).check(ViewAssertions.matches(isDisplayed()))
 
-
     @Throws(NoMatchingViewException::class)
     fun clickViewWithId(@IdRes viewId: Int): ViewInteraction =
         onView(allOf(withId(viewId), isDisplayed())).perform(click())
@@ -70,9 +69,11 @@ object UiTestUtils {
     private fun withRecyclerView(@IdRes recyclerViewId: Int): RecyclerViewMatcher = RecyclerViewMatcher(recyclerViewId)
 
     @Throws(NoMatchingViewException::class)
-    fun check3IemRecyclerViewHolderAtPosition(@IdRes recyclerViewId: Int,
-                                              position: Int,
-                                              recyclerViewHolderViewIds: Triple<Int, Int, Int>) {
+    fun check3IemRecyclerViewHolderAtPosition(
+        @IdRes recyclerViewId: Int,
+        position: Int,
+        recyclerViewHolderViewIds: Triple<Int, Int, Int>
+    ) {
         onView(withRecyclerView(recyclerViewId).atPosition(position))
             .check(
                 ViewAssertions.matches(
