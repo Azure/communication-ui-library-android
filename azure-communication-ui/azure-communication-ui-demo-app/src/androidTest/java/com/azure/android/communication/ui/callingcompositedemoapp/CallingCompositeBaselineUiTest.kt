@@ -13,6 +13,7 @@ import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.BeforeClass
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
