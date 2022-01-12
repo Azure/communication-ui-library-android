@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenSc
 import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject
 import org.junit.Assert
-import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
@@ -71,6 +70,10 @@ class CallingCompositeBaselineUiTest {
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
+    @Before
+    fun ciToolSetup() {
+        Thread.sleep(2000)
+    }
 
     @Test
     fun testJoinTeamsCallWithVideoEnabled() {

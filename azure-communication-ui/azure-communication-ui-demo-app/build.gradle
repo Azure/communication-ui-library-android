@@ -69,7 +69,7 @@ android {
         pickFirst 'META-INF/LGPL2.1'
         pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
     }
-    
+
     testOptions {
         animationsDisabled = true
         packagingOptions {
