@@ -11,9 +11,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.Composite
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject
-import org.junit.Assert
-import org.junit.BeforeClass
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,24 +31,16 @@ class CallingCompositeBaselineUiTest {
 
         private fun loadAcsToken(): String {
 
-            val tokenFunctionURL = "https://acs-token-auth.azurewebsites.net/api/Auth?code=xXBqPQnuNyPT9oJTGUptTJ2FCe/LRUaX5m/PtFFe9F9oTl3Fwo2e9A=="
+            val tokenFunctionURL =
+                "https://acs-token-auth.azurewebsites.net/api/Auth?code=xXBqPQnuNyPT9oJTGUptTJ2FCe/LRUaX5m/PtFFe9F9oTl3Fwo2e9A=="
             val (request, response, result) = tokenFunctionURL
                 .httpGet()
                 .responseString()
 
-            val resultBody = result.component1() ?: ""
-            val cause = result.component2()
-            Assert.assertTrue(
-                "network call error -> ${cause?.message}",
-                cause == null
-            )
-            Assert.assertTrue(
-                "invalid response -> ${response?.statusCode}: ${response?.responseMessage}",
-                resultBody.isNotBlank()
-            )
-            val token = JSONObject(resultBody).getString("token")
-            Assert.assertTrue("empty token! ", token.isNotBlank())
-            return token
+            val resultBody = result.component1() ?: return ""
+            if (result.component2() != null) return ""
+
+            return JSONObject(resultBody).getString("token") ?: return ""
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,6 +34,11 @@ class CallingCompositeACSTokenTest {
             "android.permission.CAMERA",
             "android.permission.RECORD_AUDIO"
         )
+
+    @Before
+    fun ciToolSetup() {
+        Thread.sleep(2000)
+    }
 
     @Test
     fun testExpiredAcsToken() {
