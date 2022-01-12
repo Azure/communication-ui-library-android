@@ -24,7 +24,10 @@ internal class VideoViewManager(
         var videoStreamID: String,
     )
 
-    private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
+    companion object {
+        val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
+    }
+
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
 
     fun destroy() {

@@ -4,6 +4,10 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Point
+import android.util.DisplayMetrics
+import android.view.Gravity
 import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
@@ -16,8 +20,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.calling.VideoStreamRendererView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.model.StreamType
+import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareFrameLayoutView
@@ -104,9 +110,23 @@ internal class ParticipantGridCellVideoView(
         detachFromParentView(rendererView)
         if (streamType == StreamType.SCREEN_SHARING) {
             val zoomFrameLayoutView = ScreenShareFrameLayoutView(this.context)
+
+            val layoutParamsFrameLayout =
+                FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT)
+            zoomFrameLayoutView.layoutParams = layoutParamsFrameLayout
             zoomFrameLayoutView.start(showFloatingHeaderCallBack)
 
             val rendererViewTransformationWrapper = LinearLayout(this.context)
+
+
+
+            val layoutParamsLinearLayout =
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT)
+            layoutParamsLinearLayout.gravity = Gravity.CENTER_VERTICAL
+            rendererViewTransformationWrapper.layoutParams = layoutParamsLinearLayout
+
             rendererViewTransformationWrapper.addView(rendererView)
 
             zoomFrameLayoutView.addView(rendererViewTransformationWrapper)
