@@ -25,7 +25,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jlleitschuh.gradle.ktlint" version "10.1.0" apply(true)
+    id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
 }
 
 allprojects {
@@ -36,10 +36,10 @@ allprojects {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
         }
     }
-    apply plugin: "org.jlleitschuh.gradle.ktlint"
 }
 
 subprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
     apply from: "../azure-communication-ui-demo-app/checkstyle.gradle"
     afterEvaluate {
         preBuild.dependsOn 'checkstyle'
