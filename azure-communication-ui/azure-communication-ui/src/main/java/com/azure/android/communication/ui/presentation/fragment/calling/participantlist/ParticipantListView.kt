@@ -129,6 +129,10 @@ internal class ParticipantListView(
             viewModel.createLocalParticipantListCell(
                 resources.getString(R.string.azure_communication_ui_call_local_participant_suffix)
             )
+        bottomCellItems
+            .add(
+                generateBottomCellItem(localParticipant.displayName, localParticipant.isMuted)
+            )
         for (remoteParticipant in remoteParticipantCellModels) {
             bottomCellItems.add(
                 generateBottomCellItem(
@@ -142,11 +146,6 @@ internal class ParticipantListView(
             )
         }
         bottomCellItems.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.title!! }))
-        bottomCellItems
-            .add(
-                0,
-                generateBottomCellItem(localParticipant.displayName, localParticipant.isMuted)
-            )
         return bottomCellItems
     }
 
