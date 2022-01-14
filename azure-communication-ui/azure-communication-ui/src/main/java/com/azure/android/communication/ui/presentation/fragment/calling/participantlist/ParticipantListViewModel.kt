@@ -28,7 +28,7 @@ internal class ParticipantListViewModel {
     }
 
     fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
-        localParticipantListCellStateFlow.value.displayName.trim() + suffix,
+        (localParticipantListCellStateFlow.value.displayName.trim() + " " + suffix).trim(),
         localParticipantListCellStateFlow.value.isMuted
     )
 
