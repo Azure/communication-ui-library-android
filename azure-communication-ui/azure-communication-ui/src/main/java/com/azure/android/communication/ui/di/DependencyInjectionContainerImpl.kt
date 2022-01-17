@@ -60,33 +60,17 @@ internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
 ) : DependencyInjectionContainer {
 
-    //region UI Manager
-    override fun provideUIManager(): UIManager {
-        return uiManager
-    }
 
-    private val uiManager by lazy {
+
+    override val uiManager by lazy {
         UIManager(parentContext)
     }
 
-    //endregion
-
-    //region Navigation Router
-    override fun provideNavigationRouter(): NavigationRouter {
-        return navigationRouter
-    }
-
-    private val navigationRouter by lazy {
+    override val navigationRouter by lazy {
         NavigationRouterImpl(provideStore())
     }
-    //endregion
 
-    //region Fragment Factory
-    override fun provideFragmentFactory(): FragmentFactory {
-        return fragmentFactory
-    }
-
-    private val fragmentFactory by lazy {
+    override val fragmentFactory by lazy {
         CallingCompositeFragmentFactory(provideViewModelFactory(), provideVideoViewManager())
     }
     //endregion
