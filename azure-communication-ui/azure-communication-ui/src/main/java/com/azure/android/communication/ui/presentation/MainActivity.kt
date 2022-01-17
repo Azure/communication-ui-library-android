@@ -61,16 +61,18 @@ internal class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
 
+        /// TODO The DIContainer shouldn't be cleared like this
+        /// ultimately we should remove the static singleton holding it
         if (isFinishing) {
-            DIContainer = null
             store.dispatch(CallingAction.CallEndRequested())
+            DIContainer = null
+
         }
 
         super.onDestroy()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injectDependencies()
         lifecycleScope.launch { errorHandler.start() }
         supportFragmentManager.fragmentFactory = fragmentFactory
         super.onCreate(savedInstanceState)
@@ -131,12 +133,6 @@ internal class MainActivity : AppCompatActivity() {
         permissionManager.setAudioPermissionsState()
     }
 
-    //TODO: Construct with AndroidViewModel
-    private fun injectDependencies() {
-        if (diContainerHolder.container == null) {
-            diContainerHolder.container = DIContainer
-        }
-    }
 
     private fun configureActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
