@@ -17,15 +17,15 @@ import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddle
 import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal interface DependencyInjectionContainer {
-    fun provideUIManager(): UIManager
-    fun provideNavigationRouter(): NavigationRouter
-    fun provideFragmentFactory(): FragmentFactory
-    fun provideStore(): Store<ReduxState>
-    fun provideConfiguration(): CallCompositeConfiguration
-    fun providePermissionManager(): PermissionManager
-    fun provideAudioSessionManager(): AudioSessionManager
-    fun provideLifecycleManager(): LifecycleManager
-    fun provideErrorHandler(): ErrorHandler
-    fun provideCallingMiddlewareActionHandler(): CallingMiddlewareActionHandler
-    fun provideVideoViewManager(): VideoViewManager
+    val uiManager: UIManager
+    val navigationRouter: NavigationRouter
+    val fragmentFactory: FragmentFactory
+    val appStore: Store<ReduxState>
+    val configuration: CallCompositeConfiguration
+    val permissionManager: PermissionManager
+    val audioSessionManager: AudioSessionManager
+    val lifecycleManager: LifecycleManager
+    val errorHandler: ErrorHandler
+    val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
+    val videoViewManager: VideoViewManager
 }
