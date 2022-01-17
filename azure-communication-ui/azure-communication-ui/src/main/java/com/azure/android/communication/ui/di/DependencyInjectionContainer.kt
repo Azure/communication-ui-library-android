@@ -17,7 +17,6 @@ import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddle
 import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal interface DependencyInjectionContainer {
-    val uiManager: UIManager
     val navigationRouter: NavigationRouter
     val fragmentFactory: FragmentFactory
     val appStore: Store<ReduxState>

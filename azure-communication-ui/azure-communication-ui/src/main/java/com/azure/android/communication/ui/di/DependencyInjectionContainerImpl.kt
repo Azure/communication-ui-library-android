@@ -55,12 +55,6 @@ internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
 ) : DependencyInjectionContainer {
 
-
-
-    override val uiManager by lazy {
-        UIManager(parentContext)
-    }
-
     override val navigationRouter by lazy {
         NavigationRouterImpl(appStore)
     }
@@ -125,7 +119,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val storeHandlerThread by lazy { StoreHandlerThread() }
-    
+
     private val appReduxStateReducer : Reducer<ReduxState> by lazy {
         AppStateReducer(
             provideCallStateReducer(),
