@@ -71,75 +71,47 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val fragmentFactory by lazy {
-        CallingCompositeFragmentFactory(provideViewModelFactory(), provideVideoViewManager())
+        CallingCompositeFragmentFactory(viewModelFactory, videoViewManager)
     }
-    //endregion
 
-    //region Participant Grid Cell ViewModel Factory
-    private fun provideParticipantGridCellViewModelFactory(): ParticipantGridCellViewModelFactory {
-        return participantGridCellViewModelFactory
-    }
+    override val configuration = callCompositeConfiguration
 
     private val participantGridCellViewModelFactory by lazy {
         ParticipantGridCellViewModelFactory()
     }
     //endregion
 
-    //region Setup View Model Factory
-    private fun provideSetupViewModelFactory(): SetupViewModelFactory {
-        return setupViewModelFactory
-    }
 
     private val setupViewModelFactory by lazy {
         SetupViewModelFactory(provideStore())
     }
-    //endregion
-
-    //region Calling View Model Factory
-    private fun provideCallingViewModelFactory(): CallingViewModelFactory {
-        return callingViewModelFactory
-    }
 
     private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(provideStore(), provideParticipantGridCellViewModelFactory())
+        CallingViewModelFactory(provideStore(), participantGridCellViewModelFactory)
     }
-    //endregion
+
 
     //region View Model Factory
     private val viewModelFactory by lazy {
         ViewModelFactory(
             CallingViewModel(
                 provideStore(),
-                provideCallingViewModelFactory()
+                callingViewModelFactory
             ),
             SetupViewModel(
                 provideStore(),
-                provideSetupViewModelFactory()
+                setupViewModelFactory
             )
         )
     }
 
-    private fun provideViewModelFactory(): ViewModelFactory {
-        return viewModelFactory
-    }
 
-    //endregion
 
-    //region Video View Manager
-    private val videoViewManager by lazy {
+
+    override val videoViewManager by lazy {
         VideoViewManager(provideCallingSDKWrapper(), provideApplicationContext())
     }
 
-    override fun provideVideoViewManager(): VideoViewManager {
-        return videoViewManager
-    }
-    //endregion
-
-    //region Configuration
-    override fun provideConfiguration(): CallCompositeConfiguration {
-        return callCompositeConfiguration
-    }
-    //endregion
 
     //region Permission Manager
     override fun providePermissionManager(): PermissionManager {
