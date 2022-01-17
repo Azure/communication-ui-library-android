@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.di
 
 import android.content.Context
-import androidx.fragment.app.FragmentFactory
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
@@ -19,17 +18,13 @@ import com.azure.android.communication.ui.presentation.fragment.factories.Partic
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
-import com.azure.android.communication.ui.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
-import com.azure.android.communication.ui.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.Middleware
-import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.middleware.CallingMiddleware
 import com.azure.android.communication.ui.redux.middleware.CallingMiddlewareImpl
-import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.redux.reducer.CallStateReducer
@@ -67,7 +62,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val navigationRouter by lazy {
-        NavigationRouterImpl(provideStore())
+        NavigationRouterImpl(appStore)
     }
 
     override val fragmentFactory by lazy {
@@ -79,15 +74,14 @@ internal class DependencyInjectionContainerImpl(
     private val participantGridCellViewModelFactory by lazy {
         ParticipantGridCellViewModelFactory()
     }
-    //endregion
 
 
     private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(provideStore())
+        SetupViewModelFactory(appStore)
     }
 
     private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(provideStore(), participantGridCellViewModelFactory)
+        CallingViewModelFactory(appStore, participantGridCellViewModelFactory)
     }
 
 
@@ -95,83 +89,49 @@ internal class DependencyInjectionContainerImpl(
     private val viewModelFactory by lazy {
         ViewModelFactory(
             CallingViewModel(
-                provideStore(),
+                appStore,
                 callingViewModelFactory
             ),
             SetupViewModel(
-                provideStore(),
+                appStore,
                 setupViewModelFactory
             )
         )
     }
 
-
-
-
     override val videoViewManager by lazy {
         VideoViewManager(provideCallingSDKWrapper(), provideApplicationContext())
     }
 
-
-    //region Permission Manager
-    override fun providePermissionManager(): PermissionManager {
-        return permissionManager
+    override val permissionManager by lazy {
+        PermissionManager(appStore)
     }
 
-    private val permissionManager by lazy {
-        PermissionManager(provideStore())
-    }
-    //endregion
-
-    //region Audio Session Manager
-    override fun provideAudioSessionManager(): AudioSessionManager {
-        return audioSessionManager
+    override val audioSessionManager by lazy {
+        AudioSessionManager(appStore)
     }
 
-    private val audioSessionManager by lazy {
-        AudioSessionManager(provideStore())
-    }
-    //endregion
-
-    //region Lifecycle Manager
-    override fun provideLifecycleManager(): LifecycleManager {
-        return lifecycleManager
+    override val lifecycleManager by lazy {
+        LifecycleManagerImpl(appStore)
     }
 
-    private val lifecycleManager by lazy {
-        LifecycleManagerImpl(provideStore())
-    }
-    //endregion
-
-    //region Store
-    override fun provideStore(): Store<ReduxState> {
-        return appStore
-    }
-
-    private val appStore by lazy {
+    override val appStore by lazy {
         AppStore(
             provideState(),
-            provideReduxStateReducer(),
+            appReduxStateReducer,
             provideAppMiddleware(),
-            provideStoreHandlerThread()
+            storeHandlerThread
         )
     }
     //endregion
 
     //region StoreHandlerThread
 
-    private fun provideStoreHandlerThread(): StoreHandlerThread {
-        return StoreHandlerThread()
-    }
 
-    //endregion
+    private val storeHandlerThread by lazy { StoreHandlerThread() }
 
-    //region Reducer
-    private fun provideReduxStateReducer(): Reducer<ReduxState> {
-        return appReduxStateReducer as Reducer<ReduxState>
-    }
 
-    private val appReduxStateReducer by lazy {
+    private val appReduxStateReducer : Reducer<ReduxState> by lazy {
         AppStateReducer(
             provideCallStateReducer(),
             provideParticipantStateReducer(),
@@ -180,7 +140,7 @@ internal class DependencyInjectionContainerImpl(
             provideLifecycleReducer(),
             provideErrorReducer(),
             provideNavigationReducer()
-        )
+        ) as Reducer<ReduxState>
     }
 
     private fun provideNavigationReducer(): NavigationReducer {
@@ -215,7 +175,7 @@ internal class DependencyInjectionContainerImpl(
 
     //region state
     private fun provideState(): ReduxState {
-        return AppReduxState(provideConfiguration().callConfig!!.displayName)
+        return AppReduxState(configuration.callConfig!!.displayName)
     }
 
     //endregion
@@ -224,27 +184,21 @@ internal class DependencyInjectionContainerImpl(
 
     private fun provideCallingMiddleware(): CallingMiddleware {
         return CallingMiddlewareImpl(
-            provideCallingMiddlewareActionHandler(),
+            callingMiddlewareActionHandler,
             provideLogger()
         )
     }
 
     private fun provideAppMiddleware(): MutableList<Middleware<ReduxState>> =
         mutableListOf(provideCallingMiddleware() as Middleware<ReduxState>)
-    //endregion
 
-    //region Calling Middleware Action Handler
-    private val callingMiddlewareActionHandler by lazy {
+    override val callingMiddlewareActionHandler by lazy {
         CallingMiddlewareActionHandlerImpl(
             provideCallingService(),
             provideCoroutineContextProvider()
         )
     }
 
-    override fun provideCallingMiddlewareActionHandler(): CallingMiddlewareActionHandler {
-        return callingMiddlewareActionHandler
-    }
-    //endregion
 
     //region Logger
     private val logger by lazy {
@@ -308,13 +262,7 @@ internal class DependencyInjectionContainerImpl(
     }
     //endregion
 
-    //region Error Handler
-    override fun provideErrorHandler(): ErrorHandler {
-        return errorHandler
+    override val errorHandler by lazy {
+        ErrorHandler(configuration, appStore)
     }
-
-    private val errorHandler by lazy {
-        ErrorHandler(provideConfiguration(), provideStore())
-    }
-    //endregion
 }
