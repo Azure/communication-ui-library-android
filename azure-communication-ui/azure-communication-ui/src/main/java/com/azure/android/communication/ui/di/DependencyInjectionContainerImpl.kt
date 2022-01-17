@@ -7,8 +7,6 @@ import android.content.Context
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
-import com.azure.android.communication.ui.logger.Logger
-import com.azure.android.communication.ui.presentation.UIManager
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.fragment.CallingCompositeFragmentFactory
 import com.azure.android.communication.ui.presentation.fragment.ViewModelFactory
@@ -23,23 +21,15 @@ import com.azure.android.communication.ui.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.Middleware
-import com.azure.android.communication.ui.redux.middleware.CallingMiddleware
 import com.azure.android.communication.ui.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.redux.reducer.AppStateReducer
-import com.azure.android.communication.ui.redux.reducer.CallStateReducer
 import com.azure.android.communication.ui.redux.reducer.CallStateReducerImpl
-import com.azure.android.communication.ui.redux.reducer.ErrorReducer
 import com.azure.android.communication.ui.redux.reducer.ErrorReducerImpl
-import com.azure.android.communication.ui.redux.reducer.LifecycleReducer
 import com.azure.android.communication.ui.redux.reducer.LifecycleReducerImpl
-import com.azure.android.communication.ui.redux.reducer.LocalParticipantStateReducer
 import com.azure.android.communication.ui.redux.reducer.LocalParticipantStateReducerImpl
-import com.azure.android.communication.ui.redux.reducer.NavigationReducer
 import com.azure.android.communication.ui.redux.reducer.NavigationReducerImpl
-import com.azure.android.communication.ui.redux.reducer.ParticipantStateReducer
 import com.azure.android.communication.ui.redux.reducer.ParticipantStateReducerImpl
-import com.azure.android.communication.ui.redux.reducer.PermissionStateReducer
 import com.azure.android.communication.ui.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.redux.reducer.Reducer
 import com.azure.android.communication.ui.redux.state.AppReduxState
@@ -55,6 +45,10 @@ internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
 ) : DependencyInjectionContainer {
 
+    //region Overrides
+    // These getters are required by the interface
+    override val configuration = callCompositeConfiguration
+
     override val navigationRouter by lazy {
         NavigationRouterImpl(appStore)
     }
@@ -63,38 +57,19 @@ internal class DependencyInjectionContainerImpl(
         CallingCompositeFragmentFactory(viewModelFactory, videoViewManager)
     }
 
-    override val configuration = callCompositeConfiguration
-
-    private val participantGridCellViewModelFactory by lazy {
-        ParticipantGridCellViewModelFactory()
-    }
-
-
-    private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(appStore)
-    }
-
-    private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(appStore, participantGridCellViewModelFactory)
-    }
-
-
-    //region View Model Factory
-    private val viewModelFactory by lazy {
-        ViewModelFactory(
-            CallingViewModel(
-                appStore,
-                callingViewModelFactory
-            ),
-            SetupViewModel(
-                appStore,
-                setupViewModelFactory
-            )
+    override val callingMiddlewareActionHandler by lazy {
+        CallingMiddlewareActionHandlerImpl(
+            callingService,
+            coroutineContextProvider
         )
     }
 
+    override val errorHandler by lazy {
+        ErrorHandler(configuration, appStore)
+    }
+
     override val videoViewManager by lazy {
-        VideoViewManager(provideCallingSDKWrapper(), provideApplicationContext())
+        VideoViewManager(callingSDKWrapper, applicationContext)
     }
 
     override val permissionManager by lazy {
@@ -111,147 +86,116 @@ internal class DependencyInjectionContainerImpl(
 
     override val appStore by lazy {
         AppStore(
-            provideState(),
+            initialState,
             appReduxStateReducer,
-            provideAppMiddleware(),
+            appMiddleware,
             storeHandlerThread
         )
     }
 
-    private val storeHandlerThread by lazy { StoreHandlerThread() }
+
+    //region Redux
+    // Initial State
+    private val initialState by lazy { AppReduxState(configuration.callConfig!!.displayName) }
+
+    // Reducers
+    private val callStateReducer get() = CallStateReducerImpl()
+    private val participantStateReducer = ParticipantStateReducerImpl()
+    private val localParticipantStateReducer get() = LocalParticipantStateReducerImpl()
+    private val permissionStateReducer get() = PermissionStateReducerImpl()
+    private val lifecycleReducer get() = LifecycleReducerImpl()
+    private val errorReducer get() = ErrorReducerImpl()
+    private val navigationReducer get() = NavigationReducerImpl()
+
+    // Middleware
+    private val appMiddleware get() = mutableListOf(callingMiddleware)
+    private val callingMiddleware : Middleware<ReduxState> by lazy {
+        CallingMiddlewareImpl(
+            callingMiddlewareActionHandler,
+            logger
+        )
+    }
 
     private val appReduxStateReducer : Reducer<ReduxState> by lazy {
         AppStateReducer(
-            provideCallStateReducer(),
-            provideParticipantStateReducer(),
-            provideLocalParticipantStateReducer(),
-            providePermissionStateReducer(),
-            provideLifecycleReducer(),
-            provideErrorReducer(),
-            provideNavigationReducer()
+            callStateReducer,
+            participantStateReducer,
+            localParticipantStateReducer,
+            permissionStateReducer,
+            lifecycleReducer,
+            errorReducer,
+            navigationReducer
         ) as Reducer<ReduxState>
     }
-
-    private fun provideNavigationReducer(): NavigationReducer {
-        return NavigationReducerImpl()
-    }
-
-    private fun provideCallStateReducer(): CallStateReducer {
-        return CallStateReducerImpl()
-    }
-
-    private fun provideParticipantStateReducer(): ParticipantStateReducer {
-        return ParticipantStateReducerImpl()
-    }
-
-    private fun provideLocalParticipantStateReducer(): LocalParticipantStateReducer {
-        return LocalParticipantStateReducerImpl()
-    }
-
-    private fun providePermissionStateReducer(): PermissionStateReducer {
-        return PermissionStateReducerImpl()
-    }
-
-    private fun provideLifecycleReducer(): LifecycleReducer {
-        return LifecycleReducerImpl()
-    }
-
-    private fun provideErrorReducer(): ErrorReducer {
-        return ErrorReducerImpl()
-    }
-
     //endregion
 
-    //region state
-    private fun provideState(): ReduxState {
-        return AppReduxState(configuration.callConfig!!.displayName)
-    }
-
-    //endregion
-
-    //region Middleware
-
-    private fun provideCallingMiddleware(): CallingMiddleware {
-        return CallingMiddlewareImpl(
-            callingMiddlewareActionHandler,
-            provideLogger()
-        )
-    }
-
-    private fun provideAppMiddleware(): MutableList<Middleware<ReduxState>> =
-        mutableListOf(provideCallingMiddleware() as Middleware<ReduxState>)
-
-    override val callingMiddlewareActionHandler by lazy {
-        CallingMiddlewareActionHandlerImpl(
-            provideCallingService(),
-            provideCoroutineContextProvider()
-        )
-    }
+    //region System
+    private val applicationContext get() = parentContext.applicationContext
 
 
-    //region Logger
-    private val logger by lazy {
-        DefaultLogger()
-    }
-
-    private fun provideLogger(): Logger {
-        return logger
-    }
-    //endregion
-
-    //region GetContext
-    private fun provideApplicationContext(): Context {
-        return parentContext.applicationContext
-    }
-    //endregion
-
-    //region Calling SDK Wrapper
-    private fun provideCallingSDKWrapper(): CallingSDKWrapper {
-        return callingSDKWrapper
-    }
-
+    private val logger by lazy { DefaultLogger() }
     private val callingSDKWrapper by lazy {
         CallingSDKWrapper(
             callCompositeConfiguration,
-            provideApplicationContext(),
-            provideCallingSDKEventHandler(),
+            applicationContext,
+            callingSDKEventHandler,
         )
-    }
-    //endregion
-
-    //region Calling SDK Event Handler
-    private fun provideCallingSDKEventHandler(): CallingSDKEventHandler {
-        return callingSDKEventHandler
     }
 
     private val callingSDKEventHandler by lazy {
         CallingSDKEventHandler(
-            provideCoroutineContextProvider()
+            coroutineContextProvider
         )
     }
-    //endregion
 
-    //region Calling Service
     private val callingService by lazy {
-        CallingService(provideCallingSDKWrapper(), provideCoroutineContextProvider())
-    }
-
-    private fun provideCallingService(): CallingService {
-        return callingService
+        CallingService(callingSDKWrapper, coroutineContextProvider)
     }
     //endregion
 
-    //region Coroutine Context Provider
-    private fun provideCoroutineContextProvider(): CoroutineContextProvider {
-        return coroutineContextProvider
+    //region Factories
+    private val viewModelFactory by lazy {
+        ViewModelFactory(
+            CallingViewModel(
+                appStore,
+                callingViewModelFactory
+            ),
+            SetupViewModel(
+                appStore,
+                setupViewModelFactory
+            )
+        )
     }
 
-    private val coroutineContextProvider by lazy {
-        CoroutineContextProvider()
+    private val participantGridCellViewModelFactory by lazy {
+        ParticipantGridCellViewModelFactory()
+    }
+
+
+    private val setupViewModelFactory by lazy {
+        SetupViewModelFactory(appStore)
+    }
+
+    private val callingViewModelFactory by lazy {
+        CallingViewModelFactory(appStore, participantGridCellViewModelFactory)
     }
     //endregion
 
-    override val errorHandler by lazy {
-        ErrorHandler(configuration, appStore)
-    }
+    //region Threading
+    private val coroutineContextProvider by lazy { CoroutineContextProvider() }
+    private val storeHandlerThread by lazy { StoreHandlerThread() }
+    //endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
