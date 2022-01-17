@@ -164,7 +164,8 @@ public final class CallComposite {
             final CallCompositeConfiguration configuration,
             final Context context
     ) {
-        final DependencyInjectionContainer di = initDI(configuration, context);
-        return di.provideUIManager();
+        ///TODO: Side Effect, DI Initialization paired with getting the UI Manager
+        initDI(configuration, context);
+        return new UIManager(context);
     }
 }

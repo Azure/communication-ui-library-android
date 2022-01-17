@@ -123,14 +123,9 @@ internal class DependencyInjectionContainerImpl(
             storeHandlerThread
         )
     }
-    //endregion
-
-    //region StoreHandlerThread
-
 
     private val storeHandlerThread by lazy { StoreHandlerThread() }
-
-
+    
     private val appReduxStateReducer : Reducer<ReduxState> by lazy {
         AppStateReducer(
             provideCallStateReducer(),

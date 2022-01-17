@@ -47,25 +47,26 @@ internal class MainActivity : AppCompatActivity() {
 
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels()
 
-    private lateinit var navigationRouter: NavigationRouter
-    private lateinit var fragmentFactory: FragmentFactory
-    private lateinit var store: Store<ReduxState>
-    private lateinit var configuration: CallCompositeConfiguration
-    private lateinit var permissionManager: PermissionManager
-    private lateinit var audioSessionManager: AudioSessionManager
-    private lateinit var lifecycleManager: LifecycleManager
-    private lateinit var errorHandler: ErrorHandler
-    private lateinit var callingMiddlewareActionHandler: CallingMiddlewareActionHandler
-    private lateinit var videoViewManager: VideoViewManager
+    private val navigationRouter get() = diContainerHolder.container!!.navigationRouter
+    private val fragmentFactory get() = diContainerHolder.container!!.fragmentFactory
+    private val store get() = diContainerHolder.container!!.appStore
+    private val configuration get() = diContainerHolder.container!!.configuration
+    private val permissionManager get() =  diContainerHolder.container!!.permissionManager
+    private val audioSessionManager get() = diContainerHolder.container!!.audioSessionManager
+    private val lifecycleManager get() = diContainerHolder.container!!.lifecycleManager
+    private val errorHandler get() = diContainerHolder.container!!.errorHandler
+    private val callingMiddlewareActionHandler get() = diContainerHolder.container!!.callingMiddlewareActionHandler
+    private val videoViewManager get() = diContainerHolder.container!!.videoViewManager
 
     override fun onDestroy() {
-        super.onDestroy()
         navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
 
         if (isFinishing) {
             DIContainer = null
             store.dispatch(CallingAction.CallEndRequested())
         }
+
+        super.onDestroy()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -130,24 +131,11 @@ internal class MainActivity : AppCompatActivity() {
         permissionManager.setAudioPermissionsState()
     }
 
+    //TODO: Construct with AndroidViewModel
     private fun injectDependencies() {
-
         if (diContainerHolder.container == null) {
             diContainerHolder.container = DIContainer
         }
-
-        val diContainer = diContainerHolder.container!!
-
-        navigationRouter = diContainer.provideNavigationRouter()
-        fragmentFactory = diContainer.provideFragmentFactory()
-        store = diContainer.provideStore()
-        configuration = diContainer.provideConfiguration()
-        permissionManager = diContainer.providePermissionManager()
-        audioSessionManager = diContainer.provideAudioSessionManager()
-        lifecycleManager = diContainer.provideLifecycleManager()
-        errorHandler = diContainer.provideErrorHandler()
-        callingMiddlewareActionHandler = diContainer.provideCallingMiddlewareActionHandler()
-        videoViewManager = diContainer.provideVideoViewManager()
     }
 
     private fun configureActionBar() {
