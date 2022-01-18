@@ -11,12 +11,7 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.di.DIContainerHolderKt;
-import com.azure.android.communication.ui.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl;
 import com.azure.android.communication.ui.presentation.UIManager;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -148,25 +143,11 @@ public final class CallComposite {
                 callType
         ));
 
-        /// Old and deprecated
-        initDI(configuration, context);
-
         /// New and safer
         storeConfig(configuration);
 
         /// Launch the composite and increment the instanceId after
         UIManager.Companion.start(context, instanceId++);
-    }
-
-    /// TODO, stop initializing here
-    @NotNull
-    private DependencyInjectionContainer initDI(
-            final CallCompositeConfiguration configuration,
-            final Context parentContext
-    ) {
-        final DependencyInjectionContainer di = new DependencyInjectionContainerImpl(configuration, parentContext);
-        DIContainerHolderKt.setDIContainer(di);
-        return di;
     }
 
     private void storeConfig(final CallCompositeConfiguration configuration) {

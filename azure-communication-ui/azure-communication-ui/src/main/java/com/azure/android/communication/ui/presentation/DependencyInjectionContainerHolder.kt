@@ -3,10 +3,26 @@
 
 package com.azure.android.communication.ui.presentation
 
-import androidx.lifecycle.ViewModel
-import com.azure.android.communication.ui.di.DIContainer
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.di.DependencyInjectionContainer
+import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl
+import java.lang.RuntimeException
 
-internal class DependencyInjectionContainerHolder : ViewModel() {
-    val container: DependencyInjectionContainer? get() = DIContainer
+internal class DependencyInjectionContainerHolder(application: Application) : AndroidViewModel(application) {
+
+    var instanceId : Int = -1
+
+    val container: DependencyInjectionContainer by lazy {
+        if (instanceId == -1) {
+            throw RuntimeException("Will not be able to locate a Configuration for instanceId: -1. " +
+                    "Please ensure that you have set instanceId before retrieving the container.")
+        }
+        val config = CallCompositeConfiguration.getConfig(instanceId)
+            ?: throw RuntimeException("Was not able to find a Config for instanceId: $instanceId. ")
+
+        DependencyInjectionContainerImpl(config, application)
+    }
+
 }

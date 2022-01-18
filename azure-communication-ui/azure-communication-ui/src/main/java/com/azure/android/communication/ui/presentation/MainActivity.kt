@@ -21,61 +21,55 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.di.DIContainer
-import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment
-import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
-import com.azure.android.communication.ui.presentation.manager.LifecycleManager
-import com.azure.android.communication.ui.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
-import com.azure.android.communication.ui.presentation.navigation.NavigationRouter
-import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.CallingAction
-import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.redux.state.NavigationStatus
-import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.service.calling.InCallService
 import kotlinx.coroutines.launch
 
 internal class MainActivity : AppCompatActivity() {
 
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels()
+    private val container by lazy { diContainerHolder.container }
 
-    private val navigationRouter get() = diContainerHolder.container!!.navigationRouter
-    private val fragmentFactory get() = diContainerHolder.container!!.fragmentFactory
-    private val store get() = diContainerHolder.container!!.appStore
-    private val configuration get() = diContainerHolder.container!!.configuration
-    private val permissionManager get() =  diContainerHolder.container!!.permissionManager
-    private val audioSessionManager get() = diContainerHolder.container!!.audioSessionManager
-    private val lifecycleManager get() = diContainerHolder.container!!.lifecycleManager
-    private val errorHandler get() = diContainerHolder.container!!.errorHandler
-    private val callingMiddlewareActionHandler get() = diContainerHolder.container!!.callingMiddlewareActionHandler
-    private val videoViewManager get() = diContainerHolder.container!!.videoViewManager
+    private val navigationRouter get() = container.navigationRouter
+    private val fragmentFactory get() = container.fragmentFactory
+    private val store get() = container.appStore
+    private val configuration get() = container.configuration
+    private val permissionManager get() =  container.permissionManager
+    private val audioSessionManager get() = container.audioSessionManager
+    private val lifecycleManager get() = container.lifecycleManager
+    private val errorHandler get() = container.errorHandler
+    private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
+    private val videoViewManager get() = container.videoViewManager
+    private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, 0)
 
     override fun onDestroy() {
         navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
-
-        /// TODO The DIContainer shouldn't be cleared like this
-        /// ultimately we should remove the static singleton holding it
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
-            DIContainer = null
 
+            ///Clear this config
+            CallCompositeConfiguration.putConfig(instanceId, null)
         }
-
         super.onDestroy()
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+        diContainerHolder.instanceId = Integer.valueOf(instanceId)
         lifecycleScope.launch { errorHandler.start() }
         supportFragmentManager.fragmentFactory = fragmentFactory
-        super.onCreate(savedInstanceState)
+
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()
         setStatusBarColor()

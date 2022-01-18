@@ -18,8 +18,12 @@ internal class CallCompositeConfiguration {
         private val configs : HashMap<Int, WeakReference<CallCompositeConfiguration>> = HashMap()
 
         /// Puts a config for later retrieval
-        fun putConfig(id: Int, configuration: CallCompositeConfiguration) {
-            configs[id] = WeakReference(configuration)
+        fun putConfig(id: Int, configuration: CallCompositeConfiguration?) {
+            if (configuration == null) {
+                configs.remove(id)
+            } else {
+                configs[id] = WeakReference(configuration)
+            }
         }
 
         /// Gets a config by it's ID
