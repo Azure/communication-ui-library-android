@@ -9,8 +9,17 @@ import com.azure.android.communication.ui.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl
 import java.lang.RuntimeException
 
+/**
+ * ViewModel for the CallCompositeActivity
+ *
+ * The instanceID should match the one passed to the Activity via Intent.
+ * it needs to be set in activity onCreate() before accessing container or it
+ * will throw an exception.
+ *
+ * Afterwards you can reference container, which holds the services.
+ */
 internal class DependencyInjectionContainerHolder(application: Application) : AndroidViewModel(application) {
-
+    /// Instance ID to locate Configuration. -1 is invalid.
     var instanceId : Int = -1
 
     val container: DependencyInjectionContainer by lazy {
@@ -19,6 +28,7 @@ internal class DependencyInjectionContainerHolder(application: Application) : An
                     "Please ensure that you have set instanceId before retrieving the container.")
         }
 
+        /// Generate a new instance
         DependencyInjectionContainerImpl(application, instanceId)
     }
 

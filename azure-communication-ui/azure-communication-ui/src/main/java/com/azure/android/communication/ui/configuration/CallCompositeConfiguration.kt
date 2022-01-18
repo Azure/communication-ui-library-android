@@ -12,12 +12,20 @@ internal class CallCompositeConfiguration {
     var callConfig: CallConfiguration? = null
 
     /*
-    CallCompositeConfiguration
+    CallCompositeConfiguration Storage
+
+    The configuration for the call requires callbacks, but these callbacks
+    can not be passed via intent (not primitive/serializable data).
+
+    This is a storage container for Configuration objects, it uses a weak reference
+    to prevent CallCompositeConfiguration from leaking Activities via it's callbacks.
      */
     companion object {
         private val configs : HashMap<Int, WeakReference<CallCompositeConfiguration>> = HashMap()
 
-        /// Puts a config for later retrieval
+        /// Store a Config by Instance ID
+        ///
+        /// Pass a null configuration to explicitly remove an instance
         fun putConfig(id: Int, configuration: CallCompositeConfiguration?) {
             if (configuration == null) {
                 configs.remove(id)
@@ -27,6 +35,7 @@ internal class CallCompositeConfiguration {
         }
 
         /// Gets a config by it's ID
+        /// May return null if the Configuration becomes garbage collected
         fun getConfig(id: Int) : CallCompositeConfiguration? = configs[id]?.get()
     }
 }

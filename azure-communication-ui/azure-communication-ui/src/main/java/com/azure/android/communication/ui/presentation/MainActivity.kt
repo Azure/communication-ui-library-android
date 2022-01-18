@@ -65,7 +65,7 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        /// Assign the DI Container the appropriate instanceId, so it can initialize it's container
         diContainerHolder.instanceId = Integer.valueOf(instanceId)
         lifecycleScope.launch { errorHandler.start() }
         supportFragmentManager.fragmentFactory = fragmentFactory
