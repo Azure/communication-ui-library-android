@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
@@ -11,7 +12,7 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.presentation.UIManager;
+import com.azure.android.communication.ui.presentation.MainActivity;
 
 import java.util.UUID;
 
@@ -143,14 +144,12 @@ public final class CallComposite {
                 callType
         ));
 
-        /// New and safer
-        storeConfig(configuration);
+        /// Store the configuration
+        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 
         /// Launch the composite and increment the instanceId after
-        UIManager.Companion.start(context, instanceId++);
-    }
-
-    private void storeConfig(final CallCompositeConfiguration configuration) {
-        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
+        final Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.Companion.getKEY_INSTANCE_ID(), instanceId++);
+        context.startActivity(intent);
     }
 }
