@@ -41,13 +41,13 @@ import com.azure.android.communication.ui.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.utilities.StoreHandlerThread
 
 internal class DependencyInjectionContainerImpl(
-    private val callCompositeConfiguration: CallCompositeConfiguration,
     private val parentContext: Context,
+    private val instanceId: Int
 ) : DependencyInjectionContainer {
 
     //region Overrides
     // These getters are required by the interface
-    override val configuration = callCompositeConfiguration
+    override val configuration get() = CallCompositeConfiguration.getConfig(instanceId)!!
 
     override val navigationRouter by lazy {
         NavigationRouterImpl(appStore)
@@ -136,7 +136,7 @@ internal class DependencyInjectionContainerImpl(
     private val logger by lazy { DefaultLogger() }
     private val callingSDKWrapper by lazy {
         CallingSDKWrapper(
-            callCompositeConfiguration,
+            instanceId,
             applicationContext,
             callingSDKEventHandler,
         )

@@ -35,7 +35,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 
 internal class CallingSDKWrapper(
-    private val configuration: CallCompositeConfiguration,
+    private val instanceId : Int,
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val logger: Logger? = null,
@@ -48,6 +48,8 @@ internal class CallingSDKWrapper(
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
+
+    private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)!!
 
     private val callConfig: CallConfiguration
         get() {

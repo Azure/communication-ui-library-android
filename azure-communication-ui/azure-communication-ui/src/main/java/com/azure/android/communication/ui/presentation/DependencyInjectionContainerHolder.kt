@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl
 import java.lang.RuntimeException
@@ -19,10 +18,8 @@ internal class DependencyInjectionContainerHolder(application: Application) : An
             throw RuntimeException("Will not be able to locate a Configuration for instanceId: -1. " +
                     "Please ensure that you have set instanceId before retrieving the container.")
         }
-        val config = CallCompositeConfiguration.getConfig(instanceId)
-            ?: throw RuntimeException("Was not able to find a Config for instanceId: $instanceId. ")
 
-        DependencyInjectionContainerImpl(config, application)
+        DependencyInjectionContainerImpl(application, instanceId)
     }
 
 }
