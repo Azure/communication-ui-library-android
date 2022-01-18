@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
-class GetEditTextAction: ViewAction {
+class GetEditTextAction : ViewAction {
     private lateinit var stringHolder: String
 
     override fun getConstraints(): Matcher<View> =
