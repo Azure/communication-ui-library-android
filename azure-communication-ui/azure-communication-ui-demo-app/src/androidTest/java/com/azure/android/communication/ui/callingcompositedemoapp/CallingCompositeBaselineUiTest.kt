@@ -6,11 +6,10 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
-import com.github.kittinunf.fuel.httpGet
-import org.json.JSONObject
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -26,21 +25,14 @@ class CallingCompositeBaselineUiTest {
         @BeforeClass
         @JvmStatic
         fun setup() {
+            if (acsToken.isNotBlank()) return
             acsToken = loadAcsToken()
         }
 
         private fun loadAcsToken(): String {
 
-            val tokenFunctionURL =
-                "https://acs-token-auth.azurewebsites.net/api/Auth?code=xXBqPQnuNyPT9oJTGUptTJ2FCe/LRUaX5m/PtFFe9F9oTl3Fwo2e9A=="
-            val (request, response, result) = tokenFunctionURL
-                .httpGet()
-                .responseString()
-
-            val resultBody = result.component1() ?: return ""
-            if (result.component2() != null) return ""
-
-            return JSONObject(resultBody).getString("token") ?: return ""
+            return InstrumentationRegistry.getArguments()
+                .getString("acsToken") ?: return "";
         }
     }
 

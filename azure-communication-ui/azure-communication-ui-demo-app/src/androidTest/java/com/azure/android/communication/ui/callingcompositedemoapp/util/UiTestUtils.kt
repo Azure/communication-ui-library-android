@@ -87,9 +87,17 @@ object UiTestUtils {
             )
     }
 
-    fun getTextFromTextView(@IdRes viewId: Int): String {
+    fun getTextFromButtonView(@IdRes viewId: Int): String {
         val textViewMatcher = allOf(withId(viewId), isDisplayed())
         val getTextAction = GetButtonTextAction()
+
+        onView(textViewMatcher).perform(getTextAction)
+        return getTextAction.getText()
+    }
+
+    fun getTextFromEdittextView(@IdRes viewId: Int): String {
+        val textViewMatcher = allOf(withId(viewId), isDisplayed())
+        val getTextAction = GetEditTextAction()
 
         onView(textViewMatcher).perform(getTextAction)
         return getTextAction.getText()
