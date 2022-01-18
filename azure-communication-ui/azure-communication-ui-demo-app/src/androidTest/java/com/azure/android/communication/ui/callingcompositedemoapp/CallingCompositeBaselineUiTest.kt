@@ -32,7 +32,7 @@ class CallingCompositeBaselineUiTest {
         private fun loadAcsToken(): String {
 
             return InstrumentationRegistry.getArguments()
-                .getString("acsToken") ?: return "";
+                .getString("acsToken") ?: return ""
         }
     }
 

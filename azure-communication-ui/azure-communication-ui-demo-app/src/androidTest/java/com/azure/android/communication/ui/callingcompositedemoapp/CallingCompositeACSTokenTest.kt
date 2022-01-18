@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
