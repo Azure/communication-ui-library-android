@@ -20,6 +20,9 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.azure.android.communication.ui", appContext.packageName)
+
+        /// Validity should be that the packageName is under our domain
+        val valid = appContext.packageName.startsWith("com.azure.android.communication.ui")
+        assertEquals(true, valid)
     }
 }
