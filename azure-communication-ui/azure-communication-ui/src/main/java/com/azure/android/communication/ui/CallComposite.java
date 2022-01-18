@@ -40,6 +40,9 @@ import java.util.UUID;
  */
 public final class CallComposite {
 
+    /// Each time we launch, an InstanceID will be assigned and incremented.
+    private static int instanceId = 0;
+
     private final CallCompositeConfiguration configuration;
 
     CallComposite(final CallCompositeConfiguration configuration) {
@@ -145,10 +148,17 @@ public final class CallComposite {
                 callType
         ));
 
-        final UIManager uiManager = getUIManager(configuration, context);
-        uiManager.start();
+        /// Old and deprecated
+        initDI(configuration, context);
+
+        /// New and safer
+        storeConfig(configuration);
+
+        /// Launch the composite and increment the instanceId after
+        UIManager.Companion.start(context, instanceId++);
     }
 
+    /// TODO, stop initializing here
     @NotNull
     private DependencyInjectionContainer initDI(
             final CallCompositeConfiguration configuration,
@@ -159,13 +169,7 @@ public final class CallComposite {
         return di;
     }
 
-    @NotNull
-    private UIManager getUIManager(
-            final CallCompositeConfiguration configuration,
-            final Context context
-    ) {
-        ///TODO: Side Effect, DI Initialization paired with getting the UI Manager
-        initDI(configuration, context);
-        return new UIManager(context);
+    private void storeConfig(final CallCompositeConfiguration configuration) {
+        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
     }
 }

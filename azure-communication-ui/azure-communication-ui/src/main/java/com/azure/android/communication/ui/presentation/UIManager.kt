@@ -6,12 +6,15 @@ package com.azure.android.communication.ui.presentation
 import android.content.Context
 import android.content.Intent
 
-internal class UIManager(
-    private val parentContext: Context,
-) {
+internal class UIManager {
 
-    fun start() {
-        val intent = Intent(parentContext, MainActivity::class.java)
-        parentContext.startActivity(intent)
+    companion object {
+        /// Starts the Call Composite Activity
+        fun start(context : Context, id: Int) {
+            Intent(context, MainActivity::class.java).run {
+                putExtra(MainActivity.KEY_INSTANCE_ID, id)
+                context.startActivity(this)
+            }
+        }
     }
 }

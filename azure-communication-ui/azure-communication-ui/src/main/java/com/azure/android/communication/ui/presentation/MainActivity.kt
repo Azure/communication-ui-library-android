@@ -263,4 +263,8 @@ internal class MainActivity : AppCompatActivity() {
         val inCallServiceIntent = Intent(this, InCallService::class.java)
         stopService(inCallServiceIntent)
     }
+
+    companion object {
+        val KEY_INSTANCE_ID = "InstanceID"
+    }
 }
