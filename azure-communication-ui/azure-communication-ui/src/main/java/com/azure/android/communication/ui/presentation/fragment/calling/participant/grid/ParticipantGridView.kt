@@ -36,7 +36,6 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var getVideoStreamCallback: (String, String) -> View?
     private lateinit var getScreenShareStreamSize: () -> StreamSize?
 
-
     fun start(
         participantGridViewModel: ParticipantGridViewModel,
         videoViewManager: VideoViewManager,

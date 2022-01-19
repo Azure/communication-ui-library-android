@@ -11,14 +11,16 @@ import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.StreamSize
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.model.StreamType
-import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.ZoomableFrameLayout
@@ -35,8 +37,7 @@ internal class ParticipantGridCellVideoView(
     private val context: Context,
     lifecycleScope: LifecycleCoroutineScope,
     private val showFloatingHeaderCallBack: () -> Unit,
-    private val getScreenShareStreamSize: () -> StreamSize?
-
+    private val getScreenShareStreamSize: () -> StreamSize?,
 ) {
     private var videoStream: View? = null
 
@@ -105,54 +106,73 @@ internal class ParticipantGridCellVideoView(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
         )
-        rendererView.background = background
 
         if (streamType == StreamType.SCREEN_SHARING) {
             val rendererViewTransformationWrapper = LinearLayout(this.context)
             rendererViewTransformationWrapper.addView(rendererView)
-            rendererViewTransformationWrapper.background = background
 
             val zoomFrameLayoutView = ZoomableFrameLayout(this.context)
             zoomFrameLayoutView.layoutParams =
-                FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT)
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
+                )
             zoomFrameLayoutView.addView(rendererViewTransformationWrapper)
-            zoomFrameLayoutView.background = background
-
-            rendererView.setOnTouchListener { _, _ ->
-                val streamSize = getScreenShareStreamSize()
-                streamSize?.let {
-                    rendererView.setOnTouchListener(null)
-
-                    val viewWidth = videoContainer.width.toFloat()
-                    val viewHeight = videoContainer.height.toFloat()
-                    val videoWidth = it.width
-                    val videoHeight = it.height
-
-                    val scaleWidth = viewWidth / videoWidth
-                    val scaleHeight = viewHeight / videoHeight
-                    val scale = scaleWidth.coerceAtMost(scaleHeight)
-
-                    var layoutParams = rendererViewTransformationWrapper.layoutParams as FrameLayout.LayoutParams
-                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        layoutParams.height = (scale * videoHeight).toInt()
-                        layoutParams.gravity = Gravity.CENTER_VERTICAL
-                    } else {
-                        layoutParams.width = (scale * videoWidth).toInt()
-                        layoutParams.gravity = Gravity.CENTER_HORIZONTAL
-                    }
-
-                    rendererViewTransformationWrapper.layoutParams = layoutParams
-                    zoomFrameLayoutView.enableInteractions()
-                    false
-                }
-                true
-            }
+            zoomFrameLayoutView.addHeaderNotification(showFloatingHeaderCallBack)
+            triggerSizeUpdate(rendererViewTransformationWrapper, zoomFrameLayoutView)
 
             videoContainer.addView(zoomFrameLayoutView, 0)
         } else {
+            rendererView.background = background
             videoContainer.addView(rendererView, 0)
         }
+    }
+
+    private fun triggerSizeUpdate(
+        rendererViewTransformationWrapper: LinearLayout,
+        zoomFrameLayoutView: ZoomableFrameLayout,
+    ) {
+        videoContainer.postDelayed(
+            {
+                val streamSize = getScreenShareStreamSize()
+                if (streamSize == null) {
+                    triggerSizeUpdate(rendererViewTransformationWrapper, zoomFrameLayoutView)
+                } else {
+                    streamSize.let {
+                        setVideoSize(it, rendererViewTransformationWrapper, zoomFrameLayoutView)
+                    }
+                }
+            },
+            1000
+        )
+    }
+
+    private fun setVideoSize(
+        it: StreamSize,
+        rendererViewTransformationWrapper: LinearLayout,
+        zoomFrameLayoutView: ZoomableFrameLayout,
+    ) {
+        val viewWidth = videoContainer.width.toFloat()
+        val viewHeight = videoContainer.height.toFloat()
+        val videoWidth = it.width
+        val videoHeight = it.height
+
+        val scaleWidth = viewWidth / videoWidth
+        val scaleHeight = viewHeight / videoHeight
+        val scale = scaleWidth.coerceAtMost(scaleHeight)
+
+        var layoutParams =
+            rendererViewTransformationWrapper.layoutParams as FrameLayout.LayoutParams
+        if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutParams.height = (scale * videoHeight).toInt()
+            layoutParams.gravity = Gravity.CENTER_VERTICAL
+        } else {
+            layoutParams.width = (scale * videoWidth).toInt()
+            layoutParams.gravity = Gravity.CENTER_HORIZONTAL
+        }
+
+        rendererViewTransformationWrapper.layoutParams = layoutParams
+        zoomFrameLayoutView.enableInteractions()
     }
 
     private fun setDisplayName(displayName: String) {

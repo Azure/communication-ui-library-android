@@ -99,7 +99,6 @@ internal class CallingFragment(
             viewLifecycleOwner,
         )
 
-
         if (savedInstanceState == null) {
             viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
         }

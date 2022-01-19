@@ -6,7 +6,13 @@ package com.azure.android.communication.ui.presentation
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import com.azure.android.communication.calling.*
+import com.azure.android.communication.calling.RemoteVideoStream
+import com.azure.android.communication.calling.VideoStreamRenderer
+import com.azure.android.communication.calling.VideoStreamRendererView
+import com.azure.android.communication.calling.StreamSize
+import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.ScalingMode
+import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKWrapper
 
 internal class VideoViewManager(

@@ -25,6 +25,11 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.ZoomableContentListener;
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.ZoomableController;
 
+import org.jetbrains.annotations.NotNull;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
+
 
 /**
  * FrameLayout that has zoomable capabilities.
@@ -51,6 +56,8 @@ public class ZoomableFrameLayout extends FrameLayout
     };
     private Matrix mScaleTypeTransform;
     private Matrix mCurrentTransform;
+    private Function0<Unit> showFloatingHeaderCallBackCallBack;
+
     private final ZoomableController.Listener mZoomableListener = new ZoomableController.Listener() {
         @Override
         public void onTransformChanged(Matrix transform) {
@@ -349,6 +356,7 @@ public class ZoomableFrameLayout extends FrameLayout
 
     @Override
     public boolean onTap() {
+        showFloatingHeaderCallBackCallBack.invoke();
         return mOnTouchEventListener != null && mOnTouchEventListener.onTap();
     }
 
@@ -678,6 +686,10 @@ public class ZoomableFrameLayout extends FrameLayout
             }
         });
         this.setTapListener(new DoubleTapGestureListener(this));
+    }
+
+    public void addHeaderNotification(@NotNull Function0<Unit> showFloatingHeaderCallBack) {
+         showFloatingHeaderCallBackCallBack = showFloatingHeaderCallBack;
     }
 
     /**
