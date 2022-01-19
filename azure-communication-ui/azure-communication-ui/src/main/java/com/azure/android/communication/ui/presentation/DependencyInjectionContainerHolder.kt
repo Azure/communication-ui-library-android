@@ -19,17 +19,18 @@ import java.lang.RuntimeException
  * Afterwards you can reference container, which holds the services.
  */
 internal class DependencyInjectionContainerHolder(application: Application) : AndroidViewModel(application) {
-    /// Instance ID to locate Configuration. -1 is invalid.
-    var instanceId : Int = -1
+    // / Instance ID to locate Configuration. -1 is invalid.
+    var instanceId: Int = -1
 
     val container: DependencyInjectionContainer by lazy {
         if (instanceId == -1) {
-            throw RuntimeException("Will not be able to locate a Configuration for instanceId: -1. " +
-                    "Please ensure that you have set instanceId before retrieving the container.")
+            throw RuntimeException(
+                "Will not be able to locate a Configuration for instanceId: -1. " +
+                    "Please ensure that you have set instanceId before retrieving the container."
+            )
         }
 
-        /// Generate a new instance
+        // / Generate a new instance
         DependencyInjectionContainerImpl(application, instanceId)
     }
-
 }

@@ -93,7 +93,6 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-
     //region Redux
     // Initial State
     private val initialState by lazy { AppReduxState(configuration.callConfig!!.displayName) }
@@ -109,14 +108,14 @@ internal class DependencyInjectionContainerImpl(
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
-    private val callingMiddleware : Middleware<ReduxState> by lazy {
+    private val callingMiddleware: Middleware<ReduxState> by lazy {
         CallingMiddlewareImpl(
             callingMiddlewareActionHandler,
             logger
         )
     }
 
-    private val appReduxStateReducer : Reducer<ReduxState> by lazy {
+    private val appReduxStateReducer: Reducer<ReduxState> by lazy {
         AppStateReducer(
             callStateReducer,
             participantStateReducer,
@@ -131,7 +130,6 @@ internal class DependencyInjectionContainerImpl(
 
     //region System
     private val applicationContext get() = parentContext.applicationContext
-
 
     private val logger by lazy { DefaultLogger() }
     private val callingSDKWrapper by lazy {
@@ -171,7 +169,6 @@ internal class DependencyInjectionContainerImpl(
         ParticipantGridCellViewModelFactory()
     }
 
-
     private val setupViewModelFactory by lazy {
         SetupViewModelFactory(appStore)
     }
@@ -185,17 +182,4 @@ internal class DependencyInjectionContainerImpl(
     private val coroutineContextProvider by lazy { CoroutineContextProvider() }
     private val storeHandlerThread by lazy { StoreHandlerThread() }
     //endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

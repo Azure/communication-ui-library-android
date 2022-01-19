@@ -35,7 +35,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 
 internal class CallingSDKWrapper(
-    private val instanceId : Int,
+    private val instanceId: Int,
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val logger: Logger? = null,
