@@ -42,8 +42,8 @@ allprojects {
 subprojects {
     apply from: "../azure-communication-ui-demo-app/checkstyle.gradle"
     afterEvaluate {
-        preBuild.dependsOn 'checkstyle'
-        check.dependsOn 'checkstyle'
+       // preBuild.dependsOn 'checkstyle'
+       // check.dependsOn 'checkstyle'
     }
 }
 

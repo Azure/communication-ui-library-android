@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell
 
 import android.content.Context
+import android.content.res.Configuration
+import android.view.Gravity
 import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
@@ -13,11 +15,13 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.calling.StreamSize
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.model.StreamType
+import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareFrameLayoutView
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.ZoomableFrameLayout
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -31,6 +35,8 @@ internal class ParticipantGridCellVideoView(
     private val context: Context,
     lifecycleScope: LifecycleCoroutineScope,
     private val showFloatingHeaderCallBack: () -> Unit,
+    private val getScreenShareStreamSize: () -> StreamSize?
+
 ) {
     private var videoStream: View? = null
 
@@ -94,37 +100,56 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setRendererView(rendererView: View, streamType: StreamType) {
-        rendererView.background = ContextCompat.getDrawable(
+        detachFromParentView(rendererView)
+        val background = ContextCompat.getDrawable(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
         )
-        detachFromParentView(rendererView)
+        rendererView.background = background
+
         if (streamType == StreamType.SCREEN_SHARING) {
+            val rendererViewTransformationWrapper = LinearLayout(this.context)
+            rendererViewTransformationWrapper.addView(rendererView)
+            rendererViewTransformationWrapper.background = background
 
-            val linearLayout = LinearLayout(context)
-            linearLayout.addView(rendererView)
+            val zoomFrameLayoutView = ZoomableFrameLayout(this.context)
+            zoomFrameLayoutView.layoutParams =
+                FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT)
+            zoomFrameLayoutView.addView(rendererViewTransformationWrapper)
+            zoomFrameLayoutView.background = background
 
-            val zoomFrameLayoutView = ScreenShareFrameLayoutView(context)
-            zoomFrameLayoutView.start(showFloatingHeaderCallBack)
-            zoomFrameLayoutView.setView(videoContainer, linearLayout)
+            rendererView.setOnTouchListener { _, _ ->
+                val streamSize = getScreenShareStreamSize()
+                streamSize?.let {
+                    rendererView.setOnTouchListener(null)
 
-            val scrollView = ScrollView(context)
-            scrollView.layoutParams =
-                ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            scrollView.addView(zoomFrameLayoutView)
+                    val viewWidth = videoContainer.width.toFloat()
+                    val viewHeight = videoContainer.height.toFloat()
+                    val videoWidth = it.width
+                    val videoHeight = it.height
 
-            val horizontalScrollView = HorizontalScrollView(context)
-            horizontalScrollView.layoutParams =
-                ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            horizontalScrollView.addView(scrollView)
+                    val scaleWidth = viewWidth / videoWidth
+                    val scaleHeight = viewHeight / videoHeight
+                    val scale = scaleWidth.coerceAtMost(scaleHeight)
 
-            videoContainer.addView(horizontalScrollView, 0)
+                    var layoutParams = rendererViewTransformationWrapper.layoutParams as FrameLayout.LayoutParams
+                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        layoutParams.height = (scale * videoHeight).toInt()
+                        layoutParams.gravity = Gravity.CENTER_VERTICAL
+                    } else {
+                        layoutParams.width = (scale * videoWidth).toInt()
+                        layoutParams.gravity = Gravity.CENTER_HORIZONTAL
+                    }
+
+                    rendererViewTransformationWrapper.layoutParams = layoutParams
+                    zoomFrameLayoutView.enableInteractions()
+                    false
+                }
+                true
+            }
+
+            videoContainer.addView(zoomFrameLayoutView, 0)
         } else {
             videoContainer.addView(rendererView, 0)
         }
