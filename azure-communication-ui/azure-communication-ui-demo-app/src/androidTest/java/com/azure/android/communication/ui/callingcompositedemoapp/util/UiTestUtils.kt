@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
@@ -17,6 +18,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.instanceOf
+
 
 object UiTestUtils {
 
@@ -66,6 +69,12 @@ object UiTestUtils {
             allOf(withId(viewId), withText(text), isDisplayed())
         ).perform(click())
 
+    @Throws(NoMatchingViewException::class)
+    fun clickViewWithIdAndContentDescription(@IdRes viewId: Int, text: String): ViewInteraction =
+        onView(
+            allOf(withId(viewId), withContentDescription(text), isDisplayed())
+        ).perform(click())
+
     private fun withRecyclerView(@IdRes recyclerViewId: Int): RecyclerViewMatcher = RecyclerViewMatcher(recyclerViewId)
 
     @Throws(NoMatchingViewException::class)
@@ -101,5 +110,17 @@ object UiTestUtils {
 
         onView(textViewMatcher).perform(getTextAction)
         return getTextAction.getText()
+    }
+
+    @Throws(NoMatchingViewException::class)
+    fun navigateUp() {
+        val upButton = onView(
+            allOf(
+                instanceOf(AppCompatImageButton::class.java),
+                withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description),
+                isDisplayed()
+            )
+        )
+        upButton.perform(click())
     }
 }

@@ -58,8 +58,7 @@ class CallingCompositeACSTokenTest {
 
             clickJoinCallButton()
 
-            ViewIsDisplayedResource().waitUntilViewIsDisplayed(::checkAlertDialogButtonIsDisplayed)
-            UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
+            clickAlertDialogOkButton()
         }
     }
 
@@ -70,11 +69,7 @@ class CallingCompositeACSTokenTest {
             setAcsToken("")
 
             clickLaunchButton()
-            ViewIsDisplayedResource().waitUntilViewIsDisplayed(::checkAlertDialogButtonIsDisplayed)
-            UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
+            clickAlertDialogOkButton()
         }
     }
-
-    private fun checkAlertDialogButtonIsDisplayed() =
-        UiTestUtils.checkViewIdIsDisplayed(android.R.id.button1)
 }

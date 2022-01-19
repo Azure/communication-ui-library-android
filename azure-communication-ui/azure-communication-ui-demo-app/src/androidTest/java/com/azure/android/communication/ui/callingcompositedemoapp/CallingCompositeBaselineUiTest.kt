@@ -79,6 +79,36 @@ class CallingCompositeBaselineUiTest {
         joinGroupCall()
     }
 
+    @Test
+    fun testJoinTeamsCallAfterNetworkDisconnected() {
+        joinAfterNetworkDisconnected(false)
+    }
+
+    @Test
+    fun testJoinGroupCallAfterNetworkDisconnected() {
+        joinAfterNetworkDisconnected()
+    }
+
+    private fun joinAfterNetworkDisconnected(isGroupCall: Boolean = true) {
+        CompositeUiHelper.run {
+            if (isGroupCall) {
+                setGroupIdOrTeamsMeetingUrl("74fce2c0-520f-11ec-97de-71411a9a8e13")
+            } else {
+                clickTeamsMeetingRadioButton()
+                setGroupIdOrTeamsMeetingUrl("https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTgyYWRhZTgtNTA0MS00NjNlLTliMTQtNDJhN2I3YjVmZTM5%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22009cb10a-d33f-4e2f-85eb-249a30042a51%22%7d")
+            }
+            disableNetwork()
+
+            startAndJoinCall(acsToken, true)
+
+            dismissNetworkLossSnackbar()
+            enableNetwork()
+
+            navigateUpFromSetupScreen()
+            clickAlertDialogOkButton()
+        }
+    }
+
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
         CompositeUiHelper.run {
             clickTeamsMeetingRadioButton()
@@ -91,11 +121,11 @@ class CallingCompositeBaselineUiTest {
         }
     }
 
-    private fun joinGroupCall(videoDisabled: Boolean = true) {
+    private fun joinGroupCall(videoEnabled: Boolean = true) {
         CompositeUiHelper.run {
             setGroupIdOrTeamsMeetingUrl("74fce2c0-520f-11ec-97de-71411a9a8e13")
 
-            startAndJoinCall(acsToken, videoDisabled)
+            startAndJoinCall(acsToken, videoEnabled)
             showParticipantList()
             checkParticipantList()
 

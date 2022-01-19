@@ -4,6 +4,7 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import org.hamcrest.Matchers.allOf
 import org.junit.Assert
@@ -12,11 +13,11 @@ object CompositeUiHelper {
 
     fun setGroupIdOrTeamsMeetingUrl(groupIdOrTeamsMeetingUrl: String) {
         val idlingResource = ViewIsDisplayedResource()
-        val appCompatEditText = idlingResource.waitUntilViewIsDisplayed {
+        val editTextInteraction = idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdIsDisplayed(R.id.groupIdOrTeamsMeetingLinkText)
         }
-        appCompatEditText.perform(ViewActions.replaceText(groupIdOrTeamsMeetingUrl))
-        appCompatEditText.perform(ViewActions.closeSoftKeyboard())
+        editTextInteraction.perform(ViewActions.replaceText(groupIdOrTeamsMeetingUrl))
+        editTextInteraction.perform(ViewActions.closeSoftKeyboard())
     }
 
     fun setAcsToken(token: String) {
@@ -146,4 +147,41 @@ object CompositeUiHelper {
         }
         clickJoinCallButton()
     }
+
+    fun dismissNetworkLossSnackbar() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.snackbar_action)
+        }
+        UiTestUtils.clickViewWithIdAndText(R.id.snackbar_action, "Dismiss")
+    }
+
+    fun navigateUpFromSetupScreen() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.action_bar_container)
+        }
+        UiTestUtils.navigateUp()
+    }
+
+    fun disableNetwork() {
+        InstrumentationRegistry.getInstrumentation().uiAutomation.run {
+            executeShellCommand("svc wifi disable")
+            executeShellCommand("svc data disable")
+        }
+    }
+
+    fun enableNetwork() {
+        InstrumentationRegistry.getInstrumentation().uiAutomation.run {
+            executeShellCommand("svc wifi enable")
+            executeShellCommand("svc data enable")
+        }
+    }
+
+    fun clickAlertDialogOkButton() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed(::checkAlertDialogButtonIsDisplayed)
+        UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
+        Thread.sleep(1000)
+    }
+
+    private fun checkAlertDialogButtonIsDisplayed() =
+        UiTestUtils.checkViewIdIsDisplayed(android.R.id.button1)
 }
