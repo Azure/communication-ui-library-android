@@ -9,7 +9,6 @@ import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
-import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule

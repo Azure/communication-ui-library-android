@@ -17,9 +17,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.not
 import org.hamcrest.Matchers.instanceOf
-
+import org.hamcrest.Matchers.not
 
 object UiTestUtils {
 
@@ -96,21 +95,18 @@ object UiTestUtils {
             )
     }
 
-    fun getTextFromButtonView(@IdRes viewId: Int): String {
+    private fun getTextFromViewAction(@IdRes viewId: Int, viewAction: ACSViewAction): String {
         val textViewMatcher = allOf(withId(viewId), isDisplayed())
-        val getTextAction = GetButtonTextAction()
 
-        onView(textViewMatcher).perform(getTextAction)
-        return getTextAction.getText()
+        onView(textViewMatcher).perform(viewAction)
+        return viewAction.getText()
     }
 
-    fun getTextFromEdittextView(@IdRes viewId: Int): String {
-        val textViewMatcher = allOf(withId(viewId), isDisplayed())
-        val getTextAction = GetEditTextAction()
+    fun getTextFromButtonView(@IdRes viewId: Int) =
+        getTextFromViewAction(viewId, GetButtonTextAction())
 
-        onView(textViewMatcher).perform(getTextAction)
-        return getTextAction.getText()
-    }
+    fun getTextFromEdittextView(@IdRes viewId: Int) =
+        getTextFromViewAction(viewId, GetEditTextAction())
 
     @Throws(NoMatchingViewException::class)
     fun navigateUp() {

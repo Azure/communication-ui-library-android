@@ -1,10 +1,11 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import org.hamcrest.Matchers.allOf
 import org.junit.Assert
@@ -162,26 +163,10 @@ object CompositeUiHelper {
         UiTestUtils.navigateUp()
     }
 
-    fun disableNetwork() {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.run {
-            executeShellCommand("svc wifi disable")
-            executeShellCommand("svc data disable")
-        }
-    }
-
-    fun enableNetwork() {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.run {
-            executeShellCommand("svc wifi enable")
-            executeShellCommand("svc data enable")
-        }
-    }
-
     fun clickAlertDialogOkButton() {
-        ViewIsDisplayedResource().waitUntilViewIsDisplayed(::checkAlertDialogButtonIsDisplayed)
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(android.R.id.button1)
+        }
         UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
-        Thread.sleep(1000)
     }
-
-    private fun checkAlertDialogButtonIsDisplayed() =
-        UiTestUtils.checkViewIdIsDisplayed(android.R.id.button1)
 }

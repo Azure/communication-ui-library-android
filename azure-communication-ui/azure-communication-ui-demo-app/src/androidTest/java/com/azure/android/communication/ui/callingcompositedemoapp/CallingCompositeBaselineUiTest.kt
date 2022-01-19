@@ -9,6 +9,7 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
+import com.azure.android.communication.ui.callingcompositedemoapp.util.NetworkUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import org.junit.Before
 import org.junit.BeforeClass
@@ -21,6 +22,8 @@ import org.junit.runner.RunWith
 class CallingCompositeBaselineUiTest {
     companion object {
         private var acsToken = ""
+        private const val groupId = "74fce2c0-520f-11ec-97de-71411a9a8e13"
+        private const val teamsUrl = "https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTgyYWRhZTgtNTA0MS00NjNlLTliMTQtNDJhN2I3YjVmZTM5%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22009cb10a-d33f-4e2f-85eb-249a30042a51%22%7d"
 
         @BeforeClass
         @JvmStatic
@@ -90,29 +93,29 @@ class CallingCompositeBaselineUiTest {
     }
 
     private fun joinAfterNetworkDisconnected(isGroupCall: Boolean = true) {
+        NetworkUtils.disableNetwork()
         CompositeUiHelper.run {
             if (isGroupCall) {
-                setGroupIdOrTeamsMeetingUrl("74fce2c0-520f-11ec-97de-71411a9a8e13")
+                setGroupIdOrTeamsMeetingUrl(groupId)
             } else {
                 clickTeamsMeetingRadioButton()
-                setGroupIdOrTeamsMeetingUrl("https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTgyYWRhZTgtNTA0MS00NjNlLTliMTQtNDJhN2I3YjVmZTM5%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22009cb10a-d33f-4e2f-85eb-249a30042a51%22%7d")
+                setGroupIdOrTeamsMeetingUrl(teamsUrl)
             }
-            disableNetwork()
 
             startAndJoinCall(acsToken, true)
-
             dismissNetworkLossSnackbar()
-            enableNetwork()
 
-            navigateUpFromSetupScreen()
-            clickAlertDialogOkButton()
+            NetworkUtils.enableNetworkThatWasDisabled {
+                navigateUpFromSetupScreen()
+                clickAlertDialogOkButton()
+            }
         }
     }
 
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
         CompositeUiHelper.run {
             clickTeamsMeetingRadioButton()
-            setGroupIdOrTeamsMeetingUrl("https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTgyYWRhZTgtNTA0MS00NjNlLTliMTQtNDJhN2I3YjVmZTM5%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22009cb10a-d33f-4e2f-85eb-249a30042a51%22%7d")
+            setGroupIdOrTeamsMeetingUrl(teamsUrl)
             startAndJoinCall(acsToken, videoEnabled)
 
             checkWaitForTeamsMeetingMessage()
@@ -123,7 +126,7 @@ class CallingCompositeBaselineUiTest {
 
     private fun joinGroupCall(videoEnabled: Boolean = true) {
         CompositeUiHelper.run {
-            setGroupIdOrTeamsMeetingUrl("74fce2c0-520f-11ec-97de-71411a9a8e13")
+            setGroupIdOrTeamsMeetingUrl(groupId)
 
             startAndJoinCall(acsToken, videoEnabled)
             showParticipantList()
