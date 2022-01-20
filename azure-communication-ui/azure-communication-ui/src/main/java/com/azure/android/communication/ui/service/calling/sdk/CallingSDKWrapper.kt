@@ -49,7 +49,7 @@ internal class CallingSDKWrapper(
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
 
-    private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)!!
+    private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
 
     private val callConfig: CallConfiguration
         get() {
