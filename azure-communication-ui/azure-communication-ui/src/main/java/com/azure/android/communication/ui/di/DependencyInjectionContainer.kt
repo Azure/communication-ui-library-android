@@ -34,6 +34,5 @@ internal interface DependencyInjectionContainer {
     val navigationRouter: NavigationRouter
 
     // / UI
-    val fragmentFactory: FragmentFactory
     val videoViewManager: VideoViewManager
 }

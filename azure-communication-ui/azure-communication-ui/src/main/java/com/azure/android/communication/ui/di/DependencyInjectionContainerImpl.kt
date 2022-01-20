@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.configuration.CallCompositeConfigurati
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.presentation.VideoViewManager
-import com.azure.android.communication.ui.presentation.fragment.CallingCompositeFragmentFactory
 import com.azure.android.communication.ui.presentation.fragment.ViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
@@ -51,10 +50,6 @@ internal class DependencyInjectionContainerImpl(
 
     override val navigationRouter by lazy {
         NavigationRouterImpl(appStore)
-    }
-
-    override val fragmentFactory by lazy {
-        CallingCompositeFragmentFactory(viewModelFactory, videoViewManager)
     }
 
     override val callingMiddlewareActionHandler by lazy {

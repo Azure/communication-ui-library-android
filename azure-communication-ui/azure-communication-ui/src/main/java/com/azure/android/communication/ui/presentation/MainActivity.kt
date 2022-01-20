@@ -39,7 +39,6 @@ internal class MainActivity : AppCompatActivity() {
     private val container by lazy { diContainerHolder.container }
 
     private val navigationRouter get() = container.navigationRouter
-    private val fragmentFactory get() = container.fragmentFactory
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
@@ -66,7 +65,6 @@ internal class MainActivity : AppCompatActivity() {
 
         // / Assign the DI Container the appropriate instanceId, so it can initialize it's container gi
         diContainerHolder.instanceId = Integer.valueOf(instanceId)
-        supportFragmentManager.fragmentFactory = fragmentFactory
         lifecycleScope.launch { errorHandler.start() }
 
 

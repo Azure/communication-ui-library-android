@@ -12,8 +12,10 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarView
@@ -24,14 +26,27 @@ import com.azure.android.communication.ui.presentation.fragment.calling.localuse
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListView
+import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
+import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
+import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
+import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import kotlinx.coroutines.launch
 
-internal class CallingFragment(
-    private val viewModel: CallingViewModel,
-    private val videoViewManager: VideoViewManager,
-) :
+internal class CallingFragment() :
     Fragment(R.layout.azure_communication_ui_call_fragment), BackNavigation, SensorEventListener {
+
+    /// Get the DI Container, which gives us what we need for this fragment (dependencies)
+    private val holder: DependencyInjectionContainerHolder by activityViewModels()
+
+    private val videoViewManager get() = holder.container.videoViewManager
+    private val viewModel by lazy {
+        CallingViewModel(
+            holder.container.appStore,
+            CallingViewModelFactory(holder.container.appStore, ParticipantGridCellViewModelFactory())
+        )
+    }
+
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
