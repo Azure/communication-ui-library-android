@@ -39,11 +39,11 @@ internal class CallCompositeConfiguration {
         // / May return null if the Configuration becomes garbage collected
         fun getConfig(id: Int): CallCompositeConfiguration = configs[id]?.get()
             ?: throw RuntimeException(
-            if (configs.containsKey(id))
-                "Config with ID: $id was likely disposed, this is possible if the launching Activity was destroyed." +
-                    "Consider scoping your CallComposite class to an Application instead of Activity."
-            else
-                "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite"
-        )
+                if (configs.containsKey(id))
+                    "Config with ID: $id was likely disposed, this is possible if the launching Activity was destroyed." +
+                        "Consider scoping your CallComposite class to an Application instead of Activity."
+                else
+                    "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite"
+            )
     }
 }
