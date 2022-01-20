@@ -66,8 +66,9 @@ internal class MainActivity : AppCompatActivity() {
 
         // / Assign the DI Container the appropriate instanceId, so it can initialize it's container gi
         diContainerHolder.instanceId = Integer.valueOf(instanceId)
-        lifecycleScope.launch { errorHandler.start() }
         supportFragmentManager.fragmentFactory = fragmentFactory
+        lifecycleScope.launch { errorHandler.start() }
+
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()
