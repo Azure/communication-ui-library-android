@@ -38,7 +38,6 @@ import kotlin.jvm.functions.Function0;
  */
 public class ZoomableFrameLayout extends FrameLayout
         implements ScrollingView, ZoomableContentListener, OnTouchEventListener, IZoomableControllerProvider {
-    private static final String LOG_TAG = String.format("Calling: %s : ", ZoomableFrameLayout.class.getSimpleName());
     private final RectF mImageBounds = new RectF();
     private final RectF mViewBounds = new RectF();
     private final GestureListenerWrapper mTapListenerWrapper = new GestureListenerWrapper(this) {
