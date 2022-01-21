@@ -44,7 +44,7 @@ internal class SetupControlBarView : LinearLayout {
             toggleVideo()
         }
         setupAudioDeviceButton.setOnClickListener {
-            openAudioDeviceList()
+            openAudioDeviceSelectionMenuCallback()
         }
     }
 
@@ -196,10 +196,6 @@ internal class SetupControlBarView : LinearLayout {
         } else {
             viewModel.turnCameraOn()
         }
-    }
-
-    private fun openAudioDeviceList() {
-        openAudioDeviceSelectionMenuCallback()
     }
 
     private fun setButtonColor(button: Button, colorId: Int) {

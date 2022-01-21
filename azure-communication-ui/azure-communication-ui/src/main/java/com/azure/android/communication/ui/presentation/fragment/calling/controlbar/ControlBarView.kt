@@ -139,11 +139,7 @@ internal class ControlBarView : LinearLayout {
             }
         }
         callAudioDeviceButton.setOnClickListener {
-            openAudioDeviceList()
+            openAudioDeviceSelectionMenuCallback()
         }
-    }
-
-    private fun openAudioDeviceList() {
-        openAudioDeviceSelectionMenuCallback()
     }
 }

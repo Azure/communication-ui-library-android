@@ -33,7 +33,7 @@ internal class InfoHeaderView : ConstraintLayout {
         displayParticipantsImageButton =
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
         displayParticipantsImageButton.setOnClickListener {
-            displayParticipantList()
+            displayParticipantListCallback()
         }
     }
 
@@ -65,9 +65,5 @@ internal class InfoHeaderView : ConstraintLayout {
                 }
             }
         }
-    }
-
-    private fun displayParticipantList() {
-        displayParticipantListCallback()
     }
 }
