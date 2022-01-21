@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.PermissionAction
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class SetupControlBarViewModel(
     private val dispatch: (Action) -> Unit,
-    private val audioDeviceListViewModel: AudioDeviceListViewModel,
 ) {
     private lateinit var cameraPermissionStateFlow: MutableStateFlow<PermissionStatus>
     private lateinit var micPermissionStateFlow: MutableStateFlow<PermissionStatus>
@@ -88,10 +86,6 @@ internal class SetupControlBarViewModel(
 
     fun turnMicOff() {
         dispatchAction(action = LocalParticipantAction.MicPreviewOffTriggered())
-    }
-
-    fun displayAudioDeviceSelectionMenu() {
-        audioDeviceListViewModel.displayAudioDeviceSelectionMenu()
     }
 
     private fun dispatchAction(action: Action) {

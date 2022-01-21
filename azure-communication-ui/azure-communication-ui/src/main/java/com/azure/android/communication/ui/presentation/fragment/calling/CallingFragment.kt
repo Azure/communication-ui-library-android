@@ -56,13 +56,17 @@ internal class CallingFragment() :
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
         confirmLeaveOverlayView = view.findViewById(R.id.azure_communication_ui_call_leave_overlay)
-        confirmLeaveOverlayView.start(viewLifecycleOwner, viewModel.getConfirmLeaveOverlayViewModel())
+        confirmLeaveOverlayView.start(
+            viewLifecycleOwner,
+            viewModel.getConfirmLeaveOverlayViewModel()
+        )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
         controlBarView.start(
             viewLifecycleOwner,
             viewModel.getControlBarViewModel(),
-            this::requestCallEnd
+            this::requestCallEnd,
+            this::openAudioDeviceSelectionMenu
         )
 
         participantGridView =
@@ -84,7 +88,11 @@ internal class CallingFragment() :
         )
 
         infoHeaderView = view.findViewById(R.id.azure_communication_ui_call_floating_header)
-        infoHeaderView.start(viewLifecycleOwner, viewModel.getFloatingHeaderViewModel())
+        infoHeaderView.start(
+            viewLifecycleOwner,
+            viewModel.getFloatingHeaderViewModel(),
+            this::displayParticipantList
+        )
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
@@ -110,9 +118,12 @@ internal class CallingFragment() :
             viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
         }
 
-        sensorManager = context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        powerManager = context?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, javaClass.name)
+        sensorManager =
+            context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        powerManager =
+            context?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock =
+            powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, javaClass.name)
         wakeLock.acquire()
         sensorManager.registerListener(
             this,
@@ -161,5 +172,13 @@ internal class CallingFragment() :
 
     private fun requestCallEnd() {
         viewModel.requestCallEnd()
+    }
+
+    private fun openAudioDeviceSelectionMenu() {
+        viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenu()
+    }
+
+    private fun displayParticipantList() {
+        viewModel.getParticipantListViewModel().displayParticipantList()
     }
 }
