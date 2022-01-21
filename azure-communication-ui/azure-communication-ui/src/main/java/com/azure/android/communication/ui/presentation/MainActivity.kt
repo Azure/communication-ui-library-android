@@ -47,14 +47,13 @@ internal class MainActivity : AppCompatActivity() {
     private val errorHandler get() = container.errorHandler
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
-    private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, 0)
+    private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
         navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
 
-            // Clear this config
             CallCompositeConfiguration.putConfig(instanceId, null)
         }
         super.onDestroy()
@@ -63,7 +62,8 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Assign the DI Container the appropriate instanceId, so it can initialize it's container gi
+        // Assign the Dependency Injection Container the appropriate instanceId,
+        // so it can initialize it's container holding the dependencies
         diContainerHolder.instanceId = Integer.valueOf(instanceId)
         lifecycleScope.launch { errorHandler.start() }
 
@@ -255,6 +255,6 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        val KEY_INSTANCE_ID = "InstanceID"
+        const val KEY_INSTANCE_ID = "InstanceID"
     }
 }

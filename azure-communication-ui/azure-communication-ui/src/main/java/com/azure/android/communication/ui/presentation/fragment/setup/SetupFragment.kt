@@ -20,7 +20,7 @@ import com.azure.android.communication.ui.presentation.fragment.setup.components
 import com.azure.android.communication.ui.presentation.fragment.setup.components.SetupParticipantAvatarView
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 
-internal class SetupFragment() :
+internal class SetupFragment :
     Fragment(R.layout.azure_communication_ui_fragment_setup), BackNavigation {
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
