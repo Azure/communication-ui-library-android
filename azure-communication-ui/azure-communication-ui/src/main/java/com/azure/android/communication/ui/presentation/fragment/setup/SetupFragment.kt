@@ -79,7 +79,7 @@ internal class SetupFragment(
         audioDeviceListView.start(viewLifecycleOwner)
 
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)
-        setupControlsView.start(viewLifecycleOwner, viewModel.getSetupControlsViewModel())
+        setupControlsView.start(viewLifecycleOwner, viewModel.getSetupControlsViewModel(), this::openAudioDeviceSelectionMenu)
 
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
@@ -99,5 +99,9 @@ internal class SetupFragment(
 
     private fun setActionBarTitle() {
         activity?.title = ""
+    }
+
+    private fun openAudioDeviceSelectionMenu() {
+        viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenu()
     }
 }
