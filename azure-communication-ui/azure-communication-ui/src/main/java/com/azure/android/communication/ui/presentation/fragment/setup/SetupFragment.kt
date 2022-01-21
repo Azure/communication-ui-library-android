@@ -40,11 +40,7 @@ internal class SetupFragment(
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
 
     private val videoViewManager get() = holder.container.videoViewManager
-    private val viewModel by lazy {
-        SetupViewModel(
-            holder.container.appStore,
-            SetupViewModelFactory(holder.container.appStore))
-    }
+    private val viewModel get() = holder.setupViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

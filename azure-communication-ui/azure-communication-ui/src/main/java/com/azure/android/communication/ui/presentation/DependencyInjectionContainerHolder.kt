@@ -7,6 +7,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.azure.android.communication.ui.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl
+import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
+import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
+import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
+import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
+import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
 import java.lang.RuntimeException
 
 /**
@@ -32,5 +37,19 @@ internal class DependencyInjectionContainerHolder(application: Application) : An
 
         // / Generate a new instance
         DependencyInjectionContainerImpl(application, instanceId)
+    }
+
+    val setupViewModel by lazy {
+        SetupViewModel(
+            container.appStore,
+            SetupViewModelFactory(container.appStore)
+        )
+    }
+
+    val callingViewModel by lazy {
+        CallingViewModel(
+            container.appStore,
+            CallingViewModelFactory(container.appStore, ParticipantGridCellViewModelFactory())
+        )
     }
 }

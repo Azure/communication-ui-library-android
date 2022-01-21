@@ -40,12 +40,7 @@ internal class CallingFragment() :
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
 
     private val videoViewManager get() = holder.container.videoViewManager
-    private val viewModel by lazy {
-        CallingViewModel(
-            holder.container.appStore,
-            CallingViewModelFactory(holder.container.appStore, ParticipantGridCellViewModelFactory())
-        )
-    }
+    private val viewModel get() = holder.callingViewModel
 
 
     private val closeToUser = 0f
