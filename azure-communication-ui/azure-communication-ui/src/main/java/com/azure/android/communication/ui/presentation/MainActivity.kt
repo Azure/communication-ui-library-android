@@ -67,7 +67,6 @@ internal class MainActivity : AppCompatActivity() {
         diContainerHolder.instanceId = Integer.valueOf(instanceId)
         lifecycleScope.launch { errorHandler.start() }
 
-
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()
         setStatusBarColor()

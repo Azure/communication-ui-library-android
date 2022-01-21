@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.di
 
-import androidx.fragment.app.FragmentFactory
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.presentation.VideoViewManager
