@@ -23,7 +23,7 @@ import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 internal class SetupFragment() :
     Fragment(R.layout.azure_communication_ui_fragment_setup), BackNavigation {
 
-    // / Get the DI Container, which gives us what we need for this fragment (dependencies)
+    // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
 
     private lateinit var warningsView: PermissionWarningView

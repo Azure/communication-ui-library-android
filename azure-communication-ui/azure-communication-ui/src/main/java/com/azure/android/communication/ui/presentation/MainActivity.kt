@@ -54,7 +54,7 @@ internal class MainActivity : AppCompatActivity() {
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
 
-            // /Clear this config
+            // Clear this config
             CallCompositeConfiguration.putConfig(instanceId, null)
         }
         super.onDestroy()
@@ -63,7 +63,7 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // / Assign the DI Container the appropriate instanceId, so it can initialize it's container gi
+        // Assign the DI Container the appropriate instanceId, so it can initialize it's container gi
         diContainerHolder.instanceId = Integer.valueOf(instanceId)
         lifecycleScope.launch { errorHandler.start() }
 

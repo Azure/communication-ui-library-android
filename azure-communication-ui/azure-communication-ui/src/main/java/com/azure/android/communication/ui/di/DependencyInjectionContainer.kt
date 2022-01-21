@@ -14,24 +14,24 @@ import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.redux.state.ReduxState
 
-// / Dependency Container for the Call Composite Activity
-// / For implementation
-// / @see: {@link com.azure.android.communication.ui.di.DependencyInjectionContainerImpl}
+// Dependency Container for the Call Composite Activity
+// For implementation
+// @see: {@link com.azure.android.communication.ui.di.DependencyInjectionContainerImpl}
 internal interface DependencyInjectionContainer {
-    // / Redux Store
+    // Redux Store
     val appStore: Store<ReduxState>
     val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
 
-    // / Config
+    // Config
     val configuration: CallCompositeConfiguration
     val errorHandler: ErrorHandler
 
-    // / System
+    // System
     val permissionManager: PermissionManager
     val audioSessionManager: AudioSessionManager
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter
 
-    // / UI
+    // UI
     val videoViewManager: VideoViewManager
 }

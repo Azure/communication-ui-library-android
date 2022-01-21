@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 internal class CallingFragment() :
     Fragment(R.layout.azure_communication_ui_call_fragment), BackNavigation, SensorEventListener {
 
-    // / Get the DI Container, which gives us what we need for this fragment (dependencies)
+    // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
 
     private val videoViewManager get() = holder.container.videoViewManager

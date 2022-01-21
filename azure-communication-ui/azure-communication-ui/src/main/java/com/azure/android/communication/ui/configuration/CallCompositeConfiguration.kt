@@ -24,9 +24,9 @@ internal class CallCompositeConfiguration {
     companion object {
         private val configs: HashMap<Int, WeakReference<CallCompositeConfiguration>> = HashMap()
 
-        // / Store a Config by Instance ID
-        // /
-        // / Pass a null configuration to explicitly remove an instance
+        // Store a Config by Instance ID
+        //
+        // Pass a null configuration to explicitly remove an instance
         fun putConfig(id: Int, configuration: CallCompositeConfiguration?) {
             if (configuration == null) {
                 configs.remove(id)
@@ -35,8 +35,8 @@ internal class CallCompositeConfiguration {
             }
         }
 
-        // / Gets a config by it's ID
-        // / May return null if the Configuration becomes garbage collected
+        // Gets a config by it's ID
+        // May return null if the Configuration becomes garbage collected
         fun getConfig(id: Int): CallCompositeConfiguration = configs[id]?.get()
             ?: throw RuntimeException(
                 if (configs.containsKey(id))
