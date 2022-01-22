@@ -149,7 +149,7 @@ public final class CallComposite {
 
         /// Launch the composite and increment the instanceId after
         final Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.Companion.getKEY_INSTANCE_ID(), instanceId++);
+        intent.putExtra(MainActivity.KEY_INSTANCE_ID, instanceId++);
         context.startActivity(intent);
     }
 }
