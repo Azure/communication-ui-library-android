@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
+import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import org.junit.Assert
 import org.junit.Before
@@ -43,7 +44,7 @@ class CallingCompositeACSTokenTest {
     @Test
     fun testExpiredAcsToken() {
         CompositeUiHelper.run {
-            setGroupIdOrTeamsMeetingUrl("74fce2c0-520f-11ec-97de-71411a9a8e13")
+            setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
             val expiredAcsToken =
                 UiTestUtils.getTextFromEdittextView(R.id.acsTokenText)
             Assert.assertTrue(
@@ -64,7 +65,7 @@ class CallingCompositeACSTokenTest {
     @Test
     fun testEmptyAcsToken() {
         CompositeUiHelper.run {
-            setGroupIdOrTeamsMeetingUrl("74fce2c0-520f-11ec-97de-71411a9a8e13")
+            setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
             setAcsToken("")
 
             clickLaunchButton()
