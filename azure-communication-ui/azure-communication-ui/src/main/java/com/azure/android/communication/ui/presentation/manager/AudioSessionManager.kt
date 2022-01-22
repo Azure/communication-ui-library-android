@@ -22,7 +22,9 @@ internal class AudioSessionManager(
         audioManager: AudioManager,
     ) {
         this.audioManager = audioManager
+
         activity.volumeControlStream = AudioManager.STREAM_VOICE_CALL
+        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
         initializeAudioDeviceState()
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
@@ -44,7 +46,7 @@ internal class AudioSessionManager(
 
     private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
-            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_REQUESTED ->
+            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED ->
                 switchAudioDevice(audioDeviceSelectionStatus)
         }
     }
@@ -53,16 +55,36 @@ internal class AudioSessionManager(
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> {
                 setSpeakerPhoneStatus(true)
+                setBluetoothEnabled(false)
                 store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
             }
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
                 setSpeakerPhoneStatus(false)
+                setBluetoothEnabled(false)
                 store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED))
+            }
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
+                setSpeakerPhoneStatus(true)
+                setBluetoothEnabled(true)
+                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED))
             }
         }
     }
 
     private fun setSpeakerPhoneStatus(status: Boolean) {
         audioManager.isSpeakerphoneOn = status
+    }
+
+    private fun setBluetoothEnabled(enabled: Boolean) {
+
+        if (enabled && !audioManager.isBluetoothScoOn) {
+
+            audioManager.startBluetoothSco()
+            audioManager.isBluetoothScoOn = true
+        } else if (!enabled && audioManager.isBluetoothScoOn){
+            audioManager.stopBluetoothSco()
+            audioManager.isBluetoothScoOn = false
+
+        }
     }
 }

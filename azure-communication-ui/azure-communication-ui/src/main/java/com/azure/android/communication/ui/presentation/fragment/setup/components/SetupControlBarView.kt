@@ -164,6 +164,15 @@ internal class SetupControlBarView : LinearLayout {
                     R.string.azure_communication_ui_setup_audio_device_android
                 )
             }
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
+                setupAudioDeviceButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0,
+                    R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled,
+                    0,
+                    0
+                )
+                setupAudioDeviceButton.text = "Bluetooth"
+            }
             else -> {
                 setupAudioDeviceButton.text = ""
             }
