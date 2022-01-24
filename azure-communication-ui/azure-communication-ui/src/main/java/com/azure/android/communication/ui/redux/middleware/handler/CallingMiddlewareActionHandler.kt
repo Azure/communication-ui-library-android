@@ -327,6 +327,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                     store.dispatch(action)
 
                     if (it.callCompositeErrorCode == CallCompositeErrorCode.CALL_END || it.callCompositeErrorCode == CallCompositeErrorCode.CALL_JOIN) {
+                        store.dispatch(CallingAction.IsTranscribingUpdated(false))
+                        store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated())
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
                         store.dispatch(NavigationAction.SetupLaunched())

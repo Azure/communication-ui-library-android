@@ -23,11 +23,11 @@ What kind of change does this Pull Request introduce?
 ```
 
 ## How to Test
-
-* Test the code
 <!-- Add steps to run the tests suite and/or manually test -->
-```
-```
+
+* Open...
+* Click on...
+
 
 ## What to Check
 Verify that the following are valid

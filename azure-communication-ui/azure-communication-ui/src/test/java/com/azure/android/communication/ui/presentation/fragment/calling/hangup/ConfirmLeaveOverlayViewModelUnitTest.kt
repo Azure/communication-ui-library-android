@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
-import android.view.View
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -49,8 +48,8 @@ internal class ConfirmLeaveOverlayViewModelUnitTest {
         confirmLeaveOverlayViewModel.cancel()
 
         Assert.assertEquals(
-            View.INVISIBLE,
-            confirmLeaveOverlayViewModel.getConfirmLeaveOverlayState()
+            false,
+            confirmLeaveOverlayViewModel.getShouldDisplayConfirmLeaveOverlayFlow().value
         )
     }
 }

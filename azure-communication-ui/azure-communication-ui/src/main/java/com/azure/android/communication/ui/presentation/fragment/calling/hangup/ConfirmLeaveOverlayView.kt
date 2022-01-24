@@ -6,11 +6,14 @@ package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 internal class ConfirmLeaveOverlayView : LinearLayout {
     constructor(context: Context) : super(context)
@@ -39,14 +42,17 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
         confirmLeaveOverlayViewModel.cancel()
     }
 
-    fun start(confirmLeaveOverlayViewModel: ConfirmLeaveOverlayViewModel) {
+    fun start(
+        viewLifecycleOwner: LifecycleOwner,
+        confirmLeaveOverlayViewModel: ConfirmLeaveOverlayViewModel,
+    ) {
         this.confirmLeaveOverlayViewModel = confirmLeaveOverlayViewModel
-        setLeaveOverlay()
-    }
 
-    fun showHangupOverlay() {
-        confirmLeaveOverlayViewModel.setConfirmLeaveOverlayState(View.VISIBLE)
-        setLeaveOverlay()
+        viewLifecycleOwner.lifecycleScope.launch {
+            confirmLeaveOverlayViewModel.getShouldDisplayConfirmLeaveOverlayFlow().collect {
+                visibility = if (it) VISIBLE else GONE
+            }
+        }
     }
 
     private fun subscribeClickListener() {
@@ -56,16 +62,10 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
 
         cancelLeaveCallButton.setOnClickListener {
             confirmLeaveOverlayViewModel.cancel()
-            setLeaveOverlay()
         }
 
         leaveOverlay.setOnClickListener {
             confirmLeaveOverlayViewModel.cancel()
-            setLeaveOverlay()
         }
-    }
-
-    private fun setLeaveOverlay() {
-        leaveOverlay.visibility = confirmLeaveOverlayViewModel.getConfirmLeaveOverlayState()
     }
 }

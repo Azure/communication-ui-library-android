@@ -27,7 +27,6 @@ internal class SetupViewModelFactory(private val store: Store<ReduxState>) {
     private val setupControlsViewModel by lazy {
         SetupControlBarViewModel(
             store::dispatch,
-            provideAudioDeviceListViewModel(),
         )
     }
 

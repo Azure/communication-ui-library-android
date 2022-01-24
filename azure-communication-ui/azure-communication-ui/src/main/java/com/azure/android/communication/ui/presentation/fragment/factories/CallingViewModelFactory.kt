@@ -27,19 +27,18 @@ internal class CallingViewModelFactory(
     private val controlBarViewModel by lazy {
         ControlBarViewModel(
             store::dispatch,
-            provideAudioDeviceListViewModel(),
         )
     }
 
     private val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel(provideParticipantListViewModel())
+        InfoHeaderViewModel()
     }
 
     private val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
     }
 
-    private val callHangupConfirmViewModel by lazy {
+    private val confirmLeaveOverlayViewModel by lazy {
         ConfirmLeaveOverlayViewModel(store::dispatch)
     }
 
@@ -75,8 +74,8 @@ internal class CallingViewModelFactory(
         return audioDeviceListViewModel
     }
 
-    fun provideCallHangupConfirmViewModel(): ConfirmLeaveOverlayViewModel {
-        return callHangupConfirmViewModel
+    fun provideConfirmLeaveOverlayViewModel(): ConfirmLeaveOverlayViewModel {
+        return confirmLeaveOverlayViewModel
     }
 
     fun provideLocalParticipantViewModel(): LocalParticipantViewModel {

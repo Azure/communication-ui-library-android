@@ -142,10 +142,12 @@ internal class ParticipantListViewModelUnitTest {
             )
 
             val expectedInitialLocalParticipantListCellModel =
-                ParticipantListCellModel(
-                    initialExpectedLocalUserState.displayName,
-                    initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF
-                )
+                initialExpectedLocalUserState.displayName?.let {
+                    ParticipantListCellModel(
+                        it,
+                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF
+                    )
+                }
 
             val updatedExpectedLocalUserState = LocalUserState(
                 CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
@@ -155,10 +157,12 @@ internal class ParticipantListViewModelUnitTest {
             )
 
             val expectedUpdatedLocalParticipantListCellModel =
-                ParticipantListCellModel(
-                    initialExpectedLocalUserState.displayName,
-                    initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON
-                )
+                initialExpectedLocalUserState.displayName?.let {
+                    ParticipantListCellModel(
+                        it,
+                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON
+                    )
+                }
 
             val participantListViewModel = ParticipantListViewModel()
             participantListViewModel.init(

@@ -41,7 +41,7 @@ internal class InCallService : Service() {
     private fun startInCallNotification() {
         val pendingIntent: PendingIntent =
             Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, 0)
+                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             }
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)

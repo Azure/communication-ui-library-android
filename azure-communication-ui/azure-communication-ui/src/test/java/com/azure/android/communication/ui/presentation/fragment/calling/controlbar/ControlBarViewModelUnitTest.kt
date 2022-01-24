@@ -4,15 +4,12 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.controlbar
 
 import com.azure.android.communication.ui.helper.MainCoroutineRule
-import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
-import com.azure.android.communication.ui.redux.state.CallingState
-import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
@@ -51,13 +48,12 @@ internal class ControlBarViewModelUnitTest {
             videoStreamID = null,
             displayName = "username"
         )
-        val audioDeviceViewModel = mock<AudioDeviceListViewModel>()
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, audioDeviceViewModel)
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch)
         callingViewModel.turnMicOn()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -76,13 +72,12 @@ internal class ControlBarViewModelUnitTest {
             videoStreamID = null,
             displayName = "username"
         )
-        val audioDeviceViewModel = mock<AudioDeviceListViewModel>()
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, audioDeviceViewModel)
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch)
         callingViewModel.turnMicOff()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -99,16 +94,13 @@ internal class ControlBarViewModelUnitTest {
             val permissionState = PermissionState(PermissionStatus.DENIED, PermissionStatus.DENIED)
             val cameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val callingState = CallingState(CallingStatus.CONNECTED)
 
             val appStore = mock<AppStore<ReduxState>> { }
-            val audioDeviceListViewModel = mock<AudioDeviceListViewModel>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, audioDeviceListViewModel)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch)
             callingViewModel.init(
                 permissionState,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -126,14 +118,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState1,
-                callingState
+                audioState1
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState2,
-                callingState
+                audioState2
             )
 
             // assert
@@ -164,14 +154,12 @@ internal class ControlBarViewModelUnitTest {
 
             val cameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val callingState = CallingState(CallingStatus.CONNECTED)
 
             val resultListFromCameraPermissionStateFlow =
                 mutableListOf<ControlBarViewModel.CameraModel>()
 
             val appStore = mock<AppStore<ReduxState>>()
-            val audioDeviceListViewModel = mock<AudioDeviceListViewModel>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, audioDeviceListViewModel)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch)
             val initialPermissionState = PermissionState(
                 PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
             )
@@ -179,8 +167,7 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 initialPermissionState,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             val flowJob = launch {
@@ -192,14 +179,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState1,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
             callingViewModel.update(
                 permissionState2,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             // assert
@@ -222,8 +207,7 @@ internal class ControlBarViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val appStore = mock<AppStore<ReduxState>>()
-            val audioDeviceListViewModel = mock<AudioDeviceListViewModel>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, audioDeviceListViewModel)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch)
 
             val permissionState = PermissionState(
                 PermissionStatus.GRANTED,
@@ -231,7 +215,6 @@ internal class ControlBarViewModelUnitTest {
             )
 
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val callingState = CallingState(CallingStatus.CONNECTED)
             val cameraDeviceSelectionStatus = CameraDeviceSelectionStatus.FRONT
             val cameraTransmissionStatus = CameraTransmissionStatus.REMOTE
 
@@ -246,8 +229,7 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 permissionState,
                 initialCameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
@@ -259,14 +241,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState,
                 cameraState1,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
             callingViewModel.update(
                 permissionState,
                 cameraState2,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
-                callingState,
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
             )
 
             // assert

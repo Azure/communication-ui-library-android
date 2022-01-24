@@ -31,7 +31,7 @@ internal class CallingViewModel(
         callingViewModelProvider.provideParticipantGridViewModel()
     private val controlBarViewModel = callingViewModelProvider.provideControlBarViewModel()
     private val confirmLeaveOverlayViewModel =
-        callingViewModelProvider.provideCallHangupConfirmViewModel()
+        callingViewModelProvider.provideConfirmLeaveOverlayViewModel()
     private val localParticipantViewModel =
         callingViewModelProvider.provideLocalParticipantViewModel()
     private val floatingHeaderViewModel = callingViewModelProvider.provideFloatingHeaderViewModel()
@@ -58,7 +58,7 @@ internal class CallingViewModel(
         return controlBarViewModel
     }
 
-    fun getCallHangupConfirmViewModel(): ConfirmLeaveOverlayViewModel {
+    fun getConfirmLeaveOverlayViewModel(): ConfirmLeaveOverlayViewModel {
         return confirmLeaveOverlayViewModel
     }
 
@@ -88,14 +88,17 @@ internal class CallingViewModel(
         floatingHeaderViewModel.switchFloatingHeader()
     }
 
+    fun requestCallEnd() {
+        confirmLeaveOverlayViewModel.requestExitConfirmation()
+    }
+
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
 
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
+            state.localParticipantState.audioState
         )
 
         localParticipantViewModel.init(
@@ -138,8 +141,7 @@ internal class CallingViewModel(
         controlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
+            state.localParticipantState.audioState
         )
 
         localParticipantViewModel.update(

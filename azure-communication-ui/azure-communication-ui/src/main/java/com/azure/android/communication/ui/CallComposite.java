@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
@@ -11,12 +12,7 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.di.DIContainerHolderKt;
-import com.azure.android.communication.ui.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl;
-import com.azure.android.communication.ui.presentation.UIManager;
-
-import org.jetbrains.annotations.NotNull;
+import com.azure.android.communication.ui.presentation.MainActivity;
 
 import java.util.UUID;
 
@@ -39,6 +35,9 @@ import java.util.UUID;
  * @see CallCompositeBuilder
  */
 public final class CallComposite {
+
+    /// Each time we launch, an InstanceID will be assigned and incremented.
+    private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
 
@@ -145,26 +144,12 @@ public final class CallComposite {
                 callType
         ));
 
-        final UIManager uiManager = getUIManager(configuration, context);
-        uiManager.start();
-    }
+        /// Store the configuration
+        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 
-    @NotNull
-    private DependencyInjectionContainer initDI(
-            final CallCompositeConfiguration configuration,
-            final Context parentContext
-    ) {
-        final DependencyInjectionContainer di = new DependencyInjectionContainerImpl(configuration, parentContext);
-        DIContainerHolderKt.setDIContainer(di);
-        return di;
-    }
-
-    @NotNull
-    private UIManager getUIManager(
-            final CallCompositeConfiguration configuration,
-            final Context context
-    ) {
-        final DependencyInjectionContainer di = initDI(configuration, context);
-        return di.provideUIManager();
+        /// Launch the composite and increment the instanceId after
+        final Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.KEY_INSTANCE_ID, instanceId++);
+        context.startActivity(intent);
     }
 }
