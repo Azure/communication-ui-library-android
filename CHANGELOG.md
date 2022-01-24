@@ -4,6 +4,7 @@
 
 ### New Features
 - Status bar color update for light and dark mode
+- Screen share zoom and pinch with double click focus
 
 ### Breaking Changes
 
