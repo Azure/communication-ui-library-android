@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.controlbar
 
-import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ControlBarViewModel(
     private val dispatch: (Action) -> Unit,
-    private val audioDeviceListViewModel: AudioDeviceListViewModel,
 ) {
     private lateinit var cameraStateFlow: MutableStateFlow<CameraModel>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
@@ -27,7 +25,7 @@ internal class ControlBarViewModel(
     fun init(
         permissionState: PermissionState,
         cameraState: CameraState,
-        audioState: AudioState
+        audioState: AudioState,
     ) {
         cameraStateFlow =
             MutableStateFlow(CameraModel(permissionState.cameraPermissionState, cameraState))
@@ -40,7 +38,7 @@ internal class ControlBarViewModel(
     fun update(
         permissionState: PermissionState,
         cameraState: CameraState,
-        audioState: AudioState
+        audioState: AudioState,
     ) {
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
         audioOperationalStatusStateFlow.value = audioState.operation
@@ -78,10 +76,6 @@ internal class ControlBarViewModel(
 
     fun turnCameraOff() {
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
-    }
-
-    fun displayAudioDeviceSelectionMenu() {
-        audioDeviceListViewModel.displayAudioDeviceSelectionMenu()
     }
 
     private fun shouldEnableMicButton(audioState: AudioState): Boolean {

@@ -29,6 +29,7 @@ internal class SetupControlBarView : LinearLayout {
     private lateinit var setupButtonHolder: LinearLayout
     private lateinit var setupCameraButton: Button
     private lateinit var setupAudioDeviceButton: Button
+    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -43,15 +44,17 @@ internal class SetupControlBarView : LinearLayout {
             toggleVideo()
         }
         setupAudioDeviceButton.setOnClickListener {
-            openAudioDeviceList()
+            openAudioDeviceSelectionMenuCallback()
         }
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         setupControlBarViewModel: SetupControlBarViewModel,
+        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         viewModel = setupControlBarViewModel
+        openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraPermissionState().collect {
                 setupCameraButton.isEnabled = it != PermissionStatus.DENIED
@@ -193,10 +196,6 @@ internal class SetupControlBarView : LinearLayout {
         } else {
             viewModel.turnCameraOn()
         }
-    }
-
-    private fun openAudioDeviceList() {
-        viewModel.displayAudioDeviceSelectionMenu()
     }
 
     private fun setButtonColor(button: Button, colorId: Int) {
