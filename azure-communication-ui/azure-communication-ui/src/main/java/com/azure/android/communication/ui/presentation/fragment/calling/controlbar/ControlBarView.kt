@@ -26,7 +26,8 @@ internal class ControlBarView : LinearLayout {
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
-    private lateinit var requestCallEnd: () -> Unit
+    private lateinit var requestCallEndCallback: () -> Unit
+    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -41,9 +42,11 @@ internal class ControlBarView : LinearLayout {
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
         requestCallEnd: () -> Unit,
+        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         this.viewModel = viewModel
-        this.requestCallEnd = requestCallEnd
+        this.requestCallEndCallback = requestCallEnd
+        this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioOperationalStatusStateFlow().collect {
@@ -119,7 +122,7 @@ internal class ControlBarView : LinearLayout {
 
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
-            requestCallEnd()
+            requestCallEndCallback()
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {
@@ -136,11 +139,7 @@ internal class ControlBarView : LinearLayout {
             }
         }
         callAudioDeviceButton.setOnClickListener {
-            openAudioDeviceList()
+            openAudioDeviceSelectionMenuCallback()
         }
-    }
-
-    private fun openAudioDeviceList() {
-        viewModel.displayAudioDeviceSelectionMenu()
     }
 }

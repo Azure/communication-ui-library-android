@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment
 
-import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -13,7 +12,7 @@ import kotlinx.coroutines.launch
 
 internal abstract class BaseViewModel constructor(
     protected val store: Store<ReduxState>,
-) : ViewModel() {
+) {
 
     open fun init(coroutineScope: CoroutineScope) {
         coroutineScope.launch {

@@ -23,9 +23,9 @@
         />
 
     <TextView
+        android:id="@+id/azure_communication_ui_call_lobby_overlay_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions"
         android:text="@string/azure_communication_ui_call_lobby_waiting"
         android:textColor="@color/azure_communication_ui_color_on_background"
         android:layout_marginTop="14dp"
@@ -36,7 +36,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:inputType="textNoSuggestions"
         android:text="@string/azure_communication_ui_call_lobby_waiting_details"
         android:textColor="@color/azure_communication_ui_color_on_background"
         />

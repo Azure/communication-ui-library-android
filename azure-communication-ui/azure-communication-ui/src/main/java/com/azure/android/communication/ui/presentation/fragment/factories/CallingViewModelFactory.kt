@@ -27,12 +27,11 @@ internal class CallingViewModelFactory(
     private val controlBarViewModel by lazy {
         ControlBarViewModel(
             store::dispatch,
-            provideAudioDeviceListViewModel(),
         )
     }
 
     private val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel(provideParticipantListViewModel())
+        InfoHeaderViewModel()
     }
 
     private val audioDeviceListViewModel by lazy {
