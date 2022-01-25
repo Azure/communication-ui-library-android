@@ -10,12 +10,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.gesture;
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.gesture;
 
 
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.MotionEvent;
 
 /**
@@ -37,16 +38,16 @@ public final class TransformGestureDetector implements MultiPointerGestureDetect
     @Nullable
     private Listener mListener = null;
 
+    private TransformGestureDetector(@NonNull final MultiPointerGestureDetector multiPointerGestureDetector) {
+        mDetector = multiPointerGestureDetector;
+        mDetector.setListener(this);
+    }
+
     /**
      * Factory method that creates a new instance of TransformGestureDetector
      */
     public static TransformGestureDetector newInstance() {
         return new TransformGestureDetector(MultiPointerGestureDetector.newInstance());
-    }
-
-    private TransformGestureDetector(@NonNull MultiPointerGestureDetector multiPointerGestureDetector) {
-        mDetector = multiPointerGestureDetector;
-        mDetector.setListener(this);
     }
 
     /**
@@ -91,12 +92,14 @@ public final class TransformGestureDetector implements MultiPointerGestureDetect
         if (mDetector.getPointerCount() < MAX_POINTERS) {
             return SCALE_NO_CHANGE;
         } else {
-            float startDeltaX = mDetector.getStartX()[SECOND_POINTER] - mDetector.getStartX()[FIRST_POINTER];
-            float startDeltaY = mDetector.getStartY()[SECOND_POINTER] - mDetector.getStartY()[FIRST_POINTER];
-            float currentDeltaX = mDetector.getCurrentX()[SECOND_POINTER] - mDetector.getCurrentX()[FIRST_POINTER];
-            float currentDeltaY = mDetector.getCurrentY()[SECOND_POINTER] - mDetector.getCurrentY()[FIRST_POINTER];
-            float startDist = (float) Math.hypot(startDeltaX, startDeltaY);
-            float currentDist = (float) Math.hypot(currentDeltaX, currentDeltaY);
+            final float startDeltaX = mDetector.getStartX()[SECOND_POINTER] - mDetector.getStartX()[FIRST_POINTER];
+            final float startDeltaY = mDetector.getStartY()[SECOND_POINTER] - mDetector.getStartY()[FIRST_POINTER];
+            final float currentDeltaX = mDetector.getCurrentX()[SECOND_POINTER]
+                    - mDetector.getCurrentX()[FIRST_POINTER];
+            final float currentDeltaY = mDetector.getCurrentY()[SECOND_POINTER]
+                    - mDetector.getCurrentY()[FIRST_POINTER];
+            final float startDist = (float) Math.hypot(startDeltaX, startDeltaY);
+            final float currentDist = (float) Math.hypot(currentDeltaX, currentDeltaY);
             return currentDist / startDist;
         }
     }
@@ -106,26 +109,26 @@ public final class TransformGestureDetector implements MultiPointerGestureDetect
      *
      * @param listener listener to set
      */
-    public void setListener(@NonNull Listener listener) {
+    public void setListener(@NonNull final Listener listener) {
         mListener = listener;
     }
 
     @Override
-    public void onGestureBegin(@NonNull MultiPointerGestureDetector detector) {
+    public void onGestureBegin(@NonNull final MultiPointerGestureDetector detector) {
         if (mListener != null) {
             mListener.onGestureBegin(this);
         }
     }
 
     @Override
-    public void onGestureUpdate(@NonNull MultiPointerGestureDetector detector) {
+    public void onGestureUpdate(@NonNull final MultiPointerGestureDetector detector) {
         if (mListener != null) {
             mListener.onGestureUpdate(this);
         }
     }
 
     @Override
-    public void onGestureEnd(@NonNull MultiPointerGestureDetector detector) {
+    public void onGestureEnd(@NonNull final MultiPointerGestureDetector detector) {
         if (mListener != null) {
             mListener.onGestureEnd(this);
         }
@@ -155,7 +158,7 @@ public final class TransformGestureDetector implements MultiPointerGestureDetect
         mDetector.restartGesture();
     }
 
-    private float calcAverage(float[] arr, int len) {
+    private float calcAverage(final float[] arr, final int len) {
         float sum = 0;
         for (int i = 0; i < len; i++) {
             sum += arr[i];
@@ -163,7 +166,7 @@ public final class TransformGestureDetector implements MultiPointerGestureDetect
         return (len > 0) ? sum / len : 0;
     }
 
-    private float calcAverage(@NonNull float[] values) {
+    private float calcAverage(@NonNull final float[] values) {
         if (values.length < 1) {
             return 0;
         }

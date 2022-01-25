@@ -1,4 +1,8 @@
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable;
+
 import android.view.Choreographer;
 
 /**
@@ -19,7 +23,7 @@ public final class Fling implements Choreographer.FrameCallback {
     private long mPrevFrameNanos;
     private Listener mListener;
 
-    void start(float velocityX, float velocityY) {
+    void start(final float velocityX, final float velocityY) {
         mVx = velocityX;
         mVy = velocityY;
         mPosX = 0;
@@ -35,22 +39,22 @@ public final class Fling implements Choreographer.FrameCallback {
         return this;
     }
 
-    Fling setListener(Listener listener) {
+    Fling setListener(final Listener listener) {
         mListener = listener;
         return this;
     }
 
     @Override
-    public void doFrame(long frameTimeNanos) {
-        long deltaT = (frameTimeNanos - mPrevFrameNanos) / 1000000;
+    public void doFrame(final long frameTimeNanos) {
+        final long deltaT = (frameTimeNanos - mPrevFrameNanos) / 1000000;
         mPrevFrameNanos = frameTimeNanos;
 
-        float vx = (float) (mVx * Math.exp((deltaT / 1000f) * FRICTION));
-        float posX = (float) (mPosX - mVx / FRICTION
+        final float vx = (float) (mVx * Math.exp((deltaT / 1000f) * FRICTION));
+        final float posX = (float) (mPosX - mVx / FRICTION
                 + mVx / FRICTION * Math.exp(FRICTION * deltaT / 1000f));
 
-        float vy = (float) (mVy * Math.exp((deltaT / 1000f) * FRICTION));
-        float posY = (float) (mPosY - mVy / FRICTION
+        final float vy = (float) (mVy * Math.exp((deltaT / 1000f) * FRICTION));
+        final float posY = (float) (mPosY - mVy / FRICTION
                 + mVy / FRICTION * Math.exp(FRICTION * deltaT / 1000f));
 
         if (mListener != null) {

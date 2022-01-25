@@ -10,14 +10,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces;
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces;
 
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.ZoomableFrameLayout;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.ZoomableFrameLayout;
 
 /**
  * Interface for implementing a controller that works with {@link ZoomableFrameLayout}

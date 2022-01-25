@@ -1,10 +1,13 @@
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable;
 
 import android.graphics.PointF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.LimitFlag;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces.LimitFlag;
 
 
 /**
@@ -19,16 +22,16 @@ public class DoubleTapGestureListener extends GestureDetector.SimpleOnGestureLis
     private float mDoubleTapScale = 1;
     private boolean mDoubleTapScroll = false;
 
-    public DoubleTapGestureListener(IZoomableControllerProvider zoomableControllerProvider) {
+    public DoubleTapGestureListener(final IZoomableControllerProvider zoomableControllerProvider) {
         mZoomableControllerProvider = zoomableControllerProvider;
     }
 
     @Override
-    public boolean onDoubleTapEvent(MotionEvent e) {
-        AbstractAnimatedZoomableController zoomableController =
+    public boolean onDoubleTapEvent(final MotionEvent e) {
+        final AbstractAnimatedZoomableController zoomableController =
                 (AbstractAnimatedZoomableController) mZoomableControllerProvider.getZoomableController();
-        PointF viewPoint = new PointF(e.getX(), e.getY());
-        PointF imagePoint = zoomableController.mapViewToImage(viewPoint);
+        final PointF viewPoint = new PointF(e.getX(), e.getY());
+        final PointF imagePoint = zoomableController.mapViewToImage(viewPoint);
 
         switch (e.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
@@ -39,13 +42,13 @@ public class DoubleTapGestureListener extends GestureDetector.SimpleOnGestureLis
             case MotionEvent.ACTION_MOVE:
                 mDoubleTapScroll = mDoubleTapScroll || shouldStartDoubleTapScroll(viewPoint);
                 if (mDoubleTapScroll) {
-                    float scale = calcScale(viewPoint);
+                    final float scale = calcScale(viewPoint);
                     zoomableController.zoomToPoint(scale, mDoubleTapImagePoint, mDoubleTapViewPoint);
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 if (mDoubleTapScroll) {
-                    float scale = calcScale(viewPoint);
+                    final float scale = calcScale(viewPoint);
                     zoomableController.zoomToPoint(scale, mDoubleTapImagePoint, mDoubleTapViewPoint);
                 } else {
                     final float maxScale = zoomableController.getMaxScaleFactor();
@@ -66,15 +69,15 @@ public class DoubleTapGestureListener extends GestureDetector.SimpleOnGestureLis
         return true;
     }
 
-    private boolean shouldStartDoubleTapScroll(PointF viewPoint) {
-        double dist =
+    private boolean shouldStartDoubleTapScroll(final PointF viewPoint) {
+        final double dist =
                 Math.hypot(viewPoint.x - mDoubleTapViewPoint.x, viewPoint.y - mDoubleTapViewPoint.y);
         return dist > DOUBLE_TAP_SCROLL_THRESHOLD;
     }
 
-    private float calcScale(PointF currentViewPoint) {
-        float dy = (currentViewPoint.y - mDoubleTapViewPoint.y);
-        float t = 1 + Math.abs(dy) * 0.001f;
+    private float calcScale(final PointF currentViewPoint) {
+        final float dy = (currentViewPoint.y - mDoubleTapViewPoint.y);
+        final float t = 1 + Math.abs(dy) * 0.001f;
         return (dy < 0) ? mDoubleTapScale / t : mDoubleTapScale * t;
     }
 }

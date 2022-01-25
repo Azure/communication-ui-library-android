@@ -1,22 +1,35 @@
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces;
 
 /**
  * Configuration for the Zoomable Controller
  */
 interface ZoomableControllerConfiguration {
-    /** Gets whether the scale gesture is enabled or not. */
+    /**
+     * Gets whether the scale gesture is enabled or not.
+     */
     boolean isScaleEnabled();
 
-    /** Sets whether the scale gesture is enabled or not. */
+    /**
+     * Sets whether the scale gesture is enabled or not.
+     */
     void setScaleEnabled(boolean enabled);
 
-    /** Gets whether the translations gesture is enabled or not. */
+    /**
+     * Gets whether the translations gesture is enabled or not.
+     */
     boolean isTranslationEnabled();
 
-    /** Sets whether the translation gesture is enabled or not. */
+    /**
+     * Sets whether the translation gesture is enabled or not.
+     */
     void setTranslationEnabled(boolean enabled);
 
-    /** Gets the minimum scale factor allowed. */
+    /**
+     * Gets the minimum scale factor allowed.
+     */
     float getMinScaleFactor();
 
     /**
@@ -25,7 +38,9 @@ interface ZoomableControllerConfiguration {
      */
     void setMinScaleFactor(float minScaleFactor);
 
-    /** Gets the maximum scale factor allowed. */
+    /**
+     * Gets the maximum scale factor allowed.
+     */
     float getMaxScaleFactor();
 
     /**

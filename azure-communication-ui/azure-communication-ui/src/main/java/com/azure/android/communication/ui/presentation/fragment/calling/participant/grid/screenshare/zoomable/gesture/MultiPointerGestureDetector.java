@@ -10,11 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.gesture;
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.gesture;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.MotionEvent;
 
 /**
@@ -27,20 +28,20 @@ import android.view.MotionEvent;
 final class MultiPointerGestureDetector {
     private static final int MAX_POINTERS = 2;
 
-    private final int mId[] = new int[MAX_POINTERS];
-    private final float mStartX[] = new float[MAX_POINTERS];
-    private final float mStartY[] = new float[MAX_POINTERS];
-    private final float mCurrentX[] = new float[MAX_POINTERS];
-    private final float mCurrentY[] = new float[MAX_POINTERS];
+    private final int[] mId = new int[MAX_POINTERS];
+    private final float[] mStartX = new float[MAX_POINTERS];
+    private final float[] mStartY = new float[MAX_POINTERS];
+    private final float[] mCurrentX = new float[MAX_POINTERS];
+    private final float[] mCurrentY = new float[MAX_POINTERS];
 
     private boolean mGestureInProgress;
 
     @IntRange(from = 0,
-              to = MAX_POINTERS)
+            to = MAX_POINTERS)
     private int mPointerCount;
 
     @IntRange(from = 0,
-              to = MAX_POINTERS)
+            to = MAX_POINTERS)
     private int mNewPointerCount;
 
     @Nullable
@@ -60,11 +61,11 @@ final class MultiPointerGestureDetector {
     /**
      * Gets the number of pressed pointers (fingers down).
      */
-    private static int getPressedPointerCount(@NonNull MotionEvent event) {
-        int count = event.getPointerCount();
-        int action = event.getActionMasked();
+    private static int getPressedPointerCount(@NonNull final MotionEvent event) {
+        final int count = event.getPointerCount();
+        final int action = event.getActionMasked();
         return (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) ? count - 1
-                                                                                            : count;
+                : count;
     }
 
     /**
@@ -125,7 +126,7 @@ final class MultiPointerGestureDetector {
      *
      * @param listener listener to set
      */
-    void setListener(Listener listener) {
+    void setListener(final Listener listener) {
         mListener = listener;
     }
 
@@ -147,7 +148,7 @@ final class MultiPointerGestureDetector {
      * @return whether or not the event was handled
      */
     boolean onTouchEvent(final @NonNull MotionEvent event) {
-        int actionMasked = event.getActionMasked();
+        final int actionMasked = event.getActionMasked();
         switch (actionMasked) {
             case MotionEvent.ACTION_MOVE:
                 updateGesture(event);
@@ -186,7 +187,7 @@ final class MultiPointerGestureDetector {
         startGesture();
     }
 
-    private void updateGesture(@NonNull MotionEvent event) {
+    private void updateGesture(@NonNull final MotionEvent event) {
         // update pointers
         updatePointersOnMove(event);
 
@@ -207,7 +208,7 @@ final class MultiPointerGestureDetector {
         reset();
     }
 
-    private void numberOfPointersChanged(@NonNull MotionEvent event) {
+    private void numberOfPointersChanged(@NonNull final MotionEvent event) {
         mNewPointerCount = getPressedPointerCount(event);
         stopGesture();
         updatePointersOnTap(event);
@@ -244,9 +245,10 @@ final class MultiPointerGestureDetector {
      * Gets the index of the i-th pressed pointer.
      * Normally, the index will be equal to i, except in the case when the pointer is released.
      *
-     * @return index of the specified pointer or {@code MotionEvent.INVALID_POINTER_ID} if not found (i.e. not enough pointers are down)
+     * @return index of the specified pointer or {@code MotionEvent.INVALID_POINTER_ID}
+     * if not found (i.e. not enough pointers are down)
      */
-    private int getPressedPointerIndex(@NonNull MotionEvent event, int i) {
+    private int getPressedPointerIndex(@NonNull final MotionEvent event, final int i) {
         final int count = event.getPointerCount();
         final int action = event.getActionMasked();
         final int index = event.getActionIndex();
@@ -255,13 +257,13 @@ final class MultiPointerGestureDetector {
             tmp++;
         }
         return (tmp < count) ? tmp
-                             : MotionEvent.INVALID_POINTER_ID;
+                : MotionEvent.INVALID_POINTER_ID;
     }
 
-    private void updatePointersOnTap(@NonNull MotionEvent event) {
+    private void updatePointersOnTap(@NonNull final MotionEvent event) {
         mPointerCount = 0;
         for (int i = 0; i < MAX_POINTERS; i++) {
-            int index = getPressedPointerIndex(event, i);
+            final int index = getPressedPointerIndex(event, i);
             if (index != MotionEvent.INVALID_POINTER_ID) {
                 mId[i] = event.getPointerId(index);
                 mStartX[i] = event.getX(index);
@@ -276,9 +278,9 @@ final class MultiPointerGestureDetector {
         System.arraycopy(mStartY, 0, mCurrentY, 0, MAX_POINTERS);
     }
 
-    private void updatePointersOnMove(@NonNull MotionEvent event) {
+    private void updatePointersOnMove(@NonNull final MotionEvent event) {
         for (int i = 0; i < MAX_POINTERS; i++) {
-            int index = event.findPointerIndex(mId[i]);
+            final int index = event.findPointerIndex(mId[i]);
             if (index != MotionEvent.INVALID_POINTER_ID) {
                 mCurrentX[i] = event.getX(index);
                 mCurrentY[i] = event.getY(index);

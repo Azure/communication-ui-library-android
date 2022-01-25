@@ -23,7 +23,7 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.ZoomableFrameLayout
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.ZoomableFrameLayout
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -111,7 +111,9 @@ internal class ParticipantGridCellVideoView(
             val rendererViewTransformationWrapper = LinearLayout(this.context)
             rendererViewTransformationWrapper.addView(rendererView)
 
-            val zoomFrameLayoutView = ZoomableFrameLayout(this.context)
+            val zoomFrameLayoutView =
+                ZoomableFrameLayout(
+                    this.context)
             zoomFrameLayoutView.layoutParams =
                 FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,

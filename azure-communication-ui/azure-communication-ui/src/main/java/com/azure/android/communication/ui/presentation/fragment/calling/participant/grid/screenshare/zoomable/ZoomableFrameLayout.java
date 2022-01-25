@@ -1,35 +1,34 @@
-/*
- *  Copyright © Microsoft Corporation. All rights reserved.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable;
-
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ScrollingView;
+
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.LimitFlag;
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.OnTouchEventListener;
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.ZoomScaleType;
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.ZoomableContentListener;
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.interfaces.ZoomableController;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces.LimitFlag;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces.OnTouchEventListener;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces.ZoomScaleType;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces.ZoomableContentListener;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.interfaces.ZoomableController;
 
 import org.jetbrains.annotations.NotNull;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
-
 
 /**
  * FrameLayout that has zoomable capabilities.
@@ -40,37 +39,33 @@ public class ZoomableFrameLayout extends FrameLayout
         implements ScrollingView, ZoomableContentListener, OnTouchEventListener, IZoomableControllerProvider {
     private final RectF mImageBounds = new RectF();
     private final RectF mViewBounds = new RectF();
+    private Matrix mScaleTypeTransform;
+    private Matrix mCurrentTransform;
+    private final ZoomableController.Listener mZoomableListener = new ZoomableController.Listener() {
+        @Override
+        public void onTransformChanged(final Matrix transform) {
+            ZoomableFrameLayout.this.onTransformChanged(transform);
+        }
+    };
+    private Function0<Unit> showFloatingHeaderCallBackCallBack;
+    private ZoomableController mZoomableController;
+    private GestureDetector mTapGestureDetector;
+    private OnTouchEventListener mOnTouchEventListener;
+    private Fling mFling;
     private final GestureListenerWrapper mTapListenerWrapper = new GestureListenerWrapper(this) {
         @Override
-        public boolean onDown(MotionEvent e) {
+        public boolean onDown(final MotionEvent e) {
             mFling.stop();
             return super.onDown(e);
         }
 
         @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        public boolean onFling(final MotionEvent e1, final MotionEvent e2,
+                               final float velocityX, final float velocityY) {
             mFling.stop().start(velocityX, velocityY);
             return true;
         }
     };
-    private Matrix mScaleTypeTransform;
-    private Matrix mCurrentTransform;
-    private Function0<Unit> showFloatingHeaderCallBackCallBack;
-
-    private final ZoomableController.Listener mZoomableListener = new ZoomableController.Listener() {
-        @Override
-        public void onTransformChanged(Matrix transform) {
-            ZoomableFrameLayout.this.onTransformChanged(transform);
-        }
-    };
-    private ZoomableController mZoomableController;
-
-    private GestureDetector mTapGestureDetector;
-
-    private OnTouchEventListener mOnTouchEventListener;
-
-    private Fling mFling;
-
     private boolean mLayoutReady = false;
 
     @Nullable
@@ -95,36 +90,26 @@ public class ZoomableFrameLayout extends FrameLayout
     @Nullable
     private RegionOfInterest mRegionOfInterest;
 
-    public ZoomableFrameLayout(Context context) {
+    public ZoomableFrameLayout(final Context context) {
         super(context);
         init();
     }
 
-    public ZoomableFrameLayout(Context context, AttributeSet attrs) {
+    public ZoomableFrameLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ZoomableFrameLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ZoomableFrameLayout(final Context context,
+                               final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-    public void setRoiScale(float scale) {
-        mRoiScale = scale;
-    }
-
-    // clear region of interest when the scaleType is select manually and while zooming or touch events
-    public void setRegionOfInterest(@Nullable RegionOfInterest regionOfInterest) {
-        mRegionOfInterest = regionOfInterest;
-    }
-
-    @Nullable
-    public RegionOfInterest getRegionOfInterest() {
-        return mRegionOfInterest;
-    }
-
-    public static ContentSize calculateFitInside(int parentWidth, int parentHeight, int contentWidth, int contentHeight) {
+    public static ContentSize calculateFitInside(final int parentWidth,
+                                                 final int parentHeight,
+                                                 final int contentWidth,
+                                                 final int contentHeight) {
         float scaleWidth = 1;
         float scaleHeight = 1;
 
@@ -135,12 +120,26 @@ public class ZoomableFrameLayout extends FrameLayout
             scaleHeight = (float) parentHeight / contentHeight;
         }
 
-        float scale = Math.min(scaleWidth, scaleHeight);
+        final float scale = Math.min(scaleWidth, scaleHeight);
 
-        int scaledWidth = (int) (scale * contentWidth);
-        int scaledHeight = (int) (scale * contentHeight);
+        final int scaledWidth = (int) (scale * contentWidth);
+        final int scaledHeight = (int) (scale * contentHeight);
 
         return new ContentSize(scaledWidth, scaledHeight, scale);
+    }
+
+    public void setRoiScale(final float scale) {
+        mRoiScale = scale;
+    }
+
+    @Nullable
+    public RegionOfInterest getRegionOfInterest() {
+        return mRegionOfInterest;
+    }
+
+    // clear region of interest when the scaleType is select manually and while zooming or touch events
+    public void setRegionOfInterest(@Nullable final RegionOfInterest regionOfInterest) {
+        mRegionOfInterest = regionOfInterest;
     }
 
     /**
@@ -157,15 +156,17 @@ public class ZoomableFrameLayout extends FrameLayout
     /**
      * Sets a custom zoomable controller, instead of using the default one.
      */
-    public void setZoomableController(@NonNull ZoomableController zoomableController) {
+    public void setZoomableController(@NonNull final ZoomableController zoomableController) {
         mZoomableController.setListener(null);
         mZoomableController = zoomableController;
         mZoomableController.setListener(mZoomableListener);
     }
 
-    /** Gets the current scale factor. */
+    /**
+     * Gets the current scale factor.
+     */
     public float getScaleFactor() {
-        float[] transformValues = new float[9];
+        final float[] transformValues = new float[9];
         mScaleTypeTransform.getValues(transformValues);
 
         // X and Y scales should always be the same
@@ -186,16 +187,18 @@ public class ZoomableFrameLayout extends FrameLayout
      *
      * @param allowTouchInterceptionWhileZoomed true if the parent needs to intercept touches
      */
-    public void setAllowTouchInterceptionWhileZoomed(boolean allowTouchInterceptionWhileZoomed) {
+    public void setAllowTouchInterceptionWhileZoomed(final boolean allowTouchInterceptionWhileZoomed) {
         mAllowTouchInterceptionWhileZoomed = allowTouchInterceptionWhileZoomed;
     }
 
-    public void setTouchEventListener(@NonNull OnTouchEventListener onTapListener) {
+    public void setTouchEventListener(@NonNull final OnTouchEventListener onTapListener) {
         mOnTouchEventListener = onTapListener;
     }
 
-    /** Sets the tap listener. */
-    public void setTapListener(GestureDetector.SimpleOnGestureListener tapListener) {
+    /**
+     * Sets the tap listener.
+     */
+    public void setTapListener(final GestureDetector.SimpleOnGestureListener tapListener) {
         mTapListenerWrapper.setListener(tapListener);
     }
 
@@ -203,7 +206,7 @@ public class ZoomableFrameLayout extends FrameLayout
      * Sets whether long-press tap detection is enabled.
      * Unfortunately, long-press conflicts with onDoubleTapEvent.
      */
-    public void setIsLongpressEnabled(boolean enabled) {
+    public void setIsLongpressEnabled(final boolean enabled) {
         mTapGestureDetector.setIsLongpressEnabled(enabled);
     }
 
@@ -211,7 +214,7 @@ public class ZoomableFrameLayout extends FrameLayout
         mTapListenerWrapper.disableDoubleTap();
     }
 
-    void setOnLayoutReadyListener(@Nullable OnLayoutReadyListener onLayoutReadyListener) {
+    void setOnLayoutReadyListener(@Nullable final OnLayoutReadyListener onLayoutReadyListener) {
         if (mLayoutReady && onLayoutReadyListener != null) {
             onLayoutReadyListener.onLayoutReady();
             return;
@@ -221,8 +224,7 @@ public class ZoomableFrameLayout extends FrameLayout
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int a = event.getActionMasked();
+    public boolean onTouchEvent(final MotionEvent event) {
         if (mTapGestureDetector.onTouchEvent(event)) {
             return true;
         }
@@ -242,7 +244,7 @@ public class ZoomableFrameLayout extends FrameLayout
         // some components may have started a delayed action, such as a long-press timer, and since we
         // won't receive an ACTION_UP that would cancel that timer, a false event may be triggered.
         // To prevent that we explicitly send one last cancel event when returning false.
-        MotionEvent cancelEvent = MotionEvent.obtain(event);
+        final MotionEvent cancelEvent = MotionEvent.obtain(event);
         cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
         mTapGestureDetector.onTouchEvent(cancelEvent);
         mZoomableController.onTouchEvent(cancelEvent);
@@ -281,15 +283,16 @@ public class ZoomableFrameLayout extends FrameLayout
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        int saveCount = canvas.save();
+    protected void onDraw(final Canvas canvas) {
+        final int saveCount = canvas.save();
         canvas.concat(mZoomableController.getTransform());
         super.onDraw(canvas);
         canvas.restoreToCount(saveCount);
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    protected void onLayout(final boolean changed, final int left,
+                            final int top, final int right, final int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         getImageBounds(mImageBounds);
         updateZoomableControllerBounds();
@@ -297,8 +300,8 @@ public class ZoomableFrameLayout extends FrameLayout
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
-        int saveCount = canvas.save();
+    protected void dispatchDraw(final Canvas canvas) {
+        final int saveCount = canvas.save();
         canvas.concat(mCurrentTransform);
         canvas.concat(mScaleTypeTransform);
         super.dispatchDraw(canvas);
@@ -311,20 +314,21 @@ public class ZoomableFrameLayout extends FrameLayout
     }
 
     @Override
-    public void setScaleType(@ZoomScaleType int scaleType) {
+    public void setScaleType(@ZoomScaleType final int scaleType) {
         mZoomScaleType = scaleType;
         calculateTransformationBasedOnScaleType(true, 0);
     }
 
     @Override
-    public void onContentReady(@IntRange(from = 0) int width, @IntRange(from = 0) int height, boolean forceReset) {
+    public void onContentReady(@IntRange(from = 0) final int width,
+                               @IntRange(from = 0) final int height, final boolean forceReset) {
 
         onContentReady(width, height, mContentViewWidth, mContentViewHeight, forceReset);
     }
 
     @Override
-    public void onContentReady(@IntRange(from = 0) int width, @IntRange(from = 0) int height,
-                               int contentViewWidth, int contentViewHeight, boolean forceReset) {
+    public void onContentReady(@IntRange(from = 0) final int width, @IntRange(from = 0) final int height,
+                               final int contentViewWidth, final int contentViewHeight, final boolean forceReset) {
         if (!forceReset && mContentWidth == width && mContentHeight == height
                 && mContentViewWidth == contentViewWidth && mContentViewHeight == contentViewHeight) {
             return;
@@ -413,14 +417,14 @@ public class ZoomableFrameLayout extends FrameLayout
      * replaces the previously set low-res image). With proper hierarchy scaling (e.g. FIT_CENTER),
      * this underlying change will not affect this view nor the zoomable transformation in any way.
      */
-    protected void getImageBounds(RectF outBounds) {
+    protected void getImageBounds(final RectF outBounds) {
         // This assumes the content is centered in the view, until we can add ScaleTypes
-        View childView = getChildAt(0);
+        final View childView = getChildAt(0);
         if (childView != null) {
-            int width = childView.getWidth();
-            int height = childView.getHeight();
-            int offsetX = (getWidth() - width) >> 1;
-            int offsetY = (getHeight() - height) >> 1;
+            final int width = childView.getWidth();
+            final int height = childView.getHeight();
+            final int offsetX = (getWidth() - width) >> 1;
+            final int offsetY = (getHeight() - height) >> 1;
             outBounds.set(offsetX, offsetY, offsetX + width, offsetY + height);
         }
     }
@@ -434,11 +438,11 @@ public class ZoomableFrameLayout extends FrameLayout
      * This applies to each dimension (horizontal and vertical) independently.
      * <p> Unless overridden by a subclass, these bounds are same as the view bounds.
      */
-    protected void getLimitBounds(RectF outBounds) {
+    protected void getLimitBounds(final RectF outBounds) {
         outBounds.set(0, 0, getWidth(), getHeight());
     }
 
-    protected void onTransformChanged(Matrix transform) {
+    protected void onTransformChanged(final Matrix transform) {
         mCurrentTransform = transform;
         invalidate();
     }
@@ -472,7 +476,8 @@ public class ZoomableFrameLayout extends FrameLayout
         return mZoomableController.isEnabled();
     }
 
-    private void calculateTransformationBasedOnScaleType(boolean rePostIfDimensionsInvalid, int delayMillis) {
+    private void calculateTransformationBasedOnScaleType(final boolean rePostIfDimensionsInvalid,
+                                                         final int delayMillis) {
         // Queue all transformations to ensure they are done in the right order
         postDelayed(new Runnable() {
             @Override
@@ -489,14 +494,17 @@ public class ZoomableFrameLayout extends FrameLayout
                 } else {
                     switch (mZoomScaleType) {
                         case ZoomScaleType.CENTER:
-                            calculateTransformationCentering(mScaleTypeTransform, mImageBounds, rePostIfDimensionsInvalid);
+                            calculateTransformationCentering(mScaleTypeTransform,
+                                    mImageBounds, rePostIfDimensionsInvalid);
                             break;
                         case ZoomScaleType.ZOOM_TO_FIT:
-                            calculateTransformationZoomFit(mScaleTypeTransform, mImageBounds, rePostIfDimensionsInvalid);
+                            calculateTransformationZoomFit(mScaleTypeTransform,
+                                    mImageBounds, rePostIfDimensionsInvalid);
                             break;
                         case ZoomScaleType.FIT_INSIDE:
                         default:
-                            calculateTransformationFitInside(mScaleTypeTransform, mImageBounds, rePostIfDimensionsInvalid);
+                            calculateTransformationFitInside(mScaleTypeTransform,
+                                    mImageBounds, rePostIfDimensionsInvalid);
                             break;
                     }
                 }
@@ -507,9 +515,9 @@ public class ZoomableFrameLayout extends FrameLayout
         }, delayMillis);
     }
 
-    private void calculateTransformationZoomFit(@NonNull Matrix scaleTransform,
-                                                @NonNull RectF imageBounds,
-                                                boolean rePostIfDimensionsInvalid) {
+    private void calculateTransformationZoomFit(@NonNull final Matrix scaleTransform,
+                                                @NonNull final RectF imageBounds,
+                                                final boolean rePostIfDimensionsInvalid) {
         int containerWidth = getWidth();
         int containerHeight = getHeight();
 
@@ -538,25 +546,25 @@ public class ZoomableFrameLayout extends FrameLayout
             scaleHeight = (float) containerHeight / mContentHeight;
         }
 
-        float scale = Math.max(scaleWidth, scaleHeight);
-        int scaledWidth = (int) (scale * mContentWidth);
-        int scaledHeight = (int) (scale * mContentHeight);
+        final float scale = Math.max(scaleWidth, scaleHeight);
+        final int scaledWidth = (int) (scale * mContentWidth);
+        final int scaledHeight = (int) (scale * mContentHeight);
 
-        float offsetX = (containerWidth - scaledWidth) / 2;
-        float offsetY = (containerHeight - scaledHeight) / 2;
+        final float offsetX = (containerWidth - scaledWidth) / 2;
+        final float offsetY = (containerHeight - scaledHeight) / 2;
         imageBounds.set(offsetX, offsetY, containerWidth - offsetX, containerHeight - offsetY);
         scaleTransform.setScale(scale, scale);
         scaleTransform.postTranslate(offsetX, offsetY);
 
-        float baseScale = Math.min(scaleWidth, scaleHeight);
-        float baseMinScale = baseScale / scale;
+        final float baseScale = Math.min(scaleWidth, scaleHeight);
+        final float baseMinScale = baseScale / scale;
         mZoomableController.setMinScaleFactor(baseMinScale);
         mZoomableController.setMaxScaleFactor(baseMinScale * 4);
     }
 
-    private void calculateTransformationFitInside(@NonNull Matrix scaleTransform,
-                                                  @NonNull RectF imageBounds,
-                                                  boolean rePostIfDimensionsInvalid) {
+    private void calculateTransformationFitInside(@NonNull final Matrix scaleTransform,
+                                                  @NonNull final RectF imageBounds,
+                                                  final boolean rePostIfDimensionsInvalid) {
         int containerWidth = getWidth();
         int containerHeight = getHeight();
 
@@ -566,9 +574,10 @@ public class ZoomableFrameLayout extends FrameLayout
             return;
         }
 
-        ContentSize scaledContentSize = calculateFitInside(containerWidth, containerHeight, mContentWidth, mContentHeight);
-        int scaledContentSizeWidth = scaledContentSize.getWidth();
-        int scaledContentSizeHeight = scaledContentSize.getHeight();
+        final ContentSize scaledContentSize = calculateFitInside(containerWidth,
+                containerHeight, mContentWidth, mContentHeight);
+        final int scaledContentSizeWidth = scaledContentSize.getWidth();
+        final int scaledContentSizeHeight = scaledContentSize.getHeight();
 
         //See comment of calculateTransformationZoomFit()
         if (containerWidth == 0 || containerHeight == 0) {
@@ -577,8 +586,8 @@ public class ZoomableFrameLayout extends FrameLayout
             containerHeight = mContentViewHeight;
         }
 
-        float offsetX = (containerWidth - scaledContentSizeWidth) / 2;
-        float offsetY = (containerHeight - scaledContentSizeHeight) / 2;
+        final float offsetX = (containerWidth - scaledContentSizeWidth) / 2;
+        final float offsetY = (containerHeight - scaledContentSizeHeight) / 2;
         imageBounds.set(offsetX, offsetY, containerWidth - offsetX, containerHeight - offsetY);
         scaleTransform.setScale(scaledContentSize.getScale(), scaledContentSize.getScale());
         scaleTransform.postTranslate(offsetX, offsetY);
@@ -586,9 +595,9 @@ public class ZoomableFrameLayout extends FrameLayout
         mZoomableController.setMaxScaleFactor(4);
     }
 
-    private void calculateTransformationCentering(@NonNull Matrix scaleTransform,
-                                                  @NonNull RectF imageBounds,
-                                                  boolean rePostIfDimensionsInvalid) {
+    private void calculateTransformationCentering(@NonNull final Matrix scaleTransform,
+                                                  @NonNull final RectF imageBounds,
+                                                  final boolean rePostIfDimensionsInvalid) {
         int containerWidth = getWidth();
         int containerHeight = getHeight();
 
@@ -605,16 +614,16 @@ public class ZoomableFrameLayout extends FrameLayout
             containerHeight = mContentViewHeight;
         }
 
-        float offsetX = (containerWidth - mContentWidth) / 2;
-        float offsetY = (containerHeight - mContentHeight) / 2;
+        final float offsetX = (containerWidth - mContentWidth) / 2;
+        final float offsetY = (containerHeight - mContentHeight) / 2;
         imageBounds.set(offsetX, offsetY, containerWidth - offsetX, containerHeight - offsetY);
         scaleTransform.postTranslate(offsetX, offsetY);
         mZoomableController.setMinScaleFactor(1);
         mZoomableController.setMaxScaleFactor(4);
     }
 
-    private void calculateTransformationFitRoi(@NonNull Matrix scaleTransform,
-                                               boolean rePostIfDimensionsInvalid) {
+    private void calculateTransformationFitRoi(@NonNull final Matrix scaleTransform,
+                                               final boolean rePostIfDimensionsInvalid) {
         int containerWidth = getWidth();
         int containerHeight = getHeight();
 
@@ -655,19 +664,15 @@ public class ZoomableFrameLayout extends FrameLayout
             return;
         }
 
-        RectF contentRectF = new RectF(scaledOffsetX, scaledOffsetY,
+        final RectF contentRectF = new RectF(scaledOffsetX, scaledOffsetY,
                 scaledWidth + scaledOffsetX, scaledHeight + scaledOffsetY);
-        RectF containerRectF = new RectF(0, 0, containerWidth, containerHeight);
-
-        boolean result = scaleTransform.setRectToRect(contentRectF, containerRectF, Matrix.ScaleToFit.CENTER);
+        final RectF containerRectF = new RectF(0, 0, containerWidth, containerHeight);
 
         mZoomableController.setMinScaleFactor(1);
         mZoomableController.setMaxScaleFactor(4);
-
-
     }
 
-    private float removeDecimal(float n) {
+    private float removeDecimal(final float n) {
         return (float) ((int) n);
     }
 
@@ -678,7 +683,7 @@ public class ZoomableFrameLayout extends FrameLayout
         mScaleTypeTransform = new Matrix();
         mFling = new Fling().setListener(new Fling.Listener() {
             @Override
-            public void onTranslated(float dx, float dy) {
+            public void onTranslated(final float dx, final float dy) {
                 mCurrentTransform.postTranslate(dx, dy);
                 mZoomableController.limitTranslation(mCurrentTransform, LimitFlag.LIMIT_ALL);
                 ZoomableFrameLayout.this.invalidate();
@@ -687,8 +692,8 @@ public class ZoomableFrameLayout extends FrameLayout
         this.setTapListener(new DoubleTapGestureListener(this));
     }
 
-    public void addHeaderNotification(@NotNull Function0<Unit> showFloatingHeaderCallBack) {
-         showFloatingHeaderCallBackCallBack = showFloatingHeaderCallBack;
+    public void addHeaderNotification(@NotNull final Function0<Unit> showFloatingHeaderCallBack) {
+        showFloatingHeaderCallBackCallBack = showFloatingHeaderCallBack;
     }
 
     /**
@@ -705,7 +710,9 @@ public class ZoomableFrameLayout extends FrameLayout
         float offsetY;
         float width;
         float height;
-        public RegionOfInterest(float offsetX, float offsetY, float width, float height) {
+
+        public RegionOfInterest(final float offsetX, final float offsetY,
+                                final float width, final float height) {
             this.offsetX = offsetX;
             this.offsetY = offsetY;
             this.height = height;

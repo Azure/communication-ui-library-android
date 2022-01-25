@@ -9,41 +9,44 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable;
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.graphics.Matrix;
+
 import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
+
 import android.view.animation.DecelerateInterpolator;
 
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.teams.zoomable.gesture.TransformGestureDetector;
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable.gesture.TransformGestureDetector;
 
 
 /**
  * ZoomableController that adds animation capabilities to DefaultZoomableController using standard
  * Android animation classes
- *
- * ***** THIS IS CURRENTLY NOT IN USED, THIS WILL BE USEFUL FOR DOUBLE TAP AND FOR BOUNCING BEHAVIORS AND WHAT NOT ******
+ * <p>
+ * ***** THIS IS CURRENTLY NOT IN USED,
+ * THIS WILL BE USEFUL FOR DOUBLE TAP AND FOR BOUNCING BEHAVIORS AND WHAT NOT ******
  */
 final class AnimatedZoomableController extends AbstractAnimatedZoomableController {
     private final ValueAnimator mValueAnimator;
 
-    public static AnimatedZoomableController newInstance() {
-        return new AnimatedZoomableController(TransformGestureDetector.newInstance());
-    }
-
-    private AnimatedZoomableController(TransformGestureDetector transformGestureDetector) {
+    private AnimatedZoomableController(final TransformGestureDetector transformGestureDetector) {
         super(transformGestureDetector);
         mValueAnimator = ValueAnimator.ofFloat(0, 1);
         mValueAnimator.setInterpolator(new DecelerateInterpolator());
     }
 
+    public static AnimatedZoomableController newInstance() {
+        return new AnimatedZoomableController(TransformGestureDetector.newInstance());
+    }
+
     @Override
     public void setTransformAnimated(final Matrix newTransform,
-                                     @IntRange(from = 1) long durationMs,
+                                     @IntRange(from = 1) final long durationMs,
                                      @Nullable final Runnable onAnimationComplete) {
         stopAnimation();
         setAnimating(true);
@@ -52,19 +55,19 @@ final class AnimatedZoomableController extends AbstractAnimatedZoomableControlle
         newTransform.getValues(getStopValues());
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            public void onAnimationUpdate(final ValueAnimator valueAnimator) {
                 calculateInterpolation(getWorkingTransform(), (float) valueAnimator.getAnimatedValue());
                 AnimatedZoomableController.super.setTransform(getWorkingTransform());
             }
         });
         mValueAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationCancel(Animator animation) {
+            public void onAnimationCancel(final Animator animation) {
                 onAnimationStopped();
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
+            public void onAnimationEnd(final Animator animation) {
                 onAnimationStopped();
             }
 
