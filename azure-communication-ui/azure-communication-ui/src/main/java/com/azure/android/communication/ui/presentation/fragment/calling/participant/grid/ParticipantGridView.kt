@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.calling.StreamSize
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var viewLifecycleOwner: LifecycleOwner
     private lateinit var participantGridViewModel: ParticipantGridViewModel
     private lateinit var getVideoStreamCallback: (String, String) -> View?
-    private lateinit var getScreenShareStreamSize: () -> StreamSize?
+    private lateinit var getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?
 
     fun start(
         participantGridViewModel: ParticipantGridViewModel,
@@ -54,8 +54,8 @@ internal class ParticipantGridView : GridLayout {
                 )
             }
 
-        this.getScreenShareStreamSize = {
-            this.videoViewManager.getScreenShareStreamSize()
+        this.getScreenShareVideoStreamRenderer = {
+            this.videoViewManager.getScreenShareVideoStreamRenderer()
         }
 
         this.participantGridViewModel.setUpdateVideoStreamsCallback { users: List<Pair<String, String>> ->
@@ -215,6 +215,6 @@ internal class ParticipantGridView : GridLayout {
             getVideoStreamCallback,
             viewLifecycleOwner.lifecycleScope,
             showFloatingHeaderCallBack,
-            getScreenShareStreamSize
+            getScreenShareVideoStreamRenderer
         )
 }

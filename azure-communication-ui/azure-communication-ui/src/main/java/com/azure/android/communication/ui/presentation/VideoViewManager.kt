@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import com.azure.android.communication.calling.RemoteVideoStream
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.calling.VideoStreamRendererView
-import com.azure.android.communication.calling.StreamSize
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.CreateViewOptions
@@ -29,10 +28,10 @@ internal class VideoViewManager(
 
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
 
-    fun getScreenShareStreamSize(): StreamSize? {
+    fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
         remoteParticipantVideoRendererMap.values.forEach {
             if (it.isScreenShareView) {
-                return it.videoStreamRenderer?.size
+                return it.videoStreamRenderer
             }
         }
         return null

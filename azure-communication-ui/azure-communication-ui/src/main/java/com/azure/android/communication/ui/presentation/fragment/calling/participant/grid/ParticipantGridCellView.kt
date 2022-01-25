@@ -11,7 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.azure.android.communication.calling.StreamSize
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
@@ -23,7 +23,7 @@ internal class ParticipantGridCellView(
     private val getVideoStream: (String, String) -> View?,
     private val lifecycleScope: LifecycleCoroutineScope,
     showFloatingHeaderCallBack: () -> Unit,
-    private val getScreenShareStreamSize: () -> StreamSize?
+    private val getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?
 ) : RelativeLayout(context) {
 
     init {
@@ -84,7 +84,7 @@ internal class ParticipantGridCellView(
             context,
             lifecycleScope,
             showFloatingHeaderCallBack,
-            getScreenShareStreamSize
+            getScreenShareVideoStreamRenderer
         )
     }
 }

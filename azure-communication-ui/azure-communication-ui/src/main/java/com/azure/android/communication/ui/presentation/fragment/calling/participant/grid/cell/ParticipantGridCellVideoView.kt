@@ -18,7 +18,9 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.calling.RendererListener
 import com.azure.android.communication.calling.StreamSize
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
@@ -37,9 +39,11 @@ internal class ParticipantGridCellVideoView(
     private val context: Context,
     lifecycleScope: LifecycleCoroutineScope,
     private val showFloatingHeaderCallBack: () -> Unit,
-    private val getScreenShareStreamSize: () -> StreamSize?,
+    private val getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?,
 ) {
     private var videoStream: View? = null
+    private lateinit var rendererViewTransformationWrapper: LinearLayout
+    private lateinit var zoomFrameLayoutView: ZoomableFrameLayout
 
     init {
 
@@ -113,7 +117,8 @@ internal class ParticipantGridCellVideoView(
 
             val zoomFrameLayoutView =
                 ZoomableFrameLayout(
-                    this.context)
+                    this.context
+                )
             zoomFrameLayoutView.layoutParams =
                 FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
@@ -121,8 +126,7 @@ internal class ParticipantGridCellVideoView(
                 )
             zoomFrameLayoutView.addView(rendererViewTransformationWrapper)
             zoomFrameLayoutView.addHeaderNotification(showFloatingHeaderCallBack)
-            triggerSizeUpdate(rendererViewTransformationWrapper, zoomFrameLayoutView)
-
+            getScreenShareVideoStreamRenderer()?.addRendererListener(rendererListener())
             videoContainer.addView(zoomFrameLayoutView, 0)
         } else {
             rendererView.background = background
@@ -130,40 +134,29 @@ internal class ParticipantGridCellVideoView(
         }
     }
 
-    private fun triggerSizeUpdate(
-        rendererViewTransformationWrapper: LinearLayout,
-        zoomFrameLayoutView: ZoomableFrameLayout,
-    ) {
-        videoContainer.postDelayed(
-            {
-                val streamSize = getScreenShareStreamSize()
-                if (streamSize == null) {
-                    triggerSizeUpdate(rendererViewTransformationWrapper, zoomFrameLayoutView)
-                } else {
-                    streamSize.let {
-                        setVideoSize(it, rendererViewTransformationWrapper, zoomFrameLayoutView)
-                    }
-                }
-            },
-            1000
-        )
+    private fun rendererListener() = object : RendererListener {
+        override fun onFirstFrameRendered() {
+            val size = getScreenShareVideoStreamRenderer()?.size
+            setScreenShareLayoutSize(size!!)
+            getScreenShareVideoStreamRenderer()?.removeRendererListener(this)
+        }
+
+        override fun onRendererFailedToStart() {
+        }
     }
 
-    private fun setVideoSize(
-        it: StreamSize,
-        rendererViewTransformationWrapper: LinearLayout,
-        zoomFrameLayoutView: ZoomableFrameLayout,
-    ) {
+    private fun setScreenShareLayoutSize(streamSize: StreamSize) {
+        // below logic is from SDK team code to find width and height of video view (no grey portion)
         val viewWidth = videoContainer.width.toFloat()
         val viewHeight = videoContainer.height.toFloat()
-        val videoWidth = it.width
-        val videoHeight = it.height
+        val videoWidth = streamSize.width
+        val videoHeight = streamSize.height
 
         val scaleWidth = viewWidth / videoWidth
         val scaleHeight = viewHeight / videoHeight
         val scale = scaleWidth.coerceAtMost(scaleHeight)
 
-        var layoutParams =
+        val layoutParams =
             rendererViewTransformationWrapper.layoutParams as FrameLayout.LayoutParams
         if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             layoutParams.height = (scale * videoHeight).toInt()
