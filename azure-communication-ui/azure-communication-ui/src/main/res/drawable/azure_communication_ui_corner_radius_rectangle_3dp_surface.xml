@@ -3,4 +3,5 @@
     android:shape="rectangle"
     >
     <corners android:radius="3dp" />
+    <solid android:color="@color/azure_communication_ui_color_surface" />
 </shape>
