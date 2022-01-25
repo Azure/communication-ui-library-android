@@ -212,28 +212,27 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     private fun setStatusBarColor() {
-        window.statusBarColor = ContextCompat.getColor(
-            this,
-            R.color.azure_communication_ui_color_status_bar
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.statusBarColor = ContextCompat.getColor(
+                this,
+                R.color.azure_communication_ui_color_status_bar
+            )
+            val isNightMode = this.resources.configuration.uiMode
+                .and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
-        val isNightMode = this.resources.configuration.uiMode
-            .and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-
-        if (isNightMode) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
+            if (isNightMode) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
+                } else {
+                    window.clearFlags(0)
+                }
             } else {
-                window.clearFlags(0)
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                window.insetsController?.setSystemBarsAppearance(
-                    APPEARANCE_LIGHT_STATUS_BARS,
-                    APPEARANCE_LIGHT_STATUS_BARS
-                )
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    window.insetsController?.setSystemBarsAppearance(
+                        APPEARANCE_LIGHT_STATUS_BARS,
+                        APPEARANCE_LIGHT_STATUS_BARS
+                    )
+                } else {
                     @Suppress("DEPRECATION")
                     window.decorView.systemUiVisibility =
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
