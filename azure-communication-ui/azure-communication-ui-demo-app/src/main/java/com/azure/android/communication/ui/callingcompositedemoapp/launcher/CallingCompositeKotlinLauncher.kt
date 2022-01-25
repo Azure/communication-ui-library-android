@@ -10,8 +10,6 @@ import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallCompositeBuilder
 import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
-import com.azure.android.communication.ui.callingcompositedemoapp.R
-import com.azure.android.communication.ui.configuration.ThemeConfiguration
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -25,7 +23,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         meetingLink: String?,
         showAlert: ((String) -> Unit)?,
     ) {
-        val callComposite: CallComposite = CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme)).build()
+        val callComposite: CallComposite = CallCompositeBuilder().build()
 
         callComposite.setOnErrorHandler {
             println("================= application is logging exception =================")
