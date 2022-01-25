@@ -161,7 +161,7 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setScreenShareLayoutSize(streamSize: StreamSize) {
-        // below logic is from SDK team code to find width and height of video view excluding grey portion
+        // this logic is from calling SDK code to find width and height of video view excluding grey screen
         val viewWidth = videoContainer.width.toFloat()
         val viewHeight = videoContainer.height.toFloat()
         val videoWidth = streamSize.width
