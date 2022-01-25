@@ -24,6 +24,7 @@ internal class AudioSessionManager(
         this.audioManager = audioManager
 
         activity.volumeControlStream = AudioManager.STREAM_VOICE_CALL
+        /// Todo: We set the mode in the enable routes, 
         audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
         initializeAudioDeviceState()
         store.getStateFlow().collect {
@@ -37,6 +38,7 @@ internal class AudioSessionManager(
     }
 
     private fun initializeAudioDeviceState() {
+        /// TODO: Check better? Bluetooth?
         if (audioManager.isSpeakerphoneOn) {
             store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
         } else {
@@ -54,37 +56,41 @@ internal class AudioSessionManager(
     private fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> {
-                setSpeakerPhoneStatus(true)
-                setBluetoothEnabled(false)
+                enableSpeakerPhone()
                 store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
             }
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
-                setSpeakerPhoneStatus(false)
-                setBluetoothEnabled(false)
+                enableEarpiece()
                 store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED))
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
-                setSpeakerPhoneStatus(true)
-                setBluetoothEnabled(true)
+                enableBluetooth()
                 store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED))
             }
         }
     }
 
-    private fun setSpeakerPhoneStatus(status: Boolean) {
-        audioManager.isSpeakerphoneOn = status
+
+
+    private fun enableSpeakerPhone() {
+        audioManager.setMode(AudioManager.MODE_NORMAL);
+        audioManager.stopBluetoothSco();
+        audioManager.setBluetoothScoOn(false);
+        audioManager.setSpeakerphoneOn(true);
     }
 
-    private fun setBluetoothEnabled(enabled: Boolean) {
+    private fun enableEarpiece() {
+        //For phone ear piece
+        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.stopBluetoothSco();
+        audioManager.setBluetoothScoOn(false);
+        audioManager.setSpeakerphoneOn(false);
+    }
 
-        if (enabled && !audioManager.isBluetoothScoOn) {
+    private fun enableBluetooth() {
+        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.startBluetoothSco();
+        audioManager.setBluetoothScoOn(true);
 
-            audioManager.startBluetoothSco()
-            audioManager.isBluetoothScoOn = true
-        } else if (!enabled && audioManager.isBluetoothScoOn){
-            audioManager.stopBluetoothSco()
-            audioManager.isBluetoothScoOn = false
-
-        }
     }
 }
