@@ -199,12 +199,6 @@ internal class SetupControlBarView : LinearLayout {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             button.compoundDrawableTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
-            button.background.setTint(
-                ContextCompat.getColor(
-                    this.context,
-                    R.color.azure_communication_ui_toggle_selector
-                )
-            )
         } else {
             button.compoundDrawables[1].colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(context, colorId),

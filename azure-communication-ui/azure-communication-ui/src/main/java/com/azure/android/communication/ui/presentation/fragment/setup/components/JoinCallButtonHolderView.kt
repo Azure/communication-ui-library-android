@@ -26,8 +26,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
         setupJoinCallButton = findViewById(R.id.azure_communication_ui_setup_join_call_button)
-        setupJoinCallButtonText =
-            findViewById(R.id.azure_communication_ui_setup_start_call_button_text)
+        setupJoinCallButtonText = findViewById(R.id.azure_communication_ui_setup_start_call_button_text)
         setupJoinCallButton.background = ContextCompat.getDrawable(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_primary_background
@@ -51,7 +50,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
                         setupJoinCallButton.background.setTint(
                             ContextCompat.getColor(
                                 context,
-                                R.color.azure_communication_ui_color_on_disabled
+                                R.color.azure_communication_ui_color_disabled
                             )
                         )
                     } else {
