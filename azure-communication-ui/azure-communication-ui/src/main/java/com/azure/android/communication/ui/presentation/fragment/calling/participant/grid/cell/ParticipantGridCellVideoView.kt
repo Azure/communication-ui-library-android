@@ -112,13 +112,10 @@ internal class ParticipantGridCellVideoView(
         )
 
         if (streamType == StreamType.SCREEN_SHARING) {
-            val rendererViewTransformationWrapper = LinearLayout(this.context)
+            rendererViewTransformationWrapper = LinearLayout(this.context)
             rendererViewTransformationWrapper.addView(rendererView)
 
-            val zoomFrameLayoutView =
-                ZoomableFrameLayout(
-                    this.context
-                )
+            zoomFrameLayoutView = ZoomableFrameLayout(this.context)
             zoomFrameLayoutView.layoutParams =
                 FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
