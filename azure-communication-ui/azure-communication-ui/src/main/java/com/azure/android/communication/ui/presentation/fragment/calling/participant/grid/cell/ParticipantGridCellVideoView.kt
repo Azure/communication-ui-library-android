@@ -7,14 +7,15 @@ import android.content.Context
 import android.content.res.Configuration
 import android.view.Gravity
 import android.view.View
-import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.view.View.GONE
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -112,9 +113,13 @@ internal class ParticipantGridCellVideoView(
         )
 
         if (streamType == StreamType.SCREEN_SHARING) {
+            val streamSize = getScreenShareVideoStreamRenderer()?.size
+            // if the stream size is null, it indicates frame is not rendered yet
+            if (streamSize == null) {
+                getScreenShareVideoStreamRenderer()?.addRendererListener(rendererListener())
+            }
             rendererViewTransformationWrapper = LinearLayout(this.context)
             rendererViewTransformationWrapper.addView(rendererView)
-
             zoomFrameLayoutView = ZoomableFrameLayout(this.context)
             zoomFrameLayoutView.layoutParams =
                 FrameLayout.LayoutParams(
@@ -123,27 +128,41 @@ internal class ParticipantGridCellVideoView(
                 )
             zoomFrameLayoutView.addView(rendererViewTransformationWrapper)
             zoomFrameLayoutView.addHeaderNotification(showFloatingHeaderCallBack)
-            getScreenShareVideoStreamRenderer()?.addRendererListener(rendererListener())
             videoContainer.addView(zoomFrameLayoutView, 0)
+
+            videoContainer.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    videoContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    // update view size only after child is added successfully
+                    applyScreenShareSize()
+                }
+            })
         } else {
             rendererView.background = background
             videoContainer.addView(rendererView, 0)
         }
     }
 
+    private fun applyScreenShareSize() {
+        val streamSize = getScreenShareVideoStreamRenderer()?.size
+        streamSize?.let {
+            videoContainer.post {
+                setScreenShareLayoutSize(it)
+            }
+        }
+    }
+
     private fun rendererListener() = object : RendererListener {
         override fun onFirstFrameRendered() {
-            val size = getScreenShareVideoStreamRenderer()?.size
-            setScreenShareLayoutSize(size!!)
+            applyScreenShareSize()
             getScreenShareVideoStreamRenderer()?.removeRendererListener(this)
         }
-
         override fun onRendererFailedToStart() {
         }
     }
 
     private fun setScreenShareLayoutSize(streamSize: StreamSize) {
-        // below logic is from SDK team code to find width and height of video view (no grey portion)
+        // below logic is from SDK team code to find width and height of video view excluding grey portion
         val viewWidth = videoContainer.width.toFloat()
         val viewHeight = videoContainer.height.toFloat()
         val videoWidth = streamSize.width
@@ -162,7 +181,6 @@ internal class ParticipantGridCellVideoView(
             layoutParams.width = (scale * videoWidth).toInt()
             layoutParams.gravity = Gravity.CENTER_HORIZONTAL
         }
-
         rendererViewTransformationWrapper.layoutParams = layoutParams
         zoomFrameLayoutView.enableInteractions()
     }
