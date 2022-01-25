@@ -211,10 +211,10 @@ internal class ParticipantGridView : GridLayout {
     ): ParticipantGridCellView =
         ParticipantGridCellView(
             context,
+            showFloatingHeaderCallBack,
             participantGridCellViewModel,
             getVideoStreamCallback,
             viewLifecycleOwner.lifecycleScope,
-            showFloatingHeaderCallBack,
             getScreenShareVideoStreamRenderer
         )
 }

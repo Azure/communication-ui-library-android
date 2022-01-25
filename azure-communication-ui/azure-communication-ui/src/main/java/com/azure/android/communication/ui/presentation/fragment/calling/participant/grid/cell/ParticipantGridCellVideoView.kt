@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ParticipantGridCellVideoView(
+    lifecycleScope: LifecycleCoroutineScope,
     private val participantVideoContainerFrameLayout: FrameLayout,
     private val videoContainer: ConstraintLayout,
     private val displayNameOnVideoTextView: TextView,
@@ -38,7 +39,6 @@ internal class ParticipantGridCellVideoView(
     private val participantViewModel: ParticipantGridCellViewModel,
     private val getVideoStream: (String, String) -> View?,
     private val context: Context,
-    lifecycleScope: LifecycleCoroutineScope,
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?,
 ) {
@@ -47,7 +47,6 @@ internal class ParticipantGridCellVideoView(
     private lateinit var zoomFrameLayoutView: ZoomableFrameLayout
 
     init {
-
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
                 setDisplayName(it)

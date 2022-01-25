@@ -19,10 +19,10 @@ import com.microsoft.fluentui.persona.AvatarView
 
 internal class ParticipantGridCellView(
     context: Context,
+    showFloatingHeaderCallBack: () -> Unit,
     private val participantViewModel: ParticipantGridCellViewModel,
     private val getVideoStream: (String, String) -> View?,
     private val lifecycleScope: LifecycleCoroutineScope,
-    showFloatingHeaderCallBack: () -> Unit,
     private val getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?
 ) : RelativeLayout(context) {
 
@@ -75,6 +75,7 @@ internal class ParticipantGridCellView(
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
         ParticipantGridCellVideoView(
+            lifecycleScope,
             participantVideoContainerFrameLayout,
             videoContainer,
             displayNameOnVideoTextView,
@@ -82,7 +83,6 @@ internal class ParticipantGridCellView(
             participantViewModel,
             getVideoStream,
             context,
-            lifecycleScope,
             showFloatingHeaderCallBack,
             getScreenShareVideoStreamRenderer
         )
