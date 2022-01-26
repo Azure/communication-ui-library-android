@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.callingcompositedemoapp.launcher
+package com.azure.android.communication.ui.callingcompositedemoapp
 
 import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject

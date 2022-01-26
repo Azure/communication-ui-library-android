@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
-import android.content.Context
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.CallComposite
@@ -11,6 +10,7 @@ import com.azure.android.communication.ui.CallCompositeBuilder
 import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.MainActivity
+import com.azure.android.communication.ui.callingcompositedemoapp.MainActivityErrorHandler
 import java.util.UUID
 import java.util.concurrent.Callable
 

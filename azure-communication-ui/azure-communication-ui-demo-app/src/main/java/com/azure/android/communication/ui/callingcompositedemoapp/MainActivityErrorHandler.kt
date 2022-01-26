@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.callingcompositedemoapp.launcher
+package com.azure.android.communication.ui.callingcompositedemoapp
 
 import com.azure.android.communication.ui.CallingEventHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.MainActivity
@@ -6,7 +6,8 @@ import com.azure.android.communication.ui.configuration.events.CallCompositeErro
 import com.azure.android.communication.ui.configuration.events.ErrorEvent
 import java.lang.ref.WeakReference
 
-/// We take the Activity as a Param
+/// Handles forwarding of error messages to the MainActivity
+/// Stores MainActivity in a WeakReference in case it gets disposed
 class MainActivityErrorHandler(activity: MainActivity) : CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> {
 
     /// But store in WeakReference to avoid leaks
@@ -16,11 +17,7 @@ class MainActivityErrorHandler(activity: MainActivity) : CallingEventHandler<Err
         println("================= application is logging exception =================")
         println(it.cause)
         println(it.errorCode)
-        if (it.cause != null) {
-            activityWr.get()?.showAlert(it.errorCode.toString() + " " + it.cause?.message)
-        } else {
-            activityWr.get()?.showAlert(it.errorCode.toString() + " " + it.cause?.message)
-        }
+        activityWr.get()?.showAlert(it.errorCode.toString() + " " + it.cause?.message)
         println("====================================================================")
     }
 }
