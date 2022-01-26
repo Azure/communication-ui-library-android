@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.CallComposite;
 import com.azure.android.communication.ui.CallCompositeBuilder;
 import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
+import com.azure.android.communication.ui.callingcompositedemoapp.MainActivity;
 
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -27,7 +28,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
     }
 
     @Override
-    public void launch(final Context context,
+    public void launch(final MainActivity context,
                        final String displayName,
                        final UUID groupId,
                        final String meetingLink,
@@ -37,18 +38,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 //                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
                         .build();
 
-        callComposite.setOnErrorHandler(eventHandler -> {
-            System.out.println("================= application is logging exception =================");
-            System.out.println(eventHandler.getCause());
-            System.out.println(eventHandler.getErrorCode());
-            if (eventHandler.getCause() != null) {
-                showAlert.invoke(eventHandler.getErrorCode().toString() + " "
-                        + eventHandler.getCause().getMessage());
-            } else {
-                showAlert.invoke(eventHandler.getErrorCode().toString());
-            }
-            System.out.println("====================================================================");
-        });
+        callComposite.setOnErrorHandler(new MainActivityErrorHandler(context));
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
                 new CommunicationTokenRefreshOptions(tokenRefresher, true);

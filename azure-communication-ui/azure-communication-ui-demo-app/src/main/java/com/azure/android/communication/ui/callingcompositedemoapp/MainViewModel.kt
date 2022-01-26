@@ -63,6 +63,7 @@ class MainViewModel : ViewModel() {
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
 
+    
     private fun fetchToken(tokenFunctionURL: String) {
 
         if (urlIsValid(tokenFunctionURL)) {

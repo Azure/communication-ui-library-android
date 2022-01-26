@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAlert(message: String) {
+    fun showAlert(message: String) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
                 setMessage(message)
