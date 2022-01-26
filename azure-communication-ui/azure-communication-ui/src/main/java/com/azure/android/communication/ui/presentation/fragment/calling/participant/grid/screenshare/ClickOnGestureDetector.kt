@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare
 
 import android.view.GestureDetector
 import android.view.MotionEvent
