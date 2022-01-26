@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import com.azure.android.communication.ui.helper.MainCoroutineRule
-import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.PermissionAction
@@ -31,9 +30,8 @@ internal class SetupControlBarViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, mockAudioDeviceListViewModel)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.requestAudioPermission()
@@ -52,9 +50,8 @@ internal class SetupControlBarViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, mockAudioDeviceListViewModel)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.turnCameraOn()
@@ -73,9 +70,8 @@ internal class SetupControlBarViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, mockAudioDeviceListViewModel)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.turnCameraOff()
@@ -94,9 +90,8 @@ internal class SetupControlBarViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, mockAudioDeviceListViewModel)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.turnMicOn()
@@ -115,9 +110,8 @@ internal class SetupControlBarViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, mockAudioDeviceListViewModel)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.turnMicOff()

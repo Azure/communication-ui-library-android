@@ -23,6 +23,7 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var participantNumberText: TextView
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var infoHeaderViewModel: InfoHeaderViewModel
+    private lateinit var displayParticipantListCallback: () -> Unit
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -32,15 +33,18 @@ internal class InfoHeaderView : ConstraintLayout {
         displayParticipantsImageButton =
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
         displayParticipantsImageButton.setOnClickListener {
-            displayParticipantList()
+            displayParticipantListCallback()
         }
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         infoHeaderViewModel: InfoHeaderViewModel,
+        displayParticipantList: () -> Unit,
     ) {
         this.infoHeaderViewModel = infoHeaderViewModel
+        this.displayParticipantListCallback = displayParticipantList
+
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
                 floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
@@ -61,9 +65,5 @@ internal class InfoHeaderView : ConstraintLayout {
                 }
             }
         }
-    }
-
-    private fun displayParticipantList() {
-        infoHeaderViewModel.displayParticipantList()
     }
 }
