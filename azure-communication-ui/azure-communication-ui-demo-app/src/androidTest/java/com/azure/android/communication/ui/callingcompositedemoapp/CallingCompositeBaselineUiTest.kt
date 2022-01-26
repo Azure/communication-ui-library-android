@@ -22,7 +22,7 @@ class CallingCompositeBaselineUiTest {
 
     @Rule
     @JvmField
-    var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
+    var activityTestRule = ActivityScenarioRule(CallLauncherActivity::class.java)
     @Rule
     @JvmField
     var grantPermissionRule: GrantPermissionRule =

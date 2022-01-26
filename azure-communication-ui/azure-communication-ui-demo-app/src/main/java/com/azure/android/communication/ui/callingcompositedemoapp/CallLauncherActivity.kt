@@ -8,19 +8,19 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityMainBinding
+import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import java.util.UUID
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModels()
+class CallLauncherActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityCallLauncherBinding
+    private val callLauncherViewModel: CallLauncherViewModel by viewModels()
     private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val data: Uri? = intent?.data
@@ -31,15 +31,15 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(isTokenFunctionOptionSelected)) {
-                mainViewModel.useTokenFunction()
+                callLauncherViewModel.useTokenFunction()
             } else {
-                mainViewModel.useAcsToken()
+                callLauncherViewModel.useAcsToken()
             }
 
             if (savedInstanceState.getBoolean(isKotlinLauncherOptionSelected)) {
-                mainViewModel.setKotlinLauncher()
+                callLauncherViewModel.setKotlinLauncher()
             } else {
-                mainViewModel.setJavaLauncher()
+                callLauncherViewModel.setJavaLauncher()
             }
         }
 
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
             launchButton.setOnClickListener {
                 launchButton.isEnabled = false
-                mainViewModel.doLaunch(
+                callLauncherViewModel.doLaunch(
                     tokenFunctionUrlText.text.toString(),
                     acsTokenText.text.toString()
                 )
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     tokenFunctionUrlText.isEnabled = true
                     acsTokenText.isEnabled = false
                     acsTokenRadioButton.isChecked = false
-                    mainViewModel.useTokenFunction()
+                    callLauncherViewModel.useTokenFunction()
                 }
             }
             acsTokenRadioButton.setOnClickListener {
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     acsTokenText.isEnabled = true
                     tokenFunctionUrlText.isEnabled = false
                     tokenFunctionRadioButton.isChecked = false
-                    mainViewModel.useAcsToken()
+                    callLauncherViewModel.useAcsToken()
                 }
             }
             groupCallRadioButton.setOnClickListener {
@@ -109,20 +109,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             javaButton.setOnClickListener {
-                mainViewModel.setJavaLauncher()
+                callLauncherViewModel.setJavaLauncher()
             }
             kotlinButton.setOnClickListener {
-                mainViewModel.setKotlinLauncher()
+                callLauncherViewModel.setKotlinLauncher()
             }
         }
 
-        mainViewModel.fetchResult.observe(this) {
+        callLauncherViewModel.fetchResult.observe(this) {
             processResult(it)
         }
     }
 
     override fun onDestroy() {
-        mainViewModel.destroy()
+        callLauncherViewModel.destroy()
         super.onDestroy()
     }
 
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@MainActivity, userName, groupId, null, ::showAlert)
+            launcher.launch(this@CallLauncherActivity, userName, groupId, null, ::showAlert)
         }
 
         if (binding.teamsMeetingRadioButton.isChecked) {
@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@MainActivity, userName, null, meetingLink, ::showAlert)
+            launcher.launch(this@CallLauncherActivity, userName, null, meetingLink, ::showAlert)
         }
     }
 
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveState(outstate: Bundle?) {
-        outstate?.putBoolean(isTokenFunctionOptionSelected, mainViewModel.isTokenFunctionOptionSelected)
-        outstate?.putBoolean(isKotlinLauncherOptionSelected, mainViewModel.isKotlinLauncher)
+        outstate?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
+        outstate?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
     }
 }

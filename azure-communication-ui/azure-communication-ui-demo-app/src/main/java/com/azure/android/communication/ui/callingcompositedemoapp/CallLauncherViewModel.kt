@@ -11,7 +11,7 @@ import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject
 import java.io.IOException
 
-class MainViewModel : ViewModel() {
+class CallLauncherViewModel : ViewModel() {
     private var token: String? = null
 
     var isKotlinLauncher = true; private set
