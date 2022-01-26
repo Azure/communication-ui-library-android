@@ -5,10 +5,11 @@ import com.azure.android.communication.ui.configuration.events.CallCompositeErro
 import com.azure.android.communication.ui.configuration.events.ErrorEvent
 import java.lang.ref.WeakReference
 
-// / Handles forwarding of error messages to the MainActivity
-// / Stores MainActivity in a WeakReference in case it gets disposed
+// Handles forwarding of error messages to the MainActivity
+//
+// MainActivity is loosely coupled and will detach the weak reference after disposed.
 class MainActivityErrorHandler(activity: MainActivity) : CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> {
-    
+
     private val activityWr: WeakReference<MainActivity> = WeakReference(activity)
 
     override fun handle(it: ErrorEvent<CallCompositeErrorCode>) {

@@ -5,6 +5,8 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Callable
 
+// The Calling SDK Requires a callable that can return a string
+// It is run in a Handler (non-ui thread) so this network call is blocking.
 class UrlTokenFetcher(private val tokenFunctionURL: String) : Callable<String> {
     override fun call(): String {
         val result = tokenFunctionURL.httpGet().responseString()
