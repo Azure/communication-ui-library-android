@@ -8,7 +8,10 @@ import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
-class GetEditTextAction : ViewAction {
+interface ACSViewAction : ViewAction {
+    fun getText(): String
+}
+class GetEditTextAction : ACSViewAction {
     private lateinit var stringHolder: String
 
     override fun getConstraints(): Matcher<View> =
@@ -25,5 +28,5 @@ class GetEditTextAction : ViewAction {
         stringHolder = editText.text.toString()
     }
 
-    fun getText() = stringHolder
+    override fun getText() = stringHolder
 }
