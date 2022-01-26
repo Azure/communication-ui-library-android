@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.content.Context;
-
 import com.azure.android.communication.ui.callingcompositedemoapp.MainActivity;
 
 import java.util.UUID;

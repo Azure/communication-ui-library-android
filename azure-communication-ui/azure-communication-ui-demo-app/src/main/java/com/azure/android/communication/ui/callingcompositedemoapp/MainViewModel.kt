@@ -17,10 +17,9 @@ class MainViewModel : ViewModel() {
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
 
-    private val launcher = hashMapOf(
-        true to CallingCompositeKotlinLauncher(::getToken),
-        false to CallingCompositeJavaLauncher(::getToken)
-    )
+    private fun launcher(tokenUrl: String) =
+        if (isKotlinLauncher) CallingCompositeKotlinLauncher(UrlTokenFetcher(tokenUrl))
+        else CallingCompositeJavaLauncher(UrlTokenFetcher(tokenUrl))
 
     private val fetchResultInternal = MutableLiveData<Result<CallingCompositeLauncher?>>()
     val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
@@ -53,7 +52,7 @@ class MainViewModel : ViewModel() {
             }
             acsToken.isNotBlank() -> {
                 token = acsToken
-                fetchResultInternal.value = Result.success(launcher[isKotlinLauncher])
+                fetchResultInternal.value = Result.success(launcher(tokenFunctionURL))
             }
             else -> fetchResultInternal.value = Result.failure(
                 IllegalStateException("Invalid Token function or acs Token")
@@ -63,7 +62,8 @@ class MainViewModel : ViewModel() {
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
 
-    
+    // / Need to evaluate this and the Token Function a bit more
+    // / Do we need as part of ViewModel? How to Test?
     private fun fetchToken(tokenFunctionURL: String) {
 
         if (urlIsValid(tokenFunctionURL)) {
@@ -76,7 +76,7 @@ class MainViewModel : ViewModel() {
                         fetchResultInternal.postValue(Result.failure(IOException("Unable to fetch token: ", cause)))
                     } else {
                         token = JSONObject(response).getString("token")
-                        fetchResultInternal.postValue(Result.success(launcher[isKotlinLauncher]))
+                        fetchResultInternal.postValue(Result.success(launcher(tokenFunctionURL)))
                     }
                 }
         } else {
