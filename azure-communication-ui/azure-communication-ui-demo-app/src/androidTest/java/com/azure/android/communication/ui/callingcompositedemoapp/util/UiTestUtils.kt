@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
@@ -16,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.not
 
 object UiTestUtils {
@@ -66,6 +68,12 @@ object UiTestUtils {
             allOf(withId(viewId), withText(text), isDisplayed())
         ).perform(click())
 
+    @Throws(NoMatchingViewException::class)
+    fun clickViewWithIdAndContentDescription(@IdRes viewId: Int, text: String): ViewInteraction =
+        onView(
+            allOf(withId(viewId), withContentDescription(text), isDisplayed())
+        ).perform(click())
+
     private fun withRecyclerView(@IdRes recyclerViewId: Int): RecyclerViewMatcher = RecyclerViewMatcher(recyclerViewId)
 
     @Throws(NoMatchingViewException::class)
@@ -87,19 +95,28 @@ object UiTestUtils {
             )
     }
 
-    fun getTextFromButtonView(@IdRes viewId: Int): String {
+    private fun getTextFromViewAction(@IdRes viewId: Int, viewAction: ACSViewAction): String {
         val textViewMatcher = allOf(withId(viewId), isDisplayed())
-        val getTextAction = GetButtonTextAction()
 
-        onView(textViewMatcher).perform(getTextAction)
-        return getTextAction.getText()
+        onView(textViewMatcher).perform(viewAction)
+        return viewAction.getText()
     }
 
-    fun getTextFromEdittextView(@IdRes viewId: Int): String {
-        val textViewMatcher = allOf(withId(viewId), isDisplayed())
-        val getTextAction = GetEditTextAction()
+    fun getTextFromButtonView(@IdRes viewId: Int) =
+        getTextFromViewAction(viewId, GetButtonTextAction())
 
-        onView(textViewMatcher).perform(getTextAction)
-        return getTextAction.getText()
+    fun getTextFromEdittextView(@IdRes viewId: Int) =
+        getTextFromViewAction(viewId, GetEditTextAction())
+
+    @Throws(NoMatchingViewException::class)
+    fun navigateUp() {
+        val upButton = onView(
+            allOf(
+                instanceOf(AppCompatImageButton::class.java),
+                withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description),
+                isDisplayed()
+            )
+        )
+        upButton.perform(click())
     }
 }
