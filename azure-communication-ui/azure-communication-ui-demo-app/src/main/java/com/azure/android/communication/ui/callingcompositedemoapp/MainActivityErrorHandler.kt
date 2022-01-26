@@ -8,8 +8,7 @@ import java.lang.ref.WeakReference
 // / Handles forwarding of error messages to the MainActivity
 // / Stores MainActivity in a WeakReference in case it gets disposed
 class MainActivityErrorHandler(activity: MainActivity) : CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> {
-
-    // / But store in WeakReference to avoid leaks
+    
     private val activityWr: WeakReference<MainActivity> = WeakReference(activity)
 
     override fun handle(it: ErrorEvent<CallCompositeErrorCode>) {
