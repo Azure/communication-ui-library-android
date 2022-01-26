@@ -140,8 +140,10 @@ object CompositeUiHelper {
     }
 
     fun startAndJoinCall(acsToken: String, videoEnabled: Boolean) {
-        Assert.assertTrue("empty token! ", acsToken.isNotBlank())
-        setAcsToken(acsToken)
+        //Assert.assertTrue("empty token! ", acsToken.isNotBlank())
+        if (acsToken.isNotBlank()) {
+            setAcsToken(acsToken)
+        }
         clickLaunchButton()
 
         if (videoEnabled) {

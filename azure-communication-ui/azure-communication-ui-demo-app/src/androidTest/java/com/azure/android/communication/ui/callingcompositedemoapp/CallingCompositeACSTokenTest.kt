@@ -10,15 +10,24 @@ import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import com.microsoft.appcenter.espresso.Factory
+import com.microsoft.appcenter.espresso.ReportHelper
+import org.junit.*
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeACSTokenTest {
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            Assume.assumeTrue(TestFixture.acsToken.isNotBlank())
+        }
+    }
+    @get:Rule
+    var reportHelper: ReportHelper = Factory.getReportHelper()
 
     @Rule
     @JvmField
