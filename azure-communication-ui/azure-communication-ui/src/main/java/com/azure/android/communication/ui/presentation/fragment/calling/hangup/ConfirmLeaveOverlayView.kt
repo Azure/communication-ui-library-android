@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.LinearLayout
@@ -34,7 +33,7 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
         confirmLeaveCallButton.background = ContextCompat.getDrawable(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_primary_background
-        ) as Drawable
+        )
         subscribeClickListener()
     }
 

@@ -1,7 +1,6 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -30,7 +29,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         setupJoinCallButton.background = ContextCompat.getDrawable(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_primary_background
-        ) as Drawable
+        )
     }
 
     fun start(
