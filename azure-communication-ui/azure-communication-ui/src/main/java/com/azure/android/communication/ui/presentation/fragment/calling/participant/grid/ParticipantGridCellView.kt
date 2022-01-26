@@ -11,6 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
@@ -18,10 +19,11 @@ import com.microsoft.fluentui.persona.AvatarView
 
 internal class ParticipantGridCellView(
     context: Context,
+    showFloatingHeaderCallBack: () -> Unit,
     private val participantViewModel: ParticipantGridCellViewModel,
     private val getVideoStream: (String, String) -> View?,
     private val lifecycleScope: LifecycleCoroutineScope,
-    showFloatingHeaderCallBack: () -> Unit,
+    private val getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?
 ) : RelativeLayout(context) {
 
     init {
@@ -73,6 +75,7 @@ internal class ParticipantGridCellView(
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
         ParticipantGridCellVideoView(
+            lifecycleScope,
             participantVideoContainerFrameLayout,
             videoContainer,
             displayNameOnVideoTextView,
@@ -80,8 +83,8 @@ internal class ParticipantGridCellView(
             participantViewModel,
             getVideoStream,
             context,
-            lifecycleScope,
-            showFloatingHeaderCallBack
+            showFloatingHeaderCallBack,
+            getScreenShareVideoStreamRenderer
         )
     }
 }

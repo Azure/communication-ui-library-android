@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare
+package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.zoomable
 
 import android.content.Context
-import android.content.res.Configuration
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import androidx.core.view.marginTop
-import com.azure.android.communication.ui.presentation.VideoViewManager
 import kotlin.math.sign
 
 internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.OnScaleGestureListener {
@@ -40,8 +35,6 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
 
     private var showFloatingHeaderCallBack: (() -> Unit)? = null
 
-    private var layoutSet = false
-
     init {
         setOnTouchListener { _, motionEvent ->
             scaleGestureDetectorOnTouch(motionEvent)
@@ -55,58 +48,7 @@ internal class ScreenShareFrameLayoutView : FrameLayout, ScaleGestureDetector.On
     }
 
     override fun onScaleBegin(scaleDetector: ScaleGestureDetector?): Boolean {
-        applyChildHeight()
         return true
-    }
-
-    private fun applyChildHeight() {
-        if(!layoutSet) {
-            layoutSet = true
-            val child = child()
-            val dimensions =
-                VideoViewManager.remoteParticipantVideoRendererMap.toList()[0].second.videoStreamRenderer?.size
-            val viewWidth = this.width.toFloat()
-            val viewHeight = this.height.toFloat()
-            val videoWidth = dimensions!!.width
-            val videoHeight = dimensions!!.height
-
-            val scaleWidth = viewWidth / videoWidth
-            val scaleHeight = viewHeight / videoHeight
-            val scale = scaleWidth.coerceAtMost(scaleHeight)
-            val sw = (scale * videoWidth)
-            val sh = (scale * videoHeight)
-
-            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                val layoutParamsLinearLayout = child.layoutParams
-                layoutParamsLinearLayout.height = sh.toInt()
-               // layoutParamsLinearLayout.width = sw.toInt()
-
-                child.layoutParams = layoutParamsLinearLayout
-
-                val layoutParamsLinearLayout2 = child.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParamsLinearLayout2.topMargin = 800
-               // layoutParamsLinearLayout2.leftMargin = 200
-                child.layoutParams = layoutParamsLinearLayout2
-            } else {
-                val layoutParamsLinearLayout = child.layoutParams
-                //layoutParamsLinearLayout.height = sh.toInt()
-                layoutParamsLinearLayout.width = sw.toInt()
-
-                child.layoutParams = layoutParamsLinearLayout
-
-                val layoutParamsLinearLayout2 = child.layoutParams as ViewGroup.MarginLayoutParams
-                //layoutParamsLinearLayout2.topMargin = 800
-                layoutParamsLinearLayout2.leftMargin = 200
-                child.layoutParams = layoutParamsLinearLayout2
-            }
-
-
-
-
-            child.invalidate()
-            child.refreshDrawableState()
-        }
-
     }
 
     override fun onScale(scaleDetector: ScaleGestureDetector): Boolean {

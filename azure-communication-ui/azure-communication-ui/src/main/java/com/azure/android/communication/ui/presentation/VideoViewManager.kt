@@ -6,29 +6,36 @@ package com.azure.android.communication.ui.presentation
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import com.azure.android.communication.calling.CreateViewOptions
-import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.RemoteVideoStream
-import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.calling.VideoStreamRendererView
+import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.ScalingMode
+import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKWrapper
 
 internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDKWrapper,
     private val context: Context,
 ) {
+    private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     class VideoRenderer constructor(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
         var videoStreamID: String,
+        var isScreenShareView: Boolean
     )
 
-    companion object {
-        val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
-    }
-
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
+
+    fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
+        remoteParticipantVideoRendererMap.values.forEach {
+            if (it.isScreenShareView) {
+                return it.videoStreamRenderer
+            }
+        }
+        return null
+    }
 
     fun destroy() {
         localParticipantVideoRendererMap.values.map { videoRenderer ->
@@ -56,7 +63,7 @@ internal class VideoViewManager(
                     VideoStreamRenderer(videoStream, context)
                 val rendererView = videoStreamRenderer.createView()
                 localParticipantVideoRendererMap[videoStreamID] =
-                    VideoRenderer(rendererView, videoStreamRenderer, videoStreamID)
+                    VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
             }
         }
     }
@@ -117,6 +124,7 @@ internal class VideoViewManager(
                 if (stream != null) {
                     val isScreenShare = stream!!.mediaStreamType == MediaStreamType.SCREEN_SHARING
                     val videoStreamRenderer = VideoStreamRenderer(stream, context)
+
                     val viewOption =
                         if (isScreenShare) CreateViewOptions(ScalingMode.FIT) else CreateViewOptions(
                             ScalingMode.CROP
@@ -124,7 +132,7 @@ internal class VideoViewManager(
 
                     val rendererView = videoStreamRenderer.createView(viewOption)
                     remoteParticipantVideoRendererMap[uniqueID] =
-                        VideoRenderer(rendererView, videoStreamRenderer, videoStreamID)
+                        VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, isScreenShare)
                     return true
                 }
             }

@@ -111,10 +111,6 @@ internal class CallingFragment :
             viewLifecycleOwner,
         )
 
-        participantGridView.setOnClickListener {
-            showFloatingHeader()
-        }
-
         if (savedInstanceState == null) {
             viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
         }
