@@ -7,6 +7,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
+import com.microsoft.appcenter.espresso.Factory
+import com.microsoft.appcenter.espresso.ReportHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.NetworkUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
