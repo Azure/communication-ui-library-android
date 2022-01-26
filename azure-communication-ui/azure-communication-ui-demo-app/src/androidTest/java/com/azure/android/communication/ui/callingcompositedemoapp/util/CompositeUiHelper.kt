@@ -13,6 +13,7 @@ import org.junit.Assert
 object CompositeUiHelper {
 
     fun setGroupIdOrTeamsMeetingUrl(groupIdOrTeamsMeetingUrl: String) {
+        if (groupIdOrTeamsMeetingUrl.isBlank()) return
         val idlingResource = ViewIsDisplayedResource()
         val editTextInteraction = idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdIsDisplayed(R.id.groupIdOrTeamsMeetingLinkText)
