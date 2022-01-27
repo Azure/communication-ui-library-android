@@ -19,17 +19,17 @@ import com.microsoft.fluentui.persona.AvatarView
 
 internal class ParticipantGridCellView(
     context: Context,
-    showFloatingHeaderCallBack: () -> Unit,
-    private val participantViewModel: ParticipantGridCellViewModel,
-    private val getVideoStream: (String, String) -> View?,
     private val lifecycleScope: LifecycleCoroutineScope,
-    private val getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?
+    private val participantViewModel: ParticipantGridCellViewModel,
+    private val showFloatingHeaderCallBack: () -> Unit,
+    private val getVideoStreamCallback: (String, String) -> View?,
+    private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
 ) : RelativeLayout(context) {
 
     init {
         inflate(context, R.layout.azure_communication_ui_participant_avatar_view, this)
         inflate(context, R.layout.azure_communication_ui_participant_video_view, this)
-        createVideoView(showFloatingHeaderCallBack)
+        createVideoView()
         createAvatarView()
     }
 
@@ -61,7 +61,7 @@ internal class ParticipantGridCellView(
         )
     }
 
-    private fun createVideoView(showFloatingHeaderCallBack: () -> Unit) {
+    private fun createVideoView() {
         val participantVideoContainerFrameLayout: FrameLayout =
             findViewById(R.id.azure_communication_ui_participant_video_view_frame)
 
@@ -75,16 +75,16 @@ internal class ParticipantGridCellView(
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
         ParticipantGridCellVideoView(
+            context,
             lifecycleScope,
             participantVideoContainerFrameLayout,
             videoContainer,
             displayNameOnVideoTextView,
             micIndicatorOnVideoImageView,
             participantViewModel,
-            getVideoStream,
-            context,
+            getVideoStreamCallback,
             showFloatingHeaderCallBack,
-            getScreenShareVideoStreamRenderer
+            getScreenShareVideoStreamRendererCallback
         )
     }
 }

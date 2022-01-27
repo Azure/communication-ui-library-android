@@ -19,14 +19,14 @@ internal class VideoViewManager(
     private val context: Context,
 ) {
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
+    private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
+
     class VideoRenderer constructor(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
         var videoStreamID: String,
         var isScreenShareView: Boolean
     )
-
-    private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
 
     fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
         remoteParticipantVideoRendererMap.values.forEach {

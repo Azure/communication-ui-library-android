@@ -129,10 +129,6 @@ internal class CallingFragment :
         )
     }
 
-    private fun showFloatingHeader() {
-        viewModel.switchFloatingHeader()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
@@ -181,5 +177,9 @@ internal class CallingFragment :
 
     private fun displayParticipantList() {
         viewModel.getParticipantListViewModel().displayParticipantList()
+    }
+
+    private fun showFloatingHeader() {
+        viewModel.switchFloatingHeader()
     }
 }

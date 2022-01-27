@@ -34,7 +34,7 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var viewLifecycleOwner: LifecycleOwner
     private lateinit var participantGridViewModel: ParticipantGridViewModel
     private lateinit var getVideoStreamCallback: (String, String) -> View?
-    private lateinit var getScreenShareVideoStreamRenderer: () -> VideoStreamRenderer?
+    private lateinit var getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?
 
     fun start(
         participantGridViewModel: ParticipantGridViewModel,
@@ -46,15 +46,14 @@ internal class ParticipantGridView : GridLayout {
         this.viewLifecycleOwner = viewLifecycleOwner
         this.participantGridViewModel = participantGridViewModel
         this.showFloatingHeaderCallBack = showFloatingHeader
-        this.getVideoStreamCallback =
-            { participantID: String, videoStreamID: String ->
-                this.videoViewManager.getRemoteVideoStreamRenderer(
-                    participantID,
-                    videoStreamID
-                )
-            }
+        this.getVideoStreamCallback = { participantID: String, videoStreamID: String ->
+            this.videoViewManager.getRemoteVideoStreamRenderer(
+                participantID,
+                videoStreamID
+            )
+        }
 
-        this.getScreenShareVideoStreamRenderer = {
+        this.getScreenShareVideoStreamRendererCallback = {
             this.videoViewManager.getScreenShareVideoStreamRenderer()
         }
 
@@ -211,10 +210,10 @@ internal class ParticipantGridView : GridLayout {
     ): ParticipantGridCellView =
         ParticipantGridCellView(
             context,
-            showFloatingHeaderCallBack,
-            participantGridCellViewModel,
-            getVideoStreamCallback,
             viewLifecycleOwner.lifecycleScope,
-            getScreenShareVideoStreamRenderer
+            participantGridCellViewModel,
+            showFloatingHeaderCallBack,
+            getVideoStreamCallback,
+            getScreenShareVideoStreamRendererCallback
         )
 }
