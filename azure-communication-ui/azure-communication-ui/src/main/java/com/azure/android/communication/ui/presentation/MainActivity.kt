@@ -119,6 +119,7 @@ internal class MainActivity : AppCompatActivity() {
         super.onStop()
         if (!isChangingConfigurations) {
             lifecycleScope.launch { lifecycleManager.pause() }
+            lifecycleScope.launch { audioSessionManager.stop() }
         }
     }
 

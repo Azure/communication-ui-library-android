@@ -4,7 +4,11 @@
 package com.azure.android.communication.ui.presentation.manager
 
 import android.app.Activity
+import android.media.AudioDeviceCallback
+import android.media.AudioDeviceInfo
 import android.media.AudioManager
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -13,8 +17,15 @@ import kotlinx.coroutines.flow.collect
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
-) {
+) : AudioDeviceCallback() {
     private lateinit var audioManager: AudioManager
+
+    private val audioDevices = MutableLiveData<Array<AudioDeviceInfo>>()
+
+    /// Live Data to check if Bluetooth SCO is enabled
+    val hasBluetoothSco = Transformations.map(audioDevices) {
+        it.fold(false) { acc, info -> acc || info.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO}
+    }
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     suspend fun start(
@@ -22,10 +33,7 @@ internal class AudioSessionManager(
         audioManager: AudioManager,
     ) {
         this.audioManager = audioManager
-
         activity.volumeControlStream = AudioManager.STREAM_VOICE_CALL
-        /// Todo: We set the mode in the enable routes, 
-        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
         initializeAudioDeviceState()
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
@@ -35,12 +43,30 @@ internal class AudioSessionManager(
             }
             previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
         }
+
+        audioManager.registerAudioDeviceCallback(this, null);
+        refreshDevices()
+    }
+
+    override fun onAudioDevicesAdded(addedDevices: Array<out AudioDeviceInfo>?) {
+        super.onAudioDevicesAdded(addedDevices)
+        refreshDevices()
+    }
+
+    override fun onAudioDevicesRemoved(removedDevices: Array<out AudioDeviceInfo>?) {
+        super.onAudioDevicesRemoved(removedDevices)
+        refreshDevices()
+    }
+
+    private fun refreshDevices() {
+        audioDevices.value = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
     }
 
     private fun initializeAudioDeviceState() {
-        /// TODO: Check better? Bluetooth?
         if (audioManager.isSpeakerphoneOn) {
             store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
+        } else if (audioManager.isBluetoothScoOn) {
+            store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED))
         } else {
             store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED))
         }
@@ -73,24 +99,27 @@ internal class AudioSessionManager(
 
 
     private fun enableSpeakerPhone() {
-        audioManager.setMode(AudioManager.MODE_NORMAL);
+        //audioManager.mode = AudioManager.MODE_NORMAL;
         audioManager.stopBluetoothSco();
-        audioManager.setBluetoothScoOn(false);
-        audioManager.setSpeakerphoneOn(true);
+        audioManager.isBluetoothScoOn = false;
+        audioManager.isSpeakerphoneOn = true;
     }
 
     private fun enableEarpiece() {
         //For phone ear piece
-        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        //audioManager.mode = AudioManager.MODE_IN_COMMUNICATION;
         audioManager.stopBluetoothSco();
-        audioManager.setBluetoothScoOn(false);
-        audioManager.setSpeakerphoneOn(false);
+        audioManager.isBluetoothScoOn = false;
+        audioManager.isSpeakerphoneOn = false;
     }
 
     private fun enableBluetooth() {
-        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        //audioManager.mode = AudioManager.MODE_IN_COMMUNICATION;
         audioManager.startBluetoothSco();
-        audioManager.setBluetoothScoOn(true);
+        audioManager.isBluetoothScoOn = true;
+    }
 
+    fun stop() {
+        audioManager.unregisterAudioDeviceCallback(this)
     }
 }
