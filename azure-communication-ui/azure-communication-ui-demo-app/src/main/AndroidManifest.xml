@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MeetingUI"
         >
-        <activity android:name="com.azure.android.communication.ui.callingcompositedemoapp.MainActivity">
+        <activity android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
