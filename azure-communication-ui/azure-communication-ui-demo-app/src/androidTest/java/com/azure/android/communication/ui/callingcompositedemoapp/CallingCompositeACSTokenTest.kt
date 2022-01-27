@@ -12,7 +12,12 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixtu
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
-import org.junit.*
+import org.junit.Assert
+import org.junit.Assume
+import org.junit.Before
+import org.junit.BeforeClass
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
