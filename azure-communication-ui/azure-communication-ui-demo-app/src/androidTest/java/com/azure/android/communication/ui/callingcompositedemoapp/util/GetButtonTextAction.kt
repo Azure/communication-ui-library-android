@@ -3,13 +3,12 @@ package com.azure.android.communication.ui.callingcompositedemoapp.util
 import android.view.View
 import android.widget.Button
 import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 
-class GetButtonTextAction : ViewAction {
+class GetButtonTextAction : ACSViewAction {
     private lateinit var stringHolder: String
 
     override fun getConstraints(): Matcher<View> =
@@ -23,5 +22,5 @@ class GetButtonTextAction : ViewAction {
         stringHolder = button.text.toString()
     }
 
-    fun getText() = stringHolder
+    override fun getText() = stringHolder
 }

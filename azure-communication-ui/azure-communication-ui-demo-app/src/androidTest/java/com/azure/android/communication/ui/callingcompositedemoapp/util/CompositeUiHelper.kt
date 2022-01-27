@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import androidx.test.espresso.Espresso
@@ -11,12 +13,13 @@ import org.junit.Assert
 object CompositeUiHelper {
 
     fun setGroupIdOrTeamsMeetingUrl(groupIdOrTeamsMeetingUrl: String) {
+        if (groupIdOrTeamsMeetingUrl.isBlank()) return
         val idlingResource = ViewIsDisplayedResource()
-        val appCompatEditText = idlingResource.waitUntilViewIsDisplayed {
+        val editTextInteraction = idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdIsDisplayed(R.id.groupIdOrTeamsMeetingLinkText)
         }
-        appCompatEditText.perform(ViewActions.replaceText(groupIdOrTeamsMeetingUrl))
-        appCompatEditText.perform(ViewActions.closeSoftKeyboard())
+        editTextInteraction.perform(ViewActions.replaceText(groupIdOrTeamsMeetingUrl))
+        editTextInteraction.perform(ViewActions.closeSoftKeyboard())
     }
 
     fun setAcsToken(token: String) {
@@ -145,5 +148,26 @@ object CompositeUiHelper {
             turnCameraOn()
         }
         clickJoinCallButton()
+    }
+
+    fun dismissNetworkLossSnackbar() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.snackbar_action)
+        }
+        UiTestUtils.clickViewWithIdAndText(R.id.snackbar_action, "Dismiss")
+    }
+
+    fun navigateUpFromSetupScreen() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(R.id.action_bar_container)
+        }
+        UiTestUtils.navigateUp()
+    }
+
+    fun clickAlertDialogOkButton() {
+        ViewIsDisplayedResource().waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdIsDisplayed(android.R.id.button1)
+        }
+        UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
     }
 }
