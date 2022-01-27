@@ -43,7 +43,7 @@ internal class ScreenShareZoomFrameLayout :
 
     private val doubleTapZoomLayoutPoint = PointF()
     private val doubleTapScreenSharePoint = PointF()
-    private var doubleTapScale = MIN_SCALE
+    private var doubleTapApplied = false
     private var doubleTapScroll = false
 
     fun setFloatingHeaderCallback(showFloatingHeaderCallBack: () -> Unit) {
@@ -225,7 +225,6 @@ internal class ScreenShareZoomFrameLayout :
             MotionEvent.ACTION_DOWN -> {
                 doubleTapZoomLayoutPoint.set(zoomLayoutPoint)
                 doubleTapScreenSharePoint.set(screenSharePoint)
-                doubleTapScale = gestureListener.scale
             }
             MotionEvent.ACTION_MOVE -> {
                 doubleTapScroll = doubleTapScroll || shouldStartDoubleTapScroll(zoomLayoutPoint)
@@ -239,15 +238,15 @@ internal class ScreenShareZoomFrameLayout :
                     val scale = calcScale(zoomLayoutPoint)
                     zoomToPoint(scale, doubleTapScreenSharePoint, doubleTapZoomLayoutPoint)
                 } else {
-                    val maxScale = MAX_SCALE
-                    val minScale = MIN_SCALE
-                    if (gestureListener.scale < (maxScale + minScale) / 2) {
+                    if (!doubleTapApplied) {
+                        doubleTapApplied = true
                         zoomToPoint(
-                            maxScale, screenSharePoint, zoomLayoutPoint
+                            MAX_SCALE, screenSharePoint, zoomLayoutPoint
                         )
                     } else {
+                        doubleTapApplied = false
                         zoomToPoint(
-                            minScale, screenSharePoint, zoomLayoutPoint
+                            MIN_SCALE, screenSharePoint, zoomLayoutPoint
                         )
                     }
                 }
@@ -269,7 +268,7 @@ internal class ScreenShareZoomFrameLayout :
     private fun calcScale(currentViewPoint: PointF): Float {
         val dy = currentViewPoint.y - doubleTapZoomLayoutPoint.y
         val t = 1 + abs(dy) * 0.001f
-        return if (dy < 0) doubleTapScale / t else doubleTapScale * t
+        return if (dy < 0) gestureListener.scale / t else gestureListener.scale * t
     }
 
     private fun mapViewToImage(viewPoint: PointF): PointF {
