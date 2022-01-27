@@ -6,14 +6,18 @@ package com.azure.android.communication.ui.presentation.fragment.calling.partici
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.FrameLayout
+import kotlin.math.abs
+import kotlin.math.hypot
 
 /**
  * Frame layout with pinch and zoom capabilities
  * The layout detects click for displaying participant header and double click zoom
+ * Used some parts of https://github.com/facebook/fresco zoomable to implement pinch and zoom
  */
 internal class ScreenShareZoomFrameLayout :
     FrameLayout,
@@ -37,6 +41,11 @@ internal class ScreenShareZoomFrameLayout :
     private val screenShareViewBounds = RectF()
     private val zoomFrameViewBounds = RectF()
 
+    private val doubleTapZoomLayoutPoint = PointF()
+    private val doubleTapScreenSharePoint = PointF()
+    private var doubleTapScale = MIN_SCALE
+    private var doubleTapScroll = false
+
     fun setFloatingHeaderCallback(showFloatingHeaderCallBack: () -> Unit) {
         this.showFloatingHeaderCallBack = showFloatingHeaderCallBack
     }
@@ -46,6 +55,7 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     override fun onDoubleClick(motionEvent: MotionEvent) {
+        onDoubleTapDisplay(motionEvent)
     }
 
     override fun initTransformation() {
@@ -206,5 +216,118 @@ internal class ScreenShareZoomFrameLayout :
         return if (viewEnd < limitEnd) {
             limitEnd - viewEnd
         } else 0f
+    }
+
+    private fun onDoubleTapDisplay(motionEvent: MotionEvent): Boolean {
+        val zoomLayoutPoint = PointF(motionEvent.x, motionEvent.y)
+        val screenSharePoint = mapViewToImage(zoomLayoutPoint)
+        when (motionEvent.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                doubleTapZoomLayoutPoint.set(zoomLayoutPoint)
+                doubleTapScreenSharePoint.set(screenSharePoint)
+                doubleTapScale = gestureListener.scale
+            }
+            MotionEvent.ACTION_MOVE -> {
+                doubleTapScroll = doubleTapScroll || shouldStartDoubleTapScroll(zoomLayoutPoint)
+                if (doubleTapScroll) {
+                    val scale = calcScale(zoomLayoutPoint)
+                    zoomToPoint(scale, doubleTapScreenSharePoint, doubleTapZoomLayoutPoint)
+                }
+            }
+            MotionEvent.ACTION_UP -> {
+                if (doubleTapScroll) {
+                    val scale = calcScale(zoomLayoutPoint)
+                    zoomToPoint(scale, doubleTapScreenSharePoint, doubleTapZoomLayoutPoint)
+                } else {
+                    val maxScale = MAX_SCALE
+                    val minScale = MIN_SCALE
+                    if (gestureListener.scale < (maxScale + minScale) / 2) {
+                        zoomToPoint(
+                            maxScale, screenSharePoint, zoomLayoutPoint
+                        )
+                    } else {
+                        zoomToPoint(
+                            minScale, screenSharePoint, zoomLayoutPoint
+                        )
+                    }
+                }
+                doubleTapScroll = false
+            }
+            else -> return false
+        }
+        return true
+    }
+
+    private fun shouldStartDoubleTapScroll(viewPoint: PointF): Boolean {
+        val dist = hypot(
+            (viewPoint.x - doubleTapZoomLayoutPoint.x).toDouble(),
+            (viewPoint.y - doubleTapZoomLayoutPoint.y).toDouble()
+        )
+        return dist > 20
+    }
+
+    private fun calcScale(currentViewPoint: PointF): Float {
+        val dy = currentViewPoint.y - doubleTapZoomLayoutPoint.y
+        val t = 1 + abs(dy) * 0.001f
+        return if (dy < 0) doubleTapScale / t else doubleTapScale * t
+    }
+
+    private fun mapViewToImage(viewPoint: PointF): PointF {
+        val points = FloatArray(9)
+        points[0] = viewPoint.x
+        points[1] = viewPoint.y
+        val mActiveTransformInverse = Matrix()
+        newTransform.invert(mActiveTransformInverse)
+        mActiveTransformInverse.mapPoints(points, 0, points, 0, 1)
+        mapAbsoluteToRelative(points, points)
+        return PointF(points[0], points[1])
+    }
+
+    private fun mapAbsoluteToRelative(
+        destPoints: FloatArray,
+        srcPoints: FloatArray
+    ) {
+        for (i in 0 until 1) {
+            destPoints[i * 2 + 0] =
+                (srcPoints[i * 2 + 0] - screenShareViewBounds.left) / screenShareViewBounds.width()
+            destPoints[i * 2 + 1] =
+                (srcPoints[i * 2 + 1] - screenShareViewBounds.top) / screenShareViewBounds.height()
+        }
+    }
+
+    private fun mapRelativeToAbsolute(
+        destPoints: FloatArray,
+        srcPoints: FloatArray
+    ) {
+        for (i in 0 until 1) {
+            destPoints[i * 2 + 0] =
+                srcPoints[i * 2 + 0] * screenShareViewBounds.width() + screenShareViewBounds.left
+            destPoints[i * 2 + 1] =
+                srcPoints[i * 2 + 1] * screenShareViewBounds.height() + screenShareViewBounds.top
+        }
+    }
+
+    private fun zoomToPoint(scale: Float, imagePoint: PointF, viewPoint: PointF) {
+        applyZoomToPointTransform(newTransform, scale, imagePoint, viewPoint)
+        onTransformChanged()
+    }
+
+    private fun applyZoomToPointTransform(
+        transform: Matrix,
+        scale: Float,
+        imagePoint: PointF,
+        viewPoint: PointF,
+    ): Boolean {
+        val viewAbsolute = FloatArray(9)
+        viewAbsolute[0] = imagePoint.x
+        viewAbsolute[1] = imagePoint.y
+        mapRelativeToAbsolute(viewAbsolute, viewAbsolute)
+        val distanceX = viewPoint.x - viewAbsolute[0]
+        val distanceY = viewPoint.y - viewAbsolute[1]
+        transform.setScale(scale, scale, viewAbsolute[0], viewAbsolute[1])
+        var transformCorrected = limitScale(transform, viewAbsolute[0], viewAbsolute[1])
+        transform.postTranslate(distanceX, distanceY)
+        transformCorrected = transformCorrected or limitTranslation(transform)
+        return transformCorrected
     }
 }

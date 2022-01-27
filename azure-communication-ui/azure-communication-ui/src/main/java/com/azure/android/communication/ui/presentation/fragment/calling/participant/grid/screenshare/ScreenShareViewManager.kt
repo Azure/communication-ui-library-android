@@ -77,7 +77,7 @@ internal class ScreenShareViewManager(
         val streamSize = getScreenShareVideoStreamRendererCallback()?.size
         streamSize?.let {
             videoContainer.post {
-                // this logic is from calling SDK code to find width and height of video view excluding grey screen
+                // this logic is from Azure communication calling SDK code to find width and height of video view excluding grey screen
                 val viewWidth = videoContainer.width.toFloat()
                 val viewHeight = videoContainer.height.toFloat()
                 val videoWidth = it.width
