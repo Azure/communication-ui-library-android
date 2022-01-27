@@ -11,6 +11,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -24,12 +25,13 @@ import kotlinx.coroutines.launch
 internal class ParticipantGridCellVideoView(
     private val participantVideoContainerFrameLayout: FrameLayout,
     private val videoContainer: ConstraintLayout,
+    private val displayNameAndMicIndicatorViewContainer: LinearLayout,
     private val displayNameOnVideoTextView: TextView,
     private val micIndicatorOnVideoImageView: ImageView,
     private val participantViewModel: ParticipantGridCellViewModel,
     private val getVideoStream: (String, String) -> View?,
     private val context: Context,
-    lifecycleScope: LifecycleCoroutineScope,
+    lifecycleScope: LifecycleCoroutineScope
 ) {
     private var videoStream: View? = null
 
@@ -102,14 +104,21 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setDisplayName(displayName: String) {
-        displayNameOnVideoTextView.text = displayName
+        if (displayName.isBlank()) {
+            displayNameOnVideoTextView.visibility = GONE
+        } else {
+            displayNameOnVideoTextView.text = displayName
+        }
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
-
         if (!isMicButtonVisible) {
+            if (displayNameOnVideoTextView.visibility == GONE) {
+                displayNameAndMicIndicatorViewContainer.visibility = GONE
+            }
             micIndicatorOnVideoImageView.visibility = GONE
         } else {
+            displayNameAndMicIndicatorViewContainer.visibility = VISIBLE
             micIndicatorOnVideoImageView.visibility = VISIBLE
         }
     }
