@@ -19,7 +19,7 @@
             android:required="false"
             />
         <activity
-            android:name="com.azure.android.communication.ui.presentation.MainActivity"
+            android:name="com.azure.android.communication.ui.presentation.CallCompositeActivity"
             android:theme="@style/AzureCommunicationUI.Theme.Calling"
             android:launchMode="singleTask"
             />

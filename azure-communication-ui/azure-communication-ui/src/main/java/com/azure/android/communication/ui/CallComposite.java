@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.presentation.MainActivity;
+import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
 
@@ -148,8 +148,8 @@ public final class CallComposite {
         CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 
         /// Launch the composite and increment the instanceId after
-        final Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.KEY_INSTANCE_ID, instanceId++);
+        final Intent intent = new Intent(context, CallCompositeActivity.class);
+        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
         context.startActivity(intent);
     }
 }

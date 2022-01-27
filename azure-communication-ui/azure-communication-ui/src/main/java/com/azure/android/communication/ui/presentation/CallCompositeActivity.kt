@@ -33,7 +33,7 @@ import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.azure.android.communication.ui.service.calling.InCallService
 import kotlinx.coroutines.launch
 
-internal class MainActivity : AppCompatActivity() {
+internal class CallCompositeActivity : AppCompatActivity() {
 
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels()
     private val container by lazy { diContainerHolder.container }
@@ -76,7 +76,7 @@ internal class MainActivity : AppCompatActivity() {
                 configuration.themeConfig?.theme!!, true
             )
         }
-        setContentView(R.layout.azure_communication_ui_activity_main)
+        setContentView(R.layout.azure_communication_ui_activity_call_composite)
 
         val activity = this
         lifecycleScope.launch {
