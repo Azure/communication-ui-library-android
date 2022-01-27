@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.azure.android.communication.calling.RendererListener
 import com.azure.android.communication.calling.VideoStreamRenderer
-import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.view.ScreenShareZoomFrameLayout
 
 internal class ScreenShareViewManager(
     private val context: Context,
