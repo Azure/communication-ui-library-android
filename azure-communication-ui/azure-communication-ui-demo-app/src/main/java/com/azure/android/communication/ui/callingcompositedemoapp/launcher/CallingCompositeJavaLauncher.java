@@ -11,8 +11,8 @@ import com.azure.android.communication.ui.CallComposite;
 import com.azure.android.communication.ui.CallCompositeBuilder;
 import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
-import com.azure.android.communication.ui.callingcompositedemoapp.MainActivity;
-import com.azure.android.communication.ui.callingcompositedemoapp.MainActivityErrorHandler;
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -28,7 +28,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
     }
 
     @Override
-    public void launch(final MainActivity context,
+    public void launch(final CallLauncherActivity callLauncherActivity,
                        final String displayName,
                        final UUID groupId,
                        final String meetingLink,
@@ -38,7 +38,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 //                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
                         .build();
 
-        callComposite.setOnErrorHandler(new MainActivityErrorHandler(context));
+        callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
                 new CommunicationTokenRefreshOptions(tokenRefresher, true);
@@ -47,13 +47,13 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         if (groupId != null) {
             final GroupCallOptions groupCallOptions =
-                    new GroupCallOptions(context, communicationTokenCredential, groupId, displayName);
+                    new GroupCallOptions(callLauncherActivity, communicationTokenCredential, groupId, displayName);
 
             callComposite.launch(groupCallOptions);
 
         } else if (!TextUtils.isEmpty(meetingLink)) {
             final TeamsMeetingOptions teamsMeetingOptions =
-                    new TeamsMeetingOptions(context, communicationTokenCredential, meetingLink, displayName);
+                    new TeamsMeetingOptions(callLauncherActivity, communicationTokenCredential, meetingLink, displayName);
 
             callComposite.launch(teamsMeetingOptions);
         }

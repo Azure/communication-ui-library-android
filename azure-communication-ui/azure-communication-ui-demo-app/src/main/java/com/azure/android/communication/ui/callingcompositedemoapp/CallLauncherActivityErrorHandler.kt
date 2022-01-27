@@ -8,9 +8,9 @@ import java.lang.ref.WeakReference
 // Handles forwarding of error messages to the MainActivity
 //
 // MainActivity is loosely coupled and will detach the weak reference after disposed.
-class MainActivityErrorHandler(activity: MainActivity) : CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> {
+class CallLauncherActivityErrorHandler(callLauncherActivity: CallLauncherActivity) : CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> {
 
-    private val activityWr: WeakReference<MainActivity> = WeakReference(activity)
+    private val activityWr: WeakReference<CallLauncherActivity> = WeakReference(callLauncherActivity)
 
     override fun handle(it: ErrorEvent<CallCompositeErrorCode>) {
         println("================= application is logging exception =================")

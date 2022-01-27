@@ -9,8 +9,8 @@ import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallCompositeBuilder
 import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
-import com.azure.android.communication.ui.callingcompositedemoapp.MainActivity
-import com.azure.android.communication.ui.callingcompositedemoapp.MainActivityErrorHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -18,7 +18,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
     CallingCompositeLauncher {
 
     override fun launch(
-        context: MainActivity,
+        callLauncherActivity: CallLauncherActivity,
         displayName: String,
         groupId: UUID?,
         meetingLink: String?,
@@ -26,7 +26,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
     ) {
         val callComposite: CallComposite = CallCompositeBuilder().build()
 
-        callComposite.setOnErrorHandler(MainActivityErrorHandler(context))
+        callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions(tokenRefresher, true)
@@ -35,7 +35,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         if (groupId != null) {
             val groupCallOptions = GroupCallOptions(
-                context,
+                callLauncherActivity,
                 communicationTokenCredential,
                 groupId,
                 displayName,
@@ -43,7 +43,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             callComposite.launch(groupCallOptions)
         } else if (!meetingLink.isNullOrBlank()) {
             val teamsMeetingOptions = TeamsMeetingOptions(
-                context,
+                callLauncherActivity,
                 communicationTokenCredential,
                 meetingLink,
                 displayName,
