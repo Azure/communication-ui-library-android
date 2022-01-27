@@ -22,7 +22,7 @@ class CallingCompositeACSTokenTest {
 
     @Rule
     @JvmField
-    var mActivityTestRule = ActivityScenarioRule(MainActivity::class.java)
+    var mActivityTestRule = ActivityScenarioRule(CallLauncherActivity::class.java)
 
     @Rule
     @JvmField
