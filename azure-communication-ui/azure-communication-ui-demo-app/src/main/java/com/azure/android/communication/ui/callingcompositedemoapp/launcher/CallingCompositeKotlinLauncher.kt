@@ -3,13 +3,14 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
-import android.content.Context
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallCompositeBuilder
 import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -17,7 +18,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
     CallingCompositeLauncher {
 
     override fun launch(
-        context: Context,
+        callLauncherActivity: CallLauncherActivity,
         displayName: String,
         groupId: UUID?,
         meetingLink: String?,
@@ -25,17 +26,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
     ) {
         val callComposite: CallComposite = CallCompositeBuilder().build()
 
-        callComposite.setOnErrorHandler {
-            println("================= application is logging exception =================")
-            println(it.cause)
-            println(it.errorCode)
-            if (it.cause != null) {
-                showAlert?.invoke(it.errorCode.toString() + " " + it.cause?.message)
-            } else {
-                showAlert?.invoke(it.errorCode.toString())
-            }
-            println("====================================================================")
-        }
+        callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions(tokenRefresher, true)
@@ -44,7 +35,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         if (groupId != null) {
             val groupCallOptions = GroupCallOptions(
-                context,
+                callLauncherActivity,
                 communicationTokenCredential,
                 groupId,
                 displayName,
@@ -52,7 +43,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             callComposite.launch(groupCallOptions)
         } else if (!meetingLink.isNullOrBlank()) {
             val teamsMeetingOptions = TeamsMeetingOptions(
-                context,
+                callLauncherActivity,
                 communicationTokenCredential,
                 meetingLink,
                 displayName,
