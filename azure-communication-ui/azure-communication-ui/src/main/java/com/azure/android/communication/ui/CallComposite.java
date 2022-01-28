@@ -60,6 +60,7 @@ public final class CallComposite {
      *
      * </pre>
      *
+     * @param context The android context used to start the Composite
      * @param groupCallOptions  The {@link GroupCallOptions} has parameters to
      *                          launch group call experience.
      *
@@ -90,8 +91,11 @@ public final class CallComposite {
      *
      * </pre>
      *
+     * @param context The android context used to start the Composite
      * @param teamsMeetingOptions The {@link TeamsMeetingOptions} has parameters to
      *                            launch Teams meeting experience.
+     *
+     *
      */
     public void launch(final Context context, final TeamsMeetingOptions teamsMeetingOptions) {
         launch(
