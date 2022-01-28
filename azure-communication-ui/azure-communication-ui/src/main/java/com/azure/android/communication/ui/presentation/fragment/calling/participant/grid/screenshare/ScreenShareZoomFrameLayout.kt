@@ -45,9 +45,6 @@ internal class ScreenShareZoomFrameLayout :
     private val doubleTapScreenSharePoint = PointF()
     private var doubleTapScroll = false
 
-    private var currentScreenShareViewWidth = 0f
-    private var currentScreenShareViewHeight = 0f
-
     fun setFloatingHeaderCallback(showFloatingHeaderCallBack: () -> Unit) {
         this.showFloatingHeaderCallBack = showFloatingHeaderCallBack
     }
@@ -183,9 +180,6 @@ internal class ScreenShareZoomFrameLayout :
             screenShareViewBounds.centerY()
         )
 
-        currentScreenShareViewWidth = rect.right - rect.left
-        currentScreenShareViewHeight = rect.bottom - rect.top
-
         if (offsetLeft != 0f || offsetTop != 0f) {
             transform.postTranslate(offsetLeft, offsetTop)
             return true
@@ -262,12 +256,14 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     private fun shouldZoomToMax(): Boolean {
-        if (currentScreenShareViewWidth > screenShareViewBounds.width() ||
-            currentScreenShareViewHeight > screenShareViewBounds.height()
-        ) {
-            return false
+        val mTempValues = FloatArray(9)
+        activeTransform.getValues(mTempValues)
+        val currentScale = mTempValues[Matrix.MSCALE_X]
+
+        if (currentScale < (MIN_SCALE + MAX_SCALE) / 2) {
+            return true
         }
-        return true
+        return false
     }
 
     private fun shouldStartDoubleTapScroll(viewPoint: PointF): Boolean {
