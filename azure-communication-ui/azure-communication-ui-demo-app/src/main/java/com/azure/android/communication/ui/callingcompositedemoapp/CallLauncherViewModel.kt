@@ -17,9 +17,15 @@ class CallLauncherViewModel : ViewModel() {
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
 
-    private fun launcher(tokenUrl: String) =
-        if (isKotlinLauncher) CallingCompositeKotlinLauncher(UrlTokenFetcher(tokenUrl))
-        else CallingCompositeJavaLauncher(UrlTokenFetcher(tokenUrl))
+    private fun launcher(tokenUrl: String): CallingCompositeLauncher {
+        val tokenFunction = when(isTokenFunctionOptionSelected) {
+            true -> UrlTokenFetcher(tokenUrl)
+            false -> CachedTokenFetcher(token ?: "")
+        }
+
+        return if (isKotlinLauncher) CallingCompositeKotlinLauncher(tokenFunction)
+        else CallingCompositeJavaLauncher(tokenFunction)
+    }
 
     private val fetchResultInternal = MutableLiveData<Result<CallingCompositeLauncher?>>()
     val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
