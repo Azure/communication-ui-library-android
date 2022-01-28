@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
 import android.content.Context
-import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -29,8 +28,8 @@ internal class AudioDeviceListView(
     private val viewModel: AudioDeviceListViewModel,
     context: Context,
 ) : RelativeLayout(context) {
-    private var deviceTable: RecyclerView
 
+    private var deviceTable: RecyclerView
     private lateinit var audioDeviceDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
 
@@ -41,20 +40,30 @@ internal class AudioDeviceListView(
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
-        initializeAudioDeviceDrawer(viewModel.getAudioDeviceSelectionStatusStateFlow().value,viewModel.bluetoothSCOAvailable)
+        initializeAudioDeviceDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
+            viewModel.audioDeviceSelectionStatusStateFlow.collect {
                 updateSelectedAudioDevice(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDisplayAudioDeviceSelectionMenuStateFlow().collect {
+            viewModel.displayAudioDeviceSelectionMenuStateFlow.collect {
                 if (it) {
                     showAudioDeviceSelectionMenu()
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.bluetoothScoAvailableStateFlow.collect {
+                    /// rebind the list of items
+                    bottomCellAdapter = BottomCellAdapter(context)
+                    bottomCellAdapter.setBottomCellItems(bottomCellItems)
+                    deviceTable.adapter = bottomCellAdapter
+            }
+        }
+
     }
 
     fun stop() {
@@ -71,13 +80,22 @@ internal class AudioDeviceListView(
         audioDeviceDrawer.show()
     }
 
-    private fun initializeAudioDeviceDrawer(initialDevice: AudioDeviceSelectionStatus, isBluetoothSCOAvailable: Boolean) {
+    private fun initializeAudioDeviceDrawer() {
         audioDeviceDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         audioDeviceDrawer.setContentView(this)
         audioDeviceDrawer.setOnDismissListener {
             viewModel.closeAudioDeviceSelectionMenu()
         }
 
+
+        bottomCellAdapter = BottomCellAdapter(context)
+        bottomCellAdapter.setBottomCellItems(bottomCellItems)
+        deviceTable.adapter = bottomCellAdapter
+        deviceTable.layoutManager = LinearLayoutManager(context)
+    }
+
+    private val bottomCellItems : List<BottomCellItem> get() {
+        val initialDevice = viewModel.audioDeviceSelectionStatusStateFlow.value
         val bottomCellItems = mutableListOf(
             // Receiver (default)
             BottomCellItem(
@@ -110,14 +128,14 @@ internal class AudioDeviceListView(
                 null,
                 enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
 
-            ) {
+                ) {
                 viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                 audioDeviceDrawer.dismiss()
             },
 
-        )
+            )
 
-        if (isBluetoothSCOAvailable) {
+        if (viewModel.bluetoothScoAvailableStateFlow.value) {
             bottomCellItems.add(
                 BottomCellItem(
                     ContextCompat.getDrawable(
@@ -138,16 +156,8 @@ internal class AudioDeviceListView(
                     audioDeviceDrawer.dismiss()
                 })
         }
-
-
-
-
-        bottomCellAdapter = BottomCellAdapter(context)
-        bottomCellAdapter.setBottomCellItems(bottomCellItems)
-        deviceTable.adapter = bottomCellAdapter
-        deviceTable.layoutManager = LinearLayoutManager(context)
+        return bottomCellItems;
     }
-
     private fun updateSelectedAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         if (this::bottomCellAdapter.isInitialized) {
 

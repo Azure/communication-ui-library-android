@@ -12,9 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 internal class AudioDeviceListViewModel(
     private val dispatch: (Action) -> Unit,
 ) {
-    private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
-    private val bluetoothScoAvailableStateFlow = MutableStateFlow(false)
-    private val displayAudioDeviceSelectionMenuStateFlow = MutableStateFlow(false)
+
+    lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
+    val bluetoothScoAvailableStateFlow = MutableStateFlow(false)
+    val displayAudioDeviceSelectionMenuStateFlow = MutableStateFlow(false)
 
     fun init(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioDeviceSelectionStatus)
@@ -25,15 +26,6 @@ internal class AudioDeviceListViewModel(
         bluetoothScoAvailableStateFlow.value = isBluetoothSCOAvailable
     }
 
-    fun getAudioDeviceSelectionStatusStateFlow(): StateFlow<AudioDeviceSelectionStatus> {
-        return audioDeviceSelectionStatusStateFlow
-    }
-
-    val bluetoothSCOAvailable get() = bluetoothScoAvailableStateFlow.value
-
-    fun getDisplayAudioDeviceSelectionMenuStateFlow(): StateFlow<Boolean> {
-        return displayAudioDeviceSelectionMenuStateFlow
-    }
 
     fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         dispatchAction(action = LocalParticipantAction.AudioDeviceChangeRequested(audioDeviceSelectionStatus))
