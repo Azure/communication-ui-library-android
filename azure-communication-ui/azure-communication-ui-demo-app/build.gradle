@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "0.0.0"
@@ -97,10 +97,9 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
-    implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-
 
     testImplementation "junit:junit:$junit"
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'net.java.dev.jna:jna:5.5.0'
     androidTestImplementation ('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0') {
         exclude group: "net.java.dev.jna", module: "jna"
