@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.webkit.URLUtil
@@ -17,10 +20,15 @@ class CallLauncherViewModel : ViewModel() {
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
 
-    private val launcher = hashMapOf(
-        true to CallingCompositeKotlinLauncher(::getToken),
-        false to CallingCompositeJavaLauncher(::getToken)
-    )
+    private fun launcher(tokenUrl: String): CallingCompositeLauncher {
+        val tokenFunction = when (isTokenFunctionOptionSelected) {
+            true -> UrlTokenFetcher(tokenUrl)
+            false -> CachedTokenFetcher(token ?: "")
+        }
+
+        return if (isKotlinLauncher) CallingCompositeKotlinLauncher(tokenFunction)
+        else CallingCompositeJavaLauncher(tokenFunction)
+    }
 
     private val fetchResultInternal = MutableLiveData<Result<CallingCompositeLauncher?>>()
     val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
@@ -53,7 +61,7 @@ class CallLauncherViewModel : ViewModel() {
             }
             acsToken.isNotBlank() -> {
                 token = acsToken
-                fetchResultInternal.value = Result.success(launcher[isKotlinLauncher])
+                fetchResultInternal.value = Result.success(launcher(tokenFunctionURL))
             }
             else -> fetchResultInternal.value = Result.failure(
                 IllegalStateException("Invalid Token function or acs Token")
@@ -63,6 +71,7 @@ class CallLauncherViewModel : ViewModel() {
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
 
+    // Initial Token Fetch to Launch Composite
     private fun fetchToken(tokenFunctionURL: String) {
 
         if (urlIsValid(tokenFunctionURL)) {
@@ -75,7 +84,7 @@ class CallLauncherViewModel : ViewModel() {
                         fetchResultInternal.postValue(Result.failure(IOException("Unable to fetch token: ", cause)))
                     } else {
                         token = JSONObject(response).getString("token")
-                        fetchResultInternal.postValue(Result.success(launcher[isKotlinLauncher]))
+                        fetchResultInternal.postValue(Result.success(launcher(tokenFunctionURL)))
                     }
                 }
         } else {

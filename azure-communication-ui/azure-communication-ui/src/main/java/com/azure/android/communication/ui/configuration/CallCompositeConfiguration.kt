@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.configuration.events.CallCompositeEventsHandler
 import java.lang.RuntimeException
-import java.lang.ref.WeakReference
 
 internal class CallCompositeConfiguration {
     var themeConfig: ThemeConfiguration? = null
@@ -22,7 +21,7 @@ internal class CallCompositeConfiguration {
     to prevent CallCompositeConfiguration from leaking Activities via it's callbacks.
      */
     companion object {
-        private val configs: HashMap<Int, WeakReference<CallCompositeConfiguration>> = HashMap()
+        private val configs: HashMap<Int, CallCompositeConfiguration> = HashMap()
 
         // Store a Config by Instance ID
         //
@@ -31,19 +30,15 @@ internal class CallCompositeConfiguration {
             if (configuration == null) {
                 configs.remove(id)
             } else {
-                configs[id] = WeakReference(configuration)
+                configs[id] = configuration
             }
         }
 
         // Gets a config by it's ID
         // May return null if the Configuration becomes garbage collected
-        fun getConfig(id: Int): CallCompositeConfiguration = configs[id]?.get()
+        fun getConfig(id: Int): CallCompositeConfiguration = configs[id]
             ?: throw RuntimeException(
-                if (configs.containsKey(id))
-                    "Config with ID: $id was likely disposed, this is possible if the launching Activity was destroyed." +
-                        "Consider scoping your CallComposite class to an Application instead of Activity."
-                else
-                    "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite"
+                "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite"
             )
     }
 }
