@@ -262,8 +262,9 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     private fun shouldZoomToMax(): Boolean {
-        if (currentScreenShareViewWidth > screenShareViewBounds.width()
-            || currentScreenShareViewHeight > screenShareViewBounds.height()) {
+        if (currentScreenShareViewWidth > screenShareViewBounds.width() ||
+            currentScreenShareViewHeight > screenShareViewBounds.height()
+        ) {
             return false
         }
         return true

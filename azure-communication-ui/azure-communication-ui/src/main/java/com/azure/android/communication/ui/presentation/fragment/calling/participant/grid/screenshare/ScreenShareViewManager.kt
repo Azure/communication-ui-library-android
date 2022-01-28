@@ -51,14 +51,14 @@ internal class ScreenShareViewManager(
         screenShareZoomFrameLayout.setFloatingHeaderCallback(showFloatingHeaderCallBack)
 
         videoContainer.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                videoContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                // update view size only after child is added successfully
-                // otherwise renderer video size will be 0
-                setScreenShareLayoutSize()
-            }
-        })
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    videoContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    // update view size only after child is added successfully
+                    // otherwise renderer video size will be 0
+                    setScreenShareLayoutSize()
+                }
+            })
 
         return screenShareZoomFrameLayout
     }
