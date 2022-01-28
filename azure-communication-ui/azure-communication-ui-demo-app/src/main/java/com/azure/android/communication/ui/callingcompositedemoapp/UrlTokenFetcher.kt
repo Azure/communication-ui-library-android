@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import com.github.kittinunf.fuel.httpGet
@@ -10,7 +13,7 @@ import java.util.concurrent.Callable
 class UrlTokenFetcher(private val tokenFunctionURL: String) : Callable<String> {
     override fun call(): String {
         val result = tokenFunctionURL.httpGet().responseString()
-        val response = result.component2().responseMessage
+        val response = result.component3().get()
         val cause = result.component3().component2()
 
         if (cause != null) {
