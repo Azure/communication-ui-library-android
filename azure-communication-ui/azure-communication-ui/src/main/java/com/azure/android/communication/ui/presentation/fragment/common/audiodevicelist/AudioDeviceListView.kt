@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
 import android.content.Context
+import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -40,7 +41,7 @@ internal class AudioDeviceListView(
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
-        initializeAudioDeviceDrawer(viewModel.getAudioDeviceSelectionStatusStateFlow().value)
+        initializeAudioDeviceDrawer(viewModel.getAudioDeviceSelectionStatusStateFlow().value,viewModel.bluetoothSCOAvailable)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
                 updateSelectedAudioDevice(it)
@@ -70,7 +71,7 @@ internal class AudioDeviceListView(
         audioDeviceDrawer.show()
     }
 
-    private fun initializeAudioDeviceDrawer(initialDevice: AudioDeviceSelectionStatus) {
+    private fun initializeAudioDeviceDrawer(initialDevice: AudioDeviceSelectionStatus, isBluetoothSCOAvailable: Boolean) {
         audioDeviceDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         audioDeviceDrawer.setContentView(this)
         audioDeviceDrawer.setOnDismissListener {
@@ -107,31 +108,40 @@ internal class AudioDeviceListView(
                     R.drawable.ms_ic_checkmark_24_filled
                 ),
                 null,
-                enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+
             ) {
                 viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                 audioDeviceDrawer.dismiss()
             },
-            // Bluetooth
-            // TODO: Needs checks and updates
-            BottomCellItem(
-                ContextCompat.getDrawable(
-                    context,
-                    R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
-                ),
-                getDeviceTypeName(AudioDeviceType.BLUETOOTH_SCO),
-                ContextCompat.getDrawable(
-                    context,
-                    R.drawable.ms_ic_checkmark_24_filled
-                ),
-                null,
-                enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
-            ) {
-                viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
-                audioDeviceDrawer.dismiss()
-            }
 
         )
+
+        if (isBluetoothSCOAvailable) {
+            bottomCellItems.add(
+                BottomCellItem(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
+                    ),
+                    getDeviceTypeName(AudioDeviceType.BLUETOOTH_SCO),
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ms_ic_checkmark_24_filled
+                    ),
+
+                    null,
+                    enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
+
+                    ) {
+                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
+                    audioDeviceDrawer.dismiss()
+                })
+        }
+
+
+
+
         bottomCellAdapter = BottomCellAdapter(context)
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         deviceTable.adapter = bottomCellAdapter
