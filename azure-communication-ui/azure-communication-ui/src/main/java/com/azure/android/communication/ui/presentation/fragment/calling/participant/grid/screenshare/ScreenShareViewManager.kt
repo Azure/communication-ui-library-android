@@ -101,6 +101,7 @@ internal class ScreenShareViewManager(
                     layoutParams.gravity = Gravity.CENTER_HORIZONTAL
                 }
                 rendererViewTransformationWrapper.layoutParams = layoutParams
+                screenShareZoomFrameLayout.enableZoom()
             }
         }
     }

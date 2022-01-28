@@ -33,6 +33,7 @@ internal class ScreenShareZoomFrameLayout :
     private val gestureListener = GestureListener(context, this)
     private lateinit var showFloatingHeaderCallBack: () -> Unit
     private var currentScale = 0f
+    private var isZoomEnabled = false
 
     private val previousTransform = Matrix()
     private val activeTransform = Matrix()
@@ -44,6 +45,10 @@ internal class ScreenShareZoomFrameLayout :
     private val doubleTapZoomLayoutPoint = PointF()
     private val doubleTapScreenSharePoint = PointF()
     private var doubleTapScroll = false
+
+    fun enableZoom() {
+        isZoomEnabled = true
+    }
 
     fun setFloatingHeaderCallback(showFloatingHeaderCallBack: () -> Unit) {
         this.showFloatingHeaderCallBack = showFloatingHeaderCallBack
@@ -70,7 +75,7 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (gestureListener.onTouchEvent(event)) {
+        if (isZoomEnabled && gestureListener.onTouchEvent(event)) {
             parent.requestDisallowInterceptTouchEvent(true)
             return true
         }
