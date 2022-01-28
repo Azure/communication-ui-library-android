@@ -35,7 +35,7 @@ internal class ScreenShareZoomFrameLayout :
     private var currentScale = 0f
 
     private val previousTransform = Matrix()
-    private val newTransform = Matrix()
+    private val activeTransform = Matrix()
     private var currentTransform = Matrix()
 
     private val screenShareViewBounds = RectF()
@@ -43,8 +43,10 @@ internal class ScreenShareZoomFrameLayout :
 
     private val doubleTapZoomLayoutPoint = PointF()
     private val doubleTapScreenSharePoint = PointF()
-    private var doubleTapApplied = false
     private var doubleTapScroll = false
+
+    private var currentScreenShareViewWidth = 0f
+    private var currentScreenShareViewHeight = 0f
 
     fun setFloatingHeaderCallback(showFloatingHeaderCallBack: () -> Unit) {
         this.showFloatingHeaderCallBack = showFloatingHeaderCallBack
@@ -59,11 +61,11 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     override fun initTransformation() {
-        previousTransform.set(newTransform)
+        previousTransform.set(activeTransform)
     }
 
     override fun updateTransformation() {
-        val transformCorrected = applyTransform(newTransform)
+        val transformCorrected = applyTransform(activeTransform)
         onTransformChanged()
         if (transformCorrected) {
             gestureListener.resetPointers()
@@ -144,7 +146,7 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     private fun onTransformChanged() {
-        currentTransform = newTransform
+        currentTransform = activeTransform
         invalidate()
     }
 
@@ -180,6 +182,10 @@ internal class ScreenShareZoomFrameLayout :
             zoomFrameViewBounds.bottom,
             screenShareViewBounds.centerY()
         )
+
+        currentScreenShareViewWidth = rect.right - rect.left
+        currentScreenShareViewHeight = rect.bottom - rect.top
+
         if (offsetLeft != 0f || offsetTop != 0f) {
             transform.postTranslate(offsetLeft, offsetTop)
             return true
@@ -238,13 +244,11 @@ internal class ScreenShareZoomFrameLayout :
                     val scale = calcScale(zoomLayoutPoint)
                     zoomToPoint(scale, doubleTapScreenSharePoint, doubleTapZoomLayoutPoint)
                 } else {
-                    if (!doubleTapApplied) {
-                        doubleTapApplied = true
+                    if (shouldZoomToMax()) {
                         zoomToPoint(
                             MAX_SCALE, screenSharePoint, zoomLayoutPoint
                         )
                     } else {
-                        doubleTapApplied = false
                         zoomToPoint(
                             MIN_SCALE, screenSharePoint, zoomLayoutPoint
                         )
@@ -253,6 +257,14 @@ internal class ScreenShareZoomFrameLayout :
                 doubleTapScroll = false
             }
             else -> return false
+        }
+        return true
+    }
+
+    private fun shouldZoomToMax(): Boolean {
+        if (currentScreenShareViewWidth > screenShareViewBounds.width()
+            || currentScreenShareViewHeight > screenShareViewBounds.height()) {
+            return false
         }
         return true
     }
@@ -276,7 +288,7 @@ internal class ScreenShareZoomFrameLayout :
         points[0] = viewPoint.x
         points[1] = viewPoint.y
         val mActiveTransformInverse = Matrix()
-        newTransform.invert(mActiveTransformInverse)
+        activeTransform.invert(mActiveTransformInverse)
         mActiveTransformInverse.mapPoints(points, 0, points, 0, 1)
         mapAbsoluteToRelative(points, points)
         return PointF(points[0], points[1])
@@ -307,7 +319,7 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     private fun zoomToPoint(scale: Float, imagePoint: PointF, viewPoint: PointF) {
-        applyZoomToPointTransform(newTransform, scale, imagePoint, viewPoint)
+        applyZoomToPointTransform(activeTransform, scale, imagePoint, viewPoint)
         onTransformChanged()
     }
 

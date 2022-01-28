@@ -51,14 +51,14 @@ internal class ScreenShareViewManager(
         screenShareZoomFrameLayout.setFloatingHeaderCallback(showFloatingHeaderCallBack)
 
         videoContainer.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    videoContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    // update view size only after child is added successfully
-                    // otherwise renderer video size will be 0
-                    setScreenShareLayoutSize()
-                }
-            })
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                videoContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                // update view size only after child is added successfully
+                // otherwise renderer video size will be 0
+                setScreenShareLayoutSize()
+            }
+        })
 
         return screenShareZoomFrameLayout
     }
@@ -75,13 +75,17 @@ internal class ScreenShareViewManager(
 
     private fun setScreenShareLayoutSize() {
         val streamSize = getScreenShareVideoStreamRendererCallback()?.size
-        streamSize?.let {
+        if (streamSize == null) {
+            videoContainer.postDelayed({
+                setScreenShareLayoutSize()
+            }, 800)
+        } else {
             videoContainer.post {
                 // this logic is from Azure communication calling SDK code to find width and height of video view excluding grey screen
                 val viewWidth = videoContainer.width.toFloat()
                 val viewHeight = videoContainer.height.toFloat()
-                val videoWidth = it.width
-                val videoHeight = it.height
+                val videoWidth = streamSize.width
+                val videoHeight = streamSize.height
 
                 val scaleWidth = viewWidth / videoWidth
                 val scaleHeight = viewHeight / videoHeight
