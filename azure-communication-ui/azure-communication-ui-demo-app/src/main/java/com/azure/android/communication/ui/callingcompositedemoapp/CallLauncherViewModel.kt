@@ -62,8 +62,7 @@ class CallLauncherViewModel : ViewModel() {
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
 
-    // / Need to evaluate this and the Token Function a bit more
-    // / Do we need as part of ViewModel? How to Test?
+    // Initial Token Fetch to Launch Composite
     private fun fetchToken(tokenFunctionURL: String) {
 
         if (urlIsValid(tokenFunctionURL)) {
