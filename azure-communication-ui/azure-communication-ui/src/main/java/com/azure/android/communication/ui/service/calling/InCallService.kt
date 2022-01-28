@@ -45,6 +45,7 @@ internal class InCallService : Service() {
             }
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
+            .setContentTitle(this.getText(R.string.azure_communication_ui_service_notification_title))
             .setContentText(this.getText(R.string.azure_communication_ui_service_notification_message))
             .setSmallIcon(R.drawable.azure_communication_ui_ic_fluent_call_16_filled)
             .setContentIntent(pendingIntent)
