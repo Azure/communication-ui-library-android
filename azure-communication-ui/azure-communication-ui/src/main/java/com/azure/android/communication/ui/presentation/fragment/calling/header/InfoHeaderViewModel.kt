@@ -3,15 +3,12 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.header
 
-import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
 
-internal class InfoHeaderViewModel(
-    private val participantListViewModel: ParticipantListViewModel,
-) {
+internal class InfoHeaderViewModel {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
 
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
@@ -42,10 +39,6 @@ internal class InfoHeaderViewModel(
         timer = Timer()
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-    }
-
-    fun displayParticipantList() {
-        participantListViewModel.displayParticipantList()
     }
 
     fun switchFloatingHeader() {

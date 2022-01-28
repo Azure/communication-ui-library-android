@@ -5,6 +5,9 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.LinearLayout
@@ -29,6 +32,7 @@ internal class SetupControlBarView : LinearLayout {
     private lateinit var setupButtonHolder: LinearLayout
     private lateinit var setupCameraButton: Button
     private lateinit var setupAudioDeviceButton: Button
+    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -43,15 +47,17 @@ internal class SetupControlBarView : LinearLayout {
             toggleVideo()
         }
         setupAudioDeviceButton.setOnClickListener {
-            openAudioDeviceList()
+            openAudioDeviceSelectionMenuCallback()
         }
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         setupControlBarViewModel: SetupControlBarViewModel,
+        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         viewModel = setupControlBarViewModel
+        openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraPermissionState().collect {
                 setupCameraButton.isEnabled = it != PermissionStatus.DENIED
@@ -169,14 +175,7 @@ internal class SetupControlBarView : LinearLayout {
         val setupAudioDeviceButtonColor =
             if (setupCameraButton.isSelected) R.color.azure_communication_ui_color_on_surface_camera_active
             else R.color.azure_communication_ui_toggle_selector
-
-        setupAudioDeviceButton.compoundDrawableTintList =
-            ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    setupAudioDeviceButtonColor
-                )
-            )
+        setButtonColor(setupAudioDeviceButton, setupAudioDeviceButtonColor)
     }
 
     private fun toggleAudio() {
@@ -195,13 +194,16 @@ internal class SetupControlBarView : LinearLayout {
         }
     }
 
-    private fun openAudioDeviceList() {
-        viewModel.displayAudioDeviceSelectionMenu()
-    }
-
     private fun setButtonColor(button: Button, colorId: Int) {
         button.setTextColor(ContextCompat.getColor(context, colorId))
-        button.compoundDrawableTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            button.compoundDrawableTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
+        } else {
+            button.compoundDrawables[1].colorFilter = PorterDuffColorFilter(
+                ContextCompat.getColor(context, colorId),
+                PorterDuff.Mode.SRC_IN
+            )
+        }
     }
 }

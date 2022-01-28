@@ -13,7 +13,7 @@
 
     <com.microsoft.fluentui.widget.Button
         android:id="@+id/azure_communication_ui_call_leave_confirm"
-        style="@style/AzureCommunicationUICalling.Button"
+        style="@style/Widget.FluentUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"

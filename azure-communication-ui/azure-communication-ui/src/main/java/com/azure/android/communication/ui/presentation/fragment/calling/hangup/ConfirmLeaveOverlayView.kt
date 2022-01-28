@@ -7,6 +7,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -29,6 +30,10 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
             findViewById(R.id.azure_communication_ui_call_leave_confirm)
         cancelLeaveCallButton =
             findViewById(R.id.azure_communication_ui_call_leave_cancel)
+        confirmLeaveCallButton.background = ContextCompat.getDrawable(
+            context,
+            R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_primary_background
+        )
         subscribeClickListener()
     }
 
@@ -38,7 +43,7 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        confirmLeaveOverlayViewModel: ConfirmLeaveOverlayViewModel
+        confirmLeaveOverlayViewModel: ConfirmLeaveOverlayViewModel,
     ) {
         this.confirmLeaveOverlayViewModel = confirmLeaveOverlayViewModel
 
