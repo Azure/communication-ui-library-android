@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -12,6 +11,8 @@ import com.azure.android.communication.ui.CallComposite;
 import com.azure.android.communication.ui.CallCompositeBuilder;
 import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -27,7 +28,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
     }
 
     @Override
-    public void launch(final Context context,
+    public void launch(final CallLauncherActivity callLauncherActivity,
                        final String displayName,
                        final UUID groupId,
                        final String meetingLink,
@@ -37,18 +38,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 //                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
                         .build();
 
-        callComposite.setOnErrorHandler(eventHandler -> {
-            System.out.println("================= application is logging exception =================");
-            System.out.println(eventHandler.getCause());
-            System.out.println(eventHandler.getErrorCode());
-            if (eventHandler.getCause() != null) {
-                showAlert.invoke(eventHandler.getErrorCode().toString() + " "
-                        + eventHandler.getCause().getMessage());
-            } else {
-                showAlert.invoke(eventHandler.getErrorCode().toString());
-            }
-            System.out.println("====================================================================");
-        });
+        callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
                 new CommunicationTokenRefreshOptions(tokenRefresher, true);
@@ -57,13 +47,15 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         if (groupId != null) {
             final GroupCallOptions groupCallOptions =
-                    new GroupCallOptions(context, communicationTokenCredential, groupId, displayName);
+                    new GroupCallOptions(callLauncherActivity,
+                            communicationTokenCredential, groupId, displayName);
 
             callComposite.launch(groupCallOptions);
 
         } else if (!TextUtils.isEmpty(meetingLink)) {
             final TeamsMeetingOptions teamsMeetingOptions =
-                    new TeamsMeetingOptions(context, communicationTokenCredential, meetingLink, displayName);
+                    new TeamsMeetingOptions(callLauncherActivity,
+                            communicationTokenCredential, meetingLink, displayName);
 
             callComposite.launch(teamsMeetingOptions);
         }
