@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.configuration.events.CallCompositeEventsHandler
 import java.lang.RuntimeException
-import java.lang.ref.WeakReference
 
 internal class CallCompositeConfiguration {
     var themeConfig: ThemeConfiguration? = null
@@ -39,7 +38,7 @@ internal class CallCompositeConfiguration {
         // May return null if the Configuration becomes garbage collected
         fun getConfig(id: Int): CallCompositeConfiguration = configs[id]
             ?: throw RuntimeException(
-                    "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite"
+                "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite"
             )
     }
 }

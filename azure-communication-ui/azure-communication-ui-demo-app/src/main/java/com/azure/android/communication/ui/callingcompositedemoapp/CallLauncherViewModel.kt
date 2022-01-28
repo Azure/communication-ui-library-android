@@ -18,7 +18,7 @@ class CallLauncherViewModel : ViewModel() {
     var isTokenFunctionOptionSelected = false; private set
 
     private fun launcher(tokenUrl: String): CallingCompositeLauncher {
-        val tokenFunction = when(isTokenFunctionOptionSelected) {
+        val tokenFunction = when (isTokenFunctionOptionSelected) {
             true -> UrlTokenFetcher(tokenUrl)
             false -> CachedTokenFetcher(token ?: "")
         }
