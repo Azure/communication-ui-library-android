@@ -7,8 +7,6 @@ import android.app.Activity
 import android.media.AudioDeviceCallback
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -20,12 +18,10 @@ internal class AudioSessionManager(
 ) : AudioDeviceCallback() {
     private lateinit var audioManager: AudioManager
 
-    private val audioDevices = MutableLiveData<Array<AudioDeviceInfo>>()
+    private var audioDevices : Array<AudioDeviceInfo> = emptyArray();
+    private val isBluetoothScoAvailable get() =
+        audioDevices.fold(false) { acc, info -> acc || info.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO}
 
-    /// Live Data to check if Bluetooth SCO is enabled
-    val hasBluetoothSco = Transformations.map(audioDevices) {
-        it.fold(false) { acc, info -> acc || info.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO}
-    }
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     suspend fun start(
@@ -35,6 +31,8 @@ internal class AudioSessionManager(
         this.audioManager = audioManager
         activity.volumeControlStream = AudioManager.STREAM_VOICE_CALL
         initializeAudioDeviceState()
+        audioManager.registerAudioDeviceCallback(this, null);
+        refreshDevices()
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
                 previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
@@ -44,8 +42,7 @@ internal class AudioSessionManager(
             previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
         }
 
-        audioManager.registerAudioDeviceCallback(this, null);
-        refreshDevices()
+
     }
 
     override fun onAudioDevicesAdded(addedDevices: Array<out AudioDeviceInfo>?) {
@@ -59,16 +56,19 @@ internal class AudioSessionManager(
     }
 
     private fun refreshDevices() {
-        audioDevices.value = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+        audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+        store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
     }
 
     private fun initializeAudioDeviceState() {
-        if (audioManager.isSpeakerphoneOn) {
-            store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
-        } else if (audioManager.isBluetoothScoOn) {
-            store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED))
-        } else {
-            store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED))
+        when {
+            audioManager.isSpeakerphoneOn ->
+                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
+            audioManager.isBluetoothScoOn ->
+                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED))
+            else ->
+                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED))
+
         }
     }
 

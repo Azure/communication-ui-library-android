@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.redux.state
 
 import com.azure.android.communication.ui.error.CallCompositeError
+import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 
 internal enum class CameraOperationalStatus {
     PENDING,
@@ -49,6 +50,7 @@ internal data class AudioState(
     val operation: AudioOperationalStatus,
     val device: AudioDeviceSelectionStatus,
     val error: CallCompositeError? = null,
+    val isBluetoothSCOAvailable: Boolean = false
 )
 
 internal data class LocalUserState(
