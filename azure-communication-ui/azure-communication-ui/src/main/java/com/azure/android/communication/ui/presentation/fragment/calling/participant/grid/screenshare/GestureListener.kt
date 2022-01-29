@@ -28,12 +28,14 @@ internal class GestureListener(
         reset()
     }
 
+    private val clickGestureDetector = GestureDetector(context, this)
     private var pointerStartPosition = PointF(0f, 0f)
     private var pointerCurrentPosition = PointF(0f, 0f)
     private var scaleFactor = 1.0f
     private var scaleGestureDetector = ScaleGestureDetector(context, this)
-    private val clickGestureDetector = GestureDetector(context, this)
     private var validPointerIndex = INVALID_POINTER
+
+    private var doubleTapZoomAnimationInProgress = false
 
     val scale get() = scaleFactor
     val startX get() = pointerStartPosition.x
@@ -63,6 +65,14 @@ internal class GestureListener(
         pointerStartPosition.x = pointerCurrentPosition.x
         pointerStartPosition.y = pointerCurrentPosition.y
         startGesture()
+    }
+
+    fun doubleTapZoomAnimationStarted() {
+        doubleTapZoomAnimationInProgress = true
+    }
+
+    fun doubleTapZoomAnimationEnded() {
+        doubleTapZoomAnimationInProgress = false
     }
 
     override fun onScale(scaleDetector: ScaleGestureDetector): Boolean {
@@ -126,6 +136,9 @@ internal class GestureListener(
     }
 
     private fun updateGesture(event: MotionEvent) {
+        if (doubleTapZoomAnimationInProgress) {
+            return
+        }
         updatePointersOnMove(event)
         if (validPointerIndex != INVALID_POINTER) {
             startGesture()
@@ -134,6 +147,9 @@ internal class GestureListener(
     }
 
     private fun numberOfPointersChanged(event: MotionEvent) {
+        if (doubleTapZoomAnimationInProgress) {
+            return
+        }
         updatePointersOnTap(event)
         if (validPointerIndex != INVALID_POINTER) {
             startGesture()

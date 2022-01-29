@@ -3,6 +3,9 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Matrix
@@ -10,6 +13,7 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import kotlin.math.abs
 import kotlin.math.hypot
@@ -28,6 +32,7 @@ internal class ScreenShareZoomFrameLayout :
     companion object {
         private const val MIN_SCALE = 1.0f
         private const val MAX_SCALE = 4.0f
+        private const val DOUBLE_TAP_ZOOM_ANIMATION_DURATION: Long = 300
     }
 
     private val gestureListener = GestureListener(context, this)
@@ -44,8 +49,14 @@ internal class ScreenShareZoomFrameLayout :
 
     private val doubleTapZoomLayoutPoint = PointF()
     private val doubleTapScreenSharePoint = PointF()
+    private val doubleTapZoomAnimator = ValueAnimator.ofFloat(0f, 1f)
     private var doubleTapScroll = false
 
+    init {
+        doubleTapZoomAnimator.interpolator = DecelerateInterpolator()
+    }
+
+    // zoom is enabled after the size of screen share view is set
     fun enableZoom() {
         isZoomEnabled = true
     }
@@ -298,7 +309,7 @@ internal class ScreenShareZoomFrameLayout :
 
     private fun mapAbsoluteToRelative(
         destPoints: FloatArray,
-        srcPoints: FloatArray
+        srcPoints: FloatArray,
     ) {
         for (i in 0 until 1) {
             destPoints[i * 2 + 0] =
@@ -310,7 +321,7 @@ internal class ScreenShareZoomFrameLayout :
 
     private fun mapRelativeToAbsolute(
         destPoints: FloatArray,
-        srcPoints: FloatArray
+        srcPoints: FloatArray,
     ) {
         for (i in 0 until 1) {
             destPoints[i * 2 + 0] =
@@ -321,8 +332,9 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     private fun zoomToPoint(scale: Float, imagePoint: PointF, viewPoint: PointF) {
-        applyZoomToPointTransform(activeTransform, scale, imagePoint, viewPoint)
-        onTransformChanged()
+        val matrix = Matrix()
+        applyZoomToPointTransform(matrix, scale, imagePoint, viewPoint)
+        setTransformAnimated(matrix)
     }
 
     private fun applyZoomToPointTransform(
@@ -342,5 +354,49 @@ internal class ScreenShareZoomFrameLayout :
         transform.postTranslate(distanceX, distanceY)
         transformCorrected = transformCorrected or limitTranslation(transform)
         return transformCorrected
+    }
+
+    private fun setTransformAnimated(newTransform: Matrix) {
+        val startValues = FloatArray(9)
+        val stopValues = FloatArray(9)
+        stopAnimation()
+        doubleTapZoomAnimator.duration = DOUBLE_TAP_ZOOM_ANIMATION_DURATION
+        activeTransform.getValues(startValues)
+        newTransform.getValues(stopValues)
+        doubleTapZoomAnimator.addUpdateListener { valueAnimator ->
+            val animatedMatrix = Matrix()
+            val currentValues = FloatArray(9)
+            val animatedValue = valueAnimator.animatedValue as Float
+
+            for (i in 0..8) {
+                currentValues[i] =
+                    (1f - animatedValue) * startValues[i] + animatedValue * stopValues[i]
+            }
+
+            animatedMatrix.setValues(currentValues)
+            activeTransform.set(animatedMatrix)
+            onTransformChanged()
+        }
+        doubleTapZoomAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationCancel(animation: Animator) {
+                onAnimationStopped()
+            }
+            override fun onAnimationEnd(animation: Animator) {
+                onAnimationStopped()
+            }
+            private fun onAnimationStopped() {
+                gestureListener.resetPointers()
+                gestureListener.doubleTapZoomAnimationEnded()
+            }
+        })
+        gestureListener.doubleTapZoomAnimationStarted()
+        doubleTapZoomAnimator.start()
+    }
+
+    private fun stopAnimation() {
+        doubleTapZoomAnimator.cancel()
+        doubleTapZoomAnimator.removeAllUpdateListeners()
+        doubleTapZoomAnimator.removeAllListeners()
+        gestureListener.doubleTapZoomAnimationEnded()
     }
 }
