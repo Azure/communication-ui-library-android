@@ -21,6 +21,9 @@ internal class CallStateReducerImpl : CallStateReducer {
             is CallingAction.IsTranscribingUpdated -> {
                 callingState.copy(isTranscribing = action.isTranscribing)
             }
+            is CallingAction.CallEndRequested -> {
+                callingState.copy(isEnding = true)
+            }
             else -> callingState
         }
     }

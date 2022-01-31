@@ -31,6 +31,7 @@ import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.azure.android.communication.ui.service.calling.InCallService
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class CallCompositeActivity : AppCompatActivity() {
@@ -52,9 +53,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onDestroy() {
         navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
         if (isFinishing) {
-            store.dispatch(CallingAction.CallEndRequested())
-
+        // TODO: This should be deleted by PR time
+        // store.dispatch(CallingAction.CallEndRequested())
             CallCompositeConfiguration.putConfig(instanceId, null)
+            store.end()
+            callingMiddlewareActionHandler.dispose()
+            videoViewManager.destroy()
         }
         super.onDestroy()
     }
@@ -94,6 +98,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
+        /// Listen for when to finish()
+        lifecycleScope.launch {
+            store.getStateFlow().collect {
+                if (it.callState.isEnding && !isFinishing) {
+                    finish()
+                }
+            }
+        }
         navigationRouter.addOnNavigationStateChanged(this::onNavigationStateChange)
 
         lifecycleScope.launch { navigationRouter.start() }
@@ -179,11 +191,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
             NavigationStatus.EXIT -> {
+                store.dispatch(CallingAction.CallEndRequested())
                 stopService()
-                store.end()
-                callingMiddlewareActionHandler.dispose()
-                videoViewManager.destroy()
-                finish()
             }
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)

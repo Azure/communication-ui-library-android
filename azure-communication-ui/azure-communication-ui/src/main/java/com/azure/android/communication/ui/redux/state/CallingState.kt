@@ -20,4 +20,5 @@ internal data class CallingState(
     val CallingStatus: CallingStatus,
     val isRecording: Boolean = false,
     val isTranscribing: Boolean = false,
+    val isEnding: Boolean = false
 )
