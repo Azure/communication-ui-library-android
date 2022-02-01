@@ -99,20 +99,21 @@ internal class AudioSessionManager(
 
 
     private fun enableSpeakerPhone() {
-        audioManager.stopBluetoothSco();
-        audioManager.isBluetoothScoOn = false;
-        audioManager.isSpeakerphoneOn = true;
+        audioManager.stopBluetoothSco()
+        audioManager.isBluetoothScoOn = false
+        audioManager.isSpeakerphoneOn = true
     }
 
     private fun enableEarpiece() {
         audioManager.stopBluetoothSco();
-        audioManager.isBluetoothScoOn = false;
-        audioManager.isSpeakerphoneOn = false;
+        audioManager.isBluetoothScoOn = false
+        audioManager.isSpeakerphoneOn = false
     }
 
     private fun enableBluetooth() {
         audioManager.startBluetoothSco();
-        audioManager.isBluetoothScoOn = true;
+        audioManager.isBluetoothScoOn = true
+        audioManager.isSpeakerphoneOn = false
     }
 
     fun stop() {
