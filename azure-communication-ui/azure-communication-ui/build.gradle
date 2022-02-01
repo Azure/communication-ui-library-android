@@ -9,7 +9,7 @@ apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
     resourcePrefix 'azure_communication_ui_'
 
