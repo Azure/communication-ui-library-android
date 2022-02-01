@@ -7,7 +7,8 @@
 - API 21, 22 support
 
 ### Breaking Changes
-- Dropped Context from MeetingOptions, added to CallComposite.launch(..)
+- Remove Context from GroupMeetingOptions() and TeamMeetingOptions()
+- Add required parameter Context to CallComposite.launch()
 
 ### Bug Fixes
 - Start service is crashing for API 31
