@@ -22,26 +22,25 @@ import kotlinx.coroutines.flow.collect
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
+    private val context: Context,
+    private val audioManager: AudioManager,
 ) : BluetoothProfile.ServiceListener, BroadcastReceiver() {
 
     private var bluetoothAudioProxy: BluetoothHeadset? = null
-    private lateinit var audioManager: AudioManager
-    private var activity: Activity? = null
+
     private var audioDevices : Array<AudioDeviceInfo> = emptyArray();
     private val isBluetoothScoAvailable get() =  (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
-    suspend fun start(
-        activity: Activity,
-        audioManager: AudioManager,
-    ) {
-        this.activity = activity
-        this.audioManager = audioManager
-        BluetoothAdapter.getDefaultAdapter().getProfileProxy(activity,
+    suspend fun start() {
+        BluetoothAdapter.getDefaultAdapter().getProfileProxy(context,
             this, BluetoothProfile.HEADSET)
 
-        activity.volumeControlStream = AudioManager.STREAM_VOICE_CALL
+
+        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+        context.registerReceiver(this, filter)
+
         initializeAudioDeviceState()
         refreshDevices()
         store.getStateFlow().collect {
@@ -117,20 +116,15 @@ internal class AudioSessionManager(
     }
 
     fun stop() {
-        activity = null
         BluetoothAdapter.getDefaultAdapter().closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
-        activity?.unregisterReceiver(this)
+        context.unregisterReceiver(this)
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
         bluetoothAudioProxy = proxy as BluetoothHeadset
-        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-        activity?.registerReceiver(this, filter)
-
     }
 
     override fun onServiceDisconnected(profile: Int) {
         bluetoothAudioProxy = null
-
     }
 }

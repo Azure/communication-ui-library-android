@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.di
 
 import android.content.Context
+import android.media.AudioManager
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
@@ -72,7 +73,9 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val audioSessionManager by lazy {
-        AudioSessionManager(appStore)
+        AudioSessionManager(appStore,
+            applicationContext,
+            applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
     }
 
     override val lifecycleManager by lazy {

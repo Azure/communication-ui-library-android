@@ -53,7 +53,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
-
+            audioSessionManager.stop()
             CallCompositeConfiguration.putConfig(instanceId, null)
         }
         super.onDestroy()
@@ -61,6 +61,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
         // Assign the Dependency Injection Container the appropriate instanceId,
         // so it can initialize it's container holding the dependencies
@@ -88,10 +89,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            audioSessionManager.start(
-                activity,
-                getAudioManager()
-            )
+            audioSessionManager.start()
         }
 
         navigationRouter.addOnNavigationStateChanged(this::onNavigationStateChange)
@@ -113,7 +111,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         super.onStop()
         if (!isChangingConfigurations) {
             lifecycleScope.launch { lifecycleManager.pause() }
-            lifecycleScope.launch { audioSessionManager.stop() }
         }
     }
 
