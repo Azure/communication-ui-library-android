@@ -53,12 +53,20 @@ internal class AudioSessionManager(
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        refreshDevices()
-    }
+    override fun onReceive(context: Context?, intent: Intent?) = refreshDevices()
 
+    /// Refresh the Connected Devices List
+    /// Also falls back to speaker if bluetooth is disconnected while selected
     private fun refreshDevices() {
         audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+
+        if (!isBluetoothScoAvailable
+            && store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable
+            && store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED) {
+            /// Bluetooth disconnected, fall back to speaker
+            store.dispatch(LocalParticipantAction.AudioDeviceChangeRequested(AudioDeviceSelectionStatus.SPEAKER_REQUESTED))
+        }
+
         store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
     }
 
