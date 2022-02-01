@@ -28,7 +28,6 @@ internal class AudioSessionManager(
 
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
-    private var audioDevices : Array<AudioDeviceInfo> = emptyArray();
     private val isBluetoothScoAvailable get() =  (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
 
@@ -58,8 +57,6 @@ internal class AudioSessionManager(
     /// Refresh the Connected Devices List
     /// Also falls back to speaker if bluetooth is disconnected while selected
     private fun refreshDevices() {
-        audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-
         if (!isBluetoothScoAvailable
             && store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable
             && store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED) {
