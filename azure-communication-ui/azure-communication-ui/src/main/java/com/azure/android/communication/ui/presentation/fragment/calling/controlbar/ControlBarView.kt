@@ -120,7 +120,7 @@ internal class ControlBarView : LinearLayout {
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
                     // Needs an icon
-                    R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
+                    R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
                 )
             }
         }

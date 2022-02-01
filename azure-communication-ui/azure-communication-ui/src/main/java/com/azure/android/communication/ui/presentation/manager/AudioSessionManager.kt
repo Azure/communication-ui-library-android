@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.manager
 
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothProfile
@@ -11,8 +10,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.AudioDeviceCallback
-import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
@@ -41,30 +38,42 @@ internal class AudioSessionManager(
         context.registerReceiver(this, filter)
 
         initializeAudioDeviceState()
-        refreshDevices()
+        updateBluetoothStatus()
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
-                previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
-            ) {
+                previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device) {
                 onAudioDeviceStateChange(it.localParticipantState.audioState.device)
             }
+
             previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) = refreshDevices()
+    override fun onReceive(context: Context?, intent: Intent?) = updateBluetoothStatus()
 
-    /// Refresh the Connected Devices List
-    /// Also falls back to speaker if bluetooth is disconnected while selected
-    private fun refreshDevices() {
+    /// Update the status of bluetooth
+    /// - Connect a headset automatically if bluetooth is connected
+    /// - When disconnected revert to "Speaker"
+    /// - When disconnected (and not selected), just update availability
+    private fun updateBluetoothStatus() {
         if (!isBluetoothScoAvailable
             && store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable
             && store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED) {
-            /// Bluetooth disconnected, fall back to speaker
+            /// If bluetooth dropped
             store.dispatch(LocalParticipantAction.AudioDeviceChangeRequested(AudioDeviceSelectionStatus.SPEAKER_REQUESTED))
         }
 
-        store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
+        if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable) {
+            // If Bluetooth has been connected and wasn't, switch to it
+            store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
+            store.dispatch(LocalParticipantAction.AudioDeviceChangeRequested(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED))
+        } else {
+            // If bluetooth wasn't selected and is just being disconnected, just do the flag
+            store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
+        }
+
+
+
     }
 
     private fun initializeAudioDeviceState() {
@@ -127,6 +136,7 @@ internal class AudioSessionManager(
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
         bluetoothAudioProxy = proxy as BluetoothHeadset
+        updateBluetoothStatus()
     }
 
     override fun onServiceDisconnected(profile: Int) {
