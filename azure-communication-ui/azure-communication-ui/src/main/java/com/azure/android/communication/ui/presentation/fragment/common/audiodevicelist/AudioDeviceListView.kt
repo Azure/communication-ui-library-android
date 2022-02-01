@@ -140,7 +140,7 @@ internal class AudioDeviceListView(
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
+                        R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
                     ),
                     getDeviceTypeName(AudioDeviceType.BLUETOOTH_SCO),
                     ContextCompat.getDrawable(
@@ -160,9 +160,6 @@ internal class AudioDeviceListView(
     }
     private fun updateSelectedAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         if (this::bottomCellAdapter.isInitialized) {
-
-            // TODO: Look at inverting for cleaner syntax (e.g. bottomCellAdapter.enableBottomCellItem(..))
-
             when (audioDeviceSelectionStatus) {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                     bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(AudioDeviceType.SPEAKER))
@@ -181,8 +178,7 @@ internal class AudioDeviceListView(
         return when (audioDeviceType) {
             AudioDeviceType.ANDROID -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
             AudioDeviceType.SPEAKER -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
-            // TODO: Resource string
-            AudioDeviceType.BLUETOOTH_SCO -> "Bluetooth"
+            AudioDeviceType.BLUETOOTH_SCO -> context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
         }
     }
 }
