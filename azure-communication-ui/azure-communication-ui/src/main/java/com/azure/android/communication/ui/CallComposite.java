@@ -60,7 +60,7 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context The android context used to start the Composite
+     * @param context The android context used to start the Composite.
      * @param groupCallOptions  The {@link GroupCallOptions} has parameters to
      *                          launch group call experience.
      *
