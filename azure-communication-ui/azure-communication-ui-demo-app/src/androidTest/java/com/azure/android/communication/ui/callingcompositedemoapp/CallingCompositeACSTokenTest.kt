@@ -28,6 +28,8 @@ class CallingCompositeACSTokenTest {
         @BeforeClass
         @JvmStatic
         fun setup() {
+            // When running tests on AppCenter, a valid ACS token will be passed into local.properties
+            // and not from command line arguments. In that case, don't run any ACS Token test
             Assume.assumeTrue(TestFixture.acsToken.isNotBlank())
         }
     }
