@@ -13,6 +13,7 @@ import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.calling.VideoStreamRendererView
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKWrapper
+import kotlin.collections.forEach as kForEach
 
 internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDKWrapper,
@@ -105,7 +106,7 @@ internal class VideoViewManager(
                 remoteParticipants[userID]?.videoStreams?.size!! > 0
             ) {
                 var stream: RemoteVideoStream? = null
-                remoteParticipants[userID]?.videoStreams?.forEach { videoStream ->
+                remoteParticipants[userID]?.videoStreams?.kForEach { videoStream ->
                     if (videoStream.id.toString() == videoStreamID) {
                         stream = videoStream
                     }
@@ -135,29 +136,29 @@ internal class VideoViewManager(
             streamID !== videoStreamID
         }
 
-        removedLocalStreams.values.forEach { videoStream ->
+        removedLocalStreams.values.kForEach { videoStream ->
             destroyVideoRenderer(videoStream)
         }
 
-        removedLocalStreams.keys.forEach { streamID ->
+        removedLocalStreams.keys.kForEach { streamID ->
             localParticipantVideoRendererMap.remove(streamID)
         }
     }
 
     private fun removeRemoteParticipantRenderer(userWithVideoStreamList: List<Pair<String, String>>) {
         var uniqueIDStreamList: List<String> = mutableListOf()
-        userWithVideoStreamList.forEach { (userID, streamID) ->
+        userWithVideoStreamList.kForEach { (userID, streamID) ->
             uniqueIDStreamList = uniqueIDStreamList.plus(generateUniqueKey(userID, streamID))
         }
         val removedRemoteStreams = remoteParticipantVideoRendererMap.filter { (streamID, _) ->
             streamID !in uniqueIDStreamList
         }
 
-        removedRemoteStreams.values.forEach { videoStream ->
+        removedRemoteStreams.values.kForEach { videoStream ->
             destroyVideoRenderer(videoStream)
         }
 
-        removedRemoteStreams.keys.forEach { streamID ->
+        removedRemoteStreams.keys.kForEach { streamID ->
             remoteParticipantVideoRendererMap.remove(streamID)
         }
     }
