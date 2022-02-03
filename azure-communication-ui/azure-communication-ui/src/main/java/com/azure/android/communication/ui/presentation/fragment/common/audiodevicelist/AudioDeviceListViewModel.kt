@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 internal class AudioDeviceListViewModel(
     private val dispatch: (Action) -> Unit,
@@ -25,7 +24,6 @@ internal class AudioDeviceListViewModel(
         audioDeviceSelectionStatusStateFlow.value = audioDeviceSelectionStatus
         bluetoothScoAvailableStateFlow.value = isBluetoothSCOAvailable
     }
-
 
     fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         dispatchAction(action = LocalParticipantAction.AudioDeviceChangeRequested(audioDeviceSelectionStatus))

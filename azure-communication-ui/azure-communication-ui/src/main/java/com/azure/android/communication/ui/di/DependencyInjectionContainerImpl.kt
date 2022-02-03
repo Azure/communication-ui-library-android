@@ -73,9 +73,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val audioSessionManager by lazy {
-        AudioSessionManager(appStore,
+        AudioSessionManager(
+            appStore,
             applicationContext,
-            applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
+            applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        )
     }
 
     override val lifecycleManager by lazy {

@@ -11,6 +11,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
+import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -25,14 +26,17 @@ internal class AudioSessionManager(
 
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
-    private val isBluetoothScoAvailable get() =  (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
-
+    private val isBluetoothScoAvailable get() =
+        context.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_bluetooth_audio) &&
+            (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
-    suspend fun start() {
-        BluetoothAdapter.getDefaultAdapter().getProfileProxy(context,
-            this, BluetoothProfile.HEADSET)
 
+    suspend fun start() {
+        BluetoothAdapter.getDefaultAdapter().getProfileProxy(
+            context,
+            this, BluetoothProfile.HEADSET
+        )
 
         val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
         context.registerReceiver(this, filter)
@@ -41,7 +45,8 @@ internal class AudioSessionManager(
         updateBluetoothStatus()
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
-                previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device) {
+                previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
+            ) {
                 onAudioDeviceStateChange(it.localParticipantState.audioState.device)
             }
 
@@ -51,15 +56,16 @@ internal class AudioSessionManager(
 
     override fun onReceive(context: Context?, intent: Intent?) = updateBluetoothStatus()
 
-    /// Update the status of bluetooth
-    /// - Connect a headset automatically if bluetooth is connected
-    /// - When disconnected revert to "Speaker"
-    /// - When disconnected (and not selected), just update availability
+    // / Update the status of bluetooth
+    // / - Connect a headset automatically if bluetooth is connected
+    // / - When disconnected revert to "Speaker"
+    // / - When disconnected (and not selected), just update availability
     private fun updateBluetoothStatus() {
-        if (!isBluetoothScoAvailable
-            && store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable
-            && store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED) {
-            /// If bluetooth dropped
+        if (!isBluetoothScoAvailable &&
+            store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable &&
+            store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+        ) {
+            // / If bluetooth dropped
             store.dispatch(LocalParticipantAction.AudioDeviceChangeRequested(AudioDeviceSelectionStatus.SPEAKER_REQUESTED))
         }
 
@@ -71,9 +77,6 @@ internal class AudioSessionManager(
             // If bluetooth wasn't selected and is just being disconnected, just do the flag
             store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
         }
-
-
-
     }
 
     private fun initializeAudioDeviceState() {
@@ -118,13 +121,13 @@ internal class AudioSessionManager(
     }
 
     private fun enableEarpiece() {
-        audioManager.stopBluetoothSco();
+        audioManager.stopBluetoothSco()
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = false
     }
 
     private fun enableBluetooth() {
-        audioManager.startBluetoothSco();
+        audioManager.startBluetoothSco()
         audioManager.isBluetoothScoOn = true
         audioManager.isSpeakerphoneOn = false
     }

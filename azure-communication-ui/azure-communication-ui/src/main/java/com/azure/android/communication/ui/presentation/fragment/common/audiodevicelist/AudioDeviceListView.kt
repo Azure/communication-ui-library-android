@@ -57,13 +57,12 @@ internal class AudioDeviceListView(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.bluetoothScoAvailableStateFlow.collect {
-                    /// rebind the list of items
-                    bottomCellAdapter = BottomCellAdapter(context)
-                    bottomCellAdapter.setBottomCellItems(bottomCellItems)
-                    deviceTable.adapter = bottomCellAdapter
+                // / rebind the list of items
+                bottomCellAdapter = BottomCellAdapter(context)
+                bottomCellAdapter.setBottomCellItems(bottomCellItems)
+                deviceTable.adapter = bottomCellAdapter
             }
         }
-
     }
 
     fun stop() {
@@ -87,14 +86,13 @@ internal class AudioDeviceListView(
             viewModel.closeAudioDeviceSelectionMenu()
         }
 
-
         bottomCellAdapter = BottomCellAdapter(context)
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         deviceTable.adapter = bottomCellAdapter
         deviceTable.layoutManager = LinearLayoutManager(context)
     }
 
-    private val bottomCellItems : List<BottomCellItem> get() {
+    private val bottomCellItems: List<BottomCellItem> get() {
         val initialDevice = viewModel.audioDeviceSelectionStatusStateFlow.value
         val bottomCellItems = mutableListOf(
             // Receiver (default)
@@ -128,12 +126,12 @@ internal class AudioDeviceListView(
                 null,
                 enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
 
-                ) {
+            ) {
                 viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                 audioDeviceDrawer.dismiss()
             },
 
-            )
+        )
 
         if (viewModel.bluetoothScoAvailableStateFlow.value) {
             bottomCellItems.add(
@@ -151,12 +149,13 @@ internal class AudioDeviceListView(
                     null,
                     enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
 
-                    ) {
+                ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
                     audioDeviceDrawer.dismiss()
-                })
+                }
+            )
         }
-        return bottomCellItems;
+        return bottomCellItems
     }
     private fun updateSelectedAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         if (this::bottomCellAdapter.isInitialized) {

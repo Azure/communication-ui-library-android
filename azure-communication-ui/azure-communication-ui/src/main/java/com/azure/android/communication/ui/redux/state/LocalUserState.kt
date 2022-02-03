@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.redux.state
 
 import com.azure.android.communication.ui.error.CallCompositeError
-import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 
 internal enum class CameraOperationalStatus {
     PENDING,
