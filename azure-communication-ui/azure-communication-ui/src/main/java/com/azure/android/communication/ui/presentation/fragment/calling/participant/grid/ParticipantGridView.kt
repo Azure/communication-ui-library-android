@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlin.collections.forEach as kForEach
 
 internal class ParticipantGridView : GridLayout {
     constructor(context: Context) : super(context)
@@ -95,7 +94,7 @@ internal class ParticipantGridView : GridLayout {
         removeAllViews()
         val displayedRemoteParticipantsView: MutableList<ParticipantGridCellView> = mutableListOf()
 
-        displayedRemoteParticipantsViewModel.kForEach {
+        displayedRemoteParticipantsViewModel.forEach {
             val participantView = createParticipantGridCellView(this.context, it)
             displayedRemoteParticipantsView.add(participantView)
         }
@@ -110,7 +109,7 @@ internal class ParticipantGridView : GridLayout {
     ) {
         when (displayedRemoteParticipantsView.size) {
             SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS -> {
-                displayedRemoteParticipantsView.kForEach {
+                displayedRemoteParticipantsView.forEach {
                     addParticipantToGrid(
                         participantGridCellView = it
                     )

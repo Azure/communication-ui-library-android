@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlin.collections.forEach as kForEach
 
 internal class ParticipantGridViewModel(private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory) {
 
@@ -70,7 +69,7 @@ internal class ParticipantGridViewModel(private val participantGridCellViewModel
     private fun getParticipantSharingScreen(
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
     ): String? {
-        remoteParticipantsMap.kForEach { (id, participantInfoModel) ->
+        remoteParticipantsMap.forEach { (id, participantInfoModel) ->
             if (participantInfoModel.screenShareVideoStreamModel != null) {
                 return id
             }
@@ -90,7 +89,7 @@ internal class ParticipantGridViewModel(private val participantGridCellViewModel
             !remoteParticipantsMapSorted.containsKey(it)
         }.toMutableList()
 
-        alreadyDisplayedParticipants.kForEach { (id, participantViewModel) ->
+        alreadyDisplayedParticipants.forEach { (id, participantViewModel) ->
             if (participantViewModel.getParticipantModifiedTimestamp()
                 != remoteParticipantsMapSorted[id]!!.modifiedTimestamp
             ) {
@@ -113,7 +112,7 @@ internal class ParticipantGridViewModel(private val participantGridCellViewModel
         if (viewModelsThatCanBeRemoved.isNotEmpty()) {
             val listToPreserveOrder =
                 displayedRemoteParticipantsViewModelMap.toList().toMutableList()
-            viewModelsThatCanBeRemoved.kForEach {
+            viewModelsThatCanBeRemoved.forEach {
                 val indexToSwap = displayedRemoteParticipantsViewModelMap.keys.indexOf(it)
                 val viewModel = displayedRemoteParticipantsViewModelMap[it]
                 listToPreserveOrder.removeAt(indexToSwap)
@@ -124,12 +123,12 @@ internal class ParticipantGridViewModel(private val participantGridCellViewModel
                 remoteParticipantsMapSorted.remove(participantID)
             }
             displayedRemoteParticipantsViewModelMap.clear()
-            listToPreserveOrder.kForEach {
+            listToPreserveOrder.forEach {
                 displayedRemoteParticipantsViewModelMap[it.first] = it.second
             }
         }
 
-        remoteParticipantsMapSorted.kForEach { (id, participantInfoModel) ->
+        remoteParticipantsMapSorted.forEach { (id, participantInfoModel) ->
             displayedRemoteParticipantsViewModelMap[id] =
                 participantGridCellViewModelFactory.ParticipantGridCellViewModel(
                     participantInfoModel
@@ -154,7 +153,7 @@ internal class ParticipantGridViewModel(private val participantGridCellViewModel
         participantViewModelMap: Map<String, ParticipantInfoModel>,
     ) {
         val usersVideoStream: MutableList<Pair<String, String>> = mutableListOf()
-        participantViewModelMap.kForEach { (participantId, participant) ->
+        participantViewModelMap.forEach { (participantId, participant) ->
             participant.cameraVideoStreamModel?.let {
                 usersVideoStream.add(
                     Pair(

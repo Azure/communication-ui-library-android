@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
-import kotlin.collections.forEach as kForEach
 
 internal class CallingSDKEventHandler(
     coroutineContextProvider: CoroutineContextProvider,
@@ -86,7 +85,7 @@ internal class CallingSDKEventHandler(
 
     fun onEndCall() {
         call?.removeOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
-        remoteParticipantsCacheMap.kForEach { (id, remoteParticipant) ->
+        remoteParticipantsCacheMap.forEach { (id, remoteParticipant) ->
             remoteParticipant.removeOnVideoStreamsUpdatedListener(videoStreamsUpdatedListenersMap[id])
             remoteParticipant.removeOnIsMutedChangedListener(mutedChangedListenersMap[id])
             remoteParticipant.removeOnIsSpeakingChangedListener(isSpeakingChangedListenerMap[id])
@@ -175,7 +174,7 @@ internal class CallingSDKEventHandler(
     }
 
     private fun addParticipants(remoteParticipantValue: List<RemoteParticipant>) {
-        remoteParticipantValue.kForEach { addedParticipant ->
+        remoteParticipantValue.forEach { addedParticipant ->
             val id = getRemoteParticipantId(addedParticipant)
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
@@ -221,14 +220,14 @@ internal class CallingSDKEventHandler(
         )
 
     private fun onParticipantsUpdated(participantsUpdatedEvent: ParticipantsUpdatedEvent) {
-        participantsUpdatedEvent.addedParticipants.kForEach { addedParticipant ->
+        participantsUpdatedEvent.addedParticipants.forEach { addedParticipant ->
             val id = getRemoteParticipantId(addedParticipant)
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
             }
         }
 
-        participantsUpdatedEvent.removedParticipants.kForEach { removedParticipant ->
+        participantsUpdatedEvent.removedParticipants.forEach { removedParticipant ->
             val id = getRemoteParticipantId(removedParticipant)
             if (remoteParticipantsCacheMap.containsKey(id)) {
                 removedParticipant.removeOnVideoStreamsUpdatedListener(
