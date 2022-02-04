@@ -103,17 +103,22 @@ internal class ParticipantGridCellVideoView(
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
         )
         if (streamType == StreamType.SCREEN_SHARING) {
-            val screenShareFactory = ScreenShareViewManager(
-                context,
-                videoContainer,
-                getScreenShareVideoStreamRendererCallback,
-                showFloatingHeaderCallBack
-            )
-            videoContainer.addView(screenShareFactory.getScreenShareView(rendererView), 0)
-        } else {
-            rendererView.background = background
-            videoContainer.addView(rendererView, 0)
+            val isScreenShareFeatureEnabled =
+                context.resources.getBoolean(R.bool.azure_communication_ui_feature_screen_share_zoom)
+            if (isScreenShareFeatureEnabled) {
+                val screenShareFactory = ScreenShareViewManager(
+                    context,
+                    videoContainer,
+                    getScreenShareVideoStreamRendererCallback,
+                    showFloatingHeaderCallBack
+                )
+                videoContainer.addView(screenShareFactory.getScreenShareView(rendererView), 0)
+                return
+            }
         }
+
+        rendererView.background = background
+        videoContainer.addView(rendererView, 0)
     }
 
     private fun setDisplayName(displayName: String) {
