@@ -35,20 +35,18 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         if (groupId != null) {
             val groupCallOptions = GroupCallOptions(
-                callLauncherActivity,
                 communicationTokenCredential,
                 groupId,
                 displayName,
             )
-            callComposite.launch(groupCallOptions)
+            callComposite.launch(callLauncherActivity, groupCallOptions)
         } else if (!meetingLink.isNullOrBlank()) {
             val teamsMeetingOptions = TeamsMeetingOptions(
-                callLauncherActivity,
                 communicationTokenCredential,
                 meetingLink,
                 displayName,
             )
-            callComposite.launch(teamsMeetingOptions)
+            callComposite.launch(callLauncherActivity, teamsMeetingOptions)
         }
     }
 }
