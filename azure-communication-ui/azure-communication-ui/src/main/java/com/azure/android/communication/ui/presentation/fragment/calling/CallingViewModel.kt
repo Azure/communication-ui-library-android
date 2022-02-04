@@ -154,7 +154,8 @@ internal class CallingViewModel(
         )
 
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState.device
+            state.localParticipantState.audioState.device,
+            state.localParticipantState.audioState.isBluetoothSCOAvailable
         )
 
         lobbyOverlayViewModel.update(state.callState.CallingStatus)

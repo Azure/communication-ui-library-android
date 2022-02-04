@@ -64,7 +64,7 @@ internal class AudioDeviceListViewModelUnitTest {
             val emitResultFromDisplayAudioDeviceSelectionMenuStateFlow = mutableListOf<Boolean>()
 
             val emitResultFromDisplayAudioDeviceSelectionMenuStateFlowJob = launch {
-                audioDeviceListViewModel.getDisplayAudioDeviceSelectionMenuStateFlow()
+                audioDeviceListViewModel.displayAudioDeviceSelectionMenuStateFlow
                     .toList(emitResultFromDisplayAudioDeviceSelectionMenuStateFlow)
             }
 

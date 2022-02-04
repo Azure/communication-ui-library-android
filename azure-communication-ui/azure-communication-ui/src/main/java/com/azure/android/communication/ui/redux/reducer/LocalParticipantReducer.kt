@@ -156,6 +156,9 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
             is LocalParticipantAction.MicOnFailed -> {
                 localUserState.copy(audioState = localUserState.audioState.copy(operation = AudioOperationalStatus.OFF, error = action.error))
             }
+            is LocalParticipantAction.AudioDeviceBluetoothSCOAvailable -> {
+                localUserState.copy(audioState = localUserState.audioState.copy(isBluetoothSCOAvailable = action.available))
+            }
             is LocalParticipantAction.AudioDeviceChangeRequested -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
