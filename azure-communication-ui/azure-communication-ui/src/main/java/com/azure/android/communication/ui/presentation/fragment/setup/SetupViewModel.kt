@@ -96,7 +96,8 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
         )
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState.device
+            state.localParticipantState.audioState.device,
+            state.localParticipantState.audioState.isBluetoothSCOAvailable
         )
         errorInfoViewModel.update(state.errorState)
         setupGradientViewModel.update(

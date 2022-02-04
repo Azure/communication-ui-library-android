@@ -8,6 +8,8 @@
 - Screen share zoom
 
 ### Breaking Changes
+- Remove Context from GroupMeetingOptions() and TeamMeetingOptions()
+- Add required parameter Context to CallComposite.launch()
 
 ### Bug Fixes
 - Start service is crashing for API 31
