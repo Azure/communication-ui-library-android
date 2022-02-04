@@ -1,0 +1,41 @@
+package com.azure.android.communication.ui.callingcompositedemoapp
+
+import android.os.Build
+import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
+import org.junit.Rule
+
+
+open class BaseUiTest {
+    @Rule
+    @JvmField
+    var mActivityTestRule = ActivityScenarioRule(CallLauncherActivity::class.java)
+
+    @Rule
+    @JvmField
+    var grantPermissionRule: GrantPermissionRule
+
+    private val basePermissionList = arrayOf(
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.WAKE_LOCK",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+    )
+
+    init {
+        val permissionList = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            basePermissionList
+        } else {
+            basePermissionList.append("android.permission.FOREGROUND_SERVICE")
+        }
+        grantPermissionRule = GrantPermissionRule.grant(*permissionList)
+    }
+
+}
+
+fun <T> Array<T>.append(element: T): Array<T?> {
+    val array = copyOf(this.size + 1)
+    array[this.size] = element
+    return array
+}

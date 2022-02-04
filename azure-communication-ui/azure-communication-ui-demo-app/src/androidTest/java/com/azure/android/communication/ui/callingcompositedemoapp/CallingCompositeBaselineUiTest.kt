@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.Composite
 import com.azure.android.communication.ui.callingcompositedemoapp.util.NetworkUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
+import com.azure.android.communication.ui.callingcompositedemoapp.util.HomeScreenRobot
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
 import org.junit.After
@@ -108,15 +109,20 @@ class CallingCompositeBaselineUiTest {
     }
 
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
-        CompositeUiHelper.run {
-            clickTeamsMeetingRadioButton()
-            setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            startAndJoinCall(TestFixture.acsToken, videoEnabled)
+        val setupScreen = HomeScreenRobot()
+            .clickTeamsMeetingRadioButton()
+            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+            .setAcsToken(TestFixture.acsToken)
+            .clickLaunchButton()
 
-            checkWaitForTeamsMeetingMessage()
-            clickEndCall()
-            clickLeaveCall()
+        if (videoEnabled) {
+            setupScreen.turnCameraOn()
         }
+        val callScreen = setupScreen.clickJoinCallButton()
+        callScreen
+            .checkWaitForTeamsMeetingMessage()
+            .clickEndCall()
+            .clickLeaveCall()
     }
 
     private fun joinGroupCall(videoEnabled: Boolean = true) {
