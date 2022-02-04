@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="azure_communication_ui_feature_flag_bluetooth_audio">false</bool>
+    <bool name="azure_communication_ui_feature_flag_bluetooth_audio">true</bool>
 </resources>

@@ -7,22 +7,27 @@ import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class AudioDeviceListViewModel(
     private val dispatch: (Action) -> Unit,
 ) {
 
-    lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
-    val bluetoothScoAvailableStateFlow = MutableStateFlow(false)
-    val displayAudioDeviceSelectionMenuStateFlow = MutableStateFlow(false)
+    private lateinit var audioDeviceSelectionStatusMutableStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
+    private val bluetoothScoAvailableMutableStateFlow = MutableStateFlow(false)
+    private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
+
+    val bluetoothScoAvailableStateFlow get() = bluetoothScoAvailableMutableStateFlow as StateFlow<Boolean>
+    val displayAudioDeviceSelectionMenuStateFlow get() = displayAudioDeviceSelectionMenuMutableStateFlow as StateFlow<Boolean>
+    val audioDeviceSelectionStatusStateFlow get() = audioDeviceSelectionStatusMutableStateFlow as StateFlow<AudioDeviceSelectionStatus>
 
     fun init(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioDeviceSelectionStatus)
+        audioDeviceSelectionStatusMutableStateFlow = MutableStateFlow(audioDeviceSelectionStatus)
     }
 
     fun update(audioDeviceSelectionStatus: AudioDeviceSelectionStatus, isBluetoothSCOAvailable: Boolean) {
-        audioDeviceSelectionStatusStateFlow.value = audioDeviceSelectionStatus
-        bluetoothScoAvailableStateFlow.value = isBluetoothSCOAvailable
+        audioDeviceSelectionStatusMutableStateFlow.value = audioDeviceSelectionStatus
+        bluetoothScoAvailableMutableStateFlow.value = isBluetoothSCOAvailable
     }
 
     fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
@@ -30,11 +35,11 @@ internal class AudioDeviceListViewModel(
     }
 
     fun displayAudioDeviceSelectionMenu() {
-        displayAudioDeviceSelectionMenuStateFlow.value = true
+        displayAudioDeviceSelectionMenuMutableStateFlow.value = true
     }
 
     fun closeAudioDeviceSelectionMenu() {
-        displayAudioDeviceSelectionMenuStateFlow.value = false
+        displayAudioDeviceSelectionMenuMutableStateFlow.value = false
     }
 
     private fun dispatchAction(action: Action) {
