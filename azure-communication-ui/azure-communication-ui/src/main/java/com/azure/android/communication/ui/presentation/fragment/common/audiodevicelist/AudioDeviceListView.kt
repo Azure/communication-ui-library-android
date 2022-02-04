@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal enum class AudioDeviceType {
+    BLUETOOTH_SCO,
     ANDROID,
     SPEAKER,
 }
@@ -27,8 +28,8 @@ internal class AudioDeviceListView(
     private val viewModel: AudioDeviceListViewModel,
     context: Context,
 ) : RelativeLayout(context) {
-    private var deviceTable: RecyclerView
 
+    private var deviceTable: RecyclerView
     private lateinit var audioDeviceDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
 
@@ -39,18 +40,27 @@ internal class AudioDeviceListView(
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
-        initializeAudioDeviceDrawer(viewModel.getAudioDeviceSelectionStatusStateFlow().value)
+        initializeAudioDeviceDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
+            viewModel.audioDeviceSelectionStatusStateFlow.collect {
                 updateSelectedAudioDevice(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDisplayAudioDeviceSelectionMenuStateFlow().collect {
+            viewModel.displayAudioDeviceSelectionMenuStateFlow.collect {
                 if (it) {
                     showAudioDeviceSelectionMenu()
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.bluetoothScoAvailableStateFlow.collect {
+                // / rebind the list of items
+                bottomCellAdapter = BottomCellAdapter(context)
+                bottomCellAdapter.setBottomCellItems(bottomCellItems)
+                deviceTable.adapter = bottomCellAdapter
             }
         }
     }
@@ -69,14 +79,23 @@ internal class AudioDeviceListView(
         audioDeviceDrawer.show()
     }
 
-    private fun initializeAudioDeviceDrawer(initialDevice: AudioDeviceSelectionStatus) {
+    private fun initializeAudioDeviceDrawer() {
         audioDeviceDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         audioDeviceDrawer.setContentView(this)
         audioDeviceDrawer.setOnDismissListener {
             viewModel.closeAudioDeviceSelectionMenu()
         }
 
+        bottomCellAdapter = BottomCellAdapter(context)
+        bottomCellAdapter.setBottomCellItems(bottomCellItems)
+        deviceTable.adapter = bottomCellAdapter
+        deviceTable.layoutManager = LinearLayoutManager(context)
+    }
+
+    private val bottomCellItems: List<BottomCellItem> get() {
+        val initialDevice = viewModel.audioDeviceSelectionStatusStateFlow.value
         val bottomCellItems = mutableListOf(
+            // Receiver (default)
             BottomCellItem(
                 ContextCompat.getDrawable(
                     context,
@@ -93,6 +112,7 @@ internal class AudioDeviceListView(
                 viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
                 audioDeviceDrawer.dismiss()
             },
+            // Speaker
             BottomCellItem(
                 ContextCompat.getDrawable(
                     context,
@@ -104,18 +124,39 @@ internal class AudioDeviceListView(
                     R.drawable.ms_ic_checkmark_24_filled
                 ),
                 null,
-                enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+
             ) {
                 viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                 audioDeviceDrawer.dismiss()
-            }
-        )
-        bottomCellAdapter = BottomCellAdapter(context)
-        bottomCellAdapter.setBottomCellItems(bottomCellItems)
-        deviceTable.adapter = bottomCellAdapter
-        deviceTable.layoutManager = LinearLayoutManager(context)
-    }
+            },
 
+        )
+
+        if (viewModel.bluetoothScoAvailableStateFlow.value) {
+            bottomCellItems.add(
+                BottomCellItem(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
+                    ),
+                    getDeviceTypeName(AudioDeviceType.BLUETOOTH_SCO),
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ms_ic_checkmark_24_filled
+                    ),
+
+                    null,
+                    enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
+
+                ) {
+                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
+                    audioDeviceDrawer.dismiss()
+                }
+            )
+        }
+        return bottomCellItems
+    }
     private fun updateSelectedAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         if (this::bottomCellAdapter.isInitialized) {
             when (audioDeviceSelectionStatus) {
@@ -125,6 +166,9 @@ internal class AudioDeviceListView(
                 AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
                     bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(AudioDeviceType.ANDROID))
                 }
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
+                    bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(AudioDeviceType.BLUETOOTH_SCO))
+                }
             }
         }
     }
@@ -133,6 +177,7 @@ internal class AudioDeviceListView(
         return when (audioDeviceType) {
             AudioDeviceType.ANDROID -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
             AudioDeviceType.SPEAKER -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
+            AudioDeviceType.BLUETOOTH_SCO -> context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
         }
     }
 }
