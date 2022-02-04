@@ -20,6 +20,9 @@ internal class ScreenShareViewManager(
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
     private val showFloatingHeaderCallBack: () -> Unit,
 ) {
+    companion object {
+        private const val STREAM_SIZE_RETRY_DURATION: Long = 1000
+    }
 
     private lateinit var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout
 
@@ -78,7 +81,7 @@ internal class ScreenShareViewManager(
         if (streamSize == null) {
             videoContainer.postDelayed({
                 setScreenShareLayoutSize()
-            }, 800)
+            }, STREAM_SIZE_RETRY_DURATION)
         } else {
             videoContainer.post {
                 // this logic is from Azure communication calling SDK code to find width and height of video view excluding grey screen
