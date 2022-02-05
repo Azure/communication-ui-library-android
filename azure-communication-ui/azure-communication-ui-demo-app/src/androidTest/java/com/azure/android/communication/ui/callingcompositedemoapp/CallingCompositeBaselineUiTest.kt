@@ -24,32 +24,17 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CallingCompositeBaselineUiTest {
+class CallingCompositeBaselineUiTest: BaseUiTest() {
 
     @get:Rule
     var reportHelper: ReportHelper = Factory.getReportHelper()
-
-    @Rule
-    @JvmField
-    var activityTestRule = ActivityScenarioRule(CallLauncherActivity::class.java)
-    @Rule
-    @JvmField
-    var grantPermissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(
-            "android.permission.FOREGROUND_SERVICE",
-            "android.permission.ACCESS_NETWORK_STATE",
-            "android.permission.WAKE_LOCK",
-            "android.permission.MODIFY_AUDIO_SETTINGS",
-            "android.permission.CAMERA",
-            "android.permission.RECORD_AUDIO"
-        )
 
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
     @Before
     fun ciToolSetup() {
-        Thread.sleep(2000)
+        //Thread.sleep(2000)
         reportHelper.label("Starting test")
     }
 

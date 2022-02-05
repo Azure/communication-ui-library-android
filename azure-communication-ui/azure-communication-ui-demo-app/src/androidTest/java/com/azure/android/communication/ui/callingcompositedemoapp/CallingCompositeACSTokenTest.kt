@@ -3,10 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
@@ -22,7 +20,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CallingCompositeACSTokenTest {
+class CallingCompositeACSTokenTest: BaseUiTest() {
 
     companion object {
         @BeforeClass
@@ -36,21 +34,6 @@ class CallingCompositeACSTokenTest {
     @get:Rule
     var reportHelper: ReportHelper = Factory.getReportHelper()
 
-    @Rule
-    @JvmField
-    var mActivityTestRule = ActivityScenarioRule(CallLauncherActivity::class.java)
-
-    @Rule
-    @JvmField
-    var mGrantPermissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(
-            "android.permission.FOREGROUND_SERVICE",
-            "android.permission.ACCESS_NETWORK_STATE",
-            "android.permission.WAKE_LOCK",
-            "android.permission.MODIFY_AUDIO_SETTINGS",
-            "android.permission.CAMERA",
-            "android.permission.RECORD_AUDIO"
-        )
 
     @Before
     fun ciToolSetup() {

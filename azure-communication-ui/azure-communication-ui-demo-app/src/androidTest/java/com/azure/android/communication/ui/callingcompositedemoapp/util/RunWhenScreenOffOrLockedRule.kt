@@ -1,5 +1,6 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
+import android.os.Build
 import android.view.WindowManager
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
@@ -23,12 +24,21 @@ class RunWhenScreenOffOrLockedRule : TestRule {
                     .addLifecycleCallback { activity, stage ->
                         if (stage === Stage.PRE_ON_CREATE) {
                             activity.run {
-                                setShowWhenLocked(true)
-                                setTurnScreenOn(true)
-                                window.addFlags(
-                                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                                        or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                                )
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    setShowWhenLocked(true)
+                                    setTurnScreenOn(true)
+                                    window.addFlags(
+                                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                                          WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                                    )
+                                } else {
+                                    window.addFlags(
+                                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                                          WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                                          WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                                    )
+                                }
                             }
                         }
                     }

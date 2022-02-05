@@ -20,8 +20,8 @@ class SetupScreenRobot: ScreenRobot<SetupScreenRobot>() {
                 )
             }
 
-            waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder)
-            waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_default_avatar)
+            waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder, viewDisplayResource)
+            waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_default_avatar, viewDisplayResource)
         }
         return this
     }
