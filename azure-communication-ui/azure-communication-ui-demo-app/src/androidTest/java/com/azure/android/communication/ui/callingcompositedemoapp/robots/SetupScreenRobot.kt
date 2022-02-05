@@ -38,4 +38,16 @@ class SetupScreenRobot: ScreenRobot<SetupScreenRobot>() {
         UiTestUtils.clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
         return CallScreenRobot()
     }
+
+    fun dismissJoinFailureBanner(): SetupScreenRobot {
+        waitUntilViewIdIsDisplayed(R.id.snackbar_action)
+        UiTestUtils.checkViewWithTextIsDisplayed("Unable to join the call due to an error.")
+        UiTestUtils.clickViewWithIdAndText(R.id.snackbar_action, "Dismiss")
+        return this
+    }
+
+    fun navigateUpFromSetupScreen() {
+        waitUntilViewIdIsDisplayed(R.id.action_bar_container)
+        UiTestUtils.navigateUp()
+    }
 }
