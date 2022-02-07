@@ -59,7 +59,9 @@ internal class ScreenShareViewManager(
                     videoContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     // update view size only after child is added successfully
                     // otherwise renderer video size will be 0
-                    setScreenShareLayoutSize()
+                    videoContainer.postDelayed({
+                        setScreenShareLayoutSize()
+                    }, STREAM_SIZE_RETRY_DURATION)
                 }
             })
 
