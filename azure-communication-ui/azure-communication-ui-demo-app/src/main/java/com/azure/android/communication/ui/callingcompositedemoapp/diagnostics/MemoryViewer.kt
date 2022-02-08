@@ -54,7 +54,7 @@ class MemoryViewer private constructor(
 
     fun show() {
         if (drawOverlaysPermission(context) && textView.visibility != View.VISIBLE) {
-            if(!isInitialized) {
+            if (!isInitialized) {
                 isInitialized = true
                 init()
             }
