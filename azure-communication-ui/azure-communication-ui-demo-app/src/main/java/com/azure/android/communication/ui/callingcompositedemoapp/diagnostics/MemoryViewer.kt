@@ -28,6 +28,7 @@ class MemoryViewer private constructor(
 ) {
     companion object {
         private var memoryViewer: MemoryViewer? = null
+        private var isInitialized = false
         const val DEFAULT_GRAVITY = Gravity.TOP or Gravity.START
         const val POSITION_X = 500
         const val POSITION_L = 200
@@ -53,7 +54,10 @@ class MemoryViewer private constructor(
 
     fun show() {
         if (drawOverlaysPermission(context) && textView.visibility != View.VISIBLE) {
-            init()
+            if(!isInitialized) {
+                isInitialized = true
+                init()
+            }
             displayMemoryDiagnostics()
             textView.visibility = View.VISIBLE
         }
@@ -62,7 +66,6 @@ class MemoryViewer private constructor(
     fun hide() {
         if (textView.visibility == View.VISIBLE) {
             textView.visibility = View.GONE
-            windowManager.removeView(textView)
             Magnifier.stopMonitorMemory()
         }
     }
