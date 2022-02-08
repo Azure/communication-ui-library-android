@@ -4,11 +4,14 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import java.util.UUID
 
@@ -108,6 +111,18 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupCallRadioButton.isChecked = false
                 }
             }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                memoryDiagnosticsCheckBox.visibility = View.VISIBLE
+                memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        MemoryViewer.getMemoryViewer(application).show()
+                    } else {
+                        MemoryViewer.getMemoryViewer(application).hide()
+                    }
+                }
+            }
+
             javaButton.setOnClickListener {
                 callLauncherViewModel.setJavaLauncher()
             }
@@ -129,6 +144,26 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         saveState(outState)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // helps to turn on memory profiling when permissions change
+        if (binding.memoryDiagnosticsCheckBox.isChecked) {
+            MemoryViewer.getMemoryViewer(application).show()
+        }
+    }
+
+    fun showAlert(message: String) {
+        runOnUiThread {
+            val builder = AlertDialog.Builder(this).apply {
+                setMessage(message)
+                setTitle("Alert")
+                setPositiveButton("OK") { _, _ ->
+                }
+            }
+            builder.show()
+        }
     }
 
     private fun processResult(result: Result<CallingCompositeLauncher?>) {
@@ -153,10 +188,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun launch(launcher: CallingCompositeLauncher) {
         val userName = binding.userNameText.text.toString()
-
         if (binding.groupCallRadioButton.isChecked) {
             val groupId: UUID
-
             try {
                 groupId =
                     UUID.fromString(binding.groupIdOrTeamsMeetingLinkText.text.toString().trim())
@@ -182,20 +215,8 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    fun showAlert(message: String) {
-        runOnUiThread {
-            val builder = AlertDialog.Builder(this).apply {
-                setMessage(message)
-                setTitle("Alert")
-                setPositiveButton("OK") { _, _ ->
-                }
-            }
-            builder.show()
-        }
-    }
-
-    private fun saveState(outstate: Bundle?) {
-        outstate?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
-        outstate?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
+    private fun saveState(outState: Bundle?) {
+        outState?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
+        outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
     }
 }
