@@ -3,10 +3,15 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.os.Build
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
+import com.microsoft.appcenter.espresso.Factory
+import com.microsoft.appcenter.espresso.ReportHelper
 import org.junit.Rule
 
 
 open class BaseUiTest {
+    @get:Rule
+    var reportHelper: ReportHelper = Factory.getReportHelper()
+
     @Rule
     @JvmField
     var mActivityTestRule = ActivityScenarioRule(CallLauncherActivity::class.java)

@@ -31,9 +31,6 @@ class CallingCompositeACSTokenTest: BaseUiTest() {
             Assume.assumeTrue(TestFixture.acsToken.isNotBlank())
         }
     }
-    @get:Rule
-    var reportHelper: ReportHelper = Factory.getReportHelper()
-
 
     @Before
     fun ciToolSetup() {

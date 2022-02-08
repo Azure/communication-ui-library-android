@@ -1,5 +1,6 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
+import android.os.Build
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
@@ -21,7 +22,12 @@ class SetupScreenRobot: ScreenRobot<SetupScreenRobot>() {
             }
 
             waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder, viewDisplayResource)
-            waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_default_avatar, viewDisplayResource)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                waitUntilViewIdIsDisplayed(
+                    R.id.azure_communication_ui_setup_default_avatar,
+                    viewDisplayResource
+                )
+            }
         }
         return this
     }

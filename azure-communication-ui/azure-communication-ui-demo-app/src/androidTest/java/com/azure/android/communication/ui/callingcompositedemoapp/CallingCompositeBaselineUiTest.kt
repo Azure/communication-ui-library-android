@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.os.Build
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -25,9 +26,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeBaselineUiTest: BaseUiTest() {
-
-    @get:Rule
-    var reportHelper: ReportHelper = Factory.getReportHelper()
 
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
@@ -63,35 +61,7 @@ class CallingCompositeBaselineUiTest: BaseUiTest() {
         joinGroupCall()
     }
 
-    @Test
-    fun testJoinTeamsCallAfterNetworkDisconnected() {
-        joinAfterNetworkDisconnected(false)
-    }
 
-    @Test
-    fun testJoinGroupCallAfterNetworkDisconnected() {
-        joinAfterNetworkDisconnected()
-    }
-
-    private fun joinAfterNetworkDisconnected(isGroupCall: Boolean = true) {
-        NetworkUtils.disableNetwork()
-        CompositeUiHelper.run {
-            if (isGroupCall) {
-                setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            } else {
-                clickTeamsMeetingRadioButton()
-                setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            }
-
-            startAndJoinCall(TestFixture.acsToken, true)
-            dismissNetworkLossSnackbar()
-
-            NetworkUtils.enableNetworkThatWasDisabled {
-                navigateUpFromSetupScreen()
-                clickAlertDialogOkButton()
-            }
-        }
-    }
 
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
         val setupScreen = HomeScreenRobot()
