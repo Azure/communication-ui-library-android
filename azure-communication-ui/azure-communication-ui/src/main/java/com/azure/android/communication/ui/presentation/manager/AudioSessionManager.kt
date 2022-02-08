@@ -33,13 +33,12 @@ internal class AudioSessionManager(
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
     suspend fun start() {
-        BluetoothAdapter.getDefaultAdapter().getProfileProxy(
-            context,
-            this, BluetoothProfile.HEADSET
-        )
+        BluetoothAdapter.getDefaultAdapter()?.run {
+            getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
 
-        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-        context.registerReceiver(this, filter)
+            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+            context.registerReceiver(this@AudioSessionManager, filter)
+        }
 
         initializeAudioDeviceState()
         updateBluetoothStatus()
@@ -133,8 +132,10 @@ internal class AudioSessionManager(
     }
 
     fun stop() {
-        BluetoothAdapter.getDefaultAdapter().closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
-        context.unregisterReceiver(this)
+        BluetoothAdapter.getDefaultAdapter()?.run {
+            closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
+            context.unregisterReceiver(this@AudioSessionManager)
+        }
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
