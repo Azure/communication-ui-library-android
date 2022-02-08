@@ -4,7 +4,9 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -109,13 +111,18 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupCallRadioButton.isChecked = false
                 }
             }
-            memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    MemoryViewer.getMemoryViewer(application).show()
-                } else {
-                    MemoryViewer.getMemoryViewer(application).hide()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                memoryDiagnosticsCheckBox.visibility = View.VISIBLE
+                memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        MemoryViewer.getMemoryViewer(application).show()
+                    } else {
+                        MemoryViewer.getMemoryViewer(application).hide()
+                    }
                 }
             }
+
             javaButton.setOnClickListener {
                 callLauncherViewModel.setJavaLauncher()
             }
