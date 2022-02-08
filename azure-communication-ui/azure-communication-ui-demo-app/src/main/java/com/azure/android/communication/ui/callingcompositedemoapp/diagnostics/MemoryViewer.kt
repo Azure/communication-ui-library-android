@@ -7,6 +7,8 @@ import android.app.Application
 import android.app.Service
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,15 +17,19 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import com.azure.android.communication.ui.callingcompositedemoapp.R
+import com.microsoft.office.outlook.magnifierlib.Magnifier
 
 class MemoryViewer(
-    context: Application
+    context: Application,
 ) {
-    private val textView: TextView = LayoutInflater.from(context).inflate(R.layout.memory_view, null) as TextView
-    private val windowManager: WindowManager = textView.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
+    private val textView: TextView =
+        LayoutInflater.from(context).inflate(R.layout.memory_view, null) as TextView
+    private val windowManager: WindowManager =
+        textView.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
     init {
-        val minWidth: Int = (textView.lineHeight + textView.totalPaddingTop + textView.totalPaddingBottom + textView.paint.fontMetrics.bottom.toInt())
+        val minWidth: Int =
+            (textView.lineHeight + textView.totalPaddingTop + textView.totalPaddingBottom + textView.paint.fontMetrics.bottom.toInt())
         textView.minWidth = minWidth
         val params = WindowManager.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -38,6 +44,7 @@ class MemoryViewer(
         windowManager.addView(textView, params)
         textView.setOnTouchListener(MovingTouchListener(params, windowManager))
         textView.isHapticFeedbackEnabled = false
+        textView.visibility = View.GONE
     }
 
     fun display(frameCount: Int) {
@@ -47,17 +54,33 @@ class MemoryViewer(
     }
 
     fun show() {
-        textView.visibility = View.VISIBLE
+        if (textView.visibility != View.VISIBLE) {
+            displayMemoryDiagnostics()
+            textView.visibility = View.VISIBLE
+        }
     }
 
     fun hide() {
         textView.visibility = View.GONE
         windowManager.removeView(textView)
+        Magnifier.stopMonitorMemory()
     }
 
-    class MovingTouchListener(
+    private fun displayMemoryDiagnostics() {
+        Magnifier.startMonitorMemoryTiming(
+            threshold = 500,
+            sampleCount = 1,
+            onSampleListener = MemoryMonitorListener(this)
+        )
+
+        Handler(Looper.getMainLooper()).postDelayed( {
+            displayMemoryDiagnostics()
+        }, 4000)
+    }
+
+    private class MovingTouchListener(
         private val params: WindowManager.LayoutParams,
-        private val windowManager: WindowManager
+        private val windowManager: WindowManager,
     ) : View.OnTouchListener {
         private var initialX = 0
         private var initialY = 0
@@ -65,7 +88,7 @@ class MemoryViewer(
         private var initialTouchY = 0f
         override fun onTouch(
             v: View,
-            event: MotionEvent
+            event: MotionEvent,
         ): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {

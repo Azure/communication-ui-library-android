@@ -15,11 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
-import com.microsoft.office.outlook.magnifierlib.Magnifier
-import com.microsoft.office.outlook.magnifierlib.memory.FileDescriptorInfo
-import com.microsoft.office.outlook.magnifierlib.memory.HeapMemoryInfo
-import com.microsoft.office.outlook.magnifierlib.memory.MemoryMonitor
-import com.microsoft.office.outlook.magnifierlib.memory.ThreadInfo
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -125,7 +120,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 } else {
                     memoryViewer?.hide()
                     memoryViewer = null
-                    Magnifier.stopMonitorMemory()
                 }
             }
             javaButton.setOnClickListener {
@@ -138,14 +132,6 @@ class CallLauncherActivity : AppCompatActivity() {
 
         callLauncherViewModel.fetchResult.observe(this) {
             processResult(it)
-        }
-    }
-
-    private fun startMemoryProfiling() {
-        if (drawOverlaysPermission(applicationContext)) {
-            memoryViewer = MemoryViewer(application)
-            memoryViewer?.show()
-            displayMemoryDiagnostics()
         }
     }
 
@@ -162,7 +148,7 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // helps to turn on memory profiling when permissions change
-        if (binding.memoryDiagnosticsCheckBox.isChecked && memoryViewer == null) {
+        if (binding.memoryDiagnosticsCheckBox.isChecked) {
             startMemoryProfiling()
         }
     }
@@ -177,6 +163,29 @@ class CallLauncherActivity : AppCompatActivity() {
             }
             builder.show()
         }
+    }
+
+    private fun startMemoryProfiling() {
+        if(drawOverlaysPermission(applicationContext)) {
+            if (memoryViewer == null) {
+                memoryViewer = MemoryViewer(application)
+            }
+            memoryViewer?.show()
+        }
+    }
+
+    private fun drawOverlaysPermission(context: Context): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context)
+            .also {
+                if (!it) {
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + context.packageName)
+                    )
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    context.startActivity(intent)
+                }
+            }
     }
 
     private fun processResult(result: Result<CallingCompositeLauncher?>) {
@@ -231,55 +240,5 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun saveState(outState: Bundle?) {
         outState?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
         outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
-    }
-
-    private val onSampleListener = object : MemoryMonitor.OnSampleListener {
-        override fun onSampleHeap(
-            heapMemoryInfo: HeapMemoryInfo,
-            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo,
-        ) {
-            memoryViewer?.display(heapMemoryInfo.pssMemoryMB.toInt())
-        }
-
-        override fun onSampleFile(
-            fileDescriptorInfo: FileDescriptorInfo,
-            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo,
-        ) {
-        }
-
-        override fun onSampleThread(
-            threadInfo: ThreadInfo,
-            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo,
-        ) {
-        }
-    }
-
-    private fun displayMemoryDiagnostics() {
-        Magnifier.startMonitorMemoryTiming(
-            threshold = 500,
-            sampleCount = 1,
-            onSampleListener = onSampleListener
-        )
-        Magnifier.startMonitorMemoryExceedLimit(
-            threshold = 500,
-            sampleCount = 1,
-            exceedLimitRatio = 0.0f,
-            onSampleListener = onSampleListener
-        )
-        binding.root.postDelayed({
-            displayMemoryDiagnostics()
-        }, 4000)
-    }
-
-    private fun drawOverlaysPermission(context: Context): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context).also {
-            if (!it) {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.packageName)
-                )
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
-            }
-        }
     }
 }
