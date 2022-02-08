@@ -5,11 +5,18 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.microsoft.office.outlook.magnifierlib.Magnifier
+import com.microsoft.office.outlook.magnifierlib.frame.FPSMonitorConfig
+import com.microsoft.office.outlook.magnifierlib.memory.FileDescriptorInfo
+import com.microsoft.office.outlook.magnifierlib.memory.HeapMemoryInfo
+import com.microsoft.office.outlook.magnifierlib.memory.MemoryMonitor
+import com.microsoft.office.outlook.magnifierlib.memory.ThreadInfo
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -97,12 +104,26 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
             groupCallRadioButton.setOnClickListener {
+                Magnifier.startMonitorFPS(
+                    FPSMonitorConfig.Builder(application).lowPercentage(40 / 60f)  // show red tips, (2.0f / 3.0f) by default
+                        .mediumPercentage(50 / 60f) // show yellow tips, (5.0f / 6.0f) by default
+                        .refreshRate(60f) // defaultDisplay.refreshRate by default
+                        .build()
+                )
+
+                Magnifier.startMonitorMemoryTiming(threshold = 6 * 1000, sampleCount = 10, onSampleListener = onSampleListener)
+                Magnifier.startMonitorMemoryExceedLimit(
+                    threshold =  1000, sampleCount = 3, exceedLimitRatio = 0.1f, onSampleListener = onSampleListener
+                )
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
+
+
+
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
@@ -114,10 +135,34 @@ class CallLauncherActivity : AppCompatActivity() {
             kotlinButton.setOnClickListener {
                 callLauncherViewModel.setKotlinLauncher()
             }
+
         }
 
         callLauncherViewModel.fetchResult.observe(this) {
             processResult(it)
+        }
+    }
+
+    private val onSampleListener = object : MemoryMonitor.OnSampleListener {
+        override fun onSampleHeap(
+            heapMemoryInfo: HeapMemoryInfo,
+            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo
+        ) {
+            Log.d("hellllo", "heapMemoryInfo:$heapMemoryInfo,sampleInfo:$sampleInfo")
+        }
+
+        override fun onSampleFile(
+            fileDescriptorInfo: FileDescriptorInfo,
+            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo
+        ) {
+            Log.d("hellllo", "fileDescriptorInfo:${fileDescriptorInfo.fdMaxCount},sampleInfo:$sampleInfo")
+        }
+
+        override fun onSampleThread(
+            threadInfo: ThreadInfo,
+            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo
+        ) {
+            Log.d("hellllo", "threadInfo:${threadInfo.threadsCount},sampleInfo:$sampleInfo")
         }
     }
 
