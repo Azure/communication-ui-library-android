@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareZoomFrameLayout
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -37,6 +38,7 @@ internal class ParticipantGridCellVideoView(
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
 ) {
     private var videoStream: View? = null
+    private var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout? = null
 
     init {
         lifecycleScope.launch {
@@ -83,6 +85,13 @@ internal class ParticipantGridCellVideoView(
                 videoStream = view
                 setRendererView(view, videoViewModel.streamType)
             }
+        } else {
+            if (screenShareZoomFrameLayout != null) {
+                // removing this code will cause issue when new user share screen (zoom will not work)
+                videoContainer.removeView(screenShareZoomFrameLayout)
+                screenShareZoomFrameLayout = null
+                videoContainer.refreshDrawableState()
+            }
         }
     }
 
@@ -109,7 +118,8 @@ internal class ParticipantGridCellVideoView(
                     getScreenShareVideoStreamRendererCallback,
                     showFloatingHeaderCallBack
                 )
-                videoContainer.addView(screenShareFactory.getScreenShareView(rendererView), 0)
+                screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
+                videoContainer.addView(screenShareZoomFrameLayout, 0)
                 // scaled transformed view round corners are not visible when scroll is not at end
                 // to avoid content outside speaking rectangle removing round corners
                 videoContainer.background = ContextCompat.getDrawable(

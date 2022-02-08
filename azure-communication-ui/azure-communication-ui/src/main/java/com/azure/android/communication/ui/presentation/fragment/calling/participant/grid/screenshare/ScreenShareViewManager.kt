@@ -53,13 +53,13 @@ internal class ScreenShareViewManager(
         screenShareZoomFrameLayout.addView(rendererViewTransformationWrapper)
         screenShareZoomFrameLayout.setFloatingHeaderCallback(showFloatingHeaderCallBack)
 
-        videoContainer.viewTreeObserver.addOnGlobalLayoutListener(object :
+        screenShareZoomFrameLayout.viewTreeObserver.addOnGlobalLayoutListener(object :
                 ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    videoContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    screenShareZoomFrameLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     // update view size only after child is added successfully
                     // otherwise renderer video size will be 0
-                    videoContainer.postDelayed({
+                    screenShareZoomFrameLayout.postDelayed({
                         setScreenShareLayoutSize()
                     }, STREAM_SIZE_RETRY_DURATION)
                 }
@@ -81,11 +81,11 @@ internal class ScreenShareViewManager(
     private fun setScreenShareLayoutSize() {
         val streamSize = getScreenShareVideoStreamRendererCallback()?.size
         if (streamSize == null) {
-            videoContainer.postDelayed({
+            screenShareZoomFrameLayout.postDelayed({
                 setScreenShareLayoutSize()
             }, STREAM_SIZE_RETRY_DURATION)
         } else {
-            videoContainer.post {
+            screenShareZoomFrameLayout.post {
                 // this logic is from Azure communication calling SDK code to find width and height of video view excluding grey screen
                 val viewWidth = videoContainer.width.toFloat()
                 val viewHeight = videoContainer.height.toFloat()
