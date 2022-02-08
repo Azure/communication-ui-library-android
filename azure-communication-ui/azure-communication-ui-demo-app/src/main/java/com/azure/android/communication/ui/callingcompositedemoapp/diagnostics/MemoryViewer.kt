@@ -5,10 +5,14 @@ package com.azure.android.communication.ui.callingcompositedemoapp.diagnostics
 
 import android.app.Application
 import android.app.Service
+import android.content.Context
+import android.content.Intent
 import android.graphics.PixelFormat
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -20,14 +24,42 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.microsoft.office.outlook.magnifierlib.Magnifier
 
 class MemoryViewer(
-    context: Application,
+    private val context: Application,
 ) {
+    companion object {
+        const val DEFAULT_GRAVITY = Gravity.TOP or Gravity.START
+        const val POSITION_X = 500
+        const val POSITION_L = 200
+    }
+
     private val textView: TextView =
         LayoutInflater.from(context).inflate(R.layout.memory_view, null) as TextView
     private val windowManager: WindowManager =
         textView.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
-    init {
+    fun display(frameCount: Int) {
+        textView.post {
+            textView.text = "$frameCount mb"
+        }
+    }
+
+    fun show() {
+        if (drawOverlaysPermission(context) && textView.visibility != View.VISIBLE) {
+            init()
+            displayMemoryDiagnostics()
+            textView.visibility = View.VISIBLE
+        }
+    }
+
+    fun hide() {
+        if (textView.visibility == View.VISIBLE) {
+            textView.visibility = View.GONE
+            windowManager.removeView(textView)
+            Magnifier.stopMonitorMemory()
+        }
+    }
+
+    private fun init() {
         val minWidth: Int =
             (textView.lineHeight + textView.totalPaddingTop + textView.totalPaddingBottom + textView.paint.fontMetrics.bottom.toInt())
         textView.minWidth = minWidth
@@ -47,23 +79,18 @@ class MemoryViewer(
         textView.visibility = View.GONE
     }
 
-    fun display(frameCount: Int) {
-        textView.post {
-            textView.text = "$frameCount mb"
-        }
-    }
-
-    fun show() {
-        if (textView.visibility != View.VISIBLE) {
-            displayMemoryDiagnostics()
-            textView.visibility = View.VISIBLE
-        }
-    }
-
-    fun hide() {
-        textView.visibility = View.GONE
-        windowManager.removeView(textView)
-        Magnifier.stopMonitorMemory()
+    private fun drawOverlaysPermission(context: Context): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context)
+            .also {
+                if (!it) {
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + context.packageName)
+                    )
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    context.startActivity(intent)
+                }
+            }
     }
 
     private fun displayMemoryDiagnostics() {
@@ -73,7 +100,7 @@ class MemoryViewer(
             onSampleListener = MemoryMonitorListener(this)
         )
 
-        Handler(Looper.getMainLooper()).postDelayed( {
+        Handler(Looper.getMainLooper()).postDelayed({
             displayMemoryDiagnostics()
         }, 4000)
     }
@@ -105,11 +132,5 @@ class MemoryViewer(
             }
             return false
         }
-    }
-
-    companion object {
-        const val DEFAULT_GRAVITY = Gravity.TOP or Gravity.START
-        const val POSITION_X = 200
-        const val POSITION_L = 600
     }
 }

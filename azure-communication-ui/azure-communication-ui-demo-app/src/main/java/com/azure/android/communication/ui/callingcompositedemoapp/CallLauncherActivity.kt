@@ -3,12 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -116,10 +112,10 @@ class CallLauncherActivity : AppCompatActivity() {
             }
             memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    startMemoryProfiling()
+                    memoryViewer = MemoryViewer(application)
+                    memoryViewer?.show()
                 } else {
                     memoryViewer?.hide()
-                    memoryViewer = null
                 }
             }
             javaButton.setOnClickListener {
@@ -149,7 +145,9 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onResume()
         // helps to turn on memory profiling when permissions change
         if (binding.memoryDiagnosticsCheckBox.isChecked) {
-            startMemoryProfiling()
+            memoryViewer?.let {
+                it.show()
+            }
         }
     }
 
@@ -163,29 +161,6 @@ class CallLauncherActivity : AppCompatActivity() {
             }
             builder.show()
         }
-    }
-
-    private fun startMemoryProfiling() {
-        if(drawOverlaysPermission(applicationContext)) {
-            if (memoryViewer == null) {
-                memoryViewer = MemoryViewer(application)
-            }
-            memoryViewer?.show()
-        }
-    }
-
-    private fun drawOverlaysPermission(context: Context): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context)
-            .also {
-                if (!it) {
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + context.packageName)
-                    )
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    context.startActivity(intent)
-                }
-            }
     }
 
     private fun processResult(result: Result<CallingCompositeLauncher?>) {
