@@ -5,6 +5,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 
 
@@ -37,6 +39,15 @@ open class BaseUiTest {
         grantPermissionRule = GrantPermissionRule.grant(*permissionList)
     }
 
+    @Before
+    fun setup() {
+        reportHelper.label("Starting test")
+    }
+
+    @After
+    fun tearDown() {
+        reportHelper.label("Stopping test")
+    }
 }
 
 fun <T> Array<T>.append(element: T): Array<T?> {

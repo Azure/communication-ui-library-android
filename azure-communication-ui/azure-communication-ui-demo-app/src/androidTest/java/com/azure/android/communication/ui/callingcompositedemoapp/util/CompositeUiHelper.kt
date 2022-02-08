@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import org.hamcrest.Matchers.allOf
+import kotlin.jvm.Throws
 
 object CompositeUiHelper {
 
@@ -138,6 +139,7 @@ object CompositeUiHelper {
         UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_call_leave_confirm, "Leave call")
     }
 
+    @Throws(RuntimeException::class)
     fun startAndJoinCall(acsToken: String, videoEnabled: Boolean) {
         if (acsToken.isNotBlank()) {
             setAcsToken(acsToken)

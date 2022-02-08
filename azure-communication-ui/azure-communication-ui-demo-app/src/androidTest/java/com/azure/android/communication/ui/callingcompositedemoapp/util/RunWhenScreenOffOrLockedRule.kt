@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
 import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
@@ -15,8 +16,16 @@ class RunWhenScreenOffOrLockedRule : TestRule {
         return object : Statement() {
 
             override fun evaluate() {
-                // Turn screen on
-                UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).wakeUp()
+                // Turn screen on, press he "Got It" button if it exists
+                UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).run {
+                    wakeUp()
+                    findObject(UiSelector().textContains("GOT IT")).run {
+                        if (exists()) {
+                            click()
+                        }
+                    }
+                }
+
 
                 // Allow any activity to run when locked
                 ActivityLifecycleMonitorRegistry

@@ -25,17 +25,13 @@ class CallingCompositeACSTokenTest: BaseUiTest() {
     companion object {
         @BeforeClass
         @JvmStatic
-        fun setup() {
+        fun tokenTestSetup() {
             // When running tests on AppCenter, a valid ACS token will be passed into local.properties
             // and not from command line arguments. In that case, don't run any ACS Token test
             Assume.assumeTrue(TestFixture.acsToken.isNotBlank())
         }
     }
 
-    @Before
-    fun ciToolSetup() {
-        Thread.sleep(2000)
-    }
 
     @Test
     fun testExpiredAcsToken() {
