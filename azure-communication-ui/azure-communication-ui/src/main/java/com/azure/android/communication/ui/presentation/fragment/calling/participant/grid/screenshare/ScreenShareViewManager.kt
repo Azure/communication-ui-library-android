@@ -11,7 +11,6 @@ import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.azure.android.communication.calling.RendererListener
 import com.azure.android.communication.calling.VideoStreamRenderer
 
 internal class ScreenShareViewManager(
@@ -31,15 +30,6 @@ internal class ScreenShareViewManager(
     private lateinit var rendererViewTransformationWrapper: LinearLayout
 
     fun getScreenShareView(rendererView: View): ScreenShareZoomFrameLayout {
-        val videoStreamRenderer = getScreenShareVideoStreamRendererCallback()
-        val streamSize = videoStreamRenderer?.size
-
-        // if the stream size is null, it indicates frame is not rendered yet
-        // until first frame is not rendered the size(width, height) of video will be 0
-        if (streamSize == null) {
-            videoStreamRenderer?.addRendererListener(rendererListener())
-        }
-
         rendererViewTransformationWrapper = LinearLayout(this.context)
         rendererViewTransformationWrapper.addView(rendererView)
 
@@ -66,16 +56,6 @@ internal class ScreenShareViewManager(
             })
 
         return screenShareZoomFrameLayout
-    }
-
-    private fun rendererListener() = object : RendererListener {
-        override fun onFirstFrameRendered() {
-            setScreenShareLayoutSize()
-            getScreenShareVideoStreamRendererCallback()?.removeRendererListener(this)
-        }
-
-        override fun onRendererFailedToStart() {
-        }
     }
 
     private fun setScreenShareLayoutSize() {

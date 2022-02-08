@@ -86,12 +86,17 @@ internal class ParticipantGridCellVideoView(
                 setRendererView(view, videoViewModel.streamType)
             }
         } else {
-            if (screenShareZoomFrameLayout != null) {
-                // removing this code will cause issue when new user share screen (zoom will not work)
-                videoContainer.removeView(screenShareZoomFrameLayout)
-                screenShareZoomFrameLayout = null
-                videoContainer.refreshDrawableState()
-            }
+            removeScreenShareZoomView()
+        }
+    }
+
+    private fun removeScreenShareZoomView() {
+        if (screenShareZoomFrameLayout != null) {
+            // removing this code will cause issue when new user share screen (zoom will not work)
+            screenShareZoomFrameLayout?.removeAllViews()
+            videoContainer.removeView(screenShareZoomFrameLayout)
+            screenShareZoomFrameLayout = null
+            videoContainer.invalidate()
         }
     }
 
@@ -112,6 +117,7 @@ internal class ParticipantGridCellVideoView(
             val isScreenShareFeatureEnabled =
                 context.resources.getBoolean(R.bool.azure_communication_ui_feature_screen_share_zoom)
             if (isScreenShareFeatureEnabled) {
+                removeScreenShareZoomView()
                 val screenShareFactory = ScreenShareViewManager(
                     context,
                     videoContainer,
