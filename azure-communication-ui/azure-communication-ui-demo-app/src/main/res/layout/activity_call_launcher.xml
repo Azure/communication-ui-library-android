@@ -133,6 +133,15 @@
             />
     </RadioGroup>
 
+    <CheckBox
+        android:id="@+id/memoryDiagnosticsCheckBox"
+        android:layout_width="wrap_content"
+        android:text="@string/memoryDiagnostics"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/javaOrKotlinContainer"/>
+
     <Button
         android:id="@+id/launchButton"
         android:layout_width="wrap_content"
@@ -140,6 +149,8 @@
         android:text="@string/launchButtonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/javaOrKotlinContainer"
+        app:layout_constraintTop_toBottomOf="@id/memoryDiagnosticsCheckBox"
         />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

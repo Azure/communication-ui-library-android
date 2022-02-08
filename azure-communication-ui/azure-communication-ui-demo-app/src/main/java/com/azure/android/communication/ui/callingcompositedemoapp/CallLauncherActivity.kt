@@ -3,16 +3,19 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.microsoft.office.outlook.magnifierlib.Magnifier
-import com.microsoft.office.outlook.magnifierlib.frame.FPSMonitorConfig
 import com.microsoft.office.outlook.magnifierlib.memory.FileDescriptorInfo
 import com.microsoft.office.outlook.magnifierlib.memory.HeapMemoryInfo
 import com.microsoft.office.outlook.magnifierlib.memory.MemoryMonitor
@@ -24,6 +27,7 @@ class CallLauncherActivity : AppCompatActivity() {
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
     private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
+    private var memoryViewer: MemoryViewer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,29 +108,24 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
             groupCallRadioButton.setOnClickListener {
-                Magnifier.startMonitorFPS(
-                    FPSMonitorConfig.Builder(application).lowPercentage(40 / 60f)  // show red tips, (2.0f / 3.0f) by default
-                        .mediumPercentage(50 / 60f) // show yellow tips, (5.0f / 6.0f) by default
-                        .refreshRate(60f) // defaultDisplay.refreshRate by default
-                        .build()
-                )
-
-                Magnifier.startMonitorMemoryTiming(threshold = 6 * 1000, sampleCount = 10, onSampleListener = onSampleListener)
-                Magnifier.startMonitorMemoryExceedLimit(
-                    threshold =  1000, sampleCount = 3, exceedLimitRatio = 0.1f, onSampleListener = onSampleListener
-                )
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
-
-
-
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                }
+            }
+            memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    startMemoryProfiling()
+                } else {
+                    memoryViewer?.hide()
+                    memoryViewer = null
+                    Magnifier.stopMonitorMemory()
                 }
             }
             javaButton.setOnClickListener {
@@ -135,7 +134,6 @@ class CallLauncherActivity : AppCompatActivity() {
             kotlinButton.setOnClickListener {
                 callLauncherViewModel.setKotlinLauncher()
             }
-
         }
 
         callLauncherViewModel.fetchResult.observe(this) {
@@ -143,26 +141,11 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private val onSampleListener = object : MemoryMonitor.OnSampleListener {
-        override fun onSampleHeap(
-            heapMemoryInfo: HeapMemoryInfo,
-            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo
-        ) {
-            Log.d("hellllo", "heapMemoryInfo:$heapMemoryInfo,sampleInfo:$sampleInfo")
-        }
-
-        override fun onSampleFile(
-            fileDescriptorInfo: FileDescriptorInfo,
-            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo
-        ) {
-            Log.d("hellllo", "fileDescriptorInfo:${fileDescriptorInfo.fdMaxCount},sampleInfo:$sampleInfo")
-        }
-
-        override fun onSampleThread(
-            threadInfo: ThreadInfo,
-            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo
-        ) {
-            Log.d("hellllo", "threadInfo:${threadInfo.threadsCount},sampleInfo:$sampleInfo")
+    private fun startMemoryProfiling() {
+        if (drawOverlaysPermission(applicationContext)) {
+            memoryViewer = MemoryViewer(application)
+            memoryViewer?.show()
+            displayMemoryDiagnostics()
         }
     }
 
@@ -174,6 +157,26 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         saveState(outState)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // helps to turn on memory profiling when permissions change
+        if (binding.memoryDiagnosticsCheckBox.isChecked && memoryViewer == null) {
+            startMemoryProfiling()
+        }
+    }
+
+    fun showAlert(message: String) {
+        runOnUiThread {
+            val builder = AlertDialog.Builder(this).apply {
+                setMessage(message)
+                setTitle("Alert")
+                setPositiveButton("OK") { _, _ ->
+                }
+            }
+            builder.show()
+        }
     }
 
     private fun processResult(result: Result<CallingCompositeLauncher?>) {
@@ -198,10 +201,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun launch(launcher: CallingCompositeLauncher) {
         val userName = binding.userNameText.text.toString()
-
         if (binding.groupCallRadioButton.isChecked) {
             val groupId: UUID
-
             try {
                 groupId =
                     UUID.fromString(binding.groupIdOrTeamsMeetingLinkText.text.toString().trim())
@@ -227,20 +228,58 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    fun showAlert(message: String) {
-        runOnUiThread {
-            val builder = AlertDialog.Builder(this).apply {
-                setMessage(message)
-                setTitle("Alert")
-                setPositiveButton("OK") { _, _ ->
-                }
-            }
-            builder.show()
+    private fun saveState(outState: Bundle?) {
+        outState?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
+        outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
+    }
+
+    private val onSampleListener = object : MemoryMonitor.OnSampleListener {
+        override fun onSampleHeap(
+            heapMemoryInfo: HeapMemoryInfo,
+            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo,
+        ) {
+            memoryViewer?.display(heapMemoryInfo.pssMemoryMB.toInt())
+        }
+
+        override fun onSampleFile(
+            fileDescriptorInfo: FileDescriptorInfo,
+            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo,
+        ) {
+        }
+
+        override fun onSampleThread(
+            threadInfo: ThreadInfo,
+            sampleInfo: MemoryMonitor.OnSampleListener.SampleInfo,
+        ) {
         }
     }
 
-    private fun saveState(outstate: Bundle?) {
-        outstate?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
-        outstate?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
+    private fun displayMemoryDiagnostics() {
+        Magnifier.startMonitorMemoryTiming(
+            threshold = 500,
+            sampleCount = 1,
+            onSampleListener = onSampleListener
+        )
+        Magnifier.startMonitorMemoryExceedLimit(
+            threshold = 500,
+            sampleCount = 1,
+            exceedLimitRatio = 0.0f,
+            onSampleListener = onSampleListener
+        )
+        binding.root.postDelayed({
+            displayMemoryDiagnostics()
+        }, 4000)
+    }
+
+    private fun drawOverlaysPermission(context: Context): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context).also {
+            if (!it) {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.packageName)
+                )
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
+        }
     }
 }

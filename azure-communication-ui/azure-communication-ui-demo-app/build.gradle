@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "0.0.0"
@@ -96,9 +96,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
-    implementation "com.microsoft.office.outlook:magnifier:0.0.14"
+    implementation(name: "magnifier-0.0.14", ext: 'aar')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
-
     testImplementation "junit:junit:$junit"
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'net.java.dev.jna:jna:5.10.0'

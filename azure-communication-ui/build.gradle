@@ -40,13 +40,8 @@ allprojects {
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
         }
-        maven {
-            name "vsts-maven-outlookmobile"
-            url 'https://office.pkgs.visualstudio.com/_packaging/OutlookMobile/maven/v1'
-            credentials {
-                username = "iaulakh"
-                password = "exbb6b3lnwq7njmu3nxlwcny2p5mnw6s57gutftzinxojfqlksnq"
-            }
+        flatDir{
+            dirs "../azure-communication-ui-demo-app/aar"
         }
     }
 }
