@@ -21,7 +21,7 @@ internal class VideoViewManager(
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
 
-    class VideoRenderer constructor(
+    private class VideoRenderer(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
         var videoStreamID: String,
