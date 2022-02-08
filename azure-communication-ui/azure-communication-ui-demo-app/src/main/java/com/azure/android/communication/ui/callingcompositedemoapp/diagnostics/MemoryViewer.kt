@@ -52,7 +52,7 @@ class MemoryViewer private constructor(
     }
 
     fun show() {
-        if (drawOverlaysPermission(context)) {
+        if (drawOverlaysPermission(context) && textView.visibility != View.VISIBLE) {
             init()
             displayMemoryDiagnostics()
             textView.visibility = View.VISIBLE
