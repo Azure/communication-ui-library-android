@@ -18,7 +18,6 @@ class CallLauncherActivity : AppCompatActivity() {
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
     private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
-    private var memoryViewer: MemoryViewer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,10 +111,9 @@ class CallLauncherActivity : AppCompatActivity() {
             }
             memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    memoryViewer = MemoryViewer(application)
-                    memoryViewer?.show()
+                    MemoryViewer.getMemoryViewer(application).show()
                 } else {
-                    memoryViewer?.hide()
+                    MemoryViewer.getMemoryViewer(application).hide()
                 }
             }
             javaButton.setOnClickListener {
@@ -145,9 +143,7 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onResume()
         // helps to turn on memory profiling when permissions change
         if (binding.memoryDiagnosticsCheckBox.isChecked) {
-            memoryViewer?.let {
-                it.show()
-            }
+            MemoryViewer.getMemoryViewer(application).show()
         }
     }
 

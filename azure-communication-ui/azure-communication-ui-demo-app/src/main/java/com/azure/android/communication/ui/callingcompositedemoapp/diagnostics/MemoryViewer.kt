@@ -23,13 +23,21 @@ import android.widget.TextView
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.microsoft.office.outlook.magnifierlib.Magnifier
 
-class MemoryViewer(
+class MemoryViewer private constructor(
     private val context: Application,
 ) {
     companion object {
+        private var memoryViewer: MemoryViewer? = null
         const val DEFAULT_GRAVITY = Gravity.TOP or Gravity.START
         const val POSITION_X = 500
         const val POSITION_L = 200
+
+        fun getMemoryViewer(context: Application): MemoryViewer {
+            if (memoryViewer == null) {
+                memoryViewer = MemoryViewer(context)
+            }
+            return memoryViewer!!
+        }
     }
 
     private val textView: TextView =
@@ -44,7 +52,7 @@ class MemoryViewer(
     }
 
     fun show() {
-        if (drawOverlaysPermission(context) && textView.visibility != View.VISIBLE) {
+        if (drawOverlaysPermission(context)) {
             init()
             displayMemoryDiagnostics()
             textView.visibility = View.VISIBLE

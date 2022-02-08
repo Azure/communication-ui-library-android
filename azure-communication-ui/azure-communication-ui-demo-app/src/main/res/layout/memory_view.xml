@@ -1,19 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:padding="10dp"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:shadowDx="10"
-    android:shadowDy="10"
-    android:shadowRadius="20"
-    android:shadowColor="@color/colorPrimary"
-    android:textColor="@color/colorPrimary"
+    android:gravity="center"
+    android:shadowColor="@color/black"
+    android:shadowDx="0"
+    android:shadowDy="0"
+    android:shadowRadius="4"
+    android:text="1223"
+    android:textColor="@color/white"
     android:textSize="18dp"
-    android:visibility="gone" />
+    android:typeface="monospace"
+    android:visibility="gone"
+    />
