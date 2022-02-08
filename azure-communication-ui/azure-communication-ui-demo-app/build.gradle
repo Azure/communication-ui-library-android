@@ -101,8 +101,8 @@ dependencies {
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-    androidTestImplementation 'net.java.dev.jna:jna:5.5.0'
-    androidTestImplementation ('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0') {
+    androidTestImplementation 'net.java.dev.jna:jna:5.10.0'
+    androidTestImplementation ('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-native-mt') {
         exclude group: "net.java.dev.jna", module: "jna"
     }
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit"

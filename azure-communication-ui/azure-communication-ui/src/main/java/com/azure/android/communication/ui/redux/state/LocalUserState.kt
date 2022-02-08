@@ -34,6 +34,8 @@ internal enum class AudioDeviceSelectionStatus {
     SPEAKER_REQUESTED,
     RECEIVER_SELECTED,
     RECEIVER_REQUESTED,
+    BLUETOOTH_SCO_SELECTED,
+    BLUETOOTH_SCO_REQUESTED,
 }
 
 internal data class CameraState(
@@ -47,6 +49,7 @@ internal data class AudioState(
     val operation: AudioOperationalStatus,
     val device: AudioDeviceSelectionStatus,
     val error: CallCompositeError? = null,
+    val isBluetoothSCOAvailable: Boolean = false
 )
 
 internal data class LocalUserState(
