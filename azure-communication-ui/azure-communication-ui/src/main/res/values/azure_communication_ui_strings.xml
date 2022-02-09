@@ -1,3 +1,7 @@
+<!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
 <resources>
     <string name="azure_communication_ui_title_activity_main">MainActivity</string>
     <string name="azure_communication_ui_switch_camera_button">Switch Camera Button</string>
