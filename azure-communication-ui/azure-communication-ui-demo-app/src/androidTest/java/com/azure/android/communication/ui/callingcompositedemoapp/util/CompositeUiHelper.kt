@@ -8,7 +8,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import org.hamcrest.Matchers.allOf
-import org.junit.Assert
 
 object CompositeUiHelper {
 
@@ -140,8 +139,9 @@ object CompositeUiHelper {
     }
 
     fun startAndJoinCall(acsToken: String, videoEnabled: Boolean) {
-        Assert.assertTrue("empty token! ", acsToken.isNotBlank())
-        setAcsToken(acsToken)
+        if (acsToken.isNotBlank()) {
+            setAcsToken(acsToken)
+        }
         clickLaunchButton()
 
         if (videoEnabled) {
