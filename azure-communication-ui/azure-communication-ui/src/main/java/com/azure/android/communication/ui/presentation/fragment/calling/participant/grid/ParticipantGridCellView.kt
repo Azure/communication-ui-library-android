@@ -11,6 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
@@ -18,9 +19,11 @@ import com.microsoft.fluentui.persona.AvatarView
 
 internal class ParticipantGridCellView(
     context: Context,
-    private val participantViewModel: ParticipantGridCellViewModel,
-    private val getVideoStream: (String, String) -> View?,
     private val lifecycleScope: LifecycleCoroutineScope,
+    private val participantViewModel: ParticipantGridCellViewModel,
+    private val showFloatingHeaderCallBack: () -> Unit,
+    private val getVideoStreamCallback: (String, String) -> View?,
+    private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
 ) : RelativeLayout(context) {
 
     init {
@@ -54,7 +57,7 @@ internal class ParticipantGridCellView(
             micIndicatorAudioImageView,
             participantViewModel,
             context,
-            lifecycleScope
+            lifecycleScope,
         )
     }
 
@@ -72,14 +75,16 @@ internal class ParticipantGridCellView(
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
         ParticipantGridCellVideoView(
+            context,
+            lifecycleScope,
             participantVideoContainerFrameLayout,
             videoContainer,
             displayNameOnVideoTextView,
             micIndicatorOnVideoImageView,
             participantViewModel,
-            getVideoStream,
-            context,
-            lifecycleScope
+            getVideoStreamCallback,
+            showFloatingHeaderCallBack,
+            getScreenShareVideoStreamRendererCallback
         )
     }
 }

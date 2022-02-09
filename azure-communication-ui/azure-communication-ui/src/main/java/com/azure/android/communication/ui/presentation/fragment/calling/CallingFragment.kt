@@ -75,6 +75,7 @@ internal class CallingFragment :
             viewModel.getParticipantGridViewModel(),
             videoViewManager,
             viewLifecycleOwner,
+            this::switchFloatingHeader
         )
 
         lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
@@ -110,10 +111,6 @@ internal class CallingFragment :
             viewLifecycleOwner,
         )
 
-        participantGridView.setOnClickListener {
-            viewModel.switchFloatingHeader()
-        }
-
         if (savedInstanceState == null) {
             viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
         }
@@ -130,6 +127,9 @@ internal class CallingFragment :
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
             SensorManager.SENSOR_DELAY_NORMAL
         )
+        participantGridView.setOnClickListener {
+            switchFloatingHeader()
+        }
     }
 
     override fun onDestroy() {
@@ -180,5 +180,9 @@ internal class CallingFragment :
 
     private fun displayParticipantList() {
         viewModel.getParticipantListViewModel().displayParticipantList()
+    }
+
+    private fun switchFloatingHeader() {
+        viewModel.switchFloatingHeader()
     }
 }
