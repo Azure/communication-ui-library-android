@@ -10,8 +10,12 @@ import androidx.test.rule.GrantPermissionRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
+import com.microsoft.appcenter.espresso.Factory
+import com.microsoft.appcenter.espresso.ReportHelper
 import org.junit.Assert
+import org.junit.Assume
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,6 +23,18 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeACSTokenTest {
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            // When running tests on AppCenter, a valid ACS token will be passed into local.properties
+            // and not from command line arguments. In that case, don't run any ACS Token test
+            Assume.assumeTrue(TestFixture.acsToken.isNotBlank())
+        }
+    }
+    @get:Rule
+    var reportHelper: ReportHelper = Factory.getReportHelper()
 
     @Rule
     @JvmField

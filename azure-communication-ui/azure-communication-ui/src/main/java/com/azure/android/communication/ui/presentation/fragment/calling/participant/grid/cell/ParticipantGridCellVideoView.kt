@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.presentation.fragment.calling.partici
 
 import android.content.Context
 import android.view.View
-import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -15,26 +15,32 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
+import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareZoomFrameLayout
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ParticipantGridCellVideoView(
-    private val participantVideoContainerFrameLayout: FrameLayout,
+    private val context: Context,
+    lifecycleScope: LifecycleCoroutineScope,
+    private val participantVideoContainerSpeakingFrameLayout: FrameLayout,
     private val videoContainer: ConstraintLayout,
     private val displayNameOnVideoTextView: TextView,
     private val micIndicatorOnVideoImageView: ImageView,
     private val participantViewModel: ParticipantGridCellViewModel,
-    private val getVideoStream: (String, String) -> View?,
-    private val context: Context,
-    lifecycleScope: LifecycleCoroutineScope,
+    private val getVideoStreamCallback: (String, String) -> View?,
+    private val showFloatingHeaderCallBack: () -> Unit,
+    private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
 ) {
     private var videoStream: View? = null
+    private var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout? = null
 
     init {
-
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
                 setDisplayName(it)
@@ -64,21 +70,33 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun updateVideoStream(
-        it: VideoViewModel?,
+        videoViewModel: VideoViewModel?,
     ) {
         if (videoStream != null) {
             detachFromParentView(videoStream)
             videoStream = null
         }
 
-        if (it != null) {
-            getVideoStream(
+        if (videoViewModel != null) {
+            getVideoStreamCallback(
                 participantViewModel.getParticipantUserIdentifier(),
-                it.videoStreamID
+                videoViewModel.videoStreamID
             )?.let { view ->
                 videoStream = view
-                setRendererView(view)
+                setRendererView(view, videoViewModel.streamType)
             }
+        } else {
+            removeScreenShareZoomView()
+        }
+    }
+
+    private fun removeScreenShareZoomView() {
+        if (screenShareZoomFrameLayout != null) {
+            // removing this code will cause issue when new user share screen (zoom will not work)
+            screenShareZoomFrameLayout?.removeAllViews()
+            videoContainer.removeView(screenShareZoomFrameLayout)
+            screenShareZoomFrameLayout = null
+            videoContainer.invalidate()
         }
     }
 
@@ -86,18 +104,54 @@ internal class ParticipantGridCellVideoView(
         isSpeaking: Boolean,
     ) {
         if (isSpeaking) {
-            participantVideoContainerFrameLayout.visibility = VISIBLE
+            participantVideoContainerSpeakingFrameLayout.visibility = VISIBLE
         } else {
-            participantVideoContainerFrameLayout.visibility = GONE
+            participantVideoContainerSpeakingFrameLayout.visibility = GONE
         }
     }
 
-    private fun setRendererView(rendererView: View) {
+    private fun setRendererView(rendererView: View, streamType: StreamType) {
+        detachFromParentView(rendererView)
+
+        if (streamType == StreamType.SCREEN_SHARING) {
+            val isScreenShareFeatureEnabled =
+                context.resources.getBoolean(R.bool.azure_communication_ui_feature_screen_share_zoom)
+            if (isScreenShareFeatureEnabled) {
+                removeScreenShareZoomView()
+                val screenShareFactory = ScreenShareViewManager(
+                    context,
+                    videoContainer,
+                    getScreenShareVideoStreamRendererCallback,
+                    showFloatingHeaderCallBack
+                )
+                screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
+                videoContainer.addView(screenShareZoomFrameLayout, 0)
+                // scaled transformed view round corners are not visible when scroll is not at end
+                // to avoid content outside speaking rectangle removing round corners
+                videoContainer.background = ContextCompat.getDrawable(
+                    context,
+                    R.color.azure_communication_ui_color_surface
+                )
+                participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
+                    context,
+                    R.drawable.azure_communication_ui_speaking_rectangle_indicator_no_corner
+                )
+                return
+            }
+        }
+
         rendererView.background = ContextCompat.getDrawable(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
         )
-        detachFromParentView(rendererView)
+        videoContainer.background = ContextCompat.getDrawable(
+            context,
+            R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_surface
+        )
+        participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
+            context,
+            R.drawable.azure_communication_ui_speaking_rectangle_indicator
+        )
         videoContainer.addView(rendererView, 0)
     }
 
@@ -106,7 +160,6 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
-
         if (!isMicButtonVisible) {
             micIndicatorOnVideoImageView.visibility = GONE
         } else {

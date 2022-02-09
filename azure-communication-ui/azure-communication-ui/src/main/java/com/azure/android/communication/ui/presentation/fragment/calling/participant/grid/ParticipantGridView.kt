@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -28,27 +29,33 @@ internal class ParticipantGridView : GridLayout {
         private const val SIX_PARTICIPANTS = 6
     }
 
+    private lateinit var showFloatingHeaderCallBack: () -> Unit
     private lateinit var videoViewManager: VideoViewManager
     private lateinit var viewLifecycleOwner: LifecycleOwner
     private lateinit var participantGridViewModel: ParticipantGridViewModel
     private lateinit var getVideoStreamCallback: (String, String) -> View?
+    private lateinit var getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?
 
     fun start(
         participantGridViewModel: ParticipantGridViewModel,
         videoViewManager: VideoViewManager,
         viewLifecycleOwner: LifecycleOwner,
+        showFloatingHeader: () -> Unit,
     ) {
         this.videoViewManager = videoViewManager
         this.viewLifecycleOwner = viewLifecycleOwner
         this.participantGridViewModel = participantGridViewModel
+        this.showFloatingHeaderCallBack = showFloatingHeader
+        this.getVideoStreamCallback = { participantID: String, videoStreamID: String ->
+            this.videoViewManager.getRemoteVideoStreamRenderer(
+                participantID,
+                videoStreamID
+            )
+        }
 
-        this.getVideoStreamCallback =
-            { participantID: String, videoStreamID: String ->
-                this.videoViewManager.getRemoteVideoStreamRenderer(
-                    participantID,
-                    videoStreamID
-                )
-            }
+        this.getScreenShareVideoStreamRendererCallback = {
+            this.videoViewManager.getScreenShareVideoStreamRenderer()
+        }
 
         this.participantGridViewModel.setUpdateVideoStreamsCallback { users: List<Pair<String, String>> ->
             this.videoViewManager.removeRemoteParticipantVideoRenderer(users)
@@ -93,7 +100,6 @@ internal class ParticipantGridView : GridLayout {
     ) {
         removeAllViews()
         val displayedRemoteParticipantsView: MutableList<ParticipantGridCellView> = mutableListOf()
-
         displayedRemoteParticipantsViewModel.forEach {
             val participantView = createParticipantGridCellView(this.context, it)
             displayedRemoteParticipantsView.add(participantView)
@@ -204,8 +210,10 @@ internal class ParticipantGridView : GridLayout {
     ): ParticipantGridCellView =
         ParticipantGridCellView(
             context,
+            viewLifecycleOwner.lifecycleScope,
             participantGridCellViewModel,
+            showFloatingHeaderCallBack,
             getVideoStreamCallback,
-            viewLifecycleOwner.lifecycleScope
+            getScreenShareVideoStreamRendererCallback
         )
 }
