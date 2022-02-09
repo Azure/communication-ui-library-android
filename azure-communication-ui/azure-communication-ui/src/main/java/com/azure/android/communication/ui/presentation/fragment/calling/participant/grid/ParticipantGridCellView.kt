@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -68,7 +67,7 @@ internal class ParticipantGridCellView(
         val videoContainer: ConstraintLayout =
             findViewById(R.id.azure_communication_ui_participant_video_view_container)
 
-        val displayNameAndMicIndicatorViewContainer: LinearLayout =
+        val displayNameAndMicIndicatorViewContainer: View =
             findViewById(R.id.azure_communication_ui_participant_view_on_video_information_container)
 
         val displayNameOnVideoTextView: TextView =

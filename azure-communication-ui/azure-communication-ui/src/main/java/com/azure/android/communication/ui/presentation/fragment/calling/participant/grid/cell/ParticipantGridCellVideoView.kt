@@ -11,7 +11,6 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
 internal class ParticipantGridCellVideoView(
     private val participantVideoContainerFrameLayout: FrameLayout,
     private val videoContainer: ConstraintLayout,
-    private val displayNameAndMicIndicatorViewContainer: LinearLayout,
+    private val displayNameAndMicIndicatorViewContainer: View,
     private val displayNameOnVideoTextView: TextView,
     private val micIndicatorOnVideoImageView: ImageView,
     private val participantViewModel: ParticipantGridCellViewModel,
