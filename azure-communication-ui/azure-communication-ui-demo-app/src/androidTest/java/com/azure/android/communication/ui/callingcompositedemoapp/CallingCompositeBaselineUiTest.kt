@@ -5,15 +5,9 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.GrantPermissionRule
-import com.microsoft.appcenter.espresso.Factory
-import com.microsoft.appcenter.espresso.ReportHelper
-import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.HomeScreenRobot
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -64,16 +58,20 @@ class CallingCompositeBaselineUiTest: BaseUiTest() {
     }
 
     private fun joinGroupCall(videoEnabled: Boolean = true) {
-        CompositeUiHelper.run {
-            setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+        val setupScreen = HomeScreenRobot()
+            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+            .setAcsToken(TestFixture.acsToken)
+            .clickLaunchButton()
 
-            startAndJoinCall(TestFixture.acsToken, videoEnabled)
-            showParticipantList()
-            checkParticipantList()
-
-            dismissParticipantList()
-            clickEndCall()
-            clickLeaveCall()
+        if (videoEnabled) {
+            setupScreen.turnCameraOn()
         }
+        val callScreen = setupScreen.clickJoinCallButton()
+        callScreen
+            .showParticipantList()
+            .checkParticipantList()
+            .dismissParticipantList()
+            .clickEndCall()
+            .clickLeaveCall()
     }
 }

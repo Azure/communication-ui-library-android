@@ -2,7 +2,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import org.junit.Test
@@ -33,11 +32,10 @@ class CallingCompositeTeamsUrlTest: BaseUiTest() {
     fun testInvalidTeamsUrlTriggersAlert() {
         val testString = TestFixture.teamsUrl.substring(0, TestFixture.teamsUrl.length-6)
         val homeScreen = HomeScreenRobot()
-        val setupScreen = homeScreen
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(testString)
             .setAcsToken(TestFixture.acsToken)
-            .clickLaunchButton()
+        val setupScreen = homeScreen.clickLaunchButton()
 
         val callScreen = setupScreen.clickJoinCallButton()
 
@@ -49,11 +47,10 @@ class CallingCompositeTeamsUrlTest: BaseUiTest() {
         val lastHalf = TestFixture.teamsUrl.substringAfter("context=").substringAfter("-")
         val testString = TestFixture.teamsUrl.substringBefore("%7b") + "%7b%22Tid%22%3a%227" + lastHalf
         val homeScreen = HomeScreenRobot()
-        val setupScreen = homeScreen
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(testString)
             .setAcsToken(TestFixture.acsToken)
-            .clickLaunchButton()
+        val setupScreen = homeScreen.clickLaunchButton()
 
         val callScreen = setupScreen.clickJoinCallButton()
 
@@ -67,11 +64,10 @@ class CallingCompositeTeamsUrlTest: BaseUiTest() {
     @Test
     fun testEmptyTeamsUrl() {
         val homeScreen = HomeScreenRobot()
-        val setupScreen = homeScreen
             .clickTeamsMeetingRadioButton()
             .setEmptyTeamsUrl()
             .setAcsToken(TestFixture.acsToken)
-            .clickLaunchButton()
+        val setupScreen = homeScreen.clickLaunchButton()
 
         homeScreen.clickAlertDialogOkButton()
     }

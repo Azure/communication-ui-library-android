@@ -5,16 +5,12 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
+import com.azure.android.communication.ui.callingcompositedemoapp.util.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
-import com.microsoft.appcenter.espresso.Factory
-import com.microsoft.appcenter.espresso.ReportHelper
 import org.junit.Assert
 import org.junit.Assume
-import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -35,33 +31,32 @@ class CallingCompositeACSTokenTest: BaseUiTest() {
 
     @Test
     fun testExpiredAcsToken() {
-        CompositeUiHelper.run {
-            setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            val expiredAcsToken =
-                UiTestUtils.getTextFromEdittextView(R.id.acsTokenText)
-            Assert.assertTrue(
-                "Invalid acs token: ${expiredAcsToken.length}",
-                expiredAcsToken.length >= 700
-            )
-            setAcsToken(expiredAcsToken)
-            clickLaunchButton()
+        val expiredAcsToken = UiTestUtils.getTextFromEdittextView(R.id.acsTokenText)
+        Assert.assertTrue(
+            "Invalid acs token: ${expiredAcsToken.length}",
+            expiredAcsToken.length >= 700
+        )
 
-            turnCameraOn()
+        val homeScreen = HomeScreenRobot()
+            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+            .setAcsToken(expiredAcsToken)
 
-            clickJoinCallButton()
+        val setupScreen = homeScreen.clickLaunchButton()
 
-            clickAlertDialogOkButton()
-        }
+        setupScreen
+            .turnCameraOn()
+            .clickJoinCallButton()
+
+        homeScreen.clickAlertDialogOkButton()
     }
 
     @Test
     fun testEmptyAcsToken() {
-        CompositeUiHelper.run {
-            setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            setAcsToken("")
+        val homeScreen = HomeScreenRobot()
+            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+            .setAcsToken("")
 
-            clickLaunchButton()
-            clickAlertDialogOkButton()
-        }
+        val setupScreen = homeScreen.clickLaunchButton()
+        homeScreen.clickAlertDialogOkButton()
     }
 }

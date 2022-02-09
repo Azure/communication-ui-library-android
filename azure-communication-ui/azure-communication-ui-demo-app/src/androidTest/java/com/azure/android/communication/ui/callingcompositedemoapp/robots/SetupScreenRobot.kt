@@ -1,6 +1,5 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
-import android.os.Build
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
@@ -22,16 +21,12 @@ class SetupScreenRobot: ScreenRobot<SetupScreenRobot>() {
             }
 
             waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder, viewDisplayResource)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                waitUntilViewIdIsDisplayed(
-                    R.id.azure_communication_ui_setup_default_avatar,
-                    viewDisplayResource
-                )
-            }
+            waitUntilViewIdIsNotDisplayed(R.id.azure_communication_ui_setup_default_avatar, viewDisplayResource)
         }
         return this
     }
 
+    @Throws(RuntimeException::class)
     fun clickJoinCallButton(): CallScreenRobot {
         val idlingResource = ViewIsDisplayedResource()
 
@@ -43,6 +38,12 @@ class SetupScreenRobot: ScreenRobot<SetupScreenRobot>() {
         }
         UiTestUtils.clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
         return CallScreenRobot()
+    }
+
+    fun dismissNetworkLossBanner(): SetupScreenRobot {
+        waitUntilViewIdIsDisplayed(R.id.snackbar_action)
+        UiTestUtils.clickViewWithIdAndText(R.id.snackbar_action, "Dismiss")
+        return this
     }
 
     fun dismissJoinFailureBanner(): SetupScreenRobot {

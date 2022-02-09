@@ -4,12 +4,8 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.azure.android.communication.ui.callingcompositedemoapp.util.CompositeUiHelper
-import com.azure.android.communication.ui.callingcompositedemoapp.util.NetworkUtils
-import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
-import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
+import com.azure.android.communication.ui.callingcompositedemoapp.util.*
 import org.junit.AfterClass
-import org.junit.Assume
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,37 +29,40 @@ class CallingCompositeNetworkTest: BaseUiTest() {
 
     @Test
     fun testJoinTeamsCallAfterNetworkDisconnected() {
-        joinAfterNetworkDisconnected(false)
+        NetworkUtils.disableNetwork()
+        val homeScreen = HomeScreenRobot()
+            .setAcsToken(TestFixture.acsToken)
+            .clickTeamsMeetingRadioButton()
+            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+        joinAfterNetworkDisconnected(homeScreen)
     }
 
     @Test
     fun testJoinGroupCallAfterNetworkDisconnected() {
-        joinAfterNetworkDisconnected()
+        NetworkUtils.disableNetwork()
+        val homeScreen = HomeScreenRobot()
+            .setAcsToken(TestFixture.acsToken)
+            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+
+        joinAfterNetworkDisconnected(homeScreen)
     }
 
-    private fun joinAfterNetworkDisconnected(isGroupCall: Boolean = true) {
+    private fun joinAfterNetworkDisconnected(homeScreen: HomeScreenRobot) {
 
-        NetworkUtils.disableNetwork()
+        val setupScreen = homeScreen.clickLaunchButton()
+        try {
+            val callScreen = setupScreen
+                .turnCameraOn()
+                .clickJoinCallButton()
 
-        CompositeUiHelper.run {
-            if (isGroupCall) {
-                setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            } else {
-                clickTeamsMeetingRadioButton()
-                setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            }
-
-            try {
-                startAndJoinCall(TestFixture.acsToken, true)
-                dismissNetworkLossSnackbar()
-            } catch (ex: Throwable) {
-                println("err: " + ex.message)
-                throw ex
-            } finally {
-                NetworkUtils.enableNetworkThatWasDisabled {
-                    navigateUpFromSetupScreen()
-                    clickAlertDialogOkButton()
-                }
+            setupScreen.dismissNetworkLossBanner()
+        } catch (ex: Throwable) {
+            println("Runtime Error: " + ex.message)
+            throw ex
+        } finally {
+            NetworkUtils.enableNetworkThatWasDisabled {
+                setupScreen.navigateUpFromSetupScreen()
+                homeScreen.clickAlertDialogOkButton()
             }
         }
     }
