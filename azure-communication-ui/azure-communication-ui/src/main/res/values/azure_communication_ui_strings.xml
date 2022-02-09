@@ -61,5 +61,6 @@
     <string name="azure_communication_ui_snack_bar_dismiss">Dismiss</string>
     <string name="azure_communication_ui_cal_state_error_call_end">You were removed from the call due to an error.</string>
     <string name="azure_communication_ui_cal_state_error_call_join">Unable to join the call due to an error.</string>
+    <string name="azure_communication_ui_service_notification_title">Ongoing call</string>
     <string name="azure_communication_ui_service_notification_message">Tap to return to the call</string>
 </resources>
