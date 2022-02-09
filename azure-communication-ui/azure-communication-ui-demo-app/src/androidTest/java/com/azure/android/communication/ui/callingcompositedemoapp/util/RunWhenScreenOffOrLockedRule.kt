@@ -26,7 +26,6 @@ class RunWhenScreenOffOrLockedRule : TestRule {
                     }
                 }
 
-
                 // Allow any activity to run when locked
                 ActivityLifecycleMonitorRegistry
                     .getInstance()
@@ -37,15 +36,15 @@ class RunWhenScreenOffOrLockedRule : TestRule {
                                     setShowWhenLocked(true)
                                     setTurnScreenOn(true)
                                     window.addFlags(
-                                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
-                                          WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                                     )
                                 } else {
                                     window.addFlags(
-                                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
-                                          WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
-                                          WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
-                                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                                     )
                                 }
                             }

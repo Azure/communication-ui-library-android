@@ -43,8 +43,6 @@ object UiTestUtils {
             )
         ).check(ViewAssertions.matches(isDisplayed()))
 
-
-
     @Throws(NoMatchingViewException::class)
     fun checkViewIdAndTextIsDisplayed(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
         onView(

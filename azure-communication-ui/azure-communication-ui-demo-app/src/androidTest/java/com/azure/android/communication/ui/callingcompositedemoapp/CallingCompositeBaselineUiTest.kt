@@ -5,16 +5,16 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
-import com.azure.android.communication.ui.callingcompositedemoapp.util.HomeScreenRobot
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CallingCompositeBaselineUiTest: BaseUiTest() {
+class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
@@ -38,7 +38,6 @@ class CallingCompositeBaselineUiTest: BaseUiTest() {
     fun testJoinGroupCallWithVideoEnabled() {
         joinGroupCall()
     }
-
 
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
         val setupScreen = HomeScreenRobot()

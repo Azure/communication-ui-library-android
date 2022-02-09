@@ -1,11 +1,12 @@
-package com.azure.android.communication.ui.callingcompositedemoapp.util
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.action.ViewActions
 import com.azure.android.communication.ui.callingcompositedemoapp.R
-import com.azure.android.communication.ui.callingcompositedemoapp.robots.ScreenRobot
-import com.azure.android.communication.ui.callingcompositedemoapp.robots.SetupScreenRobot
+import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 
-class HomeScreenRobot: ScreenRobot<HomeScreenRobot>() {
+class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
     fun setEmptyTeamsUrl(): HomeScreenRobot {
         waitUntilViewIdIsDisplayed(R.id.groupIdOrTeamsMeetingLinkText).run {
             perform(ViewActions.replaceText(""))

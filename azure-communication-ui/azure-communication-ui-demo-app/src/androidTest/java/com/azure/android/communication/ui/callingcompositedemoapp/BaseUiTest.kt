@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.os.Build
@@ -8,7 +10,6 @@ import com.microsoft.appcenter.espresso.ReportHelper
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-
 
 open class BaseUiTest {
     @get:Rule

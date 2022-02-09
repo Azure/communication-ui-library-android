@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.Espresso
@@ -8,7 +10,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUti
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 import org.hamcrest.Matchers
 
-class CallScreenRobot: ScreenRobot<CallScreenRobot>() {
+class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
 
     fun checkWaitForTeamsMeetingMessage(): CallScreenRobot {
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_lobby_overlay)
@@ -51,9 +53,9 @@ class CallScreenRobot: ScreenRobot<CallScreenRobot>() {
         val idlingResource = ViewIsDisplayedResource()
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_call_buttons, idlingResource)
         val endCallButton = waitUntilViewIdWithContentDescriptionIsDisplayed(
-                R.id.azure_communication_ui_call_end_call_button,
-                "Hang Up"
-            )
+            R.id.azure_communication_ui_call_end_call_button,
+            "Hang Up"
+        )
 
         endCallButton.perform(ViewActions.click())
         return this

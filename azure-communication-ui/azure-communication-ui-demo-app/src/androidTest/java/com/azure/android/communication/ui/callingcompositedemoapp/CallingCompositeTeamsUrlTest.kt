@@ -2,14 +2,14 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.azure.android.communication.ui.callingcompositedemoapp.util.HomeScreenRobot
+import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CallingCompositeTeamsUrlTest: BaseUiTest() {
+class CallingCompositeTeamsUrlTest : BaseUiTest() {
 
     @Test
     fun testInvalidTeamsUrl() {
@@ -30,7 +30,7 @@ class CallingCompositeTeamsUrlTest: BaseUiTest() {
 
     @Test
     fun testInvalidTeamsUrlTriggersAlert() {
-        val testString = TestFixture.teamsUrl.substring(0, TestFixture.teamsUrl.length-6)
+        val testString = TestFixture.teamsUrl.substring(0, TestFixture.teamsUrl.length - 6)
         val homeScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(testString)
@@ -72,4 +72,3 @@ class CallingCompositeTeamsUrlTest: BaseUiTest() {
         homeScreen.clickAlertDialogOkButton()
     }
 }
-

@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.azure.android.communication.ui.callingcompositedemoapp.util.HomeScreenRobot
+import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import org.junit.Assert
@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CallingCompositeACSTokenTest: BaseUiTest() {
+class CallingCompositeACSTokenTest : BaseUiTest() {
 
     companion object {
         @BeforeClass
@@ -27,7 +27,6 @@ class CallingCompositeACSTokenTest: BaseUiTest() {
             Assume.assumeTrue(TestFixture.acsToken.isNotBlank())
         }
     }
-
 
     @Test
     fun testExpiredAcsToken() {
