@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:gravity="center"
+    android:shadowColor="@color/black"
+    android:shadowDx="0"
+    android:shadowDy="0"
+    android:shadowRadius="4"
+    android:text="1223"
+    android:textColor="@color/white"
+    android:textSize="18dp"
+    android:typeface="monospace"
+    android:visibility="gone"
+    />
