@@ -4,5 +4,7 @@
    Licensed under the MIT License.
   -->
 <resources>
+    <bool name="azure_communication_ui_feature_screen_share_zoom">false</bool>
     <bool name="azure_communication_ui_feature_flag_bluetooth_audio">false</bool>
 </resources>
+

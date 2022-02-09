@@ -11,6 +11,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.Composite
 import com.azure.android.communication.ui.callingcompositedemoapp.util.NetworkUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
+import com.microsoft.appcenter.espresso.Factory
+import com.microsoft.appcenter.espresso.ReportHelper
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,6 +22,9 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeBaselineUiTest {
+
+    @get:Rule
+    var reportHelper: ReportHelper = Factory.getReportHelper()
 
     @Rule
     @JvmField
@@ -41,6 +47,12 @@ class CallingCompositeBaselineUiTest {
     @Before
     fun ciToolSetup() {
         Thread.sleep(2000)
+        reportHelper.label("Starting test")
+    }
+
+    @After
+    fun tearDown() {
+        reportHelper.label("Stopping test")
     }
 
     @Test
