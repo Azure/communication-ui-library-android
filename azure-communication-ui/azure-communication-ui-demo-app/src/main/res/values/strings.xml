@@ -12,4 +12,5 @@
     <string name="launchTypeText">Launch In:</string>
     <string name="tokenFunctionRadioButtonText">Token Function</string>
     <string name="acsTokenRadioButtonText">@string/acsTokenHint</string>
+    <string name="memoryDiagnostics">Memory Diagnostics</string>
 </resources>
