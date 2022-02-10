@@ -141,7 +141,7 @@ internal class AudioSessionManager(
             closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             context.unregisterReceiver(this@AudioSessionManager)
         }
-        started=false
+        started = false
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
