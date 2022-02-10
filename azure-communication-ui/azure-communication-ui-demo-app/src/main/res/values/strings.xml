@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
 <resources>
     <string name="app_name">Communication UI Demo</string>
     <string name="tokenUrlHint">Token function URL</string>
@@ -12,5 +17,5 @@
     <string name="launchTypeText">Launch In:</string>
     <string name="tokenFunctionRadioButtonText">Token Function</string>
     <string name="acsTokenRadioButtonText">@string/acsTokenHint</string>
-    <string name="memoryDiagnostics">Memory Diagnostics</string>
+    <string name="diagnostics">FPS, Memory Diagnostics</string>
 </resources>
