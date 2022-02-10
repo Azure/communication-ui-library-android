@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.configuration.events
 
+import com.azure.android.communication.ui.CallingAvatarPersonaHandler
 import com.azure.android.communication.ui.CallingEventHandler
 
 internal class CallCompositeEventsHandler {
@@ -13,4 +14,5 @@ internal class CallCompositeEventsHandler {
     fun setOnErrorHandler(errorHandler: CallingEventHandler<ErrorEvent<CallCompositeErrorCode>>?) {
         errorHandlers = errorHandler
     }
+
 }

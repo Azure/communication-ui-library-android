@@ -10,6 +10,7 @@ internal class CallCompositeConfiguration {
     var themeConfig: ThemeConfiguration? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
+    var callCompositeAvatarPersonaHandler = CallCompositeAvatarPersonaHandler()
 
     /*
     CallCompositeConfiguration Storage

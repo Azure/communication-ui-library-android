@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.CallCompositeBuilder;
 import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityAvatarHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 new CallCompositeBuilder()
 //                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
                         .build();
-
+        callComposite.setOnAvatarHandler(new CallLauncherActivityAvatarHandler(callLauncherActivity));
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =

@@ -130,6 +130,10 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 
+    public void setOnAvatarHandler(final CallingAvatarPersonaHandler avatarPersonaHandler) {
+        configuration.getCallCompositeAvatarPersonaHandler().setOnAvatarPersonaHandler(avatarPersonaHandler);
+    }
+
     private void launch(
             final Context context,
             final CommunicationTokenCredential communicationTokenCredential,
