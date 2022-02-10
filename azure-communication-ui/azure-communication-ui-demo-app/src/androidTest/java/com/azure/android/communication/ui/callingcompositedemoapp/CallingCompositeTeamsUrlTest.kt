@@ -49,7 +49,6 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
         homeScreen.clickAlertDialogOkButton()
     }
 
-
     @Test
     fun testEmptyTeamsUrl() {
         val homeScreen = HomeScreenRobot()
