@@ -21,5 +21,13 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
                 visibility = if (it) VISIBLE else GONE
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getAvatarPersonaDataStateFlow().collect {
+                it?.let {
+                    avatarImageBitmap = it.avatarImageBitmap
+                }
+            }
+        }
     }
 }

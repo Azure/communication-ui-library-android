@@ -1,18 +1,25 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.AvatarPersonaData
+import com.azure.android.communication.ui.persona.CallCompositeAvatarPersonaHandler
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class SetupParticipantAvatarViewModel {
+internal class SetupParticipantAvatarViewModel(private val callCompositeAvatarPersonaHandler: CallCompositeAvatarPersonaHandler) {
     private lateinit var displayName: String
     private lateinit var shouldDisplayAvatarViewStateFlow: MutableStateFlow<Boolean>
+    private lateinit var avatarPersonaDataStateFlow: MutableStateFlow<AvatarPersonaData?>
 
     fun getDisplayName() = displayName
 
     fun getShouldDisplayAvatarViewStateFlow(): StateFlow<Boolean> {
         return shouldDisplayAvatarViewStateFlow
+    }
+
+    fun getAvatarPersonaDataStateFlow(): StateFlow<AvatarPersonaData?> {
+        return avatarPersonaDataStateFlow
     }
 
     fun update(videoStreamID: String?, permissionState: PermissionState) {
@@ -22,6 +29,9 @@ internal class SetupParticipantAvatarViewModel {
 
     fun init(displayName: String?, videoStreamID: String?, permissionState: PermissionState) {
         this.displayName = displayName ?: ""
+        callCompositeAvatarPersonaHandler.getOnAvatarPersonaHandler()?.let {
+            avatarPersonaDataStateFlow = MutableStateFlow(it.onFetchAvatarPersonaData(""))
+        }
         shouldDisplayAvatarViewStateFlow =
             MutableStateFlow(shouldDisplayAvatarView(videoStreamID, permissionState))
     }

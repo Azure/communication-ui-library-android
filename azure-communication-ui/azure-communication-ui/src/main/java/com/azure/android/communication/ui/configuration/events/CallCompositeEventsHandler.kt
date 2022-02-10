@@ -13,5 +13,4 @@ internal class CallCompositeEventsHandler {
     fun setOnErrorHandler(errorHandler: CallingEventHandler<ErrorEvent<CallCompositeErrorCode>>?) {
         errorHandlers = errorHandler
     }
-
 }

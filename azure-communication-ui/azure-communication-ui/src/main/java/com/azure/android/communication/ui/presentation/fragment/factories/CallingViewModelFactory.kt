@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.factories
 
+import com.azure.android.communication.ui.persona.CallCompositeAvatarPersonaHandler
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayViewModel
@@ -18,6 +19,7 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
+    callCompositeAvatarPersonaHandler: CallCompositeAvatarPersonaHandler,
 ) {
 
     private val participantGridViewModel by lazy {

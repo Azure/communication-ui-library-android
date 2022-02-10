@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.factories
 
+import com.azure.android.communication.ui.persona.CallCompositeAvatarPersonaHandler
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.presentation.fragment.setup.components.ErrorInfoViewModel
 import com.azure.android.communication.ui.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
@@ -14,7 +15,10 @@ import com.azure.android.communication.ui.presentation.fragment.setup.components
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 
-internal class SetupViewModelFactory(private val store: Store<ReduxState>) {
+internal class SetupViewModelFactory(
+    private val store: Store<ReduxState>,
+    callCompositeAvatarPersonaHandler: CallCompositeAvatarPersonaHandler
+) {
 
     private val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
@@ -43,7 +47,7 @@ internal class SetupViewModelFactory(private val store: Store<ReduxState>) {
     }
 
     private val participantAvatarViewModel by lazy {
-        SetupParticipantAvatarViewModel()
+        SetupParticipantAvatarViewModel(callCompositeAvatarPersonaHandler)
     }
 
     private val joinCallButtonHolderViewModel by lazy {
