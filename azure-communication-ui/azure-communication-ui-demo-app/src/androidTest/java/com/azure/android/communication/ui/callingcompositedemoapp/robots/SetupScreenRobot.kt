@@ -33,14 +33,16 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     @Throws(RuntimeException::class)
     fun clickJoinCallButton(): CallScreenRobot {
         val idlingResource = ViewIsDisplayedResource()
+        UiTestUtils.run {
+            idlingResource.waitUntilViewIsDisplayed {
+                checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_join_call_button)
+            }
+            idlingResource.waitUntilViewIsDisplayed {
+                checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_start_call_button_text)
+            }
+            clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
+        }
 
-        idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_join_call_button)
-        }
-        idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_start_call_button_text)
-        }
-        UiTestUtils.clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
         return CallScreenRobot()
     }
 

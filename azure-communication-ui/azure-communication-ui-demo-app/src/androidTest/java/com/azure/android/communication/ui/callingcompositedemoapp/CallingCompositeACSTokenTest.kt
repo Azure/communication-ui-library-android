@@ -53,7 +53,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
     fun testEmptyAcsToken() {
         val homeScreen = HomeScreenRobot()
             .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            .setAcsToken("")
+            .setEmptyAcsToken()
 
         val setupScreen = homeScreen.clickLaunchButton()
         homeScreen.clickAlertDialogOkButton()

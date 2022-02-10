@@ -4,33 +4,40 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
+import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeTeamsUrlTest : BaseUiTest() {
+    @Before
+    override fun setup() {
+        super.setup()
+        if (isAppCenter()) {
+            Thread.sleep(2000)
+        }
+    }
 
     @Test
     fun testInvalidTeamsUrl() {
-        val testString = "https://t.com" + TestFixture.teamsUrl.substringAfter("om")
-        val setupScreen = HomeScreenRobot()
+        val testString = getTeamsUrl().substringAfter("om")
+        val homeScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(testString)
             .setAcsToken(TestFixture.acsToken)
-            .clickLaunchButton()
+        val setupScreen = homeScreen.clickLaunchButton()
 
         val callScreen = setupScreen.clickJoinCallButton()
 
-        callScreen
-            .checkWaitForTeamsMeetingMessage()
-            .clickEndCall()
-            .clickLeaveCall()
+        homeScreen.clickAlertDialogOkButton()
     }
 
     @Test
     fun testInvalidTeamsUrlTriggersAlert() {
-        val testString = TestFixture.teamsUrl.substring(0, TestFixture.teamsUrl.length - 6)
+        val teamsUrl = getTeamsUrl()
+        val testString = teamsUrl.substring(0, teamsUrl.length - 6)
         val homeScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(testString)
@@ -42,24 +49,6 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
         homeScreen.clickAlertDialogOkButton()
     }
 
-    @Test
-    fun testInvalidTeamsUrlTriggersBanner() {
-        val lastHalf = TestFixture.teamsUrl.substringAfter("context=").substringAfter("-")
-        val testString = TestFixture.teamsUrl.substringBefore("%7b") + "%7b%22Tid%22%3a%227" + lastHalf
-        val homeScreen = HomeScreenRobot()
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(testString)
-            .setAcsToken(TestFixture.acsToken)
-        val setupScreen = homeScreen.clickLaunchButton()
-
-        val callScreen = setupScreen.clickJoinCallButton()
-
-        setupScreen
-            .dismissJoinFailureBanner()
-            .navigateUpFromSetupScreen()
-
-        homeScreen.clickAlertDialogOkButton()
-    }
 
     @Test
     fun testEmptyTeamsUrl() {
@@ -70,5 +59,10 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
         val setupScreen = homeScreen.clickLaunchButton()
 
         homeScreen.clickAlertDialogOkButton()
+    }
+
+    private fun getTeamsUrl(): String {
+        if (TestFixture.teamsUrl.isNotBlank()) return TestFixture.teamsUrl
+        return UiTestUtils.getTextFromEdittextView(R.id.groupIdOrTeamsMeetingLinkText)
     }
 }

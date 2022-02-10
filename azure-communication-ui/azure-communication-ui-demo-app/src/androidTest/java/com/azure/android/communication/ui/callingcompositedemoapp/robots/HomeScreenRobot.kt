@@ -26,7 +26,16 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
         return this
     }
 
+    fun setEmptyAcsToken(): HomeScreenRobot {
+        waitUntilViewIdIsDisplayed(R.id.acsTokenText).run {
+            perform(ViewActions.replaceText(""))
+            perform(ViewActions.closeSoftKeyboard())
+        }
+        return this
+    }
+
     fun setAcsToken(token: String): HomeScreenRobot {
+        if (token.isBlank()) return this
         waitUntilViewIdIsDisplayed(R.id.acsTokenText).run {
             perform(ViewActions.replaceText(token))
             perform(ViewActions.closeSoftKeyboard())
