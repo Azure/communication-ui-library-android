@@ -20,7 +20,7 @@ class CallLauncherActivityAvatarHandler(callLauncherActivity: CallLauncherActivi
         var avatarPersonaDataFuture: CompletableFuture<AvatarPersonaData> = CompletableFuture<AvatarPersonaData>()
         Thread {
             val avatarPersonaData = AvatarPersonaData()
-            val url = URL("        https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
+            val url = URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
             val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
             avatarPersonaData.avatarImageBitmap = image
             avatarPersonaDataFuture.complete(avatarPersonaData)
