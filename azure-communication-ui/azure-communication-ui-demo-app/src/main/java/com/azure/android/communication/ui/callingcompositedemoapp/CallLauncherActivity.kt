@@ -118,8 +118,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     applicationContext.resources.getBoolean(R.bool.diagnostics)
 
                 if (diagnostics) {
-                    memoryDiagnosticsCheckBox.visibility = View.VISIBLE
-                    memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                    diagnosticsCheckBox.visibility = View.VISIBLE
+                    diagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
                             MemoryViewer.getMemoryViewer(application).show()
                             FpsDiagnostics.getFpsDiagnostics(application).start()
@@ -156,8 +156,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // helps to turn on memory profiling when permissions change
-        if (binding.memoryDiagnosticsCheckBox.isChecked) {
+        // helps to turn on memory, fps profiling when permissions change
+        if (binding.diagnosticsCheckBox.isChecked) {
             MemoryViewer.getMemoryViewer(application).show()
         }
     }
