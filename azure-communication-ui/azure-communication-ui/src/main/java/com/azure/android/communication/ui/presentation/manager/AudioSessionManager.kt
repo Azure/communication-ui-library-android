@@ -26,6 +26,8 @@ internal class AudioSessionManager(
 
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
+    private var started = false
+
     private val isBluetoothScoAvailable get() =
         context.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_bluetooth_audio) &&
             (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
@@ -33,6 +35,9 @@ internal class AudioSessionManager(
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
     suspend fun start() {
+        if (started) return
+        started = true
+
         BluetoothAdapter.getDefaultAdapter()?.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
 
@@ -136,6 +141,7 @@ internal class AudioSessionManager(
             closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             context.unregisterReceiver(this@AudioSessionManager)
         }
+        started = false
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
