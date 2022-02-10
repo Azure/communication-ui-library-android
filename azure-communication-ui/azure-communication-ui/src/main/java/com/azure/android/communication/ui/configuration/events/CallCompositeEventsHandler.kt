@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.configuration.events
 
-import com.azure.android.communication.ui.CallingAvatarPersonaHandler
 import com.azure.android.communication.ui.CallingEventHandler
 
 internal class CallCompositeEventsHandler {

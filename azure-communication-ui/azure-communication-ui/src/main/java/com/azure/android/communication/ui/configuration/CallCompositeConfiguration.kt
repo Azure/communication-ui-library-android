@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.persona.CallCompositeAvatarPersonaHandler
 import java.lang.RuntimeException
 
 internal class CallCompositeConfiguration {

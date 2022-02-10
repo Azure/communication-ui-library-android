@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
+import com.azure.android.communication.ui.persona.CallingAvatarPersonaHandler;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
