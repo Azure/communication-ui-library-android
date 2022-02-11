@@ -155,8 +155,8 @@ fun initializeMemoryViewFeature() {
 }
 
 private val memoryViewFeatureFlag = FeatureFlagEntry(
-    bool_id = R.bool.feature_flag_memory_viewer,
-    label_id = R.string.feature_flag_memory_viewer_label,
+    defaultBooleanId = R.bool.feature_flag_memory_viewer,
+    labelId = R.string.feature_flag_memory_viewer_label,
     onStart = {
         MemoryViewer.getMemoryViewer(it).show()
     },

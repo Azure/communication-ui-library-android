@@ -38,10 +38,10 @@ Initialization:
  */
 enum class FeatureFlags(
     // Id of the bool resource containing the default
-    override val bool_id: Int,
+    override val defaultBooleanId: Int,
 
     // Label to display on screen
-    override val label_id: Int,
+    override val labelId: Int,
 ) : FeatureFlag {
     // / Fixed Feature List
     // / To add Feature to this enum, just add new Keys
@@ -60,13 +60,6 @@ enum class FeatureFlags(
     override val onStart: (application: Application) -> Unit
         get() = {}
 
-    // Check or Set if this flag is currently active
-
-    override var active: Boolean
-        get() = sharedPrefs.getBoolean("$bool_id", applicationContext.resources.getBoolean(bool_id))
-        set(value) {
-            sharedPrefs.edit().putBoolean("$bool_id", value).apply()
-        }
 
     companion object {
         lateinit var applicationContext: Application
@@ -77,6 +70,9 @@ enum class FeatureFlags(
         fun initialize(context: Context) {
             applicationContext = context.applicationContext as Application
             sharedPrefs = applicationContext.getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+
+            /// Start default features
+            features.filter { it.active }.forEach { it.onStart(applicationContext) }
         }
 
         private val additionalEntries = ArrayList<FeatureFlagEntry>()
@@ -94,23 +90,23 @@ enum class FeatureFlags(
 
 // Class to add additional Entries to the FeatureFlag system (e.g. from the Demo, or another app)
 data class FeatureFlagEntry(
-    override val bool_id: Int,
-    override val label_id: Int,
+    override val defaultBooleanId: Int,
+    override val labelId: Int,
     override val onStart: (application: Application) -> Unit,
     override val onEnd: (application: Application) -> Unit,
 ) : FeatureFlag
 
 interface FeatureFlag {
-    val bool_id: Int
-    val label_id: Int
+    val defaultBooleanId: Int
+    val labelId: Int
     val onStart: (application: Application) -> Unit
     val onEnd: (application: Application) -> Unit
 
     val key: String
-        get() = "$bool_id"
+        get() = "$defaultBooleanId"
 
     var active: Boolean
-        get() = FeatureFlags.sharedPrefs.getBoolean(key, FeatureFlags.applicationContext.resources.getBoolean(bool_id))
+        get() = FeatureFlags.sharedPrefs.getBoolean(key, FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId))
         set(value) {
             if (value != active) {
                 // Toggled
@@ -122,10 +118,12 @@ interface FeatureFlag {
             }
             FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
         }
+
     val label: String
-        get() = FeatureFlags.applicationContext.getString(label_id)
+        get() = FeatureFlags.applicationContext.getString(labelId)
 
     fun toggle() { active = !active }
 }
 
+// Key for the SharedPrefs store that will be used for FeatureFlags
 const val FEATURE_FLAG_SHARED_PREFS_KEY = "FeatureFlags"
