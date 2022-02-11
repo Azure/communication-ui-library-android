@@ -121,23 +121,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
-            /* TODO Memory Checkbox Logic
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                memoryDiagnosticsCheckBox.visibility = View.VISIBLE
-                memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        MemoryViewer.getMemoryViewer(application).show()
-                    } else {
-                        MemoryViewer.getMemoryViewer(application).hide()
-                    }
-                }
-            }
-
-             */
-
             javaButton.setOnClickListener {
                 callLauncherViewModel.setJavaLauncher()
             }
+
             kotlinButton.setOnClickListener {
                 callLauncherViewModel.setKotlinLauncher()
             }
