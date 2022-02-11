@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.R
 /* Feature Flag Management
 
 There is 2 parts to this system.
-1) Enum entries (fixed features). These are optional features in the Composite Library itself
+1) Enum entries (fixed features). These are features in the Composite Library itself
 2) Pluggable entries (dynamic features). This allows the Application (e.g. Demo, Contoso) to add
    additional features using the system.
 
@@ -43,8 +43,8 @@ enum class FeatureFlags(
     // Label to display on screen
     override val labelId: Int,
 ) : FeatureFlag {
-    // / Fixed Feature List
-    // / To add Feature to this enum, just add new Keys
+    //---------------------------- Global Features -------------------------------------------------
+    // These features are global to the composite. They are available via the FeatureFlags enum.
     BluetoothAudio(
         R.bool.azure_communication_ui_feature_flag_bluetooth_audio,
         R.string.azure_communication_ui_feature_flag_bluetooth_audio_label
@@ -53,14 +53,20 @@ enum class FeatureFlags(
         R.bool.azure_communication_ui_feature_screen_share_zoom,
         R.string.azure_communication_ui_feature_screen_share_zoom_label,
     );
+    //---------------------------- End Global Features ---------------------------------------------
 
+    // Stubs for onStart/onEnd as we don't need it for the enum ones.
     override val onEnd: (application: Application) -> Unit
         get() = {}
 
     override val onStart: (application: Application) -> Unit
         get() = {}
 
-
+    // FeatureFlag Interface/Companion
+    //
+    // 1) `registerAdditionalEntry(FeatureFlag)` to add optional features at runtime
+    // 2) `initialize(context)` at app/activity start to initialize/start the system
+    // 3) `features` to get the list of all the available Feature Flags
     companion object {
         lateinit var applicationContext: Application
         lateinit var sharedPrefs: SharedPreferences
@@ -75,9 +81,9 @@ enum class FeatureFlags(
             features.filter { it.active }.forEach { it.onStart(applicationContext) }
         }
 
-        private val additionalEntries = ArrayList<FeatureFlagEntry>()
+        private val additionalEntries = ArrayList<FeatureFlag>()
 
-        fun registerAdditionalFeature(feature: FeatureFlagEntry) {
+        fun registerAdditionalFeature(feature: FeatureFlag) {
             if (!additionalEntries.contains(feature)) {
                 additionalEntries.add(feature)
             }
@@ -96,6 +102,9 @@ data class FeatureFlagEntry(
     override val onEnd: (application: Application) -> Unit,
 ) : FeatureFlag
 
+
+// A Feature Flag
+// This interface is shared between the Optional and Enum features
 interface FeatureFlag {
     val defaultBooleanId: Int
     val labelId: Int
@@ -105,6 +114,9 @@ interface FeatureFlag {
     val key: String
         get() = "$defaultBooleanId"
 
+    // Getters and Setters for Active
+    // 1) SharedPreferences priority
+    // 2) fallback to resource with defaultBooleanId
     var active: Boolean
         get() = FeatureFlags.sharedPrefs.getBoolean(key, FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId))
         set(value) {
@@ -119,9 +131,11 @@ interface FeatureFlag {
             FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
         }
 
+    // Helper to get the String value of the label
     val label: String
         get() = FeatureFlags.applicationContext.getString(labelId)
 
+    // Toggle a feature flag
     fun toggle() { active = !active }
 }
 
