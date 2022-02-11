@@ -159,6 +159,7 @@ class CallLauncherActivity : AppCompatActivity() {
         // helps to turn on memory, fps profiling when permissions change
         if (binding.diagnosticsCheckBox.isChecked) {
             MemoryViewer.getMemoryViewer(application).show()
+            FpsDiagnostics.getFpsDiagnostics(application).start()
         }
     }
 
