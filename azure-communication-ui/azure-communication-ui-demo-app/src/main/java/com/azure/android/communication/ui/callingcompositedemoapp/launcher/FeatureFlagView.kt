@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.FeatureFlags
 import com.google.android.material.button.MaterialButtonToggleGroup
 
@@ -13,7 +14,8 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    val sharedPreferences = context.getSharedPreferences("FeatureFlags", Context.MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
+        FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
 
     init {
         orientation = VERTICAL

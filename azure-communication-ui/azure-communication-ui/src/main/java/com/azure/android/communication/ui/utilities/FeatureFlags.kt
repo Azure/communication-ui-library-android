@@ -38,19 +38,21 @@ Initialization:
  */
 enum class FeatureFlags(
     // Id of the bool resource containing the default
-    override val bool_id : Int,
+    override val bool_id: Int,
 
     // Label to display on screen
-    override val label_id : Int,
+    override val label_id: Int,
 ) : FeatureFlag {
-    /// Fixed Feature List
-    /// To add Feature to this enum, just add new Keys
+    // / Fixed Feature List
+    // / To add Feature to this enum, just add new Keys
     BluetoothAudio(
         R.bool.azure_communication_ui_feature_flag_bluetooth_audio,
-        R.string.azure_communication_ui_feature_flag_bluetooth_audio_label),
-    ScreenShareZoom(R.bool.azure_communication_ui_feature_screen_share_zoom,
-        R.string.azure_communication_ui_feature_screen_share_zoom_label,);
-
+        R.string.azure_communication_ui_feature_flag_bluetooth_audio_label
+    ),
+    ScreenShareZoom(
+        R.bool.azure_communication_ui_feature_screen_share_zoom,
+        R.string.azure_communication_ui_feature_screen_share_zoom_label,
+    );
 
     override val onEnd: (application: Application) -> Unit
         get() = {}
@@ -60,15 +62,15 @@ enum class FeatureFlags(
 
     // Check or Set if this flag is currently active
 
-    override var active : Boolean
+    override var active: Boolean
         get() = sharedPrefs.getBoolean("$bool_id", applicationContext.resources.getBoolean(bool_id))
         set(value) {
             sharedPrefs.edit().putBoolean("$bool_id", value).apply()
         }
 
     companion object {
-        lateinit var applicationContext : Application
-        lateinit var sharedPrefs : SharedPreferences
+        lateinit var applicationContext: Application
+        lateinit var sharedPrefs: SharedPreferences
 
         // Ensure this has an ApplicationContext to get SharedPreferences from
         // This will allow us to access the current value and also the Resources to read the default
@@ -85,8 +87,8 @@ enum class FeatureFlags(
             }
         }
 
-        /// List of all features
-        val features : List<FeatureFlag> get() = values().toList() + additionalEntries
+        // / List of all features
+        val features: List<FeatureFlag> get() = values().toList() + additionalEntries
     }
 }
 
@@ -94,21 +96,20 @@ enum class FeatureFlags(
 data class FeatureFlagEntry(
     override val bool_id: Int,
     override val label_id: Int,
-    override val onStart: (application:Application) -> Unit,
-    override val onEnd: (application:Application) -> Unit,
+    override val onStart: (application: Application) -> Unit,
+    override val onEnd: (application: Application) -> Unit,
 ) : FeatureFlag
-
 
 interface FeatureFlag {
     val bool_id: Int
     val label_id: Int
-    val onStart: (application:Application) -> Unit
-    val onEnd: (application:Application) -> Unit
+    val onStart: (application: Application) -> Unit
+    val onEnd: (application: Application) -> Unit
 
     val key: String
         get() = "$bool_id"
 
-    var active : Boolean
+    var active: Boolean
         get() = FeatureFlags.sharedPrefs.getBoolean(key, FeatureFlags.applicationContext.resources.getBoolean(bool_id))
         set(value) {
             if (value != active) {
@@ -119,8 +120,7 @@ interface FeatureFlag {
                     onEnd(FeatureFlags.applicationContext)
                 }
             }
-            FeatureFlags.sharedPrefs.edit().putBoolean(key , value).apply()
-
+            FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
         }
     val label: String
         get() = FeatureFlags.applicationContext.getString(label_id)

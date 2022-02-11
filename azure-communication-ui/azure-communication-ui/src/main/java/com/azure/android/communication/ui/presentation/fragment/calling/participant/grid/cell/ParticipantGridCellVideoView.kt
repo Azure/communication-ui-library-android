@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareZoomFrameLayout
+import com.azure.android.communication.ui.utilities.FeatureFlags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -114,9 +115,7 @@ internal class ParticipantGridCellVideoView(
         detachFromParentView(rendererView)
 
         if (streamType == StreamType.SCREEN_SHARING) {
-            val isScreenShareFeatureEnabled =
-                context.resources.getBoolean(R.bool.azure_communication_ui_feature_screen_share_zoom)
-            if (isScreenShareFeatureEnabled) {
+            if (FeatureFlags.ScreenShareZoom.active) {
                 removeScreenShareZoomView()
                 val screenShareFactory = ScreenShareViewManager(
                     context,
