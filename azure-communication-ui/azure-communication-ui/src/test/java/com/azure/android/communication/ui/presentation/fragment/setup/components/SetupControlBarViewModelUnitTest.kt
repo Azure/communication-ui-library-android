@@ -7,7 +7,8 @@ import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.PermissionAction
-import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.redux.state.*
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,6 +33,7 @@ internal class SetupControlBarViewModelUnitTest {
         }
         val setupControlBarViewModel =
             SetupControlBarViewModel(mockAppStore::dispatch)
+        initViewModel(setupControlBarViewModel)
 
         // Act
         setupControlBarViewModel.requestAudioPermission()
@@ -52,6 +54,7 @@ internal class SetupControlBarViewModelUnitTest {
         }
         val setupControlBarViewModel =
             SetupControlBarViewModel(mockAppStore::dispatch)
+        initViewModel(setupControlBarViewModel)
 
         // Act
         setupControlBarViewModel.turnCameraOn()
@@ -61,6 +64,18 @@ internal class SetupControlBarViewModelUnitTest {
             argThat { action ->
                 action is LocalParticipantAction.CameraPreviewOnRequested
             }
+        )
+
+        updateViewModel(setupControlBarViewModel, CallingStatus.CONNECTING)
+
+        // Act
+        setupControlBarViewModel.turnCameraOn()
+
+        // Assert
+        verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is LocalParticipantAction.CameraOnRequested
+                }
         )
     }
 
@@ -73,6 +88,8 @@ internal class SetupControlBarViewModelUnitTest {
         val setupControlBarViewModel =
             SetupControlBarViewModel(mockAppStore::dispatch)
 
+        initViewModel(setupControlBarViewModel)
+
         // Act
         setupControlBarViewModel.turnCameraOff()
 
@@ -81,6 +98,18 @@ internal class SetupControlBarViewModelUnitTest {
             argThat { action ->
                 action is LocalParticipantAction.CameraPreviewOffTriggered
             }
+        )
+
+        updateViewModel(setupControlBarViewModel, CallingStatus.CONNECTING)
+
+        // Act
+        setupControlBarViewModel.turnCameraOff()
+
+        // Assert
+        verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is LocalParticipantAction.CameraOffTriggered
+                }
         )
     }
 
@@ -92,6 +121,7 @@ internal class SetupControlBarViewModelUnitTest {
         }
         val setupControlBarViewModel =
             SetupControlBarViewModel(mockAppStore::dispatch)
+        initViewModel(setupControlBarViewModel)
 
         // Act
         setupControlBarViewModel.turnMicOn()
@@ -101,6 +131,18 @@ internal class SetupControlBarViewModelUnitTest {
             argThat { action ->
                 action is LocalParticipantAction.MicPreviewOnTriggered
             }
+        )
+
+        updateViewModel(setupControlBarViewModel, CallingStatus.CONNECTING)
+
+        // Act
+        setupControlBarViewModel.turnMicOn()
+
+        // Assert
+        verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is LocalParticipantAction.MicOnTriggered
+                }
         )
     }
 
@@ -112,6 +154,7 @@ internal class SetupControlBarViewModelUnitTest {
         }
         val setupControlBarViewModel =
             SetupControlBarViewModel(mockAppStore::dispatch)
+        initViewModel(setupControlBarViewModel)
 
         // Act
         setupControlBarViewModel.turnMicOff()
@@ -121,6 +164,34 @@ internal class SetupControlBarViewModelUnitTest {
             argThat { action ->
                 action is LocalParticipantAction.MicPreviewOffTriggered
             }
+        )
+
+        updateViewModel(setupControlBarViewModel, CallingStatus.CONNECTING)
+
+        // Act
+        setupControlBarViewModel.turnMicOff()
+
+        // Assert
+        verify(mockAppStore, times(1)).dispatch(
+                argThat { action -> action is LocalParticipantAction.MicOffTriggered }
+        )
+    }
+
+    private fun initViewModel(setupControlBarViewModel: SetupControlBarViewModel, callingStatus: CallingStatus = CallingStatus.NONE) {
+        setupControlBarViewModel.init(
+                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
+                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_REQUESTED),
+                callingStatus
+        )
+    }
+
+    private fun updateViewModel(setupControlBarViewModel: SetupControlBarViewModel, callingStatus: CallingStatus = CallingStatus.NONE) {
+        setupControlBarViewModel.update(
+                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
+                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_REQUESTED),
+                callingStatus
         )
     }
 }

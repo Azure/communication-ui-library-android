@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.presentation
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
@@ -30,7 +28,6 @@ import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragm
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
-import com.azure.android.communication.ui.service.calling.InCallService
 import kotlinx.coroutines.launch
 
 internal class CallCompositeActivity : AppCompatActivity() {
@@ -45,6 +42,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioSessionManager get() = container.audioSessionManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
+    private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
@@ -88,13 +86,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-        lifecycleScope.launch {
-            audioSessionManager.start()
-        }
+        lifecycleScope.launch { audioSessionManager.start() }
 
         navigationRouter.addOnNavigationStateChanged(this::onNavigationStateChange)
 
         lifecycleScope.launch { navigationRouter.start() }
+        notificationService.start(lifecycleScope)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -160,10 +157,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAudioManager(): AudioManager {
-        return applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    }
-
     override fun onBackPressed() {
         val fragment = supportFragmentManager.fragments.first()
         if (fragment !== null) {
@@ -177,7 +170,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
             NavigationStatus.EXIT -> {
-                stopService()
+                notificationService.removeNotification()
                 store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
@@ -188,10 +181,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 supportActionBar?.hide()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 launchFragment(CallingFragment::class.java.name)
-                startService()
             }
             NavigationStatus.SETUP -> {
-                stopService()
+                notificationService.removeNotification()
                 supportActionBar?.show()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 launchFragment(SetupFragment::class.java.name)
@@ -241,16 +233,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun startService() {
-        val inCallServiceIntent = Intent(this, InCallService::class.java)
-        startService(inCallServiceIntent)
-    }
-
-    private fun stopService() {
-        val inCallServiceIntent = Intent(this, InCallService::class.java)
-        stopService(inCallServiceIntent)
     }
 
     companion object {

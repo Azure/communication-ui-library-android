@@ -97,7 +97,5 @@ internal class SetupFragment :
         activity?.title = ""
     }
 
-    private fun openAudioDeviceSelectionMenu() {
-        viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenu()
-    }
+    private fun openAudioDeviceSelectionMenu() = viewModel.openAudioDeviceSelectionMenu()
 }
