@@ -45,6 +45,8 @@ class FeatureFlagsTest {
         entry.toggle()
         assert(!entry.active) { "Should be disabled" }
         assert(!started) { "Should have been stopped" }
+        /// Check if the features list is 1 more than the Enum list size
+        assert(FeatureFlags.features.size == FeatureFlags.values().size + 1)
     }
 
     @Test
