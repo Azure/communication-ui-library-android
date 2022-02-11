@@ -9,5 +9,11 @@
 
     <string name="azure_communication_ui_feature_flag_bluetooth_audio_label"> Bluetooth Audio </string>
     <bool name="azure_communication_ui_feature_flag_bluetooth_audio">false</bool>
+
+
+    <!-- For Tests -->
+    <string name="azure_communication_ui_feature_flag_test_label">Test</string>
+    <bool name="azure_communication_ui_feature_flag_test_false">false</bool>
+    <bool name="azure_communication_ui_feature_flag_test_true">true</bool>
 </resources>
 
