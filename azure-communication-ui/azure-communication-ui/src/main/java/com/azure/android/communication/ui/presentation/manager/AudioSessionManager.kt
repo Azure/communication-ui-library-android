@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.utilities.FeatureFlags
 import kotlinx.coroutines.flow.collect
 
 internal class AudioSessionManager(
@@ -29,7 +30,7 @@ internal class AudioSessionManager(
     private var started = false
 
     private val isBluetoothScoAvailable get() =
-        context.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_bluetooth_audio) &&
+        FeatureFlags.BluetoothAudio.active &&
             (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null

@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.initializeMemoryViewFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.azure.android.communication.ui.utilities.FeatureFlags
 import java.util.UUID
@@ -24,9 +25,12 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /// Initialize the FeatureFlags enum
-        /// can be done in Application as well.
+
+        // Register Memory Viewer with FeatureFlags
+        initializeMemoryViewFeature()
+        // Initialize the FeatureFlags enum
         FeatureFlags.initialize(this)
+
 
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)

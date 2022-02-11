@@ -16,7 +16,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     val sharedPreferences = context.getSharedPreferences("FeatureFlags", Context.MODE_PRIVATE)
 
     init {
-        orientation = LinearLayout.VERTICAL
+        orientation = VERTICAL
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -31,7 +31,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
 
     private fun refreshButtons() {
         removeAllViews()
-        FeatureFlags.values().forEach {
+        FeatureFlags.features.forEach {
             val tv = CheckBox(context)
             tv.text = it.label
             tv.isChecked = it.active

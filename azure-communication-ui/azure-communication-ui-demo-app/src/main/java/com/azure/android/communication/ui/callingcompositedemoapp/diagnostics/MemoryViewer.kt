@@ -21,6 +21,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import com.azure.android.communication.ui.callingcompositedemoapp.R
+import com.azure.android.communication.ui.utilities.FeatureFlagEntry
+import com.azure.android.communication.ui.utilities.FeatureFlags
 import com.microsoft.office.outlook.magnifierlib.Magnifier
 
 class MemoryViewer private constructor(
@@ -145,3 +147,20 @@ class MemoryViewer private constructor(
         }
     }
 }
+
+fun initializeMemoryViewFeature() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        FeatureFlags.registerAdditionalFeature(memoryViewFeatureFlag)
+    }
+}
+
+private val memoryViewFeatureFlag = FeatureFlagEntry(
+    bool_id = R.bool.feature_flag_memory_viewer,
+    label_id = R.string.feature_flag_memory_viewer_label,
+    onStart = {
+        MemoryViewer.getMemoryViewer(it).show()
+    },
+    onEnd = {
+        MemoryViewer.getMemoryViewer(it).hide()
+    }
+)
