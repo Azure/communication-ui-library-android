@@ -79,17 +79,19 @@ internal class SetupControlBarViewModel(
     }
 
     fun turnCameraOn() {
-        dispatchAction(action =
+        dispatchAction(
+            action =
             if (isJoiningCall)
                 LocalParticipantAction.CameraPreviewOnRequested()
-            else{
+            else {
                 LocalParticipantAction.CameraOnRequested()
             }
         )
     }
 
     fun turnCameraOff() {
-        dispatchAction(action =
+        dispatchAction(
+            action =
             if (isJoiningCall)
                 LocalParticipantAction.CameraPreviewOffTriggered()
             else {
@@ -99,7 +101,8 @@ internal class SetupControlBarViewModel(
     }
 
     fun turnMicOn() {
-        dispatchAction(action =
+        dispatchAction(
+            action =
             if (isJoiningCall)
                 LocalParticipantAction.MicPreviewOnTriggered()
             else
@@ -108,7 +111,8 @@ internal class SetupControlBarViewModel(
     }
 
     fun turnMicOff() {
-        dispatchAction(action =
+        dispatchAction(
+            action =
             if (isJoiningCall)
                 LocalParticipantAction.MicPreviewOffTriggered()
             else

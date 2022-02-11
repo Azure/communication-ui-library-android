@@ -92,40 +92,40 @@ internal class JoinCallButtonHolderViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun joinCallButtonHolderViewModel_launchCallScreen_then_notifyButtonDisabled() =
-            mainCoroutineRule.testDispatcher.runBlockingTest {
-                // arrange
-                val mockAppStore = mock<AppStore<ReduxState>> {}
+        mainCoroutineRule.testDispatcher.runBlockingTest {
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
 
-                val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
-                viewModel.init(PermissionStatus.GRANTED)
+            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
+            viewModel.init(PermissionStatus.GRANTED)
 
-                val emitResult = mutableListOf<Boolean>()
+            val emitResult = mutableListOf<Boolean>()
 
-                val resultFlow = launch {
-                    viewModel.getDisableJoinCallButtonFlow().toList(emitResult)
-                }
-
-                // act
-                viewModel.launchCallScreen()
-
-                // assert
-                Assert.assertEquals(false, emitResult[0])
-                Assert.assertEquals(true, emitResult[1])
-
-                // act
-                viewModel.update(PermissionStatus.GRANTED, CallingStatus.CONNECTING)
-
-                // assert
-                // no more emits yet
-                Assert.assertEquals(2, emitResult.count())
-
-                // act
-                viewModel.update(PermissionStatus.GRANTED, CallingStatus.NONE)
-
-                // assert
-                // no more emits yet
-                Assert.assertEquals(false, emitResult[2])
-
-                resultFlow.cancel()
+            val resultFlow = launch {
+                viewModel.getDisableJoinCallButtonFlow().toList(emitResult)
             }
+
+            // act
+            viewModel.launchCallScreen()
+
+            // assert
+            Assert.assertEquals(false, emitResult[0])
+            Assert.assertEquals(true, emitResult[1])
+
+            // act
+            viewModel.update(PermissionStatus.GRANTED, CallingStatus.CONNECTING)
+
+            // assert
+            // no more emits yet
+            Assert.assertEquals(2, emitResult.count())
+
+            // act
+            viewModel.update(PermissionStatus.GRANTED, CallingStatus.NONE)
+
+            // assert
+            // no more emits yet
+            Assert.assertEquals(false, emitResult[2])
+
+            resultFlow.cancel()
+        }
 }

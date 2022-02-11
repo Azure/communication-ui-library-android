@@ -14,8 +14,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class NotificationService(
-        private val context: Context,
-        private val store: Store<ReduxState>) {
+    private val context: Context,
+    private val store: Store<ReduxState>
+) {
 
     private var callingStatus = MutableStateFlow(CallingStatus.NONE)
 

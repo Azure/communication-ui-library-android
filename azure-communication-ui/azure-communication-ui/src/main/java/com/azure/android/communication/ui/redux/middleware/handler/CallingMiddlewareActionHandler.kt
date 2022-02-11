@@ -336,7 +336,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
 
                 if ((callInfoModel.callingStatus == CallingStatus.CONNECTED || callInfoModel.callingStatus == CallingStatus.IN_LOBBY) &&
-                        callInfoModel.callStateError == null
+                    callInfoModel.callStateError == null
                 ) {
                     store.dispatch(NavigationAction.CallLaunched())
                 }

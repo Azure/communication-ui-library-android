@@ -6,6 +6,6 @@ package com.azure.android.communication.ui.error
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
 
 internal class CallCompositeError(
-        var callCompositeErrorCode: CallCompositeErrorCode,
-        var cause: Throwable,
+    var callCompositeErrorCode: CallCompositeErrorCode,
+    var cause: Throwable,
 )

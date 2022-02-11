@@ -1,15 +1,10 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import android.content.Context
-import android.graphics.drawable.Animatable
-import android.graphics.drawable.AnimatedVectorDrawable
-import android.graphics.drawable.AnimationDrawable
 import android.os.Build
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import androidx.annotation.ColorInt
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.azure.android.communication.ui.R
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
@@ -59,25 +53,25 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         }
     }
 
-    private fun onJoinCallEnabledChanged(isEnabled: Boolean){
+    private fun onJoinCallEnabledChanged(isEnabled: Boolean) {
         setupJoinCallButton.isEnabled = isEnabled
         setupJoinCallButtonText.isEnabled = isEnabled
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!isEnabled) {
                 setupJoinCallButton.background.setTint(
-                        ContextCompat.getColor(
-                                context,
-                                R.color.azure_communication_ui_color_disabled
-                        )
+                    ContextCompat.getColor(
+                        context,
+                        R.color.azure_communication_ui_color_disabled
+                    )
                 )
             } else {
                 val typedValue = TypedValue()
                 val theme = context.theme
                 theme.resolveAttribute(
-                        R.attr.azure_communication_ui_calling_primary_color,
-                        typedValue,
-                        true
+                    R.attr.azure_communication_ui_calling_primary_color,
+                    typedValue,
+                    true
                 )
                 @ColorInt val color = typedValue.data
                 setupJoinCallButton.background.setTint(color)
@@ -91,8 +85,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             setupJoinCallButtonText.visibility = GONE
             progressBar.visibility = VISIBLE
             joiningCallText.visibility = VISIBLE
-        }
-        else {
+        } else {
             setupJoinCallButton.visibility = VISIBLE
             setupJoinCallButtonText.visibility = VISIBLE
             progressBar.visibility = GONE

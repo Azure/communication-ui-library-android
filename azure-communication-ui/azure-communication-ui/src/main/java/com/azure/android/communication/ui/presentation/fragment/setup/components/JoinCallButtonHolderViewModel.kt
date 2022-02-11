@@ -20,7 +20,6 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
 
     fun getDisableJoinCallButtonFlow(): StateFlow<Boolean> = disableJoinCallButtonFlow
 
-
     fun launchCallScreen() {
         dispatch(CallingAction.CallStartRequested())
         disableJoinCallButtonFlow.value = true

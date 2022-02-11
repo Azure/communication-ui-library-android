@@ -111,8 +111,8 @@ internal class SetupViewModel(
             state.permissionState
         )
         joinCallButtonHolderViewModel.update(
-                state.permissionState.audioPermissionState,
-                state.callState.CallingStatus
+            state.permissionState.audioPermissionState,
+            state.callState.CallingStatus
         )
     }
 
