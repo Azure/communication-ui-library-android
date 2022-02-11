@@ -11,8 +11,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.azure.android.communication.ui.utilities.FeatureFlags
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -23,6 +23,11 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /// Initialize the FeatureFlags enum
+        /// can be done in Application as well.
+        FeatureFlags.initialize(this)
+
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -112,6 +117,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+            /* TODO Memory Checkbox Logic
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 memoryDiagnosticsCheckBox.visibility = View.VISIBLE
                 memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -122,6 +128,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     }
                 }
             }
+
+             */
 
             javaButton.setOnClickListener {
                 callLauncherViewModel.setJavaLauncher()
@@ -149,9 +157,12 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // helps to turn on memory profiling when permissions change
+        /*
         if (binding.memoryDiagnosticsCheckBox.isChecked) {
             MemoryViewer.getMemoryViewer(application).show()
         }
+
+         */
     }
 
     fun showAlert(message: String) {
