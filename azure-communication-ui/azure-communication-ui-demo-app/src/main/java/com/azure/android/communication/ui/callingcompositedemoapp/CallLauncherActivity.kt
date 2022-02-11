@@ -145,17 +145,6 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    override fun onResume() {
-        super.onResume()
-        // helps to turn on memory profiling when permissions change
-        /*
-        if (binding.memoryDiagnosticsCheckBox.isChecked) {
-            MemoryViewer.getMemoryViewer(application).show()
-        }
-
-         */
-    }
-
     fun showAlert(message: String) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
