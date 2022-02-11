@@ -22,7 +22,7 @@ class FeatureFlagsTest {
 
     @Test
     fun testAdditionalFeature() {
-        /// Fake an entry (it'll just duplicate Screen Share Zoom
+        /// Fake an entry
         var started = false
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
@@ -49,7 +49,7 @@ class FeatureFlagsTest {
 
     @Test
     fun testAutoStartFeature() {
-        /// Fake an entry (it'll just duplicate Screen Share Zoom
+        /// Fake an entry (this one will be default on)
         var started = false
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
