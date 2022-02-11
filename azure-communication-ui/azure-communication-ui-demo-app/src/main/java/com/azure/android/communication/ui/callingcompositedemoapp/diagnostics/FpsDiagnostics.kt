@@ -12,12 +12,12 @@ class FpsDiagnostics private constructor(
 ) {
 
     companion object {
-        private var fpsDiagnostics: FpsDiagnostics? = null
+        private lateinit var fpsDiagnostics: FpsDiagnostics
         fun getFpsDiagnostics(context: Application): FpsDiagnostics {
-            if (fpsDiagnostics == null) {
+            if (!::fpsDiagnostics.isInitialized) {
                 fpsDiagnostics = FpsDiagnostics(context)
             }
-            return fpsDiagnostics!!
+            return fpsDiagnostics
         }
     }
 
