@@ -170,11 +170,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(appStore, configuration.callCompositeAvatarPersonaHandler)
+        SetupViewModelFactory(appStore, configuration.callCompositeParticipantHandler)
     }
 
     private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(appStore, participantGridCellViewModelFactory, configuration.callCompositeAvatarPersonaHandler)
+        CallingViewModelFactory(appStore, participantGridCellViewModelFactory, configuration.callCompositeParticipantHandler)
     }
     //endregion
 

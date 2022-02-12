@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.persona.CallingParticipantHandler;
+import com.azure.android.communication.ui.participant.CallingParticipantHandler;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -131,8 +131,8 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 
-    public void setOnParticipantHandler(final CallingParticipantHandler avatarPersonaHandler) {
-        configuration.getCallCompositeAvatarPersonaHandler().setOnAvatarPersonaHandler(avatarPersonaHandler);
+    public void setOnParticipantHandler(final CallingParticipantHandler callingParticipantHandler) {
+        configuration.getCallCompositeParticipantHandler().setOnCallingParticipantHandler(callingParticipantHandler);
     }
 
     private void launch(

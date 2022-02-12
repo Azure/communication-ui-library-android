@@ -44,7 +44,7 @@ internal class DependencyInjectionContainerHolder(application: Application) : An
             container.appStore,
             SetupViewModelFactory(
                 container.appStore,
-                container.configuration.callCompositeAvatarPersonaHandler
+                container.configuration.callCompositeParticipantHandler
             )
         )
     }
@@ -55,7 +55,7 @@ internal class DependencyInjectionContainerHolder(application: Application) : An
             CallingViewModelFactory(
                 container.appStore,
                 ParticipantGridCellViewModelFactory(),
-                container.configuration.callCompositeAvatarPersonaHandler
+                container.configuration.callCompositeParticipantHandler
             )
         )
     }
