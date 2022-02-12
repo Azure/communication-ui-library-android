@@ -156,7 +156,8 @@ fun initializeMemoryViewFeature(context: Context) {
 }
 
 private val diagnosticsFeature = FeatureFlagEntry(
-    defaultBooleanId = R.bool.diagnostics,
+    // Will use default false here
+    defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
     labelId = R.string.diagnostics,
     onStart = {
         MemoryViewer.getMemoryViewer(it).show()
