@@ -5,6 +5,6 @@ package com.azure.android.communication.ui.persona;
 
 import com.azure.android.communication.ui.AvatarPersonaData;
 
-public interface CallingAvatarPersonaHandler {
+public interface CallingParticipantHandler {
     AvatarPersonaData onFetchAvatarPersonaData(String userIdentifier);
 }

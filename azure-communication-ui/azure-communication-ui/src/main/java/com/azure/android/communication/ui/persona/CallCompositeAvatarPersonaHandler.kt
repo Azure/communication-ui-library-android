@@ -4,11 +4,11 @@
 package com.azure.android.communication.ui.persona
 
 internal class CallCompositeAvatarPersonaHandler {
-    private var avatarPersonaHandler: CallingAvatarPersonaHandler? = null
+    private var participantHandler: CallingParticipantHandler? = null
 
-    fun getOnAvatarPersonaHandler() = avatarPersonaHandler
+    fun getOnAvatarPersonaHandler() = participantHandler
 
-    fun setOnAvatarPersonaHandler(avatarPersonaHandler: CallingAvatarPersonaHandler?) {
-        this.avatarPersonaHandler = avatarPersonaHandler
+    fun setOnAvatarPersonaHandler(participantHandler: CallingParticipantHandler?) {
+        this.participantHandler = participantHandler
     }
 }

@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.CallCompositeBuilder
 import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityAvatarHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityParticipantHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import java.util.UUID
 import java.util.concurrent.Callable
@@ -26,7 +26,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         val callComposite: CallComposite = CallCompositeBuilder().build()
-        callComposite.setOnAvatarHandler(CallLauncherActivityAvatarHandler(callLauncherActivity))
+        callComposite.setOnParticipantHandler(CallLauncherActivityParticipantHandler(callLauncherActivity))
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 
         val communicationTokenRefreshOptions =

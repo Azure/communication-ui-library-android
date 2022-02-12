@@ -5,15 +5,14 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.graphics.BitmapFactory
 import com.azure.android.communication.ui.AvatarPersonaData
-import com.azure.android.communication.ui.persona.CallingAvatarPersonaHandler
+import com.azure.android.communication.ui.persona.CallingParticipantHandler
 import java9.util.concurrent.CompletableFuture
 import java.lang.ref.WeakReference
 import java.net.URL
-import java.util.concurrent.Future
 
 
-class CallLauncherActivityAvatarHandler(callLauncherActivity: CallLauncherActivity) :
-    CallingAvatarPersonaHandler {
+class CallLauncherActivityParticipantHandler(callLauncherActivity: CallLauncherActivity) :
+    CallingParticipantHandler {
     private val activityWr: WeakReference<CallLauncherActivity> = WeakReference(callLauncherActivity)
 
     override fun onFetchAvatarPersonaData(userIdentifier: String?): AvatarPersonaData {
