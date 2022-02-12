@@ -43,7 +43,7 @@ enum class FeatureFlags(
     // Label to display on screen
     override val labelId: Int,
 ) : FeatureFlag {
-    //---------------------------- Global Features -------------------------------------------------
+    // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
     BluetoothAudio(
         R.bool.azure_communication_ui_feature_flag_bluetooth_audio,
@@ -53,7 +53,7 @@ enum class FeatureFlags(
         R.bool.azure_communication_ui_feature_screen_share_zoom,
         R.string.azure_communication_ui_feature_screen_share_zoom_label,
     );
-    //---------------------------- End Global Features ---------------------------------------------
+    // ---------------------------- End Global Features ---------------------------------------------
 
     // Stubs for onStart/onEnd as we don't need it for the enum ones.
     override val onEnd: (application: Application) -> Unit
@@ -77,7 +77,7 @@ enum class FeatureFlags(
             applicationContext = context.applicationContext as Application
             sharedPrefs = applicationContext.getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
 
-            /// Start default features
+            // / Start default features
             features.filter { it.active }.forEach { it.onStart(applicationContext) }
         }
 
@@ -101,7 +101,6 @@ data class FeatureFlagEntry(
     override val onStart: (application: Application) -> Unit,
     override val onEnd: (application: Application) -> Unit,
 ) : FeatureFlag
-
 
 // A Feature Flag
 // This interface is shared between the Optional and Enum features

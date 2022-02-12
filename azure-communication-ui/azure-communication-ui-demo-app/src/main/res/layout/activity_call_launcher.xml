@@ -149,9 +149,9 @@
 
     <!--
     <CheckBox
-        android:id="@+id/memoryDiagnosticsCheckBox"
+        android:id="@+id/diagnosticsCheckBox"
         android:layout_width="wrap_content"
-        android:text="@string/memoryDiagnostics"
+        android:text="@string/diagnostics"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

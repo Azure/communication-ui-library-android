@@ -4,9 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,13 +22,10 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         // Register Memory Viewer with FeatureFlags
-        initializeMemoryViewFeature()
+        initializeMemoryViewFeature(this)
         // Initialize the FeatureFlags enum
         FeatureFlags.initialize(this)
-
 
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -207,7 +202,10 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun saveState(outState: Bundle?) {
-        outState?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
+        outState?.putBoolean(
+            isTokenFunctionOptionSelected,
+            callLauncherViewModel.isTokenFunctionOptionSelected
+        )
         outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
     }
 }

@@ -14,15 +14,14 @@ class FeatureFlagsTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         FeatureFlags.initialize(appContext)
-        assert(FeatureFlags.BluetoothAudio.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_bluetooth_audio), {"Bluetooth should be disabled"})
+        assert(FeatureFlags.BluetoothAudio.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_bluetooth_audio), { "Bluetooth should be disabled" })
         FeatureFlags.BluetoothAudio.toggle()
-        assert(FeatureFlags.BluetoothAudio.active, {"Bluetooth should be enabled now"})
+        assert(FeatureFlags.BluetoothAudio.active, { "Bluetooth should be enabled now" })
     }
-
 
     @Test
     fun testAdditionalFeature() {
-        /// Fake an entry
+        // / Fake an entry
         var started = false
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
@@ -38,20 +37,20 @@ class FeatureFlagsTest {
         FeatureFlags.registerAdditionalFeature(entry)
 
         FeatureFlags.initialize(appContext)
-        assert(entry.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_test_false), {"Should be disabled"})
+        assert(entry.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_test_false), { "Should be disabled" })
         entry.toggle()
         assert(entry.active) { "Should be enabled (active)" }
         assert(started) { "Should have been started" }
         entry.toggle()
         assert(!entry.active) { "Should be disabled" }
         assert(!started) { "Should have been stopped" }
-        /// Check if the features list is 1 more than the Enum list size
+        // / Check if the features list is 1 more than the Enum list size
         assert(FeatureFlags.features.size == FeatureFlags.values().size + 1)
     }
 
     @Test
     fun testAutoStartFeature() {
-        /// Fake an entry (this one will be default on)
+        // / Fake an entry (this one will be default on)
         var started = false
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="feature_flag_memory_viewer_label"> Memory Viewer </string>
-    <bool name="feature_flag_memory_viewer">false</bool>
-</resources>

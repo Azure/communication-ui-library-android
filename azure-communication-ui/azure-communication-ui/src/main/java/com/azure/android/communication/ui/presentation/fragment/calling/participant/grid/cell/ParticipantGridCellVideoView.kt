@@ -31,12 +31,14 @@ internal class ParticipantGridCellVideoView(
     lifecycleScope: LifecycleCoroutineScope,
     private val participantVideoContainerSpeakingFrameLayout: FrameLayout,
     private val videoContainer: ConstraintLayout,
+    private val displayNameAndMicIndicatorViewContainer: View,
     private val displayNameOnVideoTextView: TextView,
     private val micIndicatorOnVideoImageView: ImageView,
     private val participantViewModel: ParticipantGridCellViewModel,
     private val getVideoStreamCallback: (String, String) -> View?,
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
+
 ) {
     private var videoStream: View? = null
     private var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout? = null
@@ -155,13 +157,21 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setDisplayName(displayName: String) {
-        displayNameOnVideoTextView.text = displayName
+        if (displayName.isBlank()) {
+            displayNameOnVideoTextView.visibility = GONE
+        } else {
+            displayNameOnVideoTextView.text = displayName
+        }
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
         if (!isMicButtonVisible) {
+            if (displayNameOnVideoTextView.visibility == GONE) {
+                displayNameAndMicIndicatorViewContainer.visibility = GONE
+            }
             micIndicatorOnVideoImageView.visibility = GONE
         } else {
+            displayNameAndMicIndicatorViewContainer.visibility = VISIBLE
             micIndicatorOnVideoImageView.visibility = VISIBLE
         }
     }

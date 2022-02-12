@@ -148,19 +148,22 @@ class MemoryViewer private constructor(
     }
 }
 
-fun initializeMemoryViewFeature() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        FeatureFlags.registerAdditionalFeature(memoryViewFeatureFlag)
+fun initializeMemoryViewFeature(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+        && context.resources.getBoolean(R.bool.diagnostics)) {
+        FeatureFlags.registerAdditionalFeature(diagnosticsFeature)
     }
 }
 
-private val memoryViewFeatureFlag = FeatureFlagEntry(
-    defaultBooleanId = R.bool.feature_flag_memory_viewer,
-    labelId = R.string.feature_flag_memory_viewer_label,
+private val diagnosticsFeature = FeatureFlagEntry(
+    defaultBooleanId = R.bool.diagnostics,
+    labelId = R.string.diagnostics,
     onStart = {
         MemoryViewer.getMemoryViewer(it).show()
+        FpsDiagnostics.getFpsDiagnostics(it).start()
     },
     onEnd = {
         MemoryViewer.getMemoryViewer(it).hide()
+        FpsDiagnostics.getFpsDiagnostics(it).stop()
     }
 )
