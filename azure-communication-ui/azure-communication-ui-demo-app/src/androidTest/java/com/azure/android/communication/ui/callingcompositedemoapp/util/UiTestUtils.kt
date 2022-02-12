@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
-import android.content.Context
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -37,15 +37,21 @@ object UiTestUtils {
         onView(withId(recyclerViewId))
             .check(ViewAssertions.matches(isDisplayed()))
             .perform(
-                RecyclerViewActions.scrollToHolder(
-                    withBottomCellViewHolder(text, expectedItemDrawable)
+                RecyclerViewActions.actionOnHolderItem(
+                    withBottomCellViewHolder(text, expectedItemDrawable),
+                    click()
                 )
             )
-            .perform(click())
+
 
     @Throws(NoMatchingViewException::class)
-    fun checkImageIsDisplayed(context: Context, @DrawableRes expectedId: Int): ViewInteraction =
-        onView(withDrawableId(context, expectedId)).check(ViewAssertions.matches(isDisplayed()))
+    fun checkImageIsDisplayed(
+        @IdRes viewId: Int,
+        @DrawableRes expectedId: Int,
+        @ColorRes tint: Int? = null): ViewInteraction =
+        onView(withId(viewId))
+            .check(ViewAssertions.matches(withDrawableId(expectedId, tint)))
+            .check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
     fun checkViewWithTextIsDisplayed(text: String): ViewInteraction =

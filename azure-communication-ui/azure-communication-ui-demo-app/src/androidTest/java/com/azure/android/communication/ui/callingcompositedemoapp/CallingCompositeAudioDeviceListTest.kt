@@ -14,23 +14,29 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
 
     @Test
     fun selectDefaultAudioDevice() {
-        val setupScreen = joinGroupSetupScreen()
-        setupScreen.selectAndroidAudioDevice()
+        joinGroupSetupScreen()
+            .selectAndroidAudioDevice()
+            .verifyIsAndroidAudioDevice()
+            .navigateUpFromSetupScreen()
     }
 
     @Test
     fun selectSpeakerAudioDevice() {
-        val setupScreen = joinGroupSetupScreen()
-        setupScreen.selectSpeakerAudioDevice()
+        joinGroupSetupScreen()
+            .selectSpeakerAudioDevice()
+            .verifyIsSpeakerAudioDevice()
+            .navigateUpFromSetupScreen()
     }
+
     private fun joinGroupSetupScreen(): SetupScreenRobot {
         val setupScreen = HomeScreenRobot()
             .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
             .setAcsToken(TestFixture.acsToken)
             .clickLaunchButton()
 
-        setupScreen.turnCameraOn()
-        setupScreen.tapSpeakerIcon()
+        setupScreen
+            .turnCameraOn()
+            .tapSpeakerIcon()
 
         return setupScreen
     }
