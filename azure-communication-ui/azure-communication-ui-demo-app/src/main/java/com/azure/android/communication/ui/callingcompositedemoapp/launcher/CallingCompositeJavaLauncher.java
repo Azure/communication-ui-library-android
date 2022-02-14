@@ -13,6 +13,9 @@ import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
+import com.azure.android.communication.ui.callingcompositedemoapp.R;
+import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
+import com.azure.android.communication.ui.configuration.ThemeConfiguration;
 
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -33,10 +36,13 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final UUID groupId,
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
-        final CallComposite callComposite =
-                new CallCompositeBuilder()
-//                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
-                        .build();
+        final CallCompositeBuilder builder = new CallCompositeBuilder();
+
+        if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
+            builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme));
+        }
+
+        final CallComposite callComposite = builder.build();
 
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 

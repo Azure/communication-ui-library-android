@@ -39,14 +39,12 @@ class FeatureFlagsTest {
         var started = false
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
-            defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
             start = {
                 started = true
             },
-            end = {
-                started = false
-            },
-        )
+        ) {
+            started = false
+        }
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         FeatureFlags.registerAdditionalFeature(entry)
 
@@ -68,14 +66,12 @@ class FeatureFlagsTest {
         var started = false
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
-            defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_true,
             start = {
                 started = true
             },
-            end = {
-                started = false
-            },
-        )
+        ) {
+            started = false
+        }
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         FeatureFlags.registerAdditionalFeature(entry)
         FeatureFlags.initialize(appContext)
