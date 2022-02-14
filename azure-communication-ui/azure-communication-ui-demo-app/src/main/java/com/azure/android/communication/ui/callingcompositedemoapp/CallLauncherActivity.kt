@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.FpsDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import java.util.UUID
@@ -113,12 +114,19 @@ class CallLauncherActivity : AppCompatActivity() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                memoryDiagnosticsCheckBox.visibility = View.VISIBLE
-                memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        MemoryViewer.getMemoryViewer(application).show()
-                    } else {
-                        MemoryViewer.getMemoryViewer(application).hide()
+                val diagnostics =
+                    applicationContext.resources.getBoolean(R.bool.diagnostics)
+
+                if (diagnostics) {
+                    diagnosticsCheckBox.visibility = View.VISIBLE
+                    diagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                        if (isChecked) {
+                            MemoryViewer.getMemoryViewer(application).show()
+                            FpsDiagnostics.getFpsDiagnostics(application).start()
+                        } else {
+                            MemoryViewer.getMemoryViewer(application).hide()
+                            FpsDiagnostics.getFpsDiagnostics(application).stop()
+                        }
                     }
                 }
             }
@@ -148,9 +156,10 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // helps to turn on memory profiling when permissions change
-        if (binding.memoryDiagnosticsCheckBox.isChecked) {
+        // helps to turn on memory, fps profiling when permissions change
+        if (binding.diagnosticsCheckBox.isChecked) {
             MemoryViewer.getMemoryViewer(application).show()
+            FpsDiagnostics.getFpsDiagnostics(application).start()
         }
     }
 
@@ -216,7 +225,10 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun saveState(outState: Bundle?) {
-        outState?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
+        outState?.putBoolean(
+            isTokenFunctionOptionSelected,
+            callLauncherViewModel.isTokenFunctionOptionSelected
+        )
         outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
     }
 }
