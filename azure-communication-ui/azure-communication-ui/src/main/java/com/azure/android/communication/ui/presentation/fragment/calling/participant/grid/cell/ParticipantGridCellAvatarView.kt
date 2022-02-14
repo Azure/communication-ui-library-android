@@ -75,7 +75,12 @@ internal class ParticipantGridCellAvatarView(
     private fun setDisplayName(displayName: String) {
         avatarView.name = displayName
         avatarView.invalidate()
-        displayNameAudioTextView.text = displayName
+
+        if (displayName.isBlank()) {
+            displayNameAudioTextView.visibility = GONE
+        } else {
+            displayNameAudioTextView.text = displayName
+        }
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
