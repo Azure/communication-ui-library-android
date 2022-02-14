@@ -149,8 +149,9 @@ class MemoryViewer private constructor(
 }
 
 fun initializeMemoryViewFeature(context: Context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-        && context.resources.getBoolean(R.bool.diagnostics)) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+        context.resources.getBoolean(R.bool.diagnostics)
+    ) {
         FeatureFlags.registerAdditionalFeature(diagnosticsFeature)
     }
 }

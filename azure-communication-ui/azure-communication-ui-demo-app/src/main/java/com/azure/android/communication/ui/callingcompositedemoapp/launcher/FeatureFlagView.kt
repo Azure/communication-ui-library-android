@@ -5,11 +5,8 @@ import android.content.SharedPreferences
 import android.util.AttributeSet
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.FeatureFlags
-import com.google.android.material.button.MaterialButtonToggleGroup
-
 
 // This lists all the Features in the FeatureFlag system
 // and lets you enable/disable them.
@@ -17,7 +14,8 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-        FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+        FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE
+    )
 
     init {
         orientation = VERTICAL
