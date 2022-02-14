@@ -4,16 +4,15 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.FpsDiagnostics
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.diagnosticsFeature
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.initializeMemoryViewFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.azure.android.communication.ui.utilities.FeatureFlags
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -24,6 +23,11 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Register Memory Viewer with FeatureFlags
+        initializeMemoryViewFeature(this)
+        // Initialize the FeatureFlags enum
+        FeatureFlags.initialize(this)
+
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -113,27 +117,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                val diagnostics =
-                    applicationContext.resources.getBoolean(R.bool.diagnostics)
-
-                if (diagnostics) {
-                    diagnosticsCheckBox.visibility = View.VISIBLE
-                    diagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                        if (isChecked) {
-                            MemoryViewer.getMemoryViewer(application).show()
-                            FpsDiagnostics.getFpsDiagnostics(application).start()
-                        } else {
-                            MemoryViewer.getMemoryViewer(application).hide()
-                            FpsDiagnostics.getFpsDiagnostics(application).stop()
-                        }
-                    }
-                }
-            }
-
             javaButton.setOnClickListener {
                 callLauncherViewModel.setJavaLauncher()
             }
+
             kotlinButton.setOnClickListener {
                 callLauncherViewModel.setKotlinLauncher()
             }
@@ -144,6 +131,13 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Will resume this feature if it's active
+        // This is a special case for the permission dialog for diagnostic feature
+        diagnosticsFeature.onStart(application)
+    }
+
     override fun onDestroy() {
         callLauncherViewModel.destroy()
         super.onDestroy()
@@ -152,15 +146,6 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         saveState(outState)
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // helps to turn on memory, fps profiling when permissions change
-        if (binding.diagnosticsCheckBox.isChecked) {
-            MemoryViewer.getMemoryViewer(application).show()
-            FpsDiagnostics.getFpsDiagnostics(application).start()
-        }
     }
 
     fun showAlert(message: String) {

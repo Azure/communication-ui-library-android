@@ -21,6 +21,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import com.azure.android.communication.ui.callingcompositedemoapp.R
+import com.azure.android.communication.ui.utilities.FeatureFlagEntry
+import com.azure.android.communication.ui.utilities.FeatureFlags
 import com.microsoft.office.outlook.magnifierlib.Magnifier
 
 class MemoryViewer private constructor(
@@ -145,3 +147,25 @@ class MemoryViewer private constructor(
         }
     }
 }
+
+fun initializeMemoryViewFeature(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+        context.resources.getBoolean(R.bool.diagnostics)
+    ) {
+        FeatureFlags.registerAdditionalFeature(diagnosticsFeature)
+    }
+}
+
+val diagnosticsFeature = FeatureFlagEntry(
+    // Will use default false here
+    defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
+    labelId = R.string.diagnostics,
+    start = {
+        MemoryViewer.getMemoryViewer(it).show()
+        FpsDiagnostics.getFpsDiagnostics(it).start()
+    },
+    end = {
+        MemoryViewer.getMemoryViewer(it).hide()
+        FpsDiagnostics.getFpsDiagnostics(it).stop()
+    }
+)
