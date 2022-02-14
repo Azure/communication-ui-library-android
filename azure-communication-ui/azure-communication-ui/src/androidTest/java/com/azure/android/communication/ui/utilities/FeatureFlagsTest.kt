@@ -29,10 +29,10 @@ class FeatureFlagsTest {
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
             defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
-            onStart = {
+            start = {
                 started = true
             },
-            onEnd = {
+            end = {
                 started = false
             },
         )
@@ -58,10 +58,10 @@ class FeatureFlagsTest {
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
             defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_true,
-            onStart = {
+            start = {
                 started = true
             },
-            onEnd = {
+            end = {
                 started = false
             },
         )
