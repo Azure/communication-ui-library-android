@@ -23,6 +23,10 @@ import org.hamcrest.Matchers.not
 object UiTestUtils {
 
     @Throws(NoMatchingViewException::class)
+    fun checkViewWithTextIsDisplayed(text: String): ViewInteraction =
+        onView(withText(text)).check(ViewAssertions.matches(isDisplayed()))
+
+    @Throws(NoMatchingViewException::class)
     fun checkViewIdIsDisplayed(@IdRes viewId: Int): ViewInteraction =
         onView(withId(viewId)).check(ViewAssertions.matches(isDisplayed()))
 
@@ -38,10 +42,6 @@ object UiTestUtils {
                 withContentDescription(contentDescription)
             )
         ).check(ViewAssertions.matches(isDisplayed()))
-
-    @Throws(NoMatchingViewException::class)
-    fun checkViewTextIsDisplayed(@StringRes stringId: Int): ViewInteraction =
-        onView(withText(stringId)).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
     fun checkViewIdAndTextIsDisplayed(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
