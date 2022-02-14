@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.Me
 import com.azure.android.communication.ui.utilities.FeatureFlagEntry
 import com.azure.android.communication.ui.utilities.FeatureFlags
 
-/// Extra rules for enabling the Diagnostics feature
+// / Extra rules for enabling the Diagnostics feature
 fun conditionallyRegisterDiagnostics(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
         context.resources.getBoolean(R.bool.diagnostics)
@@ -17,7 +17,7 @@ fun conditionallyRegisterDiagnostics(context: Context) {
     }
 }
 
-/// Just a place to hold the Features outside global Namespace (Java Doesn't like)
+// / Just a place to hold the Features outside global Namespace (Java Doesn't like)
 class AdditionalFeatures private constructor() {
     companion object {
         val diagnosticsFeature = FeatureFlagEntry(

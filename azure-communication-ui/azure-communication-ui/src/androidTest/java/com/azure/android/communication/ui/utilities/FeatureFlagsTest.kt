@@ -42,9 +42,11 @@ class FeatureFlagsTest {
             start = {
                 started = true
             },
-        ) {
-            started = false
-        }
+            end = {
+                started = false
+            }
+        )
+
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         FeatureFlags.registerAdditionalFeature(entry)
 
@@ -69,9 +71,11 @@ class FeatureFlagsTest {
             start = {
                 started = true
             },
-        ) {
-            started = false
-        }
+            end = {
+                started = false
+            }
+        )
+
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         FeatureFlags.registerAdditionalFeature(entry)
         FeatureFlags.initialize(appContext)
