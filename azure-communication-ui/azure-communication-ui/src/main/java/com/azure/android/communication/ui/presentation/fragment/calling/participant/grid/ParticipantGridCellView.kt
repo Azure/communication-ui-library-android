@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
@@ -17,6 +18,7 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
 import com.microsoft.fluentui.persona.AvatarView
 
+@SuppressLint("ViewConstructor")
 internal class ParticipantGridCellView(
     context: Context,
     private val lifecycleScope: LifecycleCoroutineScope,
@@ -68,6 +70,9 @@ internal class ParticipantGridCellView(
         val videoContainer: ConstraintLayout =
             findViewById(R.id.azure_communication_ui_participant_video_view_container)
 
+        val displayNameAndMicIndicatorViewContainer: View =
+            findViewById(R.id.azure_communication_ui_participant_view_on_video_information_container)
+
         val displayNameOnVideoTextView: TextView =
             findViewById(R.id.azure_communication_ui_participant_view_on_video_display_name)
 
@@ -79,6 +84,7 @@ internal class ParticipantGridCellView(
             lifecycleScope,
             participantVideoContainerFrameLayout,
             videoContainer,
+            displayNameAndMicIndicatorViewContainer,
             displayNameOnVideoTextView,
             micIndicatorOnVideoImageView,
             participantViewModel,

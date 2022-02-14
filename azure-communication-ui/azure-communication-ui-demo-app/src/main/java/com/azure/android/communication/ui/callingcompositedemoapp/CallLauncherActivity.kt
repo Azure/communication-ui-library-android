@@ -4,15 +4,15 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.diagnosticsFeature
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.initializeMemoryViewFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.azure.android.communication.ui.utilities.FeatureFlags
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -23,6 +23,11 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Register Memory Viewer with FeatureFlags
+        initializeMemoryViewFeature(this)
+        // Initialize the FeatureFlags enum
+        FeatureFlags.initialize(this)
+
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -112,20 +117,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                memoryDiagnosticsCheckBox.visibility = View.VISIBLE
-                memoryDiagnosticsCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        MemoryViewer.getMemoryViewer(application).show()
-                    } else {
-                        MemoryViewer.getMemoryViewer(application).hide()
-                    }
-                }
-            }
-
             javaButton.setOnClickListener {
                 callLauncherViewModel.setJavaLauncher()
             }
+
             kotlinButton.setOnClickListener {
                 callLauncherViewModel.setKotlinLauncher()
             }
@@ -136,6 +131,13 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Will resume this feature if it's active
+        // This is a special case for the permission dialog for diagnostic feature
+        diagnosticsFeature.onStart(application)
+    }
+
     override fun onDestroy() {
         callLauncherViewModel.destroy()
         super.onDestroy()
@@ -144,14 +146,6 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         saveState(outState)
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // helps to turn on memory profiling when permissions change
-        if (binding.memoryDiagnosticsCheckBox.isChecked) {
-            MemoryViewer.getMemoryViewer(application).show()
-        }
     }
 
     fun showAlert(message: String) {
@@ -216,7 +210,10 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun saveState(outState: Bundle?) {
-        outState?.putBoolean(isTokenFunctionOptionSelected, callLauncherViewModel.isTokenFunctionOptionSelected)
+        outState?.putBoolean(
+            isTokenFunctionOptionSelected,
+            callLauncherViewModel.isTokenFunctionOptionSelected
+        )
         outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
     }
 }

@@ -10,8 +10,10 @@ import junit.framework.AssertionFailedError
 
 typealias ViewMatcherFunctionPtr = () -> ViewInteraction
 class ViewIsDisplayedResource {
-    private val DEFAULT_WAIT_TIME = 2000L
-    private val TIMED_OUT_VALUE = 30000L
+    companion object {
+        private const val DEFAULT_WAIT_TIME = 2000L
+        var TIMED_OUT_VALUE = 30000L
+    }
 
     @Throws(IllegalStateException::class)
     fun waitUntilViewIsDisplayed(idlingCheck: ViewMatcherFunctionPtr): ViewInteraction {
