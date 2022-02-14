@@ -4,5 +4,5 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <bool name="diagnostics">false</bool>
+    <bool name="diagnostics">true</bool>
 </resources>

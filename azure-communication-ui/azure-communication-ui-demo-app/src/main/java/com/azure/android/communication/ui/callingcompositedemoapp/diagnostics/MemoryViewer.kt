@@ -156,15 +156,15 @@ fun initializeMemoryViewFeature(context: Context) {
     }
 }
 
-private val diagnosticsFeature = FeatureFlagEntry(
+val diagnosticsFeature = FeatureFlagEntry(
     // Will use default false here
     defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
     labelId = R.string.diagnostics,
-    onStart = {
+    start = {
         MemoryViewer.getMemoryViewer(it).show()
         FpsDiagnostics.getFpsDiagnostics(it).start()
     },
-    onEnd = {
+    end = {
         MemoryViewer.getMemoryViewer(it).hide()
         FpsDiagnostics.getFpsDiagnostics(it).stop()
     }

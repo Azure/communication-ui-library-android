@@ -98,9 +98,20 @@ enum class FeatureFlags(
 data class FeatureFlagEntry(
     override val defaultBooleanId: Int,
     override val labelId: Int,
-    override val onStart: (application: Application) -> Unit,
-    override val onEnd: (application: Application) -> Unit,
-) : FeatureFlag
+    private val start: (application: Application) -> Unit,
+    private val end: (application: Application) -> Unit,
+) : FeatureFlag {
+
+    override val onStart: (application: Application) -> Unit
+        get() = {
+            if (active) start(it)
+        }
+
+    override val onEnd: (application: Application) -> Unit
+        get() = {
+            if (!active) end(it)
+        }
+}
 
 // A Feature Flag
 // This interface is shared between the Optional and Enum features
@@ -117,9 +128,18 @@ interface FeatureFlag {
     // 1) SharedPreferences priority
     // 2) fallback to resource with defaultBooleanId
     var active: Boolean
-        get() = FeatureFlags.sharedPrefs.getBoolean(key, FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId))
+        get() {
+            // / If not added to the system, return false
+            if (!FeatureFlags.features.contains(this)) {
+                return false
+            }
+
+            return FeatureFlags.sharedPrefs.getBoolean(key, FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId))
+        }
         set(value) {
-            if (value != active) {
+            val wasActive = active
+            FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
+            if (value != wasActive) {
                 // Toggled
                 if (value) {
                     onStart(FeatureFlags.applicationContext)
@@ -127,7 +147,6 @@ interface FeatureFlag {
                     onEnd(FeatureFlags.applicationContext)
                 }
             }
-            FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
         }
 
     // Helper to get the String value of the label

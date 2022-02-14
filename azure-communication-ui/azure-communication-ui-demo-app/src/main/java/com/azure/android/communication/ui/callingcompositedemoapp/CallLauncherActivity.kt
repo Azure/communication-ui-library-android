@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.diagnosticsFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.initializeMemoryViewFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.azure.android.communication.ui.utilities.FeatureFlags
@@ -128,6 +129,13 @@ class CallLauncherActivity : AppCompatActivity() {
         callLauncherViewModel.fetchResult.observe(this) {
             processResult(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Will resume this feature if it's active
+        // This is a special case for the permission dialog for diagnostic feature
+        diagnosticsFeature.onStart(application)
     }
 
     override fun onDestroy() {
