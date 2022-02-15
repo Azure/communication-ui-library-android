@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
+import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -11,16 +13,39 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.azure.android.communication.ui.callingcompositedemoapp.matchers.withBottomCellViewHolder
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.not
+import com.azure.android.communication.ui.callingcompositedemoapp.matchers.withDrawableId
+
 
 object UiTestUtils {
+
+    @Throws(NoMatchingViewException::class)
+    fun clickBottomCellViewHolder(
+        @IdRes recyclerViewId: Int,
+        @DrawableRes expectedItemDrawable: Int,
+        text: String
+    ): ViewInteraction =
+        onView(withId(recyclerViewId))
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(
+                RecyclerViewActions.scrollToHolder(
+                    withBottomCellViewHolder(text, expectedItemDrawable)
+                )
+            )
+            .perform(click())
+
+    @Throws(NoMatchingViewException::class)
+    fun checkImageIsDisplayed(context: Context, @DrawableRes expectedId: Int): ViewInteraction =
+        onView(withDrawableId(context, expectedId)).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
     fun checkViewWithTextIsDisplayed(text: String): ViewInteraction =
@@ -40,6 +65,15 @@ object UiTestUtils {
             allOf(
                 withId(viewId),
                 withContentDescription(contentDescription)
+            )
+        ).check(ViewAssertions.matches(isDisplayed()))
+
+    @Throws(NoMatchingViewException::class)
+    fun checkViewIdAndTextIsDisplayed(@IdRes viewId: Int, text: String): ViewInteraction =
+        onView(
+            allOf(
+                withId(viewId),
+                withText(text)
             )
         ).check(ViewAssertions.matches(isDisplayed()))
 

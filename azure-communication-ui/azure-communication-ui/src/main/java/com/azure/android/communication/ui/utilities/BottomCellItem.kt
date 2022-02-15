@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.utilities
 
 import android.graphics.drawable.Drawable
 
-internal data class BottomCellItem(
+data class BottomCellItem(
     var icon: Drawable?,
     var title: String?,
     var accessoryImage: Drawable?,

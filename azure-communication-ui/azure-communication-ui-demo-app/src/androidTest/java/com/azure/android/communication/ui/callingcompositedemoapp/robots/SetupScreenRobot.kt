@@ -2,11 +2,40 @@
 // Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
+import androidx.test.espresso.action.ViewActions.click
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 
 class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
+
+    fun tapSpeakerIcon(): SetupScreenRobot {
+        val speakerButton = waitUntilViewAndTextIsDisplayed (
+            R.id.azure_communication_ui_setup_audio_device_button,
+            "Android"
+        )
+
+        speakerButton.perform(click())
+        return this
+    }
+
+    fun selectAndroidAudioDevice() {
+        val audioDeviceList = waitUntilViewIdIsDisplayed (R.id.bottom_drawer_table)
+        UiTestUtils.clickBottomCellViewHolder(
+            R.id.bottom_drawer_table,
+            R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled,
+            "Android",
+        )
+    }
+
+    fun selectSpeakerAudioDevice() {
+        val audioDeviceList = waitUntilViewIdIsDisplayed (R.id.bottom_drawer_table)
+        UiTestUtils.clickBottomCellViewHolder(
+            R.id.bottom_drawer_table,
+            R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled,
+            "Speaker",
+        )
+    }
 
     fun turnCameraOn(): SetupScreenRobot {
         UiTestUtils.run {
