@@ -11,8 +11,8 @@
     android:layout_height="match_parent"
     android:background="@color/azure_communication_ui_color_background"
     android:gravity="center_horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     tools:context="com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment"
     >
 
@@ -48,8 +48,8 @@
             android:visibility="visible"
             app:avatarSize="xxlarge"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
@@ -199,8 +199,8 @@
             app:drawableLeftCompat="@drawable/azure_communication_ui_ic_fluent_meet_now_24_regular_composite_button_enabled"
             app:drawableTint="@color/azure_communication_ui_on_primary_enabled_disabled_selector"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
