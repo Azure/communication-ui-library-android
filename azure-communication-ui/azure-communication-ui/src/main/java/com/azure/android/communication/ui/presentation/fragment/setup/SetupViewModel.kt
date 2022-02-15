@@ -53,6 +53,7 @@ internal class SetupViewModel(
     }
 
     fun exitComposite() {
+        dispatchAction(action = CallingAction.CallEndRequested())
         dispatchAction(action = NavigationAction.Exit())
     }
 
