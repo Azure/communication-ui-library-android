@@ -3,32 +3,17 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CallLauncherActivity"
-    >
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/actionBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        app:title="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/launcher_activity_action_bar"
-        />
-
-<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:layout_height="match_parent"
-    >
+    tools:context=".CallLauncherActivity">
+
+
     <RadioButton
         android:id="@+id/tokenFunctionRadioButton"
         android:layout_width="wrap_content"
@@ -153,7 +138,6 @@
             />
     </RadioGroup>
 
-
     <Button
         android:id="@+id/launchButton"
         android:layout_width="wrap_content"
@@ -165,4 +149,3 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>

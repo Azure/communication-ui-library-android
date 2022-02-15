@@ -35,8 +35,6 @@ class CallLauncherActivity : AppCompatActivity() {
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.actionBar)
-
 
         val data: Uri? = intent?.data
         val deeplinkAcsToken = data?.getQueryParameter("acstoken")
