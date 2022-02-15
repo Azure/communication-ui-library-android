@@ -202,7 +202,7 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="24dp"
                 android:layout_height="0dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginRight="8dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintRight_toLeftOf="@+id/azure_communication_ui_setup_start_call_joining_text"
