@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
@@ -8,8 +7,7 @@
     android:id="@+id/azure_communication_ui_call_local_user_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="4dp"
-    >
+    android:padding="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_call_local_full_video_holder"
@@ -18,8 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include layout="@layout/azure_communication_ui_call_local_pip_video" />
 
@@ -35,8 +32,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/azure_communication_ui_ic_fluent_camera_switch_24_regular_composite_button_enabled"
-        />
+        app:srcCompat="@drawable/azure_communication_ui_ic_fluent_camera_switch_24_regular_composite_button_enabled" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_call_local_avatarHolder"
@@ -46,8 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -57,8 +52,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.microsoft.fluentui.persona.AvatarView
                 android:id="@+id/azure_communication_ui_call_local_avatar"
@@ -70,30 +64,27 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="11dp"
                 android:gravity="center"
-                android:layout_marginHorizontal="15dp"
                 android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_local_avatar"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_local_avatar">
 
                 <TextView
                     android:id="@+id/azure_communication_ui_call_local_display_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:layout_weight="1"
-                    android:textColor="@color/azure_communication_ui_color_on_background"
-                    />
+                    android:textColor="@color/azure_communication_ui_color_on_background" />
 
                 <ImageView
                     android:id="@+id/azure_communication_ui_call_local_mic_indicator"
@@ -101,8 +92,7 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="4dp"
-                    app:srcCompat="@drawable/azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_filled"
-                    />
+                    app:srcCompat="@drawable/azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_filled" />
 
             </LinearLayout>
         </LinearLayout>
