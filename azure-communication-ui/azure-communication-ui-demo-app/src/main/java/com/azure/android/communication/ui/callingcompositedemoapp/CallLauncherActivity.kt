@@ -5,13 +5,17 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.diagnosticsFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.initializeMemoryViewFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
 import com.azure.android.communication.ui.utilities.FeatureFlags
 import java.util.UUID
 
@@ -30,6 +34,9 @@ class CallLauncherActivity : AppCompatActivity() {
 
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.actionBar)
+
 
         val data: Uri? = intent?.data
         val deeplinkAcsToken = data?.getQueryParameter("acstoken")
@@ -207,6 +214,20 @@ class CallLauncherActivity : AppCompatActivity() {
 
             launcher.launch(this@CallLauncherActivity, userName, null, meetingLink, ::showAlert)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.launcher_activity_action_bar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.azure_composite_show_settings -> {
+            AlertDialog.Builder(this).setTitle("Settings")
+                .setView(FeatureFlagView(this, null))
+                .show()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun saveState(outState: Bundle?) {
