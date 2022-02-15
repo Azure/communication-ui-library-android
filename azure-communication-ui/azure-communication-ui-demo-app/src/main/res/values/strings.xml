@@ -18,4 +18,5 @@
     <string name="tokenFunctionRadioButtonText">Token Function</string>
     <string name="acsTokenRadioButtonText">@string/acsTokenHint</string>
     <string name="diagnostics">FPS, Memory Diagnostics</string>
+    <string name="launchSettingsButtonText">Settings</string>
 </resources>

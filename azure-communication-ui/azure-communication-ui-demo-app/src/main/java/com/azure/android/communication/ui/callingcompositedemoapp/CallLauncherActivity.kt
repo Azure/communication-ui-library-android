@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
@@ -34,7 +33,6 @@ class CallLauncherActivity : AppCompatActivity() {
 
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val data: Uri? = intent?.data
         val deeplinkAcsToken = data?.getQueryParameter("acstoken")
@@ -220,7 +218,7 @@ class CallLauncherActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.azure_composite_show_settings -> {
-            AlertDialog.Builder(this).setTitle("Settings")
+            AlertDialog.Builder(this).setTitle(R.string.launchSettingsButtonText)
                 .setView(FeatureFlagView(this, null))
                 .show()
             true
