@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -23,8 +22,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.matchers.withB
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.not
-import com.azure.android.communication.ui.callingcompositedemoapp.matchers.withDrawableId
-
 
 object UiTestUtils {
 
@@ -42,16 +39,6 @@ object UiTestUtils {
                     click()
                 )
             )
-
-
-    @Throws(NoMatchingViewException::class)
-    fun checkImageIsDisplayed(
-        @IdRes viewId: Int,
-        @DrawableRes expectedId: Int,
-        @ColorRes tint: Int? = null): ViewInteraction =
-        onView(withId(viewId))
-            .check(ViewAssertions.matches(withDrawableId(expectedId, tint)))
-            .check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
     fun checkViewWithTextIsDisplayed(text: String): ViewInteraction =

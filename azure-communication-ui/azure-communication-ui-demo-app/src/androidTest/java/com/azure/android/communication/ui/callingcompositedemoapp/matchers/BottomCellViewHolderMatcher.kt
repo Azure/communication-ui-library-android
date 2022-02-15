@@ -2,27 +2,25 @@ package com.azure.android.communication.ui.callingcompositedemoapp.matchers
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
+import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.utilities.BottomCellViewHolder
 import org.hamcrest.Description
-
-import android.widget.TextView
-import com.azure.android.communication.ui.callingcompositedemoapp.R
 import org.hamcrest.Matcher
 
 class BottomCellViewHolderMatcher(
     private val name: String,
     @DrawableRes private val expectedId: Int
-) :BoundedMatcher<RecyclerView.ViewHolder, BottomCellViewHolder>(BottomCellViewHolder::class.java) {
+) : BoundedMatcher<RecyclerView.ViewHolder, BottomCellViewHolder>(BottomCellViewHolder::class.java) {
     private lateinit var resourceName: String
 
     override fun describeTo(description: Description?) {
         description?.appendText("with $name and drawable from resource id: $expectedId")
-        //resourceName.let { description?.appendText("[$it]") }
+        // resourceName.let { description?.appendText("[$it]") }
     }
 
     override fun matchesSafely(item: BottomCellViewHolder?): Boolean {

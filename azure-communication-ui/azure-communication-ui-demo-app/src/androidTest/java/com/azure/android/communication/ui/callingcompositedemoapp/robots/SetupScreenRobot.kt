@@ -12,7 +12,7 @@ import junit.framework.Assert.assertTrue
 class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
     fun tapSpeakerIcon(): SetupScreenRobot {
-        val speakerButton = waitUntilViewAndTextIsDisplayed (
+        val speakerButton = waitUntilViewAndTextIsDisplayed(
             R.id.azure_communication_ui_setup_audio_device_button,
             "Android"
         )
@@ -32,7 +32,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     }
 
     private fun verifyAudioDevice(deviceText: String) {
-        val speakerButton = waitUntilViewIdIsDisplayed (
+        val speakerButton = waitUntilViewIdIsDisplayed(
             R.id.azure_communication_ui_setup_audio_device_button
         )
         val text = UiTestUtils.getTextFromButtonView(R.id.azure_communication_ui_setup_audio_device_button)
@@ -56,7 +56,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     }
 
     private fun selectAudioDevice(@DrawableRes iconId: Int, text: String) {
-        val audioDeviceList = waitUntilViewIdIsDisplayed (R.id.bottom_drawer_table)
+        val audioDeviceList = waitUntilViewIdIsDisplayed(R.id.bottom_drawer_table)
         UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text)
     }
 
