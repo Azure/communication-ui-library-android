@@ -220,7 +220,7 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.azure_composite_show_settings -> {
             AlertDialog.Builder(this).setTitle(R.string.launchSettingsButtonText)
-                .setView(FeatureFlagView(this, null).also { it.setPadding(32,32,32,32) })
+                .setView(FeatureFlagView(this, null).also { it.setPadding(32, 32, 32, 32) })
                 .show()
             true
         }
