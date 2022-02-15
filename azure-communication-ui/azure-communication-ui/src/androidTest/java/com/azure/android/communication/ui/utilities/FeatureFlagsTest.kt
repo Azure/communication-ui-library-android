@@ -72,7 +72,6 @@ class FeatureFlagsTest {
             start = {
                 started = true
             },
-
             end = {
                 started = false
             },
