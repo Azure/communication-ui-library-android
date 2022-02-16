@@ -21,6 +21,7 @@ fun conditionallyRegisterDiagnostics(context: Context) {
 class AdditionalFeatures private constructor() {
     companion object {
         val diagnosticsFeature = FeatureFlagEntry(
+            defaultBooleanId = R.bool.diagnostics,
             labelId = R.string.diagnostics,
             start = {
                 MemoryViewer.getMemoryViewer(it).show()
@@ -33,6 +34,7 @@ class AdditionalFeatures private constructor() {
         )
 
         val secondaryThemeFeature = FeatureFlagEntry(
+            defaultBooleanId = R.bool.feature_theme_selection,
             // Will use default false here
             labelId = R.string.secondary_theme,
             start = {},

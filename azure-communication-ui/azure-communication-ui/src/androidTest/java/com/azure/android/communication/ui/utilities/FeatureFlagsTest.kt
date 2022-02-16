@@ -35,7 +35,7 @@ class FeatureFlagsTest {
 
     @Test
     fun testAdditionalFeature() {
-        // / Fake an entry
+        //  Fake an entry
         var started = false
         val entry = FeatureFlagEntry(
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
@@ -51,7 +51,7 @@ class FeatureFlagsTest {
         FeatureFlags.registerAdditionalFeature(entry)
 
         FeatureFlags.initialize(appContext)
-        assert(entry.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_default_false), { "Should be disabled" })
+        assert(entry.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_test_false), { "Should be disabled" })
         entry.toggle()
         assert(entry.active) { "Should be enabled (active)" }
         assert(started) { "Should have been started" }

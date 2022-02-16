@@ -99,7 +99,7 @@ enum class FeatureFlags(
 
 // Class to add additional Entries to the FeatureFlag system (e.g. from the Demo, or another app)
 data class FeatureFlagEntry(
-    override val defaultBooleanId: Int = R.bool.azure_communication_ui_feature_flag_default_false,
+    override val defaultBooleanId: Int,
     override val labelId: Int,
     private val start: (application: Application) -> Unit,
     private val end: (application: Application) -> Unit,
