@@ -3,7 +3,6 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <string name="azure_communication_ui_title_activity_main">MainActivity</string>
     <string name="azure_communication_ui_switch_camera_button">Switch Camera Button</string>
     <string name="azure_communication_ui_setup_gradient">Setup Gradient</string>
     <string name="azure_communication_ui_setup_video_off">Video off</string>
@@ -13,7 +12,6 @@
     <string name="azure_communication_ui_setup_audio_device_android">Android</string>
     <string name="azure_communication_ui_setup_audio_device_speaker">Speaker</string>
     <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
-    <string name="azure_communication_ui_setup_name_hint">John Smith</string>
     <string name="azure_communication_ui_setup_join_call">Join call</string>
     <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
     <string name="azure_communication_ui_setup_missing_mic">Your audio is disabled. To enable, please go to Settings to allow access. You must
