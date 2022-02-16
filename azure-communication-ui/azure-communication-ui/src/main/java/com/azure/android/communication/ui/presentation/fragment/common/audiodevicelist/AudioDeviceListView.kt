@@ -107,6 +107,7 @@ internal class AudioDeviceListView(
                     R.drawable.ms_ic_checkmark_24_filled
                 ),
                 null,
+                resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
                 enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED
             ) {
                 viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
@@ -124,6 +125,7 @@ internal class AudioDeviceListView(
                     R.drawable.ms_ic_checkmark_24_filled
                 ),
                 null,
+                resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
                 enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
 
             ) {
@@ -147,6 +149,7 @@ internal class AudioDeviceListView(
                     ),
 
                     null,
+                    resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
                     enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
 
                 ) {

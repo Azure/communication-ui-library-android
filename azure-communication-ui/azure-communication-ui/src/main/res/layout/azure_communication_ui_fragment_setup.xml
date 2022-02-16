@@ -179,6 +179,8 @@
             android:layout_height="0dp"
             android:clickable="true"
             android:enabled="true"
+            android:text="@string/azure_communication_ui_setup_join_call"
+            android:textSize="0sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
