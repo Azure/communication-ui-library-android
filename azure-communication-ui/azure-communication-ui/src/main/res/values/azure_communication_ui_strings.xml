@@ -12,6 +12,7 @@
     <string name="azure_communication_ui_setup_audio_device_android">Android</string>
     <string name="azure_communication_ui_setup_audio_device_speaker">Speaker</string>
     <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_selected">Selected</string>
     <string name="azure_communication_ui_setup_join_call">Join call</string>
     <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
     <string name="azure_communication_ui_setup_missing_mic">Your audio is disabled. To enable, please go to Settings to allow access. You must
@@ -30,6 +31,7 @@
     <string name="azure_communication_ui_call_open_participant_list">Open Participant List</string>
     <string name="azure_communication_ui_call_local_participant_suffix">(me)</string>
     <string name="azure_communication_ui_call_participant_list_unnamed_participant">Unnamed participant</string>
+    <string name="azure_communication_ui_call_open_participant_list_muted">Muted</string>
     <string name="azure_communication_ui_call_learn_more_url">
         https://support.microsoft.com/en-us/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
     </string>
