@@ -10,6 +10,7 @@ internal data class BottomCellItem(
     var title: String?,
     var accessoryImage: Drawable?,
     var accessoryColor: Int?,
+    var accessoryImageDescription: String,
     var enabled: Boolean,
     var onClickAction: Runnable,
 )

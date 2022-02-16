@@ -158,6 +158,7 @@ internal class ParticipantListView(
                 R.drawable.azure_communication_ui_ic_fluent_mic_off_24_regular
             ),
             R.color.azure_communication_ui_color_participant_list_mute_mic,
+            resources.getString(R.string.azure_communication_ui_call_open_participant_list_muted),
             isMuted
         ) {
         }
