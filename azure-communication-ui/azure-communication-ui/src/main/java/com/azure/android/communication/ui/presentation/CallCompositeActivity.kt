@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragm
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class CallCompositeActivity : AppCompatActivity() {
@@ -48,7 +49,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
-        navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
             audioSessionManager.stop()
@@ -63,7 +63,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         // Assign the Dependency Injection Container the appropriate instanceId,
         // so it can initialize it's container holding the dependencies
-        diContainerHolder.instanceId = Integer.valueOf(instanceId)
+        diContainerHolder.instanceId = instanceId
         lifecycleScope.launch { errorHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -88,9 +88,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         lifecycleScope.launch { audioSessionManager.start() }
 
-        navigationRouter.addOnNavigationStateChanged(this::onNavigationStateChange)
+        lifecycleScope.launchWhenStarted {
+            navigationRouter.getNavigationStateFlow().collect { onNavigationStateChange(it) }
+        }
 
-        lifecycleScope.launch { navigationRouter.start() }
+        lifecycleScope.launch {
+            navigationRouter.start()
+        }
+
         notificationService.start(lifecycleScope)
     }
 
