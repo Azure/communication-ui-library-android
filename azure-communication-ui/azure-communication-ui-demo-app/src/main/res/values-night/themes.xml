@@ -21,7 +21,7 @@
 
     <style name="MyCompany.Theme" parent="AzureCommunicationUI.Theme.Calling">
         <!-- Teams brand color. -->
-        <item name="azure_communication_ui_calling_primary_color">@color/Teams_dark</item>
+        <item name="azure_communication_ui_com_primary">@color/Teams_dark</item>
     </style>
 
 </resources>

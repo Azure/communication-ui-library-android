@@ -56,7 +56,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
                         val typedValue = TypedValue()
                         val theme = context.theme
                         theme.resolveAttribute(
-                            R.attr.azure_communication_ui_calling_primary_color,
+                            R.attr.azure_communication_ui_com_primary,
                             typedValue,
                             true
                         )

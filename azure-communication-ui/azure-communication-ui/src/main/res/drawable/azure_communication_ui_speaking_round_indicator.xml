@@ -8,7 +8,7 @@
     >
     <stroke
         android:width="4dp"
-        android:color="?attr/azure_communication_ui_calling_primary_color"
+        android:color="?attr/azure_communication_ui_com_primary"
         />
 
 </shape>

@@ -9,7 +9,7 @@
     <solid android:color="@color/azure_communication_ui_color_button_background_transparent" />
     <stroke
         android:width="2dp"
-        android:color="?attr/azure_communication_ui_calling_primary_color"
+        android:color="?attr/azure_communication_ui_com_primary"
         />
     <corners android:radius="4dp" />
 </shape>

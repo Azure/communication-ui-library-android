@@ -6,9 +6,16 @@
     <!-- Base theme. -->
     <style name="AzureCommunicationUI.Theme.Calling" parent="AzureCommunicationUI.Base.Theme.Calling">
         <!-- Primary brand color. -->
-        <item name="azure_communication_ui_calling_primary_color">
-            @color/azure_communication_ui_color_primary
-        </item>
+        <item name="azure_communication_ui_com_primary">@color/fluentui_communication_blue</item>
+        <item name="azure_communication_ui_com_shade_10">@color/fluentui_communication_shade_10</item>
+        <item name="azure_communication_ui_com_shade_20">@color/fluentui_communication_shade_20</item>
+        <item name="azure_communication_ui_com_shade_30">@color/fluentui_communication_shade_30</item>
+        <item name="azure_communication_ui_com_tint_20">@color/fluentui_communication_tint_20</item>
+        <item name="azure_communication_ui_com_tint_30">@color/fluentui_communication_tint_30</item>
+        <item name="azure_communication_ui_com_tint_40">@color/fluentui_communication_tint_40</item>
+        <!-- This one tint isn't in fluent_ui so hard-coding-->
+        <item name="azure_communication_ui_com_tint_10">#2B88D8</item>
+
         <!-- Customize your theme here. -->
     </style>
 </resources>

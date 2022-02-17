@@ -20,9 +20,12 @@
     </style>
 
     <style name="MyCompany.Theme" parent="AzureCommunicationUI.Theme.Calling">
-        <item name="colorPrimary">@color/teal_700</item>
         <!-- Teams brand color. -->
-        <item name="azure_communication_ui_calling_primary_color">?attr/colorPrimary</item>
+        <item name="azure_communication_ui_com_primary">#7800D4</item>
+        <item name="azure_communication_ui_com_tint_10">#882BD8</item>
+        <item name="azure_communication_ui_com_tint_20">#E0C7F4</item>
+        <item name="azure_communication_ui_com_tint_30">#ECDEF9</item>
+        <item name="azure_communication_ui_com_tint_40">#F6EFFC</item>
     </style>
 
 </resources>
