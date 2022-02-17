@@ -44,6 +44,7 @@ class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 )
             )
         }
+        accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
         accessoryImage.visibility = if (bottomCellItem.enabled) View.VISIBLE else View.INVISIBLE
         onClickAction = bottomCellItem.onClickAction
     }
