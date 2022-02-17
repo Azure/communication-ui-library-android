@@ -4,6 +4,7 @@
    Licensed under the MIT License.
   -->
 <resources>
+    <color name="azure_communication_ui_color_com_primary">#0078D4</color>
     <color name="azure_communication_ui_color_primary">#3AA0F3</color>
     <color name="azure_communication_ui_color_background">#FFFFFF</color>
     <color name="azure_communication_ui_color_bottom_drawer_background">#FFFFFF</color>

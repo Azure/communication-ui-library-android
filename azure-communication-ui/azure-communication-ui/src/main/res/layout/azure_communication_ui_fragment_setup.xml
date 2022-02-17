@@ -209,6 +209,7 @@
                 android:layout_height="0dp"
                 android:layout_marginRight="8dp"
                 android:visibility="gone"
+                android:indeterminateTint="@color/azure_communication_ui_color_com_primary"
                 app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintRight_toLeftOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_setup_start_call_joining_text"
