@@ -16,7 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MeetingUI"
+        android:theme="@style/Theme.AppCompat"
         >
         <activity android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity">
             <intent-filter>
