@@ -26,6 +26,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         super.onFinishInflate()
         setupJoinCallButton = findViewById(R.id.azure_communication_ui_setup_join_call_button)
         setupJoinCallButtonText = findViewById(R.id.azure_communication_ui_setup_start_call_button_text)
+
         setupJoinCallButton.background = ContextCompat.getDrawable(
             context,
             R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_primary_background
@@ -42,29 +43,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getJoinCallButtonEnabledFlow().collect {
                 setupJoinCallButton.isEnabled = it
-                setupJoinCallButtonText.isEnabled = it
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (!it) {
-                        setupJoinCallButton.background.setTint(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.azure_communication_ui_color_disabled
-                            )
-                        )
-                    } else {
-                        val typedValue = TypedValue()
-                        val theme = context.theme
-                        theme.resolveAttribute(
-                            R.attr.azure_communication_ui_com_primary,
-                            typedValue,
-                            true
-                        )
-                        @ColorInt val color = typedValue.data
-                        setupJoinCallButton.background.setTint(color)
-                    }
-                }
-            }
+                setupJoinCallButtonText.isEnabled = it             }
         }
     }
 }
