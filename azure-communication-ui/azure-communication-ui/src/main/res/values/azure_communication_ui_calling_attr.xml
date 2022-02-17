@@ -4,13 +4,16 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <!-- these are the colors configurable by application -->
-    <attr name="azure_communication_ui_com_primary" type="color|reference" />
-    <attr name="azure_communication_ui_com_shade_10" type="color|reference" />
-    <attr name="azure_communication_ui_com_shade_20" type="color|reference" />
-    <attr name="azure_communication_ui_com_shade_30" type="color|reference" />
-    <attr name="azure_communication_ui_com_tint_10" type="color|reference" />
-    <attr name="azure_communication_ui_com_tint_20" type="color|reference" />
-    <attr name="azure_communication_ui_com_tint_30" type="color|reference" />
-    <attr name="azure_communication_ui_com_tint_40" type="color|reference" />
+    <!--
+        Primary Communication Colors (Naming from FluentUI)
+        These attributes represent the brand colors.
+    -->
+    <attr name="azure_communication_ui_communication_primary" type="color|reference" />
+    <attr name="azure_communication_ui_communication_shade_10" type="color|reference" />
+    <attr name="azure_communication_ui_communication_shade_20" type="color|reference" />
+    <attr name="azure_communication_ui_communication_shade_30" type="color|reference" />
+    <attr name="azure_communication_ui_communication_tint_10" type="color|reference" />
+    <attr name="azure_communication_ui_communication_tint_20" type="color|reference" />
+    <attr name="azure_communication_ui_communication_tint_30" type="color|reference" />
+    <attr name="azure_communication_ui_communication_tint_40" type="color|reference" />
 </resources>

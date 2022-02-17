@@ -8,14 +8,18 @@
 
     <!-- Custom Theme for Composite-->
     <style name="MyCompany.Theme.Calling" parent="AzureCommunicationUI.Theme.Calling">
-        <item name="azure_communication_ui_com_primary">#7800D4</item>
-        <item name="azure_communication_ui_com_tint_10">#882BD8</item>
-        <item name="azure_communication_ui_com_tint_20">#E0C7F4</item>
-        <item name="azure_communication_ui_com_tint_30">#ECDEF9</item>
-        <item name="azure_communication_ui_com_tint_40">#F6EFFC</item>
-        <item name="azure_communication_ui_com_shade_10">#6E10BE</item>
-        <item name="azure_communication_ui_com_shade_20">#5A009E</item>
-        <item name="azure_communication_ui_com_shade_30">#450078</item>
+        <!--
+            This custom theme is derived from the FluentUI colors, by swapping Red & Green Components
+            When supplying your own theme, choose your primary and also associated tints/shades
+        -->
+        <item name="azure_communication_ui_communication_primary">#7800D4</item>
+        <item name="azure_communication_ui_communication_tint_10">#882BD8</item>
+        <item name="azure_communication_ui_communication_tint_20">#E0C7F4</item>
+        <item name="azure_communication_ui_communication_tint_30">#ECDEF9</item>
+        <item name="azure_communication_ui_communication_tint_40">#F6EFFC</item>
+        <item name="azure_communication_ui_communication_shade_10">#6E10BE</item>
+        <item name="azure_communication_ui_communication_shade_20">#5A009E</item>
+        <item name="azure_communication_ui_communication_shade_30">#450078</item>
     </style>
 
     <!-- Launcher theme. -->
