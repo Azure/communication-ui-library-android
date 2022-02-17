@@ -81,7 +81,7 @@ internal class SetupControlBarViewModel(
     fun turnCameraOn() {
         dispatchAction(
             action =
-            if (isJoiningCall)
+            if (isNotJoiningCall)
                 LocalParticipantAction.CameraPreviewOnRequested()
             else {
                 LocalParticipantAction.CameraOnRequested()
@@ -92,7 +92,7 @@ internal class SetupControlBarViewModel(
     fun turnCameraOff() {
         dispatchAction(
             action =
-            if (isJoiningCall)
+            if (isNotJoiningCall)
                 LocalParticipantAction.CameraPreviewOffTriggered()
             else {
                 LocalParticipantAction.CameraOffTriggered()
@@ -103,7 +103,7 @@ internal class SetupControlBarViewModel(
     fun turnMicOn() {
         dispatchAction(
             action =
-            if (isJoiningCall)
+            if (isNotJoiningCall)
                 LocalParticipantAction.MicPreviewOnTriggered()
             else
                 LocalParticipantAction.MicOnTriggered()
@@ -113,14 +113,14 @@ internal class SetupControlBarViewModel(
     fun turnMicOff() {
         dispatchAction(
             action =
-            if (isJoiningCall)
+            if (isNotJoiningCall)
                 LocalParticipantAction.MicPreviewOffTriggered()
             else
                 LocalParticipantAction.MicOffTriggered()
         )
     }
 
-    private val isJoiningCall: Boolean
+    private val isNotJoiningCall: Boolean
         get() {
             return callingStatusStateFlow.value == CallingStatus.NONE
         }
