@@ -1,9 +1,7 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +10,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import androidx.annotation.ColorInt
 import com.azure.android.communication.ui.R
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
@@ -43,7 +40,8 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getJoinCallButtonEnabledFlow().collect {
                 setupJoinCallButton.isEnabled = it
-                setupJoinCallButtonText.isEnabled = it             }
+                setupJoinCallButtonText.isEnabled = it
+            }
         }
     }
 }
