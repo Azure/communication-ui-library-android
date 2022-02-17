@@ -41,8 +41,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="visible"
-                    app:avatarSize="xxlarge"
-                    app:name="User"
+                    app:fluentui_avatarSize="xxlarge"
+                    app:fluentui_name="User"
                     />
             </FrameLayout>
 
