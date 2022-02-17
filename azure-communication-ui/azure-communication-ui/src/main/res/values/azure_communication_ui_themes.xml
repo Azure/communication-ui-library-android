@@ -15,7 +15,7 @@
         <item name="azure_communication_ui_com_tint_40">@color/fluentui_communication_tint_40</item>
         <!-- This one tint isn't in fluent_ui so hard-coding-->
         <item name="azure_communication_ui_com_tint_10">#2B88D8</item>
-
+        
         <!-- Customize your theme here. -->
     </style>
 </resources>

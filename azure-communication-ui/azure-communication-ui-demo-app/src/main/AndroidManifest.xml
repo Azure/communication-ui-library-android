@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat"
         >
-        <activity android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity">
+        <activity android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
+            android:theme="@style/Launcher.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

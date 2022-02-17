@@ -29,7 +29,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
     ) {
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
-                CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme)).build()
+                CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling)).build()
             else
                 CallCompositeBuilder().build()
 
