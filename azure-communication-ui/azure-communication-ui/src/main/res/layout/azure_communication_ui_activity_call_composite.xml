@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
@@ -7,12 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.azure.android.communication.ui.presentation.CallCompositeActivity"
-    >
+    tools:context="com.azure.android.communication.ui.presentation.CallCompositeActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/azure_communication_ui_fragment_container_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 </LinearLayout>

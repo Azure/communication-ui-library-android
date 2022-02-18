@@ -53,6 +53,7 @@ internal class SetupViewModel(
     }
 
     fun exitComposite() {
+        dispatchAction(action = CallingAction.CallEndRequested())
         dispatchAction(action = NavigationAction.Exit())
     }
 
@@ -66,6 +67,7 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
+            state.callState.CallingStatus,
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState.device,
@@ -90,6 +92,7 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
+            state.callState.CallingStatus,
         )
         warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(
@@ -108,6 +111,11 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
             state.permissionState
         )
-        joinCallButtonHolderViewModel.update(state.permissionState.audioPermissionState)
+        joinCallButtonHolderViewModel.update(
+            state.permissionState.audioPermissionState,
+            state.callState.CallingStatus
+        )
     }
+
+    fun openAudioDeviceSelectionMenu() = audioDeviceListViewModel.displayAudioDeviceSelectionMenu()
 }

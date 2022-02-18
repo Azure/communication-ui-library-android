@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.presentation.navigation.NavigationRout
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.service.calling.NotificationService
 
 // Dependency Container for the Call Composite Activity
 // For implementation
@@ -31,6 +32,7 @@ internal interface DependencyInjectionContainer {
     val audioSessionManager: AudioSessionManager
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter
+    val notificationService: NotificationService
 
     // UI
     val videoViewManager: VideoViewManager
