@@ -7,9 +7,6 @@ import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.NetworkUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
-import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
-import org.junit.AfterClass
-import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
