@@ -127,6 +127,13 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun endCall(store: Store<ReduxState>) {
+        val currentStatus = store.getCurrentState().callState.CallingStatus
+
+        // Do not end the call unless we are at least connecting state.
+        if (!listOf(CallingStatus.CONNECTED, CallingStatus.CONNECTING).contains(currentStatus)) {
+            return
+        }
+
         callingService.endCall()
             .handle { _, error: Throwable? ->
                 if (error != null) {
