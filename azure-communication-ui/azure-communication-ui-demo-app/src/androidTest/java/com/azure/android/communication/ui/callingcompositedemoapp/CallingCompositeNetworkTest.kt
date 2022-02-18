@@ -16,19 +16,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeNetworkTest : BaseUiTest() {
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun networkTestSetup() {
-            ViewIsDisplayedResource.TIMED_OUT_VALUE = 60000L
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun networkTestTeardown() {
-            ViewIsDisplayedResource.TIMED_OUT_VALUE = 30000L
-        }
-    }
 
     @Test
     fun testJoinTeamsCallAfterNetworkDisconnected() {

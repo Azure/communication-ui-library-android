@@ -12,7 +12,7 @@ typealias ViewMatcherFunctionPtr = () -> ViewInteraction
 class ViewIsDisplayedResource {
     companion object {
         private const val DEFAULT_WAIT_TIME = 2000L
-        var TIMED_OUT_VALUE = 30000L
+        private const val TIMED_OUT_VALUE = 50000L
     }
 
     @Throws(IllegalStateException::class)
