@@ -14,6 +14,7 @@
     <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_setup_audio_device_selected">Selected</string>
     <string name="azure_communication_ui_setup_join_call">Join call</string>
+    <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
     <string name="azure_communication_ui_setup_missing_mic">Your audio is disabled. To enable, please go to Settings to allow access. You must
         enable audio to start this call.</string>
     <string name="azure_communication_ui_setup_missing_video">Your camera is disabled. To enable, please go to Settings

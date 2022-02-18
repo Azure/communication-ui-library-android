@@ -395,6 +395,66 @@ internal class CallingServiceUnitTests {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun callingService_getCallStateErrorFlow_when_nonErrorErrorCode_doesNotRaiseError() =
+        mainCoroutineRule.testDispatcher.runBlockingTest {
+
+            // arrange
+            val remoteParticipantsInfoModelSharedFlow =
+                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
+
+            val callingStateWrapperStateFlow =
+                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+
+            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
+                .thenReturn(remoteParticipantsInfoModelSharedFlow)
+            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
+                .thenReturn(callingStateWrapperStateFlow)
+            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
+                .thenReturn(isMutedSharedFlow)
+            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
+                .thenReturn(isRecordingSharedFlow)
+            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
+                .thenReturn(isTranscribingSharedFlow)
+            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
+                any(), any()
+            )
+
+            val emitResultFromFlow = mutableListOf<CallInfoModel>()
+
+            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+
+            val job = launch {
+                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+            }
+
+            // act
+            callingService.startCall(
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL,
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                )
+            )
+
+            callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.NONE, 487))
+            callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.DISCONNECTED, 603))
+
+            // assert
+            Assert.assertNull(emitResultFromFlow[1].callStateError)
+            Assert.assertNull(emitResultFromFlow[2].callStateError)
+
+            job.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun callingService_getCallStateErrorFlow_when_stateConnectedAndInvokedByCallingGatewayWithAnyErrorCodeNonZero_returnErrorTypeCallEnd() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
