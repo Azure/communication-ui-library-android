@@ -335,16 +335,15 @@ internal class CallingMiddlewareActionHandlerImpl(
                     }
                 }
 
-                if ((callInfoModel.callingStatus == CallingStatus.CONNECTED || callInfoModel.callingStatus == CallingStatus.IN_LOBBY) &&
-                    callInfoModel.callStateError == null
-                ) {
-                    store.dispatch(NavigationAction.CallLaunched())
-                }
-
-                if (callInfoModel.callingStatus == CallingStatus.DISCONNECTED &&
-                    callInfoModel.callStateError == null
-                ) {
-                    store.dispatch(NavigationAction.Exit())
+                if (callInfoModel.callStateError == null) {
+                    when (callInfoModel.callingStatus) {
+                        CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
+                            store.dispatch(NavigationAction.CallLaunched())
+                        }
+                        CallingStatus.DISCONNECTED -> {
+                            store.dispatch(NavigationAction.Exit())
+                        }
+                    }
                 }
             }
         }
