@@ -26,7 +26,6 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
-import kotlinx.coroutines.launch
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_call_fragment), BackNavigation, SensorEventListener {
@@ -110,10 +109,6 @@ internal class CallingFragment :
             viewModel.getBannerViewModel(),
             viewLifecycleOwner,
         )
-
-        if (savedInstanceState == null) {
-            viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
-        }
 
         sensorManager =
             context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager

@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.redux.action.PermissionAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
@@ -23,29 +24,34 @@ internal class SetupControlBarViewModel(
     private lateinit var cameraStateFlow: MutableStateFlow<CameraState>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
+    private lateinit var callingStatusStateFlow: MutableStateFlow<CallingStatus>
 
     fun init(
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
+        callingStatus: CallingStatus,
     ) {
         cameraPermissionStateFlow = MutableStateFlow(permissionState.cameraPermissionState)
         micPermissionStateFlow = MutableStateFlow(permissionState.audioPermissionState)
         cameraStateFlow = MutableStateFlow(cameraState)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
+        callingStatusStateFlow = MutableStateFlow(callingStatus)
     }
 
     fun update(
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
+        callingStatus: CallingStatus,
     ) {
         cameraPermissionStateFlow.value = permissionState.cameraPermissionState
         micPermissionStateFlow.value = permissionState.audioPermissionState
         cameraStateFlow.value = cameraState
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState.device
+        callingStatusStateFlow.value = callingStatus
     }
 
     fun getCameraPermissionState(): StateFlow<PermissionStatus> {
@@ -73,20 +79,51 @@ internal class SetupControlBarViewModel(
     }
 
     fun turnCameraOn() {
-        dispatchAction(action = LocalParticipantAction.CameraPreviewOnRequested())
+        dispatchAction(
+            action =
+            if (isNotJoiningCall)
+                LocalParticipantAction.CameraPreviewOnRequested()
+            else {
+                LocalParticipantAction.CameraOnRequested()
+            }
+        )
     }
 
     fun turnCameraOff() {
-        dispatchAction(action = LocalParticipantAction.CameraPreviewOffTriggered())
+        dispatchAction(
+            action =
+            if (isNotJoiningCall)
+                LocalParticipantAction.CameraPreviewOffTriggered()
+            else {
+                LocalParticipantAction.CameraOffTriggered()
+            }
+        )
     }
 
     fun turnMicOn() {
-        dispatchAction(action = LocalParticipantAction.MicPreviewOnTriggered())
+        dispatchAction(
+            action =
+            if (isNotJoiningCall)
+                LocalParticipantAction.MicPreviewOnTriggered()
+            else
+                LocalParticipantAction.MicOnTriggered()
+        )
     }
 
     fun turnMicOff() {
-        dispatchAction(action = LocalParticipantAction.MicPreviewOffTriggered())
+        dispatchAction(
+            action =
+            if (isNotJoiningCall)
+                LocalParticipantAction.MicPreviewOffTriggered()
+            else
+                LocalParticipantAction.MicOffTriggered()
+        )
     }
+
+    private val isNotJoiningCall: Boolean
+        get() {
+            return callingStatusStateFlow.value == CallingStatus.NONE
+        }
 
     private fun dispatchAction(action: Action) {
         dispatch(action)

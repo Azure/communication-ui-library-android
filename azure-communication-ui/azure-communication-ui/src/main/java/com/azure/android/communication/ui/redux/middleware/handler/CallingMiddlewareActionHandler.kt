@@ -151,7 +151,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.turnLocalCameraOn().handle { newVideoStreamId, error: Throwable? ->
             if (error != null) {
                 store.dispatch(
-                    LocalParticipantAction.CameraPauseFailed(
+                    LocalParticipantAction.CameraPreviewOnFailed(
                         CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_ON, error)
                     )
                 )
@@ -335,10 +335,15 @@ internal class CallingMiddlewareActionHandlerImpl(
                     }
                 }
 
-                if (callInfoModel.callingStatus == CallingStatus.DISCONNECTED &&
-                    callInfoModel.callStateError == null
-                ) {
-                    store.dispatch(NavigationAction.Exit())
+                if (callInfoModel.callStateError == null) {
+                    when (callInfoModel.callingStatus) {
+                        CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
+                            store.dispatch(NavigationAction.CallLaunched())
+                        }
+                        CallingStatus.DISCONNECTED -> {
+                            store.dispatch(NavigationAction.Exit())
+                        }
+                    }
                 }
             }
         }
