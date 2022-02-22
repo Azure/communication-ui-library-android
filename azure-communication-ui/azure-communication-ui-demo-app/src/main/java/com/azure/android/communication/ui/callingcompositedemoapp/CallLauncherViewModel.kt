@@ -81,14 +81,16 @@ class CallLauncherViewModel : ViewModel() {
                     val response = result.component1()
                     val cause = result.component2()
                     if (cause != null || response == null) {
-                        fetchResultInternal.postValue(Result.failure(IOException("Unable to fetch token: ", cause)))
+                        fetchResultInternal.postValue(Result.failure(IOException("Unable to fetch token: ",
+                            cause)))
                     } else {
                         token = JSONObject(response).getString("token")
                         fetchResultInternal.postValue(Result.success(launcher(tokenFunctionURL)))
                     }
                 }
         } else {
-            fetchResultInternal.value = Result.failure(IllegalStateException("Token function URL error"))
+            fetchResultInternal.value =
+                Result.failure(IllegalStateException("Token function URL error"))
         }
     }
 

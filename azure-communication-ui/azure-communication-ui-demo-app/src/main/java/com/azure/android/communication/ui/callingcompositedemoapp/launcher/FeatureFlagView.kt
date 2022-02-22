@@ -41,6 +41,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
             addView(tv)
         }
     }
+
     override fun onDetachedFromWindow() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         super.onDetachedFromWindow()
