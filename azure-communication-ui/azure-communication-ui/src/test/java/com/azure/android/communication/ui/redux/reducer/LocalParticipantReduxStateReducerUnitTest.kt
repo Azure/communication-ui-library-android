@@ -531,7 +531,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         Assert.assertEquals(AudioOperationalStatus.ON, newState.audioState.operation)
     }
 
-    // / Helper for Audio Device Selection/Requested tests
+    // Helper for Audio Device Selection/Requested tests
     private fun deviceStateReducer_reduce_when_AudioDeviceAction(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
 
         // arrange
