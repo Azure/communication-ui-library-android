@@ -109,7 +109,10 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             displayName = null
         )
         val error =
-            CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_ON, Throwable("CameraOn has failed"))
+            CallCompositeError(
+                CallCompositeErrorCode.TURN_CAMERA_ON,
+                Throwable("CameraOn has failed")
+            )
         val action = LocalParticipantAction.CameraOnFailed(error)
 
         // act
@@ -186,7 +189,10 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             videoStreamId,
             null
         )
-        val error = CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_OFF, Throwable("CameraOff failed"))
+        val error = CallCompositeError(
+            CallCompositeErrorCode.TURN_CAMERA_OFF,
+            Throwable("CameraOff failed")
+        )
         val action = LocalParticipantAction.CameraOffFailed(error)
 
         // act
@@ -289,7 +295,10 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             displayName = null
         )
         val error =
-            CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_ON, Throwable("CameraOn has failed"))
+            CallCompositeError(
+                CallCompositeErrorCode.TURN_CAMERA_ON,
+                Throwable("CameraOn has failed")
+            )
         val action = LocalParticipantAction.CameraPreviewOnFailed(error)
 
         // act
@@ -393,7 +402,10 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             displayName = null
         )
 
-        val error = CallCompositeError(CallCompositeErrorCode.SWITCH_CAMERA, Throwable("CameraSwitch failed"))
+        val error = CallCompositeError(
+            CallCompositeErrorCode.SWITCH_CAMERA,
+            Throwable("CameraSwitch failed")
+        )
         val previousCameraState = CameraDeviceSelectionStatus.FRONT
 
         val action = LocalParticipantAction.CameraSwitchFailed(previousCameraState, error)
@@ -471,7 +483,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             videoStreamID = null,
             displayName = null
         )
-        val error = CallCompositeError(CallCompositeErrorCode.TURN_MIC_ON, Throwable("MicOn failed"))
+        val error =
+            CallCompositeError(CallCompositeErrorCode.TURN_MIC_ON, Throwable("MicOn failed"))
         val action = LocalParticipantAction.MicOnFailed(error)
 
         // act
@@ -521,7 +534,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             videoStreamID = null,
             displayName = null
         )
-        val error = CallCompositeError(CallCompositeErrorCode.TURN_MIC_OFF, Throwable("Mic OFF failed"))
+        val error =
+            CallCompositeError(CallCompositeErrorCode.TURN_MIC_OFF, Throwable("Mic OFF failed"))
         val action = LocalParticipantAction.MicOffFailed(error)
 
         // act

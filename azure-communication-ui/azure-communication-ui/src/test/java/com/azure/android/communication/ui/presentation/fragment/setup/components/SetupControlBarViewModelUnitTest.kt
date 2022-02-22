@@ -187,19 +187,33 @@ internal class SetupControlBarViewModelUnitTest {
         )
     }
 
-    private fun initViewModel(setupControlBarViewModel: SetupControlBarViewModel, callingStatus: CallingStatus = CallingStatus.NONE) {
+    private fun initViewModel(
+        setupControlBarViewModel: SetupControlBarViewModel,
+        callingStatus: CallingStatus = CallingStatus.NONE,
+    ) {
         setupControlBarViewModel.init(
             PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_REQUESTED),
             callingStatus
         )
     }
 
-    private fun updateViewModel(setupControlBarViewModel: SetupControlBarViewModel, callingStatus: CallingStatus = CallingStatus.NONE) {
+    private fun updateViewModel(
+        setupControlBarViewModel: SetupControlBarViewModel,
+        callingStatus: CallingStatus = CallingStatus.NONE,
+    ) {
         setupControlBarViewModel.update(
             PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_REQUESTED),
             callingStatus
         )

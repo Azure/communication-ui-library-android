@@ -57,7 +57,8 @@ internal class LocalParticipantViewModel(
             displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN
         displayPipSwitchCameraButtonFlow.value =
             displayVideo && viewMode == LocalParticipantViewMode.PIP
-        enableCameraSwitchFlow.value = cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
+        enableCameraSwitchFlow.value =
+            cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
     }
 
     fun clear() {
@@ -81,7 +82,8 @@ internal class LocalParticipantViewModel(
 
         videoStatusFlow = MutableStateFlow(VideoModel(displayVideo, videoStreamID, viewMode))
         displayNameStateFlow = MutableStateFlow(displayName)
-        localUserMutedStateFlow = MutableStateFlow(audioOperationalStatus == AudioOperationalStatus.OFF)
+        localUserMutedStateFlow =
+            MutableStateFlow(audioOperationalStatus == AudioOperationalStatus.OFF)
         displayFullScreenAvatarFlow = MutableStateFlow(displayFullScreenAvatar)
         displaySwitchCameraButtonFlow =
             MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN)

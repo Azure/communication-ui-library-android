@@ -28,9 +28,10 @@ internal class AudioSessionManager(
 
     private var started = false
 
-    private val isBluetoothScoAvailable get() =
-        FeatureFlags.BluetoothAudio.active &&
-            (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+    private val isBluetoothScoAvailable
+        get() =
+            FeatureFlags.BluetoothAudio.active &&
+                (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
@@ -60,37 +61,65 @@ internal class AudioSessionManager(
 
     override fun onReceive(context: Context?, intent: Intent?) = updateBluetoothStatus()
 
-    // / Update the status of bluetooth
-    // / - Connect a headset automatically if bluetooth is connected
-    // / - When disconnected revert to "Speaker"
-    // / - When disconnected (and not selected), just update availability
+    // Update the status of bluetooth
+    // Connect a headset automatically if bluetooth is connected
+    // When disconnected revert to "Speaker"
+    // When disconnected (and not selected), just update availability
     private fun updateBluetoothStatus() {
         if (!isBluetoothScoAvailable &&
             store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable &&
             store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
         ) {
-            // / If bluetooth dropped
-            store.dispatch(LocalParticipantAction.AudioDeviceChangeRequested(AudioDeviceSelectionStatus.SPEAKER_REQUESTED))
+            // If bluetooth dropped
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeRequested(
+                    AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+                )
+            )
         }
 
         if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable) {
             // If Bluetooth has been connected and wasn't, switch to it
-            store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
-            store.dispatch(LocalParticipantAction.AudioDeviceChangeRequested(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED))
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+                    isBluetoothScoAvailable
+                )
+            )
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeRequested(
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
+                )
+            )
         } else {
             // If bluetooth wasn't selected and is just being disconnected, just do the flag
-            store.dispatch(LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(isBluetoothScoAvailable))
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+                    isBluetoothScoAvailable
+                )
+            )
         }
     }
 
     private fun initializeAudioDeviceState() {
         when {
             audioManager.isSpeakerphoneOn ->
-                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
+                store.dispatch(
+                    LocalParticipantAction.AudioDeviceChangeSucceeded(
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                    )
+                )
             audioManager.isBluetoothScoOn ->
-                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED))
+                store.dispatch(
+                    LocalParticipantAction.AudioDeviceChangeSucceeded(
+                        AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+                    )
+                )
             else ->
-                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED))
+                store.dispatch(
+                    LocalParticipantAction.AudioDeviceChangeSucceeded(
+                        AudioDeviceSelectionStatus.RECEIVER_SELECTED
+                    )
+                )
         }
     }
 
@@ -105,15 +134,27 @@ internal class AudioSessionManager(
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> {
                 enableSpeakerPhone()
-                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
+                store.dispatch(
+                    LocalParticipantAction.AudioDeviceChangeSucceeded(
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                    )
+                )
             }
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
                 enableEarpiece()
-                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED))
+                store.dispatch(
+                    LocalParticipantAction.AudioDeviceChangeSucceeded(
+                        AudioDeviceSelectionStatus.RECEIVER_SELECTED
+                    )
+                )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
                 enableBluetooth()
-                store.dispatch(LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED))
+                store.dispatch(
+                    LocalParticipantAction.AudioDeviceChangeSucceeded(
+                        AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+                    )
+                )
             }
         }
     }

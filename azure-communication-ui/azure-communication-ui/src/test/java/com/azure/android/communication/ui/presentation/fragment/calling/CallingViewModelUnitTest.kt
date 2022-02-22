@@ -355,7 +355,11 @@ internal class CallingViewModelUnitTest {
     }
 
     private fun getLocalUserState() = LocalUserState(
-        CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+        CameraState(
+            CameraOperationalStatus.OFF,
+            CameraDeviceSelectionStatus.FRONT,
+            CameraTransmissionStatus.LOCAL
+        ),
         AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
         "test",
         "test"

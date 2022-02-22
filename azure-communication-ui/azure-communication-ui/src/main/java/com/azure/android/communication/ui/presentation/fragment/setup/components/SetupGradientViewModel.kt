@@ -20,7 +20,8 @@ internal class SetupGradientViewModel {
         videoStreamID: String?,
         cameraOperationalStatus: CameraOperationalStatus,
     ) {
-        displaySetupGradientFlow = MutableStateFlow(isVideoDisplayed(videoStreamID, cameraOperationalStatus))
+        displaySetupGradientFlow =
+            MutableStateFlow(isVideoDisplayed(videoStreamID, cameraOperationalStatus))
     }
 
     private fun isVideoDisplayed(

@@ -55,7 +55,8 @@ internal class CallingSDKEventHandler(
 
     fun getRemoteParticipantsMap() = remoteParticipantsCacheMap
 
-    fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> = callingStateWrapperSharedFlow
+    fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
+        callingStateWrapperSharedFlow
 
     fun getIsMutedSharedFlow(): SharedFlow<Boolean> = isMutedSharedFlow
 

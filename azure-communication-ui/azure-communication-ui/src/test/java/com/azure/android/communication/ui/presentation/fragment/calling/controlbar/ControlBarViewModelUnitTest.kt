@@ -43,7 +43,11 @@ internal class ControlBarViewModelUnitTest {
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.PAUSED, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+            CameraState(
+                CameraOperationalStatus.PAUSED,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
             AudioState(AudioOperationalStatus.PENDING, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
             displayName = "username"
@@ -67,7 +71,11 @@ internal class ControlBarViewModelUnitTest {
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOff() {
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.PAUSED, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+            CameraState(
+                CameraOperationalStatus.PAUSED,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
             AudioState(AudioOperationalStatus.PENDING, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             videoStreamID = null,
             displayName = "username"
@@ -92,7 +100,11 @@ internal class ControlBarViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             val permissionState = PermissionState(PermissionStatus.DENIED, PermissionStatus.DENIED)
-            val cameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
+            val cameraState = CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.REMOTE
+            )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
 
             val appStore = mock<AppStore<ReduxState>> { }
@@ -111,7 +123,8 @@ internal class ControlBarViewModelUnitTest {
 
             val resultListFromAudioStateFlow = mutableListOf<AudioOperationalStatus>()
             val flowJob = launch {
-                callingViewModel.getAudioOperationalStatusStateFlow().toList(resultListFromAudioStateFlow)
+                callingViewModel.getAudioOperationalStatusStateFlow()
+                    .toList(resultListFromAudioStateFlow)
             }
 
             // act
@@ -152,7 +165,11 @@ internal class ControlBarViewModelUnitTest {
                 expectedCameraPermissionState2
             )
 
-            val cameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
+            val cameraState = CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.REMOTE
+            )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
 
             val resultListFromCameraPermissionStateFlow =
@@ -221,11 +238,23 @@ internal class ControlBarViewModelUnitTest {
             val expectedCameraState1 = CameraOperationalStatus.ON
             val expectedCameraState2 = CameraOperationalStatus.OFF
 
-            val cameraState1 = CameraState(expectedCameraState1, cameraDeviceSelectionStatus, cameraTransmissionStatus)
+            val cameraState1 = CameraState(
+                expectedCameraState1,
+                cameraDeviceSelectionStatus,
+                cameraTransmissionStatus
+            )
 
-            val cameraState2 = CameraState(expectedCameraState2, cameraDeviceSelectionStatus, cameraTransmissionStatus)
+            val cameraState2 = CameraState(
+                expectedCameraState2,
+                cameraDeviceSelectionStatus,
+                cameraTransmissionStatus
+            )
 
-            val initialCameraState = CameraState(CameraOperationalStatus.OFF, cameraDeviceSelectionStatus, cameraTransmissionStatus)
+            val initialCameraState = CameraState(
+                CameraOperationalStatus.OFF,
+                cameraDeviceSelectionStatus,
+                cameraTransmissionStatus
+            )
             callingViewModel.init(
                 permissionState,
                 initialCameraState,

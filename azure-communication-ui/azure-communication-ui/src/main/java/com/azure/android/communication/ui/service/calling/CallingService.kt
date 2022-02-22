@@ -123,12 +123,12 @@ internal class CallingService(
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
                 val callStateError = when (it.callEndReason) {
                     CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> null
-                    CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CallCompositeErrorCode.TOKEN_EXPIRED,)
+                    CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CallCompositeErrorCode.TOKEN_EXPIRED)
                     else -> {
                         if (callingStatus == CallingStatus.CONNECTED) {
-                            CallStateError(CallCompositeErrorCode.CALL_END,)
+                            CallStateError(CallCompositeErrorCode.CALL_END)
                         } else {
-                            CallStateError(CallCompositeErrorCode.CALL_JOIN,)
+                            CallStateError(CallCompositeErrorCode.CALL_JOIN)
                         }
                     }
                 }

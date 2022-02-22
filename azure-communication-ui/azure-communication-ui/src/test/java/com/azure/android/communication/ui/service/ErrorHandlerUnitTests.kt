@@ -192,7 +192,8 @@ internal class ErrorHandlerUnitTests {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val appState = AppReduxState("")
-            appState.errorState = ErrorState(null, CallStateError(CallCompositeErrorCode.TOKEN_EXPIRED))
+            appState.errorState =
+                ErrorState(null, CallStateError(CallCompositeErrorCode.TOKEN_EXPIRED))
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
             val mockAppStore = mock<AppStore<ReduxState>> {
