@@ -30,6 +30,7 @@ import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.*
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
@@ -74,6 +75,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
             theme.applyStyle(
                 configuration.themeConfig?.theme!!, true
             )
+        }
+
+        if (configuration.localizationConfig?.language != null) {
+            Locale.setDefault(Locale(configuration.localizationConfig?.language ?: "en"))
+            window?.decorView?.layoutDirection =
+                (if (configuration.localizationConfig?.isRTL == true) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR)
         }
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
 
@@ -217,7 +224,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
             if (isNightMode) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
+                    window.insetsController?.setSystemBarsAppearance(
+                        0,
+                        APPEARANCE_LIGHT_STATUS_BARS
+                    )
                 } else {
                     window.clearFlags(0)
                 }
