@@ -38,6 +38,7 @@ class FeatureFlagsTest {
         //  Fake an entry
         var started = false
         val entry = FeatureFlagEntry(
+            defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
             start = {
                 started = true
@@ -67,6 +68,7 @@ class FeatureFlagsTest {
         // / Fake an entry (this one will be default on)
         var started = false
         val entry = FeatureFlagEntry(
+            defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_true,
             labelId = R.string.azure_communication_ui_feature_flag_test_label,
             start = {
                 started = true
