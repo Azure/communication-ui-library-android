@@ -35,18 +35,19 @@ class FeatureFlagsTest {
 
     @Test
     fun testAdditionalFeature() {
-        // / Fake an entry
+        //  Fake an entry
         var started = false
         val entry = FeatureFlagEntry(
-            labelId = R.string.azure_communication_ui_feature_flag_test_label,
             defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
+            labelId = R.string.azure_communication_ui_feature_flag_test_label,
             start = {
                 started = true
             },
             end = {
                 started = false
-            },
+            }
         )
+
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         FeatureFlags.registerAdditionalFeature(entry)
 
@@ -67,15 +68,16 @@ class FeatureFlagsTest {
         // / Fake an entry (this one will be default on)
         var started = false
         val entry = FeatureFlagEntry(
-            labelId = R.string.azure_communication_ui_feature_flag_test_label,
             defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_true,
+            labelId = R.string.azure_communication_ui_feature_flag_test_label,
             start = {
                 started = true
             },
             end = {
                 started = false
-            },
+            }
         )
+
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         FeatureFlags.registerAdditionalFeature(entry)
         FeatureFlags.initialize(appContext)
