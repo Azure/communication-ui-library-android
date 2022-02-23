@@ -66,6 +66,9 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
         idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_call_leave_confirm)
         }
-        UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_call_leave_confirm, "Leave call")
+        UiTestUtils.clickViewWithIdAndText(
+            R.id.azure_communication_ui_call_leave_confirm,
+            "Leave call"
+        )
     }
 }
