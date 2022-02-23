@@ -5,10 +5,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.azure.android.communication.ui.CallComposite
@@ -21,6 +19,7 @@ class SettingsActivity : AppCompatActivity() {
     private val supportedLanguages = SupportedLanguages.values()
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var languageArrayAdapter: ArrayAdapter<SupportedLanguages>
+    private lateinit var isRTLCheckBox: CheckBox
     private val sharedPreference by lazy {
         getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
     }
@@ -29,6 +28,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        isRTLCheckBox = findViewById(R.id.languageIsRTL)
         autoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
         languageArrayAdapter = ArrayAdapter(applicationContext, R.layout.language_dropdown_item, supportedLanguages)
         autoCompleteTextView.setAdapter(languageArrayAdapter)
@@ -38,12 +38,25 @@ class SettingsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        autoCompleteTextView.setText(sharedPreference.getString("LANGUAGE_ADAPTER_POSITION", "ENGLISH_UK"), true)
+        autoCompleteTextView.setText(sharedPreference.getString("LANGUAGE_ADAPTER_VALUE", "ENGLISH_UK"), true)
         languageArrayAdapter.filter.filter(null)
 
         autoCompleteTextView.setOnItemClickListener{ parent, view, position, id->
             val selectedItem: String = autoCompleteTextView.adapter.getItem(position).toString()
-            sharedPreference.edit().putString("LANGUAGE_ADAPTER_POSITION", selectedItem).commit()
+            sharedPreference.edit().putString("LANGUAGE_ADAPTER_VALUE", selectedItem).commit()
+        }
+
+        isRTLCheckBox.isChecked = sharedPreference.getBoolean("LANGUAGE_ISRTL", false)
+    }
+
+    fun onCheckBoxTap(view: View) {
+
+        if ( view is CheckBox ) {
+            when (view.id) {
+                R.id.languageIsRTL -> {
+                    sharedPreference.edit().putBoolean("LANGUAGE_ISRTL", view.isChecked).commit()
+                }
+            }
         }
     }
 

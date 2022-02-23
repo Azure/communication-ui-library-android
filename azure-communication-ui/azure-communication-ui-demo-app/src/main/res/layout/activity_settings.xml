@@ -46,7 +46,8 @@
         android:id="@+id/languageIsRTL"
         android:text="isRTL"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="onCheckBoxTap"/>
 
     <TextView
         android:text="Call Settings"
