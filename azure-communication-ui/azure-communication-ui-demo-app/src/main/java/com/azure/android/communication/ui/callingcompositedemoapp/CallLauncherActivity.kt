@@ -11,8 +11,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.diagnosticsFeature
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.initializeMemoryViewFeature
+import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
+import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
 import com.azure.android.communication.ui.utilities.FeatureFlags
@@ -27,7 +27,9 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Register Memory Viewer with FeatureFlags
-        initializeMemoryViewFeature(this)
+        conditionallyRegisterDiagnostics(this)
+        FeatureFlags.registerAdditionalFeature(AdditionalFeatures.secondaryThemeFeature)
+
         // Initialize the FeatureFlags enum
         FeatureFlags.initialize(this)
 
@@ -138,7 +140,7 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onResume()
         // Will resume this feature if it's active
         // This is a special case for the permission dialog for diagnostic feature
-        diagnosticsFeature.onStart(application)
+        AdditionalFeatures.diagnosticsFeature.onStart(application)
     }
 
     override fun onDestroy() {
