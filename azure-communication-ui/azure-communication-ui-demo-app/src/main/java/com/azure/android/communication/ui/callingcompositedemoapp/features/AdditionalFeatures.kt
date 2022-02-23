@@ -22,7 +22,7 @@ fun conditionallyRegisterDiagnostics(context: Context) {
 class AdditionalFeatures private constructor() {
     companion object {
         val diagnosticsFeature = FeatureFlagEntry(
-            defaultBooleanId = R.bool.diagnostics,
+            defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
             labelId = R.string.diagnostics,
             start = {
                 MemoryViewer.getMemoryViewer(it).show()
