@@ -11,6 +11,7 @@ import org.hamcrest.Matchers
 interface ACSViewAction : ViewAction {
     fun getText(): String
 }
+
 class GetEditTextAction : ACSViewAction {
     private lateinit var stringHolder: String
 
