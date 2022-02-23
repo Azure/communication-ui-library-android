@@ -82,12 +82,12 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
 
     fun endCall(): CompletableFuture<Void> {
-        val call : Call?
+        val call: Call?
 
         // The getter for Call throws an exception, so we need to handle this
         try {
             call = this.call
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             return CompletableFuture.failedFuture(e)
         }
 
