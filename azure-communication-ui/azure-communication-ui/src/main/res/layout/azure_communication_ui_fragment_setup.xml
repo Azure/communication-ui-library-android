@@ -169,6 +169,8 @@
             android:enabled="true"
             android:text="@string/azure_communication_ui_setup_join_call"
             android:textSize="0sp"
+            app:backgroundTint="@color/azure_communication_ui_primary_selector"
+            android:backgroundTint="@color/azure_communication_ui_primary_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

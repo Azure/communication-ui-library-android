@@ -530,4 +530,49 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         // assert
         Assert.assertEquals(AudioOperationalStatus.ON, newState.audioState.operation)
     }
+
+    // Helper for Audio Device Selection/Requested tests
+    private fun deviceStateReducer_reduce_when_AudioDeviceAction(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
+
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.PENDING,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(AudioOperationalStatus.ON, audioDeviceSelectionStatus),
+            videoStreamID = null,
+            displayName = null
+        )
+
+        val action =
+            LocalParticipantAction.AudioDeviceChangeRequested(audioDeviceSelectionStatus)
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(
+            audioDeviceSelectionStatus,
+            newState.audioState.device
+        )
+    }
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_request_receiver() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_request_bluetooth() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_select_receiver() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.RECEIVER_SELECTED)
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_select_bluetooth() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
 }
