@@ -25,13 +25,20 @@ internal class AudioDeviceListViewModel(
         audioDeviceSelectionStatusMutableStateFlow = MutableStateFlow(audioDeviceSelectionStatus)
     }
 
-    fun update(audioDeviceSelectionStatus: AudioDeviceSelectionStatus, isBluetoothSCOAvailable: Boolean) {
+    fun update(
+        audioDeviceSelectionStatus: AudioDeviceSelectionStatus,
+        isBluetoothSCOAvailable: Boolean,
+    ) {
         audioDeviceSelectionStatusMutableStateFlow.value = audioDeviceSelectionStatus
         bluetoothScoAvailableMutableStateFlow.value = isBluetoothSCOAvailable
     }
 
     fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        dispatchAction(action = LocalParticipantAction.AudioDeviceChangeRequested(audioDeviceSelectionStatus))
+        dispatchAction(
+            action = LocalParticipantAction.AudioDeviceChangeRequested(
+                audioDeviceSelectionStatus
+            )
+        )
     }
 
     fun displayAudioDeviceSelectionMenu() {

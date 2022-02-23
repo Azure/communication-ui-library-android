@@ -17,7 +17,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
 
-        buildConfigField ('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
+        buildConfigField('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -49,7 +49,7 @@ android {
                 useLegacyPackaging = true
             }
         }
-        unitTests{
+        unitTests {
             returnDefaultValues = true
             all {
                 failFast = true
@@ -70,7 +70,7 @@ android {
             reporter "plain"
         }
         filter {
-            exclude({it.file.absolutePath.contains("/generated/")})
+            exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
 }

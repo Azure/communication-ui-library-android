@@ -23,7 +23,8 @@ import java.lang.RuntimeException
  *
  * Afterwards you can reference container, which holds the services.
  */
-internal class DependencyInjectionContainerHolder(application: Application) : AndroidViewModel(application) {
+internal class DependencyInjectionContainerHolder(application: Application) :
+    AndroidViewModel(application) {
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
 

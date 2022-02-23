@@ -34,10 +34,16 @@ internal class CallCompositeEventsHandlerTests {
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.setOnErrorHandler(handler1)
-            Assert.assertSame(handler1, configuration.callCompositeEventsHandler.getOnErrorHandler())
+            Assert.assertSame(
+                handler1,
+                configuration.callCompositeEventsHandler.getOnErrorHandler()
+            )
 
             configuration.callCompositeEventsHandler.setOnErrorHandler(handler2)
-            Assert.assertSame(handler2, configuration.callCompositeEventsHandler.getOnErrorHandler())
+            Assert.assertSame(
+                handler2,
+                configuration.callCompositeEventsHandler.getOnErrorHandler()
+            )
 
             configuration.callCompositeEventsHandler.setOnErrorHandler(null)
             Assert.assertNull(configuration.callCompositeEventsHandler.getOnErrorHandler())

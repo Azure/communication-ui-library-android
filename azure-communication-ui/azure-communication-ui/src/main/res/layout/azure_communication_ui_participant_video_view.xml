@@ -6,20 +6,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_participant_video_view_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
-        android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp_surface">
+        android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp_surface"
+        >
 
         <FrameLayout
             android:id="@+id/azure_communication_ui_participant_video_view_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/azure_communication_ui_speaking_rectangle_indicator" />
+            android:background="@drawable/azure_communication_ui_speaking_rectangle_indicator"
+            />
 
         <LinearLayout
             android:id="@+id/azure_communication_ui_participant_view_on_video_information_container"
@@ -31,7 +34,8 @@
             android:orientation="horizontal"
             android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            >
 
             <TextView
                 android:id="@+id/azure_communication_ui_participant_view_on_video_display_name"
@@ -42,7 +46,8 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@color/azure_communication_ui_color_on_background" />
+                android:textColor="@color/azure_communication_ui_color_on_background"
+                />
 
             <ImageView
                 android:id="@+id/azure_communication_ui_participant_view_on_video_mic_indicator"
@@ -50,7 +55,8 @@
                 android:layout_height="17dp"
                 android:layout_gravity="center"
                 android:layout_weight="0"
-                app:srcCompat="@drawable/azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_filled" />
+                app:srcCompat="@drawable/azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_filled"
+                />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

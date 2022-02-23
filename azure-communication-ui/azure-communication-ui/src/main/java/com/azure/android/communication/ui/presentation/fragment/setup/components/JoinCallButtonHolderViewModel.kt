@@ -27,7 +27,8 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
     }
 
     fun init(audioPermissionState: PermissionStatus) {
-        joinCallButtonEnabledFlow = MutableStateFlow(audioPermissionState == PermissionStatus.GRANTED)
+        joinCallButtonEnabledFlow =
+            MutableStateFlow(audioPermissionState == PermissionStatus.GRANTED)
         disableJoinCallButtonFlow.value = false
         shouldBlockJoinButton = false
     }
@@ -39,6 +40,7 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
             // once we receive CONNECTING status we can rely on it to set value to joiningCallInProgress
             shouldBlockJoinButton = false
         }
-        disableJoinCallButtonFlow.value = callingStatus != CallingStatus.NONE || shouldBlockJoinButton
+        disableJoinCallButtonFlow.value =
+            callingStatus != CallingStatus.NONE || shouldBlockJoinButton
     }
 }
