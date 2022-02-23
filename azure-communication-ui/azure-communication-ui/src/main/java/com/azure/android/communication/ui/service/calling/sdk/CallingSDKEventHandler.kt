@@ -85,6 +85,7 @@ internal class CallingSDKEventHandler(
     }
 
     fun onEndCall() {
+        if (call == null) return
         call?.removeOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
         remoteParticipantsCacheMap.forEach { (id, remoteParticipant) ->
             remoteParticipant.removeOnVideoStreamsUpdatedListener(videoStreamsUpdatedListenersMap[id])
