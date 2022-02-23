@@ -16,7 +16,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.configuration.SupportedLanguages
-import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KEY
+import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
 
@@ -221,3 +221,4 @@ const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_ISRTL_VALUE = false
 const val HIDDEN_TAP_COUNT_THRESHOLD = 5
+
