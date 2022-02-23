@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.presentation.navigation
 
 import com.azure.android.communication.ui.redux.state.NavigationStatus
+import kotlinx.coroutines.flow.StateFlow
 
 internal interface NavigationRouter {
     suspend fun start()
-    fun addOnNavigationStateChanged(callback: (navigationState: NavigationStatus) -> Unit)
-    fun removeOnNavigationStateChanged(callback: (navigationState: NavigationStatus) -> Unit)
+    fun getNavigationStateFlow(): StateFlow<NavigationStatus>
 }

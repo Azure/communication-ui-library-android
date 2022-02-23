@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.redux.state
 
 internal enum class NavigationStatus {
+    NONE,
     IN_CALL,
     SETUP,
     EXIT,

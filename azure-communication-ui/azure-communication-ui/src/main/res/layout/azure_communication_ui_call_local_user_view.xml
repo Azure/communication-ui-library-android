@@ -55,8 +55,8 @@
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             >
 
@@ -66,10 +66,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:visibility="visible"
-                app:avatarSize="xxlarge"
+                app:fluentui_avatarSize="xxlarge"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
@@ -80,8 +80,8 @@
                 android:gravity="center"
                 android:layout_marginHorizontal="15dp"
                 android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_local_avatar"
                 >
 
@@ -100,7 +100,7 @@
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
                     app:srcCompat="@drawable/azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_filled"
                     />
 

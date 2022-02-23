@@ -15,7 +15,6 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.redux.Store
-import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -76,12 +75,6 @@ internal class CallingViewModel(
 
     fun getBannerViewModel(): BannerViewModel {
         return bannerViewModel
-    }
-
-    fun startCall() {
-        if (store.getCurrentState().callState.CallingStatus == CallingStatus.NONE) {
-            dispatchAction(action = CallingAction.CallStartRequested())
-        }
     }
 
     fun switchFloatingHeader() {

@@ -50,6 +50,7 @@ internal class CallingSDKWrapper(
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
 
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
+    private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
 
     private val callConfig: CallConfiguration
         get() {
@@ -326,19 +327,17 @@ internal class CallingSDKWrapper(
         )
     }
 
-    private val videoDevicesUpdatedListener =
-        VideoDevicesUpdatedListener {
-            completeCamerasInitializedCompletableFuture()
-        }
-
     private fun initializeCameras(): CompletableFuture<Void> {
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
-        }
-
-        getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager, _: Throwable? ->
-            completeCamerasInitializedCompletableFuture()
-            deviceManager.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager, _: Throwable? ->
+                completeCamerasInitializedCompletableFuture()
+                videoDevicesUpdatedListener =
+                    VideoDevicesUpdatedListener {
+                        completeCamerasInitializedCompletableFuture()
+                    }
+                deviceManager.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+            }
         }
 
         return camerasInitializedCompletableFuture!!
@@ -374,8 +373,9 @@ internal class CallingSDKWrapper(
     }
 
     private fun cleanupResources() {
-        deviceManagerCompletableFuture?.get()
-            ?.removeOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+        videoDevicesUpdatedListener?.let {
+            deviceManagerCompletableFuture?.get()?.removeOnCamerasUpdatedListener(it)
+        }
         callAgentCompletableFuture?.get()?.dispose()
         callClient = null
         nullableCall = null

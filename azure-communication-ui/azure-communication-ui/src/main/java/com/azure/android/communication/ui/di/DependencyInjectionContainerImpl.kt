@@ -35,6 +35,7 @@ import com.azure.android.communication.ui.redux.reducer.Reducer
 import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.service.calling.CallingService
+import com.azure.android.communication.ui.service.calling.NotificationService
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.utilities.CoroutineContextProvider
@@ -47,7 +48,7 @@ internal class DependencyInjectionContainerImpl(
 
     //region Overrides
     // These getters are required by the interface
-    override val configuration get() = CallCompositeConfiguration.getConfig(instanceId)!!
+    override val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
 
     override val navigationRouter by lazy {
         NavigationRouterImpl(appStore)
@@ -91,6 +92,10 @@ internal class DependencyInjectionContainerImpl(
             appMiddleware,
             storeHandlerThread
         )
+    }
+
+    override val notificationService by lazy {
+        NotificationService(parentContext, appStore)
     }
 
     //region Redux

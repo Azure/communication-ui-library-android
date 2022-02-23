@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
@@ -12,30 +11,28 @@
     android:focusable="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:visibility="invisible"
-    >
+    android:visibility="invisible">
 
     <com.microsoft.fluentui.widget.Button
         android:id="@+id/azure_communication_ui_call_leave_confirm"
         style="@style/Widget.FluentUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="13dp"
         android:gravity="center"
         android:maxWidth="400dp"
         android:minWidth="400dp"
         android:text="@string/azure_communication_ui_call_leave_call"
-        android:textAllCaps="false"
-        />
+        android:textAllCaps="false" />
 
     <com.microsoft.fluentui.widget.Button
         android:id="@+id/azure_communication_ui_call_leave_cancel"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="23dp"
         android:background="@drawable/azure_communication_ui_cancel_leave_call_button"
         android:gravity="center"
@@ -43,6 +40,5 @@
         android:minWidth="400dp"
         android:text="@string/azure_communication_ui_call_cancel"
         android:textAllCaps="false"
-        android:textColor="?attr/azure_communication_ui_calling_primary_color"
-        />
+        android:textColor="?attr/azure_communication_ui_calling_primary_color" />
 </com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayView>

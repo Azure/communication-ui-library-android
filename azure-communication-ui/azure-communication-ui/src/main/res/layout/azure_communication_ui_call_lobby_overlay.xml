@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
@@ -15,33 +14,30 @@
     android:gravity="center"
     android:orientation="vertical"
     app:layout_constraintBottom_toTopOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:contentDescription="@string/azure_communication_ui_call_lobby_waiting"
-        android:src="@drawable/azure_communication_ui_ic_fluent_clock_24_filled"
-        />
+        android:src="@drawable/azure_communication_ui_ic_fluent_clock_24_filled" />
 
     <TextView
         android:id="@+id/azure_communication_ui_call_lobby_overlay_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
         android:text="@string/azure_communication_ui_call_lobby_waiting"
         android:textColor="@color/azure_communication_ui_color_on_background"
-        android:layout_marginTop="14dp"
-        android:textSize="20sp"
-        />
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/azure_communication_ui_call_lobby_waiting_details"
-        android:textColor="@color/azure_communication_ui_color_on_background"
-        />
+        android:textColor="@color/azure_communication_ui_color_on_background" />
 
 </com.azure.android.communication.ui.presentation.fragment.calling.lobby.LobbyOverlayView>
