@@ -1,16 +1,15 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.LinearLayoutCompat
-import com.azure.android.communication.ui.CallComposite
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
 import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.SupportedLanguages
 
@@ -38,15 +37,15 @@ class SettingsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        autoCompleteTextView.setText(sharedPreference.getString("LANGUAGE_ADAPTER_VALUE", "ENGLISH_UK"), true)
+        autoCompleteTextView.setText(sharedPreference.getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE), true)
         languageArrayAdapter.filter.filter(null)
 
         autoCompleteTextView.setOnItemClickListener{ parent, view, position, id->
             val selectedItem: String = autoCompleteTextView.adapter.getItem(position).toString()
-            sharedPreference.edit().putString("LANGUAGE_ADAPTER_VALUE", selectedItem).commit()
+            sharedPreference.edit().putString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, selectedItem).commit()
         }
 
-        isRTLCheckBox.isChecked = sharedPreference.getBoolean("LANGUAGE_ISRTL", false)
+        isRTLCheckBox.isChecked = sharedPreference.getBoolean(LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY, DEFAULT_ISRTL_VALUE)
     }
 
     fun onCheckBoxTap(view: View) {
@@ -54,11 +53,19 @@ class SettingsActivity : AppCompatActivity() {
         if ( view is CheckBox ) {
             when (view.id) {
                 R.id.languageIsRTL -> {
-                    sharedPreference.edit().putBoolean("LANGUAGE_ISRTL", view.isChecked).commit()
+                    sharedPreference.edit().putBoolean(LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY, view.isChecked).commit()
                 }
             }
         }
     }
-
-
 }
+
+/**
+ * Constants for language & rtl settings
+ * */
+
+const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
+const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "LANGUAGE_ISRTL"
+
+const val DEFAULT_LANGUAGE_VALUE = "ENGLISH_UK"
+const val DEFAULT_ISRTL_VALUE = false
