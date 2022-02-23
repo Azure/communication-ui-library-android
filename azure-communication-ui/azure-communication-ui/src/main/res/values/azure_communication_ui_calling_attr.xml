@@ -4,6 +4,12 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <!-- these are the colors configurable by application -->
-    <attr name="azure_communication_ui_calling_primary_color" type="color" />
+    <!--
+        Primary Communication Colors (Naming from FluentUI)
+        These attributes represent the brand colors.
+    -->
+    <attr name="azure_communication_ui_communication_primary" type="color|reference" />
+    <attr name="azure_communication_ui_communication_tint_10" type="color|reference" />
+    <attr name="azure_communication_ui_communication_tint_20" type="color|reference" />
+    <attr name="azure_communication_ui_communication_tint_30" type="color|reference" />
 </resources>

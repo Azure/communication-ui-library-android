@@ -5,10 +5,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base theme. -->
     <style name="AzureCommunicationUI.Theme.Calling" parent="AzureCommunicationUI.Base.Theme.Calling">
-        <!-- Primary brand color. -->
-        <item name="azure_communication_ui_calling_primary_color">
-            @color/azure_communication_ui_color_primary
-        </item>
-        <!-- Customize your theme here. -->
+        <!-- Primary brand color
+
+        Current supported theming is the Primary Brand Color, which is represented by
+        fluent_ui's communication colors & tints
+
+        Not all values are currently used, however may be in the future. When supplying
+        ensure that appropriate tints/shades for your Primary Color are supplied
+        -->
+        <item name="azure_communication_ui_communication_primary">@color/fluentui_communication_blue</item>
+        <item name="azure_communication_ui_communication_tint_10">#2B88D8</item>
+        <item name="azure_communication_ui_communication_tint_20">@color/fluentui_communication_tint_20</item>
+        <item name="azure_communication_ui_communication_tint_30">@color/fluentui_communication_tint_30</item>
     </style>
 </resources>

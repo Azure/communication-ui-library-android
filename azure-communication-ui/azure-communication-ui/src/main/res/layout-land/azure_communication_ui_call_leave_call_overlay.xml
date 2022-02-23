@@ -26,6 +26,7 @@
         android:maxWidth="400dp"
         android:minWidth="400dp"
         android:text="@string/azure_communication_ui_call_leave_call"
+        android:textColor="@color/azure_communication_ui_on_primary_enabled_disabled_selector"
         android:textAllCaps="false"
         />
 
@@ -42,6 +43,6 @@
         android:minWidth="400dp"
         android:text="@string/azure_communication_ui_call_cancel"
         android:textAllCaps="false"
-        android:textColor="?attr/azure_communication_ui_calling_primary_color"
+        android:textColor="?attr/azure_communication_ui_communication_primary"
         />
 </com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayView>
