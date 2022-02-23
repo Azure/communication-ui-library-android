@@ -3,9 +3,11 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -16,6 +18,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Addit
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
+import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -23,6 +26,9 @@ class CallLauncherActivity : AppCompatActivity() {
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
     private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
+    private val sharedPreference by lazy {
+        getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,7 +197,6 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun launch(launcher: CallingCompositeLauncher) {
         val userName = binding.userNameText.text.toString()
-
         if (binding.groupCallRadioButton.isChecked) {
             val groupId: UUID
             try {

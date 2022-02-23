@@ -121,6 +121,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
     }
+}
 
     private fun initializeViews() {
         callSettingLabelView = findViewById(R.id.callSellingLabelView)
