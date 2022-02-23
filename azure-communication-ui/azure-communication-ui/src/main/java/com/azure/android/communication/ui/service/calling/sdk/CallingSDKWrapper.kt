@@ -84,11 +84,11 @@ internal class CallingSDKWrapper(
     fun endCall(): CompletableFuture<Void> {
         val call: Call?
 
-        // The getter for Call throws an exception, so we need to handle this
         try {
             call = this.call
         } catch (e: Exception) {
-            return CompletableFuture.failedFuture(e)
+            // We can't access the call currently, return a no-op and exit
+            return CompletableFuture.runAsync { }
         }
 
         callingSDKEventHandler.onEndCall()
