@@ -70,7 +70,8 @@ internal class CallingSDKWrapper(
 
     fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
 
-    fun getCallingStateWrapperSharedFlow() = callingSDKEventHandler.getCallingStateWrapperSharedFlow()
+    fun getCallingStateWrapperSharedFlow() =
+        callingSDKEventHandler.getCallingStateWrapperSharedFlow()
 
     fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
@@ -82,6 +83,15 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
 
     fun endCall(): CompletableFuture<Void> {
+        val call: Call?
+
+        try {
+            call = this.call
+        } catch (e: Exception) {
+            // We can't access the call currently, return a no-op and exit
+            return CompletableFuture.runAsync { }
+        }
+
         callingSDKEventHandler.onEndCall()
         endCallCompletableFuture = call.hangUp(HangUpOptions())
         return endCallCompletableFuture!!

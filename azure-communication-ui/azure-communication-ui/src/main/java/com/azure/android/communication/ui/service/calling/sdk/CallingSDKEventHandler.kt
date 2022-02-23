@@ -55,7 +55,8 @@ internal class CallingSDKEventHandler(
 
     fun getRemoteParticipantsMap() = remoteParticipantsCacheMap
 
-    fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> = callingStateWrapperSharedFlow
+    fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
+        callingStateWrapperSharedFlow
 
     fun getIsMutedSharedFlow(): SharedFlow<Boolean> = isMutedSharedFlow
 
@@ -84,6 +85,7 @@ internal class CallingSDKEventHandler(
     }
 
     fun onEndCall() {
+        if (call == null) return
         call?.removeOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
         remoteParticipantsCacheMap.forEach { (id, remoteParticipant) ->
             remoteParticipant.removeOnVideoStreamsUpdatedListener(videoStreamsUpdatedListenersMap[id])

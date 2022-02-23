@@ -13,9 +13,15 @@
         Not all values are currently used, however may be in the future. When supplying
         ensure that appropriate tints/shades for your Primary Color are supplied
         -->
-        <item name="azure_communication_ui_communication_primary">@color/fluentui_communication_blue</item>
+        <item name="azure_communication_ui_communication_primary">
+            @color/fluentui_communication_blue
+        </item>
         <item name="azure_communication_ui_communication_tint_10">#2B88D8</item>
-        <item name="azure_communication_ui_communication_tint_20">@color/fluentui_communication_tint_20</item>
-        <item name="azure_communication_ui_communication_tint_30">@color/fluentui_communication_tint_30</item>
+        <item name="azure_communication_ui_communication_tint_20">
+            @color/fluentui_communication_tint_20
+        </item>
+        <item name="azure_communication_ui_communication_tint_30">
+            @color/fluentui_communication_tint_30
+        </item>
     </style>
 </resources>

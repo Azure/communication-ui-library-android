@@ -7,7 +7,9 @@ import com.azure.android.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
-/** Defines values for CallCompositeErrorCode. */
+/**
+ * Defines values for CallCompositeErrorCode.
+ */
 public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompositeErrorCode> {
 
     public static final CallCompositeErrorCode CALL_JOIN = fromString("callJoin");
@@ -36,14 +38,16 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
         return fromString(name, CallCompositeErrorCode.class);
     }
 
+    /**
+     * @return known CallCompositeErrorCode values.
+     */
+    public static Collection<CallCompositeErrorCode> values() {
+        return values(CallCompositeErrorCode.class);
+    }
+
     @Override
     public String toString() {
         return super.toString();
-    }
-
-    /** @return known CallCompositeErrorCode values. */
-    public static Collection<CallCompositeErrorCode> values() {
-        return values(CallCompositeErrorCode.class);
     }
 }
 

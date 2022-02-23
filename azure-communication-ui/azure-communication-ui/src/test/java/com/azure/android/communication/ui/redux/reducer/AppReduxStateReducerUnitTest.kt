@@ -70,7 +70,11 @@ internal class AppReduxStateReducerUnitTest {
         state.callState = CallingState(CallingStatus.CONNECTED)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0)
         state.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
             AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
             "",
             ""
