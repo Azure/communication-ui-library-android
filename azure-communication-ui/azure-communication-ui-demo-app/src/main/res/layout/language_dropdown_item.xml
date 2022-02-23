@@ -1,0 +1,9 @@
+<TextView
+    android:id="@+id/language_menu_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="TextView"
+    android:padding="16dp"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
