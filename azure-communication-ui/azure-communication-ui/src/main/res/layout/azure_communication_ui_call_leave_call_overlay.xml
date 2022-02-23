@@ -2,7 +2,9 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_call_leave_overlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,6 +18,8 @@
     <com.microsoft.fluentui.widget.Button
         android:id="@+id/azure_communication_ui_call_leave_confirm"
         style="@style/Widget.FluentUI.Button"
+        android:backgroundTint="@color/azure_communication_ui_primary_selector"
+        app:backgroundTint="@color/azure_communication_ui_primary_selector"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
