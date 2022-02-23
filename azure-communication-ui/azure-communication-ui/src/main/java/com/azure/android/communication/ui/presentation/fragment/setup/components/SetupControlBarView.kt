@@ -174,7 +174,8 @@ internal class SetupControlBarView : LinearLayout {
                     0,
                     0
                 )
-                setupAudioDeviceButton.text = context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                setupAudioDeviceButton.text =
+                    context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
             }
             else -> {
                 setupAudioDeviceButton.text = ""

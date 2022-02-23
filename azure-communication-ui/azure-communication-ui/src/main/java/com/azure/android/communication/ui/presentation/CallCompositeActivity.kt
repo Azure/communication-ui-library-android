@@ -217,7 +217,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
             if (isNightMode) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
+                    window.insetsController?.setSystemBarsAppearance(
+                        0,
+                        APPEARANCE_LIGHT_STATUS_BARS
+                    )
                 } else {
                     window.clearFlags(0)
                 }

@@ -12,6 +12,9 @@ import com.azure.android.communication.ui.TeamsMeetingOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityParticipantHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.R
+import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
+import com.azure.android.communication.ui.configuration.ThemeConfiguration
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -25,7 +28,12 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         meetingLink: String?,
         showAlert: ((String) -> Unit)?,
     ) {
-        val callComposite: CallComposite = CallCompositeBuilder().build()
+        val callComposite: CallComposite =
+            if (AdditionalFeatures.secondaryThemeFeature.active)
+                CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling)).build()
+            else
+                CallCompositeBuilder().build()
+
         callComposite.setOnParticipantHandler(CallLauncherActivityParticipantHandler(callLauncherActivity))
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 

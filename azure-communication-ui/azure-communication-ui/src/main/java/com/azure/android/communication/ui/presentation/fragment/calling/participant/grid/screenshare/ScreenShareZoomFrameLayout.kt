@@ -152,7 +152,8 @@ internal class ScreenShareZoomFrameLayout :
             currentScale = scale
             transform.postScale(scale, scale, gestureListener.startX, gestureListener.startY)
         }
-        var transformCorrected = limitScale(transform, gestureListener.startX, gestureListener.startY)
+        var transformCorrected =
+            limitScale(transform, gestureListener.startX, gestureListener.startY)
         transform.postTranslate(gestureListener.translationX, gestureListener.translationY)
         transformCorrected = transformCorrected or limitTranslation(transform)
         return transformCorrected
@@ -381,9 +382,11 @@ internal class ScreenShareZoomFrameLayout :
             override fun onAnimationCancel(animation: Animator) {
                 onAnimationStopped()
             }
+
             override fun onAnimationEnd(animation: Animator) {
                 onAnimationStopped()
             }
+
             private fun onAnimationStopped() {
                 gestureListener.resetPointers()
                 gestureListener.doubleTapZoomAnimationEnded()

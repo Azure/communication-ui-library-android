@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
@@ -13,7 +12,7 @@
     <color name="azure_communication_ui_color_error">#E83A3A</color>
     <color name="azure_communication_ui_color_warning">#FFC328</color>
     <color name="azure_communication_ui_color_success">#0EB244</color>
-    <color name="azure_communication_ui_color_on_primary">#141414</color>
+    <color name="azure_communication_ui_color_on_primary">#FFFFFF</color>
     <color name="azure_communication_ui_color_on_background">#FFFFFF</color>
     <color name="azure_communication_ui_color_on_surface">#FFFFFF</color>
     <color name="azure_communication_ui_color_on_disabled">#141414</color>

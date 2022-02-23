@@ -4,8 +4,22 @@
    Licensed under the MIT License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.MeetingUI" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+
+    <!-- Custom Theme for Composite-->
+    <style name="MyCompany.Theme.Calling" parent="AzureCommunicationUI.Theme.Calling">
+        <!--
+            This custom theme is derived from the FluentUI colors, by swapping Red & Green Components
+            When supplying your own theme, choose your primary and also associated tints/shades
+        -->
+        <item name="azure_communication_ui_communication_primary">#7800D4</item>
+        <item name="azure_communication_ui_communication_tint_10">#882BD8</item>
+        <item name="azure_communication_ui_communication_tint_20">#E0C7F4</item>
+        <item name="azure_communication_ui_communication_tint_30">#ECDEF9</item>
+    </style>
+
+    <!-- Launcher theme. -->
+    <style name="Launcher.Theme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -19,9 +33,5 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MyCompany.Theme" parent="AzureCommunicationUI.Theme.Calling">
-        <!-- Teams brand color. -->
-        <item name="azure_communication_ui_calling_primary_color">@color/Teams_light</item>
-    </style>
 
 </resources>

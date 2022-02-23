@@ -43,7 +43,7 @@ import com.azure.android.communication.ui.utilities.StoreHandlerThread
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
-    private val instanceId: Int
+    private val instanceId: Int,
 ) : DependencyInjectionContainer {
 
     //region Overrides
