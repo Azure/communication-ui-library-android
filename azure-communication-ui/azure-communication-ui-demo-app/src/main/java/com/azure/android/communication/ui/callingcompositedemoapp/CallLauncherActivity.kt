@@ -199,7 +199,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val userName = binding.userNameText.text.toString()
 
 //         Please use Sharedpreference with proper keys & default values to access language settings throughout the application !!!
-20
+
 //        Log.d("Mohtasim", "language settings - " +
 //                sharedPreference.getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE)
 //                + " -- checkbox - " + sharedPreference.getBoolean(
