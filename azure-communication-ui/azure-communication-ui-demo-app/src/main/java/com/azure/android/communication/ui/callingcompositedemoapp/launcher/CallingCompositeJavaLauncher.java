@@ -35,7 +35,6 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
 
-
         final CallComposite callComposite =
                 new CallCompositeBuilder()
 //                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
