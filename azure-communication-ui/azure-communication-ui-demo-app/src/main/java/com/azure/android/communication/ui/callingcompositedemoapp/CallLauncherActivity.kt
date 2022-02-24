@@ -3,11 +3,9 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -17,7 +15,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.databinding.Ac
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
-import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.FeatureFlags
 import java.util.UUID
 
@@ -26,9 +23,6 @@ class CallLauncherActivity : AppCompatActivity() {
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
     private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
-    private val sharedPreference by lazy {
-        getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -197,13 +191,6 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun launch(launcher: CallingCompositeLauncher) {
         val userName = binding.userNameText.text.toString()
-
-//         Please use Sharedpreference with proper keys & default values to access language settings throughout the application !!!
-
-//        Log.d("Mohtasim", "language settings - " +
-//                sharedPreference.getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE)
-//                + " -- checkbox - " + sharedPreference.getBoolean(
-//            LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY, DEFAULT_ISRTL_VALUE))
 
         if (binding.groupCallRadioButton.isChecked) {
             val groupId: UUID
