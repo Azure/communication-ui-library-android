@@ -9,10 +9,7 @@ import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallCompositeBuilder
 import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityParticipantHandler
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
-import com.azure.android.communication.ui.callingcompositedemoapp.R
+import com.azure.android.communication.ui.callingcompositedemoapp.*
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
 import java.util.UUID
@@ -29,12 +26,15 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         val callComposite: CallComposite =
-            if (AdditionalFeatures.secondaryThemeFeature.active)
+            if (AdditionalFeatures.secondaryThemeFeature.active) {
                 CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling)).build()
-            else
+            }
+            else {
                 CallCompositeBuilder().build()
+            }
 
-        callComposite.setOnParticipantHandler(CallLauncherActivityParticipantHandler(callLauncherActivity))
+        callComposite.setOnLocalParticipantHandler(CallLauncherActivityLocalParticipantHandler(callLauncherActivity))
+        callComposite.setOnRemoteParticipantHandler(CallLauncherActivityRemoteParticipantHandler(callLauncherActivity))
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 
         val communicationTokenRefreshOptions =

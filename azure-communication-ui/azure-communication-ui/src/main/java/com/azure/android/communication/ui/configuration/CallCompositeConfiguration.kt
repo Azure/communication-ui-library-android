@@ -4,14 +4,16 @@
 package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.configuration.events.CallCompositeEventsHandler
-import com.azure.android.communication.ui.participant.CallCompositeParticipantHandler
+import com.azure.android.communication.ui.participant.CallCompositeLocalParticipantHandler
+import com.azure.android.communication.ui.participant.CallCompositeRemoteParticipantHandler
 import java.lang.RuntimeException
 
 internal class CallCompositeConfiguration {
     var themeConfig: ThemeConfiguration? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
-    var callCompositeParticipantHandler = CallCompositeParticipantHandler()
+    var callCompositeRemoteParticipantHandler = CallCompositeRemoteParticipantHandler()
+    var callCompositeLocalParticipantHandler = CallCompositeLocalParticipantHandler()
 
     /*
     CallCompositeConfiguration Storage

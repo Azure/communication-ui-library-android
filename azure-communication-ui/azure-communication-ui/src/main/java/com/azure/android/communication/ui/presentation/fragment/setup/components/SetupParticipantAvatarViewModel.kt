@@ -1,13 +1,14 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import com.azure.android.communication.ui.AvatarPersonaData
-import com.azure.android.communication.ui.participant.CallCompositeParticipantHandler
+import com.azure.android.communication.ui.participant.CallCompositeLocalParticipantHandler
+import com.azure.android.communication.ui.participant.CallCompositeRemoteParticipantHandler
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class SetupParticipantAvatarViewModel(private val callCompositeAvatarPersonaHandler: CallCompositeParticipantHandler) {
+internal class SetupParticipantAvatarViewModel(private val callCompositeAvatarPersonaHandler: CallCompositeLocalParticipantHandler) {
     private lateinit var displayName: String
     private lateinit var shouldDisplayAvatarViewStateFlow: MutableStateFlow<Boolean>
     private lateinit var avatarPersonaDataStateFlow: MutableStateFlow<AvatarPersonaData?>
@@ -29,8 +30,8 @@ internal class SetupParticipantAvatarViewModel(private val callCompositeAvatarPe
 
     fun init(displayName: String?, videoStreamID: String?, permissionState: PermissionState) {
         this.displayName = displayName ?: ""
-        callCompositeAvatarPersonaHandler.getOnCallingParticipantHandler()?.let {
-            avatarPersonaDataStateFlow = MutableStateFlow(it.onFetchRemoteParticipantAvatarData(""))
+        callCompositeAvatarPersonaHandler.getOnCallingLocalParticipantHandler()?.let {
+            avatarPersonaDataStateFlow = MutableStateFlow(it.onFetchLocalParticipantAvatarData())
         }
         shouldDisplayAvatarViewStateFlow =
             MutableStateFlow(shouldDisplayAvatarView(videoStreamID, permissionState))

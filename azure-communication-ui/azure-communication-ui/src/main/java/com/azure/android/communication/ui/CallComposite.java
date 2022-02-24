@@ -12,7 +12,8 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.participant.CallingParticipantHandler;
+import com.azure.android.communication.ui.participant.CallingLocalParticipantHandler;
+import com.azure.android.communication.ui.participant.CallingRemoteParticipantHandler;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -37,7 +38,7 @@ import java.util.UUID;
  */
 public final class CallComposite {
 
-    /// Each time we launch, an InstanceID will be assigned and incremented.
+    // Each time we launch, an InstanceID will be assigned and incremented.
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
@@ -131,8 +132,12 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 
-    public void setOnParticipantHandler(final CallingParticipantHandler callingParticipantHandler) {
-        configuration.getCallCompositeParticipantHandler().setOnCallingParticipantHandler(callingParticipantHandler);
+    public void setOnRemoteParticipantHandler(final CallingRemoteParticipantHandler callingRemoteParticipantHandler) {
+        configuration.getCallCompositeRemoteParticipantHandler().setOnCallingRemoteParticipantHandler(callingRemoteParticipantHandler);
+    }
+
+    public void setOnLocalParticipantHandler(final CallingLocalParticipantHandler callingLocalParticipantHandler) {
+        configuration.getCallCompositeLocalParticipantHandler().setOnCallingLocalParticipantHandler(callingLocalParticipantHandler);
     }
 
     private void launch(
@@ -151,10 +156,8 @@ public final class CallComposite {
                 callType
         ));
 
-        /// Store the configuration
         CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 
-        /// Launch the composite and increment the instanceId after
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
         context.startActivity(intent);

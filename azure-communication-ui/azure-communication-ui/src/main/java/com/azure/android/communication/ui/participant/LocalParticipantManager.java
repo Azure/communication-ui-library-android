@@ -5,6 +5,6 @@ package com.azure.android.communication.ui.participant;
 
 import com.azure.android.communication.ui.AvatarPersonaData;
 
-public interface CallingParticipantHandler {
-    AvatarPersonaData onFetchRemoteParticipantAvatarData(String userIdentifier);
+public interface LocalParticipantManager {
+    void setLocalParticipantAvatar(AvatarPersonaData avatarPersonaData);
 }
