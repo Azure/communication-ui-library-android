@@ -46,6 +46,7 @@ class SettingsActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onResume() {
         super.onResume()
+        languageSettingsExperience()
 
         languageArrayAdapter =
             ArrayAdapter(applicationContext, R.layout.language_dropdown_item, supportedLanguages)
@@ -119,6 +120,20 @@ class SettingsActivity : AppCompatActivity() {
                     ).apply()
                 }
             }
+        }
+    }
+
+    fun languageSettingsExperience() {
+        if ( !SettingsFeatures.isLanguageFeatureEnabled ) {
+            languageSettingLabelView.visibility = View.GONE
+            languageSettingLabelDivider.visibility = View.GONE
+            languageAdapterLayout.visibility = View.GONE
+            isRTLCheckBox.visibility = View.GONE
+        } else {
+            languageSettingLabelView.visibility = View.VISIBLE
+            languageSettingLabelDivider.visibility = View.VISIBLE
+            languageAdapterLayout.visibility = View.VISIBLE
+            isRTLCheckBox.visibility = View.VISIBLE
         }
     }
 }
