@@ -26,6 +26,12 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /**
+     * Sets an optional localization for call-composite to use by {@link CallComposite}.
+     *
+     * @param localization {@link LocalizationConfiguration}.
+     * @return {@link CallCompositeBuilder}
+     */
     public CallCompositeBuilder customizeLocalization(final LocalizationConfiguration localization) {
         this.localizationConfig = localization;
         return this;
