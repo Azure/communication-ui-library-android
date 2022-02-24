@@ -200,7 +200,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun launchFragment(fragmentClassName: String) {
         activity?.supportFragmentManager?.fragments?.let {
             if (it.isNotEmpty()) {
-                // during call rotate below logic helps to avoid launching fragment twice
+                // during screen rotate below logic helps to avoid launching fragment twice
                 if (it.last().javaClass.name.equals(fragmentClassName)) {
                     return
                 }
