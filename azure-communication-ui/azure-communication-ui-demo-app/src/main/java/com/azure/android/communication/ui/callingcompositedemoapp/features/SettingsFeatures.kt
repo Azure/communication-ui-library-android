@@ -15,7 +15,7 @@ import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KE
 class SettingsFeatures {
 
     companion object {
-        var isLanguageFeatureEnabled: Boolean = true
+        var isLanguageFeatureEnabled: Boolean = false
 
         // ---------------------- Language Features -------------------------------------
         fun language(context: Context): String? {

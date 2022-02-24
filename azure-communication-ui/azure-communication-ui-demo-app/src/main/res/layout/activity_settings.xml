@@ -15,7 +15,8 @@
     tools:context=".SettingsActivity">
 
     <TextView
-        android:text="Language Settings"
+        android:id="@+id/languageSettingLabelView"
+        android:text="@string/languageSettingLabel"
         android:textSize="24sp"
         android:textStyle="bold"
         android:paddingTop="@dimen/azure_communication_ui_fab_margin"
@@ -23,12 +24,14 @@
         android:layout_height="wrap_content" />
 
     <View
+        android:id="@+id/languageSettingLabelDivider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
         android:background="@color/azure_communication_ui_color_on_surface" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/languageAdapterLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,13 +51,14 @@
 
     <CheckBox
         android:id="@+id/languageIsRTL"
-        android:text="isRTL"
+        android:text="@string/isRTLCheckboxLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onCheckBoxTap"/>
 
     <TextView
-        android:text="Call Settings"
+        android:id="@+id/callSellingLabelView"
+        android:text="@string/callSettingLabel"
         android:textSize="24sp"
         android:textStyle="bold"
         android:paddingTop="@dimen/azure_communication_ui_fab_margin"
