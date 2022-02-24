@@ -1,17 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:layout_height="match_parent"
-    tools:context=".CallLauncherActivity">
+    tools:context=".CallLauncherActivity"
+    >
 
 
     <RadioButton
@@ -83,8 +82,8 @@
         android:id="@+id/teamsMeetingRadioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
         android:text="@string/teamsMeetingLabel"
         app:layout_constraintStart_toEndOf="@id/groupCallRadioButton"
         app:layout_constraintTop_toBottomOf="@id/userNameText"
@@ -105,10 +104,11 @@
         android:id="@+id/javaOrKotlinContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="@id/groupIdOrTeamsMeetingLinkText"
-        app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText">
+        app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -121,20 +121,20 @@
             android:id="@+id/kotlinButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:checked="true"
+            android:padding="5dp"
             android:text="@string/kotlin"
             android:textSize="17sp"
-            android:padding="5dp"
-            android:layout_marginEnd="10dp"
             />
 
         <RadioButton
             android:id="@+id/javaButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:text="@string/java"
             android:padding="5dp"
+            android:text="@string/java"
+            android:textSize="17sp"
             />
     </RadioGroup>
 
@@ -145,7 +145,8 @@
         android:text="@string/launchButtonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/javaOrKotlinContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/javaOrKotlinContainer"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

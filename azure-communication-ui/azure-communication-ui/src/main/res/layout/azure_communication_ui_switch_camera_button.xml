@@ -8,7 +8,8 @@
     android:layout_height="36dp"
     android:background="@color/azure_communication_ui_color_button_background_transparent"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    >
 
     <ImageView
         android:layout_width="36dp"
@@ -21,5 +22,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/azure_communication_ui_ic_fluent_camera_switch_24_regular_composite_button_enabled" />
+        app:srcCompat="@drawable/azure_communication_ui_ic_fluent_camera_switch_24_regular_composite_button_enabled"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import android.content.Context
@@ -26,7 +29,8 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
         setupJoinCallButton = findViewById(R.id.azure_communication_ui_setup_join_call_button)
-        setupJoinCallButtonText = findViewById(R.id.azure_communication_ui_setup_start_call_button_text)
+        setupJoinCallButtonText =
+            findViewById(R.id.azure_communication_ui_setup_start_call_button_text)
         progressBar = findViewById(R.id.azure_communication_ui_setup_start_call_progress_bar)
         joiningCallText = findViewById(R.id.azure_communication_ui_setup_start_call_joining_text)
         setupJoinCallButton.background = ContextCompat.getDrawable(

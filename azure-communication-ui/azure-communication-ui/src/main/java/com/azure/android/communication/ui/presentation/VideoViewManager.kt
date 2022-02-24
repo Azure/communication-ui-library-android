@@ -25,7 +25,7 @@ internal class VideoViewManager(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
         var videoStreamID: String,
-        var isScreenShareView: Boolean
+        var isScreenShareView: Boolean,
     )
 
     fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
@@ -132,7 +132,12 @@ internal class VideoViewManager(
 
                     val rendererView = videoStreamRenderer.createView(viewOption)
                     remoteParticipantVideoRendererMap[uniqueID] =
-                        VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, isScreenShare)
+                        VideoRenderer(
+                            rendererView,
+                            videoStreamRenderer,
+                            videoStreamID,
+                            isScreenShare
+                        )
                     return true
                 }
             }

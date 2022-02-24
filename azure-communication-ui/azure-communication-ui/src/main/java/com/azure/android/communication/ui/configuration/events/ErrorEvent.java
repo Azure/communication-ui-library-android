@@ -14,7 +14,7 @@ public final class ErrorEvent<T> {
      * Create {@link ErrorEvent} with error code and caused throwable.
      *
      * @param code  error code
-     * @param cause   throwable that caused an exception
+     * @param cause throwable that caused an exception
      */
     public ErrorEvent(final T code, final Throwable cause) {
         this.cause = cause;
