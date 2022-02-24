@@ -43,7 +43,6 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
             builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
         }
 
-        builder.customizeLocalization(new LocalizationConfiguration("fr", true));
         final CallComposite callComposite = builder.build();
 
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
