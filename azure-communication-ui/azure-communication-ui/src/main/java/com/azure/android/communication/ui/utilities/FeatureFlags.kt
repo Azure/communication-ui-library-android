@@ -83,7 +83,7 @@ enum class FeatureFlags(
                 Context.MODE_PRIVATE
             )
 
-            // / Start default features
+            // Start default features
             features.filter { it.active }.forEach { it.onStart(applicationContext) }
         }
 
@@ -95,7 +95,7 @@ enum class FeatureFlags(
             }
         }
 
-        // / List of all features
+        // List of all features
         val features: List<FeatureFlag> get() = values().toList() + additionalEntries
     }
 }
@@ -135,7 +135,7 @@ interface FeatureFlag {
     // 2) fallback to resource with defaultBooleanId
     var active: Boolean
         get() {
-            // / If not added to the system, return false
+            // If not added to the system, return false
             if (!FeatureFlags.features.contains(this)) {
                 return false
             }

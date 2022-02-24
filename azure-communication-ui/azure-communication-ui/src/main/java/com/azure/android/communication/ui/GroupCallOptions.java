@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
+
 import java.util.UUID;
 
 /**
@@ -16,20 +17,22 @@ public final class GroupCallOptions {
 
     /**
      * Create {@link GroupCallOptions}.
+     *
      * @param communicationTokenCredential {@link CommunicationTokenCredential}
-     * @param groupId group call identifier
+     * @param groupId                      group call identifier
      */
     public GroupCallOptions(
-                            final CommunicationTokenCredential communicationTokenCredential,
-                            final UUID groupId) {
+            final CommunicationTokenCredential communicationTokenCredential,
+            final UUID groupId) {
         this(communicationTokenCredential, groupId, "");
     }
 
     /**
      * Create {@link GroupCallOptions}.
+     *
      * @param communicationTokenCredential {@link CommunicationTokenCredential}
-     * @param groupId group call identifier
-     * @param displayName user display name
+     * @param groupId                      group call identifier
+     * @param displayName                  user display name
      */
     public GroupCallOptions(final CommunicationTokenCredential communicationTokenCredential,
                             final UUID groupId,
@@ -42,6 +45,7 @@ public final class GroupCallOptions {
 
     /**
      * Get {@link CommunicationTokenCredential}.
+     *
      * @return {@link String}
      */
     public CommunicationTokenCredential getCommunicationTokenCredential() {
@@ -50,6 +54,7 @@ public final class GroupCallOptions {
 
     /**
      * Get user display name.
+     *
      * @return {@link String}
      */
     public String getDisplayName() {
@@ -58,6 +63,7 @@ public final class GroupCallOptions {
 
     /**
      * Get group call id.
+     *
      * @return {@link UUID}
      */
     public UUID getGroupId() {
