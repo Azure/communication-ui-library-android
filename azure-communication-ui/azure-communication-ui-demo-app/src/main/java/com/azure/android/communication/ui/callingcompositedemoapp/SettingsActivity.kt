@@ -6,12 +6,15 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.CheckBox
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.SupportedLanguages
@@ -53,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
         autoCompleteTextView.setText(sharedPreference.getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE), true)
         languageArrayAdapter.filter.filter(null)
 
-        autoCompleteTextView.setOnItemClickListener{ parent, view, position, id->
+        autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
             val selectedItem: String = autoCompleteTextView.adapter.getItem(position).toString()
             sharedPreference.edit().putString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, selectedItem).commit()
         }
@@ -67,12 +70,12 @@ class SettingsActivity : AppCompatActivity() {
             var touchStartTime: Long = 0
 
             override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-                when(p1?.action) {
+                when (p1?.action) {
                     MotionEvent.ACTION_DOWN -> {
                         touchStartTime = System.currentTimeMillis()
                     }
                     MotionEvent.ACTION_UP -> {
-                        if(System.currentTimeMillis() - touchStartTime > ViewConfiguration.getTapTimeout()) {
+                        if (System.currentTimeMillis() - touchStartTime > ViewConfiguration.getTapTimeout()) {
                             numberOfTaps = 0
                             lastTapEventTime = 0
                         } else if (numberOfTaps > 0 && System.currentTimeMillis() - lastTapEventTime < ViewConfiguration.getDoubleTapTimeout()) {
@@ -83,7 +86,7 @@ class SettingsActivity : AppCompatActivity() {
                         lastTapEventTime = System.currentTimeMillis()
                     }
                 }
-                if(numberOfTaps > 5) {
+                if (numberOfTaps > HIDDEN_TAP_COUNT_THRESHOLD) {
                     SettingsFeatures.isLanguageFeatureEnabled = !SettingsFeatures.isLanguageFeatureEnabled
                     languageSettingsExperience()
                     numberOfTaps = 0
@@ -91,13 +94,12 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 return true
             }
-
         })
     }
 
     fun onCheckBoxTap(view: View) {
 
-        if ( view is CheckBox ) {
+        if (view is CheckBox) {
             when (view.id) {
                 R.id.languageIsRTL -> {
                     sharedPreference.edit().putBoolean(LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY, view.isChecked).commit()
@@ -107,7 +109,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun languageSettingsExperience() {
-        if ( !SettingsFeatures.isLanguageFeatureEnabled ) {
+        if (!SettingsFeatures.isLanguageFeatureEnabled) {
             languageSettingLabelView.visibility = View.GONE
             languageSettingLabelDivider.visibility = View.GONE
             languageAdapterLayout.visibility = View.GONE
@@ -130,3 +132,4 @@ const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "LANGUAGE_ISRTL"
 
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH_UK"
 const val DEFAULT_ISRTL_VALUE = false
+const val HIDDEN_TAP_COUNT_THRESHOLD = 5
