@@ -4,8 +4,10 @@
 package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.configuration.events.CallCompositeEventsHandler
-import com.azure.android.communication.ui.participant.CallCompositeLocalParticipantHandler
-import com.azure.android.communication.ui.participant.CallCompositeRemoteParticipantHandler
+import com.azure.android.communication.ui.participant.local.CallCompositeLocalParticipantHandler
+import com.azure.android.communication.ui.participant.local.LocalParticipantManagerImpl
+import com.azure.android.communication.ui.participant.remote.CallCompositeRemoteParticipantHandler
+import com.azure.android.communication.ui.participant.remote.RemoteParticipantManagerImpl
 import java.lang.RuntimeException
 
 internal class CallCompositeConfiguration {
@@ -14,6 +16,8 @@ internal class CallCompositeConfiguration {
     var callConfig: CallConfiguration? = null
     var callCompositeRemoteParticipantHandler = CallCompositeRemoteParticipantHandler()
     var callCompositeLocalParticipantHandler = CallCompositeLocalParticipantHandler()
+    var localParticipantManagerImpl = LocalParticipantManagerImpl()
+    var remoteParticipantManagerImpl = RemoteParticipantManagerImpl()
 
     /*
     CallCompositeConfiguration Storage

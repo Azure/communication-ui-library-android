@@ -12,8 +12,10 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.participant.CallingLocalParticipantHandler;
-import com.azure.android.communication.ui.participant.CallingRemoteParticipantHandler;
+import com.azure.android.communication.ui.participant.local.CallingLocalParticipantHandler;
+import com.azure.android.communication.ui.participant.local.LocalParticipantManager;
+import com.azure.android.communication.ui.participant.remote.CallingRemoteParticipantHandler;
+import com.azure.android.communication.ui.participant.remote.RemoteParticipantManager;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -36,7 +38,7 @@ import java.util.UUID;
  *
  * @see CallCompositeBuilder
  */
-public final class CallComposite {
+public final class CallComposite  {
 
     // Each time we launch, an InstanceID will be assigned and incremented.
     private static int instanceId = 0;

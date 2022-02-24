@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.graphics.BitmapFactory
 import com.azure.android.communication.ui.AvatarPersonaData
-import com.azure.android.communication.ui.participant.CallingRemoteParticipantHandler
+import com.azure.android.communication.ui.participant.remote.CallingRemoteParticipantHandler
 import java9.util.concurrent.CompletableFuture
 import java.lang.ref.WeakReference
 import java.net.URL

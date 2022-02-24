@@ -8,6 +8,8 @@ import android.media.AudioManager
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
+import com.azure.android.communication.ui.participant.local.LocalParticipantManagerImpl
+import com.azure.android.communication.ui.participant.remote.RemoteParticipantManagerImpl
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.fragment.ViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
@@ -157,29 +159,17 @@ internal class DependencyInjectionContainerImpl(
     //endregion
 
     //region Factories
-    private val viewModelFactory by lazy {
-        ViewModelFactory(
-            CallingViewModel(
-                appStore,
-                callingViewModelFactory
-            ),
-            SetupViewModel(
-                appStore,
-                setupViewModelFactory
-            )
-        )
-    }
 
     private val participantGridCellViewModelFactory by lazy {
         ParticipantGridCellViewModelFactory()
     }
 
     private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(appStore, configuration.callCompositeLocalParticipantHandler)
+        SetupViewModelFactory(appStore, configuration)
     }
 
     private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(appStore, participantGridCellViewModelFactory, configuration.callCompositeRemoteParticipantHandler)
+        CallingViewModelFactory(appStore, participantGridCellViewModelFactory, configuration)
     }
     //endregion
 
