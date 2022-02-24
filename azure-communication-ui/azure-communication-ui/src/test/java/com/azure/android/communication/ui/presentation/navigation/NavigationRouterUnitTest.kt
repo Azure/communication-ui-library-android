@@ -10,9 +10,7 @@ import com.azure.android.communication.ui.redux.state.NavigationState
 import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
@@ -33,19 +31,13 @@ internal class NavigationRouterUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
-        Pair<NavigationRouter, List<NavigationStatus>> {
-
+    private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>): Pair<NavigationRouter, List<NavigationStatus>> {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getStateFlow() } doReturn stateFlow
         }
         val navigationRouter = NavigationRouterImpl(mockAppStore)
         val receivedUpdates = mutableListOf<NavigationStatus>()
-
-        val scope = MainScope()
-        scope.launch {
-            navigationRouter.getNavigationStateFlow().collect { receivedUpdates.add(it) }
-        }
+        navigationRouter.addOnNavigationStateChanged { receivedUpdates.add(it) }
 
         return Pair(navigationRouter, receivedUpdates)
     }
@@ -74,10 +66,9 @@ internal class NavigationRouterUnitTest {
                 }
 
             // assert
-            Assert.assertEquals(3, receivedUpdates.count())
-            Assert.assertEquals(NavigationStatus.NONE, receivedUpdates[0])
-            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[1])
-            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[2])
+            Assert.assertEquals(2, receivedUpdates.count())
+            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[0])
+            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[1])
 
             navigationRouterLaunchJob.cancel()
         }
@@ -102,9 +93,9 @@ internal class NavigationRouterUnitTest {
             stateFlow.value = appState
 
             // assert
-            Assert.assertEquals(3, receivedUpdates.count())
-            Assert.assertEquals(initialState.navigationState.navigationState, receivedUpdates[1])
-            Assert.assertEquals(appState.navigationState.navigationState, receivedUpdates[2])
+            Assert.assertEquals(2, receivedUpdates.count())
+            Assert.assertEquals(initialState.navigationState.navigationState, receivedUpdates[0])
+            Assert.assertEquals(appState.navigationState.navigationState, receivedUpdates[1])
 
             navigationRouterLaunchJob.cancel()
         }
@@ -136,8 +127,8 @@ internal class NavigationRouterUnitTest {
                 }
 
             // assert
-            Assert.assertEquals(2, receivedUpdates.count())
-            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[1])
+            Assert.assertEquals(1, receivedUpdates.count())
+            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[0])
 
             navigationRouterLaunchJob.cancel()
         }
@@ -166,8 +157,8 @@ internal class NavigationRouterUnitTest {
                 }
 
             // assert
-            Assert.assertEquals(2, receivedUpdates.count())
-            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[1])
+            Assert.assertEquals(1, receivedUpdates.count())
+            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[0])
 
             navigationRouterLaunchJob.cancel()
         }
@@ -197,11 +188,10 @@ internal class NavigationRouterUnitTest {
                 }
 
             // assert
-            Assert.assertEquals(4, receivedUpdates.count())
-            Assert.assertEquals(NavigationStatus.NONE, receivedUpdates[0])
-            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[1])
-            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[2])
-            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[3])
+            Assert.assertEquals(3, receivedUpdates.count())
+            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[0])
+            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[1])
+            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[2])
 
             navigationRouterLaunchJob.cancel()
         }

@@ -6,21 +6,35 @@ package com.azure.android.communication.ui.presentation.navigation
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.StateFlow
 
 internal class NavigationRouterImpl(private val store: Store<ReduxState>) : NavigationRouter {
 
-    private val navigationFlow = MutableStateFlow(NavigationStatus.NONE)
+    private var currentNavigationState: NavigationStatus? = null
+    private val subscribers = HashSet<(NavigationStatus) -> Unit>()
 
     override suspend fun start() {
         store.getStateFlow().collect {
-            navigationFlow.value = it.navigationState.navigationState
+            onNavigationStateChange(it)
         }
     }
 
-    override fun getNavigationStateFlow(): StateFlow<NavigationStatus> {
-        return navigationFlow
+    private fun onNavigationStateChange(state: ReduxState) {
+        val navigationState = state.navigationState.navigationState
+
+        if (navigationState != currentNavigationState) {
+            currentNavigationState = navigationState
+            subscribers.forEach { onNavigationStateChange ->
+                onNavigationStateChange(navigationState)
+            }
+        }
+    }
+
+    override fun addOnNavigationStateChanged(callback: (navigationState: NavigationStatus) -> Unit) {
+        subscribers.add(callback)
+    }
+
+    override fun removeOnNavigationStateChanged(callback: (navigationState: NavigationStatus) -> Unit) {
+        subscribers.remove(callback)
     }
 }

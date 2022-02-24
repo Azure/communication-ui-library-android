@@ -28,7 +28,6 @@ import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragm
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class CallCompositeActivity : AppCompatActivity() {
@@ -49,6 +48,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
+        navigationRouter.removeOnNavigationStateChanged(this::onNavigationStateChange)
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
             audioSessionManager.stop()
@@ -88,9 +88,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         lifecycleScope.launch { audioSessionManager.start() }
 
-        lifecycleScope.launchWhenStarted {
-            navigationRouter.getNavigationStateFlow().collect { onNavigationStateChange(it) }
-        }
+        navigationRouter.addOnNavigationStateChanged(this::onNavigationStateChange)
 
         lifecycleScope.launch {
             navigationRouter.start()
