@@ -16,7 +16,8 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
                 viewDisplayResource
             )
 
-            val cameraButtonText = getTextFromButtonView(R.id.azure_communication_ui_setup_camera_button)
+            val cameraButtonText =
+                getTextFromButtonView(R.id.azure_communication_ui_setup_camera_button)
             if (cameraButtonText == "Video off") {
                 clickViewWithIdAndText(
                     R.id.azure_communication_ui_setup_camera_button,
@@ -24,8 +25,14 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
                 )
             }
 
-            waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_local_video_holder, viewDisplayResource)
-            waitUntilViewIdIsNotDisplayed(R.id.azure_communication_ui_setup_default_avatar, viewDisplayResource)
+            waitUntilViewIdIsDisplayed(
+                R.id.azure_communication_ui_setup_local_video_holder,
+                viewDisplayResource
+            )
+            waitUntilViewIdIsNotDisplayed(
+                R.id.azure_communication_ui_setup_default_avatar,
+                viewDisplayResource
+            )
         }
         return this
     }

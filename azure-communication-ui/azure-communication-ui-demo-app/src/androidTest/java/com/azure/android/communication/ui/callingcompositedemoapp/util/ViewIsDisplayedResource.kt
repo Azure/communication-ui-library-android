@@ -9,6 +9,7 @@ import androidx.test.espresso.ViewInteraction
 import junit.framework.AssertionFailedError
 
 typealias ViewMatcherFunctionPtr = () -> ViewInteraction
+
 class ViewIsDisplayedResource {
     companion object {
         private const val DEFAULT_WAIT_TIME = 2000L
