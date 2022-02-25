@@ -14,10 +14,8 @@ import com.azure.android.communication.ui.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
-
 import java.util.UUID;
 import java.util.concurrent.Callable;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
