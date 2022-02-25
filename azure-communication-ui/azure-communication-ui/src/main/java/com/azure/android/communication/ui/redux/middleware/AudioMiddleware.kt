@@ -26,8 +26,10 @@ internal class AudioMiddlewareImpl(
                 is LocalParticipantAction.AudioDeviceChangeRequested -> {
                     switchAudioDevice(store, action.requestedAudioDevice)
                 }
+
             }
             next(action)
+
         }
     }
 
@@ -70,6 +72,7 @@ internal class AudioMiddlewareImpl(
                     )
                 )
             }
+            else -> { /* No-op */ }
         }
     }
 }
