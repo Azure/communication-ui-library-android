@@ -16,7 +16,6 @@ import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.utilities.FeatureFlags
-import kotlinx.coroutines.flow.collect
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
@@ -33,9 +32,7 @@ internal class AudioSessionManager(
             FeatureFlags.BluetoothAudio.active &&
                 (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
-    private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
-
-    suspend fun start() {
+    fun start() {
         if (started) return
         started = true
 
@@ -48,15 +45,7 @@ internal class AudioSessionManager(
 
         initializeAudioDeviceState()
         updateBluetoothStatus()
-        store.getStateFlow().collect {
-            if (previousAudioDeviceSelectionStatus == null ||
-                previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
-            ) {
-                onAudioDeviceStateChange(it.localParticipantState.audioState.device)
-            }
 
-            previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
-        }
     }
 
     override fun onReceive(context: Context?, intent: Intent?) = updateBluetoothStatus()
@@ -123,59 +112,7 @@ internal class AudioSessionManager(
         }
     }
 
-    private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        when (audioDeviceSelectionStatus) {
-            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED ->
-                switchAudioDevice(audioDeviceSelectionStatus)
-        }
-    }
 
-    private fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        when (audioDeviceSelectionStatus) {
-            AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> {
-                enableSpeakerPhone()
-                store.dispatch(
-                    LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
-                    )
-                )
-            }
-            AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
-                enableEarpiece()
-                store.dispatch(
-                    LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.RECEIVER_SELECTED
-                    )
-                )
-            }
-            AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
-                enableBluetooth()
-                store.dispatch(
-                    LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
-                    )
-                )
-            }
-        }
-    }
-
-    private fun enableSpeakerPhone() {
-        audioManager.stopBluetoothSco()
-        audioManager.isBluetoothScoOn = false
-        audioManager.isSpeakerphoneOn = true
-    }
-
-    private fun enableEarpiece() {
-        audioManager.stopBluetoothSco()
-        audioManager.isBluetoothScoOn = false
-        audioManager.isSpeakerphoneOn = false
-    }
-
-    private fun enableBluetooth() {
-        audioManager.startBluetoothSco()
-        audioManager.isBluetoothScoOn = true
-        audioManager.isSpeakerphoneOn = false
-    }
 
     fun stop() {
         BluetoothAdapter.getDefaultAdapter()?.run {
