@@ -4,7 +4,7 @@
   -->
 <resources>
     <string name="azure_communication_ui_feature_screen_share_zoom_label"> Screen Share Zoom </string>
-    <bool name="azure_communication_ui_feature_screen_share_zoom">false</bool>
+    <bool name="azure_communication_ui_feature_screen_share_zoom">true</bool>
 
     <string name="azure_communication_ui_feature_flag_bluetooth_audio_label"> Bluetooth Audio </string>
     <bool name="azure_communication_ui_feature_flag_bluetooth_audio">false</bool>
