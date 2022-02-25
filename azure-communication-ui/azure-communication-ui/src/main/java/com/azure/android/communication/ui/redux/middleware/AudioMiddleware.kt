@@ -29,7 +29,6 @@ internal class AudioMiddlewareImpl(
 
             }
             next(action)
-
         }
     }
 
