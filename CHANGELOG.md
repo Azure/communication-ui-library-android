@@ -6,6 +6,7 @@
 - Status bar color update for light and dark mode
 - API 21, 22 support
 - Screen share zoom
+- Localization support 
 
 ### Breaking Changes
 - Remove Context from GroupMeetingOptions() and TeamMeetingOptions()
