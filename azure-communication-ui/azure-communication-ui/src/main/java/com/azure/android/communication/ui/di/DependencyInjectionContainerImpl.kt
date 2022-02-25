@@ -21,7 +21,6 @@ import com.azure.android.communication.ui.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.Middleware
-import com.azure.android.communication.ui.redux.middleware.AudioMiddleware
 import com.azure.android.communication.ui.redux.middleware.AudioMiddlewareImpl
 import com.azure.android.communication.ui.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
@@ -122,7 +121,7 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    private val audioMiddleware : Middleware<ReduxState> by lazy {
+    private val audioMiddleware: Middleware<ReduxState> by lazy {
         AudioMiddlewareImpl(parentContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
     }
 

@@ -16,7 +16,7 @@ internal interface AudioMiddleware
 
 internal class AudioMiddlewareImpl(
     private val audioManager: AudioManager
-) :   Middleware<ReduxState>, AudioMiddleware {
+) : Middleware<ReduxState>, AudioMiddleware {
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
@@ -28,7 +28,6 @@ internal class AudioMiddlewareImpl(
             next(action)
         }
     }
-
 
     private fun switchAudioDevice(store: Store<ReduxState>, audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
@@ -64,6 +63,4 @@ internal class AudioMiddlewareImpl(
             }
         }
     }
-
-
 }

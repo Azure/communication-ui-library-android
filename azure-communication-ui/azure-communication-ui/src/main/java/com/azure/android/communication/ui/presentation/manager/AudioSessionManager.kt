@@ -45,7 +45,6 @@ internal class AudioSessionManager(
 
         initializeAudioDeviceState()
         updateBluetoothStatus()
-
     }
 
     override fun onReceive(context: Context?, intent: Intent?) = updateBluetoothStatus()
@@ -111,8 +110,6 @@ internal class AudioSessionManager(
                 )
         }
     }
-
-
 
     fun stop() {
         BluetoothAdapter.getDefaultAdapter()?.run {
