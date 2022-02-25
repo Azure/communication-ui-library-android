@@ -26,7 +26,6 @@ internal class AudioMiddlewareImpl(
                 is LocalParticipantAction.AudioDeviceChangeRequested -> {
                     switchAudioDevice(store, action.requestedAudioDevice)
                 }
-
             }
             next(action)
         }
@@ -52,12 +51,11 @@ internal class AudioMiddlewareImpl(
                     isBluetoothScoOn = false
                     isSpeakerphoneOn = false
                 }
-                    store.dispatch(
-                        LocalParticipantAction.AudioDeviceChangeSucceeded(
-                            AudioDeviceSelectionStatus.RECEIVER_SELECTED
-                        )
+                store.dispatch(
+                    LocalParticipantAction.AudioDeviceChangeSucceeded(
+                        AudioDeviceSelectionStatus.RECEIVER_SELECTED
                     )
-
+                )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
                 audioManager?.apply {
