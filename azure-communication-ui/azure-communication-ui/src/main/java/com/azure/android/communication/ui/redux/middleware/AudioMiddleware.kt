@@ -14,8 +14,10 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal interface AudioMiddleware
 
+// This class is middleware that handles Redux requests for AudioDevices
+// You can omit AudioManager in tests and it should behave "as if" it's switching
 internal class AudioMiddlewareImpl(
-    private val audioManager: AudioManager
+    private val audioManager: AudioManager?
 ) : Middleware<ReduxState>, AudioMiddleware {
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
@@ -32,9 +34,11 @@ internal class AudioMiddlewareImpl(
     private fun switchAudioDevice(store: Store<ReduxState>, audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> {
-                audioManager.stopBluetoothSco()
-                audioManager.isBluetoothScoOn = false
-                audioManager.isSpeakerphoneOn = true
+                audioManager?.apply {
+                    stopBluetoothSco()
+                    isBluetoothScoOn = false
+                    isSpeakerphoneOn = true
+                }
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
                         AudioDeviceSelectionStatus.SPEAKER_SELECTED
@@ -42,19 +46,24 @@ internal class AudioMiddlewareImpl(
                 )
             }
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
-                audioManager.stopBluetoothSco()
-                audioManager.isBluetoothScoOn = false
-                audioManager.isSpeakerphoneOn = false
-                store.dispatch(
-                    LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.RECEIVER_SELECTED
+                audioManager?.apply {
+                    stopBluetoothSco()
+                    isBluetoothScoOn = false
+                    isSpeakerphoneOn = false
+                }
+                    store.dispatch(
+                        LocalParticipantAction.AudioDeviceChangeSucceeded(
+                            AudioDeviceSelectionStatus.RECEIVER_SELECTED
+                        )
                     )
-                )
+
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
-                audioManager.startBluetoothSco()
-                audioManager.isBluetoothScoOn = true
-                audioManager.isSpeakerphoneOn = false
+                audioManager?.apply {
+                    startBluetoothSco()
+                    isBluetoothScoOn = true
+                    isSpeakerphoneOn = false
+                }
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
                         AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
