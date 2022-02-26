@@ -1,7 +1,5 @@
-/**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 package com.azure.android.communication.ui.callingcompositedemoapp.features
 
@@ -17,7 +15,7 @@ class SettingsFeatures {
     companion object {
         var isLanguageFeatureEnabled: Boolean = false
 
-        // ---------------------- Language Features -------------------------------------
+        // Language Features
         fun language(context: Context): String? {
             return context.applicationContext
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
@@ -25,9 +23,17 @@ class SettingsFeatures {
         }
 
         fun isRTL(context: Context): Boolean {
+            val isRTLKey = context.applicationContext.getSharedPreferences(
+                FEATURE_FLAG_SHARED_PREFS_KEY,
+                Context.MODE_PRIVATE
+            )
+                .getString(
+                    LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                    DEFAULT_LANGUAGE_VALUE
+                ) + LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
             return context.applicationContext
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-                .getBoolean(LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY, DEFAULT_ISRTL_VALUE)
+                .getBoolean(isRTLKey, DEFAULT_ISRTL_VALUE)
         }
     }
 }

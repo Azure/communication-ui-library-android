@@ -24,4 +24,6 @@
     <string name="languageSettingLabel">Language Settings</string>
     <string name="callSettingLabel">Call Settings</string>
     <string name="isRTLCheckboxLabel">isRTL</string>
+    <string name="languageDropdownHint">Language</string>
+    <string name="languageDefaultSelection">ENGLISH</string>
 </resources>

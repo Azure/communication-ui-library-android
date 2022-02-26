@@ -17,13 +17,13 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat"
-        >
+        android:theme="@style/Theme.AppCompat">
         <activity
             android:name=".SettingsActivity"
-            android:theme="@style/Launcher.Theme"
-            android:exported="false" />
-        <activity android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
+            android:exported="false"
+            android:theme="@style/Launcher.Theme" />
+        <activity
+            android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
             android:theme="@style/Launcher.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
