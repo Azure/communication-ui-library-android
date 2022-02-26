@@ -5,7 +5,9 @@ package com.azure.android.communication.ui.presentation.fragment.calling.header
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -41,13 +43,18 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         infoHeaderViewModel: InfoHeaderViewModel,
         displayParticipantList: () -> Unit,
+        accessibilityEnabled: Boolean
     ) {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
 
         viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
-                floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            if (accessibilityEnabled) {
+                floatingHeader.visibility = View.VISIBLE
+            } else {
+                infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
+                    floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
+                }
             }
         }
 
