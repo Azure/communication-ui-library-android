@@ -16,12 +16,14 @@ class CallLauncherActivityLocalParticipantHandler(callLauncherActivity: CallLaun
     private val activityWr: WeakReference<CallLauncherActivity> = WeakReference(callLauncherActivity)
 
 
-    override fun onFetchLocalParticipantAvatarData(localParticipantManager: LocalParticipantManager) {
+    override fun handle(localParticipantManager: LocalParticipantManager) {
         Thread {
             val avatarPersonaData = AvatarPersonaData()
             val url = URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
             val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
             avatarPersonaData.avatarImageBitmap = image
+
+            localParticipantManager.getLocalParticipantAvatar()// persona not having avatar associated
             localParticipantManager.setLocalParticipantAvatar(avatarPersonaData)
         }.start()
     }

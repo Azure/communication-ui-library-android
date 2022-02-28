@@ -4,5 +4,5 @@
 package com.azure.android.communication.ui.participant.local;
 
 public interface CallingLocalParticipantHandler {
-    void onFetchLocalParticipantAvatarData(LocalParticipantManager localParticipantManager);
+    void handle(LocalParticipantManager localParticipantManager);
 }

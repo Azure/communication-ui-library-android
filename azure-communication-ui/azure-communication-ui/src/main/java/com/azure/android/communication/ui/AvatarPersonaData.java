@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public class AvatarPersonaData {
     @Nullable
     private Bitmap avatarImageBitmap = null;
+    String displayName;
 
     public Bitmap getAvatarImageBitmap() {
         return avatarImageBitmap;
