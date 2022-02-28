@@ -32,6 +32,7 @@
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.PreviewAreaView
             android:id="@+id/azure_communication_ui_setup_local_video_holder"
+            android:importantForAccessibility="no"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,6 +55,7 @@
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupGradientView
             android:id="@+id/azure_communication_ui_setup_gradient"
+            android:importantForAccessibility="no"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:alpha="0.6"
@@ -178,6 +180,7 @@
             android:layout_height="0dp"
             android:backgroundTint="@color/azure_communication_ui_primary_selector"
             android:clickable="true"
+            android:focusable="true"
             android:enabled="true"
             android:text="@string/azure_communication_ui_setup_join_call"
             android:textSize="0sp"
@@ -191,6 +194,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/azure_communication_ui_setup_start_call_button_text"
             style="@style/AzureCommunicationUICalling.ButtonText"
+            android:importantForAccessibility="no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
