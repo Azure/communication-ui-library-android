@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <string name="azure_communication_ui_switch_camera_button">Кнопка переключения камеры</string>
+    <string name="azure_communication_ui_setup_gradient">Настройка градиента</string>
+    <string name="azure_communication_ui_setup_video_off">Видео отключено</string>
+    <string name="azure_communication_ui_setup_video_on">Видео включено</string>
+    <string name="azure_communication_ui_setup_mic_off">Микрофон выключен</string>
+    <string name="azure_communication_ui_setup_mic_on">Микрофон включен</string>
+    <string name="azure_communication_ui_setup_audio_device_android">Android</string>
+    <string name="azure_communication_ui_setup_audio_device_speaker">Динамик</string>
+    <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_selected">Выбрано</string>
+    <string name="azure_communication_ui_setup_join_call">Присоединиться к звонку</string>
+    <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
+    <string name="azure_communication_ui_setup_missing_mic">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать этот звонок, включите звук.</string>
+    <string name="azure_communication_ui_setup_missing_video">Камера отключена. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ.</string>
+    <string name="azure_communication_ui_setup_missing_text">Требуются разрешения</string>
+    <string name="azure_communication_ui_call_toggle_video">Включить или отключить видео</string>
+    <string name="azure_communication_ui_call_toggle_audio">Переключить звук</string>
+    <string name="azure_communication_ui_call_device_options">Параметры устройства</string>
+    <string name="azure_communication_ui_call_hang_up">Повесить трубку</string>
+    <string name="azure_communication_ui_call_leave_call">Покинуть звонок</string>
+    <string name="azure_communication_ui_call_cancel">Отмена</string>
+    <string name="azure_communication_ui_call_lobby_waiting">Ожидание организатора</string>
+    <string name="azure_communication_ui_call_lobby_waiting_details">Кто-то из участников собрания скоро вас подключит</string>
+    <string name="azure_communication_ui_call_open_participant_list">Открыть список участников</string>
+    <string name="azure_communication_ui_call_local_participant_suffix">(Я)</string>
+    <string name="azure_communication_ui_call_participant_list_unnamed_participant">Участник без имени</string>
+    <string name="azure_communication_ui_call_open_participant_list_muted">Уведомления отключены</string>
+    <string name="azure_communication_ui_call_learn_more_url">
+https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+    </string>
+    <string name="azure_communication_ui_call_privacy_policy_url">
+https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
+    <string name="azure_communication_ui_call_recording_started"><b>началась запись.</b> Присоединяясь, вы
+        предоставление согласия на транскрибирование этого собрания.
+         <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_call_recording_stopped"><b>запись сохраняется.</b> запись остановлена.
+         <u>дополнительные сведения</u></string>
+    <string name="azure_communication_ui_call_transcription_started"><b>транскрибирование запущено.</b> Присоединяясь, вы
+        дают согласие на транскрибирование этого собрания. <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped"><b>транскрибирование сохраняется.</b> транскрибирование
+        остановлено. <u>дополнительные сведения</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_started"><b>записи и транскрибирования
+        started.</b> Присоединяясь, вы даете согласие на транскрибирование этого собрания
+        . <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_stopped"><b>записи и транскрибирования:
+        сохраняются.</b> запись и транскрибирование остановлены. <u>дополнительные сведения</u></string>
+    <string name="azure_communication_ui_call_recording_stopped_still_transcribing"><b>запись остановлена.</b> You
+        транскрибирование этого собрания. <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped_still_recording"><b>транскрибирование остановлено.
+    </b> Сейчас вы записываете только это собрание. <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_call_waiting_for_others_to_join">Ожидание присоединения других участников</string>
+    <string name="azure_communication_ui_call_call_with_1_person">Звонок с 1 пользователем</string>
+    <string name="azure_communication_ui_call_call_with_n_people">Звонок с %1$d контактами</string>
+    <string name="azure_communication_ui_snack_bar_dismiss">Закрыть</string>
+    <string name="azure_communication_ui_cal_state_error_call_end">Вы были удалены из звонка из-за ошибки.</string>
+    <string name="azure_communication_ui_cal_state_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
+    <string name="azure_communication_ui_service_notification_title">Текущий звонок</string>
+    <string name="azure_communication_ui_service_notification_message">Коснитесь, чтобы вернуться к звонку</string>
+</resources>

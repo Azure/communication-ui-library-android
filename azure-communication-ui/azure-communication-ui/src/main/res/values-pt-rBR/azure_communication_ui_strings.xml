@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <string name="azure_communication_ui_switch_camera_button">Botão Mudar câmera</string>
+    <string name="azure_communication_ui_setup_gradient">Gradiente de Configuração</string>
+    <string name="azure_communication_ui_setup_video_off">Vídeo desativado</string>
+    <string name="azure_communication_ui_setup_video_on">Vídeo ativado</string>
+    <string name="azure_communication_ui_setup_mic_off">Microfone desativado</string>
+    <string name="azure_communication_ui_setup_mic_on">Microfone ligado</string>
+    <string name="azure_communication_ui_setup_audio_device_android">Android</string>
+    <string name="azure_communication_ui_setup_audio_device_speaker">Alto-falante</string>
+    <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_selected">Selecionada</string>
+    <string name="azure_communication_ui_setup_join_call">Ingressar na chamada</string>
+    <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
+    <string name="azure_communication_ui_setup_missing_mic">Seu áudio está desabilitado. Para habilitar, vá para Configurações para permitir o acesso. Você deve habilitar o áudio para iniciar essa chamada.</string>
+    <string name="azure_communication_ui_setup_missing_video">Sua câmera está desabilitada. Para habilitar, vá para Configurações para permitir o acesso.</string>
+    <string name="azure_communication_ui_setup_missing_text">Permissões necessárias</string>
+    <string name="azure_communication_ui_call_toggle_video">Ativar/desativar vídeo</string>
+    <string name="azure_communication_ui_call_toggle_audio">Ativar/Desativar Áudio</string>
+    <string name="azure_communication_ui_call_device_options">Opções do Dispositivo</string>
+    <string name="azure_communication_ui_call_hang_up">Desligar</string>
+    <string name="azure_communication_ui_call_leave_call">Sair da chamada</string>
+    <string name="azure_communication_ui_call_cancel">Cancelar</string>
+    <string name="azure_communication_ui_call_lobby_waiting">Esperando pelo anfitrião</string>
+    <string name="azure_communication_ui_call_lobby_waiting_details">Alguém na reunião permitirá que você entre em breve</string>
+    <string name="azure_communication_ui_call_open_participant_list">Abrir Lista de Participantes</string>
+    <string name="azure_communication_ui_call_local_participant_suffix">Eu</string>
+    <string name="azure_communication_ui_call_participant_list_unnamed_participant">Participante Sem Nome</string>
+    <string name="azure_communication_ui_call_open_participant_list_muted">Notificações desativadas</string>
+    <string name="azure_communication_ui_call_learn_more_url">
+https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+    </string>
+    <string name="azure_communication_ui_call_privacy_policy_url">
+https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
+    <string name="azure_communication_ui_call_recording_started"><b>Gravação foi iniciada.</b> Ingressando, você será
+        dando consentimento para que esta reunião seja transcrita.
+         <u>política de privacidade</u></string>
+    <string name="azure_communication_ui_call_recording_stopped"><b>Gravação está sendo salva.</b> Gravação foi interrompida.
+         <u>Saiba Mais</u></string>
+    <string name="azure_communication_ui_call_transcription_started"><b>Transcrição foi iniciada.</b> Ingressando, você
+        estão dando consentimento para que esta reunião seja transcrita. <u>política de privacidade</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped"><b>Transcrição está sendo salva.</b> Transcrição
+        foi interrompido. <u>Saiba Mais</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_started"><b>gravação e transcrição têm
+        started.</b> Ao ingressar, você está dando consentimento para que esta reunião seja transcrita
+        . <u>política de privacidade</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_stopped"><b>gravação e transcrição são
+        sendo salvo.</b> gravação e transcrição foram interrompidos. <u>Saiba Mais</u></string>
+    <string name="azure_communication_ui_call_recording_stopped_still_transcribing"><b>Gravação foi interrompida.</b> Você
+        agora só estão transcrevendo esta reunião. <u>política de privacidade</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped_still_recording"><b>Transcrição foi interrompida.
+    </b> agora você está gravando apenas esta reunião. <u>política de privacidade</u></string>
+    <string name="azure_communication_ui_call_waiting_for_others_to_join">Aguardando o ingresso de outros participantes</string>
+    <string name="azure_communication_ui_call_call_with_1_person">Chamada com 1 pessoa</string>
+    <string name="azure_communication_ui_call_call_with_n_people">Ligar com %1$d pessoas</string>
+    <string name="azure_communication_ui_snack_bar_dismiss">Ignorar</string>
+    <string name="azure_communication_ui_cal_state_error_call_end">Você foi removido da chamada devido a um erro.</string>
+    <string name="azure_communication_ui_cal_state_error_call_join">Não é possível ingressar na chamada devido a um erro.</string>
+    <string name="azure_communication_ui_service_notification_title">Chamada em andamento</string>
+    <string name="azure_communication_ui_service_notification_message">Toque para retornar à chamada</string>
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <string name="azure_communication_ui_switch_camera_button">카메라 전환 단추</string>
+    <string name="azure_communication_ui_setup_gradient">설정 그라데이션</string>
+    <string name="azure_communication_ui_setup_video_off">비디오 끄기</string>
+    <string name="azure_communication_ui_setup_video_on">비디오 켜짐</string>
+    <string name="azure_communication_ui_setup_mic_off">마이크 끄기</string>
+    <string name="azure_communication_ui_setup_mic_on">마이크 켜기</string>
+    <string name="azure_communication_ui_setup_audio_device_android">Android</string>
+    <string name="azure_communication_ui_setup_audio_device_speaker">발언자</string>
+    <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_selected">선택함</string>
+    <string name="azure_communication_ui_setup_join_call">통화 참여</string>
+    <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
+    <string name="azure_communication_ui_setup_missing_mic">오디오를 사용할 수 없습니다. 사용하려면 [설정]으로 이동하여 액세스를 허용하세요. 이 통화를 시작하려면 오디오를 사용하도록 설정해야 합니다.</string>
+    <string name="azure_communication_ui_setup_missing_video">카메라가 사용하지 않도록 설정되었습니다. 사용하도록 설정하려면 설정으로 이동하여 액세스를 허용하세요.</string>
+    <string name="azure_communication_ui_setup_missing_text">권한 필요</string>
+    <string name="azure_communication_ui_call_toggle_video">비디오 설정/해제</string>
+    <string name="azure_communication_ui_call_toggle_audio">오디오 토글</string>
+    <string name="azure_communication_ui_call_device_options">장치 옵션</string>
+    <string name="azure_communication_ui_call_hang_up">끊기</string>
+    <string name="azure_communication_ui_call_leave_call">통화 나가기</string>
+    <string name="azure_communication_ui_call_cancel">취소</string>
+    <string name="azure_communication_ui_call_lobby_waiting">호스트 대기 중</string>
+    <string name="azure_communication_ui_call_lobby_waiting_details">모임에 참가한 사용자가 곧 참가할 수 있습니다.</string>
+    <string name="azure_communication_ui_call_open_participant_list">참가자 목록 열기</string>
+    <string name="azure_communication_ui_call_local_participant_suffix">자신</string>
+    <string name="azure_communication_ui_call_participant_list_unnamed_participant">명명되지 않은 참가자</string>
+    <string name="azure_communication_ui_call_open_participant_list_muted">알림 차단됨</string>
+    <string name="azure_communication_ui_call_learn_more_url">
+https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+    </string>
+    <string name="azure_communication_ui_call_privacy_policy_url">
+https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
+    <string name="azure_communication_ui_call_recording_started"><b>기록이 시작되었습니다.</b> 참가하면
+        이 모임을 기록할 것에 동의합니다.
+         <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_call_recording_stopped"><b>기록을 저장하는 중입니다. </b> 기록이 중지되었습니다.
+         <u>자세한 정보</u></string>
+    <string name="azure_communication_ui_call_transcription_started"><b>대화 내용 기록이 시작되었습니다.</b> 참가하면
+        이 모임을 기록할 것에 동의합니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped"><b>기록을 저장하는 중입니다.</b> 기록
+        이(가) 중지되었습니다. <u>자세한 정보</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_started"><b>기록 및 대화 내용 기록
+        started.</b> 참가하면 이 모임이 기록되는 것에 동의하게 됩니다.
+        . <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_stopped"><b>기록 및 대화 내용 기록
+        저장됩니다.</b> 녹음/녹화 및 대화 내용 기록이 중지되었습니다. <u>자세한 정보</u></string>
+    <string name="azure_communication_ui_call_recording_stopped_still_transcribing"><b>기록이 중지되었습니다. </b>
+        이 모임만 기록합니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped_still_recording"><b>기록이 중지되었습니다.
+    </b> 이제 이 모임만 녹화하고 있습니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_call_waiting_for_others_to_join">다른 사용자의 참여를 기다리는 중</string>
+    <string name="azure_communication_ui_call_call_with_1_person">1명의 사용자와 통화</string>
+    <string name="azure_communication_ui_call_call_with_n_people">%1$d 사용자와 통화</string>
+    <string name="azure_communication_ui_snack_bar_dismiss">해제</string>
+    <string name="azure_communication_ui_cal_state_error_call_end">오류로 인해 통화에서 제외되었습니다.</string>
+    <string name="azure_communication_ui_cal_state_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
+    <string name="azure_communication_ui_service_notification_title">진행 중인 통화</string>
+    <string name="azure_communication_ui_service_notification_message">통화로 돌아가려면 탭하세요.</string>
+</resources>

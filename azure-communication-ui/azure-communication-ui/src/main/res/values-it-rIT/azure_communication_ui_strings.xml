@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <string name="azure_communication_ui_switch_camera_button">Pulsante Gira fotocamera</string>
+    <string name="azure_communication_ui_setup_gradient">Imposta sfumatura</string>
+    <string name="azure_communication_ui_setup_video_off">Video disattivato</string>
+    <string name="azure_communication_ui_setup_video_on">Video attivato</string>
+    <string name="azure_communication_ui_setup_mic_off">Microfono disattivato</string>
+    <string name="azure_communication_ui_setup_mic_on">Microfono attivato</string>
+    <string name="azure_communication_ui_setup_audio_device_android">Android</string>
+    <string name="azure_communication_ui_setup_audio_device_speaker">Altoparlante</string>
+    <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_selected">Selezionata</string>
+    <string name="azure_communication_ui_setup_join_call">Partecipa alla chiamata</string>
+    <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
+    <string name="azure_communication_ui_setup_missing_mic">L\'audio è disabilitato. Per abilitarlo, passa alle Impostazioni per consentire l\'accesso. Per avviare la chiamata, è necessario abilitare l\'audio.</string>
+    <string name="azure_communication_ui_setup_missing_video">La videocamera è disabilitata. Per abilitarla, passa alle Impostazioni per consentire l\'accesso.</string>
+    <string name="azure_communication_ui_setup_missing_text">Autorizzazioni necessarie</string>
+    <string name="azure_communication_ui_call_toggle_video">Attiva/disattiva video</string>
+    <string name="azure_communication_ui_call_toggle_audio">Attiva/Disattiva audio</string>
+    <string name="azure_communication_ui_call_device_options">Opzioni dispositivo</string>
+    <string name="azure_communication_ui_call_hang_up">Disconnetti</string>
+    <string name="azure_communication_ui_call_leave_call">Abbandona chiamata</string>
+    <string name="azure_communication_ui_call_cancel">Annulla</string>
+    <string name="azure_communication_ui_call_lobby_waiting">In attesa dell\'organizzatore</string>
+    <string name="azure_communication_ui_call_lobby_waiting_details">A breve qualcuno nella riunione ti farà partecipare</string>
+    <string name="azure_communication_ui_call_open_participant_list">Apri elenco partecipanti</string>
+    <string name="azure_communication_ui_call_local_participant_suffix">(me)</string>
+    <string name="azure_communication_ui_call_participant_list_unnamed_participant">Partecipante senza nome</string>
+    <string name="azure_communication_ui_call_open_participant_list_muted">Notifiche disattivate</string>
+    <string name="azure_communication_ui_call_learn_more_url">
+https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+    </string>
+    <string name="azure_communication_ui_call_privacy_policy_url">
+https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
+    <string name="azure_communication_ui_call_recording_started"><b>registrazione è stata avviata. </b> Partecipando, sei
+        fornendo il consenso per la trascrizione della riunione.
+         <u>dell\'informativa sulla privacy di</u></string>
+    <string name="azure_communication_ui_call_recording_stopped"><b>è in corso il salvataggio della registrazione. </b> La registrazione è stata arrestata.
+         <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_call_transcription_started"><b>trascrizione è stata avviata.</b> Partecipando,
+        stanno fornendo il consenso per la trascrizione della riunione. <u>dell\'informativa sulla privacy di</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped"><b>è in corso il salvataggio della trascrizione.</b> Trascrizione
+        è stato arrestato. <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_started"><b>registrazione e trascrizione hanno
+        started.</b> Partecipando, fornisci il consenso per la trascrizione della riunione
+        . <u>dell\'informativa sulla privacy di</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_stopped"><b>registrazione e trascrizione sono
+        in fase di salvataggio.</b> La registrazione e la trascrizione sono state arrestate. <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_call_recording_stopped_still_transcribing"><b>registrazione è stata arrestata.</b>
+        stanno trascrivendo solo questa riunione. <u>dell\'informativa sulla privacy di</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped_still_recording"><b>trascrizione è stata arrestata.
+    </b> Stai registrando solo questa riunione. <u>dell\'informativa sulla privacy di</u></string>
+    <string name="azure_communication_ui_call_waiting_for_others_to_join">In attesa di altri partecipanti</string>
+    <string name="azure_communication_ui_call_call_with_1_person">Chiamata con 1 persona</string>
+    <string name="azure_communication_ui_call_call_with_n_people">Chiama con %1$d persone</string>
+    <string name="azure_communication_ui_snack_bar_dismiss">Ignora</string>
+    <string name="azure_communication_ui_cal_state_error_call_end">Sei stato rimosso dalla chiamata a causa di un errore.</string>
+    <string name="azure_communication_ui_cal_state_error_call_join">Impossibile partecipare alla chiamata a causa di un errore.</string>
+    <string name="azure_communication_ui_service_notification_title">Chiamata in corso</string>
+    <string name="azure_communication_ui_service_notification_message">Tocca per tornare alla chiamata</string>
+</resources>

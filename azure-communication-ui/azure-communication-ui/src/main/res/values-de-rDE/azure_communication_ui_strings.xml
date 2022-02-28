@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <string name="azure_communication_ui_switch_camera_button">Schaltfläche „Kamera wechseln“</string>
+    <string name="azure_communication_ui_setup_gradient">Farbverlauf einrichten</string>
+    <string name="azure_communication_ui_setup_video_off">Video aus</string>
+    <string name="azure_communication_ui_setup_video_on">Video ein</string>
+    <string name="azure_communication_ui_setup_mic_off">Mikro deaktiviert</string>
+    <string name="azure_communication_ui_setup_mic_on">Mikro ein</string>
+    <string name="azure_communication_ui_setup_audio_device_android">Android</string>
+    <string name="azure_communication_ui_setup_audio_device_speaker">Lautsprecher</string>
+    <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_selected">Ausgewählt</string>
+    <string name="azure_communication_ui_setup_join_call">An Anruf teilnehmen</string>
+    <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
+    <string name="azure_communication_ui_setup_missing_mic">Ihr Audio ist deaktiviert. Um dies zu aktivieren, wechseln Sie zu "Einstellungen", um den Zugriff zuzulassen. Du musst
+        Audio aktivieren, um diesen Anruf zu starten.</string>
+    <string name="azure_communication_ui_setup_missing_video">Ihre Kamera ist deaktiviert. Wechseln Sie zum Aktivieren zu "Einstellungen".
+        um den Zugriff zuzulassen.</string>
+    <string name="azure_communication_ui_setup_missing_text">Berechtigungen erforderlich</string>
+    <string name="azure_communication_ui_call_toggle_video">Video umschalten</string>
+    <string name="azure_communication_ui_call_toggle_audio">Audio umschalten</string>
+    <string name="azure_communication_ui_call_device_options">Geräteoptionen</string>
+    <string name="azure_communication_ui_call_hang_up">Auflegen</string>
+    <string name="azure_communication_ui_call_leave_call">Anruf verlassen</string>
+    <string name="azure_communication_ui_call_cancel">Abbrechen</string>
+    <string name="azure_communication_ui_call_lobby_waiting">Warten auf Host</string>
+    <string name="azure_communication_ui_call_lobby_waiting_details">Jemand in der Besprechung wird Sie in Kürze einlassen</string>
+    <string name="azure_communication_ui_call_open_participant_list">Teilnehmerliste öffnen</string>
+    <string name="azure_communication_ui_call_local_participant_suffix">(ich)</string>
+    <string name="azure_communication_ui_call_participant_list_unnamed_participant">Unbenannter Teilnehmer</string>
+    <string name="azure_communication_ui_call_open_participant_list_muted">Stummgeschaltete</string>
+    <string name="azure_communication_ui_call_learn_more_url">
+https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+    </string>
+    <string name="azure_communication_ui_call_privacy_policy_url">
+https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
+    <string name="azure_communication_ui_call_recording_started"><b>Aufzeichnung wurde gestartet.</b> Durch Ihre Teilnahme sind Sie
+        die Zustimmung zum Transkribieren dieser Besprechung erteilen.
+         <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_call_recording_stopped"><b>Aufzeichnung wird gespeichert. </b> Aufzeichnung wurde beendet.
+         <u>Weitere Informationen</u></string>
+    <string name="azure_communication_ui_call_transcription_started"><b>Transkription wurde gestartet.</b> Indem Sie teilnehmen,
+        stimmen zu, dass diese Besprechung transkribiert werden soll. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped"><b>Transkription wird gespeichert.</b> Transkription
+        wurde beendet. <u>Weitere Informationen</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_started"><b>Aufzeichnung und Transkription wurden
+        started.</b> Durch Ihre Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird.
+        . <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_call_recording_and_transcribing_stopped"><b>Aufzeichnung und Transkription sind
+        gespeichert. </b> Aufzeichnung und Transkription wurden beendet. <u>Weitere Informationen</u></string>
+    <string name="azure_communication_ui_call_recording_stopped_still_transcribing"><b>Aufzeichnung wurde beendet. </b> Sie
+        transkribieren jetzt nur diese Besprechung. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_call_transcription_stopped_still_recording"><b>Transkription wurde beendet.
+    </b> Sie zeichnen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_call_waiting_for_others_to_join">Auf weitere Teilnehmer wartend</string>
+    <string name="azure_communication_ui_call_call_with_1_person">Anruf mit 1 Person</string>
+    <string name="azure_communication_ui_call_call_with_n_people">Anruf mit %1$d Personen</string>
+    <string name="azure_communication_ui_snack_bar_dismiss">Schließen</string>
+    <string name="azure_communication_ui_cal_state_error_call_end">Sie wurden aufgrund eines Fehlers aus dem Anruf entfernt.</string>
+    <string name="azure_communication_ui_cal_state_error_call_join">Teilnahme am Anruf aufgrund eines Fehlers nicht möglich.</string>
+    <string name="azure_communication_ui_service_notification_title">Aktiver Anruf</string>
+    <string name="azure_communication_ui_service_notification_message">Zur Rückkehr zum Anruf tippen</string>
+</resources>
