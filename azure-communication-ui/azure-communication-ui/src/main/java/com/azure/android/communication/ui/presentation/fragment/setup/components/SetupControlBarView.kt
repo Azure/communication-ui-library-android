@@ -100,13 +100,13 @@ internal class SetupControlBarView : LinearLayout {
                 setupAudioButton.isSelected = true
                 setupAudioButton.isEnabled = true
                 setupAudioButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_mic_on)
+                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_on)
             }
             AudioOperationalStatus.OFF -> {
                 setupAudioButton.isSelected = false
                 setupAudioButton.isEnabled = true
                 setupAudioButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_mic_off)
+                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_off)
             }
             AudioOperationalStatus.PENDING -> {
                 setupAudioButton.isEnabled = false
@@ -119,12 +119,12 @@ internal class SetupControlBarView : LinearLayout {
             CameraOperationalStatus.ON -> {
                 setupCameraButton.isSelected = true
                 setupCameraButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_video_on)
+                    context.getString(R.string.azure_communication_ui_setup_view_button_video_on)
             }
             CameraOperationalStatus.OFF -> {
                 setupCameraButton.isSelected = false
                 setupCameraButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_video_off)
+                    context.getString(R.string.azure_communication_ui_setup_view_button_video_off)
             }
         }
     }
@@ -147,7 +147,7 @@ internal class SetupControlBarView : LinearLayout {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 setupAudioDeviceButton.text = context.getString(
-                    R.string.azure_communication_ui_setup_audio_device_speaker
+                    R.string.azure_communication_ui_audio_device_drawer_speaker
                 )
                 setupAudioDeviceButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     0,
@@ -164,7 +164,7 @@ internal class SetupControlBarView : LinearLayout {
                     0
                 )
                 setupAudioDeviceButton.text = context.getString(
-                    R.string.azure_communication_ui_setup_audio_device_android
+                    R.string.azure_communication_ui_audio_device_drawer_android
                 )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
@@ -175,7 +175,7 @@ internal class SetupControlBarView : LinearLayout {
                     0
                 )
                 setupAudioDeviceButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
             }
             else -> {
                 setupAudioDeviceButton.text = ""

@@ -108,7 +108,7 @@ internal class AudioDeviceListView(
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
                     null,
-                    resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
+                    resources.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
@@ -126,7 +126,7 @@ internal class AudioDeviceListView(
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
                     null,
-                    resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
+                    resources.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
 
                 ) {
@@ -150,7 +150,7 @@ internal class AudioDeviceListView(
                         ),
 
                         null,
-                        resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
+                        resources.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                         enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
 
                     ) {
@@ -180,9 +180,9 @@ internal class AudioDeviceListView(
 
     private fun getDeviceTypeName(audioDeviceType: AudioDeviceType): String {
         return when (audioDeviceType) {
-            AudioDeviceType.ANDROID -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
-            AudioDeviceType.SPEAKER -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
-            AudioDeviceType.BLUETOOTH_SCO -> context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+            AudioDeviceType.ANDROID -> context.getString(R.string.azure_communication_ui_audio_device_drawer_android)
+            AudioDeviceType.SPEAKER -> context.getString(R.string.azure_communication_ui_audio_device_drawer_speaker)
+            AudioDeviceType.BLUETOOTH_SCO -> context.getString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
         }
     }
 }

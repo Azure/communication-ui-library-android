@@ -60,7 +60,7 @@
             android:layout_height="140dp"
             android:alpha="0.6"
             android:background="@drawable/azure_communication_ui_background_gradient"
-            android:contentDescription="@string/azure_communication_ui_setup_gradient"
+            android:contentDescription="@string/azure_communication_ui_setup_view_background_gradient_accessibility_label"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="100dp"
                 android:layout_marginBottom="24dp"
-                android:contentDescription="@string/azure_communication_ui_setup_missing_text"
+                android:contentDescription="@string/azure_communication_ui_setup_view_warning_missing_text"
                 app:tint="@color/azure_communication_ui_color_on_surface"
                 />
 
@@ -99,7 +99,7 @@
                 android:layout_marginBottom="35dp"
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
-                android:text="@string/azure_communication_ui_setup_missing_text"
+                android:text="@string/azure_communication_ui_setup_view_warning_missing_text"
                 android:textColor="@color/azure_communication_ui_color_on_surface"
                 />
         </com.azure.android.communication.ui.presentation.fragment.setup.components.PermissionWarningView>
@@ -125,7 +125,7 @@
                 android:drawableTop="@drawable/azure_communication_ui_toggle_selector_camera_for_setup"
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
-                android:text="@string/azure_communication_ui_setup_video_off"
+                android:text="@string/azure_communication_ui_setup_view_button_video_off"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />
@@ -140,7 +140,7 @@
                 android:drawableTop="@drawable/azure_communication_ui_toggle_selector_mic_for_setup"
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
-                android:text="@string/azure_communication_ui_setup_mic_off"
+                android:text="@string/azure_communication_ui_setup_view_button_mic_off"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />
@@ -155,7 +155,7 @@
                 android:drawableTop="@drawable/azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled"
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
-                android:text="@string/azure_communication_ui_setup_audio_device_speaker"
+                android:text="@string/azure_communication_ui_audio_device_drawer_speaker"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />
@@ -182,7 +182,7 @@
             android:clickable="true"
             android:focusable="true"
             android:enabled="true"
-            android:text="@string/azure_communication_ui_setup_join_call"
+            android:text="@string/azure_communication_ui_setup_view_button_join_call"
             android:textSize="0sp"
             app:backgroundTint="@color/azure_communication_ui_primary_selector"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -201,7 +201,7 @@
             android:enabled="true"
             android:gravity="center"
             android:stateListAnimator="@null"
-            android:text="@string/azure_communication_ui_setup_join_call"
+            android:text="@string/azure_communication_ui_setup_view_button_join_call"
             android:textColor="@color/azure_communication_ui_on_primary_enabled_disabled_selector"
             app:drawableLeftCompat="@drawable/azure_communication_ui_ic_fluent_meet_now_24_regular_composite_button_enabled"
             app:drawableTint="@color/azure_communication_ui_on_primary_enabled_disabled_selector"
@@ -243,7 +243,7 @@
                 android:enabled="false"
                 android:gravity="center"
                 android:stateListAnimator="@null"
-                android:text="@string/azure_communication_ui_setup_connecting_call"
+                android:text="@string/azure_communication_ui_setup_view_button_connecting_call"
                 android:textColor="@color/azure_communication_ui_color_text_primary"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"

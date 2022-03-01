@@ -59,12 +59,12 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
                 when (it) {
-                    0 -> participantNumberText.setText(R.string.azure_communication_ui_call_waiting_for_others_to_join)
-                    1 -> participantNumberText.setText(R.string.azure_communication_ui_call_call_with_1_person)
+                    0 -> participantNumberText.setText(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
+                    1 -> participantNumberText.setText(R.string.azure_communication_ui_calling_view_info_header_call_with_1_person)
                     else ->
                         participantNumberText.text =
                             resources.getString(
-                                R.string.azure_communication_ui_call_call_with_n_people,
+                                R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
                                 it
                             )
                 }
