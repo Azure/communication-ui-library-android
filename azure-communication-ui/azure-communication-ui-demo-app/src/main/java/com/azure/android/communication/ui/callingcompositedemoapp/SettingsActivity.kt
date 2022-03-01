@@ -150,7 +150,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateRTLCheckbox() {
-
         val isRTLKey = LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + getSelectedLanguageValue()
         val selectedLanguage = findSelectedLanguage()
         if (selectedLanguage != null) {
@@ -210,12 +209,15 @@ class SettingsActivity : AppCompatActivity() {
     }
 }
 
-// Constants for language & rtl settings
+// Shared pref Keys for language & rtl settings
 
 const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
 const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "isRTL_VALUE_OF_"
 const val LANGUAGE_ADAPTER_POSITION_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_POSITION"
-const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
+
+// Shared pref default values for language & rtl settings
+
+const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_ISRTL_VALUE = false
 const val HIDDEN_TAP_COUNT_THRESHOLD = 5
