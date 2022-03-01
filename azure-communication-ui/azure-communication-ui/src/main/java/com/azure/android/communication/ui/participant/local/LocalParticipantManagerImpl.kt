@@ -7,8 +7,11 @@ internal class LocalParticipantManagerImpl: LocalParticipantManager {
 
      val avatarPersonaDataStateFlow: MutableStateFlow<AvatarPersonaData?> = MutableStateFlow(null)
 
-
     override fun setLocalParticipantAvatar(avatarPersonaData: AvatarPersonaData?) {
         avatarPersonaDataStateFlow.value = avatarPersonaData
+    }
+
+    override fun getLocalParticipantAvatar(): AvatarPersonaData {
+        return avatarPersonaDataStateFlow.value!!
     }
 }

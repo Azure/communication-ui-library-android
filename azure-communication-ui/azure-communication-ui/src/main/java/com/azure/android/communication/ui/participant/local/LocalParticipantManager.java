@@ -5,6 +5,11 @@ package com.azure.android.communication.ui.participant.local;
 
 import com.azure.android.communication.ui.AvatarPersonaData;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface LocalParticipantManager {
-    void handle(AvatarPersonaData avatarPersonaData);
+    void setLocalParticipantAvatar(AvatarPersonaData avatarPersonaData);
+
+    @NotNull
+    AvatarPersonaData getLocalParticipantAvatar();
 }

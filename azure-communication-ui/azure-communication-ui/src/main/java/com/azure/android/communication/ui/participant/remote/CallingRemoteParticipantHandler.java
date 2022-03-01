@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.participant.remote;
 
-import com.azure.android.communication.ui.AvatarPersonaData;
+import com.azure.android.communication.common.CommunicationIdentifier;
 
 public interface CallingRemoteParticipantHandler {
-    AvatarPersonaData onFetchRemoteParticipantAvatarData(String userIdentifier);
+    void handle(CommunicationIdentifier communicationIdentifier, RemoteParticipantManager remoteParticipantManager);
 }

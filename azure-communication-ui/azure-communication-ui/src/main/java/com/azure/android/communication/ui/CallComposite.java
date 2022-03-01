@@ -134,11 +134,11 @@ public final class CallComposite  {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 
-    public void setOnRemoteParticipantHandler(final CallingRemoteParticipantHandler callingRemoteParticipantHandler) {
+    public void setOnRemoteParticipantJoinedHandler(final CallingRemoteParticipantHandler callingRemoteParticipantHandler) {
         configuration.getCallCompositeRemoteParticipantHandler().setOnCallingRemoteParticipantHandler(callingRemoteParticipantHandler);
     }
 
-    public void setOnLocalParticipantHandler(final CallingLocalParticipantHandler callingLocalParticipantHandler) {
+    public void setOnLocalParticipantInitializedHandler(final CallingLocalParticipantHandler callingLocalParticipantHandler) {
         configuration.getCallCompositeLocalParticipantHandler().setOnCallingLocalParticipantHandler(callingLocalParticipantHandler);
     }
 

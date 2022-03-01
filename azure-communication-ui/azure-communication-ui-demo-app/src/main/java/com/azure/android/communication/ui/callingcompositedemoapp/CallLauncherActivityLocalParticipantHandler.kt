@@ -14,8 +14,7 @@ import java.net.URL
 class CallLauncherActivityLocalParticipantHandler(callLauncherActivity: CallLauncherActivity) :
     CallingLocalParticipantHandler {
     private val activityWr: WeakReference<CallLauncherActivity> = WeakReference(callLauncherActivity)
-
-
+    
     override fun handle(localParticipantManager: LocalParticipantManager) {
         Thread {
             val avatarPersonaData = AvatarPersonaData()
@@ -23,8 +22,8 @@ class CallLauncherActivityLocalParticipantHandler(callLauncherActivity: CallLaun
             val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
             avatarPersonaData.avatarImageBitmap = image
 
-            localParticipantManager.getLocalParticipantAvatar()// persona not having avatar associated
-            localParticipantManager.setLocalParticipantAvatar(avatarPersonaData)
+           // val a: AvatarPersonaData = localParticipantManager.localParticipantAvatar
+            localParticipantManager.localParticipantAvatar = avatarPersonaData
         }.start()
     }
 }

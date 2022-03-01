@@ -35,7 +35,7 @@ internal class SetupParticipantAvatarViewModel(
     fun init(displayName: String?, videoStreamID: String?, permissionState: PermissionState) {
         this.displayName = displayName ?: ""
         callCompositeAvatarPersonaHandler.getOnCallingLocalParticipantHandler()?.let {
-            it.onFetchLocalParticipantAvatarData(localParticipantManagerImpl)
+            it.handle(localParticipantManagerImpl)
 
         }
         shouldDisplayAvatarViewStateFlow =
