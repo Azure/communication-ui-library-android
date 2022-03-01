@@ -143,7 +143,7 @@ internal class SetupControlBarView : LinearLayout {
         }
     }
 
-    private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus, deviceName:String) {
+    private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus, deviceName: String) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 setupAudioDeviceButton.text = context.getString(
@@ -174,9 +174,9 @@ internal class SetupControlBarView : LinearLayout {
                     0,
                     0
                 )
-                setupAudioDeviceButton.text = if ( deviceName.isBlank())
+                setupAudioDeviceButton.text = if (deviceName.isBlank())
                     context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
-                 else deviceName
+                else deviceName
             }
             else -> {
                 setupAudioDeviceButton.text = ""
