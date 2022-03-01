@@ -23,17 +23,24 @@
 -keepattributes LineNumberTable,SourceFile,Signature,*Annotation*
 -renamesourcefileattribute SourceFile
 -printusage /Users/AlbertLo/projects/microsoft/azure/communication-ui-library-android-publicPreview/azure-communication-ui/usage.txt
+# skypert.jar
 -keep class com.skype.rt.** { *; }
+# VideoHost.jar
 -keep class com.skype.android.data.** { *; }
+# PalVideo.jar
 -keep class com.skype.android.video.render.** { *; }
+# VideoHost.jar
 -keep class com.skype.android.video.capture.** { *; }
+# hw-video-coddec.jar
 -keep class com.skype.android.video.hw.codec.** { *; }
 -keep class com.skype.android.video.hw.extension.** { *; }
 -keep class com.skype.android.video.hw.frame.** { *; }
+# dl-audio.jar
 -keep class com.microsoft.dl.audio.** { *; }
+# dl-video.jar
 -keep class com.microsoft.dl.video.** { *; }
 -keep class com.azure.android.communication.calling.** { *; }
-
+# palutils.jar
 -keep class com.microsoft.media.** { *; }
 -keepclasseswithmembernames,includedescriptorclasses class * {
     native <methods>;
