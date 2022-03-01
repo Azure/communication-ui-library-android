@@ -48,9 +48,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'acs-ui-library.pro'
+            signingConfig signingConfigs.debug
+        }
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -68,6 +76,7 @@ android {
         pickFirst 'META-INF/AL2.0'
         pickFirst 'META-INF/LGPL2.1'
         pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
+        doNotStrip '**/*.so'
     }
 
     testOptions {
@@ -97,7 +106,7 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
     implementation(name: "magnifier-0.0.14", ext: 'aar')
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
