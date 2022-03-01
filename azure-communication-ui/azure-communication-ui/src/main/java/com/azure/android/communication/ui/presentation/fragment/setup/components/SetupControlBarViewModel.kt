@@ -26,6 +26,9 @@ internal class SetupControlBarViewModel(
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
     private lateinit var callingStatusStateFlow: MutableStateFlow<CallingStatus>
 
+    // Does not need StateFlow as tied to AudioDeviceSelectionStatus updates
+    lateinit var audioDeviceName: String
+
     fun init(
         permissionState: PermissionState,
         cameraState: CameraState,
@@ -38,6 +41,7 @@ internal class SetupControlBarViewModel(
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
         callingStatusStateFlow = MutableStateFlow(callingStatus)
+        audioDeviceName = ""
     }
 
     fun update(
@@ -46,6 +50,7 @@ internal class SetupControlBarViewModel(
         audioState: AudioState,
         callingStatus: CallingStatus,
     ) {
+        audioDeviceName = audioState.bluetoothDeviceName
         cameraPermissionStateFlow.value = permissionState.cameraPermissionState
         micPermissionStateFlow.value = permissionState.audioPermissionState
         cameraStateFlow.value = cameraState

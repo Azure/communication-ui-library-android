@@ -89,7 +89,7 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
-                setAudioDeviceButtonState(it)
+                setAudioDeviceButtonState(it, viewModel.audioDeviceName)
             }
         }
     }
@@ -143,7 +143,7 @@ internal class SetupControlBarView : LinearLayout {
         }
     }
 
-    private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
+    private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus, deviceName:String) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 setupAudioDeviceButton.text = context.getString(
@@ -174,8 +174,9 @@ internal class SetupControlBarView : LinearLayout {
                     0,
                     0
                 )
-                setupAudioDeviceButton.text =
+                setupAudioDeviceButton.text = if ( deviceName.isBlank())
                     context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                 else deviceName
             }
             else -> {
                 setupAudioDeviceButton.text = ""
