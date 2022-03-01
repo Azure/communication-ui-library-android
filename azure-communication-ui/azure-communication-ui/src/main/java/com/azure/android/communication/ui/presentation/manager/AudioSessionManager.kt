@@ -33,6 +33,9 @@ internal class AudioSessionManager(
             FeatureFlags.BluetoothAudio.active &&
                 (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
+    private val bluetoothDeviceName
+        get() = bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name ?: ""
+
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
     suspend fun start() {
@@ -82,7 +85,8 @@ internal class AudioSessionManager(
             // If Bluetooth has been connected and wasn't, switch to it
             store.dispatch(
                 LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
-                    isBluetoothScoAvailable
+                    isBluetoothScoAvailable,
+                    bluetoothDeviceName
                 )
             )
             store.dispatch(
@@ -94,7 +98,8 @@ internal class AudioSessionManager(
             // If bluetooth wasn't selected and is just being disconnected, just do the flag
             store.dispatch(
                 LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
-                    isBluetoothScoAvailable
+                    isBluetoothScoAvailable,
+                    bluetoothDeviceName
                 )
             )
         }

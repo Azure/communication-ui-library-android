@@ -137,6 +137,8 @@ internal class AudioDeviceListView(
             )
 
             if (viewModel.bluetoothScoAvailableStateFlow.value) {
+                // Remove the first item (Receiver)
+                bottomCellItems.removeAt(0)
                 bottomCellItems.add(
                     BottomCellItem(
                         ContextCompat.getDrawable(
@@ -182,7 +184,14 @@ internal class AudioDeviceListView(
         return when (audioDeviceType) {
             AudioDeviceType.ANDROID -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
             AudioDeviceType.SPEAKER -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
-            AudioDeviceType.BLUETOOTH_SCO -> context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+            AudioDeviceType.BLUETOOTH_SCO -> getBluetoothDeviceName()
         }
+    }
+
+    private fun getBluetoothDeviceName(): String {
+        if (viewModel.bluetoothDeviceNameStateFlow.value.isBlank()) {
+            return context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+        }
+        return viewModel.bluetoothDeviceNameStateFlow.value
     }
 }

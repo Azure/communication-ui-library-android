@@ -16,10 +16,12 @@ internal class AudioDeviceListViewModel(
     private lateinit var audioDeviceSelectionStatusMutableStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
     private val bluetoothScoAvailableMutableStateFlow = MutableStateFlow(false)
     private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
+    private val bluetoothDeviceNameMutableStateFlow = MutableStateFlow("")
 
     val bluetoothScoAvailableStateFlow get() = bluetoothScoAvailableMutableStateFlow as StateFlow<Boolean>
     val displayAudioDeviceSelectionMenuStateFlow get() = displayAudioDeviceSelectionMenuMutableStateFlow as StateFlow<Boolean>
     val audioDeviceSelectionStatusStateFlow get() = audioDeviceSelectionStatusMutableStateFlow as StateFlow<AudioDeviceSelectionStatus>
+    val bluetoothDeviceNameStateFlow get() = bluetoothDeviceNameMutableStateFlow as StateFlow<String>
 
     fun init(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         audioDeviceSelectionStatusMutableStateFlow = MutableStateFlow(audioDeviceSelectionStatus)
@@ -27,8 +29,10 @@ internal class AudioDeviceListViewModel(
 
     fun update(
         audioDeviceSelectionStatus: AudioDeviceSelectionStatus,
+        bluetoothDeviceName: String,
         isBluetoothSCOAvailable: Boolean,
     ) {
+        bluetoothDeviceNameMutableStateFlow.value = bluetoothDeviceName
         audioDeviceSelectionStatusMutableStateFlow.value = audioDeviceSelectionStatus
         bluetoothScoAvailableMutableStateFlow.value = isBluetoothSCOAvailable
     }

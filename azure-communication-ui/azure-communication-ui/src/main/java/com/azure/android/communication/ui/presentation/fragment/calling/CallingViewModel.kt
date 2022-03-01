@@ -148,6 +148,7 @@ internal class CallingViewModel(
 
         audioDeviceListViewModel.update(
             state.localParticipantState.audioState.device,
+            state.localParticipantState.audioState.bluetoothDeviceName,
             state.localParticipantState.audioState.isBluetoothSCOAvailable
         )
 

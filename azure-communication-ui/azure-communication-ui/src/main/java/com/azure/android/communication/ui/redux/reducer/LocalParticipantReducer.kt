@@ -174,7 +174,9 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
             is LocalParticipantAction.AudioDeviceBluetoothSCOAvailable -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
-                        isBluetoothSCOAvailable = action.available
+                        isBluetoothSCOAvailable = action.available,
+                        bluetoothDeviceName = action.deviceName
+
                     )
                 )
             }

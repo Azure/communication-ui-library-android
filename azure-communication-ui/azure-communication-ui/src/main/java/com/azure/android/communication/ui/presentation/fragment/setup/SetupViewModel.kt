@@ -100,6 +100,7 @@ internal class SetupViewModel(
         )
         audioDeviceListViewModel.update(
             state.localParticipantState.audioState.device,
+            state.localParticipantState.audioState.bluetoothDeviceName,
             state.localParticipantState.audioState.isBluetoothSCOAvailable
         )
         errorInfoViewModel.update(state.errorState)
