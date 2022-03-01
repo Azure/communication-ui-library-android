@@ -28,16 +28,17 @@
 -keep class com.skype.android.video.render.** { *; }
 -keep class com.skype.android.video.capture.** { *; }
 -keep class com.skype.android.video.hw.codec.** { *; }
+-keep class com.skype.android.video.hw.extension.** { *; }
+-keep class com.skype.android.video.hw.frame.** { *; }
 -keep class com.microsoft.dl.audio.** { *; }
--keep class com.microsoft.dl.video.capture.** { *; }
+-keep class com.microsoft.dl.video.** { *; }
 -keep class com.azure.android.communication.calling.** { *; }
--keep class com.azure.android.communication.ui.redux.action.** { *; }
+
 -keep class com.microsoft.media.** { *; }
 -keepclasseswithmembernames,includedescriptorclasses class * {
     native <methods>;
 }
 
--keep class android.view.MenuItem
 -keep public class * extends android.view.View {
     public <init>(android.content.Context);
     public <init>(android.content.Context, android.util.AttributeSet);
