@@ -3,65 +3,78 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <string name="azure_communication_ui_button_switch_camera_accessibility_label">Kamera değiştirme düğmesi</string>
-    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Gradyan Kur</string>
-    <string name="azure_communication_ui_setup_view_button_video_off">Görüntü kapalı</string>
-    <string name="azure_communication_ui_setup_view_button_video_on">Görüntü açık</string>
-    <string name="azure_communication_ui_setup_view_button_mic_off">Mikrofon kapalı</string>
-    <string name="azure_communication_ui_setup_view_button_mic_on">Mikrofon açık</string>
+    <!--    Device-->
     <string name="azure_communication_ui_audio_device_drawer_android">Android</string>
-    <string name="azure_communication_ui_audio_device_drawer_speaker">Konuşmacı</string>
+    <string name="azure_communication_ui_audio_device_drawer_speaker">Speaker</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
-    <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Seçili</string>
-    <string name="azure_communication_ui_setup_view_button_join_call">Aramaya katıl</string>
+
+    <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Joining call…</string>
-    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">Sesiniz devre dışı bırakıldı. Etkinleştirmek için, erişime izin vermek için lütfen Ayarlar\'a gidin. Bunu
-        bu aramayı başlatmak için sesi etkinleştirin.</string>
-    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">Kameranız devre dışı bırakıldı. Etkinleştirmek için lütfen Ayarlar\'a gidin
-        erişime izin vermek için.</string>
-    <string name="azure_communication_ui_setup_view_warning_missing_text">İzin gerekiyor</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Görüntüyü aç/kapat</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Sesi Aç/Kapat</string>
-    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Cihaz Seçenekleri</string>
-    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Kapat</string>
-    <string name="azure_communication_ui_calling_view_overlay_leave_call">Aramadan ayrıl</string>
-    <string name="azure_communication_ui_calling_view_overlay_cancel">İptal</string>
-    <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Oturum sahibi bekleniyor</string>
-    <string name="azure_communication_ui_lobby_view_text_waiting_details">Katılımcılardan biri sizi kısa süre sonra toplantıya alacak</string>
-    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Katılımcı Listesini Aç</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ben)</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Adsız Katılımcı</string>
-    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Sessize alınmış</string>
+    <string name="azure_communication_ui_setup_view_button_video_off">Video off</string>
+    <string name="azure_communication_ui_setup_view_button_video_on">Video on</string>
+    <string name="azure_communication_ui_setup_view_button_mic_off">Mic off</string>
+    <string name="azure_communication_ui_setup_view_button_mic_on">Mic on</string>
+    <string name="azure_communication_ui_setup_view_button_join_call">Join call</string>
+    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">Your audio is disabled. To enable, please go to Settings to allow access. You must
+        enable audio to start this call.</string>
+    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">Your camera is disabled. To enable, please go to Settings
+        to allow access.</string>
+    <string name="azure_communication_ui_setup_view_warning_missing_text">Permissions required</string>
+    <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Selected</string>
+    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Setup Gradient</string>
+    <string name="azure_communication_ui_button_switch_camera_accessibility_label">Switch Camera Button</string>
+
+    <!--    Lobby View-->
+    <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Waiting for host</string>
+    <string name="azure_communication_ui_lobby_view_text_waiting_details">Someone in the meeting will let you in soon</string>
+
+    <!--    Calling View-->
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Waiting for others to join</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Call with 1 person</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Call with %1$d people</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unnamed participant</string>
+    <string name="azure_communication_ui_calling_view_overlay_leave_call">Leave call</string>
+    <string name="azure_communication_ui_calling_view_overlay_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Muted</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Hang Up</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Toggle Video</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Toggle Audio</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Device Options</string>
+
+    <!--    Compliance Banner-->
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
+        giving consent for this meeting to be transcribed.
+         <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Recording is being saved.</b> Recording has stopped.
+         <u>Learn More</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcription has started.</b> By joining, you
+        are giving consent for this meeting to be transcribed. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transcription is being saved.</b> Transcription
+        has stopped. <u>Learn More</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Recording and transcription have
+        started.</b> By joining, you are giving consent for this meeting to be transcribed
+        . <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Recording and transcription are
+        being saved.</b> Recording and transcription have stopped. <u>Learn More</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Recording has stopped.</b> You
+        are now only transcribing this meeting. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcription has stopped.
+    </b> You are now only recording this meeting. <u>Privacy policy</u></string>
     <string name="azure_communication_ui_calling_view_link_learn_more_url">
-https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+        https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
     </string>
     <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
-https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
     </string>
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>kaydı başlatıldı.</b> Katılarak
-        bu toplantının dökümünü almak için onay verme.
-         <u>Gizlilik ilkesi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>kaydediliyor. </b> kaydı durduruldu.
-         <u>Daha Fazla Bilgi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Döküm başladı.</b> Katılarak
-        bu toplantının dökümünü almak için onay veriyor. <u>Gizlilik ilkesi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transkripsiyonu kaydediliyor.</b> Döküm
-        durduruldu. <u>Daha Fazla Bilgi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Kaydı ve transkripsiyon
-        started.</b> Katılarak bu toplantının dökümünü alma izni veriyorsunuz
-        . <u>Gizlilik ilkesi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>kaydı ve transkripsiyonu
-        saved.</b> Kaydı ve transkripsiyonu durduruldu. <u>Daha Fazla Bilgi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Kaydı durduruldu.</b> Siz
-        şu anda yalnızca bu toplantının dökümünü oluşturuyor. <u>Gizlilik ilkesi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Dökümü durduruldu.
-    </b> Şu anda yalnızca bu toplantıyı kaydediyorsunuz. <u>Gizlilik ilkesi</u></string>
-    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Diğerlerinin katılması bekleniyor</string>
-    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 kişi ile arama</string>
-    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Diğer kişilerle %1$d ara</string>
-    <string name="azure_communication_ui_snack_bar_button_dismiss">Kapat</string>
+
+    <!--    PopUp warning-->
+    <string name="azure_communication_ui_snack_bar_button_dismiss">Dismiss</string>
     <string name="azure_communication_ui_cal_state_error_call_end">Bir hata nedeniyle aramadan çıkarıldınız.</string>
-    <string name="azure_communication_ui_snack_bar_text_error_call_join">Bir hata nedeniyle aramaya katılınamıyor.</string>
+    <string name="azure_communication_ui_snack_bar_text_error_call_join">Unable to join the call due to an error.</string>
+
+    <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">Devam eden çağrı</string>
     <string name="azure_communication_ui_service_notification_message">Aramaya dönmek için dokunun</string>
 </resources>
