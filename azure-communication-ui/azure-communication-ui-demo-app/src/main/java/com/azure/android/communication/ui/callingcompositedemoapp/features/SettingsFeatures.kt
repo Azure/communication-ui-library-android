@@ -35,5 +35,19 @@ class SettingsFeatures {
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
                 .getBoolean(isRTLKey, DEFAULT_ISRTL_VALUE)
         }
+
+        fun getIsLanguageFeatureEnabled(context: Context): Boolean {
+            return context.applicationContext
+                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+                .getBoolean(IS_LANGUAGE_SETTING_ENABLED, false)
+        }
+
+        fun setIsLanguageFeatureEnabled(context: Context, isFeatureEnabled: Boolean) {
+            context.applicationContext
+                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+                .edit().putBoolean(IS_LANGUAGE_SETTING_ENABLED, isFeatureEnabled).apply()
+        }
     }
 }
+
+const val IS_LANGUAGE_SETTING_ENABLED = "IS_LANGUAGE_SETTING_ENABLED"
