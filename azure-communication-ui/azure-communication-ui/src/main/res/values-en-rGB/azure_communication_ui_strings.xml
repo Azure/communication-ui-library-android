@@ -75,6 +75,6 @@
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Unable to join the call due to an error.</string>
 
     <!--    Notification-->
-    <string name="azure_communication_ui_service_notification_title">Ongoing call</string>
+    <string name="azure_communication_ui_service_notification_title">On-going call</string>
     <string name="azure_communication_ui_service_notification_message">Tap to return to the call</string>
 </resources>

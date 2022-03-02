@@ -5,74 +5,72 @@
 <resources>
     <!--    Device-->
     <string name="azure_communication_ui_audio_device_drawer_android">Android</string>
-    <string name="azure_communication_ui_audio_device_drawer_speaker">Speaker</string>
+    <string name="azure_communication_ui_audio_device_drawer_speaker">スピーカー</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
 
     <!--    Setup View-->
-    <string name="azure_communication_ui_setup_view_button_connecting_call">Joining call…</string>
-    <string name="azure_communication_ui_setup_view_button_video_off">Video off</string>
-    <string name="azure_communication_ui_setup_view_button_video_on">Video on</string>
-    <string name="azure_communication_ui_setup_view_button_mic_off">Mic off</string>
-    <string name="azure_communication_ui_setup_view_button_mic_on">Mic on</string>
-    <string name="azure_communication_ui_setup_view_button_join_call">Join call</string>
-    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">Your audio is disabled. To enable, please go to Settings to allow access. You must
-        enable audio to start this call.</string>
-    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">Your camera is disabled. To enable, please go to Settings
-        to allow access.</string>
-    <string name="azure_communication_ui_setup_view_warning_missing_text">Permissions required</string>
-    <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Selected</string>
-    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Setup Gradient</string>
-    <string name="azure_communication_ui_button_switch_camera_accessibility_label">Switch Camera Button</string>
+    <string name="azure_communication_ui_setup_view_button_connecting_call">参加中…</string>
+    <string name="azure_communication_ui_setup_view_button_video_off">ビデオ オフ</string>
+    <string name="azure_communication_ui_setup_view_button_video_on">ビデオ オン</string>
+    <string name="azure_communication_ui_setup_view_button_mic_off">マイク オフ</string>
+    <string name="azure_communication_ui_setup_view_button_mic_on">マイク オン</string>
+    <string name="azure_communication_ui_setup_view_button_join_call">通話に参加</string>
+    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">オーディオが無効になっています。有効にするには、[設定] に移動してアクセスを許可してください。この通話を開始するには、オーディオを有効にする必要があります。</string>
+    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">カメラが無効になっています。有効にするには、[設定] に移動してアクセスを許可してください。</string>
+    <string name="azure_communication_ui_setup_view_warning_missing_text">アクセス許可が必要です</string>
+    <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">選択済み</string>
+    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">グラデーションのセットアップ</string>
+    <string name="azure_communication_ui_button_switch_camera_accessibility_label">カメラの切り替えボタン</string>
 
     <!--    Lobby View-->
-    <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Waiting for host</string>
-    <string name="azure_communication_ui_lobby_view_text_waiting_details">Someone in the meeting will let you in soon</string>
+    <string name="azure_communication_ui_lobby_view_text_waiting_for_host">ホストを待機しています</string>
+    <string name="azure_communication_ui_lobby_view_text_waiting_details">会議の参加者がまもなくあなたを招待します</string>
 
     <!--    Calling View-->
-    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Waiting for others to join</string>
-    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Call with 1 person</string>
-    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Call with %1$d people</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unnamed participant</string>
-    <string name="azure_communication_ui_calling_view_overlay_leave_call">Leave call</string>
-    <string name="azure_communication_ui_calling_view_overlay_cancel">Cancel</string>
-    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
-    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Muted</string>
-    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Hang Up</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Toggle Video</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Toggle Audio</string>
-    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Device Options</string>
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">他のユーザーの参加を待っています</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 人のユーザーと通話</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d人と通話</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(自分)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">名前のない参加者</string>
+    <string name="azure_communication_ui_calling_view_overlay_leave_call">通話から退出</string>
+    <string name="azure_communication_ui_calling_view_overlay_cancel">取り消す</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">参加者リストを開きます</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">ミュート状態</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">切断</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">ビデオの表示/非表示</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">オーディオの切り替え</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">デバイス オプション</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
         giving consent for this meeting to be transcribed.
          <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Recording is being saved.</b> Recording has stopped.
-         <u>Learn More</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>レコーディングを保存しています。</b>レコーディングが停止しました。
+         <u>詳細情報の</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcription has started.</b> By joining, you
         are giving consent for this meeting to be transcribed. <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transcription is being saved.</b> Transcription
-        has stopped. <u>Learn More</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>トランスクリプトを保存しています。文字起こし</b>
+        停止しました。<u>詳細情報の</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Recording and transcription have
         started.</b> By joining, you are giving consent for this meeting to be transcribed
         . <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Recording and transcription are
-        being saved.</b> Recording and transcription have stopped. <u>Learn More</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>レコーディングとトランスクリプトは
+        保存中です。</b>レコーディングとトランスクリプトが停止しました。<u>詳細情報の</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Recording has stopped.</b> You
         are now only transcribing this meeting. <u>Privacy policy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcription has stopped.
     </b> You are now only recording this meeting. <u>Privacy policy</u></string>
     <string name="azure_communication_ui_calling_view_link_learn_more_url">
-        https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
+https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
     </string>
     <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
-        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
     </string>
 
     <!--    PopUp warning-->
-    <string name="azure_communication_ui_snack_bar_button_dismiss">Dismiss</string>
+    <string name="azure_communication_ui_snack_bar_button_dismiss">閉じる</string>
     <string name="azure_communication_ui_cal_state_error_call_end">エラーが発生したため、通話から削除されました。</string>
-    <string name="azure_communication_ui_snack_bar_text_error_call_join">Unable to join the call due to an error.</string>
+    <string name="azure_communication_ui_snack_bar_text_error_call_join">エラーが発生したため、通話に参加できません。</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">進行中の通話</string>
