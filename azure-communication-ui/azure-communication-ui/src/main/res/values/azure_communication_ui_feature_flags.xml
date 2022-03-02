@@ -3,14 +3,14 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <string name="azure_communication_ui_feature_screen_share_zoom_label"> Screen Share Zoom </string>
+    <string name="azure_communication_ui_feature_screen_share_zoom_label" translatable="false"> Screen Share Zoom </string>
     <bool name="azure_communication_ui_feature_screen_share_zoom">true</bool>
 
-    <string name="azure_communication_ui_feature_flag_bluetooth_audio_label"> Bluetooth Audio </string>
+    <string name="azure_communication_ui_feature_flag_bluetooth_audio_label" translatable="false"> Bluetooth Audio </string>
     <bool name="azure_communication_ui_feature_flag_bluetooth_audio">false</bool>
 
     <!-- For Tests -->
-    <string name="azure_communication_ui_feature_flag_test_label">Test</string>
+    <string name="azure_communication_ui_feature_flag_test_label" translatable="false">Test</string>
     <bool name="azure_communication_ui_feature_flag_test_false">false</bool>
     <bool name="azure_communication_ui_feature_flag_test_true">true</bool>
 </resources>
