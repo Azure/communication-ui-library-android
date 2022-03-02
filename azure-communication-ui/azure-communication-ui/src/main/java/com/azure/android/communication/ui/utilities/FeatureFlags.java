@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import com.azure.android.communication.ui.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -100,12 +101,13 @@ enum FeatureFlags implements FeatureFlag {
 
             // Start default features
             for (FeatureFlag feature:features()) {
-
+                if (FeatureFlags.isActive(feature)) {
+                    feature.onStart(applicationContext);
+                }
             }
-            //features().filter { it.active }.forEach { it.onStart(applicationContext) }
         }
 
-        private static ArrayList<FeatureFlag> additionalEntries = new ArrayList<>();
+        private static final List<FeatureFlag> additionalEntries = new ArrayList<>();
 
         static boolean isActive(FeatureFlag flag) {
             // If not added to the system, return false
@@ -119,7 +121,7 @@ enum FeatureFlags implements FeatureFlag {
                     FeatureFlags.applicationContext.getResources().getBoolean(flag.defaultBooleanId())
             );
         }
-
+        
         static void setActive(FeatureFlag flag, boolean value) {
             final boolean wasActive = isActive(flag);
             FeatureFlags.sharedPrefs.edit().putBoolean(""+flag.defaultBooleanId(), value).apply();
@@ -140,11 +142,8 @@ enum FeatureFlags implements FeatureFlag {
         }
 
         static List<FeatureFlag> features() {
-            final List<FeatureFlag> list = new ArrayList<FeatureFlag>();
-            list.addAll(additionalEntries);
-            for (FeatureFlag feature:values()) {
-                list.add(feature);
-            }
+            final List<FeatureFlag> list = new ArrayList<>(additionalEntries);
+            Collections.addAll(list, values());
             return list;
         }
 
