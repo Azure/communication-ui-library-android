@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
@@ -70,22 +71,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()
+        configureLocalization()
         setStatusBarColor()
         setActionBarVisibility()
+
         if (configuration.themeConfig?.theme != null) {
             theme.applyStyle(
                 configuration.themeConfig?.theme!!, true
             )
-        }
-
-        configuration.localizationConfig?.let { localeConfig ->
-            if (localeConfig.isRightToLeft) {
-                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
-            }
-
-            val config: Configuration = resources.configuration
-            config.setLocale(Locale(localeConfig.language))
-            resources.updateConfiguration(config, resources.displayMetrics)
         }
 
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
@@ -149,6 +142,17 @@ internal class CallCompositeActivity : AppCompatActivity() {
         )
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_ic_fluent_arrow_left_24_filled)
         supportActionBar?.elevation = 0F
+    }
+
+    private fun configureLocalization() {
+        val localeConfig = configuration.localizationConfig ?: LocalizationConfiguration("en")
+        if (localeConfig.isRightToLeft) {
+            window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        }
+
+        val config: Configuration = resources.configuration
+        config.setLocale(Locale(localeConfig.language))
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun setActionBarVisibility() {
