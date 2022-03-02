@@ -5,6 +5,6 @@ package com.azure.android.communication.ui.participant.remote;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 
-public interface CallingRemoteParticipantHandler {
+public interface RemoteParticipantJoinedHandler {
     void handle(CommunicationIdentifier communicationIdentifier, RemoteParticipantManager remoteParticipantManager);
 }

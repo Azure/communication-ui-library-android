@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
-    callCompositeConfiguration: CallCompositeConfiguration
+    callCompositeConfiguration: CallCompositeConfiguration,
 ) {
 
     private val audioDeviceListViewModel by lazy {
@@ -47,8 +47,10 @@ internal class SetupViewModelFactory(
     }
 
     private val participantAvatarViewModel by lazy {
-        SetupParticipantAvatarViewModel(callCompositeConfiguration.callCompositeLocalParticipantHandler,
-            callCompositeConfiguration.localParticipantManagerImpl)
+        SetupParticipantAvatarViewModel(
+            callCompositeConfiguration.callCompositeLocalParticipantInitializedHandler,
+            callCompositeConfiguration.localParticipantManagerImpl
+        )
     }
 
     private val joinCallButtonHolderViewModel by lazy {

@@ -4,11 +4,11 @@
 package com.azure.android.communication.ui.participant.local
 
 internal class CallCompositeLocalParticipantHandler {
-    private var localParticipantHandler: CallingLocalParticipantHandler? = null
+    private var localParticipantInitializedHandler: LocalParticipantInitializedHandler? = null
 
-    fun getOnCallingLocalParticipantHandler() = localParticipantHandler
+    fun getOnCallingLocalParticipantHandler() = localParticipantInitializedHandler
 
-    fun setOnCallingLocalParticipantHandler(localParticipantHandler: CallingLocalParticipantHandler?) {
-        this.localParticipantHandler = localParticipantHandler
+    fun setOnLocalParticipantInitializedHandler(localParticipantInitializedHandler: LocalParticipantInitializedHandler?) {
+        this.localParticipantInitializedHandler = localParticipantInitializedHandler
     }
 }

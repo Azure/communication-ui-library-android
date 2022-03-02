@@ -12,10 +12,8 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.participant.local.CallingLocalParticipantHandler;
-import com.azure.android.communication.ui.participant.local.LocalParticipantManager;
-import com.azure.android.communication.ui.participant.remote.CallingRemoteParticipantHandler;
-import com.azure.android.communication.ui.participant.remote.RemoteParticipantManager;
+import com.azure.android.communication.ui.participant.local.LocalParticipantInitializedHandler;
+import com.azure.android.communication.ui.participant.remote.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -39,7 +37,7 @@ import java.util.UUID;
  *
  * @see CallCompositeBuilder
  */
-public final class CallComposite  {
+public final class CallComposite {
 
     // Each time we launch, an InstanceID will be assigned and incremented.
     private static int instanceId = 0;
@@ -134,12 +132,48 @@ public final class CallComposite  {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 
-    public void setOnRemoteParticipantJoinedHandler(final CallingRemoteParticipantHandler callingRemoteParticipantHandler) {
-        configuration.getCallCompositeRemoteParticipantHandler().setOnCallingRemoteParticipantHandler(callingRemoteParticipantHandler);
+    /**
+     * Set {@link RemoteParticipantJoinedHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; set remote participant joined handler
+     * callComposite.setOnRemoteParticipantJoinedHandler { communicationIdentifier, remoteParticipantManager ->
+     *     &#47;&#47; get and set remote participant avatar
+     *  }
+     *
+     *
+     * &#47;&#47; remove remote participant joined handler
+     * callComposite.setOnRemoteParticipantJoinedHandler&#40;null&#41;;
+     *
+     * </pre>
+     *
+     * @param remoteParticipantJoinedHandler The {@link RemoteParticipantJoinedHandler}
+     */
+    public void setOnRemoteParticipantJoinedHandler(final RemoteParticipantJoinedHandler remoteParticipantJoinedHandler) {
+        configuration.getCallCompositeRemoteParticipantJoinedHandler().setOnRemoteParticipantJoinedHandler(remoteParticipantJoinedHandler);
     }
 
-    public void setOnLocalParticipantInitializedHandler(final CallingLocalParticipantHandler callingLocalParticipantHandler) {
-        configuration.getCallCompositeLocalParticipantHandler().setOnCallingLocalParticipantHandler(callingLocalParticipantHandler);
+    /**
+     * Set {@link LocalParticipantInitializedHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; set local participant initialized handler
+     * callComposite.setOnLocalParticipantInitializedHandler { localParticipantManager ->
+     *    &#47;&#47; get and set local participant avatar
+     * }
+     *
+     *
+     * &#47;&#47; remove local participant initialized handler
+     * callComposite.setOnLocalParticipantInitializedHandler&#40;null&#41;;
+     *
+     * </pre>
+     *
+     * @param localParticipantInitializedHandler The {@link LocalParticipantInitializedHandler}
+     */
+    public void setOnLocalParticipantInitializedHandler(final LocalParticipantInitializedHandler localParticipantInitializedHandler) {
+        configuration.getCallCompositeLocalParticipantInitializedHandler().setOnLocalParticipantInitializedHandler(localParticipantInitializedHandler);
     }
 
     private void launch(

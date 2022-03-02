@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.factories
 
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.participant.remote.CallCompositeRemoteParticipantHandler
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayViewModel

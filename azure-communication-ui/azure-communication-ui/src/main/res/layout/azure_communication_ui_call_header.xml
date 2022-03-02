@@ -5,7 +5,6 @@
 <com.azure.android.communication.ui.presentation.fragment.calling.header.InfoHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_call_floating_header"
-    android:importantForAccessibility="yes"
     android:layout_width="match_parent"
     android:layout_height="58dp"
     android:layout_marginStart="8dp"
@@ -13,6 +12,7 @@
     android:layout_marginEnd="8dp"
     android:alpha="0.8"
     android:background="@drawable/azure_communication_ui_corner_radius_rectangle_6dp_floating_header"
+    android:importantForAccessibility="yes"
     android:visibility="gone"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -21,11 +21,11 @@
 
     <TextView
         android:id="@+id/azure_communication_ui_call_participant_number_text"
-        android:importantForAccessibility="no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:fontFamily="sans-serif-medium"
+        android:importantForAccessibility="no"
         android:textColor="@color/azure_communication_ui_color_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

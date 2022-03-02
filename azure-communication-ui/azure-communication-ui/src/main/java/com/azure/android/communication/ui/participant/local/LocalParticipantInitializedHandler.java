@@ -3,6 +3,6 @@
 
 package com.azure.android.communication.ui.participant.local;
 
-public interface CallingLocalParticipantHandler {
+public interface LocalParticipantInitializedHandler {
     void handle(LocalParticipantManager localParticipantManager);
 }

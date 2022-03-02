@@ -1,17 +1,17 @@
 package com.azure.android.communication.ui.participant.local
 
-import com.azure.android.communication.ui.AvatarPersonaData
+import com.azure.android.communication.ui.AvatarData
 import kotlinx.coroutines.flow.MutableStateFlow
 
-internal class LocalParticipantManagerImpl: LocalParticipantManager {
+internal class LocalParticipantManagerImpl : LocalParticipantManager {
 
-     val avatarPersonaDataStateFlow: MutableStateFlow<AvatarPersonaData?> = MutableStateFlow(null)
+    val avatarDataStateFlow: MutableStateFlow<AvatarData?> = MutableStateFlow(null)
 
-    override fun setLocalParticipantAvatar(avatarPersonaData: AvatarPersonaData?) {
-        avatarPersonaDataStateFlow.value = avatarPersonaData
+    override fun setAvatar(avatarData: AvatarData?) {
+        avatarDataStateFlow.value = avatarData
     }
 
-    override fun getLocalParticipantAvatar(): AvatarPersonaData {
-        return avatarPersonaDataStateFlow.value!!
+    override fun getAvatar(): AvatarData {
+        return avatarDataStateFlow.value!!
     }
 }

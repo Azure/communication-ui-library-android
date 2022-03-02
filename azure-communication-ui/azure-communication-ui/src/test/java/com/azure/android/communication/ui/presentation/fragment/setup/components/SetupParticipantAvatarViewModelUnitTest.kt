@@ -23,8 +23,10 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarTrue_when_videoStreamIDHasNoValueAndHasCameraPermissions() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val viewModel = SetupParticipantAvatarViewModel(callCompositeAvatarPersonaHandler,
-                callCompositeConfiguration.localParticipantManagerImpl)
+            val viewModel = SetupParticipantAvatarViewModel(
+                callCompositeAvatarPersonaHandler,
+                callCompositeConfiguration.localParticipantManagerImpl
+            )
             viewModel.init(
                 "",
                 "",
@@ -63,8 +65,10 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarFalse_when_videoStreamIDHasValueAndHasCameraPermissions() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val viewModel = SetupParticipantAvatarViewModel(callCompositeAvatarPersonaHandler,
-                callCompositeConfiguration.localParticipantManagerImpl)
+            val viewModel = SetupParticipantAvatarViewModel(
+                callCompositeAvatarPersonaHandler,
+                callCompositeConfiguration.localParticipantManagerImpl
+            )
             viewModel.init(
                 "",
                 "",
@@ -103,8 +107,10 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarFalse_when_videoStreamIDHasNoValueAndHasCameraPermissionsDenied() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val viewModel = SetupParticipantAvatarViewModel(callCompositeAvatarPersonaHandler,
-                callCompositeConfiguration.localParticipantManagerImpl)
+            val viewModel = SetupParticipantAvatarViewModel(
+                callCompositeAvatarPersonaHandler,
+                callCompositeConfiguration.localParticipantManagerImpl
+            )
             viewModel.init(
                 "",
                 "",
@@ -140,8 +146,10 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarFalse_when_videoStreamIDHasNoValueAndHasAudioPermissionsDenied() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val viewModel = SetupParticipantAvatarViewModel(callCompositeAvatarPersonaHandler,
-                callCompositeConfiguration.localParticipantManagerImpl)
+            val viewModel = SetupParticipantAvatarViewModel(
+                callCompositeAvatarPersonaHandler,
+                callCompositeConfiguration.localParticipantManagerImpl
+            )
             viewModel.init(
                 "",
                 "",

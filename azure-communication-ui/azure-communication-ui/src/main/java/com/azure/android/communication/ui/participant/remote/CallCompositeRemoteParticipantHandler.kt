@@ -4,11 +4,11 @@
 package com.azure.android.communication.ui.participant.remote
 
 internal class CallCompositeRemoteParticipantHandler {
-    private var remoteParticipantHandler: CallingRemoteParticipantHandler? = null
+    private var remoteParticipantJoinedHandler: RemoteParticipantJoinedHandler? = null
 
-    fun getOnCallingParticipantHandler() = remoteParticipantHandler
+    fun getOnCallingParticipantHandler() = remoteParticipantJoinedHandler
 
-    fun setOnCallingRemoteParticipantHandler(remoteParticipantHandler: CallingRemoteParticipantHandler?) {
-        this.remoteParticipantHandler = remoteParticipantHandler
+    fun setOnRemoteParticipantJoinedHandler(remoteParticipantJoinedHandler: RemoteParticipantJoinedHandler?) {
+        this.remoteParticipantJoinedHandler = remoteParticipantJoinedHandler
     }
 }

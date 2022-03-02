@@ -89,7 +89,8 @@ internal class CallingFragment :
             videoViewManager,
         )
 
-        accessibilityManager = context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        accessibilityManager =
+            context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         infoHeaderView = view.findViewById(R.id.azure_communication_ui_call_floating_header)
         infoHeaderView.start(
             viewLifecycleOwner,

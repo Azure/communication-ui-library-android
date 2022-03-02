@@ -9,7 +9,11 @@ import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallCompositeBuilder
 import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
-import com.azure.android.communication.ui.callingcompositedemoapp.*
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityLocalParticipantInitializedHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityRemoteParticipantJoinedHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
 import java.util.UUID
@@ -27,14 +31,18 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
     ) {
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active) {
-                CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling)).build()
-            }
-            else {
+                CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
+                    .build()
+            } else {
                 CallCompositeBuilder().build()
             }
 
-        callComposite.setOnLocalParticipantInitializedHandler(CallLauncherActivityLocalParticipantHandler(callLauncherActivity))
-        callComposite.setOnRemoteParticipantJoinedHandler(CallLauncherActivityRemoteParticipantHandler(callLauncherActivity))
+        callComposite.setOnLocalParticipantInitializedHandler(
+            CallLauncherActivityLocalParticipantInitializedHandler(callLauncherActivity)
+        )
+        callComposite.setOnRemoteParticipantJoinedHandler(
+            CallLauncherActivityRemoteParticipantJoinedHandler(callLauncherActivity)
+        )
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 
         val communicationTokenRefreshOptions =

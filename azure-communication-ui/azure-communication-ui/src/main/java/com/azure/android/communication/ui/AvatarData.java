@@ -7,15 +7,24 @@ import android.graphics.Bitmap;
 
 import org.jetbrains.annotations.Nullable;
 
-public class AvatarPersonaData {
+/**
+ * Get and set values for Fluent UI Avatar View
+ */
+public class AvatarData {
+
     @Nullable
     private Bitmap avatarImageBitmap = null;
-    String displayName;
 
+    /**
+     * @return bitmap avatar data
+     */
     public Bitmap getAvatarImageBitmap() {
         return avatarImageBitmap;
     }
 
+    /**
+     * @param avatarImageBitmap
+     */
     public void setAvatarImageBitmap(final Bitmap avatarImageBitmap) {
         this.avatarImageBitmap = avatarImageBitmap;
     }

@@ -4,14 +4,24 @@
 package com.azure.android.communication.ui.participant.remote;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
-import com.azure.android.communication.ui.AvatarPersonaData;
+import com.azure.android.communication.ui.AvatarData;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Get and set remote participant configurations
+ */
 public interface RemoteParticipantManager {
-    void setRemoteParticipantAvatar(CommunicationIdentifier communicationIdentifier, AvatarPersonaData avatarPersonaData);
+    /**
+     * @param communicationIdentifier
+     * @param avatarData
+     */
+    void setAvatar(CommunicationIdentifier communicationIdentifier, AvatarData avatarData);
 
+    /**
+     * @param communicationIdentifier
+     * @return AvatarData
+     */
     @NotNull
-    AvatarPersonaData getRemoteParticipantAvatar(CommunicationIdentifier communicationIdentifier);
-
+    AvatarData getAvatar(CommunicationIdentifier communicationIdentifier);
 }

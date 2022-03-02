@@ -8,15 +8,10 @@ import android.media.AudioManager
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
-import com.azure.android.communication.ui.participant.local.LocalParticipantManagerImpl
-import com.azure.android.communication.ui.participant.remote.RemoteParticipantManagerImpl
 import com.azure.android.communication.ui.presentation.VideoViewManager
-import com.azure.android.communication.ui.presentation.fragment.ViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.presentation.manager.PermissionManager

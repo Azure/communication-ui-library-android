@@ -15,8 +15,8 @@ internal class CallCompositeConfiguration {
     var localizationConfig: LocalizationConfiguration? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
-    var callCompositeRemoteParticipantHandler = CallCompositeRemoteParticipantHandler()
-    var callCompositeLocalParticipantHandler = CallCompositeLocalParticipantHandler()
+    var callCompositeRemoteParticipantJoinedHandler = CallCompositeRemoteParticipantHandler()
+    var callCompositeLocalParticipantInitializedHandler = CallCompositeLocalParticipantHandler()
     var localParticipantManagerImpl = LocalParticipantManagerImpl()
     var remoteParticipantManagerImpl = RemoteParticipantManagerImpl()
 
