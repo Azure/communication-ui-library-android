@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.utilities;
 
 import android.app.Application;
@@ -8,10 +11,10 @@ import java.util.Objects;
 public class FeatureFlagEntry implements FeatureFlag {
     final int defaultBooleanId;
     final int labelId;
-    final FeatureFlagAppHook start;
-    final FeatureFlagAppHook end;
+    final FeatureFlags.FeatureFlagAppHook start;
+    final FeatureFlags.FeatureFlagAppHook end;
 
-    public FeatureFlagEntry(int defaultBooleanId, int labelId, FeatureFlagAppHook start, FeatureFlagAppHook end) {
+    public FeatureFlagEntry(final int defaultBooleanId, final int labelId, final FeatureFlags.FeatureFlagAppHook start, final FeatureFlags.FeatureFlagAppHook end) {
         this.defaultBooleanId = defaultBooleanId;
         this.labelId = labelId;
         this.start = start;
@@ -29,13 +32,13 @@ public class FeatureFlagEntry implements FeatureFlag {
     }
 
     @Override
-    public void onStart(Application application) {
-        if (start != null) start.call(application);
+    public void onStart(final Application application) {
+        if (start != null) { start.call(application); }
     }
 
     @Override
-    public void onEnd(Application application) {
-        if (end != null) end.call(application);
+    public void onEnd(final Application application) {
+        if (end != null) { end.call(application); }
     }
 
     @Override

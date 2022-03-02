@@ -11,8 +11,6 @@ import com.azure.android.communication.ui.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
 
 /* Feature Flag Management
 
@@ -67,13 +65,13 @@ public enum FeatureFlags implements FeatureFlag {
     }
 
     // Id of the bool resource containing the default
-    int defaultBooleanId;
+    final int defaultBooleanId;
 
     // Label to display on screen
-    int labelId;
+    final int labelId;
 
-    Consumer<Application> onStart;
-    Consumer<Application> onEnd;
+    final FeatureFlagAppHook onStart;
+    final FeatureFlagAppHook onEnd;
 
     // ---------------------------- End Global Features ---------------------------------------------
 
@@ -172,13 +170,12 @@ public enum FeatureFlags implements FeatureFlag {
     public void toggle() {
         setActive(this, !isActive());
     }
-}
 
 
-interface FeatureFlagAppHook {
-    void call(Application application);
+    public interface FeatureFlagAppHook {
+        void call(Application application);
+    }
 }
-// A Feature Flag
-// This interface is shared between the Optional and Enum features
+
 
 
