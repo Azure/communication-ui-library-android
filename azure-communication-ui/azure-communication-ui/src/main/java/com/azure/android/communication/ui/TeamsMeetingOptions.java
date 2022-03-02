@@ -15,20 +15,22 @@ public final class TeamsMeetingOptions {
 
     /**
      * Create {@link TeamsMeetingOptions}.
+     *
      * @param communicationTokenCredential {@link CommunicationTokenCredential}
-     * @param meetingLink Teams meeting link
+     * @param meetingLink                  Teams meeting link
      */
     public TeamsMeetingOptions(
-                               final CommunicationTokenCredential communicationTokenCredential,
-                               final String meetingLink) {
+            final CommunicationTokenCredential communicationTokenCredential,
+            final String meetingLink) {
         this(communicationTokenCredential, meetingLink, "");
     }
 
     /**
      * Create {@link TeamsMeetingOptions}.
+     *
      * @param communicationTokenCredential {@link CommunicationTokenCredential}
-     * @param meetingLink Teams meeting link
-     * @param displayName user display name
+     * @param meetingLink                  Teams meeting link
+     * @param displayName                  user display name
      */
     public TeamsMeetingOptions(final CommunicationTokenCredential communicationTokenCredential,
                                final String meetingLink,
@@ -40,6 +42,7 @@ public final class TeamsMeetingOptions {
 
     /**
      * Get {@link CommunicationTokenCredential}.
+     *
      * @return {@link String}
      */
     public CommunicationTokenCredential getCommunicationTokenCredential() {
@@ -48,6 +51,7 @@ public final class TeamsMeetingOptions {
 
     /**
      * Get user display name.
+     *
      * @return {@link String}
      */
     public String getDisplayName() {
@@ -56,6 +60,7 @@ public final class TeamsMeetingOptions {
 
     /**
      * Get Teams meeting link.
+     *
      * @return {@link String}
      */
     public String getMeetingLink() {

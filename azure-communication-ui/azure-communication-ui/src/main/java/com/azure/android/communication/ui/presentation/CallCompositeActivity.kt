@@ -28,8 +28,10 @@ import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragm
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
+import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
@@ -75,6 +77,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 configuration.themeConfig?.theme!!, true
             )
         }
+
+        configuration.localizationConfig?.let { localeConfig ->
+            Locale.setDefault(Locale(localeConfig.language))
+            if (localeConfig.isRightToLeft) {
+                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
+            }
+        }
+
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
 
         val activity = this
@@ -197,6 +207,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun launchFragment(fragmentClassName: String) {
+        activity?.supportFragmentManager?.fragments?.let {
+            if (it.isNotEmpty()) {
+                // during screen rotate below logic helps to avoid launching fragment twice
+                if (it.last().javaClass.name.equals(fragmentClassName)) {
+                    return
+                }
+            }
+        }
+
         val fragment = supportFragmentManager.fragmentFactory.instantiate(
             classLoader,
             fragmentClassName

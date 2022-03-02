@@ -41,13 +41,18 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         infoHeaderViewModel: InfoHeaderViewModel,
         displayParticipantList: () -> Unit,
+        accessibilityEnabled: Boolean
     ) {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
 
         viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
-                floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            if (accessibilityEnabled) {
+                floatingHeader.visibility = View.VISIBLE
+            } else {
+                infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
+                    floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
+                }
             }
         }
 

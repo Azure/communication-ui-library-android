@@ -21,7 +21,6 @@ import kotlin.math.hypot
 /**
  * Frame layout with pinch and zoom capabilities
  * The layout detects click for displaying participant header and double click zoom
- * Used some parts of https://github.com/facebook/fresco zoomable to implement pinch and zoom
  */
 internal class ScreenShareZoomFrameLayout :
     FrameLayout,
@@ -145,6 +144,7 @@ internal class ScreenShareZoomFrameLayout :
         this.zoomFrameViewBounds.set(viewBounds!!)
     }
 
+    // Used a part of logic from https://github.com/facebook/fresco zoomable module to apply transformation
     private fun applyTransform(transform: Matrix): Boolean {
         transform.set(previousTransform)
         val scale = gestureListener.scale
@@ -338,6 +338,7 @@ internal class ScreenShareZoomFrameLayout :
         setTransformAnimated(matrix)
     }
 
+    // Used a part of logic from https://github.com/facebook/fresco zoomable module to apply zoom to point transformation
     private fun applyZoomToPointTransform(
         transform: Matrix,
         scale: Float,
@@ -357,6 +358,7 @@ internal class ScreenShareZoomFrameLayout :
         return transformCorrected
     }
 
+    // Used a part of logic from https://github.com/facebook/fresco zoomable module to set animated transformation
     private fun setTransformAnimated(newTransform: Matrix) {
         val startValues = FloatArray(9)
         val stopValues = FloatArray(9)

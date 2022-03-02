@@ -29,7 +29,8 @@ import java.util.UUID;
  *
  * &#47;&#47; Initialize the call composite builder
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .theme&#40;new ThemeConfiguration&#40;themeId&#41;&#41;;
+ *     .theme&#40;new ThemeConfiguration&#40;themeId&#41;&#41;
+ *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageString&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -64,10 +65,9 @@ public final class CallComposite  {
      *
      * </pre>
      *
-     * @param context The android context used to start the Composite.
-     * @param groupCallOptions  The {@link GroupCallOptions} has parameters to
-     *                          launch group call experience.
-     *
+     * @param context          The android context used to start the Composite.
+     * @param groupCallOptions The {@link GroupCallOptions} has parameters to
+     *                         launch group call experience.
      */
     public void launch(final Context context, final GroupCallOptions groupCallOptions) {
         launch(
@@ -95,7 +95,7 @@ public final class CallComposite  {
      *
      * </pre>
      *
-     * @param context The android context used to start the Composite.
+     * @param context             The android context used to start the Composite.
      * @param teamsMeetingOptions The {@link TeamsMeetingOptions} has parameters to
      *                            launch Teams meeting experience.
      */
