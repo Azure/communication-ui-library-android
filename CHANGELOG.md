@@ -6,6 +6,7 @@
 - Status bar color update for light and dark mode
 - API 21, 22 support
 - Screen share zoom
+- Localization support 
 - Update joining experience in setup view
 
 ### Breaking Changes
