@@ -16,6 +16,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.condi
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
 import com.azure.android.communication.ui.utilities.FeatureFlags
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -26,6 +29,14 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
+            AppCenter.start(
+                application,
+                "8cb48e80-76ae-43f4-939a-ab6edd255af4",
+                Analytics::class.java,
+                Crashes::class.java
+            )
+        }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)
         FeatureFlags.registerAdditionalFeature(AdditionalFeatures.secondaryThemeFeature)
