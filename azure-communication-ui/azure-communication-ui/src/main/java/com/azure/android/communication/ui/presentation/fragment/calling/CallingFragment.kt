@@ -11,6 +11,7 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.PowerManager
 import android.view.View
+import android.view.accessibility.AccessibilityManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +49,7 @@ internal class CallingFragment :
     private lateinit var lobbyOverlay: LobbyOverlayView
     private lateinit var sensorManager: SensorManager
     private lateinit var powerManager: PowerManager
+    private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,11 +89,13 @@ internal class CallingFragment :
             videoViewManager,
         )
 
+        accessibilityManager = context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         infoHeaderView = view.findViewById(R.id.azure_communication_ui_call_floating_header)
         infoHeaderView.start(
             viewLifecycleOwner,
             viewModel.getFloatingHeaderViewModel(),
-            this::displayParticipantList
+            this::displayParticipantList,
+            accessibilityManager.isEnabled
         )
 
         audioDeviceListView =
