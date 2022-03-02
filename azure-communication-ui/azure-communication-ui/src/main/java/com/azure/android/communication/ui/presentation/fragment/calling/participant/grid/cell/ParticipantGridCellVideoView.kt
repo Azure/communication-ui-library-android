@@ -117,7 +117,7 @@ internal class ParticipantGridCellVideoView(
         detachFromParentView(rendererView)
 
         if (streamType == StreamType.SCREEN_SHARING) {
-            if (FeatureFlags.ScreenShareZoom.active) {
+            if (FeatureFlags.ScreenShareZoom.isActive) {
                 removeScreenShareZoomView()
                 val screenShareFactory = ScreenShareViewManager(
                     context,

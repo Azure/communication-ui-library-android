@@ -38,7 +38,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final Function1<? super String, Unit> showAlert) {
         final CallCompositeBuilder builder = new CallCompositeBuilder();
 
-        if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
+        if (AdditionalFeatures.Companion.getSecondaryThemeFeature().isActive()) {
             builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
         }
 

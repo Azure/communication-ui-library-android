@@ -46,7 +46,7 @@ Initialization:
 
  */
 
-enum FeatureFlags implements FeatureFlag {
+public enum FeatureFlags implements FeatureFlag {
 
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
@@ -87,11 +87,11 @@ enum FeatureFlags implements FeatureFlag {
         private static SharedPreferences sharedPrefs;
 
         // Key for the SharedPrefs store that will be used for FeatureFlags
-        static final String FEATURE_FLAG_SHARED_PREFS_KEY = "FeatureFlags";
+        public static final String FEATURE_FLAG_SHARED_PREFS_KEY = "FeatureFlags";
 
         // Ensure this has an ApplicationContext to get SharedPreferences from
         // This will allow us to access the current value and also the Resources to read the default
-        static void initialize(Context context) {
+        public static void initialize(Context context) {
 
             applicationContext = (Application) context.getApplicationContext();
             sharedPrefs = applicationContext.getSharedPreferences(
@@ -109,7 +109,7 @@ enum FeatureFlags implements FeatureFlag {
 
         private static final List<FeatureFlag> additionalEntries = new ArrayList<>();
 
-        static boolean isActive(FeatureFlag flag) {
+        public static boolean isActive(FeatureFlag flag) {
             // If not added to the system, return false
             if (!FeatureFlags.features().contains(flag)) {
                 return false;
@@ -121,8 +121,8 @@ enum FeatureFlags implements FeatureFlag {
                     FeatureFlags.applicationContext.getResources().getBoolean(flag.defaultBooleanId())
             );
         }
-        
-        static void setActive(FeatureFlag flag, boolean value) {
+
+        public static void setActive(FeatureFlag flag, boolean value) {
             final boolean wasActive = isActive(flag);
             FeatureFlags.sharedPrefs.edit().putBoolean(""+flag.defaultBooleanId(), value).apply();
             if (value != wasActive) {
@@ -135,13 +135,13 @@ enum FeatureFlags implements FeatureFlag {
             }
         }
 
-        static void registerAdditionalFeature(FeatureFlag feature) {
+        public static void registerAdditionalFeature(FeatureFlag feature) {
             if (!additionalEntries.contains(feature)) {
                 additionalEntries.add(feature);
             }
         }
 
-        static List<FeatureFlag> features() {
+        public static List<FeatureFlag> features() {
             final List<FeatureFlag> list = new ArrayList<>(additionalEntries);
             Collections.addAll(list, values());
             return list;
@@ -163,66 +163,22 @@ enum FeatureFlags implements FeatureFlag {
     @Override
     public void onEnd(Application application) {}
 
+    @Override
+    public boolean isActive() {
+        return FeatureFlags.isActive(this);
+    }
+
+    @Override
+    public void toggle() {
+        setActive(this, !isActive());
+    }
 }
 
-
-// Class to add additional Entries to the FeatureFlag system (e.g. from the Demo, or another app)
-class FeatureFlagEntry implements FeatureFlag {
-    final int defaultBooleanId;
-    final int labelId;
-    final FeatureFlagAppHook start;
-    final FeatureFlagAppHook end;
-
-    FeatureFlagEntry(int defaultBooleanId, int labelId, FeatureFlagAppHook start, FeatureFlagAppHook end) {
-        this.defaultBooleanId = defaultBooleanId;
-        this.labelId = labelId;
-        this.start = start;
-        this.end = end;
-    }
-
-    @Override
-    public int defaultBooleanId() {
-        return 0;
-    }
-
-    @Override
-    public int labelId() {
-        return 0;
-    }
-
-    @Override
-    public void onStart(Application application) {
-        if (start != null) start.call(application);
-    }
-
-    @Override
-    public void onEnd(Application application) {
-        if (end != null) end.call(application);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FeatureFlagEntry that = (FeatureFlagEntry) o;
-        return defaultBooleanId == that.defaultBooleanId && labelId == that.labelId;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(defaultBooleanId, labelId);
-    }
-}
 
 interface FeatureFlagAppHook {
     void call(Application application);
 }
 // A Feature Flag
 // This interface is shared between the Optional and Enum features
-interface FeatureFlag {
-    int defaultBooleanId();
-    int labelId();
-    void onStart(Application application);
-    void onEnd(Application application);
-}
+
 

@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.util.AttributeSet
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import com.azure.android.communication.ui.utilities.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.FeatureFlags
 
 // This lists all the Features in the FeatureFlag system
@@ -14,7 +13,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-        FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE
+        FeatureFlags.FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE
     )
 
     init {
@@ -33,10 +32,10 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
 
     private fun refreshButtons() {
         removeAllViews()
-        FeatureFlags.features.forEach {
+        FeatureFlags.features().forEach {
             val tv = CheckBox(context)
-            tv.text = it.label
-            tv.isChecked = it.active
+            tv.text = context.getString(it.labelId())
+            tv.isChecked = it.isActive
             tv.setOnClickListener { _ -> it.toggle() }
             addView(tv)
         }
