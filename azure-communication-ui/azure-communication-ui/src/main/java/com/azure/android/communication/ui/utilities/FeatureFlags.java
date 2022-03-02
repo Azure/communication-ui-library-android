@@ -171,7 +171,6 @@ public enum FeatureFlags implements FeatureFlag {
         setActive(this, !isActive());
     }
 
-
     public interface FeatureFlagAppHook {
         void call(Application application);
     }

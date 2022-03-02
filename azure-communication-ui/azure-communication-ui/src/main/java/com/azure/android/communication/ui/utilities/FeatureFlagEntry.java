@@ -33,7 +33,7 @@ public class FeatureFlagEntry implements FeatureFlag {
 
     @Override
     public void onStart(final Application application) {
-        if (start != null) { start.call(application); }
+        if (start != null && isActive()) { start.call(application); }
     }
 
     @Override
