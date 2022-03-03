@@ -462,7 +462,7 @@ internal class ParticipantGridCellViewModelUnitTest {
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
                 "",
-                isMuted = false,
+                isMuted = true,
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
@@ -484,10 +484,32 @@ internal class ParticipantGridCellViewModelUnitTest {
                     .toList(emitResultIsNameIndicatorVisibleStateFlow)
             }
 
+            // act
+            participantViewModel.update(
+                getParticipantInfoModel(
+                    "",
+                    "user1",
+                    isMuted = false,
+                    isSpeaking = false,
+                    null,
+                    VideoStreamModel(
+                        "video",
+                        StreamType.VIDEO
+                    ),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567
+                )
+            )
+
             // assert
             Assert.assertEquals("", emitResultDisplayName[0])
-            Assert.assertEquals(false, emitResultIsMuted[0])
-            Assert.assertEquals(false, emitResultIsNameIndicatorVisibleStateFlow[0])
+            Assert.assertEquals(true, emitResultIsMuted[0])
+            Assert.assertEquals(true, emitResultIsNameIndicatorVisibleStateFlow[0])
+
+            // assert updates
+            Assert.assertEquals(1, emitResultDisplayName.size)
+            Assert.assertEquals(false, emitResultIsMuted[1])
+            Assert.assertEquals(false, emitResultIsNameIndicatorVisibleStateFlow[1])
 
             flowJobDisplayName.cancel()
             flowJobMuted.cancel()
