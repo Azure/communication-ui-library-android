@@ -6,7 +6,8 @@ package com.azure.android.communication.ui.utilities
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.internal.R
+
 
 /* Feature Flag Management
 

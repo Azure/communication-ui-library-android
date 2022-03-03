@@ -87,6 +87,7 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':azure-communication-ui-internal')
     implementation project(path: ':azure-communication-ui')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
@@ -97,6 +98,7 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
     implementation(name: "magnifier-0.0.14", ext: 'aar')
+    implementation project(path: ':azure-communication-ui-internal')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
