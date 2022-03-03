@@ -35,8 +35,8 @@ internal class AudioSessionManager(
                 (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
 
     private val bluetoothDeviceName
-        get() = bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name ?:
-        context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+        get() = bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name
+            ?: context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 

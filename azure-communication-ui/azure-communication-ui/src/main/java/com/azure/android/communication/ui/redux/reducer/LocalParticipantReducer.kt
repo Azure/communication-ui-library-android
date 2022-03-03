@@ -6,9 +6,7 @@ package com.azure.android.communication.ui.redux.reducer
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.NavigationAction
-import com.azure.android.communication.ui.redux.state.*
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraTransmissionStatus

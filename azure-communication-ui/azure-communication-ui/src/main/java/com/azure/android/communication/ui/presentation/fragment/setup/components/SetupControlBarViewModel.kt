@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.PermissionAction
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.redux.state.CallingStatus

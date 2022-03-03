@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.state.*
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.PermissionStatus

@@ -19,8 +19,6 @@ import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-
-
 internal class AudioDeviceListView(
     private val viewModel: AudioDeviceListViewModel,
     context: Context,
@@ -174,5 +172,4 @@ internal class AudioDeviceListView(
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> audioState.bluetoothState.bluetoothDeviceName
         }
     }
-
 }
