@@ -19,10 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--addconfigurationdebugging
 -keepattributes LineNumberTable,SourceFile,Signature,*Annotation*
 -renamesourcefileattribute SourceFile
--printusage /Users/AlbertLo/projects/microsoft/azure/communication-ui-library-android-publicPreview/azure-communication-ui/usage.txt
 # skypert.jar
 -keep class com.skype.rt.** { *; }
 # VideoHost.jar
@@ -32,26 +30,33 @@
 # VideoHost.jar
 -keep class com.skype.android.video.capture.** { *; }
 # hw-video-coddec.jar
--keep class com.skype.android.video.hw.codec.** { *; }
+-keepclassmembers class com.skype.android.video.hw.codec.** {
+    <fields>;
+    <methods>;
+}
 -keep class com.skype.android.video.hw.extension.** { *; }
--keep class com.skype.android.video.hw.frame.** { *; }
+-keepclassmembers class com.skype.android.video.hw.frame.** {
+    <fields>;
+    <methods>;
+}
+-keep class com.skype.android.video.hw.factory.** { *; }
 # dl-audio.jar
 -keep class com.microsoft.dl.audio.** { *; }
 # dl-video.jar
 -keep class com.microsoft.dl.video.** { *; }
 -keep class com.azure.android.communication.calling.** { *; }
 # palutils.jar
+-keepclassmembers class com.microsoft.media.** {
+    <fields>;
+    <methods>;
+}
+-keep class com.skype.android.util2.** { *; }
 -keep class com.microsoft.media.** { *; }
+-keep class com.microsoft.dl.utils.** { *; }
 -keepclasseswithmembernames,includedescriptorclasses class * {
     native <methods>;
 }
 
--keep public class * extends android.view.View {
-    public <init>(android.content.Context);
-    public <init>(android.content.Context, android.util.AttributeSet);
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-    public void set*(...);
-}
 -keep class com.fasterxml.jackson.databind.deser.** { *; }
 
 
