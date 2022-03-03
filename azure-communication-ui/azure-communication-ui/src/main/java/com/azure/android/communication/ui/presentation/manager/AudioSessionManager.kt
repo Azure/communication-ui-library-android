@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.utilities.FeatureFlags
 import kotlinx.coroutines.flow.collect
+import java.lang.IllegalArgumentException
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
@@ -26,8 +27,6 @@ internal class AudioSessionManager(
 ) : BluetoothProfile.ServiceListener, BroadcastReceiver() {
 
     private var bluetoothAudioProxy: BluetoothHeadset? = null
-
-    private var started = false
 
     private val isBluetoothScoAvailable
         get() =
@@ -41,13 +40,18 @@ internal class AudioSessionManager(
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
     suspend fun start() {
-        if (started) return
-        started = true
-
         BluetoothAdapter.getDefaultAdapter()?.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
 
             val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+
+            try {
+                context.unregisterReceiver(this@AudioSessionManager)
+            } catch (exception: IllegalArgumentException) {
+                // Unregister in case already registered
+                // IllegalArgs expected in case that it's not registered
+                // Do nothing in case of exception
+            }
             context.registerReceiver(this@AudioSessionManager, filter)
         }
 
@@ -189,7 +193,6 @@ internal class AudioSessionManager(
             closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             context.unregisterReceiver(this@AudioSessionManager)
         }
-        started = false
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
