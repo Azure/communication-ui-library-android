@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.participant.local;
 
-import com.azure.android.communication.ui.AvatarData;
+import com.azure.android.communication.ui.PersonaData;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,13 +12,13 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface LocalParticipantManager {
     /**
-     * @return AvatarData
+     * @return PersonaData
      */
     @NotNull
-    AvatarData getAvatar();
+    PersonaData getPersonaData();
 
     /**
-     * @param avatarData
+     * @param personaData
      */
-    void setAvatar(AvatarData avatarData);
+    void setPersonaData(PersonaData personaData);
 }

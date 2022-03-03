@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.AvatarData
+import com.azure.android.communication.ui.PersonaData
 import com.azure.android.communication.ui.participant.local.CallCompositeLocalParticipantHandler
 import com.azure.android.communication.ui.participant.local.LocalParticipantManagerImpl
 import com.azure.android.communication.ui.redux.state.PermissionState
@@ -17,7 +17,7 @@ internal class SetupParticipantAvatarViewModel(
 ) {
     private lateinit var displayName: String
     private lateinit var shouldDisplayAvatarViewStateFlow: MutableStateFlow<Boolean>
-    private val avatarPersonaDataStateFlow = localParticipantManagerImpl.avatarDataStateFlow
+    private val avatarPersonaDataStateFlow = localParticipantManagerImpl.personaDataStateFlow
 
     fun getDisplayName() = displayName
 
@@ -25,7 +25,7 @@ internal class SetupParticipantAvatarViewModel(
         return shouldDisplayAvatarViewStateFlow
     }
 
-    fun getAvatarPersonaDataStateFlow(): StateFlow<AvatarData?> {
+    fun getAvatarPersonaDataStateFlow(): StateFlow<PersonaData?> {
         return avatarPersonaDataStateFlow
     }
 

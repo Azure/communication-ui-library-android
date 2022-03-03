@@ -1,21 +1,21 @@
 package com.azure.android.communication.ui.participant.remote
 
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.AvatarData
+import com.azure.android.communication.ui.PersonaData
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class RemoteParticipantManagerImpl : RemoteParticipantManager {
 
-    val avatarDataStateFlow: MutableStateFlow<AvatarData?> = MutableStateFlow(null)
+    val personaDataStateFlow: MutableStateFlow<PersonaData?> = MutableStateFlow(null)
 
-    override fun setAvatar(
+    override fun setPersonaData(
         communicationIdentifier: CommunicationIdentifier,
-        avatarData: AvatarData,
+        personaData: PersonaData,
     ) {
-        avatarDataStateFlow.value = avatarData
+        personaDataStateFlow.value = personaData
     }
 
-    override fun getAvatar(communicationIdentifier: CommunicationIdentifier): AvatarData {
+    override fun getAvatar(communicationIdentifier: CommunicationIdentifier): PersonaData {
         TODO("Not yet implemented")
     }
 }

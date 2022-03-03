@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Get and set values for Fluent UI Avatar View
  */
-public class AvatarData {
+public class PersonaData {
 
     @Nullable
     private Bitmap avatarImageBitmap = null;
