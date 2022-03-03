@@ -175,8 +175,8 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
                         bluetoothState = localUserState.audioState.bluetoothState.copy(
-                            isBluetoothSCOAvailable = action.available,
-                            bluetoothDeviceName = action.deviceName
+                            available = action.available,
+                            deviceName = action.deviceName
                         )
 
                     )

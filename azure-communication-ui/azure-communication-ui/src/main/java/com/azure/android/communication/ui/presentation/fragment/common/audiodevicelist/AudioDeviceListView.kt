@@ -131,7 +131,7 @@ internal class AudioDeviceListView(
 
             )
 
-            if (viewModel.audioStateFlow.value.bluetoothState.isBluetoothSCOAvailable) {
+            if (viewModel.audioStateFlow.value.bluetoothState.available) {
                 // Remove the first item (Receiver)
                 bottomCellItems.removeAt(0)
                 bottomCellItems.add(
@@ -140,7 +140,7 @@ internal class AudioDeviceListView(
                             context,
                             R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
                         ),
-                        viewModel.audioStateFlow.value.bluetoothState.bluetoothDeviceName,
+                        viewModel.audioStateFlow.value.bluetoothState.deviceName,
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
@@ -169,7 +169,7 @@ internal class AudioDeviceListView(
         return when (audioState.device) {
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
-            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> audioState.bluetoothState.bluetoothDeviceName
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> audioState.bluetoothState.deviceName
         }
     }
 }

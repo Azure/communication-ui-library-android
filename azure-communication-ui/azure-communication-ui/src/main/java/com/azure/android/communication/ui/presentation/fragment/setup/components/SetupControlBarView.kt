@@ -175,7 +175,7 @@ internal class SetupControlBarView : LinearLayout {
                     0,
                     0
                 )
-                setupAudioDeviceButton.text = audioState.bluetoothState.bluetoothDeviceName
+                setupAudioDeviceButton.text = audioState.bluetoothState.deviceName
             }
             else -> {
                 setupAudioDeviceButton.text = ""

@@ -49,7 +49,7 @@ internal class SetupControlBarViewModel(
         audioState: AudioState,
         callingStatus: CallingStatus,
     ) {
-        audioDeviceName = audioState.bluetoothState.bluetoothDeviceName
+        audioDeviceName = audioState.bluetoothState.deviceName
         cameraPermissionStateFlow.value = permissionState.cameraPermissionState
         micPermissionStateFlow.value = permissionState.audioPermissionState
         cameraStateFlow.value = cameraState

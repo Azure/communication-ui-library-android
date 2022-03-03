@@ -72,7 +72,7 @@ internal class AudioSessionManager(
     // When disconnected (and not selected), just update availability
     private fun updateBluetoothStatus() {
         if (!isBluetoothScoAvailable &&
-            store.getCurrentState().localParticipantState.audioState.bluetoothState.isBluetoothSCOAvailable &&
+            store.getCurrentState().localParticipantState.audioState.bluetoothState.available &&
             store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
         ) {
             // If bluetooth dropped
@@ -83,7 +83,7 @@ internal class AudioSessionManager(
             )
         }
 
-        if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.bluetoothState.isBluetoothSCOAvailable) {
+        if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.bluetoothState.available) {
             // If Bluetooth has been connected and wasn't, switch to it
             store.dispatch(
                 LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(

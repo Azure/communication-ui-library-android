@@ -53,8 +53,8 @@ internal data class AudioState(
 )
 
 internal data class BluetoothState(
-    val isBluetoothSCOAvailable: Boolean,
-    val bluetoothDeviceName: String,
+    val available: Boolean,
+    val deviceName: String,
 )
 
 internal data class LocalUserState(
