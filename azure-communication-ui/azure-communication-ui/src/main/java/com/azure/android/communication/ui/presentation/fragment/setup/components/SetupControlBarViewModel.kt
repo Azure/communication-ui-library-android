@@ -23,7 +23,7 @@ internal class SetupControlBarViewModel(
     private lateinit var micPermissionStateFlow: MutableStateFlow<PermissionStatus>
     private lateinit var cameraStateFlow: MutableStateFlow<CameraState>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
-    private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
+    private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioState>
     private lateinit var callingStatusStateFlow: MutableStateFlow<CallingStatus>
 
     // Does not need StateFlow as tied to AudioDeviceSelectionStatus updates
@@ -39,7 +39,7 @@ internal class SetupControlBarViewModel(
         micPermissionStateFlow = MutableStateFlow(permissionState.audioPermissionState)
         cameraStateFlow = MutableStateFlow(cameraState)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
-        audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
+        audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState)
         callingStatusStateFlow = MutableStateFlow(callingStatus)
         audioDeviceName = ""
     }
@@ -50,12 +50,12 @@ internal class SetupControlBarViewModel(
         audioState: AudioState,
         callingStatus: CallingStatus,
     ) {
-        audioDeviceName = audioState.bluetoothDeviceName
+        audioDeviceName = audioState.bluetoothState.bluetoothDeviceName
         cameraPermissionStateFlow.value = permissionState.cameraPermissionState
         micPermissionStateFlow.value = permissionState.audioPermissionState
         cameraStateFlow.value = cameraState
         audioOperationalStatusStateFlow.value = audioState.operation
-        audioDeviceSelectionStatusStateFlow.value = audioState.device
+        audioDeviceSelectionStatusStateFlow.value = audioState
         callingStatusStateFlow.value = callingStatus
     }
 
@@ -75,7 +75,7 @@ internal class SetupControlBarViewModel(
         return audioOperationalStatusStateFlow
     }
 
-    fun getAudioDeviceSelectionStatusStateFlow(): StateFlow<AudioDeviceSelectionStatus> {
+    fun getAudioDeviceSelectionStatusStateFlow(): StateFlow<AudioState> {
         return audioDeviceSelectionStatusStateFlow
     }
 

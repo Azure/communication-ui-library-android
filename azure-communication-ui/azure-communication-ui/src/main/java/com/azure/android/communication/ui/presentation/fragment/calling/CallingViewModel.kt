@@ -107,7 +107,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count()
         )
         audioDeviceListViewModel.init(
-            state.localParticipantState.audioState.device
+            state.localParticipantState.audioState
         )
         bannerViewModel.init(
             state.callState
@@ -147,9 +147,7 @@ internal class CallingViewModel(
         )
 
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState.device,
-            state.localParticipantState.audioState.bluetoothDeviceName,
-            state.localParticipantState.audioState.isBluetoothSCOAvailable
+            state.localParticipantState.audioState,
         )
 
         lobbyOverlayViewModel.update(state.callState.CallingStatus)

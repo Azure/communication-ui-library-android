@@ -15,8 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.redux.state.*
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
@@ -89,7 +91,7 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
-                setAudioDeviceButtonState(it, viewModel.audioDeviceName)
+                setAudioDeviceButtonState(it)
             }
         }
     }
@@ -143,8 +145,8 @@ internal class SetupControlBarView : LinearLayout {
         }
     }
 
-    private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus, deviceName: String) {
-        when (audioDeviceSelectionStatus) {
+    private fun setAudioDeviceButtonState(audioState: AudioState) {
+        when (audioState.device) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 setupAudioDeviceButton.text = context.getString(
                     R.string.azure_communication_ui_setup_audio_device_speaker
@@ -174,9 +176,7 @@ internal class SetupControlBarView : LinearLayout {
                     0,
                     0
                 )
-                setupAudioDeviceButton.text = if (deviceName.isBlank())
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
-                else deviceName
+                setupAudioDeviceButton.text = audioState.bluetoothState.bluetoothDeviceName
             }
             else -> {
                 setupAudioDeviceButton.text = ""

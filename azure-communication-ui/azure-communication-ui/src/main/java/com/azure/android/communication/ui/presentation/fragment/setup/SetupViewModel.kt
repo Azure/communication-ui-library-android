@@ -70,7 +70,7 @@ internal class SetupViewModel(
             state.callState.CallingStatus,
         )
         audioDeviceListViewModel.init(
-            state.localParticipantState.audioState.device,
+            state.localParticipantState.audioState,
         )
         setupGradientViewModel.init(
             state.localParticipantState.videoStreamID,
@@ -99,9 +99,7 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
         )
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState.device,
-            state.localParticipantState.audioState.bluetoothDeviceName,
-            state.localParticipantState.audioState.isBluetoothSCOAvailable
+            state.localParticipantState.audioState
         )
         errorInfoViewModel.update(state.errorState)
         setupGradientViewModel.update(
