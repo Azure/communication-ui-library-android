@@ -60,12 +60,6 @@
         transkribieren jetzt nur diese Besprechung. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkription wurde beendet.
     </b> Sie zeichnen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
-    <string name="azure_communication_ui_calling_view_link_learn_more_url">
-https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
-    </string>
-    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
-https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
-    </string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Schließen</string>
