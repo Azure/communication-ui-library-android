@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.azure.android.communication.internal.R
 
-
 /* Feature Flag Management
 
 There is 2 parts to this system.
