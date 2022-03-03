@@ -11,8 +11,8 @@ import com.azure.android.communication.ui.GroupCallOptions
 import com.azure.android.communication.ui.TeamsMeetingOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityLocalParticipantInitializedHandler
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityRemoteParticipantJoinedHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.LocalParticipantInitializedHandler
+import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
@@ -38,10 +38,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             }
 
         callComposite.setOnLocalParticipantInitializedHandler(
-            CallLauncherActivityLocalParticipantInitializedHandler(callLauncherActivity)
+            LocalParticipantInitializedHandler()
         )
         callComposite.setOnRemoteParticipantJoinedHandler(
-            CallLauncherActivityRemoteParticipantJoinedHandler(callLauncherActivity)
+            RemoteParticipantJoinedHandler()
         )
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 

@@ -10,10 +10,8 @@ import com.azure.android.communication.ui.participant.local.LocalParticipantMana
 import java.lang.ref.WeakReference
 import java.net.URL
 
-class CallLauncherActivityLocalParticipantInitializedHandler(callLauncherActivity: CallLauncherActivity) :
+class LocalParticipantInitializedHandler :
     LocalParticipantInitializedHandler {
-    private val activityWr: WeakReference<CallLauncherActivity> =
-        WeakReference(callLauncherActivity)
 
     override fun handle(localParticipantManager: LocalParticipantManager) {
         Thread {

@@ -11,10 +11,8 @@ import com.azure.android.communication.ui.participant.remote.RemoteParticipantMa
 import java.lang.ref.WeakReference
 import java.net.URL
 
-class CallLauncherActivityRemoteParticipantJoinedHandler(callLauncherActivity: CallLauncherActivity) :
+class RemoteParticipantJoinedHandler :
     RemoteParticipantJoinedHandler {
-    private val activityWr: WeakReference<CallLauncherActivity> =
-        WeakReference(callLauncherActivity)
 
     override fun handle(
         communicationIdentifier: CommunicationIdentifier,
