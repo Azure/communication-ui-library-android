@@ -170,7 +170,11 @@ internal class ParticipantListViewModelUnitTest {
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
@@ -241,7 +245,11 @@ internal class ParticipantListViewModelUnitTest {
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
