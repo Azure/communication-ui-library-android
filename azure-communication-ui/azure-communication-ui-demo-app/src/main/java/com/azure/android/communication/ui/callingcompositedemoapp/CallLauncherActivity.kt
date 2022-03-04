@@ -140,6 +140,10 @@ class CallLauncherActivity : AppCompatActivity() {
             kotlinButton.setOnClickListener {
                 callLauncherViewModel.setKotlinLauncher()
             }
+
+            if (!BuildConfig.DEBUG) {
+                versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            }
         }
 
         callLauncherViewModel.fetchResult.observe(this) {

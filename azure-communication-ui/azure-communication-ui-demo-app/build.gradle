@@ -95,7 +95,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
-    implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
     implementation(name: "magnifier-0.0.14", ext: 'aar')
     implementation "com.microsoft.appcenter:appcenter-analytics:4.1.0"
     implementation "com.microsoft.appcenter:appcenter-crashes:4.1.0"
