@@ -8,14 +8,13 @@ import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
 import com.azure.android.communication.ui.callingcompositedemoapp.R
-import com.azure.android.communication.ui.utilities.BottomCellViewHolder
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
 class BottomCellViewHolderMatcher(
     private val name: String,
     @DrawableRes private val expectedId: Int
-) : BoundedMatcher<RecyclerView.ViewHolder, BottomCellViewHolder>(BottomCellViewHolder::class.java) {
+) : BoundedMatcher<RecyclerView.ViewHolder, RecyclerView.ViewHolder>(RecyclerView.ViewHolder::class.java) {
     private lateinit var resourceName: String
 
     override fun describeTo(description: Description?) {
@@ -23,7 +22,7 @@ class BottomCellViewHolderMatcher(
         // resourceName.let { description?.appendText("[$it]") }
     }
 
-    override fun matchesSafely(item: BottomCellViewHolder?): Boolean {
+    override fun matchesSafely(item: RecyclerView.ViewHolder?): Boolean {
         val holderRoot = item?.itemView ?: return false
         val audioDeviceTextView: TextView = holderRoot.findViewById(R.id.cell_text)
         val audioDeviceIcon: ImageView = holderRoot.findViewById(R.id.cell_icon)

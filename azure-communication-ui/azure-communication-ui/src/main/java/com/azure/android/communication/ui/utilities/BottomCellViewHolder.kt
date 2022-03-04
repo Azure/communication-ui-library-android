@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.microsoft.fluentui.persona.AvatarView
 
-class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val imageView: ImageView = itemView.findViewById(R.id.cell_icon)
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
