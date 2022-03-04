@@ -30,20 +30,15 @@
 # VideoHost.jar
 -keep class com.skype.android.video.capture.** { *; }
 # hw-video-coddec.jar
--keepclassmembers class com.skype.android.video.hw.codec.** {
+-keepclassmembers class com.skype.android.video.hw.** {
     <fields>;
     <methods>;
 }
--keep class com.skype.android.video.hw.extension.** { *; }
--keepclassmembers class com.skype.android.video.hw.frame.** {
-    <fields>;
-    <methods>;
-}
--keep class com.skype.android.video.hw.factory.** { *; }
 # dl-audio.jar
 -keep class com.microsoft.dl.audio.** { *; }
 # dl-video.jar
 -keep class com.microsoft.dl.video.** { *; }
+-keep class com.microsoft.dl.utils.** { *; }
 -keep class com.azure.android.communication.calling.** { *; }
 # palutils.jar
 -keepclassmembers class com.microsoft.media.** {
@@ -51,12 +46,13 @@
     <methods>;
 }
 -keep class com.skype.android.util2.** { *; }
--keep class com.microsoft.media.** { *; }
--keep class com.microsoft.dl.utils.** { *; }
+
 -keepclasseswithmembernames,includedescriptorclasses class * {
     native <methods>;
 }
-
+-keep,includedescriptorclasses class * {
+    public static native <methods>;
+}
 -keep class com.fasterxml.jackson.databind.deser.** { *; }
 
 
