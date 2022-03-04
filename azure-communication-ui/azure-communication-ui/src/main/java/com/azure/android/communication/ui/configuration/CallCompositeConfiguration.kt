@@ -8,7 +8,6 @@ import java.lang.RuntimeException
 
 internal class CallCompositeConfiguration {
     var themeConfig: ThemeConfiguration? = null
-    var localizationConfig: LocalizationConfiguration? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
 
