@@ -384,6 +384,39 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         Assert.assertEquals(null, newState.videoStreamID)
     }
 
+
+    @Test
+    fun deviceStateReducer_reduce_when_BluetoothDetected_then_changeState() {
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.PENDING,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = "some video stream id",
+            displayName = null
+        )
+
+        val action = LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+            available = true,
+            deviceName = "testDevice"
+        )
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(true, newState.audioState.bluetoothState.available)
+        Assert.assertEquals("testDevice", newState.audioState.bluetoothState.deviceName)
+    }
+
     @Test
     fun deviceStateReducer_reduce_when_CameraSwitchTriggered_then_changeState() {
 
