@@ -384,7 +384,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         Assert.assertEquals(null, newState.videoStreamID)
     }
 
-
     @Test
     fun deviceStateReducer_reduce_when_BluetoothDetected_then_changeState() {
         // arrange
