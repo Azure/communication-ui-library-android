@@ -31,7 +31,6 @@ import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
@@ -77,14 +76,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 configuration.themeConfig?.theme!!, true
             )
         }
-
-        configuration.localizationConfig?.let { localeConfig ->
-            Locale.setDefault(Locale(localeConfig.language))
-            if (localeConfig.isRightToLeft) {
-                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
-            }
-        }
-
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
 
         val activity = this
