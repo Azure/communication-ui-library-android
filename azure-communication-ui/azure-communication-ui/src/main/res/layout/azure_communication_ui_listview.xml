@@ -8,5 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp"
-    android:backgroundTint="@color/azure_communication_ui_color_bottom_drawer_background" />
+    android:backgroundTint="@color/azure_communication_ui_color_bottom_drawer_background"
+    />
 

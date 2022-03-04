@@ -83,7 +83,11 @@ internal class ParticipantListViewModelUnitTest {
                 }
 
             val localUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
                 AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
                 "video_stream_id",
                 "local_user"
@@ -135,7 +139,11 @@ internal class ParticipantListViewModelUnitTest {
             )
 
             val initialExpectedLocalUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
                 AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
                 "video_stream_id",
                 "local_user"
@@ -150,7 +158,11 @@ internal class ParticipantListViewModelUnitTest {
                 }
 
             val updatedExpectedLocalUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
                 AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
                 "video_stream_id",
                 "local_user"
@@ -217,7 +229,11 @@ internal class ParticipantListViewModelUnitTest {
             )
 
             val initialExpectedLocalUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
                 AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
                 "video_stream_id",
                 "local_user"

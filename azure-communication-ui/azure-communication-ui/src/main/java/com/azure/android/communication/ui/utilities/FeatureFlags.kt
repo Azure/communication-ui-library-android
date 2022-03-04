@@ -78,9 +78,12 @@ enum class FeatureFlags(
         // This will allow us to access the current value and also the Resources to read the default
         fun initialize(context: Context) {
             applicationContext = context.applicationContext as Application
-            sharedPrefs = applicationContext.getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+            sharedPrefs = applicationContext.getSharedPreferences(
+                FEATURE_FLAG_SHARED_PREFS_KEY,
+                Context.MODE_PRIVATE
+            )
 
-            // / Start default features
+            // Start default features
             features.filter { it.active }.forEach { it.onStart(applicationContext) }
         }
 
@@ -92,7 +95,7 @@ enum class FeatureFlags(
             }
         }
 
-        // / List of all features
+        // List of all features
         val features: List<FeatureFlag> get() = values().toList() + additionalEntries
     }
 }
@@ -132,12 +135,15 @@ interface FeatureFlag {
     // 2) fallback to resource with defaultBooleanId
     var active: Boolean
         get() {
-            // / If not added to the system, return false
+            // If not added to the system, return false
             if (!FeatureFlags.features.contains(this)) {
                 return false
             }
 
-            return FeatureFlags.sharedPrefs.getBoolean(key, FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId))
+            return FeatureFlags.sharedPrefs.getBoolean(
+                key,
+                FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId)
+            )
         }
         set(value) {
             val wasActive = active
@@ -157,7 +163,9 @@ interface FeatureFlag {
         get() = FeatureFlags.applicationContext.getString(labelId)
 
     // Toggle a feature flag
-    fun toggle() { active = !active }
+    fun toggle() {
+        active = !active
+    }
 }
 
 // Key for the SharedPrefs store that will be used for FeatureFlags

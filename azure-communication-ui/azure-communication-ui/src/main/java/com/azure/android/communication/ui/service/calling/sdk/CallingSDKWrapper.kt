@@ -70,7 +70,8 @@ internal class CallingSDKWrapper(
 
     fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
 
-    fun getCallingStateWrapperSharedFlow() = callingSDKEventHandler.getCallingStateWrapperSharedFlow()
+    fun getCallingStateWrapperSharedFlow() =
+        callingSDKEventHandler.getCallingStateWrapperSharedFlow()
 
     fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 

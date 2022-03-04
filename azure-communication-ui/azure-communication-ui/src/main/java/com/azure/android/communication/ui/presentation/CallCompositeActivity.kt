@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragm
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
+import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -197,6 +198,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun launchFragment(fragmentClassName: String) {
+        activity?.supportFragmentManager?.fragments?.let {
+            if (it.isNotEmpty()) {
+                // during screen rotate below logic helps to avoid launching fragment twice
+                if (it.last().javaClass.name.equals(fragmentClassName)) {
+                    return
+                }
+            }
+        }
+
         val fragment = supportFragmentManager.fragmentFactory.instantiate(
             classLoader,
             fragmentClassName
@@ -217,7 +227,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
             if (isNightMode) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
+                    window.insetsController?.setSystemBarsAppearance(
+                        0,
+                        APPEARANCE_LIGHT_STATUS_BARS
+                    )
                 } else {
                     window.clearFlags(0)
                 }

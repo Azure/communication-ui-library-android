@@ -5,6 +5,7 @@ package com.azure.android.communication.ui;
 
 /**
  * {@link CallingEventHandler}&lt;T&gt;
+ *
  * @param <T> an event handler eventArgs type
  */
 public interface CallingEventHandler<T> {

@@ -12,7 +12,8 @@
     app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_call_floating_header"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    >
 
     <TextView
         android:id="@+id/azure_communication_ui_call_banner_text"
@@ -27,8 +28,8 @@
         android:textColor="@color/azure_communication_ui_color_on_background"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 

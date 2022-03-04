@@ -27,16 +27,19 @@
         app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_holder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.PreviewAreaView
             android:id="@+id/azure_communication_ui_setup_local_video_holder"
+            android:importantForAccessibility="no"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupParticipantAvatarView
             android:id="@+id/azure_communication_ui_setup_default_avatar"
@@ -45,13 +48,14 @@
             android:visibility="visible"
             app:fluentui_avatarSize="xxlarge"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupGradientView
             android:id="@+id/azure_communication_ui_setup_gradient"
+            android:importantForAccessibility="no"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:alpha="0.6"
@@ -60,7 +64,8 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.PermissionWarningView
             android:id="@+id/azure_communication_ui_setup_permission_info"
@@ -73,7 +78,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <ImageView
                 android:id="@+id/azure_communication_ui_setup_missing_image"
@@ -82,7 +88,8 @@
                 android:layout_marginTop="100dp"
                 android:layout_marginBottom="24dp"
                 android:contentDescription="@string/azure_communication_ui_setup_missing_text"
-                app:tint="@color/azure_communication_ui_color_on_surface" />
+                app:tint="@color/azure_communication_ui_color_on_surface"
+                />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/azure_communication_ui_setup_missing_text"
@@ -93,7 +100,8 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:text="@string/azure_communication_ui_setup_missing_text"
-                android:textColor="@color/azure_communication_ui_color_on_surface" />
+                android:textColor="@color/azure_communication_ui_color_on_surface"
+                />
         </com.azure.android.communication.ui.presentation.fragment.setup.components.PermissionWarningView>
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupControlBarView
@@ -104,7 +112,8 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/azure_communication_ui_setup_video_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            >
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/azure_communication_ui_setup_camera_button"
@@ -118,7 +127,8 @@
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
                 android:text="@string/azure_communication_ui_setup_video_off"
                 android:textAllCaps="false"
-                android:textColor="@color/azure_communication_ui_toggle_selector" />
+                android:textColor="@color/azure_communication_ui_toggle_selector"
+                />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/azure_communication_ui_setup_audio_button"
@@ -132,7 +142,8 @@
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
                 android:text="@string/azure_communication_ui_setup_mic_off"
                 android:textAllCaps="false"
-                android:textColor="@color/azure_communication_ui_toggle_selector" />
+                android:textColor="@color/azure_communication_ui_toggle_selector"
+                />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/azure_communication_ui_setup_audio_device_button"
@@ -146,7 +157,8 @@
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
                 android:text="@string/azure_communication_ui_setup_audio_device_speaker"
                 android:textAllCaps="false"
-                android:textColor="@color/azure_communication_ui_toggle_selector" />
+                android:textColor="@color/azure_communication_ui_toggle_selector"
+                />
         </com.azure.android.communication.ui.presentation.fragment.setup.components.SetupControlBarView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -158,27 +170,31 @@
         android:layout_marginBottom="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
         <com.microsoft.fluentui.widget.Button
             android:id="@+id/azure_communication_ui_setup_join_call_button"
             style="@style/Widget.FluentUI.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:backgroundTint="@color/azure_communication_ui_primary_selector"
             android:clickable="true"
+            android:focusable="true"
             android:enabled="true"
             android:text="@string/azure_communication_ui_setup_join_call"
             android:textSize="0sp"
             app:backgroundTint="@color/azure_communication_ui_primary_selector"
-            android:backgroundTint="@color/azure_communication_ui_primary_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/azure_communication_ui_setup_start_call_button_text"
             style="@style/AzureCommunicationUICalling.ButtonText"
+            android:importantForAccessibility="no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
@@ -190,8 +206,8 @@
             app:drawableLeftCompat="@drawable/azure_communication_ui_ic_fluent_meet_now_24_regular_composite_button_enabled"
             app:drawableTint="@color/azure_communication_ui_on_primary_enabled_disabled_selector"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
@@ -202,7 +218,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <ProgressBar
                 android:id="@+id/azure_communication_ui_setup_start_call_progress_bar"
@@ -210,8 +227,8 @@
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginRight="8dp"
-                android:visibility="gone"
                 android:indeterminateTint="@color/azure_communication_ui_color_com_primary"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintRight_toLeftOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_setup_start_call_joining_text"
@@ -245,7 +262,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <include layout="@layout/azure_communication_ui_listview" />
     </androidx.constraintlayout.widget.ConstraintLayout>

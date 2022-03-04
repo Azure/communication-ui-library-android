@@ -53,7 +53,10 @@ object UiTestUtils {
         onView(withId(viewId)).check(ViewAssertions.matches(not(isDisplayed())))
 
     @Throws(NoMatchingViewException::class)
-    fun checkViewIdWithContentDescriptionIsDisplayed(@IdRes viewId: Int, contentDescription: String): ViewInteraction =
+    fun checkViewIdWithContentDescriptionIsDisplayed(
+        @IdRes viewId: Int,
+        contentDescription: String,
+    ): ViewInteraction =
         onView(
             allOf(
                 withId(viewId),
@@ -71,7 +74,10 @@ object UiTestUtils {
         ).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
-    fun checkViewIdAndTextIsDisplayed(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
+    fun checkViewIdAndTextIsDisplayed(
+        @IdRes viewId: Int,
+        @StringRes stringId: Int,
+    ): ViewInteraction =
         onView(
             allOf(
                 withId(viewId),
@@ -101,13 +107,14 @@ object UiTestUtils {
             allOf(withId(viewId), withContentDescription(text), isDisplayed())
         ).perform(click())
 
-    private fun withRecyclerView(@IdRes recyclerViewId: Int): RecyclerViewMatcher = RecyclerViewMatcher(recyclerViewId)
+    private fun withRecyclerView(@IdRes recyclerViewId: Int): RecyclerViewMatcher =
+        RecyclerViewMatcher(recyclerViewId)
 
     @Throws(NoMatchingViewException::class)
     fun check3IemRecyclerViewHolderAtPosition(
         @IdRes recyclerViewId: Int,
         position: Int,
-        recyclerViewHolderViewIds: Triple<Int, Int, Int>
+        recyclerViewHolderViewIds: Triple<Int, Int, Int>,
     ) {
         onView(withRecyclerView(recyclerViewId).atPosition(position))
             .check(

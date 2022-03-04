@@ -5,6 +5,7 @@
 <com.azure.android.communication.ui.presentation.fragment.calling.header.InfoHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_call_floating_header"
+    android:importantForAccessibility="yes"
     android:layout_width="match_parent"
     android:layout_height="58dp"
     android:layout_marginStart="8dp"
@@ -15,10 +16,12 @@
     android:visibility="gone"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner">
+    app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner"
+    >
 
     <TextView
         android:id="@+id/azure_communication_ui_call_participant_number_text"
+        android:importantForAccessibility="no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -28,7 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <ImageButton
         android:id="@+id/azure_communication_ui_call_bottom_drawer_button"
@@ -40,6 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/azure_communication_ui_ic_fluent_people_24_regular" />
+        app:srcCompat="@drawable/azure_communication_ui_ic_fluent_people_24_regular"
+        />
 </com.azure.android.communication.ui.presentation.fragment.calling.header.InfoHeaderView>
 

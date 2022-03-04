@@ -12,7 +12,7 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
 
     fun waitUntilViewIdIsNotDisplayed(
         @IdRes viewId: Int,
-        idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource()
+        idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
     ): ViewInteraction {
         val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdIsNotDisplayed(viewId)
@@ -22,7 +22,7 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
 
     fun waitUntilViewIdIsDisplayed(
         @IdRes viewId: Int,
-        idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource()
+        idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
     ): ViewInteraction {
         val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdIsDisplayed(viewId)
@@ -38,7 +38,10 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         return viewInteraction
     }
 
-    fun waitUntilViewAndTextIsDisplayed(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction {
+    fun waitUntilViewAndTextIsDisplayed(
+        @IdRes viewId: Int,
+        @StringRes stringId: Int,
+    ): ViewInteraction {
         val idlingResource = ViewIsDisplayedResource()
         val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewIdAndTextIsDisplayed(viewId, stringId)
@@ -48,7 +51,7 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
 
     fun waitUntilViewIdWithContentDescriptionIsDisplayed(
         @IdRes viewId: Int,
-        string: String
+        string: String,
     ): ViewInteraction {
         val idlingResource = ViewIsDisplayedResource()
         val viewInteraction = idlingResource.waitUntilViewIsDisplayed {

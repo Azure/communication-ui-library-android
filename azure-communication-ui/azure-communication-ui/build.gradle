@@ -17,7 +17,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
 
-        buildConfigField ('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
+        buildConfigField('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -49,7 +49,7 @@ android {
                 useLegacyPackaging = true
             }
         }
-        unitTests{
+        unitTests {
             returnDefaultValues = true
             all {
                 failFast = true
@@ -70,7 +70,7 @@ android {
             reporter "plain"
         }
         filter {
-            exclude({it.file.absolutePath.contains("/generated/")})
+            exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
 }
@@ -82,7 +82,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation "com.azure.android:azure-core:$azure_core_version"
-    implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
+    api "com.azure.android:azure-communication-calling:$calling_sdk_version"
     implementation "com.microsoft.device:dualscreen-layout:1.0.0-alpha01"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation "com.microsoft.fluentui:fluentui_others:$fluent_ui_version"
