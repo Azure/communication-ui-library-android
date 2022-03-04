@@ -23,10 +23,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            minifyEnabled true
-            consumerProguardFiles "acs-ui-library.pro"
-        }
         release {
             minifyEnabled true
             consumerProguardFiles "acs-ui-library.pro"
