@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.annotation.DrawableRes
@@ -38,25 +39,27 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         assertTrue(text == deviceText)
     }
 
-    fun selectAndroidAudioDevice(): SetupScreenRobot {
+    fun selectAndroidAudioDevice(isSelected: Boolean): SetupScreenRobot {
         selectAudioDevice(
             R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled,
-            "Android"
+            "Android",
+            isSelected
         )
         return this
     }
 
-    fun selectSpeakerAudioDevice(): SetupScreenRobot {
+    fun selectSpeakerAudioDevice(isSelected: Boolean = false): SetupScreenRobot {
         selectAudioDevice(
             R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled,
-            "Speaker"
+            "Speaker",
+            false
         )
         return this
     }
 
-    private fun selectAudioDevice(@DrawableRes iconId: Int, text: String) {
+    private fun selectAudioDevice(@DrawableRes iconId: Int, text: String, isSelected: Boolean) {
         val audioDeviceList = waitUntilViewIdIsDisplayed(R.id.bottom_drawer_table)
-        UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text)
+        UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text, isSelected)
     }
 
     fun turnCameraOn(): SetupScreenRobot {

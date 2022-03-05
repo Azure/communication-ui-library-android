@@ -29,13 +29,14 @@ object UiTestUtils {
     fun clickBottomCellViewHolder(
         @IdRes recyclerViewId: Int,
         @DrawableRes expectedItemDrawable: Int,
-        text: String
+        text: String,
+        isSelected: Boolean
     ): ViewInteraction =
         onView(withId(recyclerViewId))
             .check(ViewAssertions.matches(isDisplayed()))
             .perform(
                 RecyclerViewActions.actionOnHolderItem(
-                    withBottomCellViewHolder(text, expectedItemDrawable),
+                    withBottomCellViewHolder(text, expectedItemDrawable, isSelected),
                     click()
                 )
             )

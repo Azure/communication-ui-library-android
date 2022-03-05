@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -15,7 +17,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
     @Test
     fun selectDefaultAudioDevice() {
         joinGroupSetupScreen()
-            .selectAndroidAudioDevice()
+            .selectAndroidAudioDevice(true)
             .verifyIsAndroidAudioDevice()
             .navigateUpFromSetupScreen()
     }
