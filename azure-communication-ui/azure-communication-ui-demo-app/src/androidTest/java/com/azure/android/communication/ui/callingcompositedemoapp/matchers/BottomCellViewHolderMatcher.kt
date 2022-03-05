@@ -34,16 +34,17 @@ class BottomCellViewHolderMatcher(
         val audioDeviceIcon: ImageView = holderRoot.findViewById(R.id.cell_icon)
 
         return audioDeviceTextView.text.toString().contains(name) &&
-                matchesDrawable(audioDeviceIcon) &&
-                verifyCheckMarkMatches(checkMark.visibility == View.VISIBLE)
+            matchesDrawable(audioDeviceIcon) &&
+            verifyCheckMarkMatches(checkMark.visibility == View.VISIBLE)
     }
 
     private fun verifyCheckMarkMatches(isCheckMarkVisible: Boolean): Boolean {
+        isSelected xor isCheckMarkVisible
         if (isSelected && isCheckMarkVisible) return true
         if (!isSelected && !isCheckMarkVisible) return true
         return false
     }
-    
+
     private fun matchesDrawable(target: ImageView): Boolean {
         val drawable: Drawable = target.drawable ?: return false
         val resources: Resources = target.context.resources
