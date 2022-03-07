@@ -68,12 +68,7 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioOperationalStatusStateFlow().collect {
-                setAudioButtonState(it)
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getMicIsEnabled().collect {
-                micButton.isEnabled = it
+                setMicButtonState(it)
             }
         }
 
@@ -91,22 +86,22 @@ internal class SetupControlBarView : LinearLayout {
         }
     }
 
-    private fun setAudioButtonState(audioOperationalStatus: AudioOperationalStatus) {
+    private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {
         when (audioOperationalStatus) {
             AudioOperationalStatus.ON -> {
-                setupAudioButton.isSelected = true
-                setupAudioButton.isEnabled = true
-                setupAudioButton.text =
+                micButton.isSelected = true
+                micButton.isEnabled = true
+                micButton.text =
                     context.getString(R.string.azure_communication_ui_setup_mic_on)
             }
             AudioOperationalStatus.OFF -> {
-                setupAudioButton.isSelected = false
-                setupAudioButton.isEnabled = true
-                setupAudioButton.text =
+                micButton.isSelected = false
+                micButton.isEnabled = true
+                micButton.text =
                     context.getString(R.string.azure_communication_ui_setup_mic_off)
             }
             AudioOperationalStatus.PENDING -> {
-                setupAudioButton.isEnabled = false
+                micButton.isEnabled = false
             }
         }
     }

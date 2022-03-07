@@ -56,7 +56,7 @@ internal class SetupControlBarViewModel(
         callingStatus: CallingStatus,
     ) {
         //cameraPermissionStateFlow.value = permissionState.cameraPermissionState
-        cameraIsEnabledStateFlow.value =permissionState.cameraPermissionState != PermissionStatus.DENIED
+        cameraIsEnabledStateFlow.value = permissionState.cameraPermissionState != PermissionStatus.DENIED
         visibleStateFlow.value = isVisible(permissionState.audioPermissionState)
 
         cameraStateFlow.value = cameraState.operation
