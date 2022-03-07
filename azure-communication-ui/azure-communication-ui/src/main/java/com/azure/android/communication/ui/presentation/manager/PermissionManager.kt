@@ -26,6 +26,7 @@ internal class PermissionManager(
 
     private val audioPermission = arrayOf(
         Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.BLUETOOTH_CONNECT,
         Manifest.permission.ACCESS_NETWORK_STATE,
         Manifest.permission.WAKE_LOCK,
         Manifest.permission.MODIFY_AUDIO_SETTINGS,

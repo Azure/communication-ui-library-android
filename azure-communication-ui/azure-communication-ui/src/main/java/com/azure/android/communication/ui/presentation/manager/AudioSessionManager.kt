@@ -28,14 +28,21 @@ internal class AudioSessionManager(
 
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
-    private val isBluetoothScoAvailable
-        get() =
+    private val isBluetoothScoAvailable: Boolean
+        get() = try {
             FeatureFlags.BluetoothAudio.active &&
-                (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+                    (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+        } catch (exception : SecurityException) {
+            false;
+        }
 
-    private val bluetoothDeviceName
-        get() = bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name
-            ?: context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+    private val bluetoothDeviceName: String
+        get() = try {
+            bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name
+                ?: context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+        } catch (exception : SecurityException) {
+            context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+        }
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
