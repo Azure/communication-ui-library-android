@@ -94,10 +94,6 @@ internal class SetupControlBarViewModel(
         return audioDeviceSelectionStatusStateFlow
     }
 
-    private fun requestAudioPermission() {
-        dispatchAction(action = PermissionAction.AudioPermissionRequested())
-    }
-
     fun turnCameraOn() {
         dispatchAction(
             action = LocalParticipantAction.CameraPreviewOnRequested()
@@ -120,6 +116,10 @@ internal class SetupControlBarViewModel(
         dispatchAction(
             action = LocalParticipantAction.MicPreviewOffTriggered()
         )
+    }
+
+    private fun requestAudioPermission() {
+        dispatchAction(action = PermissionAction.AudioPermissionRequested())
     }
 
     private fun dispatchAction(action: Action) {
