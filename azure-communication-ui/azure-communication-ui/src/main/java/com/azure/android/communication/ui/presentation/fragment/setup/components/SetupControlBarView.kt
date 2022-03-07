@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.Button
@@ -18,7 +19,6 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -28,49 +28,41 @@ internal class SetupControlBarView : LinearLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var viewModel: SetupControlBarViewModel
-    private lateinit var setupAudioButton: Button
-    private lateinit var setupButtonHolder: LinearLayout
-    private lateinit var setupCameraButton: Button
-    private lateinit var setupAudioDeviceButton: Button
-    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
+    private lateinit var micButton: Button
+    private lateinit var cameraButton: Button
+    private lateinit var audioDeviceButton: Button
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        setupButtonHolder = this
-        setupAudioButton = findViewById(R.id.azure_communication_ui_setup_audio_button)
-        setupCameraButton = findViewById(R.id.azure_communication_ui_setup_camera_button)
-        setupAudioDeviceButton = findViewById(R.id.azure_communication_ui_setup_audio_device_button)
-        setupAudioButton.setOnClickListener {
+        micButton = findViewById(R.id.azure_communication_ui_setup_audio_button)
+        cameraButton = findViewById(R.id.azure_communication_ui_setup_camera_button)
+        audioDeviceButton = findViewById(R.id.azure_communication_ui_setup_audio_device_button)
+        micButton.setOnClickListener {
             toggleAudio()
         }
-        setupCameraButton.setOnClickListener {
+        cameraButton.setOnClickListener {
             toggleVideo()
         }
-        setupAudioDeviceButton.setOnClickListener {
-            openAudioDeviceSelectionMenuCallback()
+        audioDeviceButton.setOnClickListener {
+            viewModel.openAudioDeviceSelectionMenu()
         }
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         setupControlBarViewModel: SetupControlBarViewModel,
-        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         viewModel = setupControlBarViewModel
-        openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
+
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCameraPermissionState().collect {
-                setupCameraButton.isEnabled = it != PermissionStatus.DENIED
+            viewModel.getCameraIsEnabled().collect {
+                cameraButton.isEnabled = it
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getMicPermissionState().collect {
-                if (it == PermissionStatus.NOT_ASKED) {
-                    viewModel.requestAudioPermission()
-                }
-                setupButtonHolder.visibility =
-                    if (it == PermissionStatus.DENIED) INVISIBLE else VISIBLE
+            viewModel.getIsVisibleState().collect { visible ->
+                visibility = if (visible) VISIBLE else INVISIBLE
             }
         }
 
@@ -79,11 +71,16 @@ internal class SetupControlBarView : LinearLayout {
                 setAudioButtonState(it)
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getMicIsEnabled().collect {
+                micButton.isEnabled = it
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraState().collect {
                 setCameraButtonState(it)
-                setButtonColorOnCameraState(it.operation)
+                setButtonColorOnCameraState(it)
             }
         }
 
@@ -114,17 +111,15 @@ internal class SetupControlBarView : LinearLayout {
         }
     }
 
-    private fun setCameraButtonState(cameraState: CameraState) {
-        when (cameraState.operation) {
+    private fun setCameraButtonState(operation: CameraOperationalStatus) {
+        when (operation) {
             CameraOperationalStatus.ON -> {
-                setupCameraButton.isSelected = true
-                setupCameraButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_video_on)
+                cameraButton.isSelected = true
+                cameraButton.text = context.getString(R.string.azure_communication_ui_setup_video_on)
             }
             CameraOperationalStatus.OFF -> {
-                setupCameraButton.isSelected = false
-                setupCameraButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_video_off)
+                cameraButton.isSelected = false
+                cameraButton.text = context.getString(R.string.azure_communication_ui_setup_video_off)
             }
         }
     }
@@ -135,61 +130,43 @@ internal class SetupControlBarView : LinearLayout {
                 R.color.azure_communication_ui_color_on_surface_camera_active
             else R.color.azure_communication_ui_toggle_selector
 
-            if (setupCameraButton.isEnabled) {
-                setButtonColor(setupCameraButton, buttonColor)
-                setButtonColor(setupAudioButton, buttonColor)
-                setButtonColor(setupAudioDeviceButton, buttonColor)
+            if (cameraButton.isEnabled) {
+                setButtonColor(cameraButton, buttonColor)
+                setButtonColor(micButton, buttonColor)
+                setButtonColor(audioDeviceButton, buttonColor)
             }
         }
     }
 
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
+        var text = ""
+        var drawable = R.drawable.azure_communication_ui_toggle_selector_mic_for_setup
+
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
-                setupAudioDeviceButton.text = context.getString(
-                    R.string.azure_communication_ui_setup_audio_device_speaker
-                )
-                setupAudioDeviceButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0,
-                    R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled,
-                    0,
-                    0
-                )
+                text = context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
+                drawable = R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                setupAudioDeviceButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0,
-                    R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled,
-                    0,
-                    0
-                )
-                setupAudioDeviceButton.text = context.getString(
-                    R.string.azure_communication_ui_setup_audio_device_android
-                )
+                text = context.getString(R.string.azure_communication_ui_setup_audio_device_android)
+                drawable = R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                setupAudioDeviceButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0,
-                    R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular,
-                    0,
-                    0
-                )
-                setupAudioDeviceButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
-            }
-            else -> {
-                setupAudioDeviceButton.text = ""
+                text = context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                drawable = R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
             }
         }
+        audioDeviceButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable,0,0)
+        audioDeviceButton.text = text
 
-        val setupAudioDeviceButtonColor =
-            if (setupCameraButton.isSelected) R.color.azure_communication_ui_color_on_surface_camera_active
+        val audioDeviceButtonColor =
+            if (cameraButton.isSelected) R.color.azure_communication_ui_color_on_surface_camera_active
             else R.color.azure_communication_ui_toggle_selector
-        setButtonColor(setupAudioDeviceButton, setupAudioDeviceButtonColor)
+        setButtonColor(audioDeviceButton, audioDeviceButtonColor)
     }
 
     private fun toggleAudio() {
-        if (setupAudioButton.isSelected) {
+        if (micButton.isSelected) {
             viewModel.turnMicOff()
         } else {
             viewModel.turnMicOn()
@@ -197,7 +174,7 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun toggleVideo() {
-        if (setupCameraButton.isSelected) {
+        if (cameraButton.isSelected) {
             viewModel.turnCameraOff()
         } else {
             viewModel.turnCameraOn()

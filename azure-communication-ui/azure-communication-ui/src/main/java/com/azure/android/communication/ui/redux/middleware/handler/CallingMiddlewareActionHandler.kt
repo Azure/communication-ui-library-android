@@ -61,7 +61,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         if (state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF &&
             state.localParticipantState.cameraState.operation != CameraOperationalStatus.PAUSED
         ) {
-            if (state.callState.CallingStatus != CallingStatus.NONE) {
+            if (state.callState.callingStatus != CallingStatus.NONE) {
                 callingService.turnCameraOff().whenComplete { _, error ->
                     if (error != null) {
                         store.dispatch(
@@ -83,7 +83,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         store.dispatch(LifecycleAction.EnterForegroundSucceeded())
         val state = store.getCurrentState()
         if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED) {
-            if (state.callState.CallingStatus != CallingStatus.NONE) {
+            if (state.callState.callingStatus != CallingStatus.NONE) {
                 callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
                     if (error != null) {
                         store.dispatch(
@@ -162,7 +162,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
-        if (store.getCurrentState().callState.CallingStatus != CallingStatus.NONE) {
+        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
             callingService.turnCameraOff().whenComplete { _, error ->
                 if (error != null) {
                     store.dispatch(
@@ -211,7 +211,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOn(store: Store<ReduxState>) {
-        if (store.getCurrentState().callState.CallingStatus != CallingStatus.NONE) {
+        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
             callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
                 if (error != null) {
                     store.dispatch(

@@ -67,7 +67,8 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
-            state.callState.CallingStatus,
+            state.callState.callingStatus,
+            this::openAudioDeviceSelectionMenu
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState.device,
@@ -92,7 +93,7 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
-            state.callState.CallingStatus,
+            state.callState.callingStatus,
         )
         warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(
@@ -113,7 +114,7 @@ internal class SetupViewModel(
         )
         joinCallButtonHolderViewModel.update(
             state.permissionState.audioPermissionState,
-            state.callState.CallingStatus
+            state.callState
         )
     }
 
