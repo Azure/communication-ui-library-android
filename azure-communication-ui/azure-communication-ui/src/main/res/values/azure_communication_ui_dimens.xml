@@ -15,7 +15,6 @@
     inner_frame_layout_padding (below variable) on round screens.
     -->
     <dimen name="azure_communication_ui_inner_frame_layout_padding">5dp</dimen>
-    <dimen name="azure_communication_ui_inner_space_padding">8dp</dimen>
     <dimen name="azure_communication_ui_fab_margin">16dp</dimen>
-    <dimen name="azure_communication_ui_side_margin">32dp</dimen>
+
 </resources>

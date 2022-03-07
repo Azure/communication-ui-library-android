@@ -170,7 +170,7 @@ class SettingsActivity : AppCompatActivity() {
         val selectedLanguage = findSelectedLanguage()
         if (selectedLanguage != null) {
             isRTLCheckBox.isChecked =
-                sharedPreference.getBoolean(isRTLKey, selectedLanguage.isRTLDefaultValue)
+                sharedPreference.getBoolean(isRTLKey, selectedLanguage.getIsRTLDefaultValue(selectedLanguage))
         }
     }
 
