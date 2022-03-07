@@ -26,7 +26,4 @@
     <string name="languageDefaultSelection">ENGLISH</string>
     <string name="version">version:</string>
     <string name="debug">Debug</string>
-    <string name="languageSettingLabel">Language Settings</string>
-    <string name="callSettingLabel">Call Settings</string>
-    <string name="isRTLCheckboxLabel">isRTL</string>
 </resources>
