@@ -45,6 +45,6 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
 //            shouldBlockJoinButton = false
 //        }
         disableJoinCallButtonFlow.value =
-                callingState.callingStatus != CallingStatus.NONE || callingState.joinCallIsRequested
+            callingState.callingStatus != CallingStatus.NONE || callingState.joinCallIsRequested
     }
 }
