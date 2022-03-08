@@ -16,11 +16,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.condi
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
 import com.azure.android.communication.ui.utilities.FeatureFlags
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
-import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
-
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
