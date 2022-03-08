@@ -19,6 +19,8 @@ import com.azure.android.communication.ui.utilities.FeatureFlags
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
+
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
