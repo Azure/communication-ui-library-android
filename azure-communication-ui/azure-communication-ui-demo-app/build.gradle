@@ -26,6 +26,8 @@ android {
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
         buildConfigField 'String', 'TEAMS_MEETING_LINK', properties.getProperty('TEAMS_MEETING_LINK', '""')
         buildConfigField 'String', 'ACS_TOKEN', properties.getProperty('ACS_TOKEN', '""')
+        buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
+
     }
 
     signingConfigs {

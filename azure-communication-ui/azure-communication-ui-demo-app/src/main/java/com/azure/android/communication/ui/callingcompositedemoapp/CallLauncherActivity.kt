@@ -32,7 +32,7 @@ class CallLauncherActivity : AppCompatActivity() {
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             AppCenter.start(
                 application,
-                "8cb48e80-76ae-43f4-939a-ab6edd255af4",
+                BuildConfig.APP_SECRET,
                 Analytics::class.java,
                 Crashes::class.java
             )
