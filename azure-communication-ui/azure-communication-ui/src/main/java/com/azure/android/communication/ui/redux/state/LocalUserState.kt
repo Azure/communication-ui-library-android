@@ -48,9 +48,9 @@ internal data class CameraState(
 internal data class AudioState(
     val operation: AudioOperationalStatus,
     val device: AudioDeviceSelectionStatus,
-    val devicePriorToBluetooth: AudioDeviceSelectionStatus? = null,
     val bluetoothState: BluetoothState,
     val error: CallCompositeError? = null,
+    val devicePriorToBluetooth: AudioDeviceSelectionStatus? = null,
 )
 
 internal data class BluetoothState(
