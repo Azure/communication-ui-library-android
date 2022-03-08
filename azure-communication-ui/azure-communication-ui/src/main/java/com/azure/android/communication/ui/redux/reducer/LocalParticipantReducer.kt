@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.redux.reducer
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.NavigationAction
+import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
@@ -183,13 +184,45 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                 )
             }
             is LocalParticipantAction.AudioDeviceChangeRequested -> {
-                localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        device = action.requestedAudioDevice,
-                        error = null
+                // If we are on speaker or receiver, store it to revert back
+                val lastDevice = when (localUserState.audioState.device) {
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+                    AudioDeviceSelectionStatus.RECEIVER_SELECTED -> AudioDeviceSelectionStatus.RECEIVER_SELECTED
+                    else -> null
+                }
+
+                if (lastDevice != null) {
+                    localUserState.copy(
+                        audioState = localUserState.audioState.copy(
+                            devicePriorToBluetooth = lastDevice,
+                            device = action.requestedAudioDevice,
+                            error = null
+                        )
                     )
-                )
+                } else {
+                    localUserState.copy(
+                        audioState = localUserState.audioState.copy(
+                            device = action.requestedAudioDevice,
+                            devicePriorToBluetooth = null,
+                            error = null
+                        )
+                    )
+                }
             }
+            is LocalParticipantAction.RevertToLastAudioDevice -> {
+                if (localUserState.audioState.devicePriorToBluetooth != null) {
+                    localUserState.copy(
+                        audioState = localUserState.audioState.copy(
+                            devicePriorToBluetooth = null,
+                            device = localUserState.audioState.devicePriorToBluetooth,
+                            error = null
+                        )
+                    )
+                } else {
+                    localUserState
+                }
+            }
+
             is LocalParticipantAction.AudioDeviceChangeSucceeded -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(

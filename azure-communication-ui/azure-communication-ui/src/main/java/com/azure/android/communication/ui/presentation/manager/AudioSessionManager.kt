@@ -88,9 +88,7 @@ internal class AudioSessionManager(
         ) {
             // If bluetooth dropped
             store.dispatch(
-                LocalParticipantAction.AudioDeviceChangeRequested(
-                    AudioDeviceSelectionStatus.SPEAKER_REQUESTED
-                )
+                LocalParticipantAction.RevertToLastAudioDevice()
             )
         }
 

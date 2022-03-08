@@ -64,5 +64,7 @@ internal sealed class LocalParticipantAction : Action {
     ) :
         LocalParticipantAction()
 
+    class RevertToLastAudioDevice() : LocalParticipantAction()
+
     class DisplayNameIsSet(val displayName: String) : LocalParticipantAction()
 }
