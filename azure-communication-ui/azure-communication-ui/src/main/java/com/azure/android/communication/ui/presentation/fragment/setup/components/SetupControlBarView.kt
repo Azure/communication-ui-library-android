@@ -9,9 +9,15 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.AttributeSet
+import android.view.View
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -34,6 +40,11 @@ internal class SetupControlBarView : LinearLayout {
     private lateinit var setupAudioDeviceButton: Button
     private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
+    override fun onInitializeAccessibilityEvent(event: AccessibilityEvent?) {
+        super.onInitializeAccessibilityEvent(event)
+    }
+
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         setupButtonHolder = this
@@ -46,9 +57,48 @@ internal class SetupControlBarView : LinearLayout {
         setupCameraButton.setOnClickListener {
             toggleVideo()
         }
+
+        ViewCompat.setAccessibilityDelegate(setupAudioDeviceButton, object : AccessibilityDelegateCompat() {
+
+            override fun onPopulateAccessibilityEvent(host: View, event: AccessibilityEvent) {
+                super.onPopulateAccessibilityEvent(host, event)
+                // We call the super implementation to populate its text for the
+                // event. Then we add our text not present in a super class.
+                // Very often you only need to add the text for the custom view.
+                val a = 6
+                val p= a
+
+            }
+
+            override fun onInitializeAccessibilityEvent(host: View, event: AccessibilityEvent) {
+                super.onInitializeAccessibilityEvent(host, event);
+                // We call the super implementation to let super classes
+                // set appropriate event properties. Then we add the new property
+                // (checked) which is not supported by a super class.
+                val a = 6
+                val p= a
+
+            }
+
+            override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                super.onInitializeAccessibilityNodeInfo(host, info)
+                // We call the super implementation to let super classes set
+                // appropriate info properties. Then we add our properties
+                // (checkable and checked) which are not supported by a super class.
+                val a = 6
+                 val p= a
+
+            }
+        })
+
         setupAudioDeviceButton.setOnClickListener {
+          //  this.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
+
             openAudioDeviceSelectionMenuCallback()
         }
+
+     //   setupAudioDeviceButton.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+     //   this.announceForAccessibility("Audio Output Settings")
     }
 
     fun start(

@@ -154,8 +154,8 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled"
                 android:drawablePadding="5dp"
+                android:contentDescription="Audio Output Settings"
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
-                android:text="@string/azure_communication_ui_setup_audio_device_speaker"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />

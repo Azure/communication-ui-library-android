@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
 import android.content.Context
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -37,7 +39,8 @@ internal class AudioDeviceListView(
         inflate(context, R.layout.azure_communication_ui_listview, this)
         deviceTable = findViewById(R.id.bottom_drawer_table)
         this.setBackgroundResource(R.color.azure_communication_ui_color_bottom_drawer_background)
-    }
+
+        }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
         initializeAudioDeviceDrawer()
@@ -57,7 +60,6 @@ internal class AudioDeviceListView(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.bluetoothScoAvailableStateFlow.collect {
-                // / rebind the list of items
                 bottomCellAdapter = BottomCellAdapter(context)
                 bottomCellAdapter.setBottomCellItems(bottomCellItems)
                 deviceTable.adapter = bottomCellAdapter
