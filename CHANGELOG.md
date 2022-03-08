@@ -8,7 +8,6 @@
 - Screen share zoom
 - Localization support 
 - Update joining experience in setup view
-- Localization support 
 
 ### Breaking Changes
 - Remove Context from GroupMeetingOptions() and TeamMeetingOptions()
