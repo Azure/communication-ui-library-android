@@ -26,6 +26,8 @@ android {
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
         buildConfigField 'String', 'TEAMS_MEETING_LINK', properties.getProperty('TEAMS_MEETING_LINK', '""')
         buildConfigField 'String', 'ACS_TOKEN', properties.getProperty('ACS_TOKEN', '""')
+        buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
+
     }
 
     signingConfigs {
@@ -96,6 +98,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation(name: "magnifier-0.0.14", ext: 'aar')
+    implementation "com.microsoft.appcenter:appcenter-analytics:4.1.0"
+    implementation "com.microsoft.appcenter:appcenter-crashes:4.1.0"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
