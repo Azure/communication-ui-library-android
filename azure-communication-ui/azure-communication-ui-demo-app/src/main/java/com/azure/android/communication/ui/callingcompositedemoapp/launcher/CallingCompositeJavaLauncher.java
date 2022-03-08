@@ -13,13 +13,9 @@ import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
-import com.azure.android.communication.ui.callingcompositedemoapp.R;
-import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
-import com.azure.android.communication.ui.configuration.ThemeConfiguration;
-
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -36,13 +32,12 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final UUID groupId,
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
-        final CallCompositeBuilder builder = new CallCompositeBuilder();
 
-        if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
-            builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
-        }
-
-        final CallComposite callComposite = builder.build();
+        final CallComposite callComposite =
+                new CallCompositeBuilder()
+//                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
+                        .customizeLocalization(new LocalizationConfiguration("fr", true))
+                        .build();
 
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 

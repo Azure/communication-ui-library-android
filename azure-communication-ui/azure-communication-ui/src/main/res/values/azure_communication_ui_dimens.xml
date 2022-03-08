@@ -16,4 +16,5 @@
     -->
     <dimen name="azure_communication_ui_inner_frame_layout_padding">5dp</dimen>
     <dimen name="azure_communication_ui_fab_margin">16dp</dimen>
+
 </resources>

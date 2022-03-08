@@ -8,8 +8,8 @@ import android.os.Build
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.FpsDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
-import com.azure.android.communication.ui.utilities.FeatureFlagEntry
-import com.azure.android.communication.ui.utilities.FeatureFlags
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlagEntry
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 
 fun conditionallyRegisterDiagnostics(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
