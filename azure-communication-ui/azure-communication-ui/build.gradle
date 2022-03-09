@@ -83,8 +83,6 @@ dependencies {
     implementation "com.azure.android:azure-core:$azure_core_version"
     implementation "com.google.code.gson:gson:$gson_version"
     api ("com.azure.android:azure-communication-calling:$calling_sdk_version") {
-        exclude group: "com.azure.android", module: "azure-core"
-        exclude group: "com.azure.android", module: "azure-core-logging"
         exclude group: "com.google.code.gson", module: "gson"
     }
     implementation "com.microsoft.device:dualscreen-layout:1.0.0-alpha01"
