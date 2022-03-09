@@ -3,7 +3,7 @@ buildscript {
     ext {
         kotlin_version = '1.5.21'
         jacoco_version = '0.8.7'
-        calling_sdk_version = '2.0.0-beta.1'
+        calling_sdk_version = '2.1.0-beta.1'
         azure_core_version = '1.0.0-beta.9'
         appcompat_version = '1.3.1'
         androidx_core_version = '1.6.0'
@@ -39,9 +39,6 @@ allprojects {
         mavenCentral()
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
-        }
-        flatDir{
-            dirs "../azure-communication-ui-demo-app/lib"
         }
     }
 }
