@@ -38,7 +38,8 @@ internal class LocalParticipantGridCellViewModelTest {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                false
             )
 
             val isMutedFlow = mutableListOf<Boolean>()
@@ -105,7 +106,8 @@ internal class LocalParticipantGridCellViewModelTest {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                false
             )
 
             val displayNameFlow = mutableListOf<String?>()
@@ -143,7 +145,8 @@ internal class LocalParticipantGridCellViewModelTest {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                false
             )
 
             val modelFlow = mutableListOf<LocalParticipantViewModel.VideoModel>()
@@ -214,7 +217,8 @@ internal class LocalParticipantGridCellViewModelTest {
                 videoStreamID = videoStreamID,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                false
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -283,7 +287,8 @@ internal class LocalParticipantGridCellViewModelTest {
                 videoStreamID = videoStreamID,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                false
             )
 
             val modelFlow = mutableListOf<Boolean>()

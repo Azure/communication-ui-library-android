@@ -53,6 +53,7 @@ internal class CallingService(
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
     private var callingStatus: CallingStatus = CallingStatus.NONE
+    private var isConfirmLeaveOverlayDisplayedSharedFlow = MutableSharedFlow<Boolean>()
 
     fun turnCameraOn(): CompletableFuture<String> {
         return callingSDKWrapper.turnOnVideoAsync().thenApply { stream ->
@@ -103,6 +104,10 @@ internal class CallingService(
 
     fun getIsTranscribingSharedFlow(): Flow<Boolean> {
         return isTranscribingSharedFlow
+    }
+
+    fun getIsConfirmLeaveOverlayDisplayedSharedFlow(): Flow<Boolean> {
+        return isConfirmLeaveOverlayDisplayedSharedFlow
     }
 
     fun endCall(): CompletableFuture<Void> {

@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -48,8 +50,14 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
         this.confirmLeaveOverlayViewModel = confirmLeaveOverlayViewModel
 
         viewLifecycleOwner.lifecycleScope.launch {
-            confirmLeaveOverlayViewModel.getShouldDisplayConfirmLeaveOverlayFlow().collect {
-                visibility = if (it) VISIBLE else GONE
+            confirmLeaveOverlayViewModel.getIsConfirmLeaveOverlayDisplayedStateFlow().collect {
+                if (it) {
+                    visibility = VISIBLE
+                    confirmLeaveCallButton.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
+                    confirmLeaveCallButton.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED)
+                } else {
+                    visibility = GONE
+                }
             }
         }
     }

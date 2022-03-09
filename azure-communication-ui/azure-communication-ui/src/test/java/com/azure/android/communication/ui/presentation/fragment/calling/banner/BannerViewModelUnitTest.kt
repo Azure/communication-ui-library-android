@@ -38,7 +38,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -75,7 +75,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -112,7 +112,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -150,7 +150,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -193,7 +193,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -236,7 +236,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -280,7 +280,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -324,7 +324,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -372,7 +372,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -420,7 +420,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -469,7 +469,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -518,7 +518,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -561,7 +561,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -605,7 +605,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -648,7 +648,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -692,7 +692,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -736,7 +736,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -780,7 +780,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -824,7 +824,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -868,7 +868,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -917,7 +917,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -966,7 +966,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1015,7 +1015,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1064,7 +1064,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1112,7 +1112,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1161,7 +1161,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1209,7 +1209,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1258,7 +1258,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1307,7 +1307,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1356,7 +1356,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1405,7 +1405,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1454,7 +1454,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1503,7 +1503,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1552,7 +1552,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1601,7 +1601,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1650,7 +1650,7 @@ internal class BannerViewModelUnitTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {

@@ -28,6 +28,7 @@ internal class LobbyOverlayViewModelTest {
             val viewModel = LobbyOverlayViewModel()
             viewModel.init(
                 CallingStatus.CONNECTED,
+                false
             )
 
             val modelFlow = mutableListOf<Boolean>()

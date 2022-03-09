@@ -112,7 +112,8 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 permissionState,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
+                false
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -184,7 +185,8 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 initialPermissionState,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
+                false
             )
 
             val flowJob = launch {
@@ -258,7 +260,8 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 permissionState,
                 initialCameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState)
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState),
+                false
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()

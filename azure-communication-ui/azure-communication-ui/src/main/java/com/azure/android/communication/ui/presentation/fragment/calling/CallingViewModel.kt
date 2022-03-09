@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.redux.Store
+import com.azure.android.communication.ui.redux.action.DisplayAction
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -82,7 +83,7 @@ internal class CallingViewModel(
     }
 
     fun requestCallEnd() {
-        confirmLeaveOverlayViewModel.requestExitConfirmation()
+        dispatchAction(action = DisplayAction.IsConfirmLeaveOverlayDisplayed(true))
     }
 
     override fun init(coroutineScope: CoroutineScope) {
@@ -91,7 +92,8 @@ internal class CallingViewModel(
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState
+            state.localParticipantState.audioState,
+            state.displayState.confirmLeaveOverlayDisplayState
         )
 
         localParticipantViewModel.init(
@@ -101,16 +103,19 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.CallingStatus,
             state.localParticipantState.cameraState.device,
+            state.displayState.confirmLeaveOverlayDisplayState
         )
 
         floatingHeaderViewModel.init(
-            state.remoteParticipantState.participantMap.count()
+            state.remoteParticipantState.participantMap.count(),
+            state.displayState.confirmLeaveOverlayDisplayState
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState.device
         )
         bannerViewModel.init(
-            state.callState
+            state.callState,
+            state.displayState.confirmLeaveOverlayDisplayState
         )
 
         participantListViewModel.init(
@@ -118,7 +123,13 @@ internal class CallingViewModel(
             state.localParticipantState
         )
 
-        lobbyOverlayViewModel.init(state.callState.CallingStatus)
+        confirmLeaveOverlayViewModel.init(state.displayState.confirmLeaveOverlayDisplayState)
+        participantGridViewModel.init(state.displayState.confirmLeaveOverlayDisplayState)
+
+        lobbyOverlayViewModel.init(
+            state.callState.CallingStatus,
+            state.displayState.confirmLeaveOverlayDisplayState
+        )
 
         super.init(coroutineScope)
     }
@@ -143,7 +154,7 @@ internal class CallingViewModel(
             state.localParticipantState.videoStreamID,
             state.remoteParticipantState.participantMap.count(),
             state.callState.CallingStatus,
-            state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.device
         )
 
         audioDeviceListViewModel.update(
@@ -151,7 +162,9 @@ internal class CallingViewModel(
             state.localParticipantState.audioState.isBluetoothSCOAvailable
         )
 
-        lobbyOverlayViewModel.update(state.callState.CallingStatus)
+        lobbyOverlayViewModel.update(
+            state.callState.CallingStatus
+        )
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
@@ -172,8 +185,20 @@ internal class CallingViewModel(
                 state.callState
             )
         }
+
+        updateConfirmLeaveOverlayDisplayState(state.displayState.confirmLeaveOverlayDisplayState)
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
         state.callState.CallingStatus == CallingStatus.CONNECTED
+
+    private fun updateConfirmLeaveOverlayDisplayState(isDisplayed: Boolean) {
+        confirmLeaveOverlayViewModel.updateConfirmLeaveOverlayDisplayState(isDisplayed)
+        participantGridViewModel.updateConfirmLeaveOverlayDisplayState(isDisplayed)
+        floatingHeaderViewModel.updateConfirmLeaveOverlayDisplayState(isDisplayed)
+        bannerViewModel.updateConfirmLeaveOverlayDisplayState(isDisplayed)
+        controlBarViewModel.updateConfirmLeaveOverlayDisplayState(isDisplayed)
+        localParticipantViewModel.updateConfirmLeaveOverlayDisplayState(isDisplayed)
+        lobbyOverlayViewModel.updateConfirmLeaveOverlayDisplayState(isDisplayed)
+    }
 }

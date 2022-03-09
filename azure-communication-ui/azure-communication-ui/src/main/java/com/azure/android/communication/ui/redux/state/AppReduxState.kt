@@ -34,4 +34,6 @@ internal class AppReduxState(displayName: String?) : ReduxState {
     override var errorState: ErrorState = ErrorState(fatalError = null, callStateError = null)
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.SETUP)
+
+    override var displayState: DisplayState = DisplayState(false)
 }

@@ -5,8 +5,10 @@ package com.azure.android.communication.ui.presentation.fragment.calling.control
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -26,11 +28,12 @@ internal class ControlBarView : LinearLayout {
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
-    private lateinit var requestCallEndCallback: () -> Unit
+    private lateinit var bottomControlBar: View
     private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        bottomControlBar = findViewById(R.id.azure_communication_ui_call_call_buttons)
         endCallButton = findViewById(R.id.azure_communication_ui_call_end_call_button)
         cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
@@ -41,11 +44,9 @@ internal class ControlBarView : LinearLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
-        requestCallEnd: () -> Unit,
         openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         this.viewModel = viewModel
-        this.requestCallEndCallback = requestCallEnd
         this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -69,6 +70,16 @@ internal class ControlBarView : LinearLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getShouldEnableMicButtonStateFlow().collect {
                 micToggle.isEnabled = it
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getIsConfirmLeaveOverlayDisplayedStateFlow().collect {
+                if (it) {
+                    ViewCompat.setImportantForAccessibility(bottomControlBar, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                } else {
+                    ViewCompat.setImportantForAccessibility(bottomControlBar, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+                }
             }
         }
     }
@@ -128,7 +139,7 @@ internal class ControlBarView : LinearLayout {
 
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
-            requestCallEndCallback()
+            viewModel.openConfirmLeaveOverlay()
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {

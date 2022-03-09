@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 internal class BannerViewModel {
 
     private lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
+    private lateinit var isConfirmLeaveOverlayDisplayedStateFlow: MutableStateFlow<Boolean>
     private var shouldShowBannerStateFlow = MutableStateFlow(false)
 
     private var recordingState: ComplianceState = ComplianceState.OFF
@@ -23,10 +24,14 @@ internal class BannerViewModel {
         return shouldShowBannerStateFlow
     }
 
-    fun init(callingState: CallingState) {
+    fun init(
+        callingState: CallingState,
+        confirmLeaveOverlayDisplayState: Boolean
+    ) {
         bannerInfoTypeStateFlow = MutableStateFlow(
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
         )
+        isConfirmLeaveOverlayDisplayedStateFlow = MutableStateFlow(confirmLeaveOverlayDisplayState)
     }
 
     private fun createBannerInfoType(
@@ -97,7 +102,9 @@ internal class BannerViewModel {
         }
     }
 
-    fun update(callingState: CallingState) {
+    fun update(
+        callingState: CallingState
+    ) {
         val currentBannerInfoType = bannerInfoTypeStateFlow.value
         val newBannerInfoType =
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
@@ -108,9 +115,20 @@ internal class BannerViewModel {
         }
     }
 
+    fun updateConfirmLeaveOverlayDisplayState(
+        confirmLeaveOverlayDisplayState: Boolean
+    ) {
+        isConfirmLeaveOverlayDisplayedStateFlow.value =
+            confirmLeaveOverlayDisplayState
+    }
+
     fun dismissBanner() {
         shouldShowBannerStateFlow.value = false
         resetStoppedStates()
+    }
+
+    fun getIsConfirmLeaveOverlayDisplayedStateFlow(): StateFlow<Boolean> {
+        return isConfirmLeaveOverlayDisplayedStateFlow
     }
 
     private fun resetStoppedStates() {

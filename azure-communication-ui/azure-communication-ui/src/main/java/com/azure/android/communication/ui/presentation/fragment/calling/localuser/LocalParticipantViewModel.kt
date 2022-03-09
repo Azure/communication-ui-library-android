@@ -26,6 +26,7 @@ internal class LocalParticipantViewModel(
     private lateinit var displaySwitchCameraButtonFlow: MutableStateFlow<Boolean>
     private lateinit var displayPipSwitchCameraButtonFlow: MutableStateFlow<Boolean>
     private lateinit var enableCameraSwitchFlow: MutableStateFlow<Boolean>
+    private lateinit var isConfirmLeaveOverlayDisplayedStateFlow: MutableStateFlow<Boolean>
 
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
@@ -41,7 +42,7 @@ internal class LocalParticipantViewModel(
         videoStreamID: String?,
         numberOfRemoteParticipants: Int,
         callingState: CallingStatus,
-        cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
+        cameraDeviceSelectionStatus: CameraDeviceSelectionStatus
     ) {
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
@@ -61,6 +62,13 @@ internal class LocalParticipantViewModel(
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
     }
 
+    fun updateConfirmLeaveOverlayDisplayState(
+        confirmLeaveOverlayDisplayState: Boolean
+    ) {
+        isConfirmLeaveOverlayDisplayedStateFlow.value =
+            confirmLeaveOverlayDisplayState
+    }
+
     fun clear() {
         videoStatusFlow.value = VideoModel(false, null, LocalParticipantViewMode.FULL_SCREEN)
     }
@@ -72,6 +80,7 @@ internal class LocalParticipantViewModel(
         numberOfRemoteParticipants: Int,
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
+        confirmLeaveOverlayDisplayState: Boolean
     ) {
 
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
@@ -92,10 +101,15 @@ internal class LocalParticipantViewModel(
         enableCameraSwitchFlow = MutableStateFlow(
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         )
+        isConfirmLeaveOverlayDisplayedStateFlow = MutableStateFlow(confirmLeaveOverlayDisplayState)
     }
 
     fun switchCamera() {
         dispatch(LocalParticipantAction.CameraSwitchTriggered())
+    }
+
+    fun getIsConfirmLeaveOverlayDisplayedStateFlow(): StateFlow<Boolean> {
+        return isConfirmLeaveOverlayDisplayedStateFlow
     }
 
     private fun shouldDisplayVideo(videoStreamID: String?) = videoStreamID != null

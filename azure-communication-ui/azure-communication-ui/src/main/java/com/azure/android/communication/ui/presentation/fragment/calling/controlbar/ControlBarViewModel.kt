@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.controlbar
 
 import com.azure.android.communication.ui.redux.action.Action
+import com.azure.android.communication.ui.redux.action.DisplayAction
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
@@ -21,11 +22,13 @@ internal class ControlBarViewModel(
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
     private lateinit var shouldEnableMicButtonStateFlow: MutableStateFlow<Boolean>
+    private lateinit var isConfirmLeaveOverlayDisplayedStateFlow: MutableStateFlow<Boolean>
 
     fun init(
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
+        confirmLeaveOverlayDisplayState: Boolean
     ) {
         cameraStateFlow =
             MutableStateFlow(CameraModel(permissionState.cameraPermissionState, cameraState))
@@ -33,17 +36,25 @@ internal class ControlBarViewModel(
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
         shouldEnableMicButtonStateFlow =
             MutableStateFlow(shouldEnableMicButton(audioState))
+        isConfirmLeaveOverlayDisplayedStateFlow = MutableStateFlow(confirmLeaveOverlayDisplayState)
     }
 
     fun update(
         permissionState: PermissionState,
         cameraState: CameraState,
-        audioState: AudioState,
+        audioState: AudioState
     ) {
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState.device
         shouldEnableMicButtonStateFlow.value = shouldEnableMicButton(audioState)
+    }
+
+    fun updateConfirmLeaveOverlayDisplayState(
+        confirmLeaveOverlayDisplayState: Boolean
+    ) {
+        isConfirmLeaveOverlayDisplayedStateFlow.value =
+            confirmLeaveOverlayDisplayState
     }
 
     fun getAudioOperationalStatusStateFlow(): StateFlow<AudioOperationalStatus> {
@@ -76,6 +87,14 @@ internal class ControlBarViewModel(
 
     fun turnCameraOff() {
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
+    }
+
+    fun openConfirmLeaveOverlay() {
+        dispatchAction(action = DisplayAction.IsConfirmLeaveOverlayDisplayed(true))
+    }
+
+    fun getIsConfirmLeaveOverlayDisplayedStateFlow(): StateFlow<Boolean> {
+        return isConfirmLeaveOverlayDisplayedStateFlow
     }
 
     private fun shouldEnableMicButton(audioState: AudioState): Boolean {

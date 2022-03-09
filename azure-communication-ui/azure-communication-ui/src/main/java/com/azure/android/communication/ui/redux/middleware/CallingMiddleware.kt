@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.redux.Middleware
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.CallingAction
+import com.azure.android.communication.ui.redux.action.DisplayAction
 import com.azure.android.communication.ui.redux.action.ErrorAction
 import com.azure.android.communication.ui.redux.action.LifecycleAction
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
@@ -73,6 +74,9 @@ internal class CallingMiddlewareImpl(
                 }
                 is ErrorAction.EmergencyExit -> {
                     callingMiddlewareActionHandler.exit(store)
+                }
+                is DisplayAction.IsConfirmLeaveOverlayDisplayed -> {
+                    callingMiddlewareActionHandler.updateConfirmLeaveOverlayDisplay(store)
                 }
             }
             next(action)

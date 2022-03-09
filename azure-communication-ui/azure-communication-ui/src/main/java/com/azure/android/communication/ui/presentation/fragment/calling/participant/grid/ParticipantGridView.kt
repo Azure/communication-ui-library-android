@@ -9,9 +9,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.VideoStreamRenderer
+import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -65,6 +67,17 @@ internal class ParticipantGridView : GridLayout {
             participantGridViewModel.getRemoteParticipantsUpdateStateFlow().collect {
                 post {
                     updateGrid(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            participantGridViewModel.getIsConfirmLeaveOverlayDisplayedStateFlow().collect {
+                val videoView: View = super.findViewById(R.id.azure_communication_ui_call_participant_container)
+                if (it) {
+                    ViewCompat.setImportantForAccessibility(videoView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                } else {
+                    ViewCompat.setImportantForAccessibility(videoView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
                 }
             }
         }

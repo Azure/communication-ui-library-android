@@ -47,7 +47,7 @@ internal class InfoHeaderViewModelUnitTest {
             )
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
-            floatingHeaderViewModel.init(expectedParticipantMap.count())
+            floatingHeaderViewModel.init(expectedParticipantMap.count(), false)
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()

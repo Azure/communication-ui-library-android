@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.error.CallCompositeError
 import com.azure.android.communication.ui.error.FatalError
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.CallingAction
+import com.azure.android.communication.ui.redux.action.DisplayAction
 import com.azure.android.communication.ui.redux.action.ErrorAction
 import com.azure.android.communication.ui.redux.action.LifecycleAction
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
@@ -43,6 +44,7 @@ internal interface CallingMiddlewareActionHandler {
     fun turnMicOn(store: Store<ReduxState>)
     fun turnMicOff(store: Store<ReduxState>)
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
+    fun updateConfirmLeaveOverlayDisplay(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
     fun dispose()
 }
@@ -267,6 +269,19 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     )
                 }
+            }
+        }
+    }
+
+    override fun updateConfirmLeaveOverlayDisplay(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getIsConfirmLeaveOverlayDisplayedSharedFlow().collect {
+                val action = if (it) {
+                    DisplayAction.IsConfirmLeaveOverlayDisplayed(true)
+                } else {
+                    DisplayAction.IsConfirmLeaveOverlayDisplayed(false)
+                }
+                store.dispatch(action)
             }
         }
     }

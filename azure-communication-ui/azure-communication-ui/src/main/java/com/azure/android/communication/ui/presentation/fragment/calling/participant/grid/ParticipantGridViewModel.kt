@@ -16,9 +16,18 @@ internal class ParticipantGridViewModel(private val participantGridCellViewModel
     private var displayedRemoteParticipantsViewModelMap =
         mutableMapOf<String, ParticipantGridCellViewModel>()
 
+    private lateinit var isConfirmLeaveOverlayDisplayedStateFlow: MutableStateFlow<Boolean>
+
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private val maxRemoteParticipantSize = 6
+
+    fun init(
+        confirmLeaveOverlayDisplayState: Boolean
+    ) {
+        isConfirmLeaveOverlayDisplayedStateFlow =
+            MutableStateFlow(confirmLeaveOverlayDisplayState)
+    }
 
     fun clear() {
         remoteParticipantStateModifiedTimeStamp = 0
@@ -64,6 +73,17 @@ internal class ParticipantGridViewModel(private val participantGridCellViewModel
         updateRemoteParticipantsVideoStreams(remoteParticipantsMapSorted)
 
         updateDisplayedParticipants(remoteParticipantsMapSorted.toMutableMap())
+    }
+
+    fun updateConfirmLeaveOverlayDisplayState(
+        confirmLeaveOverlayDisplayState: Boolean
+    ) {
+        isConfirmLeaveOverlayDisplayedStateFlow.value =
+            confirmLeaveOverlayDisplayState
+    }
+
+    fun getIsConfirmLeaveOverlayDisplayedStateFlow(): StateFlow<Boolean> {
+        return isConfirmLeaveOverlayDisplayedStateFlow
     }
 
     private fun getParticipantSharingScreen(

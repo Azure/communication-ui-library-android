@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -127,6 +128,16 @@ internal class LocalParticipantView : ConstraintLayout {
             viewModel.getEnableCameraSwitchFlow().collect {
                 switchCameraButton.isEnabled = it
                 pipSwitchCameraButton.isEnabled = it
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getIsConfirmLeaveOverlayDisplayedStateFlow().collect {
+                if (it) {
+                    ViewCompat.setImportantForAccessibility(localParticipantPip, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                } else {
+                    ViewCompat.setImportantForAccessibility(localParticipantPip, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+                }
             }
         }
     }

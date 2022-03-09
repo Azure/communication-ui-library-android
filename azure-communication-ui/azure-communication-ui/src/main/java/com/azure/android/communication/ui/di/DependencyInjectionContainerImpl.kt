@@ -25,6 +25,7 @@ import com.azure.android.communication.ui.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.redux.reducer.CallStateReducerImpl
+import com.azure.android.communication.ui.redux.reducer.DisplayReducerImpl
 import com.azure.android.communication.ui.redux.reducer.ErrorReducerImpl
 import com.azure.android.communication.ui.redux.reducer.LifecycleReducerImpl
 import com.azure.android.communication.ui.redux.reducer.LocalParticipantStateReducerImpl
@@ -110,6 +111,7 @@ internal class DependencyInjectionContainerImpl(
     private val lifecycleReducer get() = LifecycleReducerImpl()
     private val errorReducer get() = ErrorReducerImpl()
     private val navigationReducer get() = NavigationReducerImpl()
+    private val displayReducer get() = DisplayReducerImpl()
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
@@ -128,7 +130,8 @@ internal class DependencyInjectionContainerImpl(
             permissionStateReducer,
             lifecycleReducer,
             errorReducer,
-            navigationReducer
+            navigationReducer,
+            displayReducer
         ) as Reducer<ReduxState>
     }
     //endregion

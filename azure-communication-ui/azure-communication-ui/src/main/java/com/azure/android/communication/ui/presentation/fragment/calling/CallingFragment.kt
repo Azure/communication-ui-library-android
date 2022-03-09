@@ -66,7 +66,6 @@ internal class CallingFragment :
         controlBarView.start(
             viewLifecycleOwner,
             viewModel.getControlBarViewModel(),
-            this::requestCallEnd,
             this::openAudioDeviceSelectionMenu
         )
 

@@ -13,6 +13,8 @@ internal class InfoHeaderViewModel {
 
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
 
+    private lateinit var isConfirmLeaveOverlayDisplayedStateFlow: MutableStateFlow<Boolean>
+
     private lateinit var timer: Timer
 
     private var displayedOnLaunch = false
@@ -24,7 +26,7 @@ internal class InfoHeaderViewModel {
     }
 
     fun update(
-        numberOfRemoteParticipants: Int,
+        numberOfRemoteParticipants: Int
     ) {
         numberOfParticipantsFlow.value = numberOfRemoteParticipants
         if (!displayedOnLaunch) {
@@ -33,12 +35,21 @@ internal class InfoHeaderViewModel {
         }
     }
 
+    fun updateConfirmLeaveOverlayDisplayState(
+        confirmLeaveOverlayDisplayState: Boolean
+    ) {
+        isConfirmLeaveOverlayDisplayedStateFlow.value =
+            confirmLeaveOverlayDisplayState
+    }
+
     fun init(
         numberOfRemoteParticipants: Int,
+        confirmLeaveOverlayDisplayState: Boolean
     ) {
         timer = Timer()
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
+        isConfirmLeaveOverlayDisplayedStateFlow = MutableStateFlow(confirmLeaveOverlayDisplayState)
     }
 
     fun switchFloatingHeader() {
@@ -57,5 +68,9 @@ internal class InfoHeaderViewModel {
             },
             3000
         )
+    }
+
+    fun getIsConfirmLeaveOverlayDisplayedStateFlow(): StateFlow<Boolean> {
+        return isConfirmLeaveOverlayDisplayedStateFlow
     }
 }
