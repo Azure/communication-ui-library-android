@@ -115,7 +115,7 @@
             app:layout_constraintStart_toStartOf="parent"
             >
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/azure_communication_ui_setup_camera_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/azure_communication_ui_setup_audio_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/azure_communication_ui_setup_audio_device_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
                 android:layout_width="wrap_content"

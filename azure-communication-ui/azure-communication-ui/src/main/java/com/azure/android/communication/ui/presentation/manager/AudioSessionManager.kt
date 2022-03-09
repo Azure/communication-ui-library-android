@@ -15,7 +15,7 @@ import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
-import com.azure.android.communication.ui.utilities.FeatureFlags
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
 import java.lang.IllegalArgumentException
 
@@ -28,9 +28,12 @@ internal class AudioSessionManager(
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
     private val isBluetoothScoAvailable
-        get() =
+        get() = try {
             FeatureFlags.BluetoothAudio.active &&
                 (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+        } catch (exception: SecurityException) {
+            false
+        }
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 

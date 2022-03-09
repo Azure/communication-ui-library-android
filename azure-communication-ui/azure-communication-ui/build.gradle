@@ -9,13 +9,13 @@ apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
     resourcePrefix 'azure_communication_ui_'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         buildConfigField('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
 
@@ -82,7 +82,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation "com.azure.android:azure-core:$azure_core_version"
     implementation "com.google.code.gson:gson:$gson_version"
-    implementation ("com.azure.android:azure-communication-calling:$calling_sdk_version") {
+    api ("com.azure.android:azure-communication-calling:$calling_sdk_version") {
         exclude group: "com.azure.android", module: "azure-core"
         exclude group: "com.azure.android", module: "azure-core-logging"
         exclude group: "com.google.code.gson", module: "gson"
