@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -166,7 +167,7 @@ internal class SetupControlBarView : LinearLayout {
 }
 
 internal class SetupButton(context: Context, attrs: AttributeSet?) :
-    androidx.appcompat.widget.AppCompatButton(context, attrs) {
+    AppCompatButton(context, attrs) {
 
     var isCameraON = false
 
@@ -180,7 +181,7 @@ internal class SetupButton(context: Context, attrs: AttributeSet?) :
 }
 
 internal class AudioDeviceSetupButton(context: Context, attrs: AttributeSet?) :
-    androidx.appcompat.widget.AppCompatButton(context, attrs) {
+    AppCompatButton(context, attrs) {
 
     var isCameraON = false
     var isSpeakerON = false

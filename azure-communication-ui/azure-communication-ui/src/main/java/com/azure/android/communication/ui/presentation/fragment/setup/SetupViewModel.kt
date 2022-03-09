@@ -68,7 +68,7 @@ internal class SetupViewModel(
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
             state.callState,
-            this::openAudioDeviceSelectionMenu
+            audioDeviceListViewModel::displayAudioDeviceSelectionMenu
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState.device,
@@ -117,6 +117,4 @@ internal class SetupViewModel(
             state.callState
         )
     }
-
-    fun openAudioDeviceSelectionMenu() = audioDeviceListViewModel.displayAudioDeviceSelectionMenu()
 }
