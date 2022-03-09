@@ -28,9 +28,12 @@ internal class AudioSessionManager(
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
     private val isBluetoothScoAvailable
-        get() =
+        get() = try {
             FeatureFlags.BluetoothAudio.active &&
                 (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+        } catch (exception: SecurityException) {
+            false
+        }
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
