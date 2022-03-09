@@ -12,22 +12,17 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.AccessibilityDelegateCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.redux.state.CameraState
-import com.azure.android.communication.ui.redux.state.PermissionStatus
+import com.azure.android.communication.ui.redux.state.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
 
 internal class SetupControlBarView : LinearLayout {
     constructor(context: Context) : super(context)
@@ -58,38 +53,26 @@ internal class SetupControlBarView : LinearLayout {
             toggleVideo()
         }
 
-        ViewCompat.setAccessibilityDelegate(setupAudioDeviceButton, object : AccessibilityDelegateCompat() {
 
-            override fun onPopulateAccessibilityEvent(host: View, event: AccessibilityEvent) {
-                super.onPopulateAccessibilityEvent(host, event)
-                // We call the super implementation to populate its text for the
-                // event. Then we add our text not present in a super class.
-                // Very often you only need to add the text for the custom view.
-                val a = 6
-                val p= a
+        setupAudioButton.setAccessibilityDelegate(object : AccessibilityDelegate() {
+            override fun onInitializeAccessibilityNodeInfo(
+                v: View, info: AccessibilityNodeInfo,
+            ) {
+                super.onInitializeAccessibilityNodeInfo(v, info)
 
-            }
+                // A custom action description. For example, you could use "pause"
+                // to have TalkBack speak "double-tap to pause."
 
-            override fun onInitializeAccessibilityEvent(host: View, event: AccessibilityEvent) {
-                super.onInitializeAccessibilityEvent(host, event);
-                // We call the super implementation to let super classes
-                // set appropriate event properties. Then we add the new property
-                // (checked) which is not supported by a super class.
-                val a = 6
-                val p= a
+                if (viewModel.getAudioOperationalStatusStateFlow().value == AudioOperationalStatus.ON) {
+                    info.text = "Unmuted"
 
-            }
-
-            override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
-                super.onInitializeAccessibilityNodeInfo(host, info)
-                // We call the super implementation to let super classes set
-                // appropriate info properties. Then we add our properties
-                // (checkable and checked) which are not supported by a super class.
-                val a = 6
-                 val p= a
+                } else {
+                    info.text = "Muted"
+                }
 
             }
         })
+
 
         setupAudioDeviceButton.setOnClickListener {
           //  this.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
