@@ -145,14 +145,19 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun configureLocalization() {
-        val localeConfig = configuration.localizationConfig ?: LocalizationConfiguration("en")
-        if (localeConfig.isRightToLeft) {
-            window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        }
+        configuration.localizationConfig?.let { localeConfig ->
+            if (localeConfig.isRightToLeft) {
+                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
+            }
 
-        val config: Configuration = resources.configuration
-        config.setLocale(Locale(localeConfig.language))
-        resources.updateConfiguration(config, resources.displayMetrics)
+            val config: Configuration = resources.configuration
+            val languageAttributes = localeConfig.language.split("-")
+            val languageCode = languageAttributes[0]
+            val countryCode =
+                if (languageAttributes.size > 1) languageAttributes[1] else ""
+            config.setLocale(Locale(languageCode, countryCode))
+            resources.updateConfiguration(config, resources.displayMetrics)
+        }
     }
 
     private fun setActionBarVisibility() {

@@ -21,9 +21,9 @@ import com.azure.android.communication.ui.CallComposite;
  *
  * @see CallComposite
  */
-public class LocalizationConfiguration {
-    private String language;
-    private boolean isRightToLeft;
+public final class LocalizationConfiguration {
+    private final String language;
+    private final boolean isRightToLeft;
 
     /**
      * Create Localization configuration.
@@ -34,15 +34,6 @@ public class LocalizationConfiguration {
     public LocalizationConfiguration(final String language, final boolean isRightToLeft) {
         this.language = language;
         this.isRightToLeft = isRightToLeft;
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language string eg,. "en"
-     */
-    public LocalizationConfiguration(final String language) {
-        this.language = language;
     }
 
     /**
