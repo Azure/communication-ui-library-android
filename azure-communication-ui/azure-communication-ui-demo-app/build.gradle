@@ -88,6 +88,12 @@ android {
     }
 }
 
+repositories {
+    flatDir{
+        dirs "lib"
+    }
+}
+
 dependencies {
     implementation project(path: ':azure-communication-ui')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
