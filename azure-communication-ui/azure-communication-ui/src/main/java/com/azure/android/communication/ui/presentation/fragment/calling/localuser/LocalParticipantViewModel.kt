@@ -37,8 +37,6 @@ internal class LocalParticipantViewModel(
     fun getEnableCameraSwitchFlow(): StateFlow<Boolean> = enableCameraSwitchFlow
     fun getCameraDeviceSelectionFlow(): StateFlow<CameraDeviceSelectionStatus> = cameraDeviceSelectionFlow
 
-
-
     fun update(
         displayName: String?,
         audioOperationalStatus: AudioOperationalStatus,
@@ -64,7 +62,6 @@ internal class LocalParticipantViewModel(
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
-
     }
 
     fun clear() {

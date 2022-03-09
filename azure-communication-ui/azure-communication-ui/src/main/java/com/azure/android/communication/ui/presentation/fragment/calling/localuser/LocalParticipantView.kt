@@ -128,14 +128,15 @@ internal class LocalParticipantView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCameraDeviceSelectionFlow().collect {
-                switchCameraButton.contentDescription = context.getString(
-                    when (it) {
-                        CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_switch_camera_button_back
-                        else -> R.string.azure_communication_ui_switch_camera_button_front
-
-                    }
-                )
+            viewModel.getCameraDeviceSelectionFlow().collect { cameraDeviceSelectionStatus ->
+                listOf(switchCameraButton, pipSwitchCameraButton).forEach {
+                    it.contentDescription = context.getString(
+                        when (cameraDeviceSelectionStatus) {
+                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_switch_camera_button_back
+                            else -> R.string.azure_communication_ui_switch_camera_button_front
+                        }
+                    )
+                }
             }
         }
     }
@@ -168,6 +169,4 @@ internal class LocalParticipantView : ConstraintLayout {
         }
         videoHolder.addView(view, 0)
     }
-
-
 }
