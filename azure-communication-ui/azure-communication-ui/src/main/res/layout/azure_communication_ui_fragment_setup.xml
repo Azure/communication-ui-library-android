@@ -12,6 +12,7 @@
     android:gravity="center_horizontal"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
+    android:focusableInTouchMode="false"
     tools:context="com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment"
     >
 
@@ -23,6 +24,7 @@
         android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp"
         android:backgroundTint="@color/azure_communication_ui_color_surface"
         android:clickable="true"
+
         android:focusableInTouchMode="true"
         app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_holder"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,6 +37,7 @@
             android:importantForAccessibility="no"
             android:layout_width="0dp"
             android:layout_height="0dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
+
             app:fluentui_avatarSize="xxlarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -258,6 +262,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="invisible"
+        android:contentDescription="kukar kukar 8"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

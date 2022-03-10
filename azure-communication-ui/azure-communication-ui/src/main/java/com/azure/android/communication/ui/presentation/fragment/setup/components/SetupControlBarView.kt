@@ -73,6 +73,20 @@ internal class SetupControlBarView : LinearLayout {
             }
         })
 
+        setupAudioDeviceButton.setAccessibilityDelegate(object : AccessibilityDelegate() {
+            override fun onInitializeAccessibilityNodeInfo(
+                v: View, info: AccessibilityNodeInfo,
+            ) {
+                super.onInitializeAccessibilityNodeInfo(v, info)
+
+                // A custom action description. For example, you could use "pause"
+                // to have TalkBack speak "double-tap to pause."
+
+               // info.text = "Select Audio Device"
+
+            }
+        })
+
 
         setupAudioDeviceButton.setOnClickListener {
           //  this.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
@@ -179,6 +193,9 @@ internal class SetupControlBarView : LinearLayout {
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
+
+                setupAudioDeviceButton.contentDescription = "Select Audio Device Speaker"
+
                 setupAudioDeviceButton.text = context.getString(
                     R.string.azure_communication_ui_setup_audio_device_speaker
                 )
@@ -196,6 +213,8 @@ internal class SetupControlBarView : LinearLayout {
                     0,
                     0
                 )
+                setupAudioDeviceButton.contentDescription = "Select Audio Device Android"
+
                 setupAudioDeviceButton.text = context.getString(
                     R.string.azure_communication_ui_setup_audio_device_android
                 )
@@ -207,6 +226,8 @@ internal class SetupControlBarView : LinearLayout {
                     0,
                     0
                 )
+                setupAudioDeviceButton.contentDescription = "Select Audio Device Bluetooth"
+
                 setupAudioDeviceButton.text =
                     context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
             }

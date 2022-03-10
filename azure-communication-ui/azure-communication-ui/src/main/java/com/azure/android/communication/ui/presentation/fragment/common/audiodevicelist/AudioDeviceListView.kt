@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
 import android.content.Context
+import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.RelativeLayout
@@ -38,8 +39,9 @@ internal class AudioDeviceListView(
     init {
         inflate(context, R.layout.azure_communication_ui_listview, this)
         deviceTable = findViewById(R.id.bottom_drawer_table)
+       // deviceTable.isAccessibilityHeading = false
         this.setBackgroundResource(R.color.azure_communication_ui_color_bottom_drawer_background)
-
+       // this.isAccessibilityHeading =false
         }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
@@ -53,6 +55,26 @@ internal class AudioDeviceListView(
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.displayAudioDeviceSelectionMenuStateFlow.collect {
                 if (it) {
+                    //deviceTable.isAccessibilityHeading = false
+                   // deviceTable.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
+
+                   /*deviceTable.setAccessibilityDelegate(object : AccessibilityDelegate() {
+                        override fun onInitializeAccessibilityNodeInfo(
+                            v: View, info: AccessibilityNodeInfo,
+                        ) {
+                            super.onInitializeAccessibilityNodeInfo(v, info)
+
+                            // A custom action description. For example, you could use "pause"
+                            // to have TalkBack speak "double-tap to pause."
+
+                             info.text = "Context Menu"
+                            //info.performAction(AccessibilityEvent.TYPE_VIEW_SELECTED)
+
+                        }
+                    })*/
+                 //   deviceTable.contentDescription = " Context Menu "
+                    //deviceTable.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+
                     showAudioDeviceSelectionMenu()
                 }
             }
@@ -78,6 +100,8 @@ internal class AudioDeviceListView(
     }
 
     private fun showAudioDeviceSelectionMenu() {
+        //deviceTable.announceForAccessibility("End Call")
+
         audioDeviceDrawer.show()
     }
 

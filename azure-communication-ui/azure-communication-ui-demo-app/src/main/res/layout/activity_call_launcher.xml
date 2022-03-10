@@ -9,6 +9,7 @@
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
+    android:focusableInTouchMode="false"
     tools:context=".CallLauncherActivity"
     >
 
