@@ -24,7 +24,7 @@ internal class CallingReducerUnitTest {
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(CallingStatus.CONNECTED, newState.CallingStatus)
+        Assert.assertEquals(CallingStatus.CONNECTED, newState.callingStatus)
     }
 
     @Test
@@ -38,6 +38,6 @@ internal class CallingReducerUnitTest {
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(CallingStatus.NONE, newState.CallingStatus)
+        Assert.assertEquals(CallingStatus.NONE, newState.callingStatus)
     }
 }
