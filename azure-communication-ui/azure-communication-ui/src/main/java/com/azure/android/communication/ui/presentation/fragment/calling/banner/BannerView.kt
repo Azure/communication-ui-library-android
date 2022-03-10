@@ -55,6 +55,7 @@ internal class BannerView : ConstraintLayout {
         if (bannerInfoType != BannerInfoType.BLANK) {
             bannerText.text = getBannerInfo(bannerInfoType)
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
+            announceForAccessibility(bannerText.text)
         }
     }
 
