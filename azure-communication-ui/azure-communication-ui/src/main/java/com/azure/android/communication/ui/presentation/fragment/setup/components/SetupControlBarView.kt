@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
@@ -65,7 +66,7 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioOperationalStatusStateFlow().collect {
-                setMicButtonState(it)
+                setMicButtonState(it, viewModel.getApplicationLocalizationProvider())
             }
         }
 
@@ -77,7 +78,7 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraState().collect {
-                setCameraButtonState(it)
+                setCameraButtonState(it, viewModel.getApplicationLocalizationProvider())
                 setButtonColorOnCameraState(it)
             }
         }
@@ -95,30 +96,43 @@ internal class SetupControlBarView : LinearLayout {
         }
     }
 
-    private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {
+    private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus,
+                                    appLocalizationProvider: LocalizationProvider) {
         when (audioOperationalStatus) {
             AudioOperationalStatus.ON -> {
                 micButton.isSelected = true
-                micButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_mic_on)
+                micButton.text = appLocalizationProvider.getLocalizedString(context.resources
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_mic_on),
+                        context.getString(R.string.azure_communication_ui_setup_mic_on)
+                )
+
             }
             AudioOperationalStatus.OFF -> {
                 micButton.isSelected = false
-                micButton.text =
-                    context.getString(R.string.azure_communication_ui_setup_mic_off)
+                micButton.text = appLocalizationProvider.getLocalizedString(context.resources
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_mic_off),
+                        context.getString(R.string.azure_communication_ui_setup_mic_off)
+                    )
             }
         }
     }
 
-    private fun setCameraButtonState(operation: CameraOperationalStatus) {
+    private fun setCameraButtonState(operation: CameraOperationalStatus,
+                                     appLocalizationProvider: LocalizationProvider) {
         when (operation) {
             CameraOperationalStatus.ON -> {
                 cameraButton.isSelected = true
-                cameraButton.text = context.getString(R.string.azure_communication_ui_setup_video_on)
+                cameraButton.text = appLocalizationProvider.getLocalizedString(context.resources
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_video_on),
+                        context.getString(R.string.azure_communication_ui_setup_video_on)
+                    )
             }
             CameraOperationalStatus.OFF -> {
                 cameraButton.isSelected = false
-                cameraButton.text = context.getString(R.string.azure_communication_ui_setup_video_off)
+                cameraButton.text = appLocalizationProvider.getLocalizedString(context.resources
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_video_off),
+                        context.getString(R.string.azure_communication_ui_setup_video_off)
+                    )
             }
         }
     }
@@ -150,10 +164,6 @@ internal class SetupControlBarView : LinearLayout {
         )
     }
 
-// <<<<<<< HEAD
-//    private fun setAudioDeviceButtonState(audioState: AudioState) {
-//        when (audioState.device) {
-// =======
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         audioDeviceButton.text = when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
