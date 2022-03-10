@@ -5,19 +5,19 @@ package com.azure.android.communication.ui.configuration
 
 internal class AppLocalizationProvider : LocalizationProvider {
     private lateinit var language: String
-    private lateinit var customString: Map<String, String>
+    private var customString: Map<String, String>? = null
 
     override fun apply(localeConfig: LocalizationConfiguration) {
         val supportedLocales = getSupportedLocales()
-        if(supportedLocales.contains(localeConfig?.language)) {
+        if (supportedLocales.contains(localeConfig?.language)) {
             language = localeConfig.language
             customString = localeConfig.customString
         }
     }
 
     override fun getLocalizedString(localeKey: String, sdkLocale: String): String {
-        if (customString?.containsKey(localeKey)) {
-            return customString[localeKey]!!
+        if (customString?.containsKey(localeKey) == true) {
+            return customString!![localeKey]!!
         } else return sdkLocale
     }
 
