@@ -99,7 +99,7 @@ internal class CallingViewModel(
             state.localParticipantState.audioState.operation,
             state.localParticipantState.videoStreamID,
             state.remoteParticipantState.participantMap.count(),
-            state.callState.CallingStatus,
+            state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
         )
 
@@ -118,7 +118,7 @@ internal class CallingViewModel(
             state.localParticipantState
         )
 
-        lobbyOverlayViewModel.init(state.callState.CallingStatus)
+        lobbyOverlayViewModel.init(state.callState.callingStatus)
 
         super.init(coroutineScope)
     }
@@ -142,7 +142,7 @@ internal class CallingViewModel(
             state.localParticipantState.audioState.operation,
             state.localParticipantState.videoStreamID,
             state.remoteParticipantState.participantMap.count(),
-            state.callState.CallingStatus,
+            state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
         )
 
@@ -150,7 +150,7 @@ internal class CallingViewModel(
             state.localParticipantState.audioState,
         )
 
-        lobbyOverlayViewModel.update(state.callState.CallingStatus)
+        lobbyOverlayViewModel.update(state.callState.callingStatus)
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
@@ -174,5 +174,5 @@ internal class CallingViewModel(
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
-        state.callState.CallingStatus == CallingStatus.CONNECTED
+        state.callState.callingStatus == CallingStatus.CONNECTED
 }
