@@ -49,7 +49,7 @@ internal class SetupControlBarViewModel(
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         callingStatusStateFlow = MutableStateFlow(callingState.callingStatus)
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState)
-        
+
         if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
             requestAudioPermission()
         }
@@ -70,7 +70,6 @@ internal class SetupControlBarViewModel(
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState
         callingStatusStateFlow.value = callingState.callingStatus
-
     }
 
     private fun isVisible(audioPermissionState: PermissionStatus): Boolean {
