@@ -6,8 +6,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp.features
 import android.content.Context
 import android.os.Build
 import com.azure.android.communication.ui.callingcompositedemoapp.R
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.FpsDiagnostics
-import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MemoryViewer
+import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MagnifierViewer
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlagEntry
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 
@@ -25,12 +24,10 @@ class AdditionalFeatures private constructor() {
             defaultBooleanId = R.bool.azure_communication_ui_feature_flag_test_false,
             labelId = R.string.diagnostics,
             start = {
-                MemoryViewer.getMemoryViewer(it).show()
-                FpsDiagnostics.getFpsDiagnostics(it).start()
+                MagnifierViewer.getMagnifierViewer(it).show()
             },
             end = {
-                MemoryViewer.getMemoryViewer(it).hide()
-                FpsDiagnostics.getFpsDiagnostics(it).stop()
+                MagnifierViewer.getMagnifierViewer(it).hide()
             }
         )
 
