@@ -417,34 +417,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
     }
 
     @Test
-    fun deviceStateReducer_reduce_when_BluetoothFallbackToLastDevice() {
-        // arrange
-        val reducer = LocalParticipantStateReducerImpl()
-        val oldState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.PENDING,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            AudioState(
-                AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
-                BluetoothState(available = false, deviceName = "bluetooth"),
-                devicePriorToBluetooth = AudioDeviceSelectionStatus.SPEAKER_REQUESTED
-            ),
-            videoStreamID = "some video stream id",
-            displayName = null
-        )
-
-        val action = LocalParticipantAction.RevertToLastAudioDevice()
-        // act
-        val newState = reducer.reduce(oldState, action)
-
-        // assert
-        Assert.assertEquals(AudioDeviceSelectionStatus.SPEAKER_REQUESTED, newState.audioState.device)
-    }
-
-    @Test
     fun deviceStateReducer_reduce_when_CameraSwitchTriggered_then_changeState() {
 
         // arrange

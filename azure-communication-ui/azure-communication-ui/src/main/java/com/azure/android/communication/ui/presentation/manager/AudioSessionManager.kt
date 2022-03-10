@@ -45,6 +45,7 @@ internal class AudioSessionManager(
         }
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
+    private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
 
     suspend fun start() {
         BluetoothAdapter.getDefaultAdapter()?.run {
@@ -86,10 +87,15 @@ internal class AudioSessionManager(
             store.getCurrentState().localParticipantState.audioState.bluetoothState.available &&
             store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
         ) {
-            // If bluetooth dropped
             store.dispatch(
-                LocalParticipantAction.RevertToLastAudioDevice()
+                LocalParticipantAction.AudioDeviceChangeRequested(
+                    when (priorToBluetoothAudioSelectionStatus) {
+                        AudioDeviceSelectionStatus.RECEIVER_SELECTED -> AudioDeviceSelectionStatus.RECEIVER_REQUESTED
+                        else -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+                    }
+                )
             )
+            // If bluetooth dropped, go back to last device
         }
 
         if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.bluetoothState.available) {
@@ -100,6 +106,8 @@ internal class AudioSessionManager(
                     bluetoothDeviceName
                 )
             )
+
+            priorToBluetoothAudioSelectionStatus = store.getCurrentState().localParticipantState.audioState.device
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeRequested(
                     AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
