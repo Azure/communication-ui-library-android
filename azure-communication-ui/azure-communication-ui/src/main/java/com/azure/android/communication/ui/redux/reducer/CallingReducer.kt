@@ -13,13 +13,16 @@ internal class CallStateReducerImpl : CallStateReducer {
     override fun reduce(callingState: CallingState, action: Action): CallingState {
         return when (action) {
             is CallingAction.StateUpdated -> {
-                callingState.copy(CallingStatus = action.callingState)
+                callingState.copy(callingStatus = action.callingState, joinCallIsRequested = false)
             }
             is CallingAction.IsRecordingUpdated -> {
                 callingState.copy(isRecording = action.isRecording)
             }
             is CallingAction.IsTranscribingUpdated -> {
                 callingState.copy(isTranscribing = action.isTranscribing)
+            }
+            is CallingAction.CallStartRequested -> {
+                callingState.copy(joinCallIsRequested = true)
             }
             else -> callingState
         }
