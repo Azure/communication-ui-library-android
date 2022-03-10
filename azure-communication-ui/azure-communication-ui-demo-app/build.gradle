@@ -16,8 +16,8 @@ android {
         applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 1
-        versionName "0.0.0"
+        versionCode ui_library_version_code
+        versionName "$ui_library_version_name"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
