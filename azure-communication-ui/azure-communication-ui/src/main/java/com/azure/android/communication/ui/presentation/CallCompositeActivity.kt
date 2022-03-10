@@ -23,7 +23,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
