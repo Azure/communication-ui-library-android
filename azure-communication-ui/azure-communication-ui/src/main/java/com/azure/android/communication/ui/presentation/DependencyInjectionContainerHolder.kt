@@ -45,7 +45,7 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     }
 
     val localizationProvider: LocalizationProvider by lazy {
-        if(localizationConfiguration == null) {
+        if (localizationConfiguration == null) {
             // logger or exception to show warning
         }
 

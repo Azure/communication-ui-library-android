@@ -103,16 +103,15 @@ internal class SetupControlBarView : LinearLayout {
                 micButton.isSelected = true
                 micButton.text = appLocalizationProvider.getLocalizedString(context.resources
                         .getResourceEntryName(R.string.azure_communication_ui_setup_mic_on),
-                        context.getString(R.string.azure_communication_ui_setup_mic_on)
+                    context.getString(R.string.azure_communication_ui_setup_mic_on)
                 )
-
             }
             AudioOperationalStatus.OFF -> {
                 micButton.isSelected = false
                 micButton.text = appLocalizationProvider.getLocalizedString(context.resources
                         .getResourceEntryName(R.string.azure_communication_ui_setup_mic_off),
-                        context.getString(R.string.azure_communication_ui_setup_mic_off)
-                    )
+                    context.getString(R.string.azure_communication_ui_setup_mic_off)
+                )
             }
         }
     }
@@ -124,15 +123,15 @@ internal class SetupControlBarView : LinearLayout {
                 cameraButton.isSelected = true
                 cameraButton.text = appLocalizationProvider.getLocalizedString(context.resources
                         .getResourceEntryName(R.string.azure_communication_ui_setup_video_on),
-                        context.getString(R.string.azure_communication_ui_setup_video_on)
-                    )
+                    context.getString(R.string.azure_communication_ui_setup_video_on)
+                )
             }
             CameraOperationalStatus.OFF -> {
                 cameraButton.isSelected = false
                 cameraButton.text = appLocalizationProvider.getLocalizedString(context.resources
                         .getResourceEntryName(R.string.azure_communication_ui_setup_video_off),
-                        context.getString(R.string.azure_communication_ui_setup_video_off)
-                    )
+                    context.getString(R.string.azure_communication_ui_setup_video_off)
+                )
             }
         }
     }

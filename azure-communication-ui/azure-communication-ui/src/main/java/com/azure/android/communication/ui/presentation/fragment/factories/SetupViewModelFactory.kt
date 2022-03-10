@@ -15,8 +15,10 @@ import com.azure.android.communication.ui.presentation.fragment.setup.components
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 
-internal class SetupViewModelFactory(private val store: Store<ReduxState>,
-    private val appLocalizationProvider: LocalizationProvider) {
+internal class SetupViewModelFactory(
+    private val store: Store<ReduxState>,
+    private val appLocalizationProvider: LocalizationProvider
+) {
 
     private val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
