@@ -8,11 +8,11 @@ internal class AppLocalizationProvider : LocalizationProvider {
     private lateinit var customString: Map<String, String>
 
     override fun apply(localeConfig: LocalizationConfiguration) {
-        val supportedLocales = getSupportedLanguages()
-        // if(supportedLocales.contains(localeConfig.language)) {
-        language = localeConfig.language
-        customString = localeConfig.customString
-        // }
+        val supportedLocales = getSupportedLocales()
+        if(supportedLocales.contains(localeConfig?.language)) {
+            language = localeConfig.language
+            customString = localeConfig.customString
+        }
     }
 
     override fun getLocalizedString(localeKey: String, sdkLocale: String): String {
@@ -25,6 +25,10 @@ internal class AppLocalizationProvider : LocalizationProvider {
 
         fun getSupportedLanguages(): List<String> {
             return SupportedLanguages.values().map { it.toString() }
+        }
+
+        fun getSupportedLocales(): List<String> {
+            return SupportedLanguages.values().map { it -> it.getLanguageCode(it) }
         }
     }
 }
