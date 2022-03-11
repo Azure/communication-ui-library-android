@@ -12,6 +12,9 @@
     <string name="azure_communication_ui_setup_audio_device_android">Android</string>
     <string name="azure_communication_ui_setup_audio_device_speaker">Speaker</string>
     <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_android_content_description">Select Audio Device Android</string>
+    <string name="azure_communication_ui_setup_audio_device_speaker_content_description">Select Audio Device Speaker</string>
+    <string name="azure_communication_ui_setup_audio_device_bluetooth_content_description">Select Audio Device Bluetooth</string>
     <string name="azure_communication_ui_setup_audio_device_selected">Selected</string>
     <string name="azure_communication_ui_setup_join_call">Join call</string>
     <string name="azure_communication_ui_setup_connecting_call">Joining call…</string>
