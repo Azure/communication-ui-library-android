@@ -16,8 +16,8 @@ android {
         applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 1
-        versionName "0.0.0"
+        versionCode ui_library_version_code
+        versionName "$ui_library_version_name"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -103,7 +103,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
-    implementation(name: "magnifier-0.0.14", ext: 'aar')
+    implementation(name: "magnifier-0.0.17", ext: 'aar')
     implementation "com.microsoft.appcenter:appcenter-analytics:4.1.0"
     implementation "com.microsoft.appcenter:appcenter-crashes:4.1.0"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
