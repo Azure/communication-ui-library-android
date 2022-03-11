@@ -7,6 +7,9 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlagEntry
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
