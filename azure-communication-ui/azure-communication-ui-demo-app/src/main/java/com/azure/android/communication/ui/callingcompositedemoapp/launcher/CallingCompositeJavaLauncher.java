@@ -36,6 +36,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final UUID groupId,
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
+
         final Map<String, String> overrideString = new HashMap<>();
         overrideString.put("azure_communication_ui_setup_mic_on", "মাইক অন");
         overrideString.put("azure_communication_ui_setup_mic_off", "মাইক বন্ধ");
