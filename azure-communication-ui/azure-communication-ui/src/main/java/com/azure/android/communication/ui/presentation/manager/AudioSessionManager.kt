@@ -18,6 +18,14 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
 import java.lang.IllegalArgumentException
+import android.media.AudioDeviceInfo
+import android.os.Build
+import androidx.core.content.ContextCompat
+
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
@@ -41,7 +49,7 @@ internal class AudioSessionManager(
         BluetoothAdapter.getDefaultAdapter()?.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
 
-            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED, AudioManager.ACTION_HEADSET_PLUG)
 
             try {
                 context.unregisterReceiver(this@AudioSessionManager)
@@ -55,6 +63,8 @@ internal class AudioSessionManager(
 
         initializeAudioDeviceState()
         updateBluetoothStatus()
+        updateHeadphoneStatus()
+
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
                 previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
@@ -66,7 +76,19 @@ internal class AudioSessionManager(
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) = updateBluetoothStatus()
+    override fun onReceive(context: Context?, intent: Intent?) {
+        intent?.apply {
+            when (action) {
+                BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED -> updateBluetoothStatus()
+                AudioManager.ACTION_HEADSET_PLUG -> updateHeadphoneStatus()
+            }
+        }
+    }
+
+
+    private fun updateHeadphoneStatus() {
+        store.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(isHeadsetActive()))
+    }
 
     // Update the status of bluetooth
     // Connect a headset automatically if bluetooth is connected
@@ -105,6 +127,26 @@ internal class AudioSessionManager(
                 )
             )
         }
+    }
+
+
+
+    private fun isHeadsetActive() : Boolean{
+        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+             val audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            for (deviceInfo in audioDevices) {
+                if (deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
+                    || deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADSET
+                ) {
+                    return true
+                }
+            }
+             return false
+        } else {
+            return audioManager.isWiredHeadsetOn
+        }
+        return false
     }
 
     private fun initializeAudioDeviceState() {

@@ -178,6 +178,13 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     )
                 )
             }
+            is LocalParticipantAction.AudioDeviceHeadsetAvailable -> {
+                localUserState.copy(
+                    audioState = localUserState.audioState.copy(
+                        isHeadphonePlugged = action.available
+                    )
+                )
+            }
             is LocalParticipantAction.AudioDeviceChangeRequested -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(

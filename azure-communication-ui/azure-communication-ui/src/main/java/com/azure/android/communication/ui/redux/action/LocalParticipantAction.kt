@@ -57,6 +57,7 @@ internal sealed class LocalParticipantAction : Action {
         LocalParticipantAction()
 
     class AudioDeviceBluetoothSCOAvailable(val available: Boolean) : LocalParticipantAction()
+    class AudioDeviceHeadsetAvailable(val available: Boolean) : LocalParticipantAction()
 
     class AudioDeviceChangeFailed(
         val previousDevice: AudioDeviceSelectionStatus,

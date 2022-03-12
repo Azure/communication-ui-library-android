@@ -63,6 +63,8 @@ internal class AudioDeviceListView(
                 deviceTable.adapter = bottomCellAdapter
             }
         }
+
+
     }
 
     fun stop() {
