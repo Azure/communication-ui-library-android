@@ -49,7 +49,8 @@ internal class AudioSessionManager(
         BluetoothAdapter.getDefaultAdapter()?.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
 
-            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED, AudioManager.ACTION_HEADSET_PLUG)
+            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+            filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
 
             try {
                 context.unregisterReceiver(this@AudioSessionManager)
