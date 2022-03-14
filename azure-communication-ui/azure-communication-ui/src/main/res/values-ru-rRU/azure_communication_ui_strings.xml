@@ -15,8 +15,10 @@
     <string name="azure_communication_ui_setup_view_button_mic_off">Микрофон выключен</string>
     <string name="azure_communication_ui_setup_view_button_mic_on">Микрофон включен</string>
     <string name="azure_communication_ui_setup_view_button_join_call">Присоединиться к звонку</string>
-    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать этот звонок, включите звук.</string>
-    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ.</string>
+    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать
+        этот звонок, включите звук.</string>
+    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры",
+        чтобы разрешить доступ.</string>
     <string name="azure_communication_ui_setup_view_warning_missing_text">Требуются разрешения</string>
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Выбрано</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Настройка градиента</string>
@@ -29,7 +31,7 @@
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Ожидание присоединения других участников</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Звонок с 1 пользователем</string>
-    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с %1$d людьми</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(Я)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
     <string name="azure_communication_ui_calling_view_overlay_leave_call">Покинуть звонок</string>
@@ -38,28 +40,28 @@
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Уведомления отключены</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Повесить трубку</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Включить или отключить видео</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Переключить звук</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Включить или отключить звук</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Параметры устройства</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>началась запись. </b> Присоединившись, вы
         предоставление согласия на транскрибирование этого собрания.
          <u>политики конфиденциальности</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>запись сохраняется.</b> запись остановлена.
-         <u>Дополнительные сведения</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Запись сохраняется.</b> Запись остановлена.
+         <u>Подробнее</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>транскрибирование запущено. </b> Присоединяясь, вы
         дают согласие на транскрибирование этого собрания. <u>политики конфиденциальности</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>транскрибирование сохраняется.</b> транскрибирование
-        остановлено. <u>Дополнительные сведения</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>записи и транскрибирования
-        started.</b> Присоединяясь, вы даете согласие на транскрибирование этого собрания
-        . <u>политики конфиденциальности</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>записи и транскрибирования:
-        сохраняются.</b> запись и транскрибирование остановлены. <u>Дополнительные сведения</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>запись остановлена.</b> You
-        транскрибирование этого собрания. <u>политики конфиденциальности</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>транскрибирование остановлено.
-    </b> Сейчас вы записываете только это собрание. <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Транскрибирование сохраняется.</b> Транскрибирование
+        остановлено. <u>Подробнее</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Запись и транскрибирование
+        начаты.</b> Присоединяясь, вы даете согласие на транскрибирование этого собрания
+        . <u>Политика конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Запись и транскрибирование
+        сохраняются.</b> Запись и транскрибирование остановлены. <u>Подробнее</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Запись остановлена.</b> Теперь вы
+        только транскрибируете это собрание. <u>Политика конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Транскрибирование остановлено.
+    </b> Теперь вы только записываете это собрание. <u>Политика конфиденциальности</u></string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Закрыть</string>

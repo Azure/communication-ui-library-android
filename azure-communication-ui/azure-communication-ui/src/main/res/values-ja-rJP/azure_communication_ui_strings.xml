@@ -14,12 +14,12 @@
     <string name="azure_communication_ui_setup_view_button_video_on">ビデオ オン</string>
     <string name="azure_communication_ui_setup_view_button_mic_off">マイク オフ</string>
     <string name="azure_communication_ui_setup_view_button_mic_on">マイク オン</string>
-    <string name="azure_communication_ui_setup_view_button_join_call">通話に参加</string>
+    <string name="azure_communication_ui_setup_view_button_join_call">通話に参加する</string>
     <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">オーディオが無効になっています。有効にするには、[設定] に移動してアクセスを許可してください。この通話を開始するには、オーディオを有効にする必要があります。</string>
     <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">カメラが無効になっています。有効にするには、[設定] に移動してアクセスを許可してください。</string>
     <string name="azure_communication_ui_setup_view_warning_missing_text">アクセス許可が必要です</string>
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">選択済み</string>
-    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">グラデーションのセットアップ</string>
+    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">グラデーションの設定</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">カメラの切り替えボタン</string>
 
     <!--    Lobby View-->
@@ -29,15 +29,15 @@
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">他のユーザーの参加を待っています</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 人のユーザーと通話</string>
-    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d人と通話</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d 人のユーザーと通話</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(自分)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">名前のない参加者</string>
     <string name="azure_communication_ui_calling_view_overlay_leave_call">通話から退出</string>
-    <string name="azure_communication_ui_calling_view_overlay_cancel">取り消す</string>
-    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">参加者リストを開きます</string>
+    <string name="azure_communication_ui_calling_view_overlay_cancel">キャンセル</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">参加者リストを開く</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">ミュート状態</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">切断</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">ビデオの表示/非表示</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">ビデオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">オーディオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">デバイス オプション</string>
 
@@ -62,7 +62,7 @@
     </b> You are now only recording this meeting. <u>Privacy policy</u></string>
 
     <!--    PopUp warning-->
-    <string name="azure_communication_ui_snack_bar_button_dismiss">閉じる</string>
+    <string name="azure_communication_ui_snack_bar_button_dismiss">却下</string>
     <string name="azure_communication_ui_cal_state_error_call_end">エラーが発生したため、通話から削除されました。</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">エラーが発生したため、通話に参加できません。</string>
 
