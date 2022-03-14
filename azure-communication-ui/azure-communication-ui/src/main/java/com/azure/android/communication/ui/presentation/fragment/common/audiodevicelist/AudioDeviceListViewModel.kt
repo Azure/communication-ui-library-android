@@ -26,7 +26,6 @@ internal class AudioDeviceListViewModel(
     val displayAudioDeviceSelectionMenuStateFlow = displayAudioDeviceSelectionMenuMutableStateFlow as StateFlow<Boolean>
     val audioStateFlow get() = audioStateMutableStateFlow as StateFlow<AudioState>
 
-
     fun init(audioState: AudioState) {
         audioStateMutableStateFlow = MutableStateFlow(audioState)
     }

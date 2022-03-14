@@ -157,7 +157,10 @@ internal class SetupControlBarView : LinearLayout {
                 context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                context.getString(R.string.azure_communication_ui_setup_audio_device_android)
+                when (audioState.isHeadphonePlugged) {
+                    true -> context.getString(R.string.azure_communication_ui_setup_audio_device_headphone)
+                    false -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
+                }
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
                 if (audioState.bluetoothState.deviceName.isNotBlank()) {

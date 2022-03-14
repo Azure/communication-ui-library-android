@@ -22,12 +22,9 @@ import kotlinx.coroutines.flow.collect
 import java.lang.IllegalArgumentException
 import android.media.AudioDeviceInfo
 import android.os.Build
-import androidx.core.content.ContextCompat
 
 import androidx.core.content.ContextCompat.getSystemService
-import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
-
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
@@ -58,7 +55,7 @@ internal class AudioSessionManager(
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
 
-    private val btAdapter : BluetoothAdapter get() {
+    private val btAdapter: BluetoothAdapter get() {
         val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         return manager.adapter
     }
@@ -92,14 +89,14 @@ internal class AudioSessionManager(
             }
 
             // After permission is granted, double check bluetooth status
-            if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED
-                && previousPermissionState != PermissionStatus.GRANTED) {
+            if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
+                previousPermissionState != PermissionStatus.GRANTED
+            ) {
                 updateBluetoothStatus()
             }
 
             previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
             previousPermissionState = it.permissionState.audioPermissionState
-
         }
     }
 
@@ -111,7 +108,6 @@ internal class AudioSessionManager(
             }
         }
     }
-
 
     private fun updateHeadphoneStatus() {
         store.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(isHeadsetActive()))
@@ -163,20 +159,18 @@ internal class AudioSessionManager(
         }
     }
 
-
-
-    private fun isHeadsetActive() : Boolean{
+    private fun isHeadsetActive(): Boolean {
         val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-             val audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
             for (deviceInfo in audioDevices) {
-                if (deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
-                    || deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADSET
+                if (deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
+                    deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADSET
                 ) {
                     return true
                 }
             }
-             return false
+            return false
         } else {
             return audioManager.isWiredHeadsetOn
         }
