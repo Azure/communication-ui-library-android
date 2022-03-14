@@ -174,7 +174,11 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
             is LocalParticipantAction.AudioDeviceBluetoothSCOAvailable -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
-                        isBluetoothSCOAvailable = action.available
+                        bluetoothState = localUserState.audioState.bluetoothState.copy(
+                            available = action.available,
+                            deviceName = action.deviceName
+                        )
+
                     )
                 )
             }
@@ -186,6 +190,7 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                 )
             }
             is LocalParticipantAction.AudioDeviceChangeRequested -> {
+
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
                         device = action.requestedAudioDevice,
@@ -193,6 +198,7 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     )
                 )
             }
+
             is LocalParticipantAction.AudioDeviceChangeSucceeded -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(

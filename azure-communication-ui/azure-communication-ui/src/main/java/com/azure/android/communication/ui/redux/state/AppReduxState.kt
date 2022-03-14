@@ -21,6 +21,10 @@ internal class AppReduxState(displayName: String?) : ReduxState {
             AudioState(
                 operation = AudioOperationalStatus.OFF,
                 device = AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                bluetoothState = BluetoothState(
+                    available = false,
+                    deviceName = ""
+                )
             ),
             videoStreamID = null,
             displayName = displayName

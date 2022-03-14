@@ -12,17 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
-internal enum class AudioDeviceType {
-    BLUETOOTH_SCO,
-    ANDROID,
-    SPEAKER,
-}
 
 internal class AudioDeviceListView(
     private val viewModel: AudioDeviceListViewModel,
@@ -42,7 +37,7 @@ internal class AudioDeviceListView(
     fun start(viewLifecycleOwner: LifecycleOwner) {
         initializeAudioDeviceDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.audioDeviceSelectionStatusStateFlow.collect {
+            viewModel.audioStateFlow.collect {
                 updateSelectedAudioDevice(it)
             }
         }
@@ -56,7 +51,7 @@ internal class AudioDeviceListView(
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.bluetoothScoAvailableStateFlow.collect {
+            viewModel.audioStateFlow.collect {
                 // / rebind the list of items
                 bottomCellAdapter = BottomCellAdapter(context)
                 bottomCellAdapter.setBottomCellItems(bottomCellItems)
@@ -96,7 +91,7 @@ internal class AudioDeviceListView(
 
     private val bottomCellItems: List<BottomCellItem>
         get() {
-            val initialDevice = viewModel.audioDeviceSelectionStatusStateFlow.value
+            val initialDevice = viewModel.audioStateFlow.value.device
             val bottomCellItems = mutableListOf(
                 // Receiver (default)
                 BottomCellItem(
@@ -104,7 +99,7 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
                     ),
-                    getDeviceTypeName(AudioDeviceType.ANDROID),
+                    context.getString(R.string.azure_communication_ui_setup_audio_device_android),
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
@@ -122,7 +117,7 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
                     ),
-                    getDeviceTypeName(AudioDeviceType.SPEAKER),
+                    context.getString(R.string.azure_communication_ui_setup_audio_device_speaker),
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
@@ -138,14 +133,16 @@ internal class AudioDeviceListView(
 
             )
 
-            if (viewModel.bluetoothScoAvailableStateFlow.value) {
+            if (viewModel.audioStateFlow.value.bluetoothState.available) {
+                // Remove the first item (Receiver)
+                bottomCellItems.removeAt(0)
                 bottomCellItems.add(
                     BottomCellItem(
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
                         ),
-                        getDeviceTypeName(AudioDeviceType.BLUETOOTH_SCO),
+                        viewModel.audioStateFlow.value.bluetoothState.deviceName,
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
@@ -164,27 +161,17 @@ internal class AudioDeviceListView(
             return bottomCellItems
         }
 
-    private fun updateSelectedAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
+    private fun updateSelectedAudioDevice(audioState: AudioState) {
         if (this::bottomCellAdapter.isInitialized) {
-            when (audioDeviceSelectionStatus) {
-                AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
-                    bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(AudioDeviceType.SPEAKER))
-                }
-                AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                    bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(AudioDeviceType.ANDROID))
-                }
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                    bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(AudioDeviceType.BLUETOOTH_SCO))
-                }
-            }
+            bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(audioState))
         }
     }
 
-    private fun getDeviceTypeName(audioDeviceType: AudioDeviceType): String {
-        return when (audioDeviceType) {
-            AudioDeviceType.ANDROID -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
-            AudioDeviceType.SPEAKER -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
-            AudioDeviceType.BLUETOOTH_SCO -> context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+    private fun getDeviceTypeName(audioState: AudioState): String {
+        return when (audioState.device) {
+            AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
+            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> audioState.bluetoothState.deviceName
         }
     }
 }

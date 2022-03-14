@@ -80,7 +80,7 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
-                setAudioDeviceButtonState(it)
+                setAudioDeviceButtonState(it.device)
             }
         }
 
@@ -129,6 +129,10 @@ internal class SetupControlBarView : LinearLayout {
         audioDeviceButton.refreshDrawableState()
     }
 
+// <<<<<<< HEAD
+//    private fun setAudioDeviceButtonState(audioState: AudioState) {
+//        when (audioState.device) {
+// =======
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         audioDeviceButton.text = when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {

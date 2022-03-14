@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.model.VideoStreamModel
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
@@ -88,7 +89,10 @@ internal class ParticipantListViewModelUnitTest {
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                AudioState(
+                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
@@ -144,7 +148,10 @@ internal class ParticipantListViewModelUnitTest {
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                AudioState(
+                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
@@ -163,7 +170,11 @@ internal class ParticipantListViewModelUnitTest {
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
@@ -234,7 +245,11 @@ internal class ParticipantListViewModelUnitTest {
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
