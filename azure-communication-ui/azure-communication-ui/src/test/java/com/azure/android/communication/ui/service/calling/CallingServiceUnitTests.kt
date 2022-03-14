@@ -12,14 +12,15 @@ import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.helper.TestContextProvider
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.redux.state.CallingStatus
-import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
+import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
+import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.service.calling.sdk.CallingStateWrapper
 import java9.util.concurrent.CompletableFuture
@@ -96,6 +97,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.CONNECTED, 0)
@@ -233,6 +235,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             remoteParticipantsInfoModelSharedFlow.emit(remoteParticipantsInfoModelMap)
@@ -379,6 +382,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
 
@@ -440,6 +444,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
 
@@ -500,6 +505,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.DISCONNECTED, 1)
@@ -560,6 +566,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.NONE, 1))

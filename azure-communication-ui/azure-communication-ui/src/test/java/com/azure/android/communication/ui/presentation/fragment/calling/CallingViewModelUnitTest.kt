@@ -15,20 +15,21 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.redux.AppStore
-import com.azure.android.communication.ui.redux.state.AppReduxState
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.AudioState
-import com.azure.android.communication.ui.redux.state.CallingState
-import com.azure.android.communication.ui.redux.state.CallingStatus
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.redux.state.CameraState
+import com.azure.android.communication.ui.redux.state.AppReduxState
+import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.redux.state.LocalUserState
+import com.azure.android.communication.ui.redux.state.CallingStatus
+import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.redux.state.LifecycleState
 import com.azure.android.communication.ui.redux.state.LifecycleStatus
-import com.azure.android.communication.ui.redux.state.LocalUserState
-import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -360,7 +361,11 @@ internal class CallingViewModelUnitTest {
             CameraDeviceSelectionStatus.FRONT,
             CameraTransmissionStatus.LOCAL
         ),
-        AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+        AudioState(
+            AudioOperationalStatus.OFF,
+            AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+            BluetoothState(available = false, deviceName = "bluetooth")
+        ),
         "test",
         "test"
     )
