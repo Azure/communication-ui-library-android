@@ -4,9 +4,13 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -127,6 +131,23 @@ internal class SetupControlBarView : LinearLayout {
         cameraButton.refreshDrawableState()
         micButton.refreshDrawableState()
         audioDeviceButton.refreshDrawableState()
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            setOldAPIButtonColor(cameraButton)
+            setOldAPIButtonColor(micButton)
+            setOldAPIButtonColor(audioDeviceButton)
+        }
+    }
+
+    private fun setOldAPIButtonColor(button: SetupButton) {
+        val color = if (!button.isEnabled) R.color.azure_communication_ui_color_on_surface_disabled
+        else if (button.isCameraON) R.color.azure_communication_ui_color_on_surface_camera_active
+        else R.color.azure_communication_ui_color_on_surface
+
+        button.compoundDrawables[1].colorFilter = PorterDuffColorFilter(
+            ContextCompat.getColor(context, color),
+            PorterDuff.Mode.SRC_IN
+        )
     }
 
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
@@ -166,7 +187,7 @@ internal class SetupControlBarView : LinearLayout {
     }
 }
 
-internal class SetupButton(context: Context, attrs: AttributeSet?) :
+internal open class SetupButton(context: Context, attrs: AttributeSet?) :
     AppCompatButton(context, attrs) {
 
     var isCameraON = false
@@ -181,18 +202,14 @@ internal class SetupButton(context: Context, attrs: AttributeSet?) :
 }
 
 internal class AudioDeviceSetupButton(context: Context, attrs: AttributeSet?) :
-    AppCompatButton(context, attrs) {
+    SetupButton(context, attrs) {
 
-    var isCameraON = false
     var isSpeakerON = false
     var isReceiverON = false
     var isBluetoothON = false
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray? {
         val drawableState = super.onCreateDrawableState(extraSpace + 4)
-        if (isCameraON) {
-            mergeDrawableStates(drawableState, intArrayOf(R.attr.azure_communication_ui_state_setup_camera_on))
-        }
         if (isSpeakerON) {
             mergeDrawableStates(drawableState, intArrayOf(R.attr.azure_communication_ui_state_setup_audio_device_speaker))
         }
