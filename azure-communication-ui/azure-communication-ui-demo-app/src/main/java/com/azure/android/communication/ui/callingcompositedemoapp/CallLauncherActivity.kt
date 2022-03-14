@@ -16,8 +16,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Addit
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
-import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
