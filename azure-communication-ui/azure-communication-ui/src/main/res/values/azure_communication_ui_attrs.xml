@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="azure_communication_ui">
+        <attr name="azure_communication_ui_state_setup_camera_on" format="boolean" />
+        <attr name="azure_communication_ui_state_setup_audio_device_speaker" format="boolean" />
+        <attr name="azure_communication_ui_state_setup_audio_device_receiver" format="boolean" />
+        <attr name="azure_communication_ui_state_setup_audio_device_bluetooth" format="boolean" />
+    </declare-styleable>
+
+</resources>

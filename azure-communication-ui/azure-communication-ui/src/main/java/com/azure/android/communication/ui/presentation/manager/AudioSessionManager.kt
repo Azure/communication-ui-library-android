@@ -11,6 +11,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
+import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -28,11 +29,23 @@ internal class AudioSessionManager(
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
     private val isBluetoothScoAvailable
-        get() =
+        get() = try {
             FeatureFlags.BluetoothAudio.active &&
                 (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+        } catch (exception: SecurityException) {
+            false
+        }
+
+    private val bluetoothDeviceName: String
+        get() = try {
+            bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name
+                ?: context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+        } catch (exception: SecurityException) {
+            context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+        }
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
+    private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
 
     suspend fun start() {
         BluetoothAdapter.getDefaultAdapter()?.run {
@@ -71,24 +84,30 @@ internal class AudioSessionManager(
     // When disconnected (and not selected), just update availability
     private fun updateBluetoothStatus() {
         if (!isBluetoothScoAvailable &&
-            store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable &&
+            store.getCurrentState().localParticipantState.audioState.bluetoothState.available &&
             store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
         ) {
-            // If bluetooth dropped
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeRequested(
-                    AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+                    when (priorToBluetoothAudioSelectionStatus) {
+                        AudioDeviceSelectionStatus.RECEIVER_SELECTED -> AudioDeviceSelectionStatus.RECEIVER_REQUESTED
+                        else -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+                    }
                 )
             )
+            // If bluetooth dropped, go back to last device
         }
 
-        if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.isBluetoothSCOAvailable) {
+        if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.bluetoothState.available) {
             // If Bluetooth has been connected and wasn't, switch to it
             store.dispatch(
                 LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
-                    isBluetoothScoAvailable
+                    isBluetoothScoAvailable,
+                    bluetoothDeviceName
                 )
             )
+
+            priorToBluetoothAudioSelectionStatus = store.getCurrentState().localParticipantState.audioState.device
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeRequested(
                     AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
@@ -98,7 +117,8 @@ internal class AudioSessionManager(
             // If bluetooth wasn't selected and is just being disconnected, just do the flag
             store.dispatch(
                 LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
-                    isBluetoothScoAvailable
+                    isBluetoothScoAvailable,
+                    bluetoothDeviceName
                 )
             )
         }
