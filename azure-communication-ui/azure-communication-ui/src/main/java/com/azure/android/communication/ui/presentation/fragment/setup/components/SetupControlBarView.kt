@@ -135,17 +135,26 @@ internal class SetupControlBarView : LinearLayout {
         audioDeviceButton.text = when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 audioDeviceButton.contentDescription =
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_speaker_content_description)
+                    context.getString(
+                        R.string.azure_communication_ui_setup_audio_device_select_content_description,
+                        context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
+                    )
                 context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
                 audioDeviceButton.contentDescription =
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_android_content_description)
+                    context.getString(
+                        R.string.azure_communication_ui_setup_audio_device_select_content_description,
+                        context.getString(R.string.azure_communication_ui_setup_audio_device_android)
+                    )
                 context.getString(R.string.azure_communication_ui_setup_audio_device_android)
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
                 audioDeviceButton.contentDescription =
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth_content_description)
+                    context.getString(
+                        R.string.azure_communication_ui_setup_audio_device_select_content_description,
+                        context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                    )
                 context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
             }
             else -> {
