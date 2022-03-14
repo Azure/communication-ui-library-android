@@ -24,8 +24,8 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 
 import androidx.core.content.ContextCompat.getSystemService
-
-
+import com.azure.android.communication.ui.redux.state.PermissionState
+import com.azure.android.communication.ui.redux.state.PermissionStatus
 
 
 internal class AudioSessionManager(
@@ -51,6 +51,8 @@ internal class AudioSessionManager(
         } catch (exception: SecurityException) {
             context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
         }
+
+    private var previousPermissionState: PermissionStatus = PermissionStatus.UNKNOWN
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
@@ -83,7 +85,15 @@ internal class AudioSessionManager(
                 onAudioDeviceStateChange(it.localParticipantState.audioState.device)
             }
 
+            // After permission is granted, double check bluetooth status
+            if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED
+                && previousPermissionState != PermissionStatus.GRANTED) {
+                updateBluetoothStatus()
+            }
+
             previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
+            previousPermissionState = it.permissionState.audioPermissionState
+
         }
     }
 
