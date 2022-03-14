@@ -9,15 +9,15 @@ if (project.rootProject.file('local.properties').canRead()) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
         minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "0.0.0"
+        targetSdkVersion 31
+        versionCode ui_library_version_code
+        versionName "$ui_library_version_name"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,6 +26,8 @@ android {
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
         buildConfigField 'String', 'TEAMS_MEETING_LINK', properties.getProperty('TEAMS_MEETING_LINK', '""')
         buildConfigField 'String', 'ACS_TOKEN', properties.getProperty('ACS_TOKEN', '""')
+        buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
+
     }
 
     signingConfigs {
@@ -86,6 +88,12 @@ android {
     }
 }
 
+repositories {
+    flatDir{
+        dirs "lib"
+    }
+}
+
 dependencies {
     implementation project(path: ':azure-communication-ui')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -95,7 +103,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
-    implementation(name: "magnifier-0.0.14", ext: 'aar')
+    implementation(name: "magnifier-0.0.17", ext: 'aar')
+    implementation "com.microsoft.appcenter:appcenter-analytics:4.1.0"
+    implementation "com.microsoft.appcenter:appcenter-crashes:4.1.0"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')

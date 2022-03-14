@@ -17,7 +17,10 @@ internal enum class CallingStatus {
 }
 
 internal data class CallingState(
-    val CallingStatus: CallingStatus,
+    val callingStatus: CallingStatus,
+    // due to the async nature of the CallingStatus update we need to indicate joining call
+    // until we receive CallingStatus.CONNECTING from the SDK.
+    val joinCallIsRequested: Boolean = false,
     val isRecording: Boolean = false,
     val isTranscribing: Boolean = false,
 )

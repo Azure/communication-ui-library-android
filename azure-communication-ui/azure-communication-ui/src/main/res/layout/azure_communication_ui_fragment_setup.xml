@@ -114,8 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             >
-
-            <androidx.appcompat.widget.AppCompatButton
+            <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupButton
                 android:id="@+id/azure_communication_ui_setup_camera_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -130,7 +129,7 @@
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupButton
                 android:id="@+id/azure_communication_ui_setup_audio_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -145,14 +144,14 @@
                 android:textColor="@color/azure_communication_ui_toggle_selector"
                 />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.azure.android.communication.ui.presentation.fragment.setup.components.AudioDeviceSetupButton
                 android:id="@+id/azure_communication_ui_setup_audio_device_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:drawableTop="@drawable/azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled"
+                android:drawableTop="@drawable/azure_communication_ui_toggle_selector_device_for_setup"
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/azure_communication_ui_toggle_selector"
                 android:text="@string/azure_communication_ui_audio_device_drawer_speaker"

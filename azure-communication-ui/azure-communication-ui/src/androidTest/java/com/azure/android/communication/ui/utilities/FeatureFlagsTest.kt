@@ -7,6 +7,9 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlagEntry
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,10 +33,10 @@ class FeatureFlagsTest {
         FeatureFlags.initialize(appContext)
         assert(
             FeatureFlags.BluetoothAudio.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_bluetooth_audio),
-            { "Bluetooth should be disabled" }
+            { "Bluetooth should be enabled" }
         )
         FeatureFlags.BluetoothAudio.toggle()
-        assert(FeatureFlags.BluetoothAudio.active, { "Bluetooth should be enabled now" })
+        assert(!FeatureFlags.BluetoothAudio.active, { "Bluetooth should be enabled now" })
     }
 
     @Test

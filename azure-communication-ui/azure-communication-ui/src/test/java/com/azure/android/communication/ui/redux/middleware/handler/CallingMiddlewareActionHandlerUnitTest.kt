@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
@@ -102,7 +103,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -347,7 +352,8 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                     ),
                     AudioState(
                         AudioOperationalStatus.OFF,
-                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
                     ),
                     "",
                     ""
@@ -419,7 +425,8 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                     ),
                     AudioState(
                         AudioOperationalStatus.OFF,
-                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
                     ),
                     "",
                     ""
@@ -480,7 +487,8 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                     ),
                     AudioState(
                         AudioOperationalStatus.OFF,
-                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
                     ),
                     "",
                     ""
@@ -539,7 +547,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraTransmissionStatus.REMOTE
             )
             val expectedAudioState =
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -595,7 +607,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraTransmissionStatus.REMOTE
             )
             val expectedAudioState =
-                AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -651,7 +667,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraTransmissionStatus.REMOTE
             )
             val expectedAudioState =
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -707,7 +727,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraTransmissionStatus.REMOTE
             )
             val expectedAudioState =
-                AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -763,7 +787,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.REMOTE
                 ),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 videoStreamID = null,
                 displayName = "username"
             )
@@ -814,7 +842,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -862,7 +894,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -911,7 +947,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -955,7 +995,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -1000,7 +1044,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -1044,7 +1092,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -1136,7 +1188,8 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 ),
                 AudioState(
                     AudioOperationalStatus.PENDING,
-                    AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
                 displayName = "username"
@@ -1178,7 +1231,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.ON,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -1224,7 +1281,11 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
