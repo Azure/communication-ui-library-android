@@ -188,6 +188,7 @@ internal class SetupControlBarView : LinearLayout {
         )
     }
 
+
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         audioDeviceButton.text = when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
@@ -203,6 +204,12 @@ internal class SetupControlBarView : LinearLayout {
                 ""
             }
         }
+
+        audioDeviceButton.contentDescription =
+            context.getString(
+                R.string.azure_communication_ui_setup_audio_device_select_content_description,
+                audioDeviceButton.text
+            )
 
         audioDeviceButton.isSpeakerON =
             audioDeviceSelectionStatus == AudioDeviceSelectionStatus.SPEAKER_SELECTED
