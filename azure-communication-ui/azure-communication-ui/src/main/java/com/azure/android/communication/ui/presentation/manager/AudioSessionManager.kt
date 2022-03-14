@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothHeadset
+import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -57,8 +58,13 @@ internal class AudioSessionManager(
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
 
+    private val btAdapter : BluetoothAdapter get() {
+        val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        return manager.adapter
+    }
+
     suspend fun start() {
-        BluetoothAdapter.getDefaultAdapter()?.run {
+        btAdapter.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
 
             val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
@@ -255,7 +261,7 @@ internal class AudioSessionManager(
     }
 
     fun stop() {
-        BluetoothAdapter.getDefaultAdapter()?.run {
+        btAdapter.run {
             closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             context.unregisterReceiver(this@AudioSessionManager)
         }
