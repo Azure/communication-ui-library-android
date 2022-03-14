@@ -64,7 +64,10 @@
         app:layout_constraintStart_toStartOf="parent"
         >
 
-        <include layout="@layout/azure_communication_ui_control_bar_view" />
+        <include
+            layout="@layout/azure_communication_ui_control_bar_view"
+            android:accessibilityTraversalAfter="@id/azure_communication_ui_call_main_layout"
+            />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
