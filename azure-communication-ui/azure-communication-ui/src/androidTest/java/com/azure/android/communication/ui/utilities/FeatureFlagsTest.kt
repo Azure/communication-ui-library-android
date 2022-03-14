@@ -33,10 +33,10 @@ class FeatureFlagsTest {
         FeatureFlags.initialize(appContext)
         assert(
             FeatureFlags.BluetoothAudio.active == appContext.resources.getBoolean(R.bool.azure_communication_ui_feature_flag_bluetooth_audio),
-            { "Bluetooth should be disabled" }
+            { "Bluetooth should be enabled" }
         )
         FeatureFlags.BluetoothAudio.toggle()
-        assert(FeatureFlags.BluetoothAudio.active, { "Bluetooth should be enabled now" })
+        assert(!FeatureFlags.BluetoothAudio.active, { "Bluetooth should be enabled now" })
     }
 
     @Test

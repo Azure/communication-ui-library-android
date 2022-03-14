@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.common.audiodev
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.redux.state.AudioState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -13,29 +14,23 @@ internal class AudioDeviceListViewModel(
     private val dispatch: (Action) -> Unit,
 ) {
 
-    private lateinit var audioDeviceSelectionStatusMutableStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
-    private val bluetoothScoAvailableMutableStateFlow = MutableStateFlow(false)
     private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
 
-    val bluetoothScoAvailableStateFlow get() = bluetoothScoAvailableMutableStateFlow as StateFlow<Boolean>
-    val displayAudioDeviceSelectionMenuStateFlow get() = displayAudioDeviceSelectionMenuMutableStateFlow as StateFlow<Boolean>
-    val audioDeviceSelectionStatusStateFlow get() = audioDeviceSelectionStatusMutableStateFlow as StateFlow<AudioDeviceSelectionStatus>
+    private lateinit var audioStateMutableStateFlow: MutableStateFlow<AudioState>
+    val displayAudioDeviceSelectionMenuStateFlow = displayAudioDeviceSelectionMenuMutableStateFlow as StateFlow<Boolean>
+    val audioStateFlow get() = audioStateMutableStateFlow as StateFlow<AudioState>
 
-    fun init(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        audioDeviceSelectionStatusMutableStateFlow = MutableStateFlow(audioDeviceSelectionStatus)
+    fun init(audioState: AudioState) {
+        audioStateMutableStateFlow = MutableStateFlow(audioState)
     }
 
-    fun update(
-        audioDeviceSelectionStatus: AudioDeviceSelectionStatus,
-        isBluetoothSCOAvailable: Boolean,
-    ) {
-        audioDeviceSelectionStatusMutableStateFlow.value = audioDeviceSelectionStatus
-        bluetoothScoAvailableMutableStateFlow.value = isBluetoothSCOAvailable
+    fun update(audioState: AudioState) {
+        audioStateMutableStateFlow.value = audioState
     }
 
     fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        dispatchAction(
-            action = LocalParticipantAction.AudioDeviceChangeRequested(
+        dispatch(
+            LocalParticipantAction.AudioDeviceChangeRequested(
                 audioDeviceSelectionStatus
             )
         )
@@ -47,9 +42,5 @@ internal class AudioDeviceListViewModel(
 
     fun closeAudioDeviceSelectionMenu() {
         displayAudioDeviceSelectionMenuMutableStateFlow.value = false
-    }
-
-    private fun dispatchAction(action: Action) {
-        dispatch(action)
     }
 }

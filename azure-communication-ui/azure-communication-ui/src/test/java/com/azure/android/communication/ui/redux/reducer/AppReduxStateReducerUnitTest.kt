@@ -5,21 +5,24 @@ package com.azure.android.communication.ui.redux.reducer
 
 import com.azure.android.communication.ui.redux.action.NavigationAction
 import com.azure.android.communication.ui.redux.state.AppReduxState
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
+import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
+import com.azure.android.communication.ui.redux.state.LocalUserState
+
+import com.azure.android.communication.ui.redux.state.CameraState
+import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.redux.state.CameraState
+import com.azure.android.communication.ui.redux.state.PermissionStatus
+import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.redux.state.LifecycleState
 import com.azure.android.communication.ui.redux.state.LifecycleStatus
-import com.azure.android.communication.ui.redux.state.LocalUserState
-import com.azure.android.communication.ui.redux.state.PermissionState
-import com.azure.android.communication.ui.redux.state.PermissionStatus
-import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
+import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
+
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -75,7 +78,11 @@ internal class AppReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             "",
             ""
         )
