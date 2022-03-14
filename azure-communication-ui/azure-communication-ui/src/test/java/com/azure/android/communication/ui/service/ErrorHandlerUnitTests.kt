@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
@@ -98,6 +99,7 @@ internal class ErrorHandlerUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
                 displayName = "name"
@@ -149,6 +151,7 @@ internal class ErrorHandlerUnitTests {
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth"),
                     CallCompositeError(CallCompositeErrorCode.TURN_MIC_OFF, error),
                 ),
                 videoStreamID = null,
