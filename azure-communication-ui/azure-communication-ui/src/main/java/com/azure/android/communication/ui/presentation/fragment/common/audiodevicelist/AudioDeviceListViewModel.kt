@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
+import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -14,11 +15,17 @@ internal class AudioDeviceListViewModel(
     private val dispatch: (Action) -> Unit,
 ) {
 
+    val receiverTypeTitle get() = when (audioStateFlow.value.isHeadphonePlugged) {
+        true -> R.string.azure_communication_ui_setup_audio_device_headphone
+        false -> R.string.azure_communication_ui_setup_audio_device_android
+    }
+
     private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
 
     private lateinit var audioStateMutableStateFlow: MutableStateFlow<AudioState>
     val displayAudioDeviceSelectionMenuStateFlow = displayAudioDeviceSelectionMenuMutableStateFlow as StateFlow<Boolean>
     val audioStateFlow get() = audioStateMutableStateFlow as StateFlow<AudioState>
+
 
     fun init(audioState: AudioState) {
         audioStateMutableStateFlow = MutableStateFlow(audioState)

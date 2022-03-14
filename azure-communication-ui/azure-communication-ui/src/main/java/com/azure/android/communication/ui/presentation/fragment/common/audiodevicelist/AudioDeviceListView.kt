@@ -99,7 +99,7 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
                     ),
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_android),
+                    context.getString(viewModel.receiverTypeTitle),
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled

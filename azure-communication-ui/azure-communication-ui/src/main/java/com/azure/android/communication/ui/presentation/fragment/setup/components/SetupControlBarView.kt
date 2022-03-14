@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -80,7 +81,7 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
-                setAudioDeviceButtonState(it.device)
+                setAudioDeviceButtonState(it)
             }
         }
 
@@ -129,8 +130,8 @@ internal class SetupControlBarView : LinearLayout {
         audioDeviceButton.refreshDrawableState()
     }
 
-    private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        audioDeviceButton.text = when (audioDeviceSelectionStatus) {
+    private fun setAudioDeviceButtonState(audioState: AudioState) {
+        audioDeviceButton.text = when (audioState.device) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
             }
@@ -138,14 +139,19 @@ internal class SetupControlBarView : LinearLayout {
                 context.getString(R.string.azure_communication_ui_setup_audio_device_android)
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                if (audioState.bluetoothState.deviceName.isNotBlank()) {
+                    audioState.bluetoothState.deviceName
+                } else {
+                    context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                }
             }
             else -> { "" }
         }
 
-        audioDeviceButton.isSpeakerON = audioDeviceSelectionStatus == AudioDeviceSelectionStatus.SPEAKER_SELECTED
-        audioDeviceButton.isReceiverON = audioDeviceSelectionStatus == AudioDeviceSelectionStatus.RECEIVER_SELECTED
-        audioDeviceButton.isBluetoothON = audioDeviceSelectionStatus == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+        audioDeviceButton.isSpeakerON = audioState.device == AudioDeviceSelectionStatus.SPEAKER_SELECTED
+        audioDeviceButton.isReceiverON = audioState.device == AudioDeviceSelectionStatus.RECEIVER_SELECTED
+        audioDeviceButton.isBluetoothON = audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+
         audioDeviceButton.refreshDrawableState()
     }
 
