@@ -7,9 +7,13 @@ import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
+import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -58,8 +62,13 @@ internal class AudioDeviceListViewModelUnitTest {
             val mockAppStore = mock<AppStore<ReduxState>>()
             val audioDeviceListViewModel = AudioDeviceListViewModel(mockAppStore::dispatch)
 
-            val initialAudioDeviceState = AudioDeviceSelectionStatus.SPEAKER_SELECTED
-            audioDeviceListViewModel.init(initialAudioDeviceState)
+            audioDeviceListViewModel.init(
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
+            )
 
             val emitResultFromDisplayAudioDeviceSelectionMenuStateFlow = mutableListOf<Boolean>()
 

@@ -67,10 +67,11 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
-            state.callState.CallingStatus,
+            state.callState,
+            audioDeviceListViewModel::displayAudioDeviceSelectionMenu
         )
         audioDeviceListViewModel.init(
-            state.localParticipantState.audioState.device,
+            state.localParticipantState.audioState,
         )
         setupGradientViewModel.init(
             state.localParticipantState.videoStreamID,
@@ -92,15 +93,14 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
-            state.callState.CallingStatus,
+            state.callState,
         )
         warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(
             state.localParticipantState.videoStreamID,
         )
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState.device,
-            state.localParticipantState.audioState.isBluetoothSCOAvailable
+            state.localParticipantState.audioState
         )
         errorInfoViewModel.update(state.errorState)
         setupGradientViewModel.update(
@@ -113,9 +113,7 @@ internal class SetupViewModel(
         )
         joinCallButtonHolderViewModel.update(
             state.permissionState.audioPermissionState,
-            state.callState.CallingStatus
+            state.callState
         )
     }
-
-    fun openAudioDeviceSelectionMenu() = audioDeviceListViewModel.displayAudioDeviceSelectionMenu()
 }

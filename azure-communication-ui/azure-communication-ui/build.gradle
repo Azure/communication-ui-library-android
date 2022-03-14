@@ -9,13 +9,13 @@ apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
     resourcePrefix 'azure_communication_ui_'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         buildConfigField('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
 
