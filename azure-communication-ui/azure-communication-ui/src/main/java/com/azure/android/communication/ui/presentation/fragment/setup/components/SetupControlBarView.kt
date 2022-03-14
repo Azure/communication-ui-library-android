@@ -152,41 +152,30 @@ internal class SetupControlBarView : LinearLayout {
         )
     }
 
-// <<<<<<< HEAD
+    // <<<<<<< HEAD
 //    private fun setAudioDeviceButtonState(audioState: AudioState) {
 //        when (audioState.device) {
 // =======
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         audioDeviceButton.text = when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
-                audioDeviceButton.contentDescription =
-                    context.getString(
-                        R.string.azure_communication_ui_setup_audio_device_select_content_description,
-                        context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
-                    )
                 context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                audioDeviceButton.contentDescription =
-                    context.getString(
-                        R.string.azure_communication_ui_setup_audio_device_select_content_description,
-                        context.getString(R.string.azure_communication_ui_setup_audio_device_android)
-                    )
                 context.getString(R.string.azure_communication_ui_setup_audio_device_android)
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                audioDeviceButton.contentDescription =
-                    context.getString(
-                        R.string.azure_communication_ui_setup_audio_device_select_content_description,
-                        context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
-                    )
                 context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
             }
             else -> {
                 ""
             }
         }
-
+        audioDeviceButton.contentDescription =
+            context.getString(
+                R.string.azure_communication_ui_setup_audio_device_select_content_description,
+                audioDeviceButton.text
+            )
         audioDeviceButton.isSpeakerON =
             audioDeviceSelectionStatus == AudioDeviceSelectionStatus.SPEAKER_SELECTED
         audioDeviceButton.isReceiverON =
