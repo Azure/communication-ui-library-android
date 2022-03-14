@@ -23,7 +23,7 @@ internal class NotificationService(
     fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
             store.getStateFlow().collect {
-                callingStatus.value = it.callState.CallingStatus
+                callingStatus.value = it.callState.callingStatus
             }
         }
         lifecycleScope.launch {

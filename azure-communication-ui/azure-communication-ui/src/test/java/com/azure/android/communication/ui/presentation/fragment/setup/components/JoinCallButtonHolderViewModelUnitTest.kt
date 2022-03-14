@@ -2,6 +2,7 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.AppStore
+import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -39,7 +40,7 @@ internal class JoinCallButtonHolderViewModelUnitTest {
             }
 
             // act
-            viewModel.update(PermissionStatus.GRANTED, CallingStatus.NONE)
+            viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.NONE))
 
             // assert
             Assert.assertEquals(
@@ -73,7 +74,7 @@ internal class JoinCallButtonHolderViewModelUnitTest {
             }
 
             // act
-            viewModel.update(PermissionStatus.DENIED, CallingStatus.NONE)
+            viewModel.update(PermissionStatus.DENIED, CallingState(CallingStatus.NONE))
 
             // assert
             Assert.assertEquals(
@@ -113,14 +114,14 @@ internal class JoinCallButtonHolderViewModelUnitTest {
             Assert.assertEquals(true, emitResult[1])
 
             // act
-            viewModel.update(PermissionStatus.GRANTED, CallingStatus.CONNECTING)
+            viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.CONNECTING))
 
             // assert
             // no more emits yet
             Assert.assertEquals(2, emitResult.count())
 
             // act
-            viewModel.update(PermissionStatus.GRANTED, CallingStatus.NONE)
+            viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.NONE))
 
             // assert
             // no more emits yet
