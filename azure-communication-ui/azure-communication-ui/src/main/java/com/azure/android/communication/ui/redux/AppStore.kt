@@ -8,6 +8,9 @@ import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.reducer.Reducer
 import com.azure.android.communication.ui.utilities.StoreHandlerThread
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import java.util.Timer
+import java.util.TimerTask
 
 internal class AppStore<S>(
     initialState: S,
@@ -16,7 +19,9 @@ internal class AppStore<S>(
     private val storeHandlerThread: StoreHandlerThread,
 ) : Store<S> {
 
+    private var debounceTimer: Timer? = null
     private val stateFlow = MutableStateFlow(initialState)
+    private val stateFlowInternal = MutableStateFlow(initialState)
     private var middlewareMap: List<(Dispatch) -> Dispatch> =
         middlewares.map { m -> m.invoke(this) }
 
@@ -37,16 +42,34 @@ internal class AppStore<S>(
         }
     }
 
-    override fun getStateFlow(): MutableStateFlow<S> {
+    override fun getStateFlow(): StateFlow<S> {
         return stateFlow
     }
 
     override fun getCurrentState(): S {
-        return stateFlow.value
+        return stateFlowInternal.value
     }
 
     private fun reduce(action: Action) {
-        stateFlow.value = reducer.reduce(stateFlow.value, action)
+        stateFlowInternal.value = reducer.reduce(stateFlowInternal.value, action)
+        debouncePostUpdate()
+    }
+
+    // Post the update to the StateFlow in a debounced way (to reduce UI updates)
+
+    private fun debouncePostUpdate() {
+        debounceTimer?.cancel()
+        debounceTimer = Timer()
+        debounceTimer?.schedule(
+            object : TimerTask() {
+                override fun run() {
+                    stateFlow.value = stateFlowInternal.value
+                    // Done, clear the timer
+                    debounceTimer = null
+                }
+            },
+            1
+        )
     }
 
     private fun compose(functions: List<(Dispatch) -> Dispatch>): (Dispatch) -> Dispatch =
