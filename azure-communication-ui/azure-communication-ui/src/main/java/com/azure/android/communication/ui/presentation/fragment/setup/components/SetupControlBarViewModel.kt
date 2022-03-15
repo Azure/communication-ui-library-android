@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.PermissionAction
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.redux.state.CallingState
@@ -28,7 +27,8 @@ internal class SetupControlBarViewModel(
     private lateinit var visibleStateFlow: MutableStateFlow<Boolean>
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
-    private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
+    private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioState>
+    private lateinit var callingStatusStateFlow: MutableStateFlow<CallingStatus>
 
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
 
@@ -46,8 +46,9 @@ internal class SetupControlBarViewModel(
 
         cameraStateFlow = MutableStateFlow(cameraState.operation)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
-        audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
+        callingStatusStateFlow = MutableStateFlow(callingState.callingStatus)
+        audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState)
 
         if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
             requestAudioPermission()
@@ -67,7 +68,8 @@ internal class SetupControlBarViewModel(
 
         cameraStateFlow.value = cameraState.operation
         audioOperationalStatusStateFlow.value = audioState.operation
-        audioDeviceSelectionStatusStateFlow.value = audioState.device
+        audioDeviceSelectionStatusStateFlow.value = audioState
+        callingStatusStateFlow.value = callingState.callingStatus
     }
 
     private fun isVisible(audioPermissionState: PermissionStatus): Boolean {
@@ -90,7 +92,7 @@ internal class SetupControlBarViewModel(
         return audioOperationalStatusStateFlow
     }
 
-    fun getAudioDeviceSelectionStatusStateFlow(): StateFlow<AudioDeviceSelectionStatus> {
+    fun getAudioDeviceSelectionStatusStateFlow(): StateFlow<AudioState> {
         return audioDeviceSelectionStatusStateFlow
     }
 
