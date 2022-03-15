@@ -171,7 +171,7 @@ class SettingsActivity : AppCompatActivity() {
                     break
                 }
             }
-            if(isFirstRun()) setLanguageValueInSharedPref(DEFAULT_LANGUAGE_VALUE)
+            if (isFirstRun()) setLanguageValueInSharedPref(DEFAULT_LANGUAGE_VALUE)
         }
     }
 
@@ -202,11 +202,6 @@ class SettingsActivity : AppCompatActivity() {
             LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
             DEFAULT_LANGUAGE_VALUE
         )
-    }
-
-    private fun findSelectedLanguage(): String? {
-        val selectedLanguage = getSelectedLanguageValue()
-        return supportedLanguages.find { it == selectedLanguage }
     }
 }
 
