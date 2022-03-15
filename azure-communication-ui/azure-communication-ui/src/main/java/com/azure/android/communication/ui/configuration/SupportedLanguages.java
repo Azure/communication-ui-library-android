@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.configuration;
 import com.azure.android.core.util.ExpandableStringEnum;
 import java.util.Collection;
 
-public final class SupportedLanguages extends ExpandableStringEnum<SupportedLanguages>
+final class SupportedLanguages extends ExpandableStringEnum<SupportedLanguages>
         implements SupportedLanguageAttributes {
     public static final SupportedLanguages ENGLISH = fromString("ENGLISH");
     public static final SupportedLanguages CHINESE_SIMPLIFIED = fromString("CHINESE_SIMPLIFIED");
@@ -55,8 +55,8 @@ public final class SupportedLanguages extends ExpandableStringEnum<SupportedLang
      * @return corresponding locale value for the language
      */
     @Override
-    public String getLanguageCode(final SupportedLanguages language) {
-        switch (language.toString()) {
+    public String getLanguageCode(final String language) {
+        switch (language) {
             case "SPANISH": return "es";
             case "CHINESE_SIMPLIFIED": return "zh-CN";
             case "RUSSIAN": return "ru";
@@ -81,7 +81,7 @@ public final class SupportedLanguages extends ExpandableStringEnum<SupportedLang
      * @return returns the default or conventional isRTl boolean value
      */
     @Override
-    public boolean getIsRTLDefaultValue(final SupportedLanguages language) {
+    public boolean getIsRTLDefaultValue(final String language) {
         return false;
     }
 }
