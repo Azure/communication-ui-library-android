@@ -144,6 +144,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun configureLocalization() {
+        diContainerHolder.localizationConfiguration = configuration.localizationConfig
+
         configuration.localizationConfig?.let { localeConfig ->
             window?.decorView?.layoutDirection =
                 if (localeConfig.isRightToLeft) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
@@ -155,6 +157,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 if (languageAttributes.size > 1) languageAttributes[1] else ""
             config.setLocale(Locale(languageCode, countryCode))
             resources.updateConfiguration(config, resources.displayMetrics)
+            diContainerHolder.localizationProvider.apply(localeConfig)
         }
     }
 
