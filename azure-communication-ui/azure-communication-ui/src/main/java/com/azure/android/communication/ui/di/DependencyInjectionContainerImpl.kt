@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.di
 
 import android.content.Context
 import android.media.AudioManager
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
@@ -175,7 +176,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(appStore)
+        SetupViewModelFactory(appStore, applicationLocalizationProvider)
+    }
+
+    private val applicationLocalizationProvider by lazy {
+        AppLocalizationProvider()
     }
 
     private val callingViewModelFactory by lazy {
