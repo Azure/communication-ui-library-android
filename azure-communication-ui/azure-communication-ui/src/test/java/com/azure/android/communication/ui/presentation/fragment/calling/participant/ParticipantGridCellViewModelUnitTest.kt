@@ -449,6 +449,73 @@ internal class ParticipantGridCellViewModelUnitTest {
             flowJobVideoStream.cancel()
         }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun participantViewModel_created_with_blankUsername_checkIfNameAndMicIndicator_should_be_displayed() =
+        mainCoroutineRule.testDispatcher.runBlockingTest {
+            // arrange
+            val emitResultDisplayName = mutableListOf<String>()
+            val emitResultIsMuted = mutableListOf<Boolean>()
+            val emitResultIsNameIndicatorVisibleStateFlow = mutableListOf<Boolean>()
+
+            // act
+            val participantViewModel = ParticipantGridCellViewModel(
+                "user one",
+                "",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
+                screenShareVideoStreamModel = null,
+                modifiedTimestamp = 456
+            )
+
+            val flowJobDisplayName = launch {
+                participantViewModel.getDisplayNameStateFlow()
+                    .toList(emitResultDisplayName)
+            }
+
+            val flowJobMuted = launch {
+                participantViewModel.getIsMutedStateFlow()
+                    .toList(emitResultIsMuted)
+            }
+
+            val flowJobNameIndicator = launch {
+                participantViewModel.getIsNameIndicatorVisibleStateFlow()
+                    .toList(emitResultIsNameIndicatorVisibleStateFlow)
+            }
+
+            // act
+            participantViewModel.update(
+                getParticipantInfoModel(
+                    "",
+                    "user1",
+                    isMuted = false,
+                    isSpeaking = false,
+                    null,
+                    VideoStreamModel(
+                        "video",
+                        StreamType.VIDEO
+                    ),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567
+                )
+            )
+
+            // assert
+            Assert.assertEquals("", emitResultDisplayName[0])
+            Assert.assertEquals(true, emitResultIsMuted[0])
+            Assert.assertEquals(true, emitResultIsNameIndicatorVisibleStateFlow[0])
+
+            // assert updates
+            Assert.assertEquals(1, emitResultDisplayName.size)
+            Assert.assertEquals(false, emitResultIsMuted[1])
+            Assert.assertEquals(false, emitResultIsNameIndicatorVisibleStateFlow[1])
+
+            flowJobDisplayName.cancel()
+            flowJobMuted.cancel()
+            flowJobNameIndicator.cancel()
+        }
+
     private fun getParticipantInfoModel(
         displayName: String,
         userIdentifier: String,
