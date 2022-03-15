@@ -29,7 +29,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
         joinGroupSetupScreen()
             .selectSpeakerAudioDevice()
             .verifyIsSpeakerAudioDevice()
-            .navigateUpFromSetupScreen()
+            //.navigateUpFromSetupScreen()
     }
 
     private fun joinGroupSetupScreen(): SetupScreenRobot {
