@@ -59,7 +59,7 @@ class SettingsActivity : AppCompatActivity() {
         updateRTLCheckbox()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            val selectedItem: String = supportedLanguages.get(position).toString()
+            val selectedItem: String = supportedLanguages.get(position)
             setLanguageValueInSharedPref(selectedItem)
             sharedPreference.edit().putInt(LANGUAGE_ADAPTER_POSITION_SHARED_PREF_KEY, position)
                 .apply()
