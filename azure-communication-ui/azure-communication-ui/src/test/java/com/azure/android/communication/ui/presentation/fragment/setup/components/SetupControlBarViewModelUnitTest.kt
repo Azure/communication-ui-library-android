@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.PermissionAction
@@ -36,6 +38,7 @@ import org.mockito.kotlin.verify
 internal class SetupControlBarViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun setupControlBarViewModel_init_audioPermission_notAsked_then_dispatchAudioPermissionRequested() {
@@ -43,7 +46,8 @@ internal class SetupControlBarViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val setupControlBarViewModel = SetupControlBarViewModel(mockAppStore::dispatch)
+        val setupControlBarViewModel =
+            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
 
         // Act
         setupControlBarViewModel.init(
@@ -51,8 +55,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
@@ -70,7 +82,9 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> {
         }
-        val setupControlBarViewModel = SetupControlBarViewModel(mockAppStore::dispatch)
+
+        val setupControlBarViewModel =
+            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
 
         // Act
         setupControlBarViewModel.init(
@@ -78,8 +92,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.DENIED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
@@ -96,7 +118,8 @@ internal class SetupControlBarViewModelUnitTest {
     fun setupControlBarViewModel_init_audioPermission_denied_then_isVisible_false() {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
-        val setupControlBarViewModel = SetupControlBarViewModel(mockAppStore::dispatch)
+        val setupControlBarViewModel =
+            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
 
         // Act
         setupControlBarViewModel.init(
@@ -104,8 +127,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
@@ -117,8 +148,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.DENIED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
         )
 
@@ -129,7 +168,8 @@ internal class SetupControlBarViewModelUnitTest {
     fun setupControlBarViewModel_init_cameraPermission_granted_then_isEnabled_true() {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
-        val setupControlBarViewModel = SetupControlBarViewModel(mockAppStore::dispatch)
+        val setupControlBarViewModel =
+            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
 
         // Act
         setupControlBarViewModel.init(
@@ -137,8 +177,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
@@ -150,8 +198,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.GRANTED,
                 cameraPermissionState = PermissionStatus.GRANTED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
         )
 
@@ -162,7 +218,8 @@ internal class SetupControlBarViewModelUnitTest {
     fun setupControlBarViewModel_init_cameraPermission_denied_then_isEnabled_false() {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
-        val setupControlBarViewModel = SetupControlBarViewModel(mockAppStore::dispatch)
+        val setupControlBarViewModel =
+            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
 
         // Act
         setupControlBarViewModel.init(
@@ -170,8 +227,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
@@ -183,8 +248,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.GRANTED,
                 cameraPermissionState = PermissionStatus.DENIED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE),
         )
 
@@ -195,7 +268,8 @@ internal class SetupControlBarViewModelUnitTest {
     fun setupControlBarViewModel_update_joinCallIsRequested_true_then_isEnabled_false() {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
-        val setupControlBarViewModel = SetupControlBarViewModel(mockAppStore::dispatch)
+        val setupControlBarViewModel =
+            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
 
         // Act
         setupControlBarViewModel.init(
@@ -203,8 +277,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE, joinCallIsRequested = false),
             openAudioDeviceSelectionMenuCallback = { }
         )
@@ -218,8 +300,16 @@ internal class SetupControlBarViewModelUnitTest {
                 audioPermissionState = PermissionStatus.GRANTED,
                 cameraPermissionState = PermissionStatus.GRANTED
             ),
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             CallingState(CallingStatus.NONE, joinCallIsRequested = true),
         )
 
