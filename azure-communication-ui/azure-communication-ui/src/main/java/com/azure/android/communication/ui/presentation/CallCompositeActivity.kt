@@ -145,9 +145,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     private fun configureLocalization() {
         configuration.localizationConfig?.let { localeConfig ->
-            if (localeConfig.isRightToLeft) {
-                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
-            }
+            window?.decorView?.layoutDirection =
+                if (localeConfig.isRightToLeft) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
 
             val config: Configuration = resources.configuration
             val languageAttributes = localeConfig.language.split("-")
