@@ -69,14 +69,7 @@ internal class AudioSessionManager(
 
         val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
         filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
-
-        try {
-            context.unregisterReceiver(this@AudioSessionManager)
-        } catch (exception: IllegalArgumentException) {
-            // Unregister in case already registered
-            // IllegalArgs expected in case that it's not registered
-            // Do nothing in case of exception
-        }
+        
         context.registerReceiver(this@AudioSessionManager, filter)
 
 
