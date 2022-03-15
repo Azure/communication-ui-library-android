@@ -27,20 +27,20 @@ import java.util.Map;
 public class LocalizationConfiguration {
     private String language;
     private boolean isRightToLeft;
-    private Map<String, String> customString;
+    private Map<String, String> customTranslation;
 
     /**
      * Create Localization Configuration with customString
      *
      * @param language
      * @param isRightToLeft
-     * @param customString
+     * @param customTranslation
      */
     public LocalizationConfiguration(final String language, final boolean isRightToLeft,
-                                     final Map<String, String> customString) {
+                                     final Map<String, String> customTranslation) {
         this.language = language;
         this.isRightToLeft = isRightToLeft;
-        this.customString = customString;
+        this.customTranslation = customTranslation;
     }
 
     /**
@@ -86,8 +86,8 @@ public class LocalizationConfiguration {
      *
      * @return customTranslation
      */
-    public Map<String, String> getCustomString() {
-        return customString;
+    public Map<String, String> getCustomTranslation() {
+        return customTranslation;
     }
 
     /**
