@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.presentation.fragment.calling.header
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.state.AppReduxState
+import com.azure.android.communication.ui.redux.state.CallingState
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -45,9 +47,15 @@ internal class InfoHeaderViewModelUnitTest {
                 expectedParticipantMap,
                 timestamp
             )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
-            floatingHeaderViewModel.init(expectedParticipantMap.count())
+            floatingHeaderViewModel.init(appState.callState.callingStatus, expectedParticipantMap.count())
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()

@@ -104,6 +104,7 @@ internal class CallingViewModel(
         )
 
         floatingHeaderViewModel.init(
+            state.callState.callingStatus,
             state.remoteParticipantState.participantMap.count()
         )
         audioDeviceListViewModel.init(
@@ -171,8 +172,16 @@ internal class CallingViewModel(
                 state.callState
             )
         }
+
+        updateLobbyOverlayDisplayedState(state.callState.callingStatus)
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
         state.callState.callingStatus == CallingStatus.CONNECTED
+
+    private fun updateLobbyOverlayDisplayedState(callingStatus: CallingStatus) {
+        floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(callingStatus)
+        bannerViewModel.updateIsLobbyOverlayDisplayed(callingStatus)
+        localParticipantViewModel.updateIsLobbyOverlayDisplayed(callingStatus)
+    }
 }

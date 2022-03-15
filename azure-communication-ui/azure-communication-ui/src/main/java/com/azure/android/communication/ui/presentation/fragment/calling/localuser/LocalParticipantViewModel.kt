@@ -27,6 +27,7 @@ internal class LocalParticipantViewModel(
     private lateinit var displayPipSwitchCameraButtonFlow: MutableStateFlow<Boolean>
     private lateinit var enableCameraSwitchFlow: MutableStateFlow<Boolean>
     private lateinit var cameraDeviceSelectionFlow: MutableStateFlow<CameraDeviceSelectionStatus>
+    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
@@ -96,9 +97,16 @@ internal class LocalParticipantViewModel(
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         )
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
+        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState))
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())
+
+    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
+
+    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
+        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
+    }
 
     private fun shouldDisplayVideo(videoStreamID: String?) = videoStreamID != null
 
@@ -116,6 +124,9 @@ internal class LocalParticipantViewModel(
         return if (numberOfRemoteParticipants > 0)
             LocalParticipantViewMode.PIP else LocalParticipantViewMode.FULL_SCREEN
     }
+
+    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY
 
     internal data class VideoModel(
         val shouldDisplayVideo: Boolean,

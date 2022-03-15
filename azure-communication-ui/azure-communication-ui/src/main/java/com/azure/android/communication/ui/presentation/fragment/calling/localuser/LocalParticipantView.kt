@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -136,6 +137,16 @@ internal class LocalParticipantView : ConstraintLayout {
                             else -> R.string.azure_communication_ui_switch_camera_button_front
                         }
                     )
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getIsLobbyOverlayDisplayedFlow().collect {
+                if (it) {
+                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                } else {
+                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
                 }
             }
         }

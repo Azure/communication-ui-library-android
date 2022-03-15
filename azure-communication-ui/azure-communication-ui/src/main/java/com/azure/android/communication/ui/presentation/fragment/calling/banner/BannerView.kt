@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -21,6 +22,7 @@ internal class BannerView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
+    private lateinit var bannerView: View
     private lateinit var bannerText: TextView
     private lateinit var bannerCloseButton: ImageButton
 
@@ -47,6 +49,16 @@ internal class BannerView : ConstraintLayout {
                     } else {
                         View.GONE
                     }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getIsLobbyOverlayDisplayedFlow().collect {
+                if (it) {
+                    ViewCompat.setImportantForAccessibility(bannerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                } else {
+                    ViewCompat.setImportantForAccessibility(bannerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+                }
             }
         }
     }
@@ -119,6 +131,7 @@ internal class BannerView : ConstraintLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
 
+        bannerView = findViewById(R.id.azure_communication_ui_call_banner)
         bannerText = findViewById(R.id.azure_communication_ui_call_banner_text)
         bannerCloseButton = findViewById(R.id.azure_communication_ui_call_banner_close)
 
