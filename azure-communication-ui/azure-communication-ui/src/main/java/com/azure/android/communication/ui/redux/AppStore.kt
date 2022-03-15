@@ -56,7 +56,6 @@ internal class AppStore<S>(
     }
 
     // Post the update to the StateFlow in a debounced way (to reduce UI updates)
-
     private fun debouncePostUpdate() {
         debounceTimer?.cancel()
         debounceTimer = Timer()
