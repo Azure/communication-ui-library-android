@@ -97,6 +97,6 @@ internal class SetupFragment :
     }
 
     private fun setActionBarTitle() {
-        activity?.title = ""
+        activity?.title = "Call Setup Page"
     }
 }
