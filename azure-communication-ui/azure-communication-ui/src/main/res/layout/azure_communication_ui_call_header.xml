@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:backgroundTint="@color/azure_communication_ui_color_button_background_transparent"
-        android:contentDescription="@string/azure_communication_ui_call_open_participant_list"
+        android:contentDescription="@string/azure_communication_ui_calling_view_participant_list_open_accessibility_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

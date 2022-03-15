@@ -70,21 +70,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()
+        configureLocalization()
         setStatusBarColor()
         setActionBarVisibility()
+
         if (configuration.themeConfig?.theme != null) {
             theme.applyStyle(
                 configuration.themeConfig?.theme!!, true
             )
-        }
-
-        diContainerHolder.localizationConfiguration = configuration.localizationConfig
-        configuration.localizationConfig?.let { localeConfig ->
-            Locale.setDefault(Locale(localeConfig.language))
-            if (localeConfig.isRightToLeft) {
-                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
-            }
-            diContainerHolder.localizationProvider.apply(localeConfig)
         }
 
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
@@ -148,6 +141,24 @@ internal class CallCompositeActivity : AppCompatActivity() {
         )
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_ic_fluent_arrow_left_24_filled)
         supportActionBar?.elevation = 0F
+    }
+
+    private fun configureLocalization() {
+        diContainerHolder.localizationConfiguration = configuration.localizationConfig
+
+        configuration.localizationConfig?.let { localeConfig ->
+            window?.decorView?.layoutDirection =
+                if (localeConfig.isRightToLeft) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+
+            val config: Configuration = resources.configuration
+            val languageAttributes = localeConfig.language.split("-")
+            val languageCode = languageAttributes[0]
+            val countryCode =
+                if (languageAttributes.size > 1) languageAttributes[1] else ""
+            config.setLocale(Locale(languageCode, countryCode))
+            resources.updateConfiguration(config, resources.displayMetrics)
+            diContainerHolder.localizationProvider.apply(localeConfig)
+        }
     }
 
     private fun setActionBarVisibility() {

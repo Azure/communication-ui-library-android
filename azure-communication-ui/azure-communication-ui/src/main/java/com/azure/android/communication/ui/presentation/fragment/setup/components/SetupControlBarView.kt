@@ -105,16 +105,16 @@ internal class SetupControlBarView : LinearLayout {
                 micButton.isSelected = true
                 micButton.text = appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_mic_on),
-                    context.getString(R.string.azure_communication_ui_setup_mic_on)
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_mic_on),
+                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_on)
                 )
             }
             AudioOperationalStatus.OFF -> {
                 micButton.isSelected = false
                 micButton.text = appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_mic_off),
-                    context.getString(R.string.azure_communication_ui_setup_mic_off)
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_mic_off),
+                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_off)
                 )
             }
         }
@@ -129,16 +129,16 @@ internal class SetupControlBarView : LinearLayout {
                 cameraButton.isSelected = true
                 cameraButton.text = appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_video_on),
-                    context.getString(R.string.azure_communication_ui_setup_video_on)
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_mic_on),
+                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_on)
                 )
             }
             CameraOperationalStatus.OFF -> {
                 cameraButton.isSelected = false
                 cameraButton.text = appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_video_off),
-                    context.getString(R.string.azure_communication_ui_setup_video_off)
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_mic_off),
+                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_off)
                 )
             }
         }
@@ -179,22 +179,22 @@ internal class SetupControlBarView : LinearLayout {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_audio_device_speaker),
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
+                        .getResourceEntryName(R.string.azure_communication_ui_audio_device_drawer_speaker),
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_speaker)
                 )
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
                 appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_audio_device_android),
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_android)
+                        .getResourceEntryName(R.string.azure_communication_ui_audio_device_drawer_android),
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_android)
                 )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
                 appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_audio_device_bluetooth),
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                        .getResourceEntryName(R.string.azure_communication_ui_audio_device_drawer_bluetooth),
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
                 )
             }
             else -> {

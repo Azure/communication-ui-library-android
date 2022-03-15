@@ -16,7 +16,7 @@
         android:layout_height="36dp"
         android:background="@drawable/azure_communication_ui_corner_bottom_left_top_right_radius_rectangle_4dp"
         android:backgroundTint="@color/azure_communication_ui_color_button_switch_camera"
-        android:contentDescription="@string/azure_communication_ui_switch_camera_button"
+        android:contentDescription="@string/azure_communication_ui_button_switch_camera_accessibility_label"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

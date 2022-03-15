@@ -58,7 +58,7 @@ internal class ErrorInfoView(private val rootView: View) {
         return when (it.callCompositeErrorCode) {
             CallCompositeErrorCode.CALL_END -> rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_end)
                 .toString()
-            CallCompositeErrorCode.CALL_JOIN -> rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_join)
+            CallCompositeErrorCode.CALL_JOIN -> rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
                 .toString()
             else -> ""
         }
@@ -72,7 +72,7 @@ internal class ErrorInfoView(private val rootView: View) {
             Snackbar.Style.REGULAR
         ).apply {
             animationMode = ANIMATION_MODE_FADE
-            setAction(rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_dismiss)) {}
+            setAction(rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)) {}
             anchorView = rootView.findViewById(R.id.azure_communication_ui_setup_join_call_button)
             view.background.colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(

@@ -55,15 +55,6 @@ public class LocalizationConfiguration {
     }
 
     /**
-     * Create Localization configuration.
-     *
-     * @param language string eg,. "en"
-     */
-    public LocalizationConfiguration(final String language) {
-        this.language = language;
-    }
-
-    /**
      * Get current language String.
      *
      * @return language string
