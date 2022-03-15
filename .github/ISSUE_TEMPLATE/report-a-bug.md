@@ -16,6 +16,7 @@ Steps to reproduce the behavior:
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
+5. This bug is [always/occasional/seldom] reproducible. 
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
@@ -24,11 +25,11 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **AzureCommunicationUILibrary (please complete the following information):**
- - Version [e.g. 22]
+ - Version [e.g. 1.0.0-beta.1]
 
 **Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
+ - Device: [e.g. Samsung Galaxy]
+ - API: [e.g. API29]
 
 **Additional context**
 Add any other context about the problem here.
