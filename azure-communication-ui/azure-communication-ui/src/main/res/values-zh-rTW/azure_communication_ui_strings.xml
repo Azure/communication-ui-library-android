@@ -21,17 +21,17 @@
         以允許存取。</string>
     <string name="azure_communication_ui_setup_view_warning_missing_text">需要權限</string>
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">已選取</string>
-    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">安裝程式漸層</string>
+    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">設定漸層</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">[切換相機] 按鈕</string>
 
     <!--    Lobby View-->
-    <string name="azure_communication_ui_lobby_view_text_waiting_for_host">正在等候主持人</string>
+    <string name="azure_communication_ui_lobby_view_text_waiting_for_host">等待主持人中</string>
     <string name="azure_communication_ui_lobby_view_text_waiting_details">會議中有人很快會讓您加入</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">與 1 個人通話</string>
-    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">與%1$d個人通話</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">與 %1$d 個人通話</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的參與者</string>
     <string name="azure_communication_ui_calling_view_overlay_leave_call">離開通話</string>

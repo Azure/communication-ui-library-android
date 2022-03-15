@@ -15,8 +15,10 @@
     <string name="azure_communication_ui_setup_view_button_mic_off">Microfone desligado</string>
     <string name="azure_communication_ui_setup_view_button_mic_on">Microfone ligado</string>
     <string name="azure_communication_ui_setup_view_button_join_call">Ingressar na chamada</string>
-    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">Seu áudio está desabilitado. Para habilitar, vá para Configurações para permitir o acesso. Você deve habilitar o áudio para iniciar essa chamada.</string>
-    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">Sua câmera está desabilitada. Para habilitar, vá para Configurações para permitir o acesso.</string>
+    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">Seu áudio está desabilitado. Para habilitar, vá para Configurações para permitir o acesso. Você deve
+ habilitar o áudio para iniciar essa chamada.</string>
+    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">Sua câmera está desabilitada. Para habilitar, vá para Configurações
+ para permitir o acesso.</string>
     <string name="azure_communication_ui_setup_view_warning_missing_text">Permissões necessárias</string>
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Selecionado</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Configurar Gradiente</string>
@@ -42,24 +44,24 @@
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opções do Dispositivo</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Gravação foi iniciada.</b> Ingressando, você será
-        dando consentimento para que esta reunião seja transcrita.
-         <u>política de privacidade</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Gravação está sendo salva.</b> Gravação foi interrompida.
-         <u>Saiba Mais</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcrição foi iniciada.</b> Ingressando, você
-        estão dando consentimento para que esta reunião seja transcrita. <u>política de privacidade</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transcrição está sendo salva.</b> Transcrição
-        foi interrompido. <u>Saiba Mais</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>gravação e transcrição têm
-        started.</b> Ao ingressar, você está dando consentimento para que esta reunião seja transcrita
-        . <u>política de privacidade</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>gravação e transcrição são
-        sendo salvo.</b> Gravação e transcrição foram interrompidos. <u>Saiba Mais</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>gravação foi interrompida.</b> Você
-        agora só estão transcrevendo esta reunião. <u>política de privacidade</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcrição foi interrompida.
-    </b> agora você está gravando apenas esta reunião. <u>política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>A transcrição foi iniciada.</b> Ingressando, você está
+dando consentimento para que esta reunião seja transcrita.
+ <u>Política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>A gravação está sendo salva.</b> A gravação foi interrompida.
+         <u>Saiba mais</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>A transcrição foi iniciada.</b> Ingressando, você
+        está dando consentimento para que esta reunião seja transcrita. <u>Política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>A transcrição está sendo salva.</b> A transcrição
+        foi interrompida. <u>Saiba mais</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>A gravação e a transcrição foram
+ iniciadas.</b> Ingressando, você está dando consentimento para que esta reunião seja transcrita
+    . <u>Política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>A gravação e a transcrição estão
+        sendo salvas.</b> A gravação e a transcrição foram interrompidas. <u>Saiba mais</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>A gravação foi interrompida.</b> Você
+        agora só está transcrevendo esta reunião. <u>Política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>A transcrição foi interrompida.
+    </b> Você agora só está gravando esta reunião. <u>Política de privacidade</u></string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Ignorar</string>

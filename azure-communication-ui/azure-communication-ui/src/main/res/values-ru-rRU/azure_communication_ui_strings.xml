@@ -44,13 +44,13 @@
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Параметры устройства</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>началась запись. </b> Присоединившись, вы
-        предоставление согласия на транскрибирование этого собрания.
-         <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Началась запись.</b> Присоединяясь, вы
+        даете согласие на транскрибирование этого собрания.
+         <u>Политика конфиденциальности</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Запись сохраняется.</b> Запись остановлена.
          <u>Подробнее</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>транскрибирование запущено. </b> Присоединяясь, вы
-        дают согласие на транскрибирование этого собрания. <u>политики конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Запущено транскрибирование.</b> Присоединяясь, вы
+        даете согласие на транскрибирование этого собрания. <u>Политика конфиденциальности</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Транскрибирование сохраняется.</b> Транскрибирование
         остановлено. <u>Подробнее</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Запись и транскрибирование

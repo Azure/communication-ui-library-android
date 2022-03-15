@@ -15,8 +15,10 @@
     <string name="azure_communication_ui_setup_view_button_mic_off">マイク オフ</string>
     <string name="azure_communication_ui_setup_view_button_mic_on">マイク オン</string>
     <string name="azure_communication_ui_setup_view_button_join_call">通話に参加する</string>
-    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">オーディオが無効になっています。有効にするには、[設定] に移動してアクセスを許可してください。この通話を開始するには、オーディオを有効にする必要があります。</string>
-    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">カメラが無効になっています。有効にするには、[設定] に移動してアクセスを許可してください。</string>
+    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">オーディオが無効になっています。有効にするには、[設定] に移動してアクセスを許可してください。
+        この通話を開始するには、オーディオを有効にする必要があります。</string>
+    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">カメラが無効になっています。有効にするには、[設定] に移動して
+        アクセスを許可してください。</string>
     <string name="azure_communication_ui_setup_view_warning_missing_text">アクセス許可が必要です</string>
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">選択済み</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">グラデーションの設定</string>
@@ -42,24 +44,24 @@
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">デバイス オプション</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
-        giving consent for this meeting to be transcribed.
-         <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>レコーディングを保存しています。</b>レコーディングが停止しました。
-         <u>詳細情報の</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcription has started.</b> By joining, you
-        are giving consent for this meeting to be transcribed. <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>トランスクリプトを保存しています。文字起こし</b>
-        停止しました。<u>詳細情報の</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Recording and transcription have
-        started.</b> By joining, you are giving consent for this meeting to be transcribed
-        . <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>レコーディングとトランスクリプトは
-        保存中です。</b>レコーディングとトランスクリプトが停止しました。<u>詳細情報の</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Recording has stopped.</b> You
-        are now only transcribing this meeting. <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcription has stopped.
-    </b> You are now only recording this meeting. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>レコーディングが開始されました。</b> 参加すると、
+        この会議の文字起こしが行われることに同意したことになります。
+         <u>プライバシー ポリシー</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>レコーディングを保存しています。</b> レコーディングが停止されました。
+         <u>詳細情報</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>文字起こしが開始されました。</b> 参加すると、
+        この会議の文字起こしが行われることに同意したことになります。<u>プライバシー ポリシー</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>トランスクリプトを保存しています。</b> 文字起こしが
+        停止しました。<u>詳細情報</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>レコーディングと文字起こしが
+        開始されました。</b> 参加すると、この会議の文字起こしが行われることに同意したことになります。
+        . <u>プライバシー ポリシー</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>レコーディングとトランスクリプトを
+        保存しています。</b> レコーディングと文字起こしが停止しました。<u>詳細情報</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>レコーディングが停止しました。</b>
+        この会議の文字起こしのみが行われるようになります。<u>プライバシー ポリシー</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>文字起こしが停止しました。</b>
+        この会議のレコーディングのみが行われるようになります。<u>プライバシー ポリシー</u></string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">却下</string>
