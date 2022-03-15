@@ -55,27 +55,30 @@ internal class AudioSessionManager(
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
 
-    private val btAdapter: BluetoothAdapter get() {
+    private val btAdapter: BluetoothAdapter? get() {
         val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         return manager.adapter
     }
 
     suspend fun start() {
-        btAdapter.run {
+
+        btAdapter?.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
-
-            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-            filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
-
-            try {
-                context.unregisterReceiver(this@AudioSessionManager)
-            } catch (exception: IllegalArgumentException) {
-                // Unregister in case already registered
-                // IllegalArgs expected in case that it's not registered
-                // Do nothing in case of exception
-            }
-            context.registerReceiver(this@AudioSessionManager, filter)
         }
+
+
+        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+        filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
+
+        try {
+            context.unregisterReceiver(this@AudioSessionManager)
+        } catch (exception: IllegalArgumentException) {
+            // Unregister in case already registered
+            // IllegalArgs expected in case that it's not registered
+            // Do nothing in case of exception
+        }
+        context.registerReceiver(this@AudioSessionManager, filter)
+
 
         initializeAudioDeviceState()
         updateBluetoothStatus()
@@ -255,7 +258,7 @@ internal class AudioSessionManager(
     }
 
     fun stop() {
-        btAdapter.run {
+        btAdapter?.run {
             closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
         }
         context.unregisterReceiver(this)
