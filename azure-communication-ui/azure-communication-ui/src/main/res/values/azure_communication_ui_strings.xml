@@ -3,7 +3,8 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <string name="azure_communication_ui_switch_camera_button">Switch Camera Button</string>
+    <string name="azure_communication_ui_switch_camera_button_front">Switch to Front Camera</string>
+    <string name="azure_communication_ui_switch_camera_button_back">Switch to Back Camera</string>
     <string name="azure_communication_ui_setup_gradient">Setup Gradient</string>
     <string name="azure_communication_ui_setup_video_off">Video off</string>
     <string name="azure_communication_ui_setup_video_on">Video on</string>

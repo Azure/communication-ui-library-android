@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.VideoViewManager
+import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -60,13 +61,9 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_display_name)
         micImage =
             findViewById(R.id.azure_communication_ui_call_local_mic_indicator)
-        switchCameraButton.setOnClickListener {
-            switchCamera()
-        }
 
-        pipSwitchCameraButton.setOnClickListener {
-            switchCamera()
-        }
+        switchCameraButton.setOnClickListener { viewModel.switchCamera() }
+        pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
     }
 
     fun stop() {
@@ -129,6 +126,19 @@ internal class LocalParticipantView : ConstraintLayout {
                 pipSwitchCameraButton.isEnabled = it
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCameraDeviceSelectionFlow().collect { cameraDeviceSelectionStatus ->
+                listOf(switchCameraButton, pipSwitchCameraButton).forEach {
+                    it.contentDescription = context.getString(
+                        when (cameraDeviceSelectionStatus) {
+                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_switch_camera_button_back
+                            else -> R.string.azure_communication_ui_switch_camera_button_front
+                        }
+                    )
+                }
+            }
+        }
     }
 
     private fun setLocalParticipantVideo(model: LocalParticipantViewModel.VideoModel) {
@@ -158,9 +168,5 @@ internal class LocalParticipantView : ConstraintLayout {
             )
         }
         videoHolder.addView(view, 0)
-    }
-
-    private fun switchCamera() {
-        viewModel.switchCamera()
     }
 }
