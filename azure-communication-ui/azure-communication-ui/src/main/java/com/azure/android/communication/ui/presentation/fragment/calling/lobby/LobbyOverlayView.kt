@@ -23,7 +23,6 @@ internal class LobbyOverlayView : LinearLayout {
     private lateinit var overlayInfo: TextView
     private lateinit var viewModel: LobbyOverlayViewModel
 
-
     override fun onFinishInflate() {
         super.onFinishInflate()
         waitingIcon =
