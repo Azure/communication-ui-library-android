@@ -13,6 +13,11 @@ import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
+import com.azure.android.communication.ui.callingcompositedemoapp.R;
+import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
+import com.azure.android.communication.ui.configuration.ThemeConfiguration;
 
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -34,11 +39,25 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
 
-        final CallComposite callComposite =
-                new CallCompositeBuilder()
-//                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
-                        .build();
 
+        final CallCompositeBuilder builder = new CallCompositeBuilder();
+        final String selectedLanguage = SettingsFeatures.Companion.language(callLauncherActivity
+                .getApplicationContext());
+
+        if (SettingsFeatures.Companion.getIsCustomTranslationEnabled(
+                callLauncherActivity.getApplicationContext())) {
+            builder.customizeLocalization(new LocalizationConfiguration(LocalizationConfiguration
+                    .getLanguageCode(selectedLanguage),
+                    false, SettingsFeatures.Companion.getCustomTranslationMap()));
+        } else {
+            builder.customizeLocalization(new LocalizationConfiguration("fr", true));
+        }
+
+        if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
+            builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
+        }
+
+        final CallComposite callComposite = builder.build();
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =

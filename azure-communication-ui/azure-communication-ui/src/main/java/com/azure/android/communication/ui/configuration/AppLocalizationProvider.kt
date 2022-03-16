@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.configuration
 
+import android.content.Context
+
 internal class AppLocalizationProvider : LocalizationProvider {
     private lateinit var language: String
     private var customTranslation: Map<String, String>? = null
@@ -11,6 +13,8 @@ internal class AppLocalizationProvider : LocalizationProvider {
         val supportedLocales = getSupportedLocales()
         if (supportedLocales.contains(localeConfig.language)) {
             language = localeConfig.language
+        }
+        if (localeConfig.customTranslation != null) {
             customTranslation = localeConfig.customTranslation
         }
     }
@@ -23,14 +27,23 @@ internal class AppLocalizationProvider : LocalizationProvider {
         return localizedString
     }
 
+    override fun getLocalizedString(context: Context, stringKey: Int): String {
+        var localizedString = context.getString(stringKey)
+        val localeKey = context.resources.getResourceEntryName(stringKey)
+        if (customTranslation?.containsKey(localeKey) == true) {
+            localizedString = customTranslation!![localeKey]!!
+        }
+        return localizedString
+    }
+
     companion object {
 
         fun getSupportedLanguages(): List<String> {
-            return SupportedLanguages.values().map { it.toString() }
+            return SupportedLanguages.values()
         }
 
         fun getSupportedLocales(): List<String> {
-            return SupportedLanguages.values().map { it.getLanguageCode(it.toString()) }
+            return SupportedLanguages.values().map { SupportedLanguages.getLanguageCode(it) }
         }
     }
 }

@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -25,6 +27,7 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class ParticipantGridCellViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -33,7 +36,8 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel = ParticipantGridViewModel(
-                ParticipantGridCellViewModelFactory()
+                ParticipantGridCellViewModelFactory(),
+                appLocalizationProvider
             )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
@@ -80,7 +84,10 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel =
-                ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+                ParticipantGridViewModel(
+                    ParticipantGridCellViewModelFactory(),
+                    appLocalizationProvider
+                )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -139,7 +146,10 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel =
-                ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+                ParticipantGridViewModel(
+                    ParticipantGridCellViewModelFactory(),
+                    appLocalizationProvider
+                )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",

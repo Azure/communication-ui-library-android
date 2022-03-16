@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.factories
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayViewModel
@@ -17,45 +18,48 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
+    private val appLocalizationProvider: LocalizationProvider,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
 ) {
 
     private val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory)
+        ParticipantGridViewModel(participantGridCellViewModelFactory, appLocalizationProvider)
     }
 
     private val controlBarViewModel by lazy {
         ControlBarViewModel(
             store::dispatch,
+            appLocalizationProvider
         )
     }
 
+    // %1 people
     private val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel()
+        InfoHeaderViewModel(appLocalizationProvider)
     }
 
     private val audioDeviceListViewModel by lazy {
-        AudioDeviceListViewModel(store::dispatch)
+        AudioDeviceListViewModel(store::dispatch, appLocalizationProvider)
     }
 
     private val confirmLeaveOverlayViewModel by lazy {
-        ConfirmLeaveOverlayViewModel(store::dispatch)
+        ConfirmLeaveOverlayViewModel(store::dispatch, appLocalizationProvider)
     }
 
     private val localParticipantViewModel by lazy {
-        LocalParticipantViewModel(store::dispatch)
+        LocalParticipantViewModel(store::dispatch, appLocalizationProvider)
     }
 
     private val participantListViewModel by lazy {
-        ParticipantListViewModel()
+        ParticipantListViewModel(appLocalizationProvider)
     }
 
     private val bannerViewModel by lazy {
-        BannerViewModel()
+        BannerViewModel(appLocalizationProvider)
     }
 
     private val lobbyOverlayViewModel by lazy {
-        LobbyOverlayViewModel()
+        LobbyOverlayViewModel(appLocalizationProvider)
     }
 
     fun provideParticipantGridViewModel(): ParticipantGridViewModel {

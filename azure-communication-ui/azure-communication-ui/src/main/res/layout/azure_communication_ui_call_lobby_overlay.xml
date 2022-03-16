@@ -20,6 +20,7 @@
     >
 
     <ImageView
+        android:id="@+id/azure_communication_ui_call_call_lobby_overlay_wait_for_host_image"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:contentDescription="@string/azure_communication_ui_lobby_view_text_waiting_for_host"
@@ -37,6 +38,7 @@
         />
 
     <TextView
+        android:id="@+id/azure_communication_ui_call_lobby_overlay_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"

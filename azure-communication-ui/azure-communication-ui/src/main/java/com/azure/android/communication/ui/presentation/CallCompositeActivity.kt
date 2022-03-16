@@ -80,6 +80,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
+        diContainerHolder.localizationConfiguration = configuration.localizationConfig
+        configuration.localizationConfig?.let { localeConfig ->
+            Locale.setDefault(Locale(localeConfig.language))
+            if (localeConfig.isRightToLeft) {
+                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
+            }
+            diContainerHolder.localizationProvider.apply(localeConfig)
+        }
+
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
 
         val activity = this

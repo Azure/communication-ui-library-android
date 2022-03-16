@@ -83,6 +83,7 @@ internal class LocalParticipantView : ConstraintLayout {
         this.viewModel = viewModel
         this.videoViewManager = videoViewManager
 
+        setUpAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getVideoStatusFlow().collect {
                 setLocalParticipantVideo(it)
@@ -129,6 +130,14 @@ internal class LocalParticipantView : ConstraintLayout {
                 pipSwitchCameraButton.isEnabled = it
             }
         }
+    }
+
+    private fun setUpAccessibility() {
+        switchCameraButton.contentDescription = viewModel.getApplicationLocalizationProvider()
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_button_switch_camera_accessibility_label
+            )
     }
 
     private fun setLocalParticipantVideo(model: LocalParticipantViewModel.VideoModel) {
