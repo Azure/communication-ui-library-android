@@ -36,11 +36,14 @@ internal class SetupViewModelFactory(
     }
 
     private val warningsViewModel by lazy {
-        PermissionWarningViewModel(store::dispatch)
+        PermissionWarningViewModel(
+            store::dispatch,
+            appLocalizationProvider
+        )
     }
 
     private val snackBarViewModel by lazy {
-        ErrorInfoViewModel()
+        ErrorInfoViewModel(appLocalizationProvider)
     }
 
     private val setupGradientViewModel by lazy {
@@ -52,7 +55,10 @@ internal class SetupViewModelFactory(
     }
 
     private val joinCallButtonHolderViewModel by lazy {
-        JoinCallButtonHolderViewModel(store::dispatch)
+        JoinCallButtonHolderViewModel(
+            store::dispatch,
+            appLocalizationProvider
+        )
     }
 
     fun providePreviewAreaViewModel() = previewAreaViewModel

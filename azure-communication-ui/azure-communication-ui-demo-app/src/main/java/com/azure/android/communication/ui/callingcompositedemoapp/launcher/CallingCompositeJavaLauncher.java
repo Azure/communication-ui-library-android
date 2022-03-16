@@ -50,7 +50,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                     .getLanguageCode(selectedLanguage),
                     false, SettingsFeatures.Companion.getCustomTranslationMap()));
         } else {
-            builder.customizeLocalization(new LocalizationConfiguration("fr", true));
+            builder.customizeLocalization(new LocalizationConfiguration(LocalizationConfiguration
+                    .getLanguageCode(selectedLanguage), true));
         }
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {

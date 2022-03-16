@@ -82,7 +82,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         diContainerHolder.localizationConfiguration = configuration.localizationConfig
         configuration.localizationConfig?.let { localeConfig ->
-            Locale.setDefault(Locale(localeConfig.language))
+            Locale.setDefault(Locale(localeConfig.languageCode))
             if (localeConfig.isRightToLeft) {
                 window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
             }
@@ -160,7 +160,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 if (localeConfig.isRightToLeft) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
 
             val config: Configuration = resources.configuration
-            val languageAttributes = localeConfig.language.split("-")
+            val languageAttributes = localeConfig.languageCode.split("-")
             val languageCode = languageAttributes[0]
             val countryCode =
                 if (languageAttributes.size > 1) languageAttributes[1] else ""

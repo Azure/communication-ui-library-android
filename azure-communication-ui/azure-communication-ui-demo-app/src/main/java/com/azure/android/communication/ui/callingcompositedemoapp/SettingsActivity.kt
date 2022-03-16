@@ -61,7 +61,7 @@ class SettingsActivity : AppCompatActivity() {
         updateCustomStringCheckBox()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            val selectedItem: String = supportedLanguages.get(position)
+            val selectedItem: String = supportedLanguages[position]
             setLanguageValueInSharedPref(selectedItem)
             updateRTLCheckbox()
             updateCustomStringCheckBox()
@@ -119,6 +119,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.customTranslation -> {
+                    sharedPreference.edit().putBoolean(
+                        LANGUAGE_CUSTOM_TRANSLATION_ENABLE,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -154,8 +160,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateRTLCheckbox() {
-        val isRTLKey = LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + getSelectedLanguageValue()
         val selectedLanguage = getSelectedLanguageValue()
+        val isRTLKey = LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + selectedLanguage
         if (selectedLanguage != null) {
             isRTLCheckBox.isChecked =
                 sharedPreference.getBoolean(isRTLKey, DEFAULT_ISRTL_VALUE)
