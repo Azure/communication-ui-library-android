@@ -26,6 +26,8 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     private lateinit var progressBar: ProgressBar
     private lateinit var joiningCallText: AppCompatTextView
 
+    private lateinit var viewModel: JoinCallButtonHolderViewModel
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         setupJoinCallButton = findViewById(R.id.azure_communication_ui_setup_join_call_button)
@@ -43,15 +45,9 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         viewModel: JoinCallButtonHolderViewModel,
     ) {
-        val appLocalizationProvider = viewModel.getApplicationLocalizationProvider()
-        setupJoinCallButtonText.text = appLocalizationProvider.getLocalizedString(
-            context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_button_join_call),
-            context.getString(R.string.azure_communication_ui_setup_view_button_join_call)
-        )
-        joiningCallText.text = appLocalizationProvider.getLocalizedString(
-            context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_button_connecting_call),
-            context.getString(R.string.azure_communication_ui_setup_view_button_connecting_call)
-        )
+        this.viewModel = viewModel
+        setupJoinCallButtonText.text = getLocalizedString(R.string.azure_communication_ui_setup_view_button_join_call)
+        joiningCallText.text = getLocalizedString(R.string.azure_communication_ui_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
             viewModel.launchCallScreen()
@@ -86,5 +82,9 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             progressBar.visibility = GONE
             joiningCallText.visibility = GONE
         }
+    }
+
+    private fun getLocalizedString(stringId: Int): String {
+        return viewModel.getApplicationLocalizationProvider().getLocalizedString(context, stringId)
     }
 }

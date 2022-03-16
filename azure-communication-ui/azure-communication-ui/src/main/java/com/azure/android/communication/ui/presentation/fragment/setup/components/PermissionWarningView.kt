@@ -46,43 +46,37 @@ internal class PermissionWarningView : LinearLayout {
         this.viewModel = viewModel
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraPermissionStateFlow().collect {
-                onCameraPermissionStateUpdated(it, viewModel.getApplicationLocalizationProvider())
+                onCameraPermissionStateUpdated(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioPermissionStateFlow().collect {
-                onMicPermissionStateUpdated(it, viewModel.getApplicationLocalizationProvider())
+                onMicPermissionStateUpdated(it)
             }
         }
     }
 
-    private fun onCameraPermissionStateUpdated(
-        permissionState: PermissionStatus,
-        appLocalizationProvider: LocalizationProvider
-    ) {
+    private fun onCameraPermissionStateUpdated(permissionState: PermissionStatus) {
         if (permissionState == PermissionStatus.DENIED) {
             cameraPermissionGranted = false
         } else if (permissionState == PermissionStatus.GRANTED) {
             cameraPermissionGranted = true
             viewModel.turnCameraOn()
         }
-        updateSetupPermissionHolder(appLocalizationProvider)
+        updateSetupPermissionHolder()
     }
 
-    private fun onMicPermissionStateUpdated(
-        permissionState: PermissionStatus,
-        appLocalizationProvider: LocalizationProvider
-    ) {
+    private fun onMicPermissionStateUpdated(permissionState: PermissionStatus) {
         if (permissionState == PermissionStatus.DENIED) {
             micPermissionGranted = false
         } else if (permissionState == PermissionStatus.GRANTED) {
             micPermissionGranted = true
         }
-        updateSetupPermissionHolder(appLocalizationProvider)
+        updateSetupPermissionHolder()
     }
 
-    private fun updateSetupPermissionHolder(appLocalizationProvider: LocalizationProvider) {
+    private fun updateSetupPermissionHolder() {
         if (cameraPermissionGranted && micPermissionGranted) {
             setupPermissionsHolder.visibility = View.GONE
         } else if (!micPermissionGranted) {
@@ -93,12 +87,7 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText(
-                appLocalizationProvider.getLocalizedString(
-                    context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled),
-                    context.getString(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled)
-                )
-            )
+            setupMissingText.setText(getLocalizedString(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled))
         } else if (!cameraPermissionGranted) {
             setupPermissionsHolder.visibility = View.VISIBLE
             setupMissingImage.setImageDrawable(
@@ -107,12 +96,11 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText(
-                appLocalizationProvider.getLocalizedString(
-                    context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled),
-                    context.getString(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled)
-                )
-            )
+            setupMissingText.setText(getLocalizedString(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled))
         }
+    }
+
+    private fun getLocalizedString(stringId: Int): String {
+        return viewModel.getApplicationLocalizationProvider().getLocalizedString(context, stringId)
     }
 }
