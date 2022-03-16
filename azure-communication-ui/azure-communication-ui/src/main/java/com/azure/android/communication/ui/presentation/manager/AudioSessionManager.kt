@@ -19,7 +19,6 @@ import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
-import java.lang.IllegalArgumentException
 import android.media.AudioDeviceInfo
 import android.os.Build
 
@@ -66,12 +65,10 @@ internal class AudioSessionManager(
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
         }
 
-
         val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
         filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
-        
-        context.registerReceiver(this@AudioSessionManager, filter)
 
+        context.registerReceiver(this@AudioSessionManager, filter)
 
         initializeAudioDeviceState()
         updateBluetoothStatus()
