@@ -46,6 +46,8 @@ internal class InfoHeaderView : ConstraintLayout {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
 
+
+        setUpAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             if (accessibilityEnabled) {
                 floatingHeader.visibility = View.VISIBLE
@@ -57,10 +59,18 @@ internal class InfoHeaderView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
+            val appLocalizationProvider = infoHeaderViewModel.getApplicationLocalizationProvider()
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
                 when (it) {
-                    0 -> participantNumberText.setText(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
-                    1 -> participantNumberText.setText(R.string.azure_communication_ui_calling_view_info_header_call_with_1_person)
+                    0 -> participantNumberText.text = appLocalizationProvider.getLocalizedString(
+                        context,
+                        R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join
+                    )
+
+                    1 -> participantNumberText.text = appLocalizationProvider.getLocalizedString(
+                        context,
+                        R.string.azure_communication_ui_calling_view_info_header_call_with_1_person
+                    )
                     else ->
                         participantNumberText.text =
                             resources.getString(
@@ -70,5 +80,14 @@ internal class InfoHeaderView : ConstraintLayout {
                 }
             }
         }
+    }
+
+    private fun setUpAccessibility() {
+        displayParticipantsImageButton.contentDescription =
+            infoHeaderViewModel.getApplicationLocalizationProvider()
+                .getLocalizedString(
+                    context,
+                    R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label
+                )
     }
 }

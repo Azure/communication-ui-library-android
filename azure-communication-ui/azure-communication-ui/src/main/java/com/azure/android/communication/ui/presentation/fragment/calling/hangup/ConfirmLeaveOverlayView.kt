@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.LinearLayout
@@ -47,11 +48,26 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
     ) {
         this.confirmLeaveOverlayViewModel = confirmLeaveOverlayViewModel
 
+        setUpUi()
         viewLifecycleOwner.lifecycleScope.launch {
             confirmLeaveOverlayViewModel.getShouldDisplayConfirmLeaveOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
             }
         }
+    }
+
+    private fun setUpUi() {
+        confirmLeaveCallButton.text =
+            confirmLeaveOverlayViewModel.getApplicationLocalizationProvider().getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_overlay_leave_call
+            )
+
+        cancelLeaveCallButton.text =
+            confirmLeaveOverlayViewModel.getApplicationLocalizationProvider().getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_overlay_cancel
+            )
     }
 
     private fun subscribeClickListener() {
