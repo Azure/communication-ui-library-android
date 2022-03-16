@@ -55,6 +55,13 @@ internal class ParticipantGridCellVideoView(
                 setMicButtonVisibility(it)
             }
         }
+
+        lifecycleScope.launch {
+            participantViewModel.getIsNameIndicatorVisibleStateFlow().collect {
+                setNameAndMicIndicatorViewVisibility(it)
+            }
+        }
+
         lifecycleScope.launch {
             participantViewModel.getIsSpeakingStateFlow().collect {
                 setSpeakingIndicator(it)
@@ -166,13 +173,17 @@ internal class ParticipantGridCellVideoView(
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
         if (!isMicButtonVisible) {
-            if (displayNameOnVideoTextView.visibility == GONE) {
-                displayNameAndMicIndicatorViewContainer.visibility = GONE
-            }
             micIndicatorOnVideoImageView.visibility = GONE
         } else {
-            displayNameAndMicIndicatorViewContainer.visibility = VISIBLE
             micIndicatorOnVideoImageView.visibility = VISIBLE
+        }
+    }
+
+    private fun setNameAndMicIndicatorViewVisibility(isNameIndicatorVisible: Boolean) {
+        if (!isNameIndicatorVisible) {
+            displayNameAndMicIndicatorViewContainer.visibility = GONE
+        } else {
+            displayNameAndMicIndicatorViewContainer.visibility = VISIBLE
         }
     }
 
