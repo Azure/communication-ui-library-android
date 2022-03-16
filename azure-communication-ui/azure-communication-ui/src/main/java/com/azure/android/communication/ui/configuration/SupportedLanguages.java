@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 final class SupportedLanguages {
-    private static final List<String> SUPPORTEDLANGUAGELIST = new ArrayList<String>();
+    private static final List<String> SUPPORTED_LANGUAGE_LIST = new ArrayList<String>();
     private static final String ENGLISH = "ENGLISH";
     private static final String CHINESE_SIMPLIFIED = "CHINESE_SIMPLIFIED";
     private static final String SPANISH = "SPANISH";
@@ -25,25 +25,25 @@ final class SupportedLanguages {
     private static final String ENGLISH_UK = "ENGLISH_UK";
 
     static {
-        SUPPORTEDLANGUAGELIST.add(ENGLISH);
-        SUPPORTEDLANGUAGELIST.add(CHINESE_SIMPLIFIED);
-        SUPPORTEDLANGUAGELIST.add(SPANISH);
-        SUPPORTEDLANGUAGELIST.add(RUSSIAN);
-        SUPPORTEDLANGUAGELIST.add(JAPANESE);
-        SUPPORTEDLANGUAGELIST.add(FRENCH);
-        SUPPORTEDLANGUAGELIST.add(BRAZILIAN_PORTUGUESE);
-        SUPPORTEDLANGUAGELIST.add(GERMAN);
-        SUPPORTEDLANGUAGELIST.add(KOREAN);
-        SUPPORTEDLANGUAGELIST.add(ITALIAN);
-        SUPPORTEDLANGUAGELIST.add(CHINESE_TRADITIONAL);
-        SUPPORTEDLANGUAGELIST.add(DUTCH);
-        SUPPORTEDLANGUAGELIST.add(TURKISH);
-        SUPPORTEDLANGUAGELIST.add(ENGLISH_UK);
+        SUPPORTED_LANGUAGE_LIST.add(ENGLISH);
+        SUPPORTED_LANGUAGE_LIST.add(CHINESE_SIMPLIFIED);
+        SUPPORTED_LANGUAGE_LIST.add(SPANISH);
+        SUPPORTED_LANGUAGE_LIST.add(RUSSIAN);
+        SUPPORTED_LANGUAGE_LIST.add(JAPANESE);
+        SUPPORTED_LANGUAGE_LIST.add(FRENCH);
+        SUPPORTED_LANGUAGE_LIST.add(BRAZILIAN_PORTUGUESE);
+        SUPPORTED_LANGUAGE_LIST.add(GERMAN);
+        SUPPORTED_LANGUAGE_LIST.add(KOREAN);
+        SUPPORTED_LANGUAGE_LIST.add(ITALIAN);
+        SUPPORTED_LANGUAGE_LIST.add(CHINESE_TRADITIONAL);
+        SUPPORTED_LANGUAGE_LIST.add(DUTCH);
+        SUPPORTED_LANGUAGE_LIST.add(TURKISH);
+        SUPPORTED_LANGUAGE_LIST.add(ENGLISH_UK);
     }
 
     /** @return known SupportedLanguages as String list. */
     public static List<String> values() {
-        return Collections.unmodifiableList(SUPPORTEDLANGUAGELIST);
+        return Collections.unmodifiableList(SUPPORTED_LANGUAGE_LIST);
     }
 
     /**

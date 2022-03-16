@@ -56,10 +56,10 @@ class SettingsFeatures {
         }
 
         fun getCustomTranslationMap(): Map<String, String> {
-            val customTranslationMap: Map<String, String> = HashMap()
-            (customTranslationMap as HashMap<String, String>)["azure_communication_ui_setup_view_button_mic_on"] = "মাইক অন"
-            (customTranslationMap as HashMap<String, String>)["azure_communication_ui_setup_view_button_mic_off"] = "মাইক বন্ধ"
-            return customTranslationMap
+            return mapOf(
+                "azure_communication_ui_setup_view_button_mic_on" to "মাইক অন",
+                "azure_communication_ui_setup_view_button_mic_off" to "মাইক বন্ধ",
+            )
         }
     }
 }
