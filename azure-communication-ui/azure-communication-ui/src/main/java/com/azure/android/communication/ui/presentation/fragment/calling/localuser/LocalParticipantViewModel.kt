@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
@@ -18,6 +19,7 @@ internal enum class LocalParticipantViewMode {
 
 internal class LocalParticipantViewModel(
     private val dispatch: (Action) -> Unit,
+    private val appLocalizationProvider: LocalizationProvider
 ) {
     private lateinit var videoStatusFlow: MutableStateFlow<VideoModel>
     private lateinit var displayFullScreenAvatarFlow: MutableStateFlow<Boolean>
@@ -96,6 +98,10 @@ internal class LocalParticipantViewModel(
 
     fun switchCamera() {
         dispatch(LocalParticipantAction.CameraSwitchTriggered())
+    }
+
+    fun getApplicationLocalizationProvider(): LocalizationProvider {
+        return appLocalizationProvider
     }
 
     private fun shouldDisplayVideo(videoStreamID: String?) = videoStreamID != null

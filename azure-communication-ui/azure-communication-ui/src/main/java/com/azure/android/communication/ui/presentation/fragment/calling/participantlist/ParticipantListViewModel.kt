@@ -3,13 +3,14 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.LocalUserState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ParticipantListViewModel {
+internal class ParticipantListViewModel(private val appLocalizationProvider: LocalizationProvider) {
 
     private lateinit var remoteParticipantListCellStateFlow: MutableStateFlow<List<ParticipantListCellModel>>
     private lateinit var localParticipantListCellStateFlow: MutableStateFlow<ParticipantListCellModel>
@@ -25,6 +26,10 @@ internal class ParticipantListViewModel {
 
     fun getDisplayParticipantListStateFlow(): StateFlow<Boolean> {
         return displayParticipantListStateFlow
+    }
+
+    fun getApplicationLocalizationProvider(): LocalizationProvider {
+        return appLocalizationProvider
     }
 
     fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(

@@ -184,7 +184,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(appStore, participantGridCellViewModelFactory)
+        CallingViewModelFactory(
+            appStore,
+            applicationLocalizationProvider,
+            participantGridCellViewModelFactory
+        )
     }
     //endregion
 

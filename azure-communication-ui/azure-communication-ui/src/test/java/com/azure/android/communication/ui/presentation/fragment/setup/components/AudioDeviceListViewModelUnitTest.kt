@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.redux.AppStore
@@ -33,6 +35,7 @@ import org.mockito.kotlin.verify
 internal class AudioDeviceListViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun audioDeviceListViewModel_switchAudioDevice_then_dispatchAudioDeviceChangeRequested() {
@@ -40,7 +43,11 @@ internal class AudioDeviceListViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val audioDeviceListViewModel = AudioDeviceListViewModel(mockAppStore::dispatch)
+        val audioDeviceListViewModel =
+            AudioDeviceListViewModel(
+                mockAppStore::dispatch,
+                appLocalizationProvider
+            )
         val requestedAudioDevice = AudioDeviceSelectionStatus.SPEAKER_REQUESTED
 
         // Act
@@ -60,7 +67,11 @@ internal class AudioDeviceListViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>>()
-            val audioDeviceListViewModel = AudioDeviceListViewModel(mockAppStore::dispatch)
+            val audioDeviceListViewModel =
+                AudioDeviceListViewModel(
+                    mockAppStore::dispatch,
+                    appLocalizationProvider
+                )
 
             audioDeviceListViewModel.init(
                 AudioState(

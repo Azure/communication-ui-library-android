@@ -21,7 +21,7 @@ internal class SetupViewModelFactory(
 ) {
 
     private val audioDeviceListViewModel by lazy {
-        AudioDeviceListViewModel(store::dispatch)
+        AudioDeviceListViewModel(store::dispatch, appLocalizationProvider)
     }
 
     private val previewAreaViewModel by lazy {

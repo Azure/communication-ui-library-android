@@ -127,7 +127,7 @@ internal class ParticipantListView(
         // with suffix in this way
         val localParticipant =
             viewModel.createLocalParticipantListCell(
-                resources.getString(R.string.azure_communication_ui_call_local_participant_suffix)
+                resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
             )
         bottomCellItems
             .add(
@@ -136,10 +136,11 @@ internal class ParticipantListView(
         for (remoteParticipant in remoteParticipantCellModels) {
             bottomCellItems.add(
                 generateBottomCellItem(
-                    if (remoteParticipant.displayName.isEmpty()) resources
-                        .getString(
-                            R.string.azure_communication_ui_call_participant_list_unnamed_participant
-                        ) // create xml string
+                    if (remoteParticipant.displayName.isEmpty()) viewModel.getApplicationLocalizationProvider()
+                        .getLocalizedString(
+                            context,
+                            R.string.azure_communication_ui_calling_view_participant_drawer_unnamed
+                        )
                     else remoteParticipant.displayName,
                     remoteParticipant.isMuted
                 )
@@ -158,7 +159,11 @@ internal class ParticipantListView(
                 R.drawable.azure_communication_ui_ic_fluent_mic_off_24_regular
             ),
             R.color.azure_communication_ui_color_participant_list_mute_mic,
-            resources.getString(R.string.azure_communication_ui_call_open_participant_list_muted),
+            viewModel.getApplicationLocalizationProvider()
+                .getLocalizedString(
+                    context,
+                    R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label
+                ),
             isMuted
         ) {
         }

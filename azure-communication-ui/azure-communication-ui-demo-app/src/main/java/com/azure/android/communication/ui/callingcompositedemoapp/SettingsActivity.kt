@@ -15,17 +15,18 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.configuration.SupportedLanguages
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var supportedLanguages: List<SupportedLanguages>
+    private lateinit var supportedLanguages: List<String>
     private lateinit var autoCompleteTextView: AutoCompleteTextView
-    private lateinit var languageArrayAdapter: ArrayAdapter<SupportedLanguages>
+    private lateinit var languageArrayAdapter: ArrayAdapter<String>
     private lateinit var isRTLCheckBox: CheckBox
+    private lateinit var customTranslationCheckBox: CheckBox
     private lateinit var languageSettingLabelView: TextView
     private lateinit var callSettingLabelView: TextView
     private lateinit var languageSettingLabelDivider: View
@@ -39,7 +40,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         this.initializeViews()
-        supportedLanguages = SupportedLanguages.values().toList()
+        supportedLanguages = LocalizationConfiguration.getSupportedLanguages()
         setLanguageInSharedPrefForFirstTime()
     }
 
@@ -57,13 +58,13 @@ class SettingsActivity : AppCompatActivity() {
         SettingsFeatures.isLanguageFeatureEnabled = SettingsFeatures.getIsLanguageFeatureEnabled(this)
         languageSettingsExperience()
         updateRTLCheckbox()
+        updateCustomStringCheckBox()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            val selectedItem: String = supportedLanguages.get(position).toString()
+            val selectedItem: String = supportedLanguages.get(position)
             setLanguageValueInSharedPref(selectedItem)
-            sharedPreference.edit().putInt(LANGUAGE_ADAPTER_POSITION_SHARED_PREF_KEY, position)
-                .apply()
             updateRTLCheckbox()
+            updateCustomStringCheckBox()
         }
 
         callSettingLabelView.setOnTouchListener(
@@ -129,6 +130,7 @@ class SettingsActivity : AppCompatActivity() {
         isRTLCheckBox = findViewById(R.id.languageIsRTL)
         languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
+        customTranslationCheckBox = findViewById(R.id.customTranslation)
     }
 
     private fun languageSettingsExperience() {
@@ -137,11 +139,13 @@ class SettingsActivity : AppCompatActivity() {
             languageSettingLabelDivider.visibility = View.GONE
             languageAdapterLayout.visibility = View.GONE
             isRTLCheckBox.visibility = View.GONE
+            customTranslationCheckBox.visibility = View.GONE
         } else {
             languageSettingLabelView.visibility = View.VISIBLE
             languageSettingLabelDivider.visibility = View.VISIBLE
             languageAdapterLayout.visibility = View.VISIBLE
             isRTLCheckBox.visibility = View.VISIBLE
+            customTranslationCheckBox.visibility = View.VISIBLE
         }
         SettingsFeatures.setIsLanguageFeatureEnabled(
             this,
@@ -151,26 +155,32 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateRTLCheckbox() {
         val isRTLKey = LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + getSelectedLanguageValue()
-        val selectedLanguage = findSelectedLanguage()
+        val selectedLanguage = getSelectedLanguageValue()
         if (selectedLanguage != null) {
             isRTLCheckBox.isChecked =
-                sharedPreference.getBoolean(isRTLKey, selectedLanguage.getIsRTLDefaultValue(selectedLanguage))
+                sharedPreference.getBoolean(isRTLKey, DEFAULT_ISRTL_VALUE)
         }
     }
 
+    private fun updateCustomStringCheckBox() {
+        customTranslationCheckBox.isChecked = sharedPreference
+            .getBoolean(LANGUAGE_CUSTOM_TRANSLATION_ENABLE, DEFAULT_CUSTOM_TRANSLATION_VALUE)
+    }
+
     private fun getDeviceLanguage(): String {
-        return Locale.getDefault().language
+        return Locale.getDefault().displayLanguage
     }
 
     private fun setLanguageInSharedPrefForFirstTime() {
-        val localeLanguageCode = getDeviceLanguage()
+        val deviceLocaleLanguage = getDeviceLanguage()
         if (isFirstRun()) {
             for (language in supportedLanguages) {
-                if (localeLanguageCode == language.getLanguageCode(language)) {
-                    setLanguageValueInSharedPref(language.toString())
+                if (language == deviceLocaleLanguage) {
+                    setLanguageValueInSharedPref(language)
                     break
                 }
             }
+            if (isFirstRun()) setLanguageValueInSharedPref(DEFAULT_LANGUAGE_VALUE)
         }
     }
 
@@ -202,22 +212,18 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_LANGUAGE_VALUE
         )
     }
-
-    private fun findSelectedLanguage(): SupportedLanguages? {
-        val selectedLanguage = getSelectedLanguageValue()
-        return supportedLanguages.find { it.toString() == selectedLanguage }
-    }
 }
 
 // Shared pref Keys for language & rtl settings
 
 const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
 const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "isRTL_VALUE_OF_"
-const val LANGUAGE_ADAPTER_POSITION_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_POSITION"
 const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
+const val LANGUAGE_CUSTOM_TRANSLATION_ENABLE = "LANGUAGE_CUSTOM_TRANSLATION_ENABLE"
 
 // Shared pref default values for language & rtl settings
 
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_ISRTL_VALUE = false
+const val DEFAULT_CUSTOM_TRANSLATION_VALUE = false
 const val HIDDEN_TAP_COUNT_THRESHOLD = 5

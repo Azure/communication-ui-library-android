@@ -12,6 +12,6 @@ package com.azure.android.communication.ui.configuration
 //
 // @see {@link com.azure.android.communication.ui.configuration}
 internal interface SupportedLanguageAttributes {
-    fun getLanguageCode(language: SupportedLanguages): String
-    fun getIsRTLDefaultValue(language: SupportedLanguages): Boolean
+    fun getLanguageCode(language: String): String
+    fun getIsRTLDefaultValue(language: String): Boolean
 }

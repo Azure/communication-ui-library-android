@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -25,6 +27,7 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class ParticipantGridCellViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -33,7 +36,8 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel = ParticipantGridViewModel(
-                ParticipantGridCellViewModelFactory()
+                ParticipantGridCellViewModelFactory(),
+                appLocalizationProvider
             )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
@@ -80,7 +84,10 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel =
-                ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+                ParticipantGridViewModel(
+                    ParticipantGridCellViewModelFactory(),
+                    appLocalizationProvider
+                )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -139,7 +146,10 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel =
-                ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+                ParticipantGridViewModel(
+                    ParticipantGridCellViewModelFactory(),
+                    appLocalizationProvider
+                )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -447,6 +457,73 @@ internal class ParticipantGridCellViewModelUnitTest {
             flowJobMuted.cancel()
             flowJobSpeaking.cancel()
             flowJobVideoStream.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun participantViewModel_created_with_blankUsername_checkIfNameAndMicIndicator_should_be_displayed() =
+        mainCoroutineRule.testDispatcher.runBlockingTest {
+            // arrange
+            val emitResultDisplayName = mutableListOf<String>()
+            val emitResultIsMuted = mutableListOf<Boolean>()
+            val emitResultIsNameIndicatorVisibleStateFlow = mutableListOf<Boolean>()
+
+            // act
+            val participantViewModel = ParticipantGridCellViewModel(
+                "user one",
+                "",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
+                screenShareVideoStreamModel = null,
+                modifiedTimestamp = 456
+            )
+
+            val flowJobDisplayName = launch {
+                participantViewModel.getDisplayNameStateFlow()
+                    .toList(emitResultDisplayName)
+            }
+
+            val flowJobMuted = launch {
+                participantViewModel.getIsMutedStateFlow()
+                    .toList(emitResultIsMuted)
+            }
+
+            val flowJobNameIndicator = launch {
+                participantViewModel.getIsNameIndicatorVisibleStateFlow()
+                    .toList(emitResultIsNameIndicatorVisibleStateFlow)
+            }
+
+            // act
+            participantViewModel.update(
+                getParticipantInfoModel(
+                    "",
+                    "user1",
+                    isMuted = false,
+                    isSpeaking = false,
+                    null,
+                    VideoStreamModel(
+                        "video",
+                        StreamType.VIDEO
+                    ),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567
+                )
+            )
+
+            // assert
+            Assert.assertEquals("", emitResultDisplayName[0])
+            Assert.assertEquals(true, emitResultIsMuted[0])
+            Assert.assertEquals(true, emitResultIsNameIndicatorVisibleStateFlow[0])
+
+            // assert updates
+            Assert.assertEquals(1, emitResultDisplayName.size)
+            Assert.assertEquals(false, emitResultIsMuted[1])
+            Assert.assertEquals(false, emitResultIsNameIndicatorVisibleStateFlow[1])
+
+            flowJobDisplayName.cancel()
+            flowJobMuted.cancel()
+            flowJobNameIndicator.cancel()
         }
 
     private fun getParticipantInfoModel(
