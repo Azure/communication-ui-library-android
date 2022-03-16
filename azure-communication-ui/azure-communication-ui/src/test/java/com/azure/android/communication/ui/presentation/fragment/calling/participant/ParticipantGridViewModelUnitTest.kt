@@ -653,7 +653,7 @@ internal class ParticipantGridViewModelUnitTest {
 
             assertTrue(
                 participantViewModelFirst.getParticipantUserIdentifier() == "user23" &&
-                        participantViewModelFirst.getDisplayNameStateFlow().value == "user23"
+                    participantViewModelFirst.getDisplayNameStateFlow().value == "user23"
             )
 
             assertEquals(
