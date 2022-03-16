@@ -46,7 +46,6 @@ internal class InfoHeaderView : ConstraintLayout {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
 
-
         setUpAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             if (accessibilityEnabled) {
