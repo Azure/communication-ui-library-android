@@ -3,49 +3,47 @@
 
 package com.azure.android.communication.ui.configuration;
 
-import com.azure.android.core.util.ExpandableStringEnum;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-final class SupportedLanguages extends ExpandableStringEnum<SupportedLanguages>
-        implements SupportedLanguageAttributes {
-    public static final SupportedLanguages ENGLISH = fromString("ENGLISH");
-    public static final SupportedLanguages CHINESE_SIMPLIFIED = fromString("CHINESE_SIMPLIFIED");
-    public static final SupportedLanguages SPANISH = fromString("SPANISH");
-    public static final SupportedLanguages RUSSIAN = fromString("RUSSIAN");
-    public static final SupportedLanguages JAPANESE = fromString("JAPANESE");
-    public static final SupportedLanguages FRENCH = fromString("FRENCH");
-    public static final SupportedLanguages BRAZILIAN_PORTUGUESE = fromString("BRAZILIAN_PORTUGUESE");
-    public static final SupportedLanguages GERMAN = fromString("GERMAN");
-    public static final SupportedLanguages KOREAN = fromString("KOREAN");
-    public static final SupportedLanguages ITALIAN = fromString("ITALIAN");
-    public static final SupportedLanguages CHINESE_TRADITIONAL = fromString("CHINESE_TRADITIONAL");
-    public static final SupportedLanguages DUTCH = fromString("DUTCH");
-    public static final SupportedLanguages TURKISH = fromString("TURKISH");
-    public static final SupportedLanguages ENGLISH_UK = fromString("ENGLISH_UK");
+final class SupportedLanguages {
+    private static final List<String> SUPPORTED_LANGUAGE_LIST = new ArrayList<String>();
+    private static final String ENGLISH = "ENGLISH";
+    private static final String CHINESE_SIMPLIFIED = "CHINESE_SIMPLIFIED";
+    private static final String SPANISH = "SPANISH";
+    private static final String RUSSIAN = "RUSSIAN";
+    private static final String JAPANESE = "JAPANESE";
+    private static final String FRENCH = "FRENCH";
+    private static final String BRAZILIAN_PORTUGUESE = "BRAZILIAN_PORTUGUESE";
+    private static final String GERMAN = "GERMAN";
+    private static final String KOREAN = "KOREAN";
+    private static final String ITALIAN = "ITALIAN";
+    private static final String CHINESE_TRADITIONAL = "CHINESE_TRADITIONAL";
+    private static final String DUTCH = "DUTCH";
+    private static final String TURKISH = "TURKISH";
+    private static final String ENGLISH_UK = "ENGLISH_UK";
 
-    /**
-     * Creates or finds a SupportedLanguages from its string representation.
-     *
-     * @param languageCode is the locale.
-     * @return the corresponding SupportedLanguages.
-     */
-    public static SupportedLanguages fromString(final String languageCode) {
-        return fromString(languageCode, SupportedLanguages.class);
+    static {
+        SUPPORTED_LANGUAGE_LIST.add(ENGLISH);
+        SUPPORTED_LANGUAGE_LIST.add(CHINESE_SIMPLIFIED);
+        SUPPORTED_LANGUAGE_LIST.add(SPANISH);
+        SUPPORTED_LANGUAGE_LIST.add(RUSSIAN);
+        SUPPORTED_LANGUAGE_LIST.add(JAPANESE);
+        SUPPORTED_LANGUAGE_LIST.add(FRENCH);
+        SUPPORTED_LANGUAGE_LIST.add(BRAZILIAN_PORTUGUESE);
+        SUPPORTED_LANGUAGE_LIST.add(GERMAN);
+        SUPPORTED_LANGUAGE_LIST.add(KOREAN);
+        SUPPORTED_LANGUAGE_LIST.add(ITALIAN);
+        SUPPORTED_LANGUAGE_LIST.add(CHINESE_TRADITIONAL);
+        SUPPORTED_LANGUAGE_LIST.add(DUTCH);
+        SUPPORTED_LANGUAGE_LIST.add(TURKISH);
+        SUPPORTED_LANGUAGE_LIST.add(ENGLISH_UK);
     }
 
-    /**
-     * Gets the enum instance name in String
-     *
-     * @return the corresponding enum instance in string
-     */
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    /** @return known SupportedLanguages values. */
-    public static Collection<SupportedLanguages> values() {
-        return values(SupportedLanguages.class);
+    /** @return known SupportedLanguages as String list. */
+    public static List<String> values() {
+        return Collections.unmodifiableList(SUPPORTED_LANGUAGE_LIST);
     }
 
     /**
@@ -54,8 +52,7 @@ final class SupportedLanguages extends ExpandableStringEnum<SupportedLanguages>
      * @param language is a supported language.
      * @return corresponding locale value for the language
      */
-    @Override
-    public String getLanguageCode(final String language) {
+    public static String getLanguageCode(final String language) {
         switch (language) {
             case "SPANISH": return "es";
             case "CHINESE_SIMPLIFIED": return "zh-CN";
@@ -74,14 +71,12 @@ final class SupportedLanguages extends ExpandableStringEnum<SupportedLanguages>
         }
     }
 
-
     /**
      * Gets the default isRTL config
      *
      * @return returns the default or conventional isRTl boolean value
      */
-    @Override
-    public boolean getIsRTLDefaultValue(final String language) {
+    public static boolean getIsRTLDefaultValue(final String language) {
         return false;
     }
 }

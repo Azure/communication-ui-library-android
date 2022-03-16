@@ -56,6 +56,14 @@
         android:text="@string/isRTLCheckboxLabel"
         tools:ignore="UsingOnClickInXml" />
 
+    <CheckBox
+        android:id="@+id/customTranslation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onCheckBoxTap"
+        android:text="@string/enableCustomTranslation"
+        tools:ignore="UsingOnClickInXml" />
+
     <TextView
         android:id="@+id/callSellingLabelView"
         android:layout_width="match_parent"
