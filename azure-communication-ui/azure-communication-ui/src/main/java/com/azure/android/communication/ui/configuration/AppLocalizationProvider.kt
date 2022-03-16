@@ -41,7 +41,7 @@ internal class AppLocalizationProvider : LocalizationProvider {
         }
 
         fun getSupportedLocales(): List<String> {
-            return SupportedLanguages.values().map { it.getLanguageCode(it) }
+            return SupportedLanguages.values().map { it.getLanguageCode(it.toString()) }
         }
     }
 }

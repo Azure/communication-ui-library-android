@@ -86,7 +86,7 @@ public class LocalizationConfiguration {
      *
      * @return List of supported Locale as String List
      */
-    public List<String> getSupportedLanguages() {
+    public static List<String> getSupportedLanguages() {
         return AppLocalizationProvider.Companion.getSupportedLanguages();
     }
 }
