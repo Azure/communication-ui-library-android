@@ -97,13 +97,13 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
                     ),
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_android),
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_android),
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
                     null,
-                    resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
+                    resources.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
@@ -115,13 +115,13 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
                     ),
-                    context.getString(R.string.azure_communication_ui_setup_audio_device_speaker),
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_speaker),
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
                     null,
-                    resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
+                    resources.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
 
                 ) {
@@ -147,7 +147,7 @@ internal class AudioDeviceListView(
                         ),
 
                         null,
-                        resources.getString(R.string.azure_communication_ui_setup_audio_device_selected),
+                        resources.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                         enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
 
                     ) {
@@ -167,8 +167,8 @@ internal class AudioDeviceListView(
 
     private fun getDeviceTypeName(audioState: AudioState): String {
         return when (audioState.device) {
-            AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED -> context.getString(R.string.azure_communication_ui_setup_audio_device_android)
-            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED -> context.getString(R.string.azure_communication_ui_setup_audio_device_speaker)
+            AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED -> context.getString(R.string.azure_communication_ui_audio_device_drawer_android)
+            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED -> context.getString(R.string.azure_communication_ui_audio_device_drawer_speaker)
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> audioState.bluetoothState.deviceName
         }
     }

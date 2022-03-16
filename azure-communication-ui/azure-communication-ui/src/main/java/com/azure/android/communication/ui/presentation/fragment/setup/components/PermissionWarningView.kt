@@ -86,7 +86,7 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText(R.string.azure_communication_ui_setup_missing_mic)
+            setupMissingText.setText(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled)
         } else if (!cameraPermissionGranted) {
             setupPermissionsHolder.visibility = View.VISIBLE
             setupMissingImage.setImageDrawable(
@@ -95,7 +95,7 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText(R.string.azure_communication_ui_setup_missing_video)
+            setupMissingText.setText(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled)
         }
     }
 }
