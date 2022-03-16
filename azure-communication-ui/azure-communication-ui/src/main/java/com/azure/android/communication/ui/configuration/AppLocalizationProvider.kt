@@ -12,7 +12,7 @@ internal class AppLocalizationProvider : LocalizationProvider {
         if (supportedLocales.contains(localeConfig.language)) {
             language = localeConfig.language
         }
-        if(localeConfig.customTranslation != null) {
+        if (localeConfig.customTranslation != null) {
             customTranslation = localeConfig.customTranslation
         }
     }

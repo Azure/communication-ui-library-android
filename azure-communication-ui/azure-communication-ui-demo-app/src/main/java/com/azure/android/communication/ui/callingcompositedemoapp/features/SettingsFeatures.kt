@@ -4,7 +4,11 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.features
 
 import android.content.Context
-import com.azure.android.communication.ui.callingcompositedemoapp.*
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ISRTL_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_CUSTOM_TRANSLATION_ENABLE
+import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 
 class SettingsFeatures {
