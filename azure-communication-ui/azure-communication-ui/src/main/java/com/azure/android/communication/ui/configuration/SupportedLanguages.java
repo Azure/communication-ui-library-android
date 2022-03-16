@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.configuration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 final class SupportedLanguages {
@@ -23,8 +24,7 @@ final class SupportedLanguages {
     private static final String TURKISH = "TURKISH";
     private static final String ENGLISH_UK = "ENGLISH_UK";
 
-    /** @return known SupportedLanguages as String list. */
-    public static List<String> values() {
+    static {
         SUPPORTEDLANGUAGELIST.add(ENGLISH);
         SUPPORTEDLANGUAGELIST.add(CHINESE_SIMPLIFIED);
         SUPPORTEDLANGUAGELIST.add(SPANISH);
@@ -39,7 +39,11 @@ final class SupportedLanguages {
         SUPPORTEDLANGUAGELIST.add(DUTCH);
         SUPPORTEDLANGUAGELIST.add(TURKISH);
         SUPPORTEDLANGUAGELIST.add(ENGLISH_UK);
-        return SUPPORTEDLANGUAGELIST;
+    }
+
+    /** @return known SupportedLanguages as String list. */
+    public static List<String> values() {
+        return Collections.unmodifiableList(SUPPORTEDLANGUAGELIST);
     }
 
     /**
