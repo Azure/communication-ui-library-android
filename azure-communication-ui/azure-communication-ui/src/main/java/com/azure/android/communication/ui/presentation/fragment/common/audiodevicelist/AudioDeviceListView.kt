@@ -147,7 +147,7 @@ internal class AudioDeviceListView(
                         null,
                         getLocalizedString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                         enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
-                        ) {
+                    ) {
                         viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
                         audioDeviceDrawer.dismiss()
                     }
