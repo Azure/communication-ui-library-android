@@ -43,7 +43,7 @@ internal class SetupViewModelFactory(
     }
 
     private val snackBarViewModel by lazy {
-        ErrorInfoViewModel()
+        ErrorInfoViewModel(appLocalizationProvider)
     }
 
     private val setupGradientViewModel by lazy {
