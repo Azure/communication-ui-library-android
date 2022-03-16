@@ -25,20 +25,20 @@ import java.util.Map;
  * @see CallComposite
  */
 public class LocalizationConfiguration {
-    private String language;
+    private String languageCode;
     private boolean isRightToLeft;
     private Map<String, String> customTranslation;
 
     /**
      * Create Localization Configuration with customString
      *
-     * @param language
+     * @param languageCode
      * @param isRightToLeft
      * @param customTranslation
      */
-    public LocalizationConfiguration(final String language, final boolean isRightToLeft,
+    public LocalizationConfiguration(final String languageCode, final boolean isRightToLeft,
                                      final Map<String, String> customTranslation) {
-        this.language = language;
+        this.languageCode = languageCode;
         this.isRightToLeft = isRightToLeft;
         this.customTranslation = customTranslation;
     }
@@ -46,11 +46,11 @@ public class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param language      string eg,. "en"
+     * @param languageCode      string eg,. "en"
      * @param isRightToLeft boolean the layout direction
      */
-    public LocalizationConfiguration(final String language, final boolean isRightToLeft) {
-        this.language = language;
+    public LocalizationConfiguration(final String languageCode, final boolean isRightToLeft) {
+        this.languageCode = languageCode;
         this.isRightToLeft = isRightToLeft;
     }
 
@@ -59,8 +59,8 @@ public class LocalizationConfiguration {
      *
      * @return language string
      */
-    public String getLanguage() {
-        return language;
+    public String getLanguageCode() {
+        return languageCode;
     }
 
     /**

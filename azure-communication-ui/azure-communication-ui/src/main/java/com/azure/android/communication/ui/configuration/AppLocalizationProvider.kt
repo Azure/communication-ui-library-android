@@ -11,8 +11,8 @@ internal class AppLocalizationProvider : LocalizationProvider {
 
     override fun apply(localeConfig: LocalizationConfiguration) {
         val supportedLocales = getSupportedLocales()
-        if (supportedLocales.contains(localeConfig.language)) {
-            language = localeConfig.language
+        if (supportedLocales.contains(localeConfig.languageCode)) {
+            language = localeConfig.languageCode
         }
         if (localeConfig.customTranslation != null) {
             customTranslation = localeConfig.customTranslation
