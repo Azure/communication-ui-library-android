@@ -129,16 +129,16 @@ internal class SetupControlBarView : LinearLayout {
                 cameraButton.isSelected = true
                 cameraButton.text = appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_mic_on),
-                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_on)
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_video_on),
+                    context.getString(R.string.azure_communication_ui_setup_view_button_video_on)
                 )
             }
             CameraOperationalStatus.OFF -> {
                 cameraButton.isSelected = false
                 cameraButton.text = appLocalizationProvider.getLocalizedString(
                     context.resources
-                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_mic_off),
-                    context.getString(R.string.azure_communication_ui_setup_view_button_mic_off)
+                        .getResourceEntryName(R.string.azure_communication_ui_setup_view_button_video_off),
+                    context.getString(R.string.azure_communication_ui_setup_view_button_video_off)
                 )
             }
         }
