@@ -11,6 +11,8 @@ internal class AppLocalizationProvider : LocalizationProvider {
         val supportedLocales = getSupportedLocales()
         if (supportedLocales.contains(localeConfig.language)) {
             language = localeConfig.language
+        }
+        if(localeConfig.customTranslation != null) {
             customTranslation = localeConfig.customTranslation
         }
     }
@@ -26,11 +28,11 @@ internal class AppLocalizationProvider : LocalizationProvider {
     companion object {
 
         fun getSupportedLanguages(): List<String> {
-            return SupportedLanguages.values().map { it.toString() }
+            return SupportedLanguages.values()
         }
 
         fun getSupportedLocales(): List<String> {
-            return SupportedLanguages.values().map { it.getLanguageCode(it.toString()) }
+            return SupportedLanguages.values().map { SupportedLanguages.getLanguageCode(it) }
         }
     }
 }

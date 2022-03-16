@@ -26,4 +26,5 @@
     <string name="languageDefaultSelection">ENGLISH</string>
     <string name="version">version:</string>
     <string name="debug">Debug</string>
+    <string name="enableCustomTranslation">Enable Custom Translation</string>
 </resources>

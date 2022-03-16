@@ -4,10 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.features
 
 import android.content.Context
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ISRTL_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.*
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 
 class SettingsFeatures {
@@ -46,6 +43,19 @@ class SettingsFeatures {
             context.applicationContext
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
                 .edit().putBoolean(IS_LANGUAGE_SETTING_ENABLED, isFeatureEnabled).apply()
+        }
+
+        fun getIsCustomTranslationEnabled(context: Context): Boolean {
+            return context.applicationContext
+                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+                .getBoolean(LANGUAGE_CUSTOM_TRANSLATION_ENABLE, false)
+        }
+
+        fun getCustomTranslationMap(): Map<String, String> {
+            val customTranslationMap: Map<String, String> = HashMap()
+            (customTranslationMap as HashMap<String, String>)["azure_communication_ui_setup_view_button_mic_on"] = "মাইক অন"
+            (customTranslationMap as HashMap<String, String>)["azure_communication_ui_setup_view_button_mic_off"] = "মাইক বন্ধ"
+            return customTranslationMap
         }
     }
 }

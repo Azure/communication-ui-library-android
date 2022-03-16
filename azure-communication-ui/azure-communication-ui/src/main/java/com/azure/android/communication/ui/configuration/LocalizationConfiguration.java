@@ -89,4 +89,8 @@ public class LocalizationConfiguration {
     public static List<String> getSupportedLanguages() {
         return AppLocalizationProvider.Companion.getSupportedLanguages();
     }
+
+    public static String getLanguageCode(final String language) {
+        return SupportedLanguages.getLanguageCode(language);
+    }
 }
