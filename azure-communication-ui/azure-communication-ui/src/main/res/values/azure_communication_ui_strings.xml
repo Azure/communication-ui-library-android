@@ -27,6 +27,7 @@
     <string name="azure_communication_ui_call_hang_up">Hang Up</string>
     <string name="azure_communication_ui_call_leave_call">Leave call</string>
     <string name="azure_communication_ui_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_call_setup">Setup</string>
     <string name="azure_communication_ui_call_lobby_waiting">Waiting for host</string>
     <string name="azure_communication_ui_call_lobby_waiting_details">Someone in the meeting will let you in soon</string>
     <string name="azure_communication_ui_call_open_participant_list">Open Participant List</string>
