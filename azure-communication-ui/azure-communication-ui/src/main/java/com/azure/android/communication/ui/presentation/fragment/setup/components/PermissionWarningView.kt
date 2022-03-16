@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.collect
@@ -60,7 +59,8 @@ internal class PermissionWarningView : LinearLayout {
 
     private fun onCameraPermissionStateUpdated(
         permissionState: PermissionStatus,
-        appLocalizationProvider: LocalizationProvider) {
+        appLocalizationProvider: LocalizationProvider
+    ) {
         if (permissionState == PermissionStatus.DENIED) {
             cameraPermissionGranted = false
         } else if (permissionState == PermissionStatus.GRANTED) {
@@ -72,7 +72,8 @@ internal class PermissionWarningView : LinearLayout {
 
     private fun onMicPermissionStateUpdated(
         permissionState: PermissionStatus,
-        appLocalizationProvider: LocalizationProvider) {
+        appLocalizationProvider: LocalizationProvider
+    ) {
         if (permissionState == PermissionStatus.DENIED) {
             micPermissionGranted = false
         } else if (permissionState == PermissionStatus.GRANTED) {
@@ -92,9 +93,11 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText( appLocalizationProvider.getLocalizedString(
-                context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled),
-                context.getString(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled))
+            setupMissingText.setText(
+                appLocalizationProvider.getLocalizedString(
+                    context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled),
+                    context.getString(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled)
+                )
             )
         } else if (!cameraPermissionGranted) {
             setupPermissionsHolder.visibility = View.VISIBLE
@@ -104,9 +107,12 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText(appLocalizationProvider.getLocalizedString(
-                context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled),
-                context.getString(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled)))
+            setupMissingText.setText(
+                appLocalizationProvider.getLocalizedString(
+                    context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled),
+                    context.getString(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled)
+                )
+            )
         }
     }
 }
