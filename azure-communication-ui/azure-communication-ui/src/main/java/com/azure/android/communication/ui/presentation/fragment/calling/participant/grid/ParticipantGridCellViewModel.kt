@@ -20,6 +20,7 @@ internal class ParticipantGridCellViewModel(
     private var displayNameStateFlow = MutableStateFlow(displayName)
     private var isMutedStateFlow = MutableStateFlow(isMuted)
     private var isSpeakingStateFlow = MutableStateFlow(isSpeaking && !isMuted)
+    private var isNameIndicatorVisibleStateFlow = MutableStateFlow(true)
     private var videoViewModelStateFlow = MutableStateFlow(
         getVideoStreamModel(
             createVideoViewModel(cameraVideoStreamModel),
@@ -41,6 +42,10 @@ internal class ParticipantGridCellViewModel(
         return isMutedStateFlow
     }
 
+    fun getIsNameIndicatorVisibleStateFlow(): StateFlow<Boolean> {
+        return isNameIndicatorVisibleStateFlow
+    }
+
     fun getIsSpeakingStateFlow(): StateFlow<Boolean> {
         return isSpeakingStateFlow
     }
@@ -57,10 +62,15 @@ internal class ParticipantGridCellViewModel(
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
+
+        this.isNameIndicatorVisibleStateFlow.value =
+            !(participant.displayName.isBlank() && !participant.isMuted)
+
         this.videoViewModelStateFlow.value = getVideoStreamModel(
             createVideoViewModel(participant.cameraVideoStreamModel),
             createVideoViewModel(participant.screenShareVideoStreamModel)
         )
+
         this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
         this.participantModifiedTimestamp = participant.modifiedTimestamp
     }
