@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -45,37 +47,41 @@ internal class PermissionWarningView : LinearLayout {
         this.viewModel = viewModel
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraPermissionStateFlow().collect {
-                onCameraPermissionStateUpdated(it)
+                onCameraPermissionStateUpdated(it, viewModel.getApplicationLocalizationProvider())
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioPermissionStateFlow().collect {
-                onMicPermissionStateUpdated(it)
+                onMicPermissionStateUpdated(it, viewModel.getApplicationLocalizationProvider())
             }
         }
     }
 
-    private fun onCameraPermissionStateUpdated(permissionState: PermissionStatus) {
+    private fun onCameraPermissionStateUpdated(
+        permissionState: PermissionStatus,
+        appLocalizationProvider: LocalizationProvider) {
         if (permissionState == PermissionStatus.DENIED) {
             cameraPermissionGranted = false
         } else if (permissionState == PermissionStatus.GRANTED) {
             cameraPermissionGranted = true
             viewModel.turnCameraOn()
         }
-        updateSetupPermissionHolder()
+        updateSetupPermissionHolder(appLocalizationProvider)
     }
 
-    private fun onMicPermissionStateUpdated(permissionState: PermissionStatus) {
+    private fun onMicPermissionStateUpdated(
+        permissionState: PermissionStatus,
+        appLocalizationProvider: LocalizationProvider) {
         if (permissionState == PermissionStatus.DENIED) {
             micPermissionGranted = false
         } else if (permissionState == PermissionStatus.GRANTED) {
             micPermissionGranted = true
         }
-        updateSetupPermissionHolder()
+        updateSetupPermissionHolder(appLocalizationProvider)
     }
 
-    private fun updateSetupPermissionHolder() {
+    private fun updateSetupPermissionHolder(appLocalizationProvider: LocalizationProvider) {
         if (cameraPermissionGranted && micPermissionGranted) {
             setupPermissionsHolder.visibility = View.GONE
         } else if (!micPermissionGranted) {
@@ -86,7 +92,10 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled)
+            setupMissingText.setText( appLocalizationProvider.getLocalizedString(
+                context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled),
+                context.getString(R.string.azure_communication_ui_setup_view_preview_area_audio_disabled))
+            )
         } else if (!cameraPermissionGranted) {
             setupPermissionsHolder.visibility = View.VISIBLE
             setupMissingImage.setImageDrawable(
@@ -95,7 +104,9 @@ internal class PermissionWarningView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_video_off_24_filled_composite_button_enabled
                 )
             )
-            setupMissingText.setText(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled)
+            setupMissingText.setText(appLocalizationProvider.getLocalizedString(
+                context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled),
+                context.getString(R.string.azure_communication_ui_setup_view_preview_area_camera_disabled)))
         }
     }
 }

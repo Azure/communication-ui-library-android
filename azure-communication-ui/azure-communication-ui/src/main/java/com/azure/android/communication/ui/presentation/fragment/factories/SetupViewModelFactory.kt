@@ -36,7 +36,10 @@ internal class SetupViewModelFactory(
     }
 
     private val warningsViewModel by lazy {
-        PermissionWarningViewModel(store::dispatch)
+        PermissionWarningViewModel(
+            store::dispatch,
+            appLocalizationProvider
+        )
     }
 
     private val snackBarViewModel by lazy {
