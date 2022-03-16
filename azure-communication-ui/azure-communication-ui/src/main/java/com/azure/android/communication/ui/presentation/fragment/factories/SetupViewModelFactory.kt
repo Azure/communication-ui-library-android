@@ -55,7 +55,10 @@ internal class SetupViewModelFactory(
     }
 
     private val joinCallButtonHolderViewModel by lazy {
-        JoinCallButtonHolderViewModel(store::dispatch)
+        JoinCallButtonHolderViewModel(
+            store::dispatch,
+            appLocalizationProvider
+        )
     }
 
     fun providePreviewAreaViewModel() = previewAreaViewModel

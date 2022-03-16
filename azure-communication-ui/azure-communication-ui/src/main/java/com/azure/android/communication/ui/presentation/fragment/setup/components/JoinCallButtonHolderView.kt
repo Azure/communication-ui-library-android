@@ -43,6 +43,16 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         viewModel: JoinCallButtonHolderViewModel,
     ) {
+        val appLocalizationProvider = viewModel.getApplicationLocalizationProvider()
+        setupJoinCallButtonText.text = appLocalizationProvider.getLocalizedString(
+            context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_button_join_call),
+            context.getString(R.string.azure_communication_ui_setup_view_button_join_call)
+        )
+        joiningCallText.text = appLocalizationProvider.getLocalizedString(
+            context.resources.getResourceEntryName(R.string.azure_communication_ui_setup_view_button_connecting_call),
+            context.getString(R.string.azure_communication_ui_setup_view_button_connecting_call)
+        )
+
         setupJoinCallButton.setOnClickListener {
             viewModel.launchCallScreen()
         }
