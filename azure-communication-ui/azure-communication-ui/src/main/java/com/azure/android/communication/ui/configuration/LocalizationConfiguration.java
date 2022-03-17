@@ -55,6 +55,15 @@ public class LocalizationConfiguration {
     }
 
     /**
+     * Create Localization configuration.
+     *
+     * @param languageCode      string eg,. "en"
+     */
+    public LocalizationConfiguration(final String languageCode) {
+        this.languageCode = languageCode;
+    }
+
+    /**
      * Get current language String.
      *
      * @return language string
@@ -88,9 +97,5 @@ public class LocalizationConfiguration {
      */
     public static List<String> getSupportedLanguages() {
         return AppLocalizationProvider.Companion.getSupportedLanguages();
-    }
-
-    public static String getLanguageCode(final String language) {
-        return SupportedLanguages.getLanguageCode(language);
     }
 }

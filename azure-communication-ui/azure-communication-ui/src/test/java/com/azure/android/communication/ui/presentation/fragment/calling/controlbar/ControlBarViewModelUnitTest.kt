@@ -89,11 +89,7 @@ internal class ControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                BluetoothState(available = false, deviceName = "bluetooth")
-            ),
+            AudioState(AudioOperationalStatus.PENDING, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
             videoStreamID = null,
             displayName = "username"
         )
@@ -217,11 +213,7 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 initialPermissionState,
                 cameraState,
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    audioDeviceState,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
             )
 
             val flowJob = launch {
@@ -233,20 +225,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState1,
                 cameraState,
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    audioDeviceState,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
             )
             callingViewModel.update(
                 permissionState2,
                 cameraState,
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    audioDeviceState,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
             )
 
             // assert
@@ -306,11 +290,7 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.init(
                 permissionState,
                 initialCameraState,
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    audioDeviceState,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
@@ -322,20 +302,12 @@ internal class ControlBarViewModelUnitTest {
             callingViewModel.update(
                 permissionState,
                 cameraState1,
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    audioDeviceState,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
             )
             callingViewModel.update(
                 permissionState,
                 cameraState2,
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    audioDeviceState,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
             )
 
             // assert

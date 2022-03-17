@@ -7,6 +7,7 @@
     <string name="azure_communication_ui_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_audio_device_drawer_speaker">Speaker</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_setup_audio_device_headphone">Headset</string>
 
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Joining call…</string>

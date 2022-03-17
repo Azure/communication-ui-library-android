@@ -97,7 +97,13 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
                     ),
-                    getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_android),
+                    getLocalizedString(
+                        when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
+                            true -> R.string.azure_communication_ui_setup_audio_device_headphone
+                            false -> R.string.azure_communication_ui_audio_device_drawer_android
+                        }
+
+                    ),
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
@@ -123,6 +129,7 @@ internal class AudioDeviceListView(
                     null,
                     getLocalizedString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                     audioDeviceDrawer.dismiss()

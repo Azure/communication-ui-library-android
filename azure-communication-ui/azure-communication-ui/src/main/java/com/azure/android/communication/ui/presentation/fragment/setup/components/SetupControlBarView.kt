@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -84,7 +85,13 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
-                setAudioDeviceButtonState(it.device)
+                setAudioDeviceButtonState(it)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getDeviceIsEnabled().collect {
+                audioDeviceButton.isEnabled = it
             }
         }
 
@@ -148,28 +155,31 @@ internal class SetupControlBarView : LinearLayout {
         )
     }
 
-    private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        audioDeviceButton.text = when (audioDeviceSelectionStatus) {
+    private fun setAudioDeviceButtonState(audioState: AudioState) {
+        audioDeviceButton.text = when (audioState.device) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_speaker)
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_android)
+                when (audioState.isHeadphonePlugged) {
+                    true -> getLocalizedString(R.string.azure_communication_ui_setup_audio_device_headphone)
+                    false -> getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_android)
+                }
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
+                if (audioState.bluetoothState.deviceName.isNotBlank()) {
+                    audioState.bluetoothState.deviceName
+                } else {
+                    getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
+                }
             }
-            else -> {
-                ""
-            }
+            else -> { "" }
         }
 
-        audioDeviceButton.isSpeakerON =
-            audioDeviceSelectionStatus == AudioDeviceSelectionStatus.SPEAKER_SELECTED
-        audioDeviceButton.isReceiverON =
-            audioDeviceSelectionStatus == AudioDeviceSelectionStatus.RECEIVER_SELECTED
-        audioDeviceButton.isBluetoothON =
-            audioDeviceSelectionStatus == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+        audioDeviceButton.isSpeakerON = audioState.device == AudioDeviceSelectionStatus.SPEAKER_SELECTED
+        audioDeviceButton.isReceiverON = audioState.device == AudioDeviceSelectionStatus.RECEIVER_SELECTED
+        audioDeviceButton.isBluetoothON = audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+
         audioDeviceButton.refreshDrawableState()
     }
 
@@ -188,7 +198,6 @@ internal class SetupControlBarView : LinearLayout {
             viewModel.turnCameraOn()
         }
     }
-
     private fun getLocalizedString(stringId: Int): String {
         return viewModel.getApplicationLocalizationProvider().getLocalizedString(context, stringId)
     }
@@ -202,10 +211,7 @@ internal open class SetupButton(context: Context, attrs: AttributeSet?) :
     override fun onCreateDrawableState(extraSpace: Int): IntArray? {
         val drawableState = super.onCreateDrawableState(extraSpace + 1)
         if (isCameraON) {
-            mergeDrawableStates(
-                drawableState,
-                intArrayOf(R.attr.azure_communication_ui_state_setup_camera_on)
-            )
+            mergeDrawableStates(drawableState, intArrayOf(R.attr.azure_communication_ui_state_setup_camera_on))
         }
         return drawableState
     }
@@ -221,22 +227,13 @@ internal class AudioDeviceSetupButton(context: Context, attrs: AttributeSet?) :
     override fun onCreateDrawableState(extraSpace: Int): IntArray? {
         val drawableState = super.onCreateDrawableState(extraSpace + 4)
         if (isSpeakerON) {
-            mergeDrawableStates(
-                drawableState,
-                intArrayOf(R.attr.azure_communication_ui_state_setup_audio_device_speaker)
-            )
+            mergeDrawableStates(drawableState, intArrayOf(R.attr.azure_communication_ui_state_setup_audio_device_speaker))
         }
         if (isReceiverON) {
-            mergeDrawableStates(
-                drawableState,
-                intArrayOf(R.attr.azure_communication_ui_state_setup_audio_device_receiver)
-            )
+            mergeDrawableStates(drawableState, intArrayOf(R.attr.azure_communication_ui_state_setup_audio_device_receiver))
         }
         if (isBluetoothON) {
-            mergeDrawableStates(
-                drawableState,
-                intArrayOf(R.attr.azure_communication_ui_state_setup_audio_device_bluetooth)
-            )
+            mergeDrawableStates(drawableState, intArrayOf(R.attr.azure_communication_ui_state_setup_audio_device_bluetooth))
         }
         return drawableState
     }
