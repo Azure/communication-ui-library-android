@@ -17,11 +17,11 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
 
     private val audioDeviceListViewModel by lazy {
-        AudioDeviceListViewModel(store::dispatch, appLocalizationProvider)
+        AudioDeviceListViewModel(store::dispatch, localizationProvider)
     }
 
     private val previewAreaViewModel by lazy {
@@ -31,19 +31,19 @@ internal class SetupViewModelFactory(
     private val setupControlsViewModel by lazy {
         SetupControlBarViewModel(
             store::dispatch,
-            appLocalizationProvider
+            localizationProvider
         )
     }
 
     private val warningsViewModel by lazy {
         PermissionWarningViewModel(
             store::dispatch,
-            appLocalizationProvider
+            localizationProvider
         )
     }
 
     private val snackBarViewModel by lazy {
-        ErrorInfoViewModel(appLocalizationProvider)
+        ErrorInfoViewModel(localizationProvider)
     }
 
     private val setupGradientViewModel by lazy {
@@ -57,7 +57,7 @@ internal class SetupViewModelFactory(
     private val joinCallButtonHolderViewModel by lazy {
         JoinCallButtonHolderViewModel(
             store::dispatch,
-            appLocalizationProvider
+            localizationProvider
         )
     }
 

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
 
-internal class InfoHeaderViewModel(private val appLocalizationProvider: LocalizationProvider) {
+internal class InfoHeaderViewModel(private val localizationProvider: LocalizationProvider) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
 
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
@@ -60,7 +60,7 @@ internal class InfoHeaderViewModel(private val appLocalizationProvider: Localiza
         )
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 }

@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.redux.state.ErrorState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ErrorInfoViewModel(private val appLocalizationProvider: LocalizationProvider) {
+internal class ErrorInfoViewModel(private val localizationProvider: LocalizationProvider) {
     private val callStateErrorFlow: MutableStateFlow<CallStateError?> = MutableStateFlow(null)
 
     fun update(errorState: ErrorState) {
@@ -20,7 +20,7 @@ internal class ErrorInfoViewModel(private val appLocalizationProvider: Localizat
         return callStateErrorFlow
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 }

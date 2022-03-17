@@ -47,7 +47,7 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
     ) {
         this.confirmLeaveOverlayViewModel = confirmLeaveOverlayViewModel
 
-        setUpUi()
+        setupUi()
         viewLifecycleOwner.lifecycleScope.launch {
             confirmLeaveOverlayViewModel.getShouldDisplayConfirmLeaveOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
@@ -55,15 +55,15 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
         }
     }
 
-    private fun setUpUi() {
+    private fun setupUi() {
         confirmLeaveCallButton.text =
-            confirmLeaveOverlayViewModel.getApplicationLocalizationProvider().getLocalizedString(
+            confirmLeaveOverlayViewModel.getLocalizationProvider().getLocalizedString(
                 context,
                 R.string.azure_communication_ui_calling_view_overlay_leave_call
             )
 
         cancelLeaveCallButton.text =
-            confirmLeaveOverlayViewModel.getApplicationLocalizationProvider().getLocalizedString(
+            confirmLeaveOverlayViewModel.getLocalizationProvider().getLocalizedString(
                 context,
                 R.string.azure_communication_ui_calling_view_overlay_cancel
             )

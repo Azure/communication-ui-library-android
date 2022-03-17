@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class AudioDeviceListViewModel(
     private val dispatch: (Action) -> Unit,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
 
     private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
@@ -46,7 +46,7 @@ internal class AudioDeviceListViewModel(
         displayAudioDeviceSelectionMenuMutableStateFlow.value = false
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 }

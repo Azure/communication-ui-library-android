@@ -13,9 +13,12 @@ import java.util.Map;
  *
  * <pre>
  *
- * &#47;&#47; Initialize the call composite builder
+ * &#47;&#47; Initialize the call composite builder with different parameters
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .customizeLocalization&#40;new LocalizationConfiguration&#40;language&#41;&#41;;
+ *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode&#41;&#41;;
+ *
+ * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
+ *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode, isRightToLeft&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -77,7 +80,7 @@ public class LocalizationConfiguration {
      *
      * @return isRightToLeft boolean
      */
-    public boolean isRightToLeft() {
+    public boolean getIsRightToLeft() {
         return isRightToLeft;
     }
 

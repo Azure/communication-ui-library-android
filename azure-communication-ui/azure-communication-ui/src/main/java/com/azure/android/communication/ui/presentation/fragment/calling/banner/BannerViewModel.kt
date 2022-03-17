@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.redux.state.CallingState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class BannerViewModel(private val appLocalizationProvider: LocalizationProvider) {
+internal class BannerViewModel(private val localizationProvider: LocalizationProvider) {
 
     private lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
     private var shouldShowBannerStateFlow = MutableStateFlow(false)
@@ -24,8 +24,8 @@ internal class BannerViewModel(private val appLocalizationProvider: Localization
         return shouldShowBannerStateFlow
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     fun init(callingState: CallingState) {

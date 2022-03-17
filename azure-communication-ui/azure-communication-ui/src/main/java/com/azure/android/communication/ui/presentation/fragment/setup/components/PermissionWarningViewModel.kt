@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class PermissionWarningViewModel(
     private val dispatch: (Action) -> Unit,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
     private lateinit var cameraPermissionStateFlow: MutableStateFlow<PermissionStatus>
     private lateinit var audioPermissionStateFlow: MutableStateFlow<PermissionStatus>
@@ -40,8 +40,8 @@ internal class PermissionWarningViewModel(
         dispatchAction(action = LocalParticipantAction.CameraPreviewOnRequested())
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     private fun dispatchAction(action: Action) {

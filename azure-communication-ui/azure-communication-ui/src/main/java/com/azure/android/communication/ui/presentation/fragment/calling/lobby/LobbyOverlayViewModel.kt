@@ -8,13 +8,13 @@ import com.azure.android.communication.ui.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class LobbyOverlayViewModel(private val appLocalizationProvider: LocalizationProvider) {
+internal class LobbyOverlayViewModel(private val localizationProvider: LocalizationProvider) {
     private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     fun init(

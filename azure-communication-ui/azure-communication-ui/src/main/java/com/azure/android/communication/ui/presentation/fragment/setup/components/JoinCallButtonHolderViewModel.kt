@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class JoinCallButtonHolderViewModel(
     private val dispatch: (Action) -> Unit,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
 
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
@@ -42,7 +42,7 @@ internal class JoinCallButtonHolderViewModel(
             callingState.callingStatus != CallingStatus.NONE || callingState.joinCallIsRequested
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 }

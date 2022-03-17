@@ -37,7 +37,7 @@ internal class LobbyOverlayView : LinearLayout {
     ) {
         this.viewModel = viewModel
 
-        setUpUi()
+        setupUi()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
@@ -45,20 +45,20 @@ internal class LobbyOverlayView : LinearLayout {
         }
     }
 
-    private fun setUpUi() {
-        waitingIcon.contentDescription = viewModel.getApplicationLocalizationProvider()
+    private fun setupUi() {
+        waitingIcon.contentDescription = viewModel.getLocalizationProvider()
             .getLocalizedString(
                 context,
                 R.string.azure_communication_ui_lobby_view_text_waiting_for_host
             )
 
-        overlayTitle.text = viewModel.getApplicationLocalizationProvider()
+        overlayTitle.text = viewModel.getLocalizationProvider()
             .getLocalizedString(
                 context,
                 R.string.azure_communication_ui_lobby_view_text_waiting_for_host
             )
 
-        overlayInfo.text = viewModel.getApplicationLocalizationProvider()
+        overlayInfo.text = viewModel.getLocalizationProvider()
             .getLocalizedString(
                 context,
                 R.string.azure_communication_ui_lobby_view_text_waiting_details

@@ -58,24 +58,22 @@ internal class InfoHeaderView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val appLocalizationProvider = infoHeaderViewModel.getApplicationLocalizationProvider()
+            val localizationProvider = infoHeaderViewModel.getLocalizationProvider()
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
-                when (it) {
-                    0 -> participantNumberText.text = appLocalizationProvider.getLocalizedString(
+                participantNumberText.text = when (it) {
+                    0 -> localizationProvider.getLocalizedString(
                         context,
                         R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join
                     )
 
-                    1 -> participantNumberText.text = appLocalizationProvider.getLocalizedString(
+                    1 -> localizationProvider.getLocalizedString(
                         context,
                         R.string.azure_communication_ui_calling_view_info_header_call_with_1_person
                     )
-                    else ->
-                        participantNumberText.text =
-                            resources.getString(
-                                R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
-                                it
-                            )
+                    else -> resources.getString(
+                        R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
+                        it
+                    )
                 }
             }
         }
@@ -83,7 +81,7 @@ internal class InfoHeaderView : ConstraintLayout {
 
     private fun setUpAccessibility() {
         displayParticipantsImageButton.contentDescription =
-            infoHeaderViewModel.getApplicationLocalizationProvider()
+            infoHeaderViewModel.getLocalizationProvider()
                 .getLocalizedString(
                     context,
                     R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label
