@@ -10,6 +10,7 @@
     <string name="azure_communication_ui_setup_mic_off">Mic off</string>
     <string name="azure_communication_ui_setup_mic_on">Mic on</string>
     <string name="azure_communication_ui_setup_audio_device_android">Android</string>
+    <string name="azure_communication_ui_setup_audio_device_headphone">Headset</string>
     <string name="azure_communication_ui_setup_audio_device_speaker">Speaker</string>
     <string name="azure_communication_ui_setup_audio_device_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_setup_audio_device_selected">Selected</string>
