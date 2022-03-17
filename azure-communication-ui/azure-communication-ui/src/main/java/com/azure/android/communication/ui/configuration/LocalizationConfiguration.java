@@ -89,13 +89,4 @@ public class LocalizationConfiguration {
     public Map<String, String> getCustomTranslation() {
         return customTranslation;
     }
-
-    /**
-     * Get supported Locale string
-     *
-     * @return List of supported Locale as String List
-     */
-    public static List<String> getSupportedLanguages() {
-        return AppLocalizationProvider.Companion.getSupportedLanguages();
-    }
 }

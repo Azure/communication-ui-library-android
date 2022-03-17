@@ -46,11 +46,11 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         if (SettingsFeatures.Companion.getIsCustomTranslationEnabled(
                 callLauncherActivity.getApplicationContext())) {
-            builder.customizeLocalization(new LocalizationConfiguration(LocalizationConfiguration
+            builder.customizeLocalization(new LocalizationConfiguration(SettingsFeatures.Companion
                     .getLanguageCode(selectedLanguage),
                     false, SettingsFeatures.Companion.getCustomTranslationMap()));
         } else {
-            builder.customizeLocalization(new LocalizationConfiguration(LocalizationConfiguration
+            builder.customizeLocalization(new LocalizationConfiguration(SettingsFeatures.Companion
                     .getLanguageCode(selectedLanguage), true));
         }
 
