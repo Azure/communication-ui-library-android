@@ -28,7 +28,7 @@ import java.util.Map;
  * @see CallComposite
  */
 public class LocalizationConfiguration {
-    private String languageCode;
+    private final String languageCode;
     private boolean isRightToLeft;
     private Map<String, String> customTranslation;
 

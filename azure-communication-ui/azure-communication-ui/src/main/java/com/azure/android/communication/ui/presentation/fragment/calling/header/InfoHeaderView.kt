@@ -46,7 +46,7 @@ internal class InfoHeaderView : ConstraintLayout {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
 
-        setUpAccessibility()
+        setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             if (accessibilityEnabled) {
                 floatingHeader.visibility = View.VISIBLE
@@ -79,7 +79,7 @@ internal class InfoHeaderView : ConstraintLayout {
         }
     }
 
-    private fun setUpAccessibility() {
+    private fun setupAccessibility() {
         displayParticipantsImageButton.contentDescription =
             infoHeaderViewModel.getLocalizationProvider()
                 .getLocalizedString(
