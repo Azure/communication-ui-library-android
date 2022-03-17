@@ -63,21 +63,21 @@ class SettingsFeatures {
         }
 
         fun getLanguageCode(languageCode: String): String {
-            when(languageCode) {
-                "SPANISH"-> return "es";
-                "CHINESE_SIMPLIFIED"-> return "zh-CN";
-                "RUSSIAN"-> return "ru";
-                "JAPANESE"-> return "ja";
-                "FRENCH"-> return "fr";
-                "BRAZILIAN_PORTUGUESE"-> return "pt-BR";
-                "GERMAN"-> return "de";
-                "KOREAN"-> return "ko";
-                "ITALIAN"-> return "it";
-                "CHINESE_TRADITIONAL"-> return "zh-TW";
-                "DUTCH"-> return "nl";
-                "TURKISH"-> return "tr";
-                "ENGLISH_UK"-> return "en-GB";
-                else-> return "en";
+            when (languageCode) {
+                "SPANISH" -> return "es"
+                "CHINESE_SIMPLIFIED" -> return "zh-CN"
+                "RUSSIAN" -> return "ru"
+                "JAPANESE" -> return "ja"
+                "FRENCH" -> return "fr"
+                "BRAZILIAN_PORTUGUESE" -> return "pt-BR"
+                "GERMAN" -> return "de"
+                "KOREAN" -> return "ko"
+                "ITALIAN" -> return "it"
+                "CHINESE_TRADITIONAL" -> return "zh-TW"
+                "DUTCH" -> return "nl"
+                "TURKISH" -> return "tr"
+                "ENGLISH_UK" -> return "en-GB"
+                else -> return "en"
             }
         }
     }
