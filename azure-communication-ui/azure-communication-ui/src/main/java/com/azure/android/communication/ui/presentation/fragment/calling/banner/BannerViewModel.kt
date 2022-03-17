@@ -5,16 +5,20 @@ package com.azure.android.communication.ui.presentation.fragment.calling.banner
 
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.state.CallingState
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class BannerViewModel(private val localizationProvider: LocalizationProvider) {
 
     private lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
+    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private var shouldShowBannerStateFlow = MutableStateFlow(false)
 
     private var recordingState: ComplianceState = ComplianceState.OFF
     private var transcriptionState: ComplianceState = ComplianceState.OFF
+
+    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
 
     fun getBannerInfoTypeStateFlow(): StateFlow<BannerInfoType> {
         return bannerInfoTypeStateFlow
@@ -32,6 +36,11 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         bannerInfoTypeStateFlow = MutableStateFlow(
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
         )
+        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState.callingStatus))
+    }
+
+    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
+        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
     }
 
     private fun createBannerInfoType(
@@ -126,6 +135,9 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
             transcriptionState = ComplianceState.OFF
         }
     }
+
+    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY
 }
 
 internal enum class ComplianceState {
