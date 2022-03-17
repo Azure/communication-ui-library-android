@@ -85,6 +85,6 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     }
 
     private fun getLocalizedString(stringId: Int): String {
-        return viewModel.getApplicationLocalizationProvider().getLocalizedString(context, stringId)
+        return viewModel.getLocalizationProvider().getLocalizedString(context, stringId)
     }
 }

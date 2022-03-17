@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ControlBarViewModel(
     private val dispatch: (Action) -> Unit,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
     private lateinit var cameraStateFlow: MutableStateFlow<CameraModel>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
@@ -80,8 +80,8 @@ internal class ControlBarViewModel(
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     private fun shouldEnableMicButton(audioState: AudioState): Boolean {

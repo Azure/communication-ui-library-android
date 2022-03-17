@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.redux.state.LocalUserState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ParticipantListViewModel(private val appLocalizationProvider: LocalizationProvider) {
+internal class ParticipantListViewModel(private val localizationProvider: LocalizationProvider) {
 
     private lateinit var remoteParticipantListCellStateFlow: MutableStateFlow<List<ParticipantListCellModel>>
     private lateinit var localParticipantListCellStateFlow: MutableStateFlow<ParticipantListCellModel>
@@ -28,8 +28,8 @@ internal class ParticipantListViewModel(private val appLocalizationProvider: Loc
         return displayParticipantListStateFlow
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(

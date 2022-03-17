@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class SetupControlBarViewModel(
     private val dispatch: (Action) -> Unit,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var micIsEnabledStateFlow: MutableStateFlow<Boolean>
@@ -78,8 +78,8 @@ internal class SetupControlBarViewModel(
         return audioPermissionState != PermissionStatus.DENIED
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     fun getCameraIsEnabled(): StateFlow<Boolean> = cameraIsEnabledStateFlow

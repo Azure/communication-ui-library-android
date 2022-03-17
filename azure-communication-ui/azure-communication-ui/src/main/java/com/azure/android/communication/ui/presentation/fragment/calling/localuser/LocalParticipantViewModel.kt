@@ -19,7 +19,7 @@ internal enum class LocalParticipantViewMode {
 
 internal class LocalParticipantViewModel(
     private val dispatch: (Action) -> Unit,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
     private lateinit var videoStatusFlow: MutableStateFlow<VideoModel>
     private lateinit var displayFullScreenAvatarFlow: MutableStateFlow<Boolean>
@@ -100,8 +100,8 @@ internal class LocalParticipantViewModel(
         dispatch(LocalParticipantAction.CameraSwitchTriggered())
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     private fun shouldDisplayVideo(videoStreamID: String?) = videoStreamID != null

@@ -48,7 +48,7 @@ internal class ControlBarView : LinearLayout {
         this.requestCallEndCallback = requestCallEnd
         this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
-        setUpAccessibility()
+        setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioOperationalStatusStateFlow().collect {
                 updateMic(it)
@@ -74,8 +74,8 @@ internal class ControlBarView : LinearLayout {
         }
     }
 
-    private fun setUpAccessibility() {
-        val localizationProvider = viewModel.getApplicationLocalizationProvider()
+    private fun setupAccessibility() {
+        val localizationProvider = viewModel.getLocalizationProvider()
         endCallButton.contentDescription = localizationProvider
             .getLocalizedString(
                 context,

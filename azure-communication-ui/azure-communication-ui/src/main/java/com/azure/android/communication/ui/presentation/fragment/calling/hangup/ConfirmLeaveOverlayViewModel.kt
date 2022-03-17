@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ConfirmLeaveOverlayViewModel(
     private val dispatch: (Action) -> Unit,
-    private val appLocalizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider
 ) {
     private val shouldDisplayConfirmLeaveOverlayStateFlow = MutableStateFlow(false)
 
@@ -31,8 +31,8 @@ internal class ConfirmLeaveOverlayViewModel(
         shouldDisplayConfirmLeaveOverlayStateFlow.value = true
     }
 
-    fun getApplicationLocalizationProvider(): LocalizationProvider {
-        return appLocalizationProvider
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     private fun dispatchAction(action: Action) {

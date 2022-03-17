@@ -18,48 +18,48 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
-    private val appLocalizationProvider: LocalizationProvider,
+    private val localizationProvider: LocalizationProvider,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
 ) {
 
     private val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory, appLocalizationProvider)
+        ParticipantGridViewModel(participantGridCellViewModelFactory, localizationProvider)
     }
 
     private val controlBarViewModel by lazy {
         ControlBarViewModel(
             store::dispatch,
-            appLocalizationProvider
+            localizationProvider
         )
     }
 
     // %1 people
     private val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel(appLocalizationProvider)
+        InfoHeaderViewModel(localizationProvider)
     }
 
     private val audioDeviceListViewModel by lazy {
-        AudioDeviceListViewModel(store::dispatch, appLocalizationProvider)
+        AudioDeviceListViewModel(store::dispatch, localizationProvider)
     }
 
     private val confirmLeaveOverlayViewModel by lazy {
-        ConfirmLeaveOverlayViewModel(store::dispatch, appLocalizationProvider)
+        ConfirmLeaveOverlayViewModel(store::dispatch, localizationProvider)
     }
 
     private val localParticipantViewModel by lazy {
-        LocalParticipantViewModel(store::dispatch, appLocalizationProvider)
+        LocalParticipantViewModel(store::dispatch, localizationProvider)
     }
 
     private val participantListViewModel by lazy {
-        ParticipantListViewModel(appLocalizationProvider)
+        ParticipantListViewModel(localizationProvider)
     }
 
     private val bannerViewModel by lazy {
-        BannerViewModel(appLocalizationProvider)
+        BannerViewModel(localizationProvider)
     }
 
     private val lobbyOverlayViewModel by lazy {
-        LobbyOverlayViewModel(appLocalizationProvider)
+        LobbyOverlayViewModel(localizationProvider)
     }
 
     fun provideParticipantGridViewModel(): ParticipantGridViewModel {
