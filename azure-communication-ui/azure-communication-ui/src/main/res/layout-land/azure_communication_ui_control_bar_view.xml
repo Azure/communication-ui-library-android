@@ -26,7 +26,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp"
             android:backgroundTint="@color/azure_communication_ui_color_background_red"
-            android:contentDescription="@string/azure_communication_ui_call_hang_up"
+            android:contentDescription="@string/azure_communication_ui_calling_view_button_hang_up_accessibility_label"
             android:src="@drawable/azure_communication_ui_ic_fluent_call_end_28_filled_composite_button_filled"
             />
 
@@ -36,7 +36,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/azure_communication_ui_color_button_background_transparent"
-            android:contentDescription="@string/azure_communication_ui_call_device_options"
+            android:contentDescription="@string/azure_communication_ui_calling_view_button_device_options_accessibility_label"
             android:src="@drawable/azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled"
             />
 
@@ -45,7 +45,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/azure_communication_ui_color_button_background_transparent"
-            android:contentDescription="@string/azure_communication_ui_call_toggle_audio"
+            android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_audio_accessibility_label"
             android:src="@drawable/azure_communication_ui_toggle_selector_mic_for_call"
             />
 
@@ -54,7 +54,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/azure_communication_ui_color_button_background_transparent"
-            android:contentDescription="@string/azure_communication_ui_call_toggle_video"
+            android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_video_accessibility_label"
             android:src="@drawable/azure_communication_ui_toggle_selector_camera_for_call"
             />
     </LinearLayout>

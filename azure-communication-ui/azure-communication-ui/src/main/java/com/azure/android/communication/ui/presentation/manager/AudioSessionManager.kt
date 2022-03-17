@@ -44,9 +44,9 @@ internal class AudioSessionManager(
     private val bluetoothDeviceName: String
         get() = try {
             bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name
-                ?: context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+                ?: context.getString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
         } catch (exception: SecurityException) {
-            context.getString(R.string.azure_communication_ui_setup_audio_device_bluetooth)
+            context.getString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
         }
 
     private var previousPermissionState: PermissionStatus = PermissionStatus.UNKNOWN

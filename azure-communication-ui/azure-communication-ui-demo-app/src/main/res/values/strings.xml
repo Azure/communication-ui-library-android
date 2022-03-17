@@ -19,6 +19,12 @@
     <string name="diagnostics">FPS, Memory Diagnostics</string>
     <string name="secondary_theme">Secondary theme</string>
     <string name="launchSettingsButtonText">Settings</string>
+    <string name="languageSettingLabel">Language Settings</string>
+    <string name="callSettingLabel">Call Settings</string>
+    <string name="isRTLCheckboxLabel">isRTL</string>
+    <string name="languageDropdownHint">Language</string>
+    <string name="languageDefaultSelection">ENGLISH</string>
     <string name="version">version:</string>
     <string name="debug">Debug</string>
+    <string name="enableCustomTranslation">Enable Custom Translation</string>
 </resources>

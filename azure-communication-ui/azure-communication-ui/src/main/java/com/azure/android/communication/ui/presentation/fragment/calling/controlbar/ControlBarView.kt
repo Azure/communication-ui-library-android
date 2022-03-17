@@ -48,6 +48,7 @@ internal class ControlBarView : LinearLayout {
         this.requestCallEndCallback = requestCallEnd
         this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
+        setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioOperationalStatusStateFlow().collect {
                 updateMic(it)
@@ -71,6 +72,33 @@ internal class ControlBarView : LinearLayout {
                 micToggle.isEnabled = it
             }
         }
+    }
+
+    private fun setupAccessibility() {
+        val localizationProvider = viewModel.getLocalizationProvider()
+        endCallButton.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label
+            )
+
+        callAudioDeviceButton.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label
+            )
+
+        cameraToggle.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_toggle_video_accessibility_label
+            )
+
+        micToggle.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_toggle_audio_accessibility_label
+            )
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {

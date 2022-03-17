@@ -31,6 +31,7 @@ import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
@@ -41,6 +42,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
+    private val localizationProvider get() = container.localizationProvider
     private val audioSessionManager get() = container.audioSessionManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
@@ -69,13 +71,25 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()
+        configureLocalization()
         setStatusBarColor()
         setActionBarVisibility()
+
         if (configuration.themeConfig?.theme != null) {
             theme.applyStyle(
                 configuration.themeConfig?.theme!!, true
             )
         }
+
+        diContainerHolder.localizationConfiguration = configuration.localizationConfig
+        configuration.localizationConfig?.let { localeConfig ->
+            Locale.setDefault(Locale(localeConfig.languageCode))
+            if (localeConfig.isRightToLeft) {
+                window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
+            }
+            localizationProvider.apply(localeConfig)
+        }
+
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
 
         val activity = this
@@ -137,6 +151,24 @@ internal class CallCompositeActivity : AppCompatActivity() {
         )
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_ic_fluent_arrow_left_24_filled)
         supportActionBar?.elevation = 0F
+    }
+
+    private fun configureLocalization() {
+        diContainerHolder.localizationConfiguration = configuration.localizationConfig
+
+        configuration.localizationConfig?.let { localeConfig ->
+            window?.decorView?.layoutDirection =
+                if (localeConfig.isRightToLeft) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+
+            val config: Configuration = resources.configuration
+            val languageAttributes = localeConfig.languageCode.split("-")
+            val languageCode = languageAttributes[0]
+            val countryCode =
+                if (languageAttributes.size > 1) languageAttributes[1] else ""
+            config.setLocale(Locale(languageCode, countryCode))
+            resources.updateConfiguration(config, resources.displayMetrics)
+            localizationProvider.apply(localeConfig)
+        }
     }
 
     private fun setActionBarVisibility() {

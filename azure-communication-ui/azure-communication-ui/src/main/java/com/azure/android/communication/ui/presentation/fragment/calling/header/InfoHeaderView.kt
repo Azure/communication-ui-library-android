@@ -46,6 +46,7 @@ internal class InfoHeaderView : ConstraintLayout {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
 
+        setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             if (accessibilityEnabled) {
                 floatingHeader.visibility = View.VISIBLE
@@ -57,18 +58,33 @@ internal class InfoHeaderView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
+            val localizationProvider = infoHeaderViewModel.getLocalizationProvider()
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
-                when (it) {
-                    0 -> participantNumberText.setText(R.string.azure_communication_ui_call_waiting_for_others_to_join)
-                    1 -> participantNumberText.setText(R.string.azure_communication_ui_call_call_with_1_person)
-                    else ->
-                        participantNumberText.text =
-                            resources.getString(
-                                R.string.azure_communication_ui_call_call_with_n_people,
-                                it
-                            )
+                participantNumberText.text = when (it) {
+                    0 -> localizationProvider.getLocalizedString(
+                        context,
+                        R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join
+                    )
+
+                    1 -> localizationProvider.getLocalizedString(
+                        context,
+                        R.string.azure_communication_ui_calling_view_info_header_call_with_1_person
+                    )
+                    else -> resources.getString(
+                        R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
+                        it
+                    )
                 }
             }
         }
+    }
+
+    private fun setupAccessibility() {
+        displayParticipantsImageButton.contentDescription =
+            infoHeaderViewModel.getLocalizationProvider()
+                .getLocalizedString(
+                    context,
+                    R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label
+                )
     }
 }

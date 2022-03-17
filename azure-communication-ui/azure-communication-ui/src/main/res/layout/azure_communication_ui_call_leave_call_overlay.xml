@@ -27,7 +27,7 @@
         android:gravity="center"
         android:maxWidth="400dp"
         android:minWidth="400dp"
-        android:text="@string/azure_communication_ui_call_leave_call"
+        android:text="@string/azure_communication_ui_calling_view_overlay_leave_call"
         android:textAllCaps="false"
         android:textColor="@color/azure_communication_ui_on_primary_enabled_disabled_selector"
         app:backgroundTint="@color/azure_communication_ui_primary_selector"
@@ -44,7 +44,7 @@
         android:gravity="center"
         android:maxWidth="400dp"
         android:minWidth="400dp"
-        android:text="@string/azure_communication_ui_call_cancel"
+        android:text="@string/azure_communication_ui_calling_view_overlay_cancel"
         android:textAllCaps="false"
         android:textColor="?attr/azure_communication_ui_communication_primary"
         />

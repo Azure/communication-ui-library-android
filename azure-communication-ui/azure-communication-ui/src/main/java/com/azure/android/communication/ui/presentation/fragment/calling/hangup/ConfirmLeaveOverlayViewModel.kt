@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.CallingAction
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ConfirmLeaveOverlayViewModel(
     private val dispatch: (Action) -> Unit,
+    private val localizationProvider: LocalizationProvider
 ) {
     private val shouldDisplayConfirmLeaveOverlayStateFlow = MutableStateFlow(false)
 
@@ -27,6 +29,10 @@ internal class ConfirmLeaveOverlayViewModel(
 
     fun requestExitConfirmation() {
         shouldDisplayConfirmLeaveOverlayStateFlow.value = true
+    }
+
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     private fun dispatchAction(action: Action) {

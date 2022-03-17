@@ -3,12 +3,13 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.header
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
 
-internal class InfoHeaderViewModel {
+internal class InfoHeaderViewModel(private val localizationProvider: LocalizationProvider) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
 
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
@@ -57,5 +58,9 @@ internal class InfoHeaderViewModel {
             },
             3000
         )
+    }
+
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 }

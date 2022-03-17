@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.action.PermissionAction
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class SetupControlBarViewModel(
     private val dispatch: (Action) -> Unit,
+    private val localizationProvider: LocalizationProvider
 ) {
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var micIsEnabledStateFlow: MutableStateFlow<Boolean>
@@ -74,6 +76,10 @@ internal class SetupControlBarViewModel(
 
     private fun isVisible(audioPermissionState: PermissionStatus): Boolean {
         return audioPermissionState != PermissionStatus.DENIED
+    }
+
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 
     fun getCameraIsEnabled(): StateFlow<Boolean> = cameraIsEnabledStateFlow

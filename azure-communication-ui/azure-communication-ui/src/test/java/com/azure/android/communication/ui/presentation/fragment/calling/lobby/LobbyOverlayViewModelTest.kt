@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.lobby
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import kotlinx.coroutines.flow.toList
@@ -19,13 +21,14 @@ internal class LobbyOverlayViewModelTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun lobbyOverlayViewModel_when_callingStateChange_then_notifyLobbyState() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
-            val viewModel = LobbyOverlayViewModel()
+            val viewModel = LobbyOverlayViewModel(appLocalizationProvider)
             viewModel.init(
                 CallingStatus.CONNECTED,
             )
