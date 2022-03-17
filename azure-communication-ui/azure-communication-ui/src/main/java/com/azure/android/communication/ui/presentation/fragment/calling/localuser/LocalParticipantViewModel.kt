@@ -28,6 +28,8 @@ internal class LocalParticipantViewModel(
     private lateinit var displaySwitchCameraButtonFlow: MutableStateFlow<Boolean>
     private lateinit var displayPipSwitchCameraButtonFlow: MutableStateFlow<Boolean>
     private lateinit var enableCameraSwitchFlow: MutableStateFlow<Boolean>
+    private lateinit var cameraDeviceSelectionFlow: MutableStateFlow<CameraDeviceSelectionStatus>
+    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
@@ -36,6 +38,7 @@ internal class LocalParticipantViewModel(
     fun getDisplaySwitchCameraButtonFlow(): StateFlow<Boolean> = displaySwitchCameraButtonFlow
     fun getDisplayPipSwitchCameraButtonFlow(): StateFlow<Boolean> = displayPipSwitchCameraButtonFlow
     fun getEnableCameraSwitchFlow(): StateFlow<Boolean> = enableCameraSwitchFlow
+    fun getCameraDeviceSelectionFlow(): StateFlow<CameraDeviceSelectionStatus> = cameraDeviceSelectionFlow
 
     fun update(
         displayName: String?,
@@ -61,6 +64,7 @@ internal class LocalParticipantViewModel(
             displayVideo && viewMode == LocalParticipantViewMode.PIP
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
+        cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
     }
 
     fun clear() {
@@ -94,10 +98,16 @@ internal class LocalParticipantViewModel(
         enableCameraSwitchFlow = MutableStateFlow(
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         )
+        cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
+        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState))
     }
 
-    fun switchCamera() {
-        dispatch(LocalParticipantAction.CameraSwitchTriggered())
+    fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())
+
+    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
+
+    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
+        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
     }
 
     fun getLocalizationProvider(): LocalizationProvider {
@@ -120,6 +130,9 @@ internal class LocalParticipantViewModel(
         return if (numberOfRemoteParticipants > 0)
             LocalParticipantViewMode.PIP else LocalParticipantViewMode.FULL_SCREEN
     }
+
+    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY
 
     internal data class VideoModel(
         val shouldDisplayVideo: Boolean,
