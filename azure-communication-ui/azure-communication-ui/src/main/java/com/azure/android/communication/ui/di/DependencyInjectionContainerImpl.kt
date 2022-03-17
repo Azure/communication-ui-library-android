@@ -7,6 +7,7 @@ import android.content.Context
 import android.media.AudioManager
 import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.presentation.VideoViewManager
@@ -99,6 +100,10 @@ internal class DependencyInjectionContainerImpl(
         NotificationService(parentContext, appStore)
     }
 
+    override val localizationProvider: LocalizationProvider by lazy {
+        AppLocalizationProvider()
+    }
+
     //region Redux
     // Initial State
     private val initialState by lazy { AppReduxState(configuration.callConfig!!.displayName) }
@@ -176,17 +181,13 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(appStore, applicationLocalizationProvider)
-    }
-
-    private val applicationLocalizationProvider by lazy {
-        AppLocalizationProvider()
+        SetupViewModelFactory(appStore, localizationProvider)
     }
 
     private val callingViewModelFactory by lazy {
         CallingViewModelFactory(
             appStore,
-            applicationLocalizationProvider,
+            localizationProvider,
             participantGridCellViewModelFactory
         )
     }

@@ -44,21 +44,17 @@ internal class DependencyInjectionContainerHolder(application: Application) :
         DependencyInjectionContainerImpl(application, instanceId)
     }
 
-    val localizationProvider: LocalizationProvider by lazy {
-        AppLocalizationProvider()
-    }
-
     val setupViewModel by lazy {
         SetupViewModel(
             container.appStore,
-            SetupViewModelFactory(container.appStore, localizationProvider)
+            SetupViewModelFactory(container.appStore, container.localizationProvider)
         )
     }
 
     val callingViewModel by lazy {
         CallingViewModel(
             container.appStore,
-            CallingViewModelFactory(container.appStore, localizationProvider, ParticipantGridCellViewModelFactory())
+            CallingViewModelFactory(container.appStore, container.localizationProvider, ParticipantGridCellViewModelFactory())
         )
     }
 }

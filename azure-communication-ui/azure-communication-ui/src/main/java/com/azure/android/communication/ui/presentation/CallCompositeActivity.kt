@@ -42,6 +42,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
+    private val localizationProvider get() = container.localizationProvider
     private val audioSessionManager get() = container.audioSessionManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
@@ -86,7 +87,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             if (localeConfig.isRightToLeft) {
                 window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
             }
-            diContainerHolder.localizationProvider.apply(localeConfig)
+            localizationProvider.apply(localeConfig)
         }
 
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
@@ -166,7 +167,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 if (languageAttributes.size > 1) languageAttributes[1] else ""
             config.setLocale(Locale(languageCode, countryCode))
             resources.updateConfiguration(config, resources.displayMetrics)
-            diContainerHolder.localizationProvider.apply(localeConfig)
+            localizationProvider.apply(localeConfig)
         }
     }
 

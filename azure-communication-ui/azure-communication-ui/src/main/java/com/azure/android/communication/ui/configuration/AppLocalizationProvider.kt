@@ -21,18 +21,24 @@ internal class AppLocalizationProvider : LocalizationProvider {
 
     override fun getLocalizedString(localeKey: String, sdkLocale: String): String {
         var localizedString = sdkLocale
-        if (customTranslation?.containsKey(localeKey) == true) {
-            localizedString = customTranslation!![localeKey]!!
+        customTranslation?.let {
+            if (it.containsKey(localeKey)) {
+                localizedString = it[localeKey]!!
+            }
         }
+
         return localizedString
     }
 
     override fun getLocalizedString(context: Context, stringKey: Int): String {
         var localizedString = context.getString(stringKey)
         val localeKey = context.resources.getResourceEntryName(stringKey)
-        if (customTranslation?.containsKey(localeKey) == true) {
-            localizedString = customTranslation!![localeKey]!!
+        customTranslation?.let {
+            if (it.containsKey(localeKey)) {
+                localizedString = it[localeKey]!!
+            }
         }
+
         return localizedString
     }
 
