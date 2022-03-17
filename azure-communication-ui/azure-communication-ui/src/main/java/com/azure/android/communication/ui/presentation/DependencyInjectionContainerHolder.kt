@@ -5,9 +5,7 @@ package com.azure.android.communication.ui.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
