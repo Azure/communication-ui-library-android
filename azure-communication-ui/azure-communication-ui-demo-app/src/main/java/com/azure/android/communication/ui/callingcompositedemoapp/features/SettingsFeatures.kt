@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.features
 
 import android.content.Context
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ISRTL_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_CUSTOM_TRANSLATION_ENABLE
@@ -24,17 +24,18 @@ class SettingsFeatures {
         }
 
         fun isRTL(context: Context): Boolean {
-            val isRTLKey = context.applicationContext.getSharedPreferences(
-                FEATURE_FLAG_SHARED_PREFS_KEY,
-                Context.MODE_PRIVATE
-            )
-                .getString(
-                    LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                    DEFAULT_LANGUAGE_VALUE
-                ) + LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
+            val isRTLKey =
+                LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + context.applicationContext.getSharedPreferences(
+                    FEATURE_FLAG_SHARED_PREFS_KEY,
+                    Context.MODE_PRIVATE
+                )
+                    .getString(
+                        LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                        DEFAULT_LANGUAGE_VALUE
+                    )
             return context.applicationContext
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-                .getBoolean(isRTLKey, DEFAULT_ISRTL_VALUE)
+                .getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
         }
 
         fun getIsLanguageFeatureEnabled(context: Context): Boolean {

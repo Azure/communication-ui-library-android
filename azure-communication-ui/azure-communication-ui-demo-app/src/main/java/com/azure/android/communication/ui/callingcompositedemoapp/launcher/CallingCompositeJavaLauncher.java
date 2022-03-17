@@ -48,10 +48,13 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 callLauncherActivity.getApplicationContext())) {
             builder.customizeLocalization(new LocalizationConfiguration(SettingsFeatures.Companion
                     .getLanguageCode(selectedLanguage),
-                    false, SettingsFeatures.Companion.getCustomTranslationMap()));
+                    SettingsFeatures.Companion.isRTL(callLauncherActivity
+                            .getApplicationContext()),
+                    SettingsFeatures.Companion.getCustomTranslationMap()));
         } else {
             builder.customizeLocalization(new LocalizationConfiguration(SettingsFeatures.Companion
-                    .getLanguageCode(selectedLanguage), true));
+                    .getLanguageCode(selectedLanguage),
+                    SettingsFeatures.Companion.isRTL(callLauncherActivity.getApplicationContext())));
         }
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
