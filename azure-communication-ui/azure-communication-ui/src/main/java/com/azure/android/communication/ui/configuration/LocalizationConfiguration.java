@@ -46,7 +46,7 @@ public class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param languageCode      string eg,. "en"
+     * @param languageCode  string eg,. "en"
      * @param isRightToLeft boolean the layout direction
      */
     public LocalizationConfiguration(final String languageCode, final boolean isRightToLeft) {
@@ -57,7 +57,7 @@ public class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param languageCode      string eg,. "en"
+     * @param languageCode string eg,. "en"
      */
     public LocalizationConfiguration(final String languageCode) {
         this.languageCode = languageCode;

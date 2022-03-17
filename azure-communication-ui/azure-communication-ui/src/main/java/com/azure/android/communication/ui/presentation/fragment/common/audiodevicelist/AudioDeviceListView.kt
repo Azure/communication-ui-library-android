@@ -99,7 +99,7 @@ internal class AudioDeviceListView(
                     ),
                     getLocalizedString(
                         when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
-                            true -> R.string.azure_communication_ui_setup_audio_device_headphone
+                            true -> R.string.azure_communication_ui_audio_device_drawer_headphone
                             false -> R.string.azure_communication_ui_audio_device_drawer_android
                         }
 
