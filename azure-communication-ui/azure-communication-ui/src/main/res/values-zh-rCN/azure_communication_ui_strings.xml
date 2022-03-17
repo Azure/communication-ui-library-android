@@ -8,7 +8,6 @@
     <string name="azure_communication_ui_audio_device_drawer_speaker">扬声器</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">蓝牙</string>
     <string name="azure_communication_ui_audio_device_drawer_headphone">Headset</string>
-
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">正在加入通话…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">视频关闭</string>

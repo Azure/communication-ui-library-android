@@ -8,7 +8,6 @@
     <string name="azure_communication_ui_audio_device_drawer_speaker">Luidspreker</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_audio_device_drawer_headphone">Headset</string>
-
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Deelnemen aan gesprek…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">Video uit</string>
