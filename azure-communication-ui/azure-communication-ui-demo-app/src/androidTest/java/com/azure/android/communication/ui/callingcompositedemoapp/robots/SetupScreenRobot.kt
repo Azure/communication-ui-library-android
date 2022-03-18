@@ -58,7 +58,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     }
 
     private fun selectAudioDevice(@DrawableRes iconId: Int, text: String, isSelected: Boolean) {
-        val audioDeviceList = waitUntilViewIdIsDisplayed(R.id.bottom_drawer_table)
+        val audioDeviceList = waitUntilAllViewIdIsAreDisplayed(R.id.cell_text)
         UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text, isSelected)
     }
 
