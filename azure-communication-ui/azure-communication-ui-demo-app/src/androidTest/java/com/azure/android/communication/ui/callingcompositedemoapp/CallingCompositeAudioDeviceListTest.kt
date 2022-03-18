@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeAudioDeviceListTest : BaseUiTest() {
 
-    @SdkSuppress(minSdkVersion = 23, maxSdkVersion = 30)
+    @SdkSuppress(minSdkVersion = 23, maxSdkVersion = 29)
     @Test
     fun selectDefaultAudioDevice() {
         joinGroupSetupScreen()
@@ -23,7 +23,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
             .verifyIsAndroidAudioDevice()
             .navigateUpFromSetupScreen()
     }
-    @SdkSuppress(minSdkVersion = 23, maxSdkVersion = 30)
+    @SdkSuppress(minSdkVersion = 23, maxSdkVersion = 29)
     @Test
     fun selectSpeakerAudioDevice() {
         joinGroupSetupScreen()
