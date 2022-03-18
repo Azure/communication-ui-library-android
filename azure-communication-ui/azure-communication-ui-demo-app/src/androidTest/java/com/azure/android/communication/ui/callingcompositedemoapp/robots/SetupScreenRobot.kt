@@ -69,6 +69,14 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
                 R.id.azure_communication_ui_setup_camera_button,
                 viewDisplayResource
             )
+            waitUntilViewIdIsDisplayed(
+                R.id.azure_communication_ui_setup_audio_button,
+                viewDisplayResource
+            )
+            waitUntilViewIdIsDisplayed(
+                R.id.azure_communication_ui_setup_audio_device_button,
+                viewDisplayResource
+            )
 
             val cameraButtonText =
                 getTextFromButtonView(R.id.azure_communication_ui_setup_camera_button)
