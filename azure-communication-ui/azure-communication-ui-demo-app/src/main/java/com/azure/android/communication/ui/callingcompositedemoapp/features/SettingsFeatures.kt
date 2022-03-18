@@ -60,6 +60,7 @@ class SettingsFeatures {
             return mapOf(
                 "azure_communication_ui_setup_view_button_mic_on" to "মাইক অন",
                 "azure_communication_ui_setup_view_button_mic_off" to "মাইক বন্ধ",
+                "azure_communication_ui_calling_view_info_header_call_with_n_people" to "Not Call with %d people"
             )
         }
 

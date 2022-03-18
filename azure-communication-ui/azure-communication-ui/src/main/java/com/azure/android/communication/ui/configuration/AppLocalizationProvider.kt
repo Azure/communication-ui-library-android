@@ -30,6 +30,22 @@ internal class AppLocalizationProvider : LocalizationProvider {
         return localizedString
     }
 
+    override fun getLocalizedString(
+        context: Context,
+        stringKey: Int,
+        vararg formatArgs: Any
+    ): String {
+        var localizedString = context.getString(stringKey, *formatArgs)
+        val localeKey = context.resources.getResourceEntryName(stringKey)
+        customTranslation?.let {
+            if (it.containsKey(localeKey)) {
+                localizedString = String.format(it[localeKey]!!, *formatArgs)
+            }
+        }
+
+        return localizedString
+    }
+
     override fun getLocalizedString(context: Context, stringKey: Int): String {
         var localizedString = context.getString(stringKey)
         val localeKey = context.resources.getResourceEntryName(stringKey)

@@ -17,4 +17,5 @@ internal interface LocalizationProvider {
     fun apply(localeConfig: LocalizationConfiguration)
     fun getLocalizedString(localeKey: String, sdkLocale: String): String
     fun getLocalizedString(context: Context, stringKey: Int): String
+    fun getLocalizedString(context: Context, stringKey: Int, vararg formatArgs: Any): String
 }

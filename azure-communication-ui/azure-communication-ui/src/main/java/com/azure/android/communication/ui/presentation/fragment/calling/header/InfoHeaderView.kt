@@ -73,7 +73,8 @@ internal class InfoHeaderView : ConstraintLayout {
                         context,
                         R.string.azure_communication_ui_calling_view_info_header_call_with_1_person
                     )
-                    else -> resources.getString(
+                    else -> localizationProvider.getLocalizedString(
+                        context,
                         R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
                         it
                     )
@@ -84,9 +85,15 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getIsLobbyOverlayDisplayedFlow().collect {
                 if (it) {
-                    ViewCompat.setImportantForAccessibility(headerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                    ViewCompat.setImportantForAccessibility(
+                        headerView,
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                    )
                 } else {
-                    ViewCompat.setImportantForAccessibility(headerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+                    ViewCompat.setImportantForAccessibility(
+                        headerView,
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
+                    )
                 }
             }
         }
