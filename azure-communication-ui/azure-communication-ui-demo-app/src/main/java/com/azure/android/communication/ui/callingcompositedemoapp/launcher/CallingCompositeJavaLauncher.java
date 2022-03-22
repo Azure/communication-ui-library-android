@@ -15,6 +15,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
 import com.azure.android.communication.ui.configuration.ThemeConfiguration;
 
 import java.util.UUID;
@@ -36,14 +38,30 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final UUID groupId,
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
+
+
         final CallCompositeBuilder builder = new CallCompositeBuilder();
+        final String selectedLanguage = SettingsFeatures.Companion.language(callLauncherActivity
+                .getApplicationContext());
+
+        if (SettingsFeatures.Companion.getIsCustomTranslationEnabled(
+                callLauncherActivity.getApplicationContext())) {
+            builder.customizeLocalization(new LocalizationConfiguration(SettingsFeatures.Companion
+                    .getLanguageCode(selectedLanguage),
+                    SettingsFeatures.Companion.isRTL(callLauncherActivity
+                            .getApplicationContext()),
+                    SettingsFeatures.Companion.getCustomTranslationMap()));
+        } else {
+            builder.customizeLocalization(new LocalizationConfiguration(SettingsFeatures.Companion
+                    .getLanguageCode(selectedLanguage),
+                    SettingsFeatures.Companion.isRTL(callLauncherActivity.getApplicationContext())));
+        }
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
             builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
         }
 
         final CallComposite callComposite = builder.build();
-
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =

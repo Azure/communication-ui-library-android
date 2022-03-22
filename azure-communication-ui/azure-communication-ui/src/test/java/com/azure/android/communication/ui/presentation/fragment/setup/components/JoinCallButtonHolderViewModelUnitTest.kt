@@ -1,5 +1,7 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.CallingState
@@ -21,6 +23,7 @@ import org.mockito.kotlin.mock
 internal class JoinCallButtonHolderViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -29,7 +32,7 @@ internal class JoinCallButtonHolderViewModelUnitTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
+            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, appLocalizationProvider)
             viewModel.init(PermissionStatus.DENIED)
 
             val emitResult = mutableListOf<Boolean>()
@@ -63,7 +66,7 @@ internal class JoinCallButtonHolderViewModelUnitTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
+            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, appLocalizationProvider)
             viewModel.init(PermissionStatus.GRANTED)
 
             val emitResult = mutableListOf<Boolean>()
@@ -97,7 +100,7 @@ internal class JoinCallButtonHolderViewModelUnitTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
+            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, appLocalizationProvider)
             viewModel.init(PermissionStatus.GRANTED)
 
             val emitResult = mutableListOf<Boolean>()

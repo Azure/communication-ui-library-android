@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -14,7 +15,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.databinding.Ac
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
@@ -236,9 +236,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.azure_composite_show_settings -> {
-            AlertDialog.Builder(this).setTitle(R.string.launchSettingsButtonText)
-                .setView(FeatureFlagView(this, null).also { it.setPadding(32, 32, 32, 32) })
-                .show()
+            val settingIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(settingIntent)
             true
         }
         else -> super.onOptionsItemSelected(item)

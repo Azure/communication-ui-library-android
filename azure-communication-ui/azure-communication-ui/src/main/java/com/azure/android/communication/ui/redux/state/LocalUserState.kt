@@ -50,6 +50,7 @@ internal data class AudioState(
     val device: AudioDeviceSelectionStatus,
     val bluetoothState: BluetoothState,
     val error: CallCompositeError? = null,
+    val isHeadphonePlugged: Boolean = false,
 )
 
 internal data class BluetoothState(

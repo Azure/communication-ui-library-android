@@ -417,6 +417,36 @@ internal class LocalParticipantReduxStateReducerUnitTest {
     }
 
     @Test
+    fun deviceStateReducer_reduce_when_HeadsetDetected_then_changeState() {
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.PENDING,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = "some video stream id",
+            displayName = null
+        )
+
+        val action = LocalParticipantAction.AudioDeviceHeadsetAvailable(
+            available = true,
+        )
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(true, newState.audioState.isHeadphonePlugged)
+    }
+
+    @Test
     fun deviceStateReducer_reduce_when_CameraSwitchTriggered_then_changeState() {
 
         // arrange

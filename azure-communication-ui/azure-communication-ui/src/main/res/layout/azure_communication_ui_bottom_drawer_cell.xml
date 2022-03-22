@@ -39,7 +39,7 @@
         android:layout_marginEnd="40dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="@string/azure_communication_ui_setup_audio_device_android"
+        android:text="@string/azure_communication_ui_audio_device_drawer_android"
         android:textColor="@color/azure_communication_ui_toggle_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,14 +47,13 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/cell_check_mark"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="12dp"
         android:background="@android:color/transparent"
-        android:clickable="false"
-        android:contentDescription="@string/azure_communication_ui_setup_audio_device_selected"
+        android:contentDescription="@string/azure_communication_ui_setup_view_audio_device_selected_accessibility_label"
         android:src="@drawable/ms_ic_checkmark_24_filled"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,6 +69,7 @@
         android:layout_marginTop="47.5dp"
         android:layout_marginEnd="10dp"
         android:background="@color/azure_communication_ui_color_surface"
+        android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

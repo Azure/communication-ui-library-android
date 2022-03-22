@@ -10,10 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.VideoViewManager
+import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -60,13 +62,8 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_display_name)
         micImage =
             findViewById(R.id.azure_communication_ui_call_local_mic_indicator)
-        switchCameraButton.setOnClickListener {
-            switchCamera()
-        }
-
-        pipSwitchCameraButton.setOnClickListener {
-            switchCamera()
-        }
+        switchCameraButton.setOnClickListener { viewModel.switchCamera() }
+        pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
     }
 
     fun stop() {
@@ -83,6 +80,7 @@ internal class LocalParticipantView : ConstraintLayout {
         this.viewModel = viewModel
         this.videoViewManager = videoViewManager
 
+        setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getVideoStatusFlow().collect {
                 setLocalParticipantVideo(it)
@@ -129,6 +127,37 @@ internal class LocalParticipantView : ConstraintLayout {
                 pipSwitchCameraButton.isEnabled = it
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCameraDeviceSelectionFlow().collect { cameraDeviceSelectionStatus ->
+                listOf(switchCameraButton, pipSwitchCameraButton).forEach {
+                    it.contentDescription = context.getString(
+                        when (cameraDeviceSelectionStatus) {
+                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_switch_camera_button_back
+                            else -> R.string.azure_communication_ui_switch_camera_button_front
+                        }
+                    )
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getIsLobbyOverlayDisplayedFlow().collect {
+                if (it) {
+                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                } else {
+                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+                }
+            }
+        }
+    }
+
+    private fun setupAccessibility() {
+        switchCameraButton.contentDescription = viewModel.getLocalizationProvider()
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_button_switch_camera_accessibility_label
+            )
     }
 
     private fun setLocalParticipantVideo(model: LocalParticipantViewModel.VideoModel) {
@@ -158,9 +187,5 @@ internal class LocalParticipantView : ConstraintLayout {
             )
         }
         videoHolder.addView(view, 0)
-    }
-
-    private fun switchCamera() {
-        viewModel.switchCamera()
     }
 }

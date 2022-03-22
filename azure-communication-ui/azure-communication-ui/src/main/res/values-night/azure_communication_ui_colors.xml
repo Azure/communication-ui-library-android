@@ -23,6 +23,7 @@
     <color name="azure_communication_ui_color_participant_list_mute_mic">#6E6E6E</color>
     <color name="azure_communication_ui_color_status_bar">#000000</color>
     <color name="azure_communication_ui_color_text_primary">#E1E1E1</color>
+    <color name="azure_communication_ui_color_action_bar_text">#FFFFFF</color>
 
     <!--Static colors-->
     <color name="azure_communication_ui_color_on_surface_camera_active">#FFFFFF</color>

@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.banner
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -21,6 +23,7 @@ internal class BannerViewModelUnitTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -37,7 +40,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -74,7 +77,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -111,7 +114,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -149,7 +152,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -192,7 +195,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -235,7 +238,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -279,7 +282,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -323,7 +326,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -371,7 +374,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -419,7 +422,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -468,7 +471,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -517,7 +520,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -560,7 +563,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -604,7 +607,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -647,7 +650,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -691,7 +694,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -735,7 +738,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -779,7 +782,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -823,7 +826,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -867,7 +870,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -916,7 +919,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -965,7 +968,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1014,7 +1017,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1063,7 +1066,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1111,7 +1114,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1160,7 +1163,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1208,7 +1211,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1257,7 +1260,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1306,7 +1309,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1355,7 +1358,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1404,7 +1407,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1453,7 +1456,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1502,7 +1505,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1551,7 +1554,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1600,7 +1603,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
@@ -1649,7 +1652,7 @@ internal class BannerViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
-            val bannerViewModel = BannerViewModel()
+            val bannerViewModel = BannerViewModel(appLocalizationProvider)
             bannerViewModel.init(initialCallingState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
