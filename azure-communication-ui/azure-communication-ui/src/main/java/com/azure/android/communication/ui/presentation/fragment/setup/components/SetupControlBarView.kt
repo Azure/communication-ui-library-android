@@ -8,6 +8,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.AttributeSet
+import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -181,6 +182,12 @@ internal class SetupControlBarView : LinearLayout {
                 ""
             }
         }
+
+        audioDeviceButton.contentDescription =
+            context.getString(
+                R.string.azure_communication_ui_setup_audio_device_select_content_description,
+                audioDeviceButton.text
+            )
 
         audioDeviceButton.isSpeakerON =
             audioState.device == AudioDeviceSelectionStatus.SPEAKER_SELECTED
