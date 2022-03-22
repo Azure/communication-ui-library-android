@@ -182,6 +182,12 @@ internal class SetupControlBarView : LinearLayout {
             }
         }
 
+        audioDeviceButton.contentDescription =
+            context.getString(
+                R.string.azure_communication_ui_setup_audio_device_select_content_description,
+                audioDeviceButton.text
+            )
+
         audioDeviceButton.isSpeakerON =
             audioState.device == AudioDeviceSelectionStatus.SPEAKER_SELECTED
         audioDeviceButton.isReceiverON =
