@@ -237,8 +237,8 @@ internal open class SetupButton(context: Context, attrs: AttributeSet?) :
         }
         if (isON) {
             mergeDrawableStates(
-                    drawableState,
-                    intArrayOf(R.attr.azure_communication_ui_state_on)
+                drawableState,
+                intArrayOf(R.attr.azure_communication_ui_state_on)
             )
         }
         return drawableState
