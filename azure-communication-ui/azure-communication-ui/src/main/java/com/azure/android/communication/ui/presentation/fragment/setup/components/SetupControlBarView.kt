@@ -201,7 +201,7 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun toggleAudio() {
-        if (viewModel.getAudioOperationalStatusStateFlow().value == AudioOperationalStatus.ON) {
+        if (micButton.isON) {
             viewModel.turnMicOff()
         } else {
             viewModel.turnMicOn()
@@ -209,7 +209,7 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun toggleVideo() {
-        if (viewModel.getCameraState().value == CameraOperationalStatus.ON) {
+        if (cameraButton.isON) {
             viewModel.turnCameraOff()
         } else {
             viewModel.turnCameraOn()
