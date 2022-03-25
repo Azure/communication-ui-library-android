@@ -105,31 +105,33 @@ internal class SetupControlBarView : LinearLayout {
     private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {
         when (audioOperationalStatus) {
             AudioOperationalStatus.ON -> {
-                micButton.isSelected = true
+                micButton.isON = true
                 micButton.text =
                     getLocalizedString(R.string.azure_communication_ui_setup_view_button_mic_on)
             }
             AudioOperationalStatus.OFF -> {
-                micButton.isSelected = false
+                micButton.isON = false
                 micButton.text =
                     getLocalizedString(R.string.azure_communication_ui_setup_view_button_mic_off)
             }
         }
+        micButton.refreshDrawableState()
     }
 
     private fun setCameraButtonState(operation: CameraOperationalStatus) {
         when (operation) {
             CameraOperationalStatus.ON -> {
-                cameraButton.isSelected = true
+                cameraButton.isON = true
                 cameraButton.text =
                     getLocalizedString(R.string.azure_communication_ui_setup_view_button_video_on)
             }
             CameraOperationalStatus.OFF -> {
-                cameraButton.isSelected = false
+                cameraButton.isON = false
                 cameraButton.text =
                     getLocalizedString(R.string.azure_communication_ui_setup_view_button_video_off)
             }
         }
+        cameraButton.refreshDrawableState()
     }
 
     private fun setButtonColorOnCameraState(cameraOperationalStatus: CameraOperationalStatus) {
@@ -199,7 +201,7 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun toggleAudio() {
-        if (micButton.isSelected) {
+        if (micButton.isON) {
             viewModel.turnMicOff()
         } else {
             viewModel.turnMicOn()
@@ -207,7 +209,7 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun toggleVideo() {
-        if (cameraButton.isSelected) {
+        if (cameraButton.isON) {
             viewModel.turnCameraOff()
         } else {
             viewModel.turnCameraOn()
@@ -223,13 +225,20 @@ internal open class SetupButton(context: Context, attrs: AttributeSet?) :
     AppCompatButton(context, attrs) {
 
     var isCameraON = false
+    var isON = false
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray? {
-        val drawableState = super.onCreateDrawableState(extraSpace + 1)
+        val drawableState = super.onCreateDrawableState(extraSpace + 2)
         if (isCameraON) {
             mergeDrawableStates(
                 drawableState,
                 intArrayOf(R.attr.azure_communication_ui_state_setup_camera_on)
+            )
+        }
+        if (isON) {
+            mergeDrawableStates(
+                drawableState,
+                intArrayOf(R.attr.azure_communication_ui_state_on)
             )
         }
         return drawableState
@@ -244,7 +253,7 @@ internal class AudioDeviceSetupButton(context: Context, attrs: AttributeSet?) :
     var isBluetoothON = false
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray? {
-        val drawableState = super.onCreateDrawableState(extraSpace + 4)
+        val drawableState = super.onCreateDrawableState(extraSpace + 3)
         if (isSpeakerON) {
             mergeDrawableStates(
                 drawableState,
