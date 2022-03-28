@@ -68,7 +68,7 @@ public final class CallComposite {
     public void launch(final Context context, final GroupCallOptions groupCallOptions) {
         launch(
                 context,
-                groupCallOptions.getCommunicationTokenCredential(),
+                groupCallOptions.getCredential(),
                 groupCallOptions.getDisplayName(),
                 groupCallOptions.getGroupId(),
                 null,
@@ -98,7 +98,7 @@ public final class CallComposite {
     public void launch(final Context context, final TeamsMeetingOptions teamsMeetingOptions) {
         launch(
                 context,
-                teamsMeetingOptions.getCommunicationTokenCredential(),
+                teamsMeetingOptions.getCredential(),
                 teamsMeetingOptions.getDisplayName(),
                 null,
                 teamsMeetingOptions.getMeetingLink(),
