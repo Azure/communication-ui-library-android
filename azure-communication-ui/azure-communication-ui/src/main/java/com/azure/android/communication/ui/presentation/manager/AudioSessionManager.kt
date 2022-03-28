@@ -62,22 +62,23 @@ internal class AudioSessionManager(
 
     suspend fun start() {
 
-        btAdapter?.run {
-            getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
-        }
-
-        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-        filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
-
-        context.registerReceiver(this@AudioSessionManager, filter)
-
-        // We only want to run this on first-launch
+        // On first launch we need to init the redux-state, check Bluetooth and Headset status
         if (!initialized) {
             initializeAudioDeviceState()
             updateBluetoothStatus()
             updateHeadphoneStatus()
         }
         initialized = true
+
+        // Listeners we need to rebind with Activity (Bluetooth, Headset, State Updates)
+        btAdapter?.run {
+            getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+        }
+
+        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+        filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
+        context.registerReceiver(this@AudioSessionManager, filter)
+
 
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
