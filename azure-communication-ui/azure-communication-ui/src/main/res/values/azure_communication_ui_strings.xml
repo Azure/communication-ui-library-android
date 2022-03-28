@@ -26,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Selected</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Setup Gradient</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">Switch Camera Button</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title" translatable="false">Setup</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Waiting for host</string>
