@@ -32,6 +32,7 @@ internal class AudioSessionManager(
 
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private var bluetoothAudioProxy: BluetoothHeadset? = null
+    private var initialized = false
 
     private val isBluetoothScoAvailable
         get() = try {
@@ -53,7 +54,6 @@ internal class AudioSessionManager(
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
-    private var initialized = false
 
     private val btAdapter: BluetoothAdapter? get() {
         val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -63,12 +63,7 @@ internal class AudioSessionManager(
     suspend fun start() {
 
         // On first launch we need to init the redux-state, check Bluetooth and Headset status
-        if (!initialized) {
-            initializeAudioDeviceState()
-            updateBluetoothStatus()
-            updateHeadphoneStatus()
-        }
-        initialized = true
+        initializeAudioDeviceState()
 
         // Listeners we need to rebind with Activity (Bluetooth, Headset, State Updates)
         btAdapter?.run {
@@ -116,10 +111,15 @@ internal class AudioSessionManager(
     // When disconnected revert to "Speaker"
     // When disconnected (and not selected), just update availability
     private fun updateBluetoothStatus() {
+        val audioState = store.getCurrentState().localParticipantState.audioState
+
+        // Bluetooth is no longer available
+        // Fallback to previous device selection
         if (!isBluetoothScoAvailable &&
-            store.getCurrentState().localParticipantState.audioState.bluetoothState.available &&
-            store.getCurrentState().localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
+            audioState.bluetoothState.available &&
+            audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
         ) {
+            // Request the Previous Device
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeRequested(
                     when (priorToBluetoothAudioSelectionStatus) {
@@ -128,11 +128,11 @@ internal class AudioSessionManager(
                     }
                 )
             )
-            // If bluetooth dropped, go back to last device
         }
 
-        if (isBluetoothScoAvailable && !store.getCurrentState().localParticipantState.audioState.bluetoothState.available) {
-            // If Bluetooth has been connected and wasn't, switch to it
+        // Auto-Connect to Bluetooth if it wasn't available but now is
+        if (isBluetoothScoAvailable && !audioState.bluetoothState.available) {
+
             store.dispatch(
                 LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
                     isBluetoothScoAvailable,
@@ -146,15 +146,16 @@ internal class AudioSessionManager(
                     AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
                 )
             )
-        } else {
-            // If bluetooth wasn't selected and is just being disconnected, just do the flag
-            store.dispatch(
-                LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
-                    isBluetoothScoAvailable,
-                    bluetoothDeviceName
-                )
-            )
         }
+
+        // Update the Bluetooth Status in the store
+        store.dispatch(
+            LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+                isBluetoothScoAvailable,
+                bluetoothDeviceName
+            ))
+
+
     }
 
     private fun isHeadsetActive(): Boolean {
@@ -175,6 +176,11 @@ internal class AudioSessionManager(
     }
 
     private fun initializeAudioDeviceState() {
+        if (initialized) return
+        initialized = true
+
+        updateHeadphoneStatus()
+
         when {
             audioManager.isSpeakerphoneOn ->
                 store.dispatch(
@@ -195,6 +201,7 @@ internal class AudioSessionManager(
                     )
                 )
         }
+
     }
 
     private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
