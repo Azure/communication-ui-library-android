@@ -79,7 +79,6 @@ internal class AudioSessionManager(
         filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
         context.registerReceiver(this@AudioSessionManager, filter)
 
-
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
                 previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
