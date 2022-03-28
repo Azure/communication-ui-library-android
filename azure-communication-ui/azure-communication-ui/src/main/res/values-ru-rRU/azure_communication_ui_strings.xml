@@ -7,8 +7,10 @@
     <string name="azure_communication_ui_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_audio_device_drawer_speaker">Динамик</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
-    <string name="azure_communication_ui_audio_device_drawer_headphone">Headset</string>
-
+    <string name="azure_communication_ui_audio_device_drawer_headphone">Гарнитура</string>
+    <string name="azure_communication_ui_switch_camera_button_front">Переключиться на переднюю камеру</string>
+    <string name="azure_communication_ui_switch_camera_button_back">Переключиться на заднюю камеру</string>
+    <string name="azure_communication_ui_setup_audio_device_select_content_description">Выбрать звуковое устройство %1$s</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Подключение к звонку…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">Видео отключено</string>
