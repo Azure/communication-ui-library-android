@@ -10,6 +10,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
+import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration;
 import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
@@ -77,6 +78,38 @@ public final class CallComposite {
     }
 
     /**
+     * Launch group call composite.
+     *
+     * <pre>
+     *
+     * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
+     *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
+     * final CommunicationTokenCredential communicationTokenCredential =
+     *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
+     * final GroupCallOptions groupCallOptions =
+     *                 new GroupCallOptions&#40;context, communicationTokenCredential, groupId, displayName&#41;;
+     * callComposite.launch&#40;groupCallOptions&#41;;
+     *
+     * </pre>
+     *
+     * @param context          The android context used to start the Composite.
+     * @param groupCallOptions The {@link GroupCallOptions} has parameters to
+     *                         launch group call experience.
+     */
+    public void launch(final Context context,
+                       final GroupCallOptions groupCallOptions,
+                       final LocalParticipantConfiguration configuration) {
+        launch(
+                context,
+                groupCallOptions.getCommunicationTokenCredential(),
+                groupCallOptions.getDisplayName(),
+                groupCallOptions.getGroupId(),
+                null,
+                CallType.GROUP_CALL
+        );
+    }
+
+    /**
      * Launch Teams meeting call composite.
      *
      * <pre>
@@ -96,6 +129,38 @@ public final class CallComposite {
      *                            launch Teams meeting experience.
      */
     public void launch(final Context context, final TeamsMeetingOptions teamsMeetingOptions) {
+        launch(
+                context,
+                teamsMeetingOptions.getCommunicationTokenCredential(),
+                teamsMeetingOptions.getDisplayName(),
+                null,
+                teamsMeetingOptions.getMeetingLink(),
+                CallType.TEAMS_MEETING
+        );
+    }
+
+    /**
+     * Launch Teams meeting call composite.
+     *
+     * <pre>
+     *
+     * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
+     *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
+     * final CommunicationTokenCredential communicationTokenCredential =
+     *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
+     * final TeamsMeetingOptions teamsMeetingOptions =
+     *                 new TeamsMeetingOptions&#40;context, communicationTokenCredential, meetingLink, displayName&#41;;
+     * callComposite.launch&#40;teamsMeetingOptions&#41;;
+     *
+     * </pre>
+     *
+     * @param context             The android context used to start the Composite.
+     * @param teamsMeetingOptions The {@link TeamsMeetingOptions} has parameters to
+     *                            launch Teams meeting experience.
+     */
+    public void launch(final Context context,
+                       final TeamsMeetingOptions teamsMeetingOptions,
+                       final LocalParticipantConfiguration configuration) {
         launch(
                 context,
                 teamsMeetingOptions.getCommunicationTokenCredential(),

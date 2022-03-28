@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
+import android.graphics.BitmapFactory
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.CallComposite
@@ -13,7 +14,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
+import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
+import com.azure.android.communication.ui.persona.PersonaData
+import java.net.URL
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -41,20 +45,34 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
+        val url =
+            URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
+        val imageBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+        val personaData = PersonaData(imageBitmap)
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+
         if (groupId != null) {
             val groupCallOptions = GroupCallOptions(
                 communicationTokenCredential,
                 groupId,
                 displayName,
             )
-            callComposite.launch(callLauncherActivity, groupCallOptions)
+            callComposite.launch(
+                callLauncherActivity,
+                groupCallOptions,
+                localParticipantConfiguration
+            )
         } else if (!meetingLink.isNullOrBlank()) {
             val teamsMeetingOptions = TeamsMeetingOptions(
                 communicationTokenCredential,
                 meetingLink,
                 displayName,
             )
-            callComposite.launch(callLauncherActivity, teamsMeetingOptions)
+            callComposite.launch(
+                callLauncherActivity,
+                teamsMeetingOptions,
+                localParticipantConfiguration
+            )
         }
     }
 }

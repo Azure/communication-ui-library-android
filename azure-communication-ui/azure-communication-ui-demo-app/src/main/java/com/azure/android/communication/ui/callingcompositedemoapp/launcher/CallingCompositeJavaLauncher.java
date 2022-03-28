@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -16,9 +18,13 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
+import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration;
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
 import com.azure.android.communication.ui.configuration.ThemeConfiguration;
+import com.azure.android.communication.ui.persona.PersonaData;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
@@ -69,17 +75,27 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-        if (groupId != null) {
-            final GroupCallOptions groupCallOptions =
-                    new GroupCallOptions(communicationTokenCredential, groupId, displayName);
+        try {
+            final URL url = new URL(
+                    "https://bestbuyerpersona.com/wp-content/uploads/2022/02/undraw_profile_pic_ic5t.png"
+            );
+            final Bitmap imageBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            final PersonaData personaData = new PersonaData(imageBitmap);
+            final LocalParticipantConfiguration configuration = new LocalParticipantConfiguration(personaData);
+            if (groupId != null) {
+                final GroupCallOptions groupCallOptions =
+                        new GroupCallOptions(communicationTokenCredential, groupId, displayName);
 
-            callComposite.launch(callLauncherActivity, groupCallOptions);
+                callComposite.launch(callLauncherActivity, groupCallOptions, configuration);
 
-        } else if (!TextUtils.isEmpty(meetingLink)) {
-            final TeamsMeetingOptions teamsMeetingOptions =
-                    new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
+            } else if (!TextUtils.isEmpty(meetingLink)) {
+                final TeamsMeetingOptions teamsMeetingOptions =
+                        new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
 
-            callComposite.launch(callLauncherActivity, teamsMeetingOptions);
+                callComposite.launch(callLauncherActivity, teamsMeetingOptions, configuration);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
