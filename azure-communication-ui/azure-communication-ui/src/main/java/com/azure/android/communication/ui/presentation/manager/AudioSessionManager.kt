@@ -28,9 +28,9 @@ import com.azure.android.communication.ui.redux.state.PermissionStatus
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
     private val context: Context,
-    private val audioManager: AudioManager,
 ) : BluetoothProfile.ServiceListener, BroadcastReceiver() {
 
+    private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private var bluetoothAudioProxy: BluetoothHeadset? = null
 
     private val isBluetoothScoAvailable

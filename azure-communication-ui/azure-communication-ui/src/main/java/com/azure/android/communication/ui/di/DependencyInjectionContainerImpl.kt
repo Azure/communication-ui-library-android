@@ -79,7 +79,6 @@ internal class DependencyInjectionContainerImpl(
         AudioSessionManager(
             appStore,
             applicationContext,
-            applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         )
     }
 
