@@ -53,6 +53,7 @@ internal class AudioSessionManager(
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
+    private var initialized = false
 
     private val btAdapter: BluetoothAdapter? get() {
         val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -70,9 +71,13 @@ internal class AudioSessionManager(
 
         context.registerReceiver(this@AudioSessionManager, filter)
 
-        initializeAudioDeviceState()
-        updateBluetoothStatus()
-        updateHeadphoneStatus()
+        // We only want to run this on first-launch
+        if (!initialized) {
+            initializeAudioDeviceState()
+            updateBluetoothStatus()
+            updateHeadphoneStatus()
+        }
+        initialized = true
 
         store.getStateFlow().collect {
             if (previousAudioDeviceSelectionStatus == null ||
@@ -242,9 +247,11 @@ internal class AudioSessionManager(
     }
 
     private fun enableBluetooth() {
-        audioManager.startBluetoothSco()
-        audioManager.isBluetoothScoOn = true
-        audioManager.isSpeakerphoneOn = false
+        if (!audioManager.isBluetoothScoOn) {
+            audioManager.startBluetoothSco()
+            audioManager.isBluetoothScoOn = true
+            audioManager.isSpeakerphoneOn = false
+        }
     }
 
     fun stop() {
