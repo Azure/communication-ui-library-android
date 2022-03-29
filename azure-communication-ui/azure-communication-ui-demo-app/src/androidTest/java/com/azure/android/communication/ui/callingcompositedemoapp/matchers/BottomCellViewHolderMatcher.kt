@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp.matchers
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -29,7 +28,7 @@ class BottomCellViewHolderMatcher(
 
     override fun matchesSafely(item: RecyclerView.ViewHolder?): Boolean {
         val holderRoot = item?.itemView ?: return false
-        val checkMark: ImageButton = holderRoot.findViewById(R.id.cell_check_mark)
+        val checkMark: ImageView = holderRoot.findViewById(R.id.cell_check_mark)
         val audioDeviceTextView: TextView = holderRoot.findViewById(R.id.cell_text)
         val audioDeviceIcon: ImageView = holderRoot.findViewById(R.id.cell_icon)
 
