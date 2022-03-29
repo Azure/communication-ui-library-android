@@ -150,7 +150,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         )
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_ic_fluent_arrow_left_24_filled)
-        supportActionBar?.elevation = 0F
     }
 
     private fun configureLocalization() {
