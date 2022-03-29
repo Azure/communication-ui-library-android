@@ -10,7 +10,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
 import com.azure.android.communication.ui.configuration.events.ErrorEvent;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
@@ -126,7 +126,7 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallingEventHandler}&lt;{@link ErrorEvent}&gt;
      */
-    public void setOnErrorHandler(final CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> eventHandler) {
+    public void setOnErrorHandler(final CallingEventHandler<ErrorEvent<CommunicationUIErrorEvent>> eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 

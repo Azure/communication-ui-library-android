@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import com.azure.android.communication.ui.CallingEventHandler
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.configuration.events.ErrorEvent
 import java.lang.ref.WeakReference
 
@@ -12,12 +12,12 @@ import java.lang.ref.WeakReference
 //
 // CallLauncherActivity is loosely coupled and will detach the weak reference after disposed.
 class CallLauncherActivityErrorHandler(callLauncherActivity: CallLauncherActivity) :
-    CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> {
+    CallingEventHandler<ErrorEvent<CommunicationUIErrorEvent>> {
 
     private val activityWr: WeakReference<CallLauncherActivity> =
         WeakReference(callLauncherActivity)
 
-    override fun handle(it: ErrorEvent<CallCompositeErrorCode>) {
+    override fun handle(it: ErrorEvent<CommunicationUIErrorEvent>) {
         println("================= application is logging exception =================")
         println(it.cause)
         println(it.errorCode)
