@@ -35,8 +35,9 @@ class SettingsFeatures {
                         DEFAULT_LANGUAGE_VALUE
                     )
             return if (context.applicationContext
-                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-                .getBoolean(isRTLKey, DEFAULT_RTL_VALUE)) LayoutDirection.RTL else LayoutDirection.LTR
+                    .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+                    .getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
+            ) LayoutDirection.RTL else LayoutDirection.LTR
         }
 
         fun getIsLanguageFeatureEnabled(context: Context): Boolean {
@@ -55,13 +56,6 @@ class SettingsFeatures {
             return context.applicationContext
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
                 .getBoolean(LANGUAGE_CUSTOM_TRANSLATION_ENABLE, false)
-        }
-
-        fun getCustomTranslationMap(): Map<String, String> {
-            return mapOf(
-                "azure_communication_ui_setup_view_button_mic_on" to "মাইক অন",
-                "azure_communication_ui_setup_view_button_mic_off" to "মাইক বন্ধ",
-            )
         }
 
         fun getLanguageCode(languageCode: String): String {
