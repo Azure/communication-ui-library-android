@@ -7,7 +7,6 @@ package com.azure.android.communication.ui.configuration;
 import com.azure.android.communication.ui.CallComposite;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Localization configuration to provide for CallComposite.
@@ -31,21 +30,6 @@ import java.util.Map;
 public class LocalizationConfiguration {
     private final String languageCode;
     private int layoutDirection;
-    private Map<String, String> customTranslation;
-
-    /**
-     * Create Localization Configuration with customString
-     *
-     * @param languageCode
-     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
-     * @param customTranslation
-     */
-    public LocalizationConfiguration(final String languageCode, final int layoutDirection,
-                                     final Map<String, String> customTranslation) {
-        this.languageCode = languageCode;
-        this.layoutDirection = layoutDirection;
-        this.customTranslation = customTranslation;
-    }
 
     /**
      * Create Localization configuration.
@@ -83,15 +67,6 @@ public class LocalizationConfiguration {
      */
     public int layoutDirection() {
         return layoutDirection;
-    }
-
-    /**
-     * Get customTranslation Map
-     *
-     * @return customTranslation
-     */
-    public Map<String, String> getCustomTranslation() {
-        return customTranslation;
     }
 
     /**
