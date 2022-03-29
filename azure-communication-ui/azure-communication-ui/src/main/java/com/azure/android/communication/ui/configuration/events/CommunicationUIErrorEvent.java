@@ -44,10 +44,5 @@ public final class CommunicationUIErrorEvent extends ExpandableStringEnum<Commun
     public static Collection<CommunicationUIErrorEvent> values() {
         return values(CommunicationUIErrorEvent.class);
     }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }
 

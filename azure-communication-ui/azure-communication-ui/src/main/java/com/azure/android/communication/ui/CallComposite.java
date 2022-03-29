@@ -107,7 +107,7 @@ public final class CallComposite {
     }
 
     /**
-     * Set {@link CallingEventHandler}&lt;{@link ErrorEvent}&gt;.
+     * Set {@link CallingEventHandler}&lt;{@link CommunicationUIErrorEvent}&gt;.
      *
      * <pre>
      *
@@ -124,7 +124,7 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param eventHandler The {@link CallingEventHandler}&lt;{@link ErrorEvent}&gt;
+     * @param eventHandler The {@link CallingEventHandler}&lt;{@link CommunicationUIErrorEvent}&gt;
      */
     public void setOnErrorHandler(final CallingEventHandler<ErrorEvent<CommunicationUIErrorEvent>> eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
