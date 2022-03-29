@@ -153,9 +153,8 @@ internal class AudioSessionManager(
             LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
                 isBluetoothScoAvailable,
                 bluetoothDeviceName
-            ))
-
-
+            )
+        )
     }
 
     private fun isHeadsetActive(): Boolean {
@@ -201,7 +200,6 @@ internal class AudioSessionManager(
                     )
                 )
         }
-
     }
 
     private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
