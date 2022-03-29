@@ -35,8 +35,8 @@ class SettingsFeatures {
                         DEFAULT_LANGUAGE_VALUE
                     )
             return if (context.applicationContext
-                    .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-                    .getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
+                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+                .getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
             ) LayoutDirection.RTL else LayoutDirection.LTR
         }
 
