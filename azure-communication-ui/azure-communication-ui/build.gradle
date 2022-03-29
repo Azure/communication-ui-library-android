@@ -20,12 +20,13 @@ android {
         buildConfigField('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "proguard-rules.pro"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            consumerProguardFiles "acs-ui-library.pro"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
