@@ -42,6 +42,18 @@ internal class AppLocalizationProvider : LocalizationProvider {
         return localizedString
     }
 
+    override fun getFormattedLocalizedString(context: Context, stringKey: Int): CharSequence {
+        var localizedString = context.getText(stringKey)
+        val localeKey = context.resources.getResourceEntryName(stringKey)
+        customTranslation?.let {
+            if (it.containsKey(localeKey)) {
+                localizedString = it[localeKey]!!
+            }
+        }
+
+        return localizedString
+    }
+
     companion object {
 
         fun getSupportedLanguages(): List<String> {

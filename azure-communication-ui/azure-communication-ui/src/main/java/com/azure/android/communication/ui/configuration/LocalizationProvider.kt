@@ -9,6 +9,7 @@ import android.content.Context
 //
 // @method {@apply Applies the custom locale settings received from LocalizationConfiguration}
 // @method (@getLocalizedString Provides the string value for a specific key}
+// @method (@getFormattedLocalizedString Provides the char sequence value for a specific key}
 //
 // For implementation
 //
@@ -17,4 +18,5 @@ internal interface LocalizationProvider {
     fun apply(localeConfig: LocalizationConfiguration)
     fun getLocalizedString(localeKey: String, sdkLocale: String): String
     fun getLocalizedString(context: Context, stringKey: Int): String
+    fun getFormattedLocalizedString(context: Context, stringKey: Int): CharSequence
 }
