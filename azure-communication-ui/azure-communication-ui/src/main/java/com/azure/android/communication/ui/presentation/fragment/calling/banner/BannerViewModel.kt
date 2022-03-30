@@ -130,6 +130,7 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         if (recordingState == ComplianceState.STOPPED) {
             recordingState = ComplianceState.OFF
         }
+
         if (transcriptionState == ComplianceState.STOPPED) {
             transcriptionState = ComplianceState.OFF
         }
