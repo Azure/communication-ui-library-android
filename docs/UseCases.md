@@ -19,9 +19,10 @@ Composites take care of the entire lifecycle of the call from setup to the call 
 |                                                                                                 | Video preview available throughout call for local user |
 |                                                                                                 | Default avatars available when video is off            |
 |                                                                                                 | Shared screen content displayed on participant gallery |
+|                                                                                                 | Shared screen content can be zoomed using gestures     |
 | Call configuration                                                                              | Microphone device management                           |
 |                                                                                                 | Camera device management                               |
-|                                                                                                 | Speaker device management                              |
+|                                                                                                 | Speaker device management(Bluetooth supported)         |
 |                                                                                                 | Local preview available for user to check video        |
 | Participants                                                                                    | Participant roster                                     |
 
@@ -68,7 +69,7 @@ These client libraries also require the context for the call they will join. Sim
 |Platform | Versions|
 |---------|---------|
 | iOS     | //NEED TO FILL IN |
-| Android | v23+    |
+| Android | v21+    |
 
 ## Accessibility
 

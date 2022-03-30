@@ -14,7 +14,6 @@ Options to start group call experience using `CallComposite`.
 
 ```java
 public GroupCallOptions(
-    Context context, 
     CommunicationTokenCredential communicationTokenCredential, 
     UUID groupId
 )
@@ -22,7 +21,6 @@ public GroupCallOptions(
 
 ```java
 public GroupCallOptions(
-    Context context, 
     CommunicationTokenCredential communicationTokenCredential, 
     UUID groupId, 
     String displayName

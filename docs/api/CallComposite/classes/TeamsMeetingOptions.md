@@ -14,7 +14,6 @@ Options to start Teams meeting call experience using `CallComposite`.
 
 ```java
 public TeamsMeetingOptions(
-    Context context, 
     CommunicationTokenCredential communicationTokenCredential, 
     String meetingLink
 )
@@ -22,7 +21,6 @@ public TeamsMeetingOptions(
 
 ```java
 public TeamsMeetingOptions(
-    Context context,
     CommunicationTokenCredential communicationTokenCredential,
     String meetingLink,
     String displayName

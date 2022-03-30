@@ -10,7 +10,7 @@
 - [ErrorEvent](classes/ErrorEvent.md)
 - [CallCompositeErrorCode](classes/CallCompositeErrorCode.md)
 - [ThemeConfiguration](classes/ThemeConfiguration.md)
-
+- [LocalizationConfiguration](classes/LocalizationConfiguration.md)
 
 
 ## Interfaces
