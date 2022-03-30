@@ -104,7 +104,6 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         } else if ((recordingState == ComplianceState.STOPPED) &&
             (transcriptionState == ComplianceState.STOPPED)
         ) {
-            resetStoppedStates()
             return BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED
         } else {
             return BannerInfoType.BLANK
