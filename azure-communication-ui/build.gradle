@@ -11,7 +11,7 @@ buildscript {
         azure_core_version = '1.0.0-beta.9'
         appcompat_version = '1.3.1'
         androidx_core_version = '1.6.0'
-        ui_library_version_name = '1.0.0-beta.1'
+        ui_library_version_name = '1.0.0-beta.2'
         ui_library_version_code = getVersionCode()
         fluent_ui_version = '0.0.15'
         constraint_layout = '2.1.3'
