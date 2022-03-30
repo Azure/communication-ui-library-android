@@ -18,6 +18,8 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
     private var recordingState: ComplianceState = ComplianceState.OFF
     private var transcriptionState: ComplianceState = ComplianceState.OFF
 
+    private var displayedBannerType: BannerInfoType = BannerInfoType.BLANK
+
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
 
     fun getBannerInfoTypeStateFlow(): StateFlow<BannerInfoType> {
@@ -32,6 +34,8 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         return localizationProvider
     }
 
+    fun getDisplayedBannerType() = displayedBannerType
+
     fun init(callingState: CallingState) {
         bannerInfoTypeStateFlow = MutableStateFlow(
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
@@ -41,6 +45,31 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
 
     fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
         isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
+    }
+
+    fun stop(bannerInfoType: BannerInfoType) {
+        displayedBannerType = bannerInfoType
+    }
+
+    fun update(callingState: CallingState) {
+        val currentBannerInfoType = bannerInfoTypeStateFlow.value
+        val newBannerInfoType =
+            createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
+
+        if (newBannerInfoType != currentBannerInfoType) {
+            bannerInfoTypeStateFlow.value = newBannerInfoType
+            shouldShowBannerStateFlow.value = true
+        }
+    }
+
+    fun setDisplayedBannerType(bannerInfoType: BannerInfoType) {
+        displayedBannerType = bannerInfoType
+    }
+
+    fun dismissBanner() {
+        shouldShowBannerStateFlow.value = false
+        displayedBannerType = BannerInfoType.BLANK
+        resetStoppedStates()
     }
 
     private fun createBannerInfoType(
@@ -109,22 +138,6 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         } else {
             return BannerInfoType.BLANK
         }
-    }
-
-    fun update(callingState: CallingState) {
-        val currentBannerInfoType = bannerInfoTypeStateFlow.value
-        val newBannerInfoType =
-            createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
-
-        if (newBannerInfoType != currentBannerInfoType) {
-            bannerInfoTypeStateFlow.value = newBannerInfoType
-            shouldShowBannerStateFlow.value = true
-        }
-    }
-
-    fun dismissBanner() {
-        shouldShowBannerStateFlow.value = false
-        resetStoppedStates()
     }
 
     private fun resetStoppedStates() {
