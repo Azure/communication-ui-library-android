@@ -25,7 +25,6 @@ internal class BannerView : ConstraintLayout {
     private lateinit var bannerView: View
     private lateinit var bannerText: TextView
     private lateinit var bannerCloseButton: ImageButton
-
     private lateinit var viewModel: BannerViewModel
 
     fun start(
@@ -65,7 +64,16 @@ internal class BannerView : ConstraintLayout {
 
     private fun updateNoticeBox(bannerInfoType: BannerInfoType) {
         if (bannerInfoType != BannerInfoType.BLANK) {
+            viewModel.setDisplayedBannerType(bannerInfoType)
             bannerText.text = getBannerInfo(bannerInfoType)
+            bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
+            announceForAccessibility(bannerText.text)
+        }
+        // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
+        // and screen is rotated, blank banner is displayed.
+        // We can not remove reset state in view model on stop as that cause incorrect message order
+        else if (bannerText.text.isNullOrBlank() && viewModel.getDisplayedBannerType() != BannerInfoType.BLANK) {
+            bannerText.text = getBannerInfo(viewModel.getDisplayedBannerType())
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
             announceForAccessibility(bannerText.text)
         }
