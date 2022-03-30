@@ -3,81 +3,44 @@
 
 package com.azure.android.communication.ui.configuration;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.azure.android.core.util.ExpandableStringEnum;
 
-final class SupportedLanguages {
-    private static final List<String> SUPPORTED_LANGUAGE_LIST = new ArrayList<String>();
-    private static final String ENGLISH = "ENGLISH";
-    private static final String CHINESE_SIMPLIFIED = "CHINESE_SIMPLIFIED";
-    private static final String SPANISH = "SPANISH";
-    private static final String RUSSIAN = "RUSSIAN";
-    private static final String JAPANESE = "JAPANESE";
-    private static final String FRENCH = "FRENCH";
-    private static final String BRAZILIAN_PORTUGUESE = "BRAZILIAN_PORTUGUESE";
-    private static final String GERMAN = "GERMAN";
-    private static final String KOREAN = "KOREAN";
-    private static final String ITALIAN = "ITALIAN";
-    private static final String CHINESE_TRADITIONAL = "CHINESE_TRADITIONAL";
-    private static final String DUTCH = "DUTCH";
-    private static final String TURKISH = "TURKISH";
-    private static final String ENGLISH_UK = "ENGLISH_UK";
+import java.util.Collection;
 
-    static {
-        SUPPORTED_LANGUAGE_LIST.add(ENGLISH);
-        SUPPORTED_LANGUAGE_LIST.add(CHINESE_SIMPLIFIED);
-        SUPPORTED_LANGUAGE_LIST.add(SPANISH);
-        SUPPORTED_LANGUAGE_LIST.add(RUSSIAN);
-        SUPPORTED_LANGUAGE_LIST.add(JAPANESE);
-        SUPPORTED_LANGUAGE_LIST.add(FRENCH);
-        SUPPORTED_LANGUAGE_LIST.add(BRAZILIAN_PORTUGUESE);
-        SUPPORTED_LANGUAGE_LIST.add(GERMAN);
-        SUPPORTED_LANGUAGE_LIST.add(KOREAN);
-        SUPPORTED_LANGUAGE_LIST.add(ITALIAN);
-        SUPPORTED_LANGUAGE_LIST.add(CHINESE_TRADITIONAL);
-        SUPPORTED_LANGUAGE_LIST.add(DUTCH);
-        SUPPORTED_LANGUAGE_LIST.add(TURKISH);
-        SUPPORTED_LANGUAGE_LIST.add(ENGLISH_UK);
-    }
+public class SupportedLanguages extends ExpandableStringEnum<SupportedLanguages> {
 
-    /** @return known SupportedLanguages as String list. */
-    public static List<String> values() {
-        return Collections.unmodifiableList(SUPPORTED_LANGUAGE_LIST);
+    public static final SupportedLanguages ENGLISH = fromString("en");
+    public static final SupportedLanguages CHINESE_SIMPLIFIED = fromString("zh-CN");
+    public static final SupportedLanguages SPANISH = fromString("es");
+    public static final SupportedLanguages RUSSIAN = fromString("ru");
+    public static final SupportedLanguages JAPANESE = fromString("ja");
+    public static final SupportedLanguages FRENCH = fromString("fr");
+    public static final SupportedLanguages BRAZILIAN_PORTUGUESE = fromString("pt-BR");
+    public static final SupportedLanguages GERMAN = fromString("de");
+    public static final SupportedLanguages KOREAN = fromString("ko");
+    public static final SupportedLanguages ITALIAN = fromString("it");
+    public static final SupportedLanguages CHINESE_TRADITIONAL = fromString("zh-TW");
+    public static final SupportedLanguages DUTCH = fromString("nl");
+    public static final SupportedLanguages TURKISH = fromString("tr");
+    public static final SupportedLanguages ENGLISH_UK = fromString("en-GB");
+
+    /**
+     * Creates or finds a SupportedLanguages from its string representation.
+     *
+     * @param languageCode is the locale.
+     * @return the corresponding SupportedLanguages.
+     */
+    public static SupportedLanguages fromString(final String languageCode) {
+        return fromString(languageCode, SupportedLanguages.class);
     }
 
     /**
-     * Gets the locale language code for the supported language
+     * Gets the collection of all known enum values
      *
-     * @param language is a supported language.
-     * @return corresponding locale value for the language
+     * @return collection of all enums
      */
-    public static String getLanguageCode(final String language) {
-        switch (language) {
-            case "SPANISH": return "es";
-            case "CHINESE_SIMPLIFIED": return "zh-CN";
-            case "RUSSIAN": return "ru";
-            case "JAPANESE": return "ja";
-            case "FRENCH": return "fr";
-            case "BRAZILIAN_PORTUGUESE": return "pt-BR";
-            case "GERMAN": return "de";
-            case "KOREAN": return "ko";
-            case "ITALIAN": return "it";
-            case "CHINESE_TRADITIONAL": return "zh-TW";
-            case "DUTCH": return "nl";
-            case "TURKISH": return "tr";
-            case "ENGLISH_UK": return "en-GB";
-            default: return "en";
-        }
-    }
-
-    /**
-     * Gets the default isRTL config
-     *
-     * @return returns the default or conventional isRTl boolean value
-     */
-    public static boolean getIsRTLDefaultValue(final String language) {
-        return false;
+    public static Collection<SupportedLanguages> values() {
+        return values(SupportedLanguages.class);
     }
 }
 

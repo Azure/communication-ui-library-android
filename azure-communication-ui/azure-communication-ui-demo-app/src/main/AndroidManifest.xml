@@ -12,6 +12,7 @@
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/appcenter_backup_rule"
         android:hardwareAccelerated="true"

@@ -41,20 +41,11 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
 
         final CallCompositeBuilder builder = new CallCompositeBuilder();
-        final String selectedLanguage = SettingsFeatures.Companion.language(callLauncherActivity
-                .getApplicationContext());
+        final String selectedLanguage = SettingsFeatures.Companion.language();
 
-        if (SettingsFeatures.Companion.getIsCustomTranslationEnabled(
-                callLauncherActivity.getApplicationContext())) {
-            builder.localization(new LocalizationConfiguration(SettingsFeatures.Companion
-                    .getLanguageCode(selectedLanguage),
-                    SettingsFeatures.Companion.isRTL(callLauncherActivity
-                            .getApplicationContext())));
-        } else {
-            builder.localization(new LocalizationConfiguration(SettingsFeatures.Companion
-                    .getLanguageCode(selectedLanguage),
-                    SettingsFeatures.Companion.isRTL(callLauncherActivity.getApplicationContext())));
-        }
+        builder.localization(new LocalizationConfiguration(SettingsFeatures.Companion
+                .getLanguageCode(selectedLanguage),
+                SettingsFeatures.Companion.isRTL()));
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
             builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
