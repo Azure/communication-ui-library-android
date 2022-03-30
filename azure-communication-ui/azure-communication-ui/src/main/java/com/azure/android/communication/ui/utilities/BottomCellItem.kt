@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 internal data class BottomCellItem(
     var icon: Drawable?,
     var title: String?,
+    var contentDescription: String?,
     var accessoryImage: Drawable?,
     var accessoryColor: Int?,
     var accessoryImageDescription: String,
