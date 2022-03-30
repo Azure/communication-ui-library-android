@@ -50,6 +50,10 @@ object UiTestUtils {
         onView(withId(viewId)).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
+    fun checkAllViewIdsAreDisplayed(@IdRes viewId: Int): ViewInteraction =
+        onView(allOf(withId(viewId), isDisplayed()))
+
+    @Throws(NoMatchingViewException::class)
     fun checkViewIdIsNotDisplayed(@IdRes viewId: Int): ViewInteraction =
         onView(withId(viewId)).check(ViewAssertions.matches(not(isDisplayed())))
 

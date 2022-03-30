@@ -20,6 +20,16 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         return viewInteraction
     }
 
+    fun waitUntilAllViewIdIsAreDisplayed(
+        @IdRes viewId: Int,
+        idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
+    ): ViewInteraction {
+        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
+            UiTestUtils.checkAllViewIdsAreDisplayed(viewId)
+        }
+        return viewInteraction
+    }
+
     fun waitUntilViewIdIsDisplayed(
         @IdRes viewId: Int,
         idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
