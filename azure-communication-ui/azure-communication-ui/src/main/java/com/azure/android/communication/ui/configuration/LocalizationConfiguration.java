@@ -6,8 +6,8 @@ package com.azure.android.communication.ui.configuration;
 
 import com.azure.android.communication.ui.CallComposite;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Localization configuration to provide for CallComposite.
@@ -77,7 +77,7 @@ public class LocalizationConfiguration {
      *
      * @return List of supported languageCode as {@link LanguageCode}; List
      */
-    public static List<LanguageCode> getSupportedLanguages() {
-        return Collections.unmodifiableList(AppLocalizationProvider.Companion.getSupportedLanguages());
+    public static Collection<LanguageCode> getSupportedLanguages() {
+        return LanguageCode.values();
     }
 }

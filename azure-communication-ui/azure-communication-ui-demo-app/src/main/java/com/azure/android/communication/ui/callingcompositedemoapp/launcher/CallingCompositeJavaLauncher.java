@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -39,7 +40,6 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final UUID groupId,
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
-
 
         final CallCompositeBuilder builder = new CallCompositeBuilder();
         final String selectedLanguage = SettingsFeatures.Companion.language();
