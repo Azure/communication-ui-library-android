@@ -28,5 +28,6 @@ public static final LanguageCode KOREAN;
 public static final LanguageCode ITALIAN;
 public static final LanguageCode DUTCH;
 public static final LanguageCode TURKISH;
+public static final LanguageCode BRAZILIAN_PORTUGUESE;
 ```
        
