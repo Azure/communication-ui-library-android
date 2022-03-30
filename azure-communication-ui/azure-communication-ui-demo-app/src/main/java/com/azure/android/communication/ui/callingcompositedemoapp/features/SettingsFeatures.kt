@@ -3,9 +3,10 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.features
 
+import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.callingcompositedemoapp.BaseApplication
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LOCALE_CODE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
@@ -19,46 +20,50 @@ import java.util.Locale
 class SettingsFeatures {
 
     companion object {
+        lateinit var applicationContext: Application
+        lateinit var sharedPrefs: SharedPreferences
 
-        fun language(): String? {
-            return BaseApplication.getInstance()
-                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-                .getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE)
+        @JvmStatic
+        fun initialize(context: Context) {
+            applicationContext = context.applicationContext as Application
+            sharedPrefs = applicationContext.getSharedPreferences(
+                FEATURE_FLAG_SHARED_PREFS_KEY,
+                Context.MODE_PRIVATE
+            )
         }
 
+        @JvmStatic
+        fun language(): String? {
+            return sharedPrefs.getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE)
+        }
+
+        @JvmStatic
         fun isRTL(): Int {
             val isRTLKey =
-                LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + BaseApplication.getInstance().getSharedPreferences(
-                    FEATURE_FLAG_SHARED_PREFS_KEY,
-                    Context.MODE_PRIVATE
+                LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + sharedPrefs.getString(
+                    LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                    DEFAULT_LANGUAGE_VALUE
                 )
-                    .getString(
-                        LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                        DEFAULT_LANGUAGE_VALUE
-                    )
-            return if (BaseApplication.getInstance()
-                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-                .getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
+            return if (sharedPrefs.getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
             ) LayoutDirection.RTL else LayoutDirection.LTR
         }
 
+        @JvmStatic
         fun languageCode(languageDisplayName: String): String? {
-            return BaseApplication.getInstance()
-                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
-                .getString(languageDisplayName, DEFAULT_LOCALE_CODE)
+            return sharedPrefs.getString(languageDisplayName, DEFAULT_LOCALE_CODE)
         }
 
+        @JvmStatic
         fun displayLanguageName(languageCode: String): String {
             val displayName = Locale.forLanguageTag(languageCode).displayName
-            BaseApplication.getInstance()
-                .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit()
-                .putString(displayName, languageCode).apply()
+            sharedPrefs.edit().putString(displayName, languageCode).apply()
             return displayName
         }
 
+        @JvmStatic
         fun selectedLanguageCode(languageCode: String): LanguageCode {
             for (language in LocalizationConfiguration.getSupportedLanguages()) {
-                if (languageCode.toString() == language.toString()) {
+                if (languageCode == language.toString()) {
                     return language
                 }
             }

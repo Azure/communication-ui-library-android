@@ -38,6 +38,4 @@ internal class AppLocalizationProvider : LocalizationProvider {
 
         return localizedString
     }
-
-
 }

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -42,13 +41,14 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final Function1<? super String, Unit> showAlert) {
 
         final CallCompositeBuilder builder = new CallCompositeBuilder();
-        final String selectedLanguage = SettingsFeatures.Companion.language();
-        final LanguageCode languageCode = SettingsFeatures.Companion.selectedLanguageCode(
-                SettingsFeatures.Companion.languageCode(selectedLanguage)
-        );
+
+        SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
+        final String selectedLanguage = SettingsFeatures.language();
+        final LanguageCode languageCode = SettingsFeatures
+                .selectedLanguageCode(SettingsFeatures.languageCode(selectedLanguage));
 
         builder.localization(new LocalizationConfiguration(languageCode,
-                SettingsFeatures.Companion.isRTL()));
+                SettingsFeatures.isRTL()));
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
             builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
