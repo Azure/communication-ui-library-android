@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.CallingEventHandler
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.configuration.events.ErrorEvent
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.state.AppReduxState
@@ -29,8 +29,8 @@ internal class CallCompositeEventsHandlerTests {
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, null)
 
-            val handler1 = mock<CallingEventHandler<ErrorEvent<CallCompositeErrorCode>>> { }
-            val handler2 = mock<CallingEventHandler<ErrorEvent<CallCompositeErrorCode>>> { }
+            val handler1 = mock<CallingEventHandler<ErrorEvent<CommunicationUIErrorEvent>>> { }
+            val handler2 = mock<CallingEventHandler<ErrorEvent<CommunicationUIErrorEvent>>> { }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.setOnErrorHandler(handler1)

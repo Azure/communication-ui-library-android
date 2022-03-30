@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.redux.reducer
 
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.error.FatalError
 import com.azure.android.communication.ui.redux.action.ErrorAction
 import com.azure.android.communication.ui.redux.state.ErrorState
@@ -20,7 +20,7 @@ internal class ErrorReducerUnitTest {
         // arrange
         val reducer = ErrorReducerImpl()
         val oldState = ErrorState(null, null)
-        val fatalError = FatalError(Exception(), CallCompositeErrorCode.CALL_JOIN)
+        val fatalError = FatalError(Exception(), CommunicationUIErrorEvent.CALL_JOIN)
         val action = ErrorAction.FatalErrorOccurred(fatalError)
 
         // act

@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.error
 
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.events.ErrorEvent
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.ErrorAction
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -66,7 +66,7 @@ internal class ErrorHandler(
             (
                 state.errorState.callStateError != null &&
                     state.errorState.callStateError != lastCallStateError &&
-                    state.errorState.callStateError?.callCompositeErrorCode == CallCompositeErrorCode.TOKEN_EXPIRED
+                    state.errorState.callStateError?.communicationUIErrorEvent == CommunicationUIErrorEvent.TOKEN_EXPIRED
                 )
 
     private fun checkIfCallingCompositeExceptionIsNewAndNotify(
@@ -79,7 +79,7 @@ internal class ErrorHandler(
             try {
                 val eventArgs =
                     ErrorEvent(
-                        newError.callCompositeErrorCode,
+                        newError.communicationUIErrorEvent,
                         newError.cause,
                     )
                 configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
@@ -104,7 +104,7 @@ internal class ErrorHandler(
         try {
             val eventArgs =
                 ErrorEvent(
-                    callStateError.callCompositeErrorCode,
+                    callStateError.communicationUIErrorEvent,
                     null,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
@@ -128,7 +128,7 @@ internal class ErrorHandler(
 
         try {
             val eventArgs =
-                ErrorEvent<CallCompositeErrorCode>(
+                ErrorEvent<CommunicationUIErrorEvent>(
                     error.codeCallComposite,
                     error.fatalError,
                 )

@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.features
 
 import android.content.Context
+import android.util.LayoutDirection
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
@@ -23,7 +24,7 @@ class SettingsFeatures {
                 .getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE)
         }
 
-        fun isRTL(context: Context): Boolean {
+        fun isRTL(context: Context): Int {
             val isRTLKey =
                 LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + context.applicationContext.getSharedPreferences(
                     FEATURE_FLAG_SHARED_PREFS_KEY,
@@ -33,9 +34,10 @@ class SettingsFeatures {
                         LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
                         DEFAULT_LANGUAGE_VALUE
                     )
-            return context.applicationContext
+            return if (context.applicationContext
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
                 .getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
+            ) LayoutDirection.RTL else LayoutDirection.LTR
         }
 
         fun getIsLanguageFeatureEnabled(context: Context): Boolean {
@@ -54,13 +56,6 @@ class SettingsFeatures {
             return context.applicationContext
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
                 .getBoolean(LANGUAGE_CUSTOM_TRANSLATION_ENABLE, false)
-        }
-
-        fun getCustomTranslationMap(): Map<String, String> {
-            return mapOf(
-                "azure_communication_ui_setup_view_button_mic_on" to "মাইক অন",
-                "azure_communication_ui_setup_view_button_mic_off" to "মাইক বন্ধ",
-            )
         }
 
         fun getLanguageCode(languageCode: String): String {

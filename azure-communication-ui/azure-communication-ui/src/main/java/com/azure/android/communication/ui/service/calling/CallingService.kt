@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.service.calling
 
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
@@ -123,12 +123,12 @@ internal class CallingService(
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
                 val callStateError = when (it.callEndReason) {
                     CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> null
-                    CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CallCompositeErrorCode.TOKEN_EXPIRED)
+                    CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CommunicationUIErrorEvent.TOKEN_EXPIRED)
                     else -> {
                         if (callingStatus == CallingStatus.CONNECTED) {
-                            CallStateError(CallCompositeErrorCode.CALL_END)
+                            CallStateError(CommunicationUIErrorEvent.CALL_END)
                         } else {
-                            CallStateError(CallCompositeErrorCode.CALL_JOIN)
+                            CallStateError(CommunicationUIErrorEvent.CALL_JOIN)
                         }
                     }
                 }

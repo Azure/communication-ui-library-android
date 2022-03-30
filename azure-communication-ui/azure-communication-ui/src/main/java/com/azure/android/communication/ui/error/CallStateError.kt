@@ -1,7 +1,7 @@
 package com.azure.android.communication.ui.error
 
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 
 internal class CallStateError(
-    val callCompositeErrorCode: CallCompositeErrorCode,
+    val communicationUIErrorEvent: CommunicationUIErrorEvent,
 )

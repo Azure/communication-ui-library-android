@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.configuration;
 
+
 import com.azure.android.communication.ui.CallComposite;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Localization configuration to provide for CallComposite.
@@ -18,7 +18,7 @@ import java.util.Map;
  *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode&#41;&#41;;
  *
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode, isRightToLeft&#41;&#41;;
+ *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode, layoutDirection&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -29,32 +29,17 @@ import java.util.Map;
  */
 public class LocalizationConfiguration {
     private final String languageCode;
-    private boolean isRightToLeft;
-    private Map<String, String> customTranslation;
-
-    /**
-     * Create Localization Configuration with customString
-     *
-     * @param languageCode
-     * @param isRightToLeft
-     * @param customTranslation
-     */
-    public LocalizationConfiguration(final String languageCode, final boolean isRightToLeft,
-                                     final Map<String, String> customTranslation) {
-        this.languageCode = languageCode;
-        this.isRightToLeft = isRightToLeft;
-        this.customTranslation = customTranslation;
-    }
+    private int layoutDirection;
 
     /**
      * Create Localization configuration.
      *
-     * @param languageCode  string eg,. "en"
-     * @param isRightToLeft boolean the layout direction
+     * @param languageCode    string eg,. "en"
+     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
-    public LocalizationConfiguration(final String languageCode, final boolean isRightToLeft) {
+    public LocalizationConfiguration(final String languageCode, final int layoutDirection) {
         this.languageCode = languageCode;
-        this.isRightToLeft = isRightToLeft;
+        this.layoutDirection = layoutDirection;
     }
 
     /**
@@ -80,17 +65,8 @@ public class LocalizationConfiguration {
      *
      * @return isRightToLeft boolean
      */
-    public boolean getIsRightToLeft() {
-        return isRightToLeft;
-    }
-
-    /**
-     * Get customTranslation Map
-     *
-     * @return customTranslation
-     */
-    public Map<String, String> getCustomTranslation() {
-        return customTranslation;
+    public int layoutDirection() {
+        return layoutDirection;
     }
 
     /**

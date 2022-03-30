@@ -14,9 +14,6 @@ internal class AppLocalizationProvider : LocalizationProvider {
         if (supportedLocales.contains(localeConfig.languageCode)) {
             language = localeConfig.languageCode
         }
-        if (localeConfig.customTranslation != null) {
-            customTranslation = localeConfig.customTranslation
-        }
     }
 
     override fun getLocalizedString(localeKey: String, sdkLocale: String): String {

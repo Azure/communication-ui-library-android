@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.redux.middleware.handler
 
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.TestContextProvider
@@ -135,7 +135,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // assert
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
-                action is LocalParticipantAction.CameraOffFailed && action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_CAMERA_OFF
+                action is LocalParticipantAction.CameraOffFailed && action.error.cause == error && action.error.communicationUIErrorEvent == CommunicationUIErrorEvent.TURN_CAMERA_OFF
             }
         )
     }
@@ -531,7 +531,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                        action.error.fatalError == exception && action.error.codeCallComposite == CallCompositeErrorCode.CALL_JOIN
+                        action.error.fatalError == exception && action.error.codeCallComposite == CommunicationUIErrorEvent.CALL_JOIN
                 }
             )
         }
@@ -1168,7 +1168,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.CameraOnFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_CAMERA_ON
+                    action.error.cause == error && action.error.communicationUIErrorEvent == CommunicationUIErrorEvent.TURN_CAMERA_ON
             }
         )
     }
@@ -1263,7 +1263,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOffFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_MIC_OFF
+                    action.error.cause == error && action.error.communicationUIErrorEvent == CommunicationUIErrorEvent.TURN_MIC_OFF
             }
         )
         verify(mockCallingService, times(1)).turnMicOff()
@@ -1313,7 +1313,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOnFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_MIC_ON
+                    action.error.cause == error && action.error.communicationUIErrorEvent == CommunicationUIErrorEvent.TURN_MIC_ON
             }
         )
         verify(mockCallingService, times(1)).turnMicOn()
@@ -1357,7 +1357,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             callInfoModelStateFlow.value = CallInfoModel(
                 CallingStatus.DISCONNECTED,
                 CallStateError(
-                    CallCompositeErrorCode.TOKEN_EXPIRED
+                    CommunicationUIErrorEvent.TOKEN_EXPIRED
                 )
             )
 
@@ -1365,7 +1365,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.TOKEN_EXPIRED
+                        action.callStateError.communicationUIErrorEvent == CommunicationUIErrorEvent.TOKEN_EXPIRED
                 }
             )
         }
@@ -1409,7 +1409,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CallInfoModel(
                     CallingStatus.NONE,
                     CallStateError(
-                        CallCompositeErrorCode.CALL_END
+                        CommunicationUIErrorEvent.CALL_END
                     )
                 )
             )
@@ -1432,7 +1432,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.CALL_END
+                        action.callStateError.communicationUIErrorEvent == CommunicationUIErrorEvent.CALL_END
                 }
             )
 
@@ -1491,7 +1491,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.CALL_END
+                        action.callStateError.communicationUIErrorEvent == CommunicationUIErrorEvent.CALL_END
                 }
             )
 
@@ -1555,7 +1555,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CallInfoModel(
                     CallingStatus.DISCONNECTED,
                     CallStateError(
-                        CallCompositeErrorCode.TURN_CAMERA_OFF
+                        CommunicationUIErrorEvent.TURN_CAMERA_OFF
                     )
                 )
             )
@@ -1564,7 +1564,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.CALL_END
+                        action.callStateError.communicationUIErrorEvent == CommunicationUIErrorEvent.CALL_END
                 }
             )
 
