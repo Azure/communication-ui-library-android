@@ -34,7 +34,9 @@ public class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param languageCode    ExpandableStringEnum eg,. LanguageCode.fromString("en")
+     * Set {@link LanguageCode};.
+     *
+     * @param languageCode    The {@link LanguageCode}; eg,. LanguageCode.fromString("en")
      * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
     public LocalizationConfiguration(final LanguageCode languageCode, final int layoutDirection) {
@@ -45,7 +47,7 @@ public class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param languageCode ExpandableStringEnum eg,. LanguageCode.fromString("en")
+     * @param languageCode The {@link LanguageCode}; eg,. LanguageCode.fromString("en")
      */
     public LocalizationConfiguration(final LanguageCode languageCode) {
         this.languageCode = languageCode;
@@ -54,16 +56,16 @@ public class LocalizationConfiguration {
     /**
      * Get current LanguageCode enum
      *
-     * @return ExpandableStringEnum LanguageCode
+     * @return The {@link LanguageCode};
      */
     public LanguageCode getLanguageCode() {
         return languageCode;
     }
 
     /**
-     * Get isRightToLeft boolean.
+     * Get layoutDirection int.
      *
-     * @return isRightToLeft boolean
+     * @return layoutDirection int
      */
     public int layoutDirection() {
         return layoutDirection;
@@ -72,7 +74,7 @@ public class LocalizationConfiguration {
     /**
      * Get supported Locale list
      *
-     * @return List of supported Locale as ExpandableStringEnum LanguageCode List
+     * @return List of supported languageCode as {@link LanguageCode}; List
      */
     public static List<LanguageCode> getSupportedLanguages() {
         return AppLocalizationProvider.Companion.getSupportedLanguages();

@@ -30,8 +30,8 @@ public class LanguageCode extends ExpandableStringEnum<LanguageCode> {
     /**
      * Creates or finds a SupportedLanguages from its string representation.
      *
-     * @param languageCode is the locale.
-     * @return the corresponding SupportedLanguages.
+     * @param languageCode is the locale in string eg,. "en"
+     * @return the corresponding SupportedLanguages
      */
     public static LanguageCode fromString(final String languageCode) {
         return fromString(languageCode, LanguageCode.class);
@@ -40,7 +40,7 @@ public class LanguageCode extends ExpandableStringEnum<LanguageCode> {
     /**
      * Gets the collection of all known enum values
      *
-     * @return collection of all enums
+     * @return collection of all supported locale values
      */
     public static Collection<LanguageCode> values() {
         return values(LanguageCode.class);
