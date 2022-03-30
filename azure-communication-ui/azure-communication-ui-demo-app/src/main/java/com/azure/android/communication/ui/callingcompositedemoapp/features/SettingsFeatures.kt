@@ -19,7 +19,7 @@ import java.util.Locale
 class SettingsFeatures {
 
     companion object {
-        lateinit var sharedPrefs: SharedPreferences
+        private lateinit var sharedPrefs: SharedPreferences
 
         @JvmStatic
         fun initialize(context: Context) {
