@@ -86,10 +86,6 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         ) {
             return BannerInfoType.TRANSCRIPTION_STARTED
         } else if ((recordingState == ComplianceState.OFF) &&
-            (transcriptionState == ComplianceState.OFF)
-        ) {
-            return BannerInfoType.BLANK
-        } else if ((recordingState == ComplianceState.OFF) &&
             (transcriptionState == ComplianceState.STOPPED)
         ) {
             return BannerInfoType.TRANSCRIPTION_STOPPED
@@ -104,6 +100,7 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         } else if ((recordingState == ComplianceState.STOPPED) &&
             (transcriptionState == ComplianceState.STOPPED)
         ) {
+            resetStoppedStates()
             return BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED
         } else {
             return BannerInfoType.BLANK

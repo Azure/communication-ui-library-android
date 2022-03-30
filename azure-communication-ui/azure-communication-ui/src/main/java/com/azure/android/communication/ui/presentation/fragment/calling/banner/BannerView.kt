@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.presentation.fragment.calling.banner
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
@@ -65,6 +67,7 @@ internal class BannerView : ConstraintLayout {
 
     private fun updateNoticeBox(bannerInfoType: BannerInfoType) {
         if (bannerInfoType != BannerInfoType.BLANK) {
+
             bannerText.text = getBannerInfo(bannerInfoType)
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
             announceForAccessibility(bannerText.text)
@@ -138,5 +141,25 @@ internal class BannerView : ConstraintLayout {
         bannerCloseButton.setOnClickListener {
             viewModel.dismissBanner()
         }
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val bundle = Bundle()
+        bundle.putCharSequence("bannerText", bannerText.text)
+        bundle.putParcelable("superState", super.onSaveInstanceState())
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        var viewState = state
+        if (viewState is Bundle) {
+            val savedBannerText = viewState.getCharSequence("bannerText", "")
+            viewState = viewState.getParcelable("superState")
+
+            if (savedBannerText == context.getText(R.string.azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped)) {
+                bannerText.text = context.getText(R.string.azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped)
+            }
+        }
+        super.onRestoreInstanceState(viewState)
     }
 }
