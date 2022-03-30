@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
@@ -28,7 +27,6 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     AndroidViewModel(application) {
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
-    var localizationConfiguration: LocalizationConfiguration? = null
 
     val container: DependencyInjectionContainer by lazy {
         if (instanceId == -1) {

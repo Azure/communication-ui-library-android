@@ -3,12 +3,9 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
@@ -18,7 +15,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.google.android.material.textfield.TextInputLayout
-import java.util.Locale
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -26,7 +22,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var languageArrayAdapter: ArrayAdapter<String>
     private lateinit var isRTLCheckBox: CheckBox
-    private lateinit var customTranslationCheckBox: CheckBox
     private lateinit var languageSettingLabelView: TextView
     private lateinit var callSettingLabelView: TextView
     private lateinit var languageSettingLabelDivider: View
@@ -40,11 +35,11 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         this.initializeViews()
-        supportedLanguages = LocalizationConfiguration.getSupportedLanguages()
+        SettingsFeatures.initialize(this)
+        supportedLanguages = LocalizationConfiguration.getSupportedLanguages().map { it -> SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onResume() {
         super.onResume()
 
@@ -55,54 +50,13 @@ class SettingsActivity : AppCompatActivity() {
 
         setLanguageInAdapter()
 
-        SettingsFeatures.isLanguageFeatureEnabled = SettingsFeatures.getIsLanguageFeatureEnabled(this)
-        languageSettingsExperience()
         updateRTLCheckbox()
-        updateCustomStringCheckBox()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
             setLanguageValueInSharedPref(selectedItem)
             updateRTLCheckbox()
-            updateCustomStringCheckBox()
         }
-
-        callSettingLabelView.setOnTouchListener(
-            @SuppressLint("ClickableViewAccessibility")
-            object : View.OnTouchListener {
-
-                var numberOfTaps = 0
-                var lastTapEventTime: Long = 0
-                var touchStartTime: Long = 0
-
-                override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-                    when (p1?.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            touchStartTime = System.currentTimeMillis()
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            if (System.currentTimeMillis() - touchStartTime > ViewConfiguration.getTapTimeout()) {
-                                numberOfTaps = 0
-                                lastTapEventTime = 0
-                            } else if (numberOfTaps > 0 && System.currentTimeMillis() - lastTapEventTime < ViewConfiguration.getDoubleTapTimeout()) {
-                                numberOfTaps += 1
-                            } else {
-                                numberOfTaps = 1
-                            }
-                            lastTapEventTime = System.currentTimeMillis()
-                        }
-                    }
-                    if (numberOfTaps > HIDDEN_TAP_COUNT_THRESHOLD) {
-                        SettingsFeatures.isLanguageFeatureEnabled =
-                            !SettingsFeatures.isLanguageFeatureEnabled
-                        languageSettingsExperience()
-                        numberOfTaps = 0
-                        lastTapEventTime = 0
-                    }
-                    return true
-                }
-            }
-        )
     }
 
     fun onCheckBoxTap(view: View) {
@@ -119,12 +73,6 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
-                R.id.customTranslation -> {
-                    sharedPreference.edit().putBoolean(
-                        LANGUAGE_CUSTOM_TRANSLATION_ENABLE,
-                        view.isChecked
-                    ).apply()
-                }
             }
         }
     }
@@ -136,27 +84,6 @@ class SettingsActivity : AppCompatActivity() {
         isRTLCheckBox = findViewById(R.id.languageIsRTL)
         languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
-        customTranslationCheckBox = findViewById(R.id.customTranslation)
-    }
-
-    private fun languageSettingsExperience() {
-        if (!SettingsFeatures.isLanguageFeatureEnabled) {
-            languageSettingLabelView.visibility = View.GONE
-            languageSettingLabelDivider.visibility = View.GONE
-            languageAdapterLayout.visibility = View.GONE
-            isRTLCheckBox.visibility = View.GONE
-            customTranslationCheckBox.visibility = View.GONE
-        } else {
-            languageSettingLabelView.visibility = View.VISIBLE
-            languageSettingLabelDivider.visibility = View.VISIBLE
-            languageAdapterLayout.visibility = View.VISIBLE
-            isRTLCheckBox.visibility = View.VISIBLE
-            customTranslationCheckBox.visibility = View.VISIBLE
-        }
-        SettingsFeatures.setIsLanguageFeatureEnabled(
-            this,
-            SettingsFeatures.isLanguageFeatureEnabled
-        )
     }
 
     private fun updateRTLCheckbox() {
@@ -168,25 +95,9 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateCustomStringCheckBox() {
-        customTranslationCheckBox.isChecked = sharedPreference
-            .getBoolean(LANGUAGE_CUSTOM_TRANSLATION_ENABLE, DEFAULT_CUSTOM_TRANSLATION_VALUE)
-    }
-
-    private fun getDeviceLanguage(): String {
-        return Locale.getDefault().displayLanguage
-    }
-
     private fun setLanguageInSharedPrefForFirstTime() {
-        val deviceLocaleLanguage = getDeviceLanguage()
         if (isFirstRun()) {
-            for (language in supportedLanguages) {
-                if (language == deviceLocaleLanguage) {
-                    setLanguageValueInSharedPref(language)
-                    break
-                }
-            }
-            if (isFirstRun()) setLanguageValueInSharedPref(DEFAULT_LANGUAGE_VALUE)
+            setLanguageValueInSharedPref(DEFAULT_LANGUAGE_VALUE)
         }
     }
 
@@ -225,11 +136,9 @@ class SettingsActivity : AppCompatActivity() {
 const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
 const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "RTL_VALUE_OF_"
 const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
-const val LANGUAGE_CUSTOM_TRANSLATION_ENABLE = "LANGUAGE_CUSTOM_TRANSLATION_ENABLE"
 
 // Shared pref default values for language & rtl settings
 
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_RTL_VALUE = false
-const val DEFAULT_CUSTOM_TRANSLATION_VALUE = false
-const val HIDDEN_TAP_COUNT_THRESHOLD = 5
+const val DEFAULT_LOCALE_CODE = "en"
