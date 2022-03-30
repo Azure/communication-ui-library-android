@@ -26,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">選択済み</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">グラデーションの設定</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">カメラの切り替えボタン</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">Setup</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">ホストを待機しています</string>

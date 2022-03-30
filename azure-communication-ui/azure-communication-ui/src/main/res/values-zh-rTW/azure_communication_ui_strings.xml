@@ -26,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">已選取</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">設定漸層</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">[切換相機] 按鈕</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">Setup</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">等待主持人中</string>
