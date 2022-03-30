@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.features
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.LayoutDirection
@@ -20,13 +19,11 @@ import java.util.Locale
 class SettingsFeatures {
 
     companion object {
-        lateinit var applicationContext: Application
         lateinit var sharedPrefs: SharedPreferences
 
         @JvmStatic
         fun initialize(context: Context) {
-            applicationContext = context.applicationContext as Application
-            sharedPrefs = applicationContext.getSharedPreferences(
+            sharedPrefs = context.getSharedPreferences(
                 FEATURE_FLAG_SHARED_PREFS_KEY,
                 Context.MODE_PRIVATE
             )
