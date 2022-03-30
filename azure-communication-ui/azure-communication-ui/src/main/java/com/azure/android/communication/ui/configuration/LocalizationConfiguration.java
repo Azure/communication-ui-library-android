@@ -28,7 +28,7 @@ import java.util.List;
  * @see CallComposite
  */
 public class LocalizationConfiguration {
-    private final String languageCode;
+    private final LanguageCode languageCode;
     private int layoutDirection;
 
     /**
@@ -37,7 +37,7 @@ public class LocalizationConfiguration {
      * @param languageCode    string eg,. "en"
      * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
-    public LocalizationConfiguration(final String languageCode, final int layoutDirection) {
+    public LocalizationConfiguration(final LanguageCode languageCode, final int layoutDirection) {
         this.languageCode = languageCode;
         this.layoutDirection = layoutDirection;
     }
@@ -47,7 +47,7 @@ public class LocalizationConfiguration {
      *
      * @param languageCode string eg,. "en"
      */
-    public LocalizationConfiguration(final String languageCode) {
+    public LocalizationConfiguration(final LanguageCode languageCode) {
         this.languageCode = languageCode;
     }
 
@@ -56,7 +56,7 @@ public class LocalizationConfiguration {
      *
      * @return language string
      */
-    public String getLanguageCode() {
+    public LanguageCode getLanguageCode() {
         return languageCode;
     }
 
@@ -74,7 +74,7 @@ public class LocalizationConfiguration {
      *
      * @return List of supported Locale as String List
      */
-    public static List<String> getSupportedLanguages() {
+    public static List<LanguageCode> getSupportedLanguages() {
         return AppLocalizationProvider.Companion.getSupportedLanguages();
     }
 }

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -36,11 +35,10 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         this.initializeViews()
-        supportedLanguages = LocalizationConfiguration.getSupportedLanguages().map { it -> SettingsFeatures.getDisplayLanguageName(it) }
+        supportedLanguages = LocalizationConfiguration.getSupportedLanguages().map { it -> SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onResume() {
         super.onResume()
 

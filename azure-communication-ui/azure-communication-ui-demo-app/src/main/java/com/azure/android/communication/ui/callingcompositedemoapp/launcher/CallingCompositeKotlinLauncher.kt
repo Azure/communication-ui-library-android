@@ -13,9 +13,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getLanguageCode
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.isRTL
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.languageCode
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
 import java.util.UUID
@@ -32,13 +33,14 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         val selectedLanguage = language()
+        val selectedLanguageCode = selectedLanguage?.let { languageCode(it)?.let { selectedLanguageCode(it) } }
 
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
                     .localization(
                         LocalizationConfiguration(
-                            getLanguageCode(selectedLanguage!!),
+                            selectedLanguageCode,
                             isRTL()
                         )
                     )
@@ -46,7 +48,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             else
                 CallCompositeBuilder().localization(
                     LocalizationConfiguration(
-                        getLanguageCode(selectedLanguage!!),
+                        selectedLanguageCode,
                         isRTL()
                     )
                 )

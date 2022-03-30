@@ -11,6 +11,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LOCALE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.configuration.LanguageCode
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import java.util.Locale
 
@@ -40,18 +42,27 @@ class SettingsFeatures {
             ) LayoutDirection.RTL else LayoutDirection.LTR
         }
 
-        fun getLanguageCode(languageDisplayName: String): String? {
+        fun languageCode(languageDisplayName: String): String? {
             return BaseApplication.getInstance()
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
                 .getString(languageDisplayName, DEFAULT_LOCALE_CODE)
         }
 
-        fun getDisplayLanguageName(languageCode: String): String {
+        fun displayLanguageName(languageCode: String): String {
             val displayName = Locale.forLanguageTag(languageCode).displayName
             BaseApplication.getInstance()
                 .getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit()
                 .putString(displayName, languageCode).apply()
             return displayName
+        }
+
+        fun selectedLanguageCode(languageCode: String): LanguageCode {
+            for (language in LocalizationConfiguration.getSupportedLanguages()) {
+                if (languageCode.toString() == language.toString()) {
+                    return language
+                }
+            }
+            return LanguageCode.ENGLISH
         }
     }
 }

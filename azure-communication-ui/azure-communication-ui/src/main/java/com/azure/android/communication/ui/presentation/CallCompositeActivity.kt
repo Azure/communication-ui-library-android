@@ -81,8 +81,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-        diContainerHolder.localizationConfiguration = configuration.localizationConfig
-
         setContentView(R.layout.azure_communication_ui_activity_call_composite)
 
         val activity = this
@@ -146,14 +144,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun configureLocalization() {
-        diContainerHolder.localizationConfiguration = configuration.localizationConfig
-
         configuration.localizationConfig?.let { localeConfig ->
             localeConfig.layoutDirection().let {
                 window?.decorView?.layoutDirection = it
             }
             val config: Configuration = resources.configuration
-            val languageAttributes = localeConfig.languageCode.split("-")
+            val languageAttributes = localeConfig.languageCode.toString().split("-")
             val languageCode = languageAttributes[0]
             val countryCode =
                 if (languageAttributes.size > 1) languageAttributes[1] else ""

@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
+import com.azure.android.communication.ui.configuration.LanguageCode;
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
 import com.azure.android.communication.ui.configuration.ThemeConfiguration;
 
@@ -42,9 +43,11 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         final CallCompositeBuilder builder = new CallCompositeBuilder();
         final String selectedLanguage = SettingsFeatures.Companion.language();
+        final LanguageCode languageCode = SettingsFeatures.Companion.selectedLanguageCode(
+                SettingsFeatures.Companion.languageCode(selectedLanguage)
+        );
 
-        builder.localization(new LocalizationConfiguration(SettingsFeatures.Companion
-                .getLanguageCode(selectedLanguage),
+        builder.localization(new LocalizationConfiguration(languageCode,
                 SettingsFeatures.Companion.isRTL()));
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
@@ -72,4 +75,6 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
             callComposite.launch(callLauncherActivity, teamsMeetingOptions);
         }
     }
+
+
 }

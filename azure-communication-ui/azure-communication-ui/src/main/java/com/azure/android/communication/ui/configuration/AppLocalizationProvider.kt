@@ -12,7 +12,7 @@ internal class AppLocalizationProvider : LocalizationProvider {
     override fun apply(localeConfig: LocalizationConfiguration) {
         val supportedLocales = getSupportedLanguages()
         if (supportedLocales.contains(localeConfig.languageCode)) {
-            language = localeConfig.languageCode
+            language = localeConfig.languageCode.toString()
         }
     }
 
@@ -40,8 +40,8 @@ internal class AppLocalizationProvider : LocalizationProvider {
     }
 
     companion object {
-        fun getSupportedLanguages(): List<String> {
-            return SupportedLanguages.values().toList().map { it -> it.toString() }
+        fun getSupportedLanguages(): List<LanguageCode> {
+            return LanguageCode.values().toList()
         }
     }
 }
