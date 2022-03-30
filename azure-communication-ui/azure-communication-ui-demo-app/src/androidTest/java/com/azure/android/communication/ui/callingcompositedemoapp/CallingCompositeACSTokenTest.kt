@@ -45,25 +45,21 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
         val utfTokenString = String(decodedToken, StandardCharsets.UTF_8)
         var expiryDate = ""
 
-        try {
-            val accessJwt = JSONObject(utfTokenString)
-            Assert.assertTrue("missing field encountered! $accessJwt", accessJwt.has("skypeid"))
-            Assert.assertTrue("missing field encountered! $accessJwt", accessJwt.has("iat"))
-            Assert.assertTrue("missing field encountered! $accessJwt", accessJwt.has("resourceId"))
-            Assert.assertTrue("missing field encountered! $accessJwt", accessJwt.has(ExpiryDate))
+        val accessJwt = JSONObject(utfTokenString)
+        Assert.assertTrue("skypeId field missing from: $accessJwt", accessJwt.has("skypeid"))
+        Assert.assertTrue("iat field missing from: $accessJwt", accessJwt.has("iat"))
+        Assert.assertTrue("resourceId field missing from: $accessJwt", accessJwt.has("resourceId"))
+        Assert.assertTrue("exp field missing from: $accessJwt", accessJwt.has(ExpiryDate))
 
-            expiryDate = accessJwt.getString(ExpiryDate)
-            val expiryTime = expiryDate.toLong() * 1000
-            val now = Date().time
+        expiryDate = accessJwt.getString(ExpiryDate)
+        val expiryTime = expiryDate.toLong() * 1000
+        val now = Date().time
 
-            Assert.assertTrue(
-                "Acs token expired: currently $now, expire time: $expiryTime",
-                now < expiryTime)
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            throw ex
-        }
+        Assert.assertTrue(
+            "Acs token expired: currently $now, expire time: $expiryTime",
+            now < expiryTime)
     }
+
     @Test
     fun testExpiredAcsToken() {
         val expiredAcsToken = UiTestUtils.getTextFromEdittextView(R.id.acsTokenText)
