@@ -7,6 +7,9 @@ import com.azure.android.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
+/**
+ * Defines locale or languageCode for each supported language
+ */
 public class LanguageCode extends ExpandableStringEnum<LanguageCode> {
 
     public static final LanguageCode ENGLISH = fromString("en");

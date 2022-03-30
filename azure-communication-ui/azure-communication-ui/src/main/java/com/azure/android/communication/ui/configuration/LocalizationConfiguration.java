@@ -15,10 +15,10 @@ import java.util.List;
  *
  * &#47;&#47; Initialize the call composite builder with different parameters
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode&#41;&#41;;
+ *     .localization&#40;new LocalizationConfiguration&#40;languageCode&#41;&#41;;
  *
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode, layoutDirection&#41;&#41;;
+ *     .localization&#40;new LocalizationConfiguration&#40;languageCode, layoutDirection&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -34,7 +34,7 @@ public class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param languageCode    string eg,. "en"
+     * @param languageCode    ExpandableStringEnum eg,. LanguageCode.fromString("en")
      * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
     public LocalizationConfiguration(final LanguageCode languageCode, final int layoutDirection) {
@@ -45,16 +45,16 @@ public class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param languageCode string eg,. "en"
+     * @param languageCode ExpandableStringEnum eg,. LanguageCode.fromString("en")
      */
     public LocalizationConfiguration(final LanguageCode languageCode) {
         this.languageCode = languageCode;
     }
 
     /**
-     * Get current language String.
+     * Get current LanguageCode enum
      *
-     * @return language string
+     * @return ExpandableStringEnum LanguageCode
      */
     public LanguageCode getLanguageCode() {
         return languageCode;
@@ -70,9 +70,9 @@ public class LocalizationConfiguration {
     }
 
     /**
-     * Get supported Locale string
+     * Get supported Locale list
      *
-     * @return List of supported Locale as String List
+     * @return List of supported Locale as ExpandableStringEnum LanguageCode List
      */
     public static List<LanguageCode> getSupportedLanguages() {
         return AppLocalizationProvider.Companion.getSupportedLanguages();
