@@ -14,14 +14,14 @@ Options to start group call experience using `CallComposite`.
 
 ```java
 public GroupCallOptions(
-    CommunicationTokenCredential communicationTokenCredential, 
+    CommunicationTokenCredential cedential, 
     UUID groupId
 )
 ```
 
 ```java
 public GroupCallOptions(
-    CommunicationTokenCredential communicationTokenCredential, 
+    CommunicationTokenCredential cedential, 
     UUID groupId, 
     String displayName
 )
@@ -29,12 +29,12 @@ public GroupCallOptions(
 
 ## Methods
 
-### `getCommunicationTokenCredential`
+### `getCredential`
 
  The CommunicationTokenCredential used for communication service authentication.
 
 ```java
-public CommunicationTokenCredential getCommunicationTokenCredential()
+public CommunicationTokenCredential getCredential()
 ```
 
 ### `getDisplayName`

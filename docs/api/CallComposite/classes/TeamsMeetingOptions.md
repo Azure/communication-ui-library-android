@@ -14,14 +14,14 @@ Options to start Teams meeting call experience using `CallComposite`.
 
 ```java
 public TeamsMeetingOptions(
-    CommunicationTokenCredential communicationTokenCredential, 
+    CommunicationTokenCredential credential, 
     String meetingLink
 )
 ```
 
 ```java
 public TeamsMeetingOptions(
-    CommunicationTokenCredential communicationTokenCredential,
+    CommunicationTokenCredential credential,
     String meetingLink,
     String displayName
 )
@@ -29,12 +29,12 @@ public TeamsMeetingOptions(
 
 ## Methods
 
-### `getCommunicationTokenCredential`
+### `getCredential`
 
  The CommunicationTokenCredential used for communication service authentication.
 
 ```java
-public CommunicationTokenCredential getCommunicationTokenCredential()
+public CommunicationTokenCredential getCredential()
 ```
 
 ### `getDisplayName`
