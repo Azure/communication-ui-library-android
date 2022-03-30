@@ -7,7 +7,6 @@ package com.azure.android.communication.ui.configuration;
 import com.azure.android.communication.ui.CallComposite;
 
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Localization configuration to provide for CallComposite.
