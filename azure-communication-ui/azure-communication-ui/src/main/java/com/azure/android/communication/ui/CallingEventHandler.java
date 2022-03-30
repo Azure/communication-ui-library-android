@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui;
 
-import com.azure.android.communication.ui.configuration.events.ErrorEvent;
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
 
 /**
  * {@link CallingEventHandler}&lt;T&gt;
@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.configuration.events.ErrorEvent;
 public interface CallingEventHandler {
     /**
      * A callback method to process error event
-     * @param eventArgs {@link ErrorEvent}
+     * @param eventArgs {@link CommunicationUIErrorEvent}
      */
-    void handle(ErrorEvent eventArgs);
+    void handle(CommunicationUIErrorEvent eventArgs);
 }

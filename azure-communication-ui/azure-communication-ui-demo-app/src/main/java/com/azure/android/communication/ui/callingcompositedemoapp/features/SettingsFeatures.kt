@@ -64,7 +64,7 @@ class SettingsFeatures {
                     return language
                 }
             }
-            return LanguageCode.ENGLISH
+            return LanguageCode.ENGLISH_US
         }
     }
 }

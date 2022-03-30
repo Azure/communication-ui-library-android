@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.error
 
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.configuration.events.ErrorEvent
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.ErrorAction
@@ -78,7 +78,7 @@ internal class ErrorHandler(
             function(newError)
             try {
                 val eventArgs =
-                    ErrorEvent(
+                    CommunicationUIErrorEvent(
                         newError.communicationUIErrorCode,
                         newError.cause,
                     )
@@ -103,7 +103,7 @@ internal class ErrorHandler(
     private fun callStateErrorCallback(callStateError: CallStateError) {
         try {
             val eventArgs =
-                ErrorEvent(
+                CommunicationUIErrorEvent(
                     callStateError.communicationUIErrorCode,
                     null,
                 )
@@ -128,7 +128,7 @@ internal class ErrorHandler(
 
         try {
             val eventArgs =
-                ErrorEvent(
+                CommunicationUIErrorEvent(
                     error.codeCallComposite,
                     error.fatalError,
                 )

@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import com.azure.android.communication.ui.CallingEventHandler
-import com.azure.android.communication.ui.configuration.events.ErrorEvent
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import java.lang.ref.WeakReference
 
 // Handles forwarding of error messages to the CallLauncherActivity
@@ -16,7 +16,7 @@ class CallLauncherActivityErrorHandler(callLauncherActivity: CallLauncherActivit
     private val activityWr: WeakReference<CallLauncherActivity> =
         WeakReference(callLauncherActivity)
 
-    override fun handle(it: ErrorEvent) {
+    override fun handle(it: CommunicationUIErrorEvent) {
         println("================= application is logging exception =================")
         println(it.cause)
         println(it.errorCode)
