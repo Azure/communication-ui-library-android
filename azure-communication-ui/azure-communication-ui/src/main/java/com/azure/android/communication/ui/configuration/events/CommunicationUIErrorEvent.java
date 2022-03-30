@@ -3,46 +3,42 @@
 
 package com.azure.android.communication.ui.configuration.events;
 
-import com.azure.android.core.util.ExpandableStringEnum;
-
-import java.util.Collection;
-
 /**
- * Defines values for CommunicationUIErrorEvent.
+ * Event with error type and caused throwable.
  */
-public final class CommunicationUIErrorEvent extends ExpandableStringEnum<CommunicationUIErrorEvent> {
-
-    public static final CommunicationUIErrorEvent CALL_JOIN = fromString("callJoin");
-
-    public static final CommunicationUIErrorEvent CALL_END = fromString("callEnd");
-
-    public static final CommunicationUIErrorEvent TOKEN_EXPIRED = fromString("tokenExpired");
-
-    public static final CommunicationUIErrorEvent SWITCH_CAMERA = fromString("switchCamera");
-
-    public static final CommunicationUIErrorEvent TURN_CAMERA_ON = fromString("turnCameraOn");
-
-    public static final CommunicationUIErrorEvent TURN_CAMERA_OFF = fromString("turnCameraOff");
-
-    public static final CommunicationUIErrorEvent TURN_MIC_ON = fromString("turnMicOn");
-
-    public static final CommunicationUIErrorEvent TURN_MIC_OFF = fromString("turnMicOff");
+public final class CommunicationUIErrorEvent {
+    private final Throwable cause;
+    private final CommunicationUIErrorCode code;
 
     /**
-     * Creates or finds a CallCompositeErrorCode from its string representation.
+     * Create {@link CommunicationUIErrorEvent} with error code and caused throwable.
      *
-     * @param name a name to look for.
-     * @return the corresponding CallCompositeErrorCode.
+     * @param code  error code
+     * @param cause throwable that caused an exception
      */
-    public static CommunicationUIErrorEvent fromString(final String name) {
-        return fromString(name, CommunicationUIErrorEvent.class);
+    public CommunicationUIErrorEvent(final CommunicationUIErrorCode code, final Throwable cause) {
+        this.cause = cause;
+        this.code = code;
     }
 
     /**
-     * @return known CallCompositeErrorCode values.
+     * Returns the cause of this throwable or {@code null} if the
+     * cause is nonexistent or unknown. (The cause is the throwable that
+     * caused this throwable to get thrown).
+     *
+     * @return the cause of this throwable or {@code null} if the
+     * cause is nonexistent or unknown.
      */
-    public static Collection<CommunicationUIErrorEvent> values() {
-        return values(CommunicationUIErrorEvent.class);
+    public Throwable getCause() {
+        return cause;
+    }
+
+    /**
+     * Returns the event source.
+     *
+     * @return the call error code {@code T} instance
+     */
+    public CommunicationUIErrorCode getErrorCode() {
+        return code;
     }
 }
-

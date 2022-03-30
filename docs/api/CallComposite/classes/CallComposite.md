@@ -39,9 +39,9 @@ public void launch(TeamsMeetingOptions teamsMeetingOptions)
 Set a callback eventHandler to receive information about occurred errors.
 
 ```java
-public void setOnErrorHandler(CallingEventHandler<<ErrorEvent<CallCompositeErrorCode>> eventHandler) 
+public void setOnErrorHandler(CallingEventHandler eventHandler) 
 ```
 
 #### Parameters
-* `eventHandler` - The instance of CallingEventHandler<<ErrorEvent<CallCompositeErrorCode>> that will receive error information.  
+* `eventHandler` - The instance of CallingEventHandler that will receive error information.  
        

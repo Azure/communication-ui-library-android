@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.error
 
-import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 
 internal class FatalError(
     val fatalError: Throwable?,
-    val codeCallComposite: CommunicationUIErrorEvent?,
+    val codeCallComposite: CommunicationUIErrorCode?,
 )
