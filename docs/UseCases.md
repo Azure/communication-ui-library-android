@@ -22,7 +22,7 @@ Composites take care of the entire lifecycle of the call from setup to the call 
 |                                                                                                 | Shared screen content can be zoomed using gestures     |
 | Call configuration                                                                              | Microphone device management                           |
 |                                                                                                 | Camera device management                               |
-|                                                                                                 | Speaker device management(Bluetooth supported)         |
+|                                                                                                 | Speaker device management(wired & bluetooth supported) |
 |                                                                                                 | Local preview available for user to check video        |
 | Participants                                                                                    | Participant roster                                     |
 
