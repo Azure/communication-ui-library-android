@@ -47,10 +47,6 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
         isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
     }
 
-    fun stop(bannerInfoType: BannerInfoType) {
-        displayedBannerType = bannerInfoType
-    }
-
     fun update(callingState: CallingState) {
         val currentBannerInfoType = bannerInfoTypeStateFlow.value
         val newBannerInfoType =
