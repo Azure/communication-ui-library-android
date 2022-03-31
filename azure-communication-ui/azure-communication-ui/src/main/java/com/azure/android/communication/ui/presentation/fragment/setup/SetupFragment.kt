@@ -4,11 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.setup
 
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -101,15 +97,6 @@ internal class SetupFragment :
     }
 
     private fun setActionBarTitle() {
-        val mSpannableText = SpannableString(getString(R.string.azure_communication_ui_call_setup_action_bar_title))
-
-        mSpannableText.setSpan(
-            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.azure_communication_ui_color_action_bar_text)),
-            0,
-            mSpannableText.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
-
-        activity?.title = mSpannableText
+        activity?.title = getString(R.string.azure_communication_ui_call_setup_action_bar_title)
     }
 }
