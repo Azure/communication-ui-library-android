@@ -106,7 +106,7 @@
 
         <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupControlBarView
             android:id="@+id/azure_communication_ui_setup_buttons"
-            android:layout_width="330dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
@@ -117,8 +117,8 @@
             <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupButton
                 android:id="@+id/azure_communication_ui_setup_camera_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/azure_communication_ui_toggle_selector_camera_for_setup"
@@ -136,8 +136,8 @@
             <com.azure.android.communication.ui.presentation.fragment.setup.components.SetupButton
                 android:id="@+id/azure_communication_ui_setup_audio_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/azure_communication_ui_toggle_selector_mic_for_setup"
@@ -155,8 +155,8 @@
             <com.azure.android.communication.ui.presentation.fragment.setup.components.AudioDeviceSetupButton
                 android:id="@+id/azure_communication_ui_setup_audio_device_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/azure_communication_ui_toggle_selector_device_for_setup"
@@ -237,7 +237,7 @@
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginRight="8dp"
-                android:indeterminateTint="@color/azure_communication_ui_color_com_primary"
+                android:indeterminateTint="@color/azure_communication_ui_color_primary"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintRight_toLeftOf="@+id/azure_communication_ui_setup_start_call_joining_text"
