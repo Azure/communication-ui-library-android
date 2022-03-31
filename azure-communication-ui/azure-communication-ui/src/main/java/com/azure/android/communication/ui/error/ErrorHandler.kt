@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.error
 
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.configuration.events.ErrorEvent
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.ErrorAction
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -66,7 +66,7 @@ internal class ErrorHandler(
             (
                 state.errorState.callStateError != null &&
                     state.errorState.callStateError != lastCallStateError &&
-                    state.errorState.callStateError?.communicationUIErrorEvent == CommunicationUIErrorEvent.TOKEN_EXPIRED
+                    state.errorState.callStateError?.communicationUIErrorCode == CommunicationUIErrorCode.TOKEN_EXPIRED
                 )
 
     private fun checkIfCallingCompositeExceptionIsNewAndNotify(
@@ -78,8 +78,8 @@ internal class ErrorHandler(
             function(newError)
             try {
                 val eventArgs =
-                    ErrorEvent(
-                        newError.communicationUIErrorEvent,
+                    CommunicationUIErrorEvent(
+                        newError.communicationUIErrorCode,
                         newError.cause,
                     )
                 configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
@@ -103,8 +103,8 @@ internal class ErrorHandler(
     private fun callStateErrorCallback(callStateError: CallStateError) {
         try {
             val eventArgs =
-                ErrorEvent(
-                    callStateError.communicationUIErrorEvent,
+                CommunicationUIErrorEvent(
+                    callStateError.communicationUIErrorCode,
                     null,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
@@ -128,7 +128,7 @@ internal class ErrorHandler(
 
         try {
             val eventArgs =
-                ErrorEvent<CommunicationUIErrorEvent>(
+                CommunicationUIErrorEvent(
                     error.codeCallComposite,
                     error.fatalError,
                 )

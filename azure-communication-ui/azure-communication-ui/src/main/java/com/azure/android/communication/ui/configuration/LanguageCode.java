@@ -10,9 +10,9 @@ import java.util.Collection;
 /**
  * Defines locale or languageCode for each supported language
  */
-public class LanguageCode extends ExpandableStringEnum<LanguageCode> {
+public final class LanguageCode extends ExpandableStringEnum<LanguageCode> {
 
-    public static final LanguageCode ENGLISH = fromString("en");
+    public static final LanguageCode ENGLISH_US = fromString("en");
     public static final LanguageCode CHINESE_SIMPLIFIED = fromString("zh-CN");
     public static final LanguageCode SPANISH = fromString("es");
     public static final LanguageCode RUSSIAN = fromString("ru");
@@ -42,7 +42,7 @@ public class LanguageCode extends ExpandableStringEnum<LanguageCode> {
      *
      * @return collection of all supported locale values
      */
-    protected static Collection<LanguageCode> values() {
+    public static Collection<LanguageCode> values() {
         return values(LanguageCode.class);
     }
 }

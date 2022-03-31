@@ -39,9 +39,9 @@ public void launch(Context context, TeamsMeetingOptions teamsMeetingOptions)
 Set a callback eventHandler to receive information about occurred errors.
 
 ```java
-public void setOnErrorHandler(CallingEventHandler<<ErrorEvent<CommunicationUIErrorEvent>> eventHandler) 
+public void setOnErrorHandler(CallingEventHandler eventHandler) 
 ```
 
 #### Parameters
-* `eventHandler` - The instance of CallingEventHandler<<ErrorEvent<CommunicationUIErrorEvent>> that will receive error information.  
+* `eventHandler` - The instance of CallingEventHandler that will receive error information.  
        
