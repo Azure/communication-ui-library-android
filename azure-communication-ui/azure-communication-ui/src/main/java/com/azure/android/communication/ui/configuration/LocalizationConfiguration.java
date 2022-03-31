@@ -67,7 +67,7 @@ public final class LocalizationConfiguration {
      *
      * @return layoutDirection int
      */
-    public int layoutDirection() {
+    public int getLayoutDirection() {
         return layoutDirection;
     }
 
