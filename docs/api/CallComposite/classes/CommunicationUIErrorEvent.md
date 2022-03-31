@@ -3,25 +3,28 @@
 # `CommunicationUIErrorEvent`
 
 ```java
-public class CommunicationUIErrorEvent
+public class CommunicationUIErrorEvent<T>
 ```
 
 ## Description
 
-Defines values for CommunicationUIErrorEvent.
+Event with error type and caused throwable. 
 
-## Static fields
+## Methods
 
-Provides static properties that represent an type of the error.
+### `getCause`
+
+Returns the cause of this `throwable` or `null` if the cause is nonexistent or unknown. (The cause is the throwable that caused this throwable to get thrown).
 
 ```java
-public static final CommunicationUIErrorEvent CALL_JOIN;
-public static final CommunicationUIErrorEvent CALL_END;
-public static final CommunicationUIErrorEvent TOKEN_EXPIRED;
-public static final CommunicationUIErrorEvent SWITCH_CAMERA;
-public static final CommunicationUIErrorEvent TURN_CAMERA_ON;
-public static final CommunicationUIErrorEvent TURN_CAMERA_OFF;
-public static final CommunicationUIErrorEvent TURN_MIC_ON;
-public static final CommunicationUIErrorEvent TURN_MIC_OFF;
+public Throwable getCause()
+```
+
+### `getErrorType`
+
+Returns the error code.
+
+```java
+public ErrorType<T> getErrorType()
 ```
        

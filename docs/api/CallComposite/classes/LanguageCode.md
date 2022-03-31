@@ -15,7 +15,7 @@ Defines values for LanguageCode.
 Provides static properties that represent the support language code.
 
 ```java
-public static final LanguageCode ENGLISH;
+public static final LanguageCode ENGLISH_US;
 public static final LanguageCode ENGLISH_UK;
 public static final LanguageCode CHINESE_SIMPLIFIED;
 public static final LanguageCode CHINESE_TRADITIONAL;
