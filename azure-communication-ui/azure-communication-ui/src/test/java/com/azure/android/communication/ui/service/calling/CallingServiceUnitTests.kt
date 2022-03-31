@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.service.calling
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
-import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.helper.TestContextProvider
@@ -390,8 +390,8 @@ internal class CallingServiceUnitTests {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorEvent.TOKEN_EXPIRED,
-                emitResultFromFlow[1].callStateError!!.communicationUIErrorEvent
+                CommunicationUIErrorCode.TOKEN_EXPIRED,
+                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
 
             job.cancel()
@@ -512,8 +512,8 @@ internal class CallingServiceUnitTests {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorEvent.CALL_END,
-                emitResultFromFlow[1].callStateError!!.communicationUIErrorEvent
+                CommunicationUIErrorCode.CALL_END,
+                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
 
             job.cancel()
@@ -573,8 +573,8 @@ internal class CallingServiceUnitTests {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorEvent.CALL_JOIN,
-                emitResultFromFlow[1].callStateError!!.communicationUIErrorEvent
+                CommunicationUIErrorCode.CALL_JOIN,
+                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
 
             job.cancel()

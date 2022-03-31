@@ -27,7 +27,7 @@ import java.util.Collection;
  *
  * @see CallComposite
  */
-public class LocalizationConfiguration {
+public final class LocalizationConfiguration {
     private final LanguageCode languageCode;
     private int layoutDirection;
 
