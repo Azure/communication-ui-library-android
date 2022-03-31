@@ -16,9 +16,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.nio.charset.StandardCharsets
-import java.text.SimpleDateFormat
-import java.util.*
-
+import java.util.Date
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -57,7 +55,8 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
 
         Assert.assertTrue(
             "Acs token expired: currently $now, expire time: $expiryTime",
-            now < expiryTime)
+            now < expiryTime
+        )
     }
 
     @Test
