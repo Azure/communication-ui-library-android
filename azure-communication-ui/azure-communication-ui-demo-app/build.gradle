@@ -93,6 +93,7 @@ android {
     productFlavors {
         appCenter {
             dimension "distribute"
+            
         }
     }
 }
