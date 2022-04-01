@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (Upcoming)
+## 1.0.0-beta.2 (2022-04-04)
 
 ### New Features
 - Status bar color change for light and dark mode
