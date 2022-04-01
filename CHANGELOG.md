@@ -7,7 +7,7 @@
 - API 21, 22 support
 - Screen share zoom support
 - Localization support 
-- Update joining experience processing indicator in setup view
+- Update joining experience to show call join processing indicator in setup view
 
 ### Breaking Changes
 - Remove Context from GroupMeetingOptions() and TeamMeetingOptions()
