@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.presentation.manager
 import android.app.Activity
 import android.content.Context
 import android.view.View
-import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -44,6 +43,7 @@ internal abstract class AccessibilityHook {
     abstract fun message(lastState: ReduxState, newState: ReduxState, context: Context): String
 }
 
+
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     var suppressNext = false
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
@@ -77,6 +77,19 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     }
 }
 
+
+internal class MeetingJoinedHook : AccessibilityHook() {
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
+        return (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
+    }
+
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+        return "Meeting Joined"
+    }
+}
+
 internal val accessibilityHooks = listOf(
-    ParticipantAddedOrRemovedHook()
+    MeetingJoinedHook(),
+    ParticipantAddedOrRemovedHook(),
+
 )
