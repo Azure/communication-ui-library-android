@@ -88,6 +88,13 @@ android {
             }
         }
     }
+
+    flavorDimensions "distribute"
+    productFlavors {
+        appCenter {
+            dimension "distribute"
+        }
+    }
 }
 
 repositories {
