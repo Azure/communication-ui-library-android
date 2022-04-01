@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
+# usage:  ./installAab.sh {release|debug}
 cd ..
 set -e
-./gradlew clean :azure-communication-ui-demo-app:bundleDebug
+./gradlew clean :azure-communication-ui-demo-app:bundle$1
 
+DEVICE=($(adb devices | grep "device$" | sed -e "s|device||g"))
 OUTPUT_DIR=./azure-communication-ui-demo-app/build/outputs
+BUNDLE=$OUTPUT_DIR/bundle/$1/azure-communication-ui-demo-app-$1.aab
+APK_SET=$OUTPUT_DIR/app_debug.apks
 # obtained from https://github.com/google/bundletool/releases for convenience, may not be latest
 BUNDLETOOL=./scripts/bundletool.jar
-java -jar ${BUNDLETOOL} build-apks --connected-device --device-id=$1 --bundle=$OUTPUT_DIR/bundle/debug/azure-communication-ui-demo-app-debug.aab --output=$OUTPUT_DIR/app_debug.apks
-java -jar ${BUNDLETOOL} install-apks --device-id=$1 --apks=$OUTPUT_DIR/app_debug.apks
+java -jar ${BUNDLETOOL} build-apks --connected-device --device-id=${DEVICE} --bundle=$BUNDLE --output=$APK_SET
+java -jar ${BUNDLETOOL} install-apks --device-id=${DEVICE} --apks=$APK_SET
 rm $OUTPUT_DIR/*.apks
