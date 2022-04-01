@@ -5,7 +5,7 @@
 ### New Features
 - Status bar color change for light and dark mode
 - API 21, 22 support
-- Screen share zoom support
+- Screen share pinch zoom support
 - Localization support 
 - Update joining experience to show call join processing indicator in setup view
 
