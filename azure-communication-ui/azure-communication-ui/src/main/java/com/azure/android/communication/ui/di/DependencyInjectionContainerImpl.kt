@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.di
 
 import android.content.Context
 import android.media.AudioManager
+import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
@@ -17,6 +18,7 @@ import com.azure.android.communication.ui.presentation.fragment.factories.Callin
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
+import com.azure.android.communication.ui.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
@@ -80,6 +82,12 @@ internal class DependencyInjectionContainerImpl(
             appStore,
             applicationContext,
             applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        )
+    }
+
+    override val accessibilityManager by lazy {
+        AccessibilityAnnouncementManager(
+            appStore
         )
     }
 
