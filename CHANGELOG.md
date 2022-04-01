@@ -8,6 +8,7 @@
 - Screen share pinch zoom support
 - Localization support 
 - Update joining experience to show call join processing indicator in setup view
+- Bluetooth headphones support
 
 ### Breaking Changes
 - Remove Context from GroupMeetingOptions() and TeamMeetingOptions()
