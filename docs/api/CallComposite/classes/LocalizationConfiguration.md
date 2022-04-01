@@ -38,20 +38,12 @@ public LocalizationConfiguration(
 
 ## Methods
 
-### `getSupportedLanguages`
-
-The languages code list supported by `CallComposite`.
-
-```java
-public static Collection<LanguageCode> getSupportedLanguages() 
-```
-
-### `layoutDirection`
+### `getLayoutDirection`
 
 The layoutDirection int value to be used by `CallComposite`.
 
 ```java
-public boolean layoutDirection() 
+public boolean getLayoutDirection() 
 ```
  
 ### `getLanguageCode`
