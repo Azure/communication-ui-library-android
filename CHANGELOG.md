@@ -3,19 +3,19 @@
 ## 1.0.0-beta.2 (Upcoming)
 
 ### New Features
-- Status bar color update for light and dark mode
+- Status bar color change for light and dark mode
 - API 21, 22 support
-- Screen share zoom
+- Screen share zoom support
 - Localization support 
-- Update joining experience in setup view
+- Update joining experience processing indicator in setup view
 
 ### Breaking Changes
 - Remove Context from GroupMeetingOptions() and TeamMeetingOptions()
 - Add required parameter Context to CallComposite.launch()
+- Rename ErrorEvent to CommunicationUIErrorEvent
 
 ### Bug Fixes
 - Start service is crashing for API 31
-- Participant list mute icon margin correction
 - Long display name truncation on local participant display view
 - Participant drawer is closed when participant is clicked
 - Sort participants, append suffix for local Participant and handle unnamed participant for the Participant List
