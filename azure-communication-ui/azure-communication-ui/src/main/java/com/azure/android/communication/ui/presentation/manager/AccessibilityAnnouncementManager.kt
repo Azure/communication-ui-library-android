@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.app.Activity
 import android.content.Context
+import android.view.Gravity
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
@@ -42,7 +43,9 @@ internal class AccessibilityAnnouncementManager(
 
         val manager = activity.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         if (manager.isEnabled) {
-            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+            val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP or Gravity.AXIS_CLIP, -1000,-1000)
+            toast.show()
         }
 
     }
