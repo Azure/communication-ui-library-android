@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.view.View
 import android.view.accessibility.AccessibilityManager
+import android.view.accessibility.AccessibilityNodeInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -129,6 +130,7 @@ internal class CallingFragment :
         participantGridView.setOnClickListener {
             switchFloatingHeader()
         }
+
     }
 
     override fun onDestroy() {

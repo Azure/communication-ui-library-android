@@ -6,9 +6,13 @@ package com.azure.android.communication.ui.presentation.manager
 import android.app.Activity
 import android.content.Context
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityManager
+import android.widget.Toast
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 
 
@@ -25,12 +29,22 @@ internal class AccessibilityAnnouncementManager(
                 if (it.shouldTrigger(lastState, newState)) {
                     val message = it.message(lastState, newState, rootView.context)
                     if (message.isNotBlank()) {
-                        rootView.announceForAccessibility(message)
+                        announce(activity, message)
+
                     }
                 }
             }
             lastState = newState
         }
+    }
+
+    private fun announce(activity: Activity, message: String) {
+
+        val manager = activity.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        if (manager.isEnabled) {
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
 
