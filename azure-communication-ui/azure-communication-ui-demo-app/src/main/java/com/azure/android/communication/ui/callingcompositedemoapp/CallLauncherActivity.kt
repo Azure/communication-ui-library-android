@@ -20,6 +20,7 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
+import com.microsoft.appcenter.distribute.UpdateTrack
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -30,7 +31,11 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
+        if (!AppCenter.isConfigured()) {
+
+            Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
+            Distribute.setEnabledForDebuggableBuild(true)
+
             AppCenter.start(
                 application,
                 BuildConfig.APP_SECRET,
