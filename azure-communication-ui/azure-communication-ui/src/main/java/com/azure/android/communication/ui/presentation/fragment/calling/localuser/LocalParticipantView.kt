@@ -5,7 +5,9 @@ package com.azure.android.communication.ui.presentation.fragment.calling.localus
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -111,6 +113,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplaySwitchCameraButtonFlow().collect {
+                Log.w("LocalParticipant", "getDisplaySwitchCameraButtonFlow: $it")
                 switchCameraButton.visibility = if (it) View.VISIBLE else View.GONE
             }
         }
@@ -123,13 +126,15 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getEnableCameraSwitchFlow().collect {
-                switchCameraButton.isEnabled = it
+                Log.w("LocalParticipant", "getEnableCameraSwitchFlow: $it")
+                    switchCameraButton.isEnabled = it
                 pipSwitchCameraButton.isEnabled = it
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraDeviceSelectionFlow().collect { cameraDeviceSelectionStatus ->
+                Log.w("LocalParticipant", "camera selection sts: $cameraDeviceSelectionStatus")
                 listOf(switchCameraButton, pipSwitchCameraButton).forEach {
                     it.contentDescription = context.getString(
                         when (cameraDeviceSelectionStatus) {
@@ -143,6 +148,8 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getIsLobbyOverlayDisplayedFlow().collect {
+                Log.w("LocalParticipant", "getIsLobbyOverlayDisplayedFlow" + it)
+                localParticipantFullCameraHolder.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                 if (it) {
                     ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
                 } else {

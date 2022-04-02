@@ -4,16 +4,20 @@
 package com.azure.android.communication.ui.presentation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
+import android.view.accessibility.AccessibilityManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -30,6 +34,7 @@ import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.microsoft.fluentui.util.accessibilityManager
 import com.microsoft.fluentui.util.activity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -219,7 +224,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                launchFragment(CallingFragment::class.java.name)
+                launchCall()
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
@@ -230,6 +235,17 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
+    private fun launchCall() {
+        val accessibilityManager = applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        /*if (accessibilityManager.isEnabled) {
+            Handler(Looper.getMainLooper()).postDelayed(
+                { launchFragment(CallingFragment::class.java.name) },
+                1500
+            )
+        } else {*/
+            launchFragment(CallingFragment::class.java.name)
+
+    }
     private fun launchFragment(fragmentClassName: String) {
         activity?.supportFragmentManager?.fragments?.let {
             if (it.isNotEmpty()) {

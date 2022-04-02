@@ -5,8 +5,10 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.View
 import com.azure.android.communication.ui.redux.Store
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
@@ -24,6 +26,7 @@ internal class AccessibilityAnnouncementManager(
                 if (it.shouldTrigger(lastState, newState)) {
                     val message = it.message(lastState, newState, rootView.context)
                     if (message.isNotBlank()) {
+                        Log.i("Hook", "announcing: $message")
                         rootView.announceForAccessibility(message)
                     }
                 }
@@ -42,6 +45,16 @@ internal data class AccessibilityHook(
     val message : (lastState: ReduxState, newState: ReduxState, context: Context) -> String
 )
 
+internal val localParticipantJoinedHook = AccessibilityHook(
+    shouldTrigger = { oldState, newState ->
+        oldState.callState.callingStatus == CallingStatus.CONNECTING &&
+                newState.callState.callingStatus == CallingStatus.CONNECTED
+    },
+    message = { oldState, newState, _ ->
+        //val name = newState.remoteParticipantState.participantMap.values.first().displayName
+        "You have joined the call."
+    }
+)
 // This hook checks if a participant is added or removed and announces that
 internal val participantAddedOrRemovedHook = AccessibilityHook(
     shouldTrigger = { oldState, newState ->
@@ -64,4 +77,7 @@ internal val participantAddedOrRemovedHook = AccessibilityHook(
     },
 )
 
-internal val accessibilityHooks = listOf(participantAddedOrRemovedHook)
+internal val accessibilityHooks = listOf(
+    participantAddedOrRemovedHook,
+    localParticipantJoinedHook
+)
