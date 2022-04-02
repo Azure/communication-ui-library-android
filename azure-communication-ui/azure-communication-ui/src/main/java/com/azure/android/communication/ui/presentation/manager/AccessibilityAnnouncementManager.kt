@@ -43,8 +43,9 @@ internal class AccessibilityAnnouncementManager(
 
         val manager = activity.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         if (manager.isEnabled) {
-            val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP or Gravity.AXIS_CLIP, -1000,-1000)
+            val toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
+            // We move this toast way off the screen so it's not visible
+            toast.setGravity(Gravity.TOP or Gravity.AXIS_CLIP, -10000,-10000)
             toast.show()
         }
 
@@ -62,18 +63,18 @@ internal abstract class AccessibilityHook {
 
 
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
-    var suppressNext = false
+    var callJoinTime = System.currentTimeMillis()
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
         if (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED) {
-            suppressNext = true
+            callJoinTime = System.currentTimeMillis()
             return false
         }
         val shouldRun = lastState.remoteParticipantState.participantMap.size != newState.remoteParticipantState.participantMap.size
-        if (shouldRun && !suppressNext) {
+
+        if (shouldRun && (System.currentTimeMillis() - callJoinTime) > 1000) {
             return true
-        } else if (shouldRun && suppressNext) {
-            suppressNext = false
         }
+
         return false
     }
 
