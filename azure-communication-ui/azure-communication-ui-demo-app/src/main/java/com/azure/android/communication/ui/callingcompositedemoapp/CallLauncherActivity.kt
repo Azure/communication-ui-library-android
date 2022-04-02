@@ -31,11 +31,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!AppCenter.isConfigured()) {
-
+        if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
-            Distribute.setEnabledForDebuggableBuild(true)
-
             AppCenter.start(
                 application,
                 BuildConfig.APP_SECRET,
@@ -43,7 +40,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 Crashes::class.java,
                 Distribute::class.java
             )
-
             Distribute.checkForUpdate()
         }
         // Register Memory Viewer with FeatureFlags
