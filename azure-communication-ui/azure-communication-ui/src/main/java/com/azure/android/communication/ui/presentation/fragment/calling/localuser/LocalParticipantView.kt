@@ -97,7 +97,9 @@ internal class LocalParticipantView : ConstraintLayout {
             viewModel.getDisplayNameStateFlow().collect {
                 it?.let {
                     avatar.name = it
+                    avatar.avatarImageBitmap = viewModel.getImage()
                     pipAvatar.name = it
+                    pipAvatar.avatarImageBitmap = viewModel.getImage()
                     displayNameText.text = it
                 }
             }

@@ -82,6 +82,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
 
         diContainerHolder.localizationConfiguration = configuration.localizationConfig
+        diContainerHolder.localParticipantConfiguration = configuration.localParticipantConfig
         configuration.localizationConfig?.let { localeConfig ->
             Locale.setDefault(Locale(localeConfig.languageCode))
             if (localeConfig.isRightToLeft) {

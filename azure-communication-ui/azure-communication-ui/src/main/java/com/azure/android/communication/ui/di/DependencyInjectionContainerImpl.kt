@@ -11,12 +11,6 @@ import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.presentation.VideoViewManager
-import com.azure.android.communication.ui.presentation.fragment.ViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
-import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
@@ -159,37 +153,6 @@ internal class DependencyInjectionContainerImpl(
 
     private val callingService by lazy {
         CallingService(callingSDKWrapper, coroutineContextProvider)
-    }
-    //endregion
-
-    //region Factories
-    private val viewModelFactory by lazy {
-        ViewModelFactory(
-            CallingViewModel(
-                appStore,
-                callingViewModelFactory
-            ),
-            SetupViewModel(
-                appStore,
-                setupViewModelFactory
-            )
-        )
-    }
-
-    private val participantGridCellViewModelFactory by lazy {
-        ParticipantGridCellViewModelFactory()
-    }
-
-    private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(appStore, localizationProvider)
-    }
-
-    private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(
-            appStore,
-            localizationProvider,
-            participantGridCellViewModelFactory
-        )
     }
     //endregion
 

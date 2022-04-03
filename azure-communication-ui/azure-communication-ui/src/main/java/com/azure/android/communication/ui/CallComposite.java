@@ -98,14 +98,15 @@ public final class CallComposite {
      */
     public void launch(final Context context,
                        final GroupCallOptions groupCallOptions,
-                       final LocalParticipantConfiguration configuration) {
+                       final LocalParticipantConfiguration localParticipantConfiguration) {
         launch(
                 context,
                 groupCallOptions.getCommunicationTokenCredential(),
                 groupCallOptions.getDisplayName(),
                 groupCallOptions.getGroupId(),
                 null,
-                CallType.GROUP_CALL
+                CallType.GROUP_CALL,
+                localParticipantConfiguration
         );
     }
 
@@ -160,14 +161,15 @@ public final class CallComposite {
      */
     public void launch(final Context context,
                        final TeamsMeetingOptions teamsMeetingOptions,
-                       final LocalParticipantConfiguration configuration) {
+                       final LocalParticipantConfiguration localParticipantConfiguration) {
         launch(
                 context,
                 teamsMeetingOptions.getCommunicationTokenCredential(),
                 teamsMeetingOptions.getDisplayName(),
                 null,
                 teamsMeetingOptions.getMeetingLink(),
-                CallType.TEAMS_MEETING
+                CallType.TEAMS_MEETING,
+                localParticipantConfiguration
         );
     }
 
@@ -210,6 +212,32 @@ public final class CallComposite {
                 meetingLink,
                 callType
         ));
+
+        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
+
+        final Intent intent = new Intent(context, CallCompositeActivity.class);
+        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
+        context.startActivity(intent);
+    }
+
+    private void launch(
+            final Context context,
+            final CommunicationTokenCredential communicationTokenCredential,
+            final String displayName,
+            final UUID groupId,
+            final String meetingLink,
+            final CallType callType,
+            final LocalParticipantConfiguration localParticipantConfiguration
+    ) {
+        configuration.setCallConfig(new CallConfiguration(
+                communicationTokenCredential,
+                displayName,
+                groupId,
+                meetingLink,
+                callType
+        ));
+
+        configuration.setLocalParticipantConfig(localParticipantConfiguration);
 
         CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 

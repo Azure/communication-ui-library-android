@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.factories
 
+import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
@@ -20,6 +21,7 @@ internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val localizationProvider: LocalizationProvider,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
+    private val localParticipantConfig: LocalParticipantConfiguration?,
 ) {
 
     private val participantGridViewModel by lazy {
@@ -47,7 +49,7 @@ internal class CallingViewModelFactory(
     }
 
     private val localParticipantViewModel by lazy {
-        LocalParticipantViewModel(store::dispatch, localizationProvider)
+        LocalParticipantViewModel(store::dispatch, localizationProvider, localParticipantConfig)
     }
 
     private val participantListViewModel by lazy {

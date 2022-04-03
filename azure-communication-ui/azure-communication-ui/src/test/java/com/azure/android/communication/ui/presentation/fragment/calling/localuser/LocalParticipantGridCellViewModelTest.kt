@@ -37,7 +37,8 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider
+                    appLocalizationProvider,
+                    localParticipantConfig
                 )
             viewModel.init(
                 displayName = "username",
@@ -108,7 +109,8 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider
+                    appLocalizationProvider,
+                    localParticipantConfig
                 )
             viewModel.init(
                 displayName = "username",
@@ -150,7 +152,8 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider
+                    appLocalizationProvider,
+                    localParticipantConfig
                 )
             viewModel.init(
                 displayName = "username",
@@ -225,7 +228,8 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider
+                    appLocalizationProvider,
+                    localParticipantConfig
                 )
             viewModel.init(
                 displayName = displayName,
@@ -298,7 +302,8 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider
+                    appLocalizationProvider,
+                    localParticipantConfig
                 )
             viewModel.init(
                 displayName = displayName,
