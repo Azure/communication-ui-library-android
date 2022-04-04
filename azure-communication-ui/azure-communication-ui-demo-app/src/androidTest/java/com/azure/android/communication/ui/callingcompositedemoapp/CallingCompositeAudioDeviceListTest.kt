@@ -23,6 +23,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
             .verifyIsAndroidAudioDevice()
             .navigateUpFromSetupScreen()
     }
+
     @SdkSuppress(minSdkVersion = 23, maxSdkVersion = 29)
     @Test
     fun selectSpeakerAudioDevice() {
