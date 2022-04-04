@@ -3,12 +3,13 @@
 
 package com.azure.android.communication.ui.redux.reducer
 
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallCompositeError
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
@@ -29,7 +30,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -53,7 +58,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -77,7 +86,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -104,12 +117,19 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
         val error =
-            CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_ON, Throwable("CameraOn has failed"))
+            CallCompositeError(
+                CommunicationUIErrorCode.TURN_CAMERA_ON,
+                Throwable("CameraOn has failed")
+            )
         val action = LocalParticipantAction.CameraOnFailed(error)
 
         // act
@@ -131,7 +151,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -155,7 +179,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = "some video streamId",
             displayName = null
         )
@@ -182,11 +210,18 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamId,
             null
         )
-        val error = CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_OFF, Throwable("CameraOff failed"))
+        val error = CallCompositeError(
+            CommunicationUIErrorCode.TURN_CAMERA_OFF,
+            Throwable("CameraOff failed")
+        )
         val action = LocalParticipantAction.CameraOffFailed(error)
 
         // act
@@ -209,7 +244,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -233,7 +272,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -257,7 +300,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -284,12 +331,19 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
         val error =
-            CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_ON, Throwable("CameraOn has failed"))
+            CallCompositeError(
+                CommunicationUIErrorCode.TURN_CAMERA_ON,
+                Throwable("CameraOn has failed")
+            )
         val action = LocalParticipantAction.CameraPreviewOnFailed(error)
 
         // act
@@ -311,7 +365,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -327,6 +385,68 @@ internal class LocalParticipantReduxStateReducerUnitTest {
     }
 
     @Test
+    fun deviceStateReducer_reduce_when_BluetoothDetected_then_changeState() {
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.PENDING,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = "some video stream id",
+            displayName = null
+        )
+
+        val action = LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+            available = true,
+            deviceName = "testDevice"
+        )
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(true, newState.audioState.bluetoothState.available)
+        Assert.assertEquals("testDevice", newState.audioState.bluetoothState.deviceName)
+    }
+
+    @Test
+    fun deviceStateReducer_reduce_when_HeadsetDetected_then_changeState() {
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.PENDING,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = "some video stream id",
+            displayName = null
+        )
+
+        val action = LocalParticipantAction.AudioDeviceHeadsetAvailable(
+            available = true,
+        )
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(true, newState.audioState.isHeadphonePlugged)
+    }
+
+    @Test
     fun deviceStateReducer_reduce_when_CameraSwitchTriggered_then_changeState() {
 
         // arrange
@@ -337,7 +457,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -362,7 +486,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -388,12 +516,19 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
 
-        val error = CallCompositeError(CallCompositeErrorCode.SWITCH_CAMERA, Throwable("CameraSwitch failed"))
+        val error = CallCompositeError(
+            CommunicationUIErrorCode.SWITCH_CAMERA,
+            Throwable("CameraSwitch failed")
+        )
         val previousCameraState = CameraDeviceSelectionStatus.FRONT
 
         val action = LocalParticipantAction.CameraSwitchFailed(previousCameraState, error)
@@ -417,7 +552,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -441,7 +580,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -467,11 +610,16 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
-        val error = CallCompositeError(CallCompositeErrorCode.TURN_MIC_ON, Throwable("MicOn failed"))
+        val error =
+            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_ON, Throwable("MicOn failed"))
         val action = LocalParticipantAction.MicOnFailed(error)
 
         // act
@@ -493,7 +641,11 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.ON,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
@@ -517,11 +669,16 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            AudioState(
+                AudioOperationalStatus.ON,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = null
         )
-        val error = CallCompositeError(CallCompositeErrorCode.TURN_MIC_OFF, Throwable("Mic OFF failed"))
+        val error =
+            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF, Throwable("Mic OFF failed"))
         val action = LocalParticipantAction.MicOffFailed(error)
 
         // act
@@ -530,4 +687,53 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         // assert
         Assert.assertEquals(AudioOperationalStatus.ON, newState.audioState.operation)
     }
+
+    // Helper for Audio Device Selection/Requested tests
+    private fun deviceStateReducer_reduce_when_AudioDeviceAction(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
+
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.PENDING,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.ON,
+                audioDeviceSelectionStatus,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = null,
+            displayName = null
+        )
+
+        val action =
+            LocalParticipantAction.AudioDeviceChangeRequested(audioDeviceSelectionStatus)
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(
+            audioDeviceSelectionStatus,
+            newState.audioState.device
+        )
+    }
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_request_receiver() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_request_bluetooth() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_select_receiver() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.RECEIVER_SELECTED)
+
+    @Test
+    fun deviceStateReducer_reduce_when_AudioDeviceRequested_select_bluetooth() =
+        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
 }

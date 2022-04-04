@@ -22,7 +22,7 @@ import com.azure.android.communication.ui.CallComposite;
  * @see CallComposite
  */
 public final class ThemeConfiguration {
-    private int theme;
+    private final int theme;
 
     /**
      * Create Theme configuration.

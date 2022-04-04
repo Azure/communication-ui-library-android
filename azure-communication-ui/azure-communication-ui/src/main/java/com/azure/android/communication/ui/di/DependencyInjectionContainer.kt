@@ -3,10 +3,9 @@
 
 package com.azure.android.communication.ui.di
 
-import androidx.fragment.app.FragmentFactory
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
-import com.azure.android.communication.ui.presentation.UIManager
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManager
@@ -15,17 +14,28 @@ import com.azure.android.communication.ui.presentation.navigation.NavigationRout
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.service.calling.NotificationService
 
+// Dependency Container for the Call Composite Activity
+// For implementation
+// @see: {@link com.azure.android.communication.ui.di.DependencyInjectionContainerImpl}
 internal interface DependencyInjectionContainer {
-    fun provideUIManager(): UIManager
-    fun provideNavigationRouter(): NavigationRouter
-    fun provideFragmentFactory(): FragmentFactory
-    fun provideStore(): Store<ReduxState>
-    fun provideConfiguration(): CallCompositeConfiguration
-    fun providePermissionManager(): PermissionManager
-    fun provideAudioSessionManager(): AudioSessionManager
-    fun provideLifecycleManager(): LifecycleManager
-    fun provideErrorHandler(): ErrorHandler
-    fun provideCallingMiddlewareActionHandler(): CallingMiddlewareActionHandler
-    fun provideVideoViewManager(): VideoViewManager
+    // Redux Store
+    val appStore: Store<ReduxState>
+    val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
+
+    // Config
+    val configuration: CallCompositeConfiguration
+    val errorHandler: ErrorHandler
+
+    // System
+    val permissionManager: PermissionManager
+    val audioSessionManager: AudioSessionManager
+    val lifecycleManager: LifecycleManager
+    val navigationRouter: NavigationRouter
+    val notificationService: NotificationService
+    val localizationProvider: LocalizationProvider
+
+    // UI
+    val videoViewManager: VideoViewManager
 }

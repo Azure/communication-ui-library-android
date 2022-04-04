@@ -24,7 +24,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
             dir: "$buildDir/tmp/kotlin-classes/debug",
             excludes: fileFilter
     )
-    classDirectories.setFrom(files([ javaClasses ], [ kotlinClasses ]))
+    classDirectories.setFrom(files([javaClasses], [kotlinClasses]))
     sourceDirectories.setFrom(files(coverageSourceDirs))
     executionData(fileTree(dir: "$buildDir", includes: [
             "jacoco/testDebugUnitTest.exec"

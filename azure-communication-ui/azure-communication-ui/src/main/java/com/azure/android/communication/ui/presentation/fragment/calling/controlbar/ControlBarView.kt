@@ -26,7 +26,8 @@ internal class ControlBarView : LinearLayout {
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
-    private lateinit var requestCallEnd: () -> Unit
+    private lateinit var requestCallEndCallback: () -> Unit
+    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -41,10 +42,13 @@ internal class ControlBarView : LinearLayout {
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
         requestCallEnd: () -> Unit,
+        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         this.viewModel = viewModel
-        this.requestCallEnd = requestCallEnd
+        this.requestCallEndCallback = requestCallEnd
+        this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
+        setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioOperationalStatusStateFlow().collect {
                 updateMic(it)
@@ -68,6 +72,33 @@ internal class ControlBarView : LinearLayout {
                 micToggle.isEnabled = it
             }
         }
+    }
+
+    private fun setupAccessibility() {
+        val localizationProvider = viewModel.getLocalizationProvider()
+        endCallButton.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label
+            )
+
+        callAudioDeviceButton.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label
+            )
+
+        cameraToggle.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_toggle_video_accessibility_label
+            )
+
+        micToggle.contentDescription = localizationProvider
+            .getLocalizedString(
+                context,
+                R.string.azure_communication_ui_calling_view_button_toggle_audio_accessibility_label
+            )
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
@@ -114,12 +145,18 @@ internal class ControlBarView : LinearLayout {
                     R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
                 )
             }
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
+                callAudioDeviceButton.setImageResource(
+                    // Needs an icon
+                    R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
+                )
+            }
         }
     }
 
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
-            requestCallEnd()
+            requestCallEndCallback()
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {
@@ -136,11 +173,7 @@ internal class ControlBarView : LinearLayout {
             }
         }
         callAudioDeviceButton.setOnClickListener {
-            openAudioDeviceList()
+            openAudioDeviceSelectionMenuCallback()
         }
-    }
-
-    private fun openAudioDeviceList() {
-        viewModel.displayAudioDeviceSelectionMenu()
     }
 }

@@ -15,7 +15,6 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.redux.Store
-import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -31,7 +30,7 @@ internal class CallingViewModel(
         callingViewModelProvider.provideParticipantGridViewModel()
     private val controlBarViewModel = callingViewModelProvider.provideControlBarViewModel()
     private val confirmLeaveOverlayViewModel =
-        callingViewModelProvider.provideCallHangupConfirmViewModel()
+        callingViewModelProvider.provideConfirmLeaveOverlayViewModel()
     private val localParticipantViewModel =
         callingViewModelProvider.provideLocalParticipantViewModel()
     private val floatingHeaderViewModel = callingViewModelProvider.provideFloatingHeaderViewModel()
@@ -58,7 +57,7 @@ internal class CallingViewModel(
         return controlBarViewModel
     }
 
-    fun getCallHangupConfirmViewModel(): ConfirmLeaveOverlayViewModel {
+    fun getConfirmLeaveOverlayViewModel(): ConfirmLeaveOverlayViewModel {
         return confirmLeaveOverlayViewModel
     }
 
@@ -78,14 +77,12 @@ internal class CallingViewModel(
         return bannerViewModel
     }
 
-    fun startCall() {
-        if (store.getCurrentState().callState.CallingStatus == CallingStatus.NONE) {
-            dispatchAction(action = CallingAction.CallStartRequested())
-        }
-    }
-
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
+    }
+
+    fun requestCallEnd() {
+        confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
     override fun init(coroutineScope: CoroutineScope) {
@@ -94,8 +91,7 @@ internal class CallingViewModel(
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
+            state.localParticipantState.audioState
         )
 
         localParticipantViewModel.init(
@@ -103,15 +99,16 @@ internal class CallingViewModel(
             state.localParticipantState.audioState.operation,
             state.localParticipantState.videoStreamID,
             state.remoteParticipantState.participantMap.count(),
-            state.callState.CallingStatus,
+            state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
         )
 
         floatingHeaderViewModel.init(
+            state.callState.callingStatus,
             state.remoteParticipantState.participantMap.count()
         )
         audioDeviceListViewModel.init(
-            state.localParticipantState.audioState.device
+            state.localParticipantState.audioState
         )
         bannerViewModel.init(
             state.callState
@@ -122,7 +119,7 @@ internal class CallingViewModel(
             state.localParticipantState
         )
 
-        lobbyOverlayViewModel.init(state.callState.CallingStatus)
+        lobbyOverlayViewModel.init(state.callState.callingStatus)
 
         super.init(coroutineScope)
     }
@@ -138,8 +135,7 @@ internal class CallingViewModel(
         controlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
+            state.localParticipantState.audioState
         )
 
         localParticipantViewModel.update(
@@ -147,15 +143,15 @@ internal class CallingViewModel(
             state.localParticipantState.audioState.operation,
             state.localParticipantState.videoStreamID,
             state.remoteParticipantState.participantMap.count(),
-            state.callState.CallingStatus,
+            state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
         )
 
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState.device
+            state.localParticipantState.audioState,
         )
 
-        lobbyOverlayViewModel.update(state.callState.CallingStatus)
+        lobbyOverlayViewModel.update(state.callState.callingStatus)
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
@@ -176,8 +172,15 @@ internal class CallingViewModel(
                 state.callState
             )
         }
+        updateLobbyOverlayDisplayedState(state.callState.callingStatus)
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
-        state.callState.CallingStatus == CallingStatus.CONNECTED
+        state.callState.callingStatus == CallingStatus.CONNECTED
+
+    private fun updateLobbyOverlayDisplayedState(callingStatus: CallingStatus) {
+        floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(callingStatus)
+        bannerViewModel.updateIsLobbyOverlayDisplayed(callingStatus)
+        localParticipantViewModel.updateIsLobbyOverlayDisplayed(callingStatus)
+    }
 }

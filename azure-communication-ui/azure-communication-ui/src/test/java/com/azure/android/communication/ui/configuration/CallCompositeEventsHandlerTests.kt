@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.CallingEventHandler
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
-import com.azure.android.communication.ui.configuration.events.ErrorEvent
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.ErrorState
@@ -29,15 +27,21 @@ internal class CallCompositeEventsHandlerTests {
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, null)
 
-            val handler1 = mock<CallingEventHandler<ErrorEvent<CallCompositeErrorCode>>> { }
-            val handler2 = mock<CallingEventHandler<ErrorEvent<CallCompositeErrorCode>>> { }
+            val handler1 = mock<CallingEventHandler> { }
+            val handler2 = mock<CallingEventHandler> { }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.setOnErrorHandler(handler1)
-            Assert.assertSame(handler1, configuration.callCompositeEventsHandler.getOnErrorHandler())
+            Assert.assertSame(
+                handler1,
+                configuration.callCompositeEventsHandler.getOnErrorHandler()
+            )
 
             configuration.callCompositeEventsHandler.setOnErrorHandler(handler2)
-            Assert.assertSame(handler2, configuration.callCompositeEventsHandler.getOnErrorHandler())
+            Assert.assertSame(
+                handler2,
+                configuration.callCompositeEventsHandler.getOnErrorHandler()
+            )
 
             configuration.callCompositeEventsHandler.setOnErrorHandler(null)
             Assert.assertNull(configuration.callCompositeEventsHandler.getOnErrorHandler())

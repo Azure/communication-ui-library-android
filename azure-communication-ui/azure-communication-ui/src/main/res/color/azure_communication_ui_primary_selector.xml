@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/azure_communication_ui_color_disabled" android:state_enabled="false" />
+    <item android:color="?attr/azure_communication_ui_communication_tint_10" android:state_pressed="true" /> <!-- pressed -->
+    <item android:color="?attr/azure_communication_ui_communication_tint_30" android:state_focused="true" /> <!-- focused -->
+    <item android:color="?attr/azure_communication_ui_communication_primary" />
+</selector>

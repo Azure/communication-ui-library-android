@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.redux.middleware.handler
 
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.TestContextProvider
@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
@@ -97,8 +98,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         val cameraStateCompletableFuture = CompletableFuture<Void>()
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.PAUSED, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.PAUSED,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -126,7 +135,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // assert
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
-                action is LocalParticipantAction.CameraOffFailed && action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_CAMERA_OFF
+                action is LocalParticipantAction.CameraOffFailed && action.error.cause == error && action.error.communicationUIErrorCode == CommunicationUIErrorCode.TURN_CAMERA_OFF
             }
         )
     }
@@ -336,8 +345,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
                 LocalUserState(
-                    CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE),
-                    AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
                     "",
                     ""
                 )
@@ -401,8 +418,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
                 LocalUserState(
-                    CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE),
-                    AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
                     "",
                     ""
                 )
@@ -455,8 +480,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
                 LocalUserState(
-                    CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE),
-                    AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
                     "",
                     ""
                 )
@@ -498,7 +531,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                        action.error.fatalError == exception && action.error.codeCallComposite == CallCompositeErrorCode.CALL_JOIN
+                        action.error.fatalError == exception && action.error.codeCallComposite == CommunicationUIErrorCode.CALL_JOIN
                 }
             )
         }
@@ -508,8 +541,17 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     fun callingMiddlewareActionHandler_startCall_cameraOff_micOff_then_useCorrectCameraAndAudioStates() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val expectedCameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
-            val expectedAudioState = AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+            val expectedCameraState = CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.REMOTE
+            )
+            val expectedAudioState =
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -559,8 +601,17 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     fun callingMiddlewareActionHandler_startCall_cameraOff_micOn_then_useCorrectCameraAndAudioStates() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val expectedCameraState = CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
-            val expectedAudioState = AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+            val expectedCameraState = CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.REMOTE
+            )
+            val expectedAudioState =
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -610,8 +661,17 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     fun callingMiddlewareActionHandler_startCall_cameraOn_micOff_then_useCorrectCameraAndAudioStates() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val expectedCameraState = CameraState(CameraOperationalStatus.ON, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
-            val expectedAudioState = AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+            val expectedCameraState = CameraState(
+                CameraOperationalStatus.ON,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.REMOTE
+            )
+            val expectedAudioState =
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -661,8 +721,17 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     fun callingMiddlewareActionHandler_startCall_cameraOn_micOn_then_useCorrectCameraAndAudioStates() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val expectedCameraState = CameraState(CameraOperationalStatus.ON, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE)
-            val expectedAudioState = AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+            val expectedCameraState = CameraState(
+                CameraOperationalStatus.ON,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.REMOTE
+            )
+            val expectedAudioState =
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
             appState.localParticipantState =
@@ -713,8 +782,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         val appState = AppReduxState("")
         appState.localParticipantState =
             LocalUserState(
-                CameraState(CameraOperationalStatus.ON, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.REMOTE),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                CameraState(
+                    CameraOperationalStatus.ON,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.REMOTE
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 videoStreamID = null,
                 displayName = "username"
             )
@@ -760,8 +837,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // arrange
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -804,8 +889,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // arrange
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.ON, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.ON,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -849,8 +942,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // arrange
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.PAUSED, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.PAUSED,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -889,8 +990,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // arrange
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.PAUSED, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.PAUSED,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -930,8 +1039,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // arrange
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -970,8 +1087,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         // arrange
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.PAUSED, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.PAUSED,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -1043,7 +1168,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.CameraOnFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_CAMERA_ON
+                    action.error.cause == error && action.error.communicationUIErrorCode == CommunicationUIErrorCode.TURN_CAMERA_ON
             }
         )
     }
@@ -1056,8 +1181,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         val appState = AppReduxState("")
         appState.localParticipantState =
             LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-                AudioState(AudioOperationalStatus.PENDING, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.PENDING,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 videoStreamID = null,
                 displayName = "username"
             )
@@ -1093,8 +1226,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
 
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.ON,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -1122,7 +1263,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOffFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_MIC_OFF
+                    action.error.cause == error && action.error.communicationUIErrorCode == CommunicationUIErrorCode.TURN_MIC_OFF
             }
         )
         verify(mockCallingService, times(1)).turnMicOff()
@@ -1135,8 +1276,16 @@ internal class CallingMiddlewareActionHandlerUnitTest {
 
         val appState = AppReduxState("")
         appState.localParticipantState = LocalUserState(
-            CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-            AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -1164,7 +1313,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOnFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_MIC_ON
+                    action.error.cause == error && action.error.communicationUIErrorCode == CommunicationUIErrorCode.TURN_MIC_ON
             }
         )
         verify(mockCallingService, times(1)).turnMicOn()
@@ -1208,7 +1357,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             callInfoModelStateFlow.value = CallInfoModel(
                 CallingStatus.DISCONNECTED,
                 CallStateError(
-                    CallCompositeErrorCode.TOKEN_EXPIRED
+                    CommunicationUIErrorCode.TOKEN_EXPIRED
                 )
             )
 
@@ -1216,7 +1365,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.TOKEN_EXPIRED
+                        action.callStateError.communicationUIErrorCode == CommunicationUIErrorCode.TOKEN_EXPIRED
                 }
             )
         }
@@ -1260,7 +1409,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CallInfoModel(
                     CallingStatus.NONE,
                     CallStateError(
-                        CallCompositeErrorCode.CALL_END
+                        CommunicationUIErrorCode.CALL_END
                     )
                 )
             )
@@ -1268,8 +1417,22 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
+                    action is CallingAction.IsTranscribingUpdated &&
+                        !action.isTranscribing
+                }
+            )
+
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CallingAction.IsRecordingUpdated &&
+                        !action.isRecording
+                }
+            )
+
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.CALL_END
+                        action.callStateError.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END
                 }
             )
 
@@ -1328,7 +1491,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.CALL_END
+                        action.callStateError.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END
                 }
             )
 
@@ -1392,7 +1555,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
                 CallInfoModel(
                     CallingStatus.DISCONNECTED,
                     CallStateError(
-                        CallCompositeErrorCode.TURN_CAMERA_OFF
+                        CommunicationUIErrorCode.TURN_CAMERA_OFF
                     )
                 )
             )
@@ -1401,7 +1564,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.CALL_END
+                        action.callStateError.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END
                 }
             )
 

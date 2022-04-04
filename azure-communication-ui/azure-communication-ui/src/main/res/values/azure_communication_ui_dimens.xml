@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
 <resources>
     <!--
     Because the window insets on round devices are larger than 15dp, this padding only applies
@@ -13,4 +16,5 @@
     -->
     <dimen name="azure_communication_ui_inner_frame_layout_padding">5dp</dimen>
     <dimen name="azure_communication_ui_fab_margin">16dp</dimen>
+
 </resources>

@@ -15,20 +15,21 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.redux.AppStore
-import com.azure.android.communication.ui.redux.state.AppReduxState
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.AudioState
-import com.azure.android.communication.ui.redux.state.CallingState
-import com.azure.android.communication.ui.redux.state.CallingStatus
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.redux.state.CameraState
+import com.azure.android.communication.ui.redux.state.AppReduxState
+import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.redux.state.LocalUserState
+import com.azure.android.communication.ui.redux.state.CallingStatus
+import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.redux.state.LifecycleState
 import com.azure.android.communication.ui.redux.state.LifecycleStatus
-import com.azure.android.communication.ui.redux.state.LocalUserState
-import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -65,7 +66,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -87,7 +88,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
@@ -113,7 +114,7 @@ internal class CallingViewModelUnitTest {
 
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any())
-            verify(mockControlBarViewModel, times(1)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(1)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(1)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -139,7 +140,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -161,7 +162,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
@@ -187,7 +188,7 @@ internal class CallingViewModelUnitTest {
 
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -214,7 +215,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -235,7 +236,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
@@ -269,7 +270,7 @@ internal class CallingViewModelUnitTest {
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
             verify(mockParticipantListViewModel, times(1)).update(any(), any())
             verify(mockBannerViewModel, times(1)).update(any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -295,7 +296,7 @@ internal class CallingViewModelUnitTest {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
@@ -316,7 +317,7 @@ internal class CallingViewModelUnitTest {
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideCallHangupConfirmViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
                 on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
                 on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
                 on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
@@ -345,7 +346,7 @@ internal class CallingViewModelUnitTest {
             verify(mockFloatingHeaderViewModel, times(0)).update(any())
             verify(mockParticipantListViewModel, times(0)).update(any(), any())
             verify(mockBannerViewModel, times(0)).update(any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -355,8 +356,16 @@ internal class CallingViewModelUnitTest {
     }
 
     private fun getLocalUserState() = LocalUserState(
-        CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT, CameraTransmissionStatus.LOCAL),
-        AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+        CameraState(
+            CameraOperationalStatus.OFF,
+            CameraDeviceSelectionStatus.FRONT,
+            CameraTransmissionStatus.LOCAL
+        ),
+        AudioState(
+            AudioOperationalStatus.OFF,
+            AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+            BluetoothState(available = false, deviceName = "bluetooth")
+        ),
         "test",
         "test"
     )

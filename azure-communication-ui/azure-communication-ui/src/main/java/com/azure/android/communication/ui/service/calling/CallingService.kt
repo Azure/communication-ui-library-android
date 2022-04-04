@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.service.calling
 
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
@@ -31,6 +31,18 @@ internal class CallingService(
         private const val LOCAL_VIDEO_STREAM_ID = "BuiltInCameraVideoStream"
         private const val CALL_END_REASON_TOKEN_EXPIRED = 401
         private const val CALL_END_REASON_SUCCESS = 0
+
+        /*
+        * Call canceled, locally declined, ended due to an endpoint mismatch issue, or failed to generate media offer.
+        * Expected behavior.
+        * */
+        private const val CALL_END_REASON_CANCELED = 487
+
+        /*
+        * Call globally declined by remote Communication Services participant.
+        * Expected behavior.
+        * */
+        private const val CALL_END_REASON_DECLINED = 603
     }
 
     private val participantsInfoModelSharedFlow =
@@ -110,13 +122,13 @@ internal class CallingService(
         coroutineScope.launch {
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
                 val callStateError = when (it.callEndReason) {
-                    CALL_END_REASON_SUCCESS -> null
-                    CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CallCompositeErrorCode.TOKEN_EXPIRED,)
+                    CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> null
+                    CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED)
                     else -> {
                         if (callingStatus == CallingStatus.CONNECTED) {
-                            CallStateError(CallCompositeErrorCode.CALL_END,)
+                            CallStateError(CommunicationUIErrorCode.CALL_END)
                         } else {
-                            CallStateError(CallCompositeErrorCode.CALL_JOIN,)
+                            CallStateError(CommunicationUIErrorCode.CALL_JOIN)
                         }
                     }
                 }

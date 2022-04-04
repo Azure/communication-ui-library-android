@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -10,6 +12,7 @@ import com.azure.android.communication.ui.model.VideoStreamModel
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
@@ -29,6 +32,7 @@ internal class ParticipantListViewModelUnitTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate() {
@@ -83,13 +87,20 @@ internal class ParticipantListViewModelUnitTest {
                 }
 
             val localUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(appLocalizationProvider)
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState)
 
             val resultListFromRemoteParticipantListCellStateFlow =
@@ -135,32 +146,51 @@ internal class ParticipantListViewModelUnitTest {
             )
 
             val initialExpectedLocalUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
 
             val expectedInitialLocalParticipantListCellModel =
-                ParticipantListCellModel(
-                    initialExpectedLocalUserState.displayName,
-                    initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF
-                )
+                initialExpectedLocalUserState.displayName?.let {
+                    ParticipantListCellModel(
+                        it,
+                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF
+                    )
+                }
 
             val updatedExpectedLocalUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
-                AudioState(AudioOperationalStatus.ON, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
 
             val expectedUpdatedLocalParticipantListCellModel =
-                ParticipantListCellModel(
-                    initialExpectedLocalUserState.displayName,
-                    initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON
-                )
+                initialExpectedLocalUserState.displayName?.let {
+                    ParticipantListCellModel(
+                        it,
+                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON
+                    )
+                }
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(appLocalizationProvider)
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState
@@ -213,13 +243,21 @@ internal class ParticipantListViewModelUnitTest {
             )
 
             val initialExpectedLocalUserState = LocalUserState(
-                CameraState(CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.BACK, CameraTransmissionStatus.LOCAL),
-                AudioState(AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED),
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
                 "video_stream_id",
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(appLocalizationProvider)
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState

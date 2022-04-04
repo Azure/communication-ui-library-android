@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_call_local_pip"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginRight="4dp"
+    android:layout_marginEnd="4dp"
     android:layout_marginBottom="4dp"
     >
 
@@ -19,13 +22,12 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp"
-        android:backgroundTint="@color/azure_communication_ui_color_background"
+        android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp_background"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="9:16"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_guideline"
         >
 
@@ -39,10 +41,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:avatarSize="xlarge"
+                app:fluentui_avatarSize="xlarge"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.3"
                 />

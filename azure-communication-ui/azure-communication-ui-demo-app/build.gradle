@@ -9,15 +9,15 @@ if (project.rootProject.file('local.properties').canRead()) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
-        minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 1
-        versionName "0.0.0"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode ui_library_version_code
+        versionName "$ui_library_version_name"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,6 +26,8 @@ android {
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
         buildConfigField 'String', 'TEAMS_MEETING_LINK', properties.getProperty('TEAMS_MEETING_LINK', '""')
         buildConfigField 'String', 'ACS_TOKEN', properties.getProperty('ACS_TOKEN', '""')
+        buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
+
     }
 
     signingConfigs {
@@ -63,19 +65,67 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/AL2.0'
+        pickFirst 'META-INF/LGPL2.1'
+        pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
+    }
+
+    testOptions {
+        animationsDisabled = true
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+        unitTests {
+            returnDefaultValues = true
+            all {
+                failFast = true
+            }
+        }
+    }
+
+    flavorDimensions "distribute"
+    productFlavors {
+        appCenter {
+            dimension "distribute"
+        }
+    }
+
+}
+
+repositories {
+    flatDir{
+        dirs "lib"
+    }
 }
 
 dependencies {
+    def appCenterSdkVersion = '4.1.0'
     implementation project(path: ':azure-communication-ui')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation 'androidx.activity:activity-ktx:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
-    implementation "com.azure.android:azure-communication-calling:$calling_sdk_version"
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation(name: "magnifier-0.0.17", ext: 'aar')
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    appCenterImplementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'net.java.dev.jna:jna:5.10.0'
+    androidTestImplementation('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-native-mt') {
+        exclude group: "net.java.dev.jna", module: "jna"
+    }
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit"
+    androidTestImplementation 'androidx.test:rules:1.4.1-alpha03'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_contrib"
 }

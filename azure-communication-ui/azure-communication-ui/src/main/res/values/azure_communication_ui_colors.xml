@@ -1,5 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
 <resources>
+    <color name="azure_communication_ui_color_com_primary">#0078D4</color>
     <color name="azure_communication_ui_color_primary">#3AA0F3</color>
     <color name="azure_communication_ui_color_background">#FFFFFF</color>
     <color name="azure_communication_ui_color_bottom_drawer_background">#FFFFFF</color>
@@ -18,6 +22,9 @@
     <color name="azure_communication_ui_color_call_leave_overlay">#CC000000</color>
     <color name="azure_communication_ui_color_call_lobby_overlay">#CCFFFFFF</color>
     <color name="azure_communication_ui_color_participant_list_mute_mic">#919191</color>
+    <color name="azure_communication_ui_color_status_bar">#ffffff</color>
+    <color name="azure_communication_ui_color_text_primary">#212121</color>
+    <color name="azure_communication_ui_color_action_bar_text">#000000</color>
 
     <!--Static colors-->
     <color name="azure_communication_ui_color_on_surface_camera_active">#FFFFFF</color>

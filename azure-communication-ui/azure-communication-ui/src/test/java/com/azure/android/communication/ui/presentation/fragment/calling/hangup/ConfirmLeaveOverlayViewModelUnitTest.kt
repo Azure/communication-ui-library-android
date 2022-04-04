@@ -3,7 +3,8 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
-import android.view.View
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -21,6 +22,8 @@ import org.mockito.kotlin.verify
 @RunWith(MockitoJUnitRunner::class)
 internal class ConfirmLeaveOverlayViewModelUnitTest {
 
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
+
     @Test
     fun confirmLeaveOverlayViewModel_confirm_then_dispatchEndCall() {
 
@@ -28,7 +31,11 @@ internal class ConfirmLeaveOverlayViewModelUnitTest {
             on { dispatch(any()) } doAnswer { }
         }
 
-        var confirmLeaveOverlayViewModel = ConfirmLeaveOverlayViewModel(mockAppStore::dispatch)
+        var confirmLeaveOverlayViewModel =
+            ConfirmLeaveOverlayViewModel(
+                mockAppStore::dispatch,
+                appLocalizationProvider
+            )
 
         confirmLeaveOverlayViewModel.confirm()
 
@@ -44,13 +51,17 @@ internal class ConfirmLeaveOverlayViewModelUnitTest {
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        var confirmLeaveOverlayViewModel = ConfirmLeaveOverlayViewModel(mockAppStore::dispatch)
+        var confirmLeaveOverlayViewModel =
+            ConfirmLeaveOverlayViewModel(
+                mockAppStore::dispatch,
+                appLocalizationProvider
+            )
 
         confirmLeaveOverlayViewModel.cancel()
 
         Assert.assertEquals(
-            View.INVISIBLE,
-            confirmLeaveOverlayViewModel.getConfirmLeaveOverlayState()
+            false,
+            confirmLeaveOverlayViewModel.getShouldDisplayConfirmLeaveOverlayFlow().value
         )
     }
 }

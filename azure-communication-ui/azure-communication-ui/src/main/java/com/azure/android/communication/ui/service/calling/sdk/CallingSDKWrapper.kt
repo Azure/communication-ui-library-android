@@ -35,7 +35,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 
 internal class CallingSDKWrapper(
-    private val configuration: CallCompositeConfiguration,
+    private val instanceId: Int,
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val logger: Logger? = null,
@@ -48,6 +48,9 @@ internal class CallingSDKWrapper(
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
+
+    private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
+    private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
 
     private val callConfig: CallConfiguration
         get() {
@@ -67,7 +70,8 @@ internal class CallingSDKWrapper(
 
     fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
 
-    fun getCallingStateWrapperSharedFlow() = callingSDKEventHandler.getCallingStateWrapperSharedFlow()
+    fun getCallingStateWrapperSharedFlow() =
+        callingSDKEventHandler.getCallingStateWrapperSharedFlow()
 
     fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
@@ -79,6 +83,15 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
 
     fun endCall(): CompletableFuture<Void> {
+        val call: Call?
+
+        try {
+            call = this.call
+        } catch (e: Exception) {
+            // We can't access the call currently, return a no-op and exit
+            return CompletableFuture.runAsync { }
+        }
+
         callingSDKEventHandler.onEndCall()
         endCallCompletableFuture = call.hangUp(HangUpOptions())
         return endCallCompletableFuture!!
@@ -324,19 +337,17 @@ internal class CallingSDKWrapper(
         )
     }
 
-    private val videoDevicesUpdatedListener =
-        VideoDevicesUpdatedListener {
-            completeCamerasInitializedCompletableFuture()
-        }
-
     private fun initializeCameras(): CompletableFuture<Void> {
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
-        }
-
-        getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager, _: Throwable? ->
-            completeCamerasInitializedCompletableFuture()
-            deviceManager.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager, _: Throwable? ->
+                completeCamerasInitializedCompletableFuture()
+                videoDevicesUpdatedListener =
+                    VideoDevicesUpdatedListener {
+                        completeCamerasInitializedCompletableFuture()
+                    }
+                deviceManager.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+            }
         }
 
         return camerasInitializedCompletableFuture!!
@@ -372,8 +383,9 @@ internal class CallingSDKWrapper(
     }
 
     private fun cleanupResources() {
-        deviceManagerCompletableFuture?.get()
-            ?.removeOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+        videoDevicesUpdatedListener?.let {
+            deviceManagerCompletableFuture?.get()?.removeOnCamerasUpdatedListener(it)
+        }
         callAgentCompletableFuture?.get()?.dispose()
         callClient = null
         nullableCall = null

@@ -12,7 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.LocalizationProvider
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.microsoft.fluentui.snackbar.Snackbar
@@ -30,7 +31,7 @@ internal class ErrorInfoView(private val rootView: View) {
                 if (it == null) {
                     snackBar.dismiss()
                 } else {
-                    displaySnackBar(it)
+                    displaySnackBar(it, snackBarViewModel.getLocalizationProvider())
                 }
             }
         }
@@ -43,8 +44,11 @@ internal class ErrorInfoView(private val rootView: View) {
         rootView.invalidate()
     }
 
-    private fun displaySnackBar(it: CallStateError) {
-        val errorMessage = getErrorMessage(it)
+    private fun displaySnackBar(
+        it: CallStateError,
+        appLocalizationProvider: LocalizationProvider
+    ) {
+        val errorMessage = getErrorMessage(it, appLocalizationProvider)
 
         if (errorMessage.isNotEmpty()) {
             snackBarTextView.text = errorMessage
@@ -54,12 +58,21 @@ internal class ErrorInfoView(private val rootView: View) {
         }
     }
 
-    private fun getErrorMessage(it: CallStateError): String {
-        return when (it.callCompositeErrorCode) {
-            CallCompositeErrorCode.CALL_END -> rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_end)
-                .toString()
-            CallCompositeErrorCode.CALL_JOIN -> rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_join)
-                .toString()
+    private fun getErrorMessage(
+        it: CallStateError,
+        localizationProvider: LocalizationProvider
+    ): String {
+        return when (it.communicationUIErrorCode) {
+            CommunicationUIErrorCode.CALL_END -> localizationProvider.getLocalizedString(
+                rootView.context!!.resources.getResourceEntryName(R.string.azure_communication_ui_cal_state_error_call_end),
+                rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_end)
+                    .toString()
+            )
+            CommunicationUIErrorCode.CALL_JOIN -> localizationProvider.getLocalizedString(
+                rootView.context!!.resources.getResourceEntryName(R.string.azure_communication_ui_snack_bar_text_error_call_join),
+                rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
+                    .toString()
+            )
             else -> ""
         }
     }
@@ -72,7 +85,7 @@ internal class ErrorInfoView(private val rootView: View) {
             Snackbar.Style.REGULAR
         ).apply {
             animationMode = ANIMATION_MODE_FADE
-            setAction(rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_dismiss)) {}
+            setAction(rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)) {}
             anchorView = rootView.findViewById(R.id.azure_communication_ui_setup_join_call_button)
             view.background.colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(

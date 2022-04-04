@@ -3,22 +3,23 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.header
 
-import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListViewModel
+import com.azure.android.communication.ui.configuration.LocalizationProvider
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
 
-internal class InfoHeaderViewModel(
-    private val participantListViewModel: ParticipantListViewModel,
-) {
+internal class InfoHeaderViewModel(private val localizationProvider: LocalizationProvider) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
-
+    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
 
     private lateinit var timer: Timer
 
     private var displayedOnLaunch = false
+
+    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
 
     fun getDisplayFloatingHeaderFlow(): StateFlow<Boolean> = displayFloatingHeaderFlow
 
@@ -36,16 +37,18 @@ internal class InfoHeaderViewModel(
         }
     }
 
+    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
+        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
+    }
+
     fun init(
-        numberOfRemoteParticipants: Int,
+        callingStatus: CallingStatus,
+        numberOfRemoteParticipants: Int
     ) {
         timer = Timer()
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-    }
-
-    fun displayParticipantList() {
-        participantListViewModel.displayParticipantList()
+        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
     }
 
     fun switchFloatingHeader() {
@@ -65,4 +68,11 @@ internal class InfoHeaderViewModel(
             3000
         )
     }
+
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
+    }
+
+    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY
 }

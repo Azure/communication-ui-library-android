@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -12,6 +11,14 @@ import com.azure.android.communication.ui.CallComposite;
 import com.azure.android.communication.ui.CallCompositeBuilder;
 import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
+import com.azure.android.communication.ui.callingcompositedemoapp.R;
+import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
+import com.azure.android.communication.ui.configuration.LanguageCode;
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
+import com.azure.android.communication.ui.configuration.ThemeConfiguration;
 
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -27,28 +34,28 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
     }
 
     @Override
-    public void launch(final Context context,
+    public void launch(final CallLauncherActivity callLauncherActivity,
                        final String displayName,
                        final UUID groupId,
                        final String meetingLink,
                        final Function1<? super String, Unit> showAlert) {
-        final CallComposite callComposite =
-                new CallCompositeBuilder()
-//                        .theme(new ThemeConfiguration(R.style.MyCompany_Theme))
-                        .build();
 
-        callComposite.setOnErrorHandler(eventHandler -> {
-            System.out.println("================= application is logging exception =================");
-            System.out.println(eventHandler.getCause());
-            System.out.println(eventHandler.getErrorCode());
-            if (eventHandler.getCause() != null) {
-                showAlert.invoke(eventHandler.getErrorCode().toString() + " "
-                        + eventHandler.getCause().getMessage());
-            } else {
-                showAlert.invoke(eventHandler.getErrorCode().toString());
-            }
-            System.out.println("====================================================================");
-        });
+        final CallCompositeBuilder builder = new CallCompositeBuilder();
+
+        SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
+        final String selectedLanguage = SettingsFeatures.language();
+        final LanguageCode languageCode = SettingsFeatures
+                .selectedLanguageCode(SettingsFeatures.languageCode(selectedLanguage));
+
+        builder.localization(new LocalizationConfiguration(languageCode,
+                SettingsFeatures.isRTL()));
+
+        if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
+            builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
+        }
+
+        final CallComposite callComposite = builder.build();
+        callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
                 new CommunicationTokenRefreshOptions(tokenRefresher, true);
@@ -57,15 +64,17 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         if (groupId != null) {
             final GroupCallOptions groupCallOptions =
-                    new GroupCallOptions(context, communicationTokenCredential, groupId, displayName);
+                    new GroupCallOptions(communicationTokenCredential, groupId, displayName);
 
-            callComposite.launch(groupCallOptions);
+            callComposite.launch(callLauncherActivity, groupCallOptions);
 
         } else if (!TextUtils.isEmpty(meetingLink)) {
             final TeamsMeetingOptions teamsMeetingOptions =
-                    new TeamsMeetingOptions(context, communicationTokenCredential, meetingLink, displayName);
+                    new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
 
-            callComposite.launch(teamsMeetingOptions);
+            callComposite.launch(callLauncherActivity, teamsMeetingOptions);
         }
     }
+
+
 }

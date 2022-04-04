@@ -1,13 +1,21 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.presentation.fragment.calling.lobby
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class LobbyOverlayViewModel {
+internal class LobbyOverlayViewModel(private val localizationProvider: LocalizationProvider) {
     private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
+
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
+    }
 
     fun init(
         callingState: CallingStatus,

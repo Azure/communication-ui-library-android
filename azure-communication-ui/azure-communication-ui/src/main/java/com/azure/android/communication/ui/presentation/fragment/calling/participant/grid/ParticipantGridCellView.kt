@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
@@ -11,16 +12,20 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
 import com.microsoft.fluentui.persona.AvatarView
 
+@SuppressLint("ViewConstructor")
 internal class ParticipantGridCellView(
     context: Context,
-    private val participantViewModel: ParticipantGridCellViewModel,
-    private val getVideoStream: (String, String) -> View?,
     private val lifecycleScope: LifecycleCoroutineScope,
+    private val participantViewModel: ParticipantGridCellViewModel,
+    private val showFloatingHeaderCallBack: () -> Unit,
+    private val getVideoStreamCallback: (String, String) -> View?,
+    private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
 ) : RelativeLayout(context) {
 
     init {
@@ -54,7 +59,7 @@ internal class ParticipantGridCellView(
             micIndicatorAudioImageView,
             participantViewModel,
             context,
-            lifecycleScope
+            lifecycleScope,
         )
     }
 
@@ -65,6 +70,9 @@ internal class ParticipantGridCellView(
         val videoContainer: ConstraintLayout =
             findViewById(R.id.azure_communication_ui_participant_video_view_container)
 
+        val displayNameAndMicIndicatorViewContainer: View =
+            findViewById(R.id.azure_communication_ui_participant_view_on_video_information_container)
+
         val displayNameOnVideoTextView: TextView =
             findViewById(R.id.azure_communication_ui_participant_view_on_video_display_name)
 
@@ -72,14 +80,17 @@ internal class ParticipantGridCellView(
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
         ParticipantGridCellVideoView(
+            context,
+            lifecycleScope,
             participantVideoContainerFrameLayout,
             videoContainer,
+            displayNameAndMicIndicatorViewContainer,
             displayNameOnVideoTextView,
             micIndicatorOnVideoImageView,
             participantViewModel,
-            getVideoStream,
-            context,
-            lifecycleScope
+            getVideoStreamCallback,
+            showFloatingHeaderCallBack,
+            getScreenShareVideoStreamRendererCallback
         )
     }
 }

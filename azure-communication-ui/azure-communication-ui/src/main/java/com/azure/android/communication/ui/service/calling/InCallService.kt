@@ -13,7 +13,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.presentation.MainActivity
+import com.azure.android.communication.ui.presentation.CallCompositeActivity
 
 internal class InCallService : Service() {
 
@@ -40,11 +40,12 @@ internal class InCallService : Service() {
 
     private fun startInCallNotification() {
         val pendingIntent: PendingIntent =
-            Intent(this, MainActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, 0)
+            Intent(this, CallCompositeActivity::class.java).let { notificationIntent ->
+                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             }
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
+            .setContentTitle(this.getText(R.string.azure_communication_ui_service_notification_title))
             .setContentText(this.getText(R.string.azure_communication_ui_service_notification_message))
             .setSmallIcon(R.drawable.azure_communication_ui_ic_fluent_call_16_filled)
             .setContentIntent(pendingIntent)

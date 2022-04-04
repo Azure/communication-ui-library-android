@@ -4,19 +4,13 @@
 package com.azure.android.communication.ui;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
-import com.azure.android.communication.ui.configuration.events.ErrorEvent;
-import com.azure.android.communication.ui.di.DIContainerHolderKt;
-import com.azure.android.communication.ui.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl;
-import com.azure.android.communication.ui.presentation.UIManager;
-
-import org.jetbrains.annotations.NotNull;
+import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
 
@@ -29,7 +23,8 @@ import java.util.UUID;
  *
  * &#47;&#47; Initialize the call composite builder
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .theme&#40;new ThemeConfiguration&#40;themeId&#41;&#41;;
+ *     .theme&#40;new ThemeConfiguration&#40;themeId&#41;&#41;
+ *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode, isRightToLeft&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -39,6 +34,9 @@ import java.util.UUID;
  * @see CallCompositeBuilder
  */
 public final class CallComposite {
+
+    // Each time we launch, an InstanceID will be assigned and incremented.
+    private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
 
@@ -61,14 +59,14 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param groupCallOptions  The {@link GroupCallOptions} has parameters to
-     *                          launch group call experience.
-     *
+     * @param context          The android context used to start the Composite.
+     * @param groupCallOptions The {@link GroupCallOptions} has parameters to
+     *                         launch group call experience.
      */
-    public void launch(final GroupCallOptions groupCallOptions) {
+    public void launch(final Context context, final GroupCallOptions groupCallOptions) {
         launch(
-                groupCallOptions.getContext(),
-                groupCallOptions.getCommunicationTokenCredential(),
+                context,
+                groupCallOptions.getCredential(),
                 groupCallOptions.getDisplayName(),
                 groupCallOptions.getGroupId(),
                 null,
@@ -91,13 +89,14 @@ public final class CallComposite {
      *
      * </pre>
      *
+     * @param context             The android context used to start the Composite.
      * @param teamsMeetingOptions The {@link TeamsMeetingOptions} has parameters to
      *                            launch Teams meeting experience.
      */
-    public void launch(final TeamsMeetingOptions teamsMeetingOptions) {
+    public void launch(final Context context, final TeamsMeetingOptions teamsMeetingOptions) {
         launch(
-                teamsMeetingOptions.getContext(),
-                teamsMeetingOptions.getCommunicationTokenCredential(),
+                context,
+                teamsMeetingOptions.getCredential(),
                 teamsMeetingOptions.getDisplayName(),
                 null,
                 teamsMeetingOptions.getMeetingLink(),
@@ -106,7 +105,7 @@ public final class CallComposite {
     }
 
     /**
-     * Set {@link CallingEventHandler}&lt;{@link ErrorEvent}&gt;.
+     * Set {@link CallingEventHandler}.
      *
      * <pre>
      *
@@ -123,9 +122,9 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param eventHandler The {@link CallingEventHandler}&lt;{@link ErrorEvent}&gt;
+     * @param eventHandler The {@link CallingEventHandler}.
      */
-    public void setOnErrorHandler(final CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> eventHandler) {
+    public void setOnErrorHandler(final CallingEventHandler eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 
@@ -145,26 +144,10 @@ public final class CallComposite {
                 callType
         ));
 
-        final UIManager uiManager = getUIManager(configuration, context);
-        uiManager.start();
-    }
+        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 
-    @NotNull
-    private DependencyInjectionContainer initDI(
-            final CallCompositeConfiguration configuration,
-            final Context parentContext
-    ) {
-        final DependencyInjectionContainer di = new DependencyInjectionContainerImpl(configuration, parentContext);
-        DIContainerHolderKt.setDIContainer(di);
-        return di;
-    }
-
-    @NotNull
-    private UIManager getUIManager(
-            final CallCompositeConfiguration configuration,
-            final Context context
-    ) {
-        final DependencyInjectionContainer di = initDI(configuration, context);
-        return di.provideUIManager();
+        final Intent intent = new Intent(context, CallCompositeActivity.class);
+        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
+        context.startActivity(intent);
     }
 }

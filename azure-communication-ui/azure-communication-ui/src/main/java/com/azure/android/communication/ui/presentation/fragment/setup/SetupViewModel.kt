@@ -53,6 +53,7 @@ internal class SetupViewModel(
     }
 
     fun exitComposite() {
+        dispatchAction(action = CallingAction.CallEndRequested())
         dispatchAction(action = NavigationAction.Exit())
     }
 
@@ -66,9 +67,11 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
+            state.callState,
+            audioDeviceListViewModel::displayAudioDeviceSelectionMenu
         )
         audioDeviceListViewModel.init(
-            state.localParticipantState.audioState.device,
+            state.localParticipantState.audioState,
         )
         setupGradientViewModel.init(
             state.localParticipantState.videoStreamID,
@@ -90,13 +93,14 @@ internal class SetupViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
+            state.callState,
         )
         warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(
             state.localParticipantState.videoStreamID,
         )
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState.device
+            state.localParticipantState.audioState
         )
         errorInfoViewModel.update(state.errorState)
         setupGradientViewModel.update(
@@ -107,6 +111,9 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
             state.permissionState
         )
-        joinCallButtonHolderViewModel.update(state.permissionState.audioPermissionState)
+        joinCallButtonHolderViewModel.update(
+            state.permissionState.audioPermissionState,
+            state.callState
+        )
     }
 }

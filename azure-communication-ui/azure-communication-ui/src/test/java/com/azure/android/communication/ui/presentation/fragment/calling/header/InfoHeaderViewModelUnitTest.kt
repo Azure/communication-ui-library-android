@@ -3,10 +3,13 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.header
 
+import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
-import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.redux.state.AppReduxState
+import com.azure.android.communication.ui.redux.state.CallingState
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -24,6 +27,7 @@ internal class InfoHeaderViewModelUnitTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -46,11 +50,15 @@ internal class InfoHeaderViewModelUnitTest {
                 expectedParticipantMap,
                 timestamp
             )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
 
-            val mockedParticipantListViewModel = mock<ParticipantListViewModel>()
-
-            val floatingHeaderViewModel = InfoHeaderViewModel(mockedParticipantListViewModel)
-            floatingHeaderViewModel.init(expectedParticipantMap.count())
+            val floatingHeaderViewModel = InfoHeaderViewModel(appLocalizationProvider)
+            floatingHeaderViewModel.init(appState.callState.callingStatus, expectedParticipantMap.count())
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()

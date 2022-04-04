@@ -145,18 +145,52 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                 localUserState.copy(audioState = localUserState.audioState.copy(operation = AudioOperationalStatus.PENDING))
             }
             is LocalParticipantAction.AudioStateOperationUpdated -> {
-                localUserState.copy(audioState = localUserState.audioState.copy(operation = action.audioOperationalStatus, error = null))
+                localUserState.copy(
+                    audioState = localUserState.audioState.copy(
+                        operation = action.audioOperationalStatus,
+                        error = null
+                    )
+                )
             }
             is LocalParticipantAction.MicOffFailed -> {
-                localUserState.copy(audioState = localUserState.audioState.copy(operation = AudioOperationalStatus.ON, error = action.error))
+                localUserState.copy(
+                    audioState = localUserState.audioState.copy(
+                        operation = AudioOperationalStatus.ON,
+                        error = action.error
+                    )
+                )
             }
             is LocalParticipantAction.MicOnTriggered -> {
                 localUserState.copy(audioState = localUserState.audioState.copy(operation = AudioOperationalStatus.PENDING))
             }
             is LocalParticipantAction.MicOnFailed -> {
-                localUserState.copy(audioState = localUserState.audioState.copy(operation = AudioOperationalStatus.OFF, error = action.error))
+                localUserState.copy(
+                    audioState = localUserState.audioState.copy(
+                        operation = AudioOperationalStatus.OFF,
+                        error = action.error
+                    )
+                )
+            }
+            is LocalParticipantAction.AudioDeviceBluetoothSCOAvailable -> {
+                localUserState.copy(
+                    audioState = localUserState.audioState.copy(
+                        bluetoothState = localUserState.audioState.bluetoothState.copy(
+                            available = action.available,
+                            deviceName = action.deviceName
+                        )
+
+                    )
+                )
+            }
+            is LocalParticipantAction.AudioDeviceHeadsetAvailable -> {
+                localUserState.copy(
+                    audioState = localUserState.audioState.copy(
+                        isHeadphonePlugged = action.available
+                    )
+                )
             }
             is LocalParticipantAction.AudioDeviceChangeRequested -> {
+
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
                         device = action.requestedAudioDevice,
@@ -164,6 +198,7 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     )
                 )
             }
+
             is LocalParticipantAction.AudioDeviceChangeSucceeded -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(

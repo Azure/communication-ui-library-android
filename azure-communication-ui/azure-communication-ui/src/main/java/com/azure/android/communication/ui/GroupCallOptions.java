@@ -3,66 +3,58 @@
 
 package com.azure.android.communication.ui;
 
-import android.content.Context;
 import com.azure.android.communication.common.CommunicationTokenCredential;
+
 import java.util.UUID;
 
 /**
  * Options to start group call experience using {@link CallComposite}.
  */
 public final class GroupCallOptions {
-    private final Context context;
-    private final CommunicationTokenCredential communicationTokenCredential;
+    private final CommunicationTokenCredential credential;
     private final String displayName;
     private final UUID groupId;
 
     /**
      * Create {@link GroupCallOptions}.
-     * @param context {@link Context}
-     * @param communicationTokenCredential {@link CommunicationTokenCredential}
-     * @param groupId group call identifier
+     *
+     * @param credential {@link CommunicationTokenCredential}
+     * @param groupId                      group call identifier
      */
-    public GroupCallOptions(final Context context,
-                            final CommunicationTokenCredential communicationTokenCredential,
-                            final UUID groupId) {
-        this(context, communicationTokenCredential, groupId, "");
+    public GroupCallOptions(
+            final CommunicationTokenCredential credential,
+            final UUID groupId) {
+        this(credential, groupId, "");
     }
 
     /**
      * Create {@link GroupCallOptions}.
-     * @param context {@link Context}
-     * @param communicationTokenCredential {@link CommunicationTokenCredential}
-     * @param groupId group call identifier
-     * @param displayName user display name
+     *
+     * @param credential {@link CommunicationTokenCredential}
+     * @param groupId                      group call identifier
+     * @param displayName                  user display name
      */
-    public GroupCallOptions(final Context context,
-                            final CommunicationTokenCredential communicationTokenCredential,
+    public GroupCallOptions(final CommunicationTokenCredential credential,
                             final UUID groupId,
                             final String displayName) {
-        this.context = context;
-        this.communicationTokenCredential = communicationTokenCredential;
+
+        this.credential = credential;
         this.displayName = displayName;
         this.groupId = groupId;
     }
 
     /**
-     * Get Context of the application.
-     * @return {@link Context}
-     */
-    public Context getContext() {
-        return context;
-    }
-
-    /**
      * Get {@link CommunicationTokenCredential}.
+     *
      * @return {@link String}
      */
-    public CommunicationTokenCredential getCommunicationTokenCredential() {
-        return communicationTokenCredential;
+    public CommunicationTokenCredential getCredential() {
+        return credential;
     }
 
     /**
      * Get user display name.
+     *
      * @return {@link String}
      */
     public String getDisplayName() {
@@ -71,6 +63,7 @@ public final class GroupCallOptions {
 
     /**
      * Get group call id.
+     *
      * @return {@link UUID}
      */
     public UUID getGroupId() {

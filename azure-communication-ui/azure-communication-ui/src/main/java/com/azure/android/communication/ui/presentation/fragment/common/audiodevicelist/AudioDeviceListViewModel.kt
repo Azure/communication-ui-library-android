@@ -3,47 +3,50 @@
 
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.redux.state.AudioState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class AudioDeviceListViewModel(
     private val dispatch: (Action) -> Unit,
+    private val localizationProvider: LocalizationProvider
 ) {
-    private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
-    private val displayAudioDeviceSelectionMenuStateFlow = MutableStateFlow(false)
 
-    fun init(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioDeviceSelectionStatus)
+    private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
+
+    private lateinit var audioStateMutableStateFlow: MutableStateFlow<AudioState>
+    val displayAudioDeviceSelectionMenuStateFlow = displayAudioDeviceSelectionMenuMutableStateFlow as StateFlow<Boolean>
+    val audioStateFlow get() = audioStateMutableStateFlow as StateFlow<AudioState>
+
+    fun init(audioState: AudioState) {
+        audioStateMutableStateFlow = MutableStateFlow(audioState)
     }
 
-    fun update(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        audioDeviceSelectionStatusStateFlow.value = audioDeviceSelectionStatus
-    }
-
-    fun getAudioDeviceSelectionStatusStateFlow(): StateFlow<AudioDeviceSelectionStatus> {
-        return audioDeviceSelectionStatusStateFlow
-    }
-
-    fun getDisplayAudioDeviceSelectionMenuStateFlow(): StateFlow<Boolean> {
-        return displayAudioDeviceSelectionMenuStateFlow
+    fun update(audioState: AudioState) {
+        audioStateMutableStateFlow.value = audioState
     }
 
     fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
-        dispatchAction(action = LocalParticipantAction.AudioDeviceChangeRequested(audioDeviceSelectionStatus))
+        dispatch(
+            LocalParticipantAction.AudioDeviceChangeRequested(
+                audioDeviceSelectionStatus
+            )
+        )
     }
 
     fun displayAudioDeviceSelectionMenu() {
-        displayAudioDeviceSelectionMenuStateFlow.value = true
+        displayAudioDeviceSelectionMenuMutableStateFlow.value = true
     }
 
     fun closeAudioDeviceSelectionMenu() {
-        displayAudioDeviceSelectionMenuStateFlow.value = false
+        displayAudioDeviceSelectionMenuMutableStateFlow.value = false
     }
 
-    private fun dispatchAction(action: Action) {
-        dispatch(action)
+    fun getLocalizationProvider(): LocalizationProvider {
+        return localizationProvider
     }
 }

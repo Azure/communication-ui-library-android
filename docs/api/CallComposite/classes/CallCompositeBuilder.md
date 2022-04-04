@@ -23,6 +23,17 @@ public CallCompositeBuilder theme(ThemeConfiguration theme)
 #### Parameters
 * `ThemeConfiguration` - The `ThemeConfiguration` used by `CallComposite`.
 
+### `customizeLocalization`
+
+Set optional lcoalziation for call-composite to use by `CallComposite`.
+
+```java
+public CallCompositeBuilder localization(final LocalizationConfiguration localization)
+```
+
+#### Parameters
+* `LocalizationConfiguration` - The `LocalizationConfiguration` used by `CallComposite`.
+
 ### `build`
 
 Build instance of `CallComposite`.

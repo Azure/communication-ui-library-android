@@ -6,20 +6,21 @@ package com.azure.android.communication.ui.service.calling
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.helper.TestContextProvider
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
-import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.redux.state.AudioState
 import com.azure.android.communication.ui.redux.state.CallingStatus
-import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
+import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
+import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.service.calling.sdk.CallingStateWrapper
 import java9.util.concurrent.CompletableFuture
@@ -96,6 +97,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.CONNECTED, 0)
@@ -233,6 +235,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             remoteParticipantsInfoModelSharedFlow.emit(remoteParticipantsInfoModelMap)
@@ -379,6 +382,7 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
 
@@ -386,9 +390,70 @@ internal class CallingServiceUnitTests {
 
             // assert
             Assert.assertEquals(
-                CallCompositeErrorCode.TOKEN_EXPIRED,
-                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
+                CommunicationUIErrorCode.TOKEN_EXPIRED,
+                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
+
+            job.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingService_getCallStateErrorFlow_when_nonErrorErrorCode_doesNotRaiseError() =
+        mainCoroutineRule.testDispatcher.runBlockingTest {
+
+            // arrange
+            val remoteParticipantsInfoModelSharedFlow =
+                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
+
+            val callingStateWrapperStateFlow =
+                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+
+            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
+                .thenReturn(remoteParticipantsInfoModelSharedFlow)
+            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
+                .thenReturn(callingStateWrapperStateFlow)
+            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
+                .thenReturn(isMutedSharedFlow)
+            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
+                .thenReturn(isRecordingSharedFlow)
+            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
+                .thenReturn(isTranscribingSharedFlow)
+            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
+                any(), any()
+            )
+
+            val emitResultFromFlow = mutableListOf<CallInfoModel>()
+
+            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+
+            val job = launch {
+                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+            }
+
+            // act
+            callingService.startCall(
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL,
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
+            )
+
+            callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.NONE, 487))
+            callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.DISCONNECTED, 603))
+
+            // assert
+            Assert.assertNull(emitResultFromFlow[1].callStateError)
+            Assert.assertNull(emitResultFromFlow[2].callStateError)
 
             job.cancel()
         }
@@ -440,14 +505,15 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.DISCONNECTED, 1)
 
             // assert
             Assert.assertEquals(
-                CallCompositeErrorCode.CALL_END,
-                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
+                CommunicationUIErrorCode.CALL_END,
+                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
 
             job.cancel()
@@ -500,14 +566,15 @@ internal class CallingServiceUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 )
             )
             callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.NONE, 1))
 
             // assert
             Assert.assertEquals(
-                CallCompositeErrorCode.CALL_JOIN,
-                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
+                CommunicationUIErrorCode.CALL_JOIN,
+                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
 
             job.cancel()

@@ -11,10 +11,12 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.PowerManager
 import android.view.View
+import android.view.accessibility.AccessibilityManager
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.presentation.VideoViewManager
+import com.azure.android.communication.ui.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayView
@@ -25,13 +27,15 @@ import com.azure.android.communication.ui.presentation.fragment.calling.particip
 import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
-import kotlinx.coroutines.launch
 
-internal class CallingFragment(
-    private val viewModel: CallingViewModel,
-    private val videoViewManager: VideoViewManager,
-) :
+internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_call_fragment), BackNavigation, SensorEventListener {
+
+    // Get the DI Container, which gives us what we need for this fragment (dependencies)
+    private val holder: DependencyInjectionContainerHolder by activityViewModels()
+
+    private val videoViewManager get() = holder.container.videoViewManager
+    private val viewModel get() = holder.callingViewModel
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
@@ -45,6 +49,7 @@ internal class CallingFragment(
     private lateinit var lobbyOverlay: LobbyOverlayView
     private lateinit var sensorManager: SensorManager
     private lateinit var powerManager: PowerManager
+    private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,13 +57,17 @@ internal class CallingFragment(
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
         confirmLeaveOverlayView = view.findViewById(R.id.azure_communication_ui_call_leave_overlay)
-        confirmLeaveOverlayView.start(viewModel.getCallHangupConfirmViewModel())
+        confirmLeaveOverlayView.start(
+            viewLifecycleOwner,
+            viewModel.getConfirmLeaveOverlayViewModel()
+        )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
         controlBarView.start(
             viewLifecycleOwner,
             viewModel.getControlBarViewModel(),
-            this::requestCallEnd
+            this::requestCallEnd,
+            this::openAudioDeviceSelectionMenu
         )
 
         participantGridView =
@@ -67,6 +76,7 @@ internal class CallingFragment(
             viewModel.getParticipantGridViewModel(),
             videoViewManager,
             viewLifecycleOwner,
+            this::switchFloatingHeader
         )
 
         lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
@@ -79,8 +89,14 @@ internal class CallingFragment(
             videoViewManager,
         )
 
+        accessibilityManager = context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         infoHeaderView = view.findViewById(R.id.azure_communication_ui_call_floating_header)
-        infoHeaderView.start(viewLifecycleOwner, viewModel.getFloatingHeaderViewModel())
+        infoHeaderView.start(
+            viewLifecycleOwner,
+            viewModel.getFloatingHeaderViewModel(),
+            this::displayParticipantList,
+            accessibilityManager.isEnabled
+        )
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
@@ -98,23 +114,21 @@ internal class CallingFragment(
             viewLifecycleOwner,
         )
 
-        participantGridView.setOnClickListener {
-            viewModel.switchFloatingHeader()
-        }
-
-        if (savedInstanceState == null) {
-            viewLifecycleOwner.lifecycleScope.launch { viewModel.startCall() }
-        }
-
-        sensorManager = context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        powerManager = context?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, javaClass.name)
+        sensorManager =
+            context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        powerManager =
+            context?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock =
+            powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, javaClass.name)
         wakeLock.acquire()
         sensorManager.registerListener(
             this,
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
             SensorManager.SENSOR_DELAY_NORMAL
         )
+        participantGridView.setOnClickListener {
+            switchFloatingHeader()
+        }
     }
 
     override fun onDestroy() {
@@ -122,6 +136,7 @@ internal class CallingFragment(
         if (activity?.isChangingConfigurations == false) {
             participantGridView.stop()
             confirmLeaveOverlayView.stop()
+            viewModel.getBannerViewModel().dismissBanner()
         }
         localParticipantView.stop()
         participantListView.stop()
@@ -155,6 +170,18 @@ internal class CallingFragment(
     }
 
     private fun requestCallEnd() {
-        confirmLeaveOverlayView.showHangupOverlay()
+        viewModel.requestCallEnd()
+    }
+
+    private fun openAudioDeviceSelectionMenu() {
+        viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenu()
+    }
+
+    private fun displayParticipantList() {
+        viewModel.getParticipantListViewModel().displayParticipantList()
+    }
+
+    private fun switchFloatingHeader() {
+        viewModel.switchFloatingHeader()
     }
 }

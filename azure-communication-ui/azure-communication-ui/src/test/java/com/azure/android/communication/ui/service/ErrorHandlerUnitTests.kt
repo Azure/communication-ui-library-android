@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.service
 
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallCompositeError
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.error.ErrorHandler
@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.BluetoothState
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
@@ -93,11 +94,12 @@ internal class ErrorHandlerUnitTests {
                 CameraState(
                     CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.REMOTE,
-                    CallCompositeError(CallCompositeErrorCode.TURN_CAMERA_OFF, error),
+                    CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF, error),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
                 displayName = "name"
@@ -127,7 +129,7 @@ internal class ErrorHandlerUnitTests {
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
                 argThat { exception ->
-                    exception.cause == error && exception.errorCode == CallCompositeErrorCode.TURN_CAMERA_OFF
+                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_CAMERA_OFF
                 }
             )
 
@@ -149,7 +151,8 @@ internal class ErrorHandlerUnitTests {
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    CallCompositeError(CallCompositeErrorCode.TURN_MIC_OFF, error),
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                    CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF, error),
                 ),
                 videoStreamID = null,
                 displayName = "name"
@@ -180,7 +183,7 @@ internal class ErrorHandlerUnitTests {
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
                 argThat { exception ->
-                    exception.cause == error && exception.errorCode == CallCompositeErrorCode.TURN_MIC_OFF
+                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_MIC_OFF
                 }
             )
 
@@ -192,7 +195,8 @@ internal class ErrorHandlerUnitTests {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val appState = AppReduxState("")
-            appState.errorState = ErrorState(null, CallStateError(CallCompositeErrorCode.TOKEN_EXPIRED))
+            appState.errorState =
+                ErrorState(null, CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED))
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -220,7 +224,7 @@ internal class ErrorHandlerUnitTests {
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
                 argThat { exception ->
-                    exception.errorCode == CallCompositeErrorCode.TOKEN_EXPIRED
+                    exception.errorCode == CommunicationUIErrorCode.TOKEN_EXPIRED
                 }
             )
 
