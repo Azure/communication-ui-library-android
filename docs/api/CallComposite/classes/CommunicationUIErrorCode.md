@@ -1,6 +1,6 @@
 **CLASS**
 
-# `CommunicationUIErrorEvent`
+# `CommunicationUIErrorCode`
 
 ```java
 public class CommunicationUIErrorCode
