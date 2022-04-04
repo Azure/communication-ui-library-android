@@ -104,6 +104,7 @@ internal class AudioDeviceListView(
                         }
 
                     ),
+                    null,
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
@@ -122,6 +123,7 @@ internal class AudioDeviceListView(
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
                     ),
                     getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_speaker),
+                    null,
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
@@ -146,6 +148,7 @@ internal class AudioDeviceListView(
                             R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
                         ),
                         viewModel.audioStateFlow.value.bluetoothState.deviceName,
+                        null,
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
