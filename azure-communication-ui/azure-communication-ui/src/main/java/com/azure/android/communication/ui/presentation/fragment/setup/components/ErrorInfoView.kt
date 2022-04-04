@@ -46,10 +46,10 @@ internal class ErrorInfoView(private val rootView: View) {
     }
 
     private fun displaySnackBar(
-        it: CallStateError,
+        error: CallStateError,
         appLocalizationProvider: LocalizationProvider
     ) {
-        val errorMessage = getErrorMessage(it, appLocalizationProvider)
+        val errorMessage = getErrorMessage(error, appLocalizationProvider)
 
         if (errorMessage.isBlank()) return
         snackBarTextView.text = errorMessage
@@ -69,15 +69,16 @@ internal class ErrorInfoView(private val rootView: View) {
         it: CallStateError,
         localizationProvider: LocalizationProvider
     ): String {
+        val context = rootView.context!!
         return when (it.callCompositeErrorCode) {
             CallCompositeErrorCode.CALL_END -> localizationProvider.getLocalizedString(
-                rootView.context!!.resources.getResourceEntryName(R.string.azure_communication_ui_cal_state_error_call_end),
+                context.resources.getResourceEntryName(R.string.azure_communication_ui_cal_state_error_call_end),
                 rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_end)
                     .toString()
             )
             CallCompositeErrorCode.CALL_JOIN -> localizationProvider.getLocalizedString(
-                rootView.context!!.resources.getResourceEntryName(R.string.azure_communication_ui_snack_bar_text_error_call_join),
-                rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
+                context.resources.getResourceEntryName(R.string.azure_communication_ui_snack_bar_text_error_call_join),
+                context.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
                     .toString()
             )
             else -> ""
