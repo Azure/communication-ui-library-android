@@ -20,6 +20,8 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
     ) {
         name = viewModel.getDisplayName()
         avatarImageBitmap = viewModel.getImage()
+        adjustViewBounds = true
+        //scaleType = ScaleType.FIT_XY
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getShouldDisplayAvatarViewStateFlow().collect {
                 visibility = if (it) VISIBLE else GONE

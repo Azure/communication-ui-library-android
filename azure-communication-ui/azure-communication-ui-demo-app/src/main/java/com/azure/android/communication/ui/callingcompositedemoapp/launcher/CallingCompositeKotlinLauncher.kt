@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
 import android.graphics.BitmapFactory
+import androidx.core.graphics.BitmapCompat
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.CallComposite
@@ -60,11 +61,20 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
             Thread {
                 //Run the long-time operation.
-                val url =
-                    URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
+                //val url = URL("https://i.postimg.cc/nrm9SQZQ/20220304-132347.jpg")
+                val url = URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
+                //val url = URL("https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg")
+
                 val imageBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+
+                val width = imageBitmap.width
+                val height = imageBitmap.height
+
                 val personaData = PersonaData(imageBitmap)
                 val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+
+                val bitmapByteCount= BitmapCompat.getAllocationByteCount(imageBitmap)
+
 
                 runOnUiThread {
                     callComposite.launch(
