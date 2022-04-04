@@ -7,6 +7,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.microsoft.fluentui.persona.AvatarView
@@ -26,15 +29,26 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
     }
 
     fun setCellData(bottomCellItem: BottomCellItem) {
+        title.text = bottomCellItem.title
         if (bottomCellItem.icon == null) {
+            ViewCompat.setAccessibilityDelegate(
+                itemView,
+                object : AccessibilityDelegateCompat() {
+                    override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                        super.onInitializeAccessibilityNodeInfo(host, info)
+                        info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
+                        info.isClickable = false
+                    }
+                }
+            )
             imageView.visibility = View.GONE
             avatarView.visibility = View.VISIBLE
             avatarView.name = bottomCellItem.title ?: ""
+            title.contentDescription = bottomCellItem.contentDescription
         } else {
             imageView.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
         }
-        title.text = bottomCellItem.title
         accessoryImage.setImageDrawable(bottomCellItem.accessoryImage)
         if (bottomCellItem.accessoryColor != null) {
             accessoryImage.setColorFilter(

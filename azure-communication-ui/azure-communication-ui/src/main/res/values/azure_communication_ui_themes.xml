@@ -23,5 +23,7 @@
         <item name="azure_communication_ui_communication_tint_30">
             @color/fluentui_communication_tint_30
         </item>
+
+        <item name="titleTextColor">@color/azure_communication_ui_color_action_bar_text</item>
     </style>
 </resources>
