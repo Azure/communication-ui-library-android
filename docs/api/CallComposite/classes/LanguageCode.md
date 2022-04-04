@@ -30,4 +30,11 @@ public static final LanguageCode DUTCH;
 public static final LanguageCode TURKISH;
 public static final LanguageCode BRAZILIAN_PORTUGUESE;
 ```
-       
+
+### `values`
+
+Gets the collection of supported languages.
+
+```java
+public Collection<LanguageCode> values()
+```
