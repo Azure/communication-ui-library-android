@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -50,10 +51,16 @@ internal class ErrorInfoView(private val rootView: View) {
     ) {
         val errorMessage = getErrorMessage(it, appLocalizationProvider)
 
-        if (errorMessage.isNotEmpty()) {
-            snackBarTextView.text = errorMessage
-            if (!snackBar.isShown) {
-                snackBar.show()
+        if (errorMessage.isBlank()) return
+        snackBarTextView.text = errorMessage
+        snackBar.run {
+            if (isShown) {
+                dismiss()
+            }
+            show()
+            view.post {
+                view.requestFocus()
+                view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
         }
     }
