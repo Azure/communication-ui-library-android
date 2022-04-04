@@ -73,7 +73,7 @@ internal class ErrorInfoView(private val rootView: View) {
         return when (it.callCompositeErrorCode) {
             CallCompositeErrorCode.CALL_END -> localizationProvider.getLocalizedString(
                 context.resources.getResourceEntryName(R.string.azure_communication_ui_cal_state_error_call_end),
-                rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_end)
+                context.getText(R.string.azure_communication_ui_cal_state_error_call_end)
                     .toString()
             )
             CallCompositeErrorCode.CALL_JOIN -> localizationProvider.getLocalizedString(
