@@ -3,7 +3,7 @@
 # `CommunicationUIErrorEvent`
 
 ```java
-public class CommunicationUIErrorEvent<T>
+public class CommunicationUIErrorEvent
 ```
 
 ## Description
@@ -20,11 +20,11 @@ Returns the cause of this `throwable` or `null` if the cause is nonexistent or u
 public Throwable getCause()
 ```
 
-### `getErrorType`
+### `getErrorCode`
 
 Returns the error code.
 
 ```java
-public ErrorType<T> getErrorType()
+public CommunicationUIErrorCode getErrorCode()
 ```
        
