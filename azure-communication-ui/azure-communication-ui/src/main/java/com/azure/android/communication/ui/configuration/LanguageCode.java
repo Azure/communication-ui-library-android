@@ -38,7 +38,7 @@ public final class LanguageCode extends ExpandableStringEnum<LanguageCode> {
     }
 
     /**
-     * Gets the collection of all known enum values
+     * Gets the collection of supported languages
      *
      * @return collection of all supported locale values
      */
