@@ -51,8 +51,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -70,6 +71,7 @@ android {
         pickFirst 'META-INF/AL2.0'
         pickFirst 'META-INF/LGPL2.1'
         pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
+        doNotStrip '**/*.so'
     }
 
     testOptions {
@@ -86,6 +88,13 @@ android {
             }
         }
     }
+
+    flavorDimensions "distribute"
+    productFlavors {
+        appCenter {
+            dimension "distribute"
+        }
+    }
 }
 
 repositories {
@@ -95,17 +104,19 @@ repositories {
 }
 
 dependencies {
+    def appCenterSdkVersion = '4.1.0'
     implementation project(path: ':azure-communication-ui')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation 'androidx.activity:activity-ktx:1.3.1'
+    implementation "androidx.activity:activity-ktx:$activity_ktx_version"
     implementation 'com.google.android.material:material:1.4.0'
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation(name: "magnifier-0.0.17", ext: 'aar')
-    implementation "com.microsoft.appcenter:appcenter-analytics:4.1.0"
-    implementation "com.microsoft.appcenter:appcenter-crashes:4.1.0"
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    appCenterImplementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
