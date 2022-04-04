@@ -19,6 +19,8 @@ import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
+import com.microsoft.appcenter.distribute.Distribute
+import com.microsoft.appcenter.distribute.UpdateTrack
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -30,12 +32,15 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
+            Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
                 application,
                 BuildConfig.APP_SECRET,
                 Analytics::class.java,
-                Crashes::class.java
+                    Crashes::class.java,
+                    Distribute::class.java
             )
+            Distribute.checkForUpdate()
         }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)
