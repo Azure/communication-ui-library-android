@@ -145,7 +145,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     private fun configureLocalization() {
         configuration.localizationConfig?.let { localeConfig ->
-            localeConfig.layoutDirection().let {
+            localeConfig.layoutDirection.let {
                 window?.decorView?.layoutDirection = it
             }
             val config: Configuration = resources.configuration
