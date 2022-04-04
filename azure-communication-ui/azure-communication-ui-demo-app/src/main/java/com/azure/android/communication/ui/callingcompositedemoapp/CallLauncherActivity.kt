@@ -37,8 +37,8 @@ class CallLauncherActivity : AppCompatActivity() {
                 application,
                 BuildConfig.APP_SECRET,
                 Analytics::class.java,
-                    Crashes::class.java,
-                    Distribute::class.java
+                Crashes::class.java,
+                Distribute::class.java
             )
             Distribute.checkForUpdate()
         }
