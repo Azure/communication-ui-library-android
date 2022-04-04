@@ -4,15 +4,35 @@
 package com.azure.android.communication.ui.persona;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
 public class PersonaData {
     private Bitmap image;
     private String name;
+    private Boolean adjustViewBounds = true;
+    private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
 
     public PersonaData(final Bitmap image) {
         this.image = image;
+    }
+
+    public PersonaData(final Bitmap image, final ImageView.ScaleType scaleType) {
+        this.image = image;
+        this.scaleType = scaleType;
+    }
+
+    public PersonaData(final Bitmap image, final Boolean adjustViewBounds) {
+        this.image = image;
+        this.adjustViewBounds = adjustViewBounds;
+    }
+
+    public PersonaData(final Bitmap image, final ImageView.ScaleType scaleType,
+                       final Boolean adjustViewBounds) {
+        this.image = image;
+        this.scaleType = scaleType;
+        this.adjustViewBounds = adjustViewBounds;
     }
 
     public PersonaData(final String name) {
@@ -22,6 +42,37 @@ public class PersonaData {
     public PersonaData(final String name, final Bitmap image) {
         this.image = image;
         this.name = name;
+    }
+
+    public PersonaData(final String name, final Bitmap image,
+                       final ImageView.ScaleType scaleType,
+                       final Boolean adjustViewBounds) {
+        this.name = name;
+        this.image = image;
+        this.scaleType = scaleType;
+        this.adjustViewBounds = adjustViewBounds;
+    }
+
+    public PersonaData(final String name, final Bitmap image,
+                       final ImageView.ScaleType scaleType) {
+        this.name = name;
+        this.image = image;
+        this.scaleType = scaleType;
+    }
+
+    public PersonaData(final String name, final Bitmap image,
+                       final Boolean adjustViewBounds) {
+        this.name = name;
+        this.image = image;
+        this.adjustViewBounds = adjustViewBounds;
+    }
+
+    public Boolean getAdjustViewBounds() {
+        return adjustViewBounds;
+    }
+
+    public ImageView.ScaleType getScaleType() {
+        return scaleType;
     }
 
     @Nullable

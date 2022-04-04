@@ -15,7 +15,7 @@ internal class SetupParticipantAvatarViewModel(private val localParticipantConfi
 
     fun getDisplayName() = displayName
 
-    fun getImage() = localParticipantConfig?.personaData?.image
+    fun getPersonaData() = localParticipantConfig?.personaData
 
     fun getShouldDisplayAvatarViewStateFlow(): StateFlow<Boolean> {
         return shouldDisplayAvatarViewStateFlow
