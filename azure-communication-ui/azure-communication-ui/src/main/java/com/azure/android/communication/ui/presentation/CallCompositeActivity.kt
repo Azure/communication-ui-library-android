@@ -239,7 +239,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // this is because it reads "toggle camera" after the transaction, which isn't really
         // useful to the user. After the transaction we re-enable it so that the screen reader
         // works as normal
-        val containerView =findViewById<View>(R.id.azure_communication_ui_fragment_container_view)
+        val containerView = findViewById<View>(R.id.azure_communication_ui_fragment_container_view)
         val oldAccessibilityValue = containerView.importantForAccessibility
         containerView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         transaction.replace(R.id.azure_communication_ui_fragment_container_view, fragment)
