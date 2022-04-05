@@ -18,7 +18,7 @@ This is the main class representing the entry point for the Call Composite.
 Start call composite experience with joining a group call.
 
 ```java
-public void launch(GroupCallOptions groupCallOptions) 
+public void launch(Context context, GroupCallOptions groupCallOptions) 
 ```
 
 #### Parameters
@@ -27,7 +27,7 @@ public void launch(GroupCallOptions groupCallOptions)
 Start call composite experience with joining a Teams meeting.
 
 ```java
-public void launch(TeamsMeetingOptions teamsMeetingOptions)
+public void launch(Context context, TeamsMeetingOptions teamsMeetingOptions)
 ```
 
 #### Parameters
@@ -39,9 +39,9 @@ public void launch(TeamsMeetingOptions teamsMeetingOptions)
 Set a callback eventHandler to receive information about occurred errors.
 
 ```java
-public void setOnErrorHandler(CallingEventHandler<<ErrorEvent<CallCompositeErrorCode>> eventHandler) 
+public void setOnErrorHandler(CallingEventHandler eventHandler) 
 ```
 
 #### Parameters
-* `eventHandler` - The instance of CallingEventHandler<<ErrorEvent<CallCompositeErrorCode>> that will receive error information.  
+* `eventHandler` - The instance of CallingEventHandler that will receive error information.  
        

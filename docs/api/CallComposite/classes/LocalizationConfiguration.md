@@ -16,55 +16,34 @@ Creates an instance of `LocalizationConfiguration` with related parameters.
 
 ```java
 public LocalizationConfiguration(
-    final String languageCode, 
-    final boolean isRightToLeft,
+    final LanguageCode languageCode
 )         
 ```
 
 ### Parameters
-* `languageCode` - String representing the locale code (ie. en, fr,  zh-Hant, zh-Hans, ...)
+* `languageCode` - LanguageCode Enum(ie. LanguageCode.ITALIAN, LanguageCode.JAPANESE, LanguageCode.CHINESE_SIMPLIFIED...)
 
 
 ```java
 public LocalizationConfiguration(
-    final String languageCode, 
-    final boolean isRightToLeft,
-)         
-```
-
-### Parameters
-* `languageCode` - String representing the locale code (ie. en, fr,  zh-Hant, zh-Hans, ...)
-* `isRightToLeft` - Boolean for mirroring layout for right-to-left. Default value is `false`.
-
-```java
-public LocalizationConfiguration(
-    final String languageCode, 
-    final boolean isRightToLeft,
-    final Map<String, String> customTranslations
+    final LanguageCode languageCode, 
+    final int layoutDirection
 ) 
 ```
 
 ### Parameters
-* `languageCode` - String representing the locale code (ie. en, fr,  zh-Hant, zh-Hans, ...)
-* `customTranslations` - A dictionary of key-value pairs to override override predefined Call Composite's localization string. The key of the string should be matched with the one in AzureCommunicationUI
-* `isRightToLeft` - Boolean for mirroring layout for right-to-left. Default value is `false`.
+* `languageCode` - LanguageCode Enum(ie. LanguageCode.ITALIAN, LanguageCode.JAPANESE, LanguageCode.CHINESE_SIMPLIFIED ...)
+* `layoutDiection` - int for layout direction. Default value is `LayoutDirection.LTR`.
+
 
 ## Methods
 
-### `getSupportedLanguages`
+### `getLayoutDirection`
 
-The languages code list supported by `CallComposite`.
-
-```java
-public List<String> getSupportedLanguages() 
-```
-
-### `isRightToLeft`
-
-The isRightToLeft boolean value to be used by `CallComposite`.
+The layoutDirection int value to be used by `CallComposite`.
 
 ```java
-public boolean isRightToLeft() 
+public boolean getLayoutDirection() 
 ```
  
 ### `getLanguageCode`
@@ -72,5 +51,5 @@ public boolean isRightToLeft()
 The language code to be used by `CallComposite`.
 
 ```java
-public String getLanguageCode() 
+public LanguageCode getLanguageCode() 
 ```

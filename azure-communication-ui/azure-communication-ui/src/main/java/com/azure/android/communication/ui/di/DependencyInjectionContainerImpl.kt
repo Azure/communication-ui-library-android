@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.di
 
 import android.content.Context
-import android.media.AudioManager
 import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
@@ -80,7 +79,6 @@ internal class DependencyInjectionContainerImpl(
         AudioSessionManager(
             appStore,
             applicationContext,
-            applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         )
     }
 

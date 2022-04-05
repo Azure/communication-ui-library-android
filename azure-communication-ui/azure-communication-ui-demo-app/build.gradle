@@ -88,6 +88,13 @@ android {
             }
         }
     }
+
+    flavorDimensions "distribute"
+    productFlavors {
+        appCenter {
+            dimension "distribute"
+        }
+    }
 }
 
 repositories {
@@ -97,6 +104,7 @@ repositories {
 }
 
 dependencies {
+    def appCenterSdkVersion = '4.1.0'
     implementation project(path: ':azure-communication-ui')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
@@ -106,8 +114,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation(name: "magnifier-0.0.17", ext: 'aar')
-    implementation "com.microsoft.appcenter:appcenter-analytics:4.1.0"
-    implementation "com.microsoft.appcenter:appcenter-crashes:4.1.0"
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    appCenterImplementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')

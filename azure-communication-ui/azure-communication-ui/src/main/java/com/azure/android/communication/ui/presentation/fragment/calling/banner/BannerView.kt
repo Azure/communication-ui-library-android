@@ -25,7 +25,6 @@ internal class BannerView : ConstraintLayout {
     private lateinit var bannerView: View
     private lateinit var bannerText: TextView
     private lateinit var bannerCloseButton: ImageButton
-
     private lateinit var viewModel: BannerViewModel
 
     fun start(
@@ -65,7 +64,16 @@ internal class BannerView : ConstraintLayout {
 
     private fun updateNoticeBox(bannerInfoType: BannerInfoType) {
         if (bannerInfoType != BannerInfoType.BLANK) {
+            viewModel.setDisplayedBannerType(bannerInfoType)
             bannerText.text = getBannerInfo(bannerInfoType)
+            bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
+            announceForAccessibility(bannerText.text)
+        }
+        // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
+        // and screen is rotated, blank banner is displayed.
+        // We can not remove reset state in view model on stop as that cause incorrect message order
+        else if (bannerText.text.isNullOrBlank() && viewModel.getDisplayedBannerType() != BannerInfoType.BLANK) {
+            bannerText.text = getBannerInfo(viewModel.getDisplayedBannerType())
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
             announceForAccessibility(bannerText.text)
         }
@@ -81,13 +89,13 @@ internal class BannerView : ConstraintLayout {
                 BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING,
                 BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING,
                 -> {
-                    getLocalizedString(R.string.azure_communication_ui_calling_view_link_privacy_policy_url)
+                    context.getString(R.string.azure_communication_ui_calling_view_link_privacy_policy_url)
                 }
                 BannerInfoType.TRANSCRIPTION_STOPPED,
                 BannerInfoType.RECORDING_STOPPED,
                 BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED,
                 -> {
-                    getLocalizedString(R.string.azure_communication_ui_calling_view_link_learn_more_url)
+                    context.getString(R.string.azure_communication_ui_calling_view_link_learn_more_url)
                 }
                 else -> {
                     ""
@@ -109,21 +117,21 @@ internal class BannerView : ConstraintLayout {
     private fun getBannerInfo(bannerInfoType: BannerInfoType): CharSequence {
         return when (bannerInfoType) {
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_recording_and_transcribing_started)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_recording_and_transcribing_started)
             BannerInfoType.RECORDING_STARTED ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_recording_started)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_recording_started)
             BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_transcription_stopped_still_recording)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_transcription_stopped_still_recording)
             BannerInfoType.TRANSCRIPTION_STARTED ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_transcription_started)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_transcription_started)
             BannerInfoType.TRANSCRIPTION_STOPPED ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_transcription_stopped)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_transcription_stopped)
             BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing)
             BannerInfoType.RECORDING_STOPPED ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_recording_stopped)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_recording_stopped)
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED ->
-                getLocalizedString(R.string.azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped)
+                context.getText(R.string.azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped)
             else -> ""
         }
     }
@@ -138,9 +146,5 @@ internal class BannerView : ConstraintLayout {
         bannerCloseButton.setOnClickListener {
             viewModel.dismissBanner()
         }
-    }
-
-    private fun getLocalizedString(stringId: Int): String {
-        return viewModel.getLocalizationProvider().getLocalizedString(context, stringId)
     }
 }

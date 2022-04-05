@@ -8,9 +8,9 @@
     <string name="azure_communication_ui_audio_device_drawer_speaker">Speaker</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_audio_device_drawer_headphone">Headset</string>
-    <string name="azure_communication_ui_switch_camera_button_front" translatable="false">Switch to Front Camera</string>
-    <string name="azure_communication_ui_switch_camera_button_back" translatable="false">Switch to Back Camera</string>
-    <string name="azure_communication_ui_setup_audio_device_select_content_description" translatable="false">Select Audio Device %1$s</string>
+    <string name="azure_communication_ui_switch_camera_button_front">Switch to Front Camera</string>
+    <string name="azure_communication_ui_switch_camera_button_back">Switch to Back Camera</string>
+    <string name="azure_communication_ui_setup_audio_device_select_content_description">Select Audio Device %1$s</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Joining call…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">Video off</string>
@@ -41,6 +41,7 @@
     <string name="azure_communication_ui_calling_view_overlay_leave_call">Leave call</string>
     <string name="azure_communication_ui_calling_view_overlay_cancel">Cancel</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list" translatable="false">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Muted</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Hang Up</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Toggle Video</string>
