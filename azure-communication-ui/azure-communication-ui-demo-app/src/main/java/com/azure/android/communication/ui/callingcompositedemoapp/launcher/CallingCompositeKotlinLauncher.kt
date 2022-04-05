@@ -13,6 +13,12 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.isRTL
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.languageCode
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
+import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
 import java.util.UUID
 import java.util.concurrent.Callable
@@ -27,12 +33,30 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         meetingLink: String?,
         showAlert: ((String) -> Unit)?,
     ) {
+        initialize(callLauncherActivity.applicationContext)
+        val selectedLanguage = language()
+        val selectedLanguageCode = selectedLanguage?.let { it ->
+            languageCode(it)?.let { selectedLanguageCode(it) }
+        }
+
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
+                    .localization(
+                        LocalizationConfiguration(
+                            selectedLanguageCode,
+                            isRTL()
+                        )
+                    )
                     .build()
             else
-                CallCompositeBuilder().build()
+                CallCompositeBuilder().localization(
+                    LocalizationConfiguration(
+                        selectedLanguageCode,
+                        isRTL()
+                    )
+                )
+                    .build()
 
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 

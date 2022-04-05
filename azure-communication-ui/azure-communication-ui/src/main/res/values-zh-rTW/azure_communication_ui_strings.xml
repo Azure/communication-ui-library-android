@@ -7,8 +7,10 @@
     <string name="azure_communication_ui_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_audio_device_drawer_speaker">喇叭</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">藍牙</string>
-    <string name="azure_communication_ui_audio_device_drawer_headphone">Headset</string>
-
+    <string name="azure_communication_ui_audio_device_drawer_headphone">耳機</string>
+    <string name="azure_communication_ui_switch_camera_button_front">切換到前置相機</string>
+    <string name="azure_communication_ui_switch_camera_button_back">切換到後置相機</string>
+    <string name="azure_communication_ui_setup_audio_device_select_content_description">選取音訊裝置 %1$s</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">正在加入通話…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">視訊關閉</string>
@@ -24,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">已選取</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">設定漸層</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">[切換相機] 按鈕</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">設定</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">等待主持人中</string>

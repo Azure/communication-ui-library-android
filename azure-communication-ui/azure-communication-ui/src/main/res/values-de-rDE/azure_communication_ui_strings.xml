@@ -8,7 +8,9 @@
     <string name="azure_communication_ui_audio_device_drawer_speaker">Lautsprecher</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_audio_device_drawer_headphone">Headset</string>
-
+    <string name="azure_communication_ui_switch_camera_button_front">Zur Frontkamera wechseln</string>
+    <string name="azure_communication_ui_switch_camera_button_back">Zur Rückkamera wechseln</string>
+    <string name="azure_communication_ui_setup_audio_device_select_content_description">Audiogerät auswählen %1$s</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Teilnehmen am Anruf…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">Video aus</string>
@@ -24,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Ausgewählt</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">Schaltfläche „Kamera wechseln“</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">Einrichten</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Warten auf Host</string>

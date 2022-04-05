@@ -32,7 +32,7 @@ public final class CallCompositeBuilder {
      * @param localization {@link LocalizationConfiguration}.
      * @return {@link CallCompositeBuilder}
      */
-    public CallCompositeBuilder customizeLocalization(final LocalizationConfiguration localization) {
+    public CallCompositeBuilder localization(final LocalizationConfiguration localization) {
         this.localizationConfig = localization;
         return this;
     }
