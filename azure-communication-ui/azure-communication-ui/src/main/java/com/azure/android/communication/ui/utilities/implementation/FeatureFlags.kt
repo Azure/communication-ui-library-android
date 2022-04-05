@@ -45,16 +45,23 @@ enum class FeatureFlags(
 
     // Label to display on screen
     override val labelId: Int,
+    override val fallbackBoolean: Boolean,
+    override val fallbackLabel: String,
 ) : FeatureFlag {
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
     BluetoothAudio(
         R.bool.azure_communication_ui_feature_flag_bluetooth_audio,
-        R.string.azure_communication_ui_feature_flag_bluetooth_audio_label
+        R.string.azure_communication_ui_feature_flag_bluetooth_audio_label,
+        true,
+        "Bluetooth Audio"
+
     ),
     ScreenShareZoom(
         R.bool.azure_communication_ui_feature_screen_share_zoom,
         R.string.azure_communication_ui_feature_screen_share_zoom_label,
+        true,
+        "Screen Share Zoom"
     );
     // ---------------------------- End Global Features ---------------------------------------------
 
@@ -104,8 +111,11 @@ enum class FeatureFlags(
 data class FeatureFlagEntry(
     override val defaultBooleanId: Int,
     override val labelId: Int,
+    override val fallbackBoolean: Boolean,
+    override val fallbackLabel: String,
     private val start: (application: Application) -> Unit,
     private val end: (application: Application) -> Unit,
+
 ) : FeatureFlag {
 
     override val onStart: (application: Application) -> Unit
@@ -127,6 +137,9 @@ interface FeatureFlag {
     val onStart: (application: Application) -> Unit
     val onEnd: (application: Application) -> Unit
 
+    val fallbackBoolean: Boolean
+    val fallbackLabel: String
+
     val key: String
         get() = "$defaultBooleanId"
 
@@ -135,32 +148,47 @@ interface FeatureFlag {
     // 2) fallback to resource with defaultBooleanId
     var active: Boolean
         get() {
-            // If not added to the system, return false
-            if (!FeatureFlags.features.contains(this)) {
-                return false
-            }
+            try {
+                // If not added to the system, return false
+                if (!FeatureFlags.features.contains(this)) {
+                    return false
+                }
 
-            return FeatureFlags.sharedPrefs.getBoolean(
-                key,
-                FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId)
-            )
+                return FeatureFlags.sharedPrefs.getBoolean(
+                    key,
+                    FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId)
+                )
+            } catch (exception: Exception) {
+                return fallbackBoolean
+            }
         }
         set(value) {
-            val wasActive = active
-            FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
-            if (value != wasActive) {
-                // Toggled
-                if (value) {
-                    onStart(FeatureFlags.applicationContext)
-                } else {
-                    onEnd(FeatureFlags.applicationContext)
+            try {
+                val wasActive = active
+                FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
+                if (value != wasActive) {
+                    // Toggled
+                    if (value) {
+                        onStart(FeatureFlags.applicationContext)
+                    } else {
+                        onEnd(FeatureFlags.applicationContext)
+                    }
                 }
+            } catch (exception: Exception) {
+                // Do nothing
+                // Without SharedPrefs we can not toggle
             }
         }
 
     // Helper to get the String value of the label
     val label: String
-        get() = FeatureFlags.applicationContext.getString(labelId)
+        get() {
+            return try {
+                FeatureFlags.applicationContext.getString(labelId)
+            } catch (exception: Exception) {
+                fallbackLabel
+            }
+        }
 
     // Toggle a feature flag
     fun toggle() {

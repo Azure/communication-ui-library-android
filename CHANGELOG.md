@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.0-beta.3 (2022-04-04)
+
+### Bug Fixes
+- Fixed crash when internal feature flag API was not initialized [#175](https://github.com/Azure/communication-ui-library-android/pull/175)
+
 ## 1.0.0-beta.2 (2022-04-04)
 
 ### New Features
