@@ -10,8 +10,6 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode;
-import com.azure.android.communication.ui.configuration.events.ErrorEvent;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -68,7 +66,7 @@ public final class CallComposite {
     public void launch(final Context context, final GroupCallOptions groupCallOptions) {
         launch(
                 context,
-                groupCallOptions.getCommunicationTokenCredential(),
+                groupCallOptions.getCredential(),
                 groupCallOptions.getDisplayName(),
                 groupCallOptions.getGroupId(),
                 null,
@@ -98,7 +96,7 @@ public final class CallComposite {
     public void launch(final Context context, final TeamsMeetingOptions teamsMeetingOptions) {
         launch(
                 context,
-                teamsMeetingOptions.getCommunicationTokenCredential(),
+                teamsMeetingOptions.getCredential(),
                 teamsMeetingOptions.getDisplayName(),
                 null,
                 teamsMeetingOptions.getMeetingLink(),
@@ -107,7 +105,7 @@ public final class CallComposite {
     }
 
     /**
-     * Set {@link CallingEventHandler}&lt;{@link ErrorEvent}&gt;.
+     * Set {@link CallingEventHandler}.
      *
      * <pre>
      *
@@ -124,9 +122,9 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param eventHandler The {@link CallingEventHandler}&lt;{@link ErrorEvent}&gt;
+     * @param eventHandler The {@link CallingEventHandler}.
      */
-    public void setOnErrorHandler(final CallingEventHandler<ErrorEvent<CallCompositeErrorCode>> eventHandler) {
+    public void setOnErrorHandler(final CallingEventHandler eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 

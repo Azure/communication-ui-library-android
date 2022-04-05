@@ -3,10 +3,8 @@
 
 package com.azure.android.communication.ui.configuration;
 
-import com.azure.android.communication.ui.CallComposite;
 
-import java.util.List;
-import java.util.Map;
+import com.azure.android.communication.ui.CallComposite;
 
 /**
  * Localization configuration to provide for CallComposite.
@@ -15,10 +13,10 @@ import java.util.Map;
  *
  * &#47;&#47; Initialize the call composite builder with different parameters
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode&#41;&#41;;
+ *     .localization&#40;new LocalizationConfiguration&#40;LanguageCode.FRENCH&#41;&#41;;
  *
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .customizeLocalization&#40;new LocalizationConfiguration&#40;languageCode, isRightToLeft&#41;&#41;;
+ *     .localization&#40;new LocalizationConfiguration&#40;LanguageCode.FRENCH, layoutDirection&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -27,78 +25,47 @@ import java.util.Map;
  *
  * @see CallComposite
  */
-public class LocalizationConfiguration {
-    private final String languageCode;
-    private boolean isRightToLeft;
-    private Map<String, String> customTranslation;
+public final class LocalizationConfiguration {
+    private final LanguageCode languageCode;
+    private int layoutDirection;
 
     /**
-     * Create Localization Configuration with customString
+     * Create Localization configuration.
      *
-     * @param languageCode
-     * @param isRightToLeft
-     * @param customTranslation
+     * Set {@link LanguageCode};.
+     *
+     * @param languageCode    The {@link LanguageCode}; eg,. LanguageCode.FRENCH
+     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
-    public LocalizationConfiguration(final String languageCode, final boolean isRightToLeft,
-                                     final Map<String, String> customTranslation) {
+    public LocalizationConfiguration(final LanguageCode languageCode, final int layoutDirection) {
         this.languageCode = languageCode;
-        this.isRightToLeft = isRightToLeft;
-        this.customTranslation = customTranslation;
+        this.layoutDirection = layoutDirection;
     }
 
     /**
      * Create Localization configuration.
      *
-     * @param languageCode  string eg,. "en"
-     * @param isRightToLeft boolean the layout direction
+     * @param languageCode The {@link LanguageCode}; eg,. LanguageCode.FRENCH
      */
-    public LocalizationConfiguration(final String languageCode, final boolean isRightToLeft) {
-        this.languageCode = languageCode;
-        this.isRightToLeft = isRightToLeft;
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param languageCode string eg,. "en"
-     */
-    public LocalizationConfiguration(final String languageCode) {
+    public LocalizationConfiguration(final LanguageCode languageCode) {
         this.languageCode = languageCode;
     }
 
     /**
-     * Get current language String.
+     * Get current LanguageCode enum
      *
-     * @return language string
+     * @return The {@link LanguageCode};
      */
-    public String getLanguageCode() {
+    public LanguageCode getLanguageCode() {
         return languageCode;
     }
 
     /**
-     * Get isRightToLeft boolean.
+     * Get layoutDirection int.
      *
-     * @return isRightToLeft boolean
+     * @return layoutDirection int
      */
-    public boolean getIsRightToLeft() {
-        return isRightToLeft;
-    }
-
-    /**
-     * Get customTranslation Map
-     *
-     * @return customTranslation
-     */
-    public Map<String, String> getCustomTranslation() {
-        return customTranslation;
-    }
-
-    /**
-     * Get supported Locale string
-     *
-     * @return List of supported Locale as String List
-     */
-    public static List<String> getSupportedLanguages() {
-        return AppLocalizationProvider.Companion.getSupportedLanguages();
+    public int getLayoutDirection() {
+        return layoutDirection;
     }
 }

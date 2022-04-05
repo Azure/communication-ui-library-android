@@ -7,8 +7,10 @@
     <string name="azure_communication_ui_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_audio_device_drawer_speaker">スピーカー</string>
     <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
-    <string name="azure_communication_ui_audio_device_drawer_headphone">Headset</string>
-
+    <string name="azure_communication_ui_audio_device_drawer_headphone">ヘッドセット</string>
+    <string name="azure_communication_ui_switch_camera_button_front">フロント カメラに切り替える</string>
+    <string name="azure_communication_ui_switch_camera_button_back">バック カメラに切り替える</string>
+    <string name="azure_communication_ui_setup_audio_device_select_content_description">オーディオ デバイス %1$s の選択</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">参加中…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">ビデオ オフ</string>
@@ -24,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">選択済み</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">グラデーションの設定</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">カメラの切り替えボタン</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">セットアップ</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">ホストを待機しています</string>
