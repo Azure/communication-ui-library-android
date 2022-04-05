@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.di
 
 import android.content.Context
 import android.media.AudioManager
-import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider

@@ -5,17 +5,13 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.app.Activity
 import android.content.Context
-import android.view.Gravity
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
-import android.widget.Toast
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
-
 
 internal class AccessibilityAnnouncementManager(
     private val store: Store<ReduxState>,
@@ -31,7 +27,6 @@ internal class AccessibilityAnnouncementManager(
                     val message = it.message(lastState, newState, rootView.context)
                     if (message.isNotBlank()) {
                         announce(activity, message)
-
                     }
                 }
             }
@@ -43,12 +38,11 @@ internal class AccessibilityAnnouncementManager(
 
         val manager = activity.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         if (manager.isEnabled) {
-            val toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
-            // We move this toast way off the screen so it's not visible
-            toast.setGravity(Gravity.TOP or Gravity.AXIS_CLIP, -10000,-10000)
-            toast.show()
+            val event = AccessibilityEvent.obtain()
+            event.text.add(message)
+            event.eventType = AccessibilityEvent.TYPE_ANNOUNCEMENT
+            manager.sendAccessibilityEvent(event)
         }
-
     }
 }
 
@@ -60,7 +54,6 @@ internal abstract class AccessibilityHook {
     abstract fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean
     abstract fun message(lastState: ReduxState, newState: ReduxState, context: Context): String
 }
-
 
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     var callJoinTime = System.currentTimeMillis()
@@ -94,7 +87,6 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
         return result
     }
 }
-
 
 internal class MeetingJoinedHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {

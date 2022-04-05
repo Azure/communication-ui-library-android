@@ -245,8 +245,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
             fragmentClassName
         )
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        findViewById<View>(R.id.azure_communication_ui_fragment_container_view).importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         transaction.replace(R.id.azure_communication_ui_fragment_container_view, fragment)
         transaction.commit()
+        transaction.runOnCommit() {
+            findViewById<View>(R.id.azure_communication_ui_fragment_container_view).importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+        }
     }
 
     private fun setStatusBarColor() {
