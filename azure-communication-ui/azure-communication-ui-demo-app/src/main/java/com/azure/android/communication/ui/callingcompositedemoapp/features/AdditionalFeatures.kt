@@ -28,7 +28,10 @@ class AdditionalFeatures private constructor() {
             },
             end = {
                 MagnifierViewer.getMagnifierViewer(it).hide()
-            }
+            },
+            fallbackBoolean = false,
+            fallbackLabel = "FPS, Memory Diagnostics"
+
         )
 
         val secondaryThemeFeature = FeatureFlagEntry(
@@ -36,7 +39,9 @@ class AdditionalFeatures private constructor() {
             // Will use default false here
             labelId = R.string.secondary_theme,
             start = {},
-            end = {}
+            end = {},
+            fallbackBoolean = false,
+            fallbackLabel = "Secondary theme"
         )
     }
 }
