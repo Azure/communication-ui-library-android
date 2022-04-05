@@ -2,7 +2,7 @@
 ## 1.0.0-beta.3 (2022-04-04)
 
 ### Bug Fixes
-- Fixed Crash when Internal Feature Flag API was not initialized
+- Fixed crash when internal feature flag API was not initialized
 
 ## 1.0.0-beta.2 (2022-04-04)
 
