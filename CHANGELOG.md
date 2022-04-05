@@ -19,7 +19,7 @@
 - Remove Context from GroupMeetingOptions() and TeamMeetingOptions() [#17](https://github.com/Azure/communication-ui-library-android/pull/17)
 - Add required parameter Context to CallComposite.launch() [#17](https://github.com/Azure/communication-ui-library-android/pull/17)
 - Rename ErrorEvent to CommunicationUIErrorEvent [#156](https://github.com/Azure/communication-ui-library-android/pull/156)
-
+- Rename `azure_communication_ui_calling_primary_color` to `azure_communication_ui_communication_primary` in Theme. [#59](https://github.com/Azure/communication-ui-library-android/pull/59)
 ### Bug Fixes
 - Start service is crashing for API 31 [#10](https://github.com/Azure/communication-ui-library-android/pull/10)
 - Long display name truncation on local participant display view [#13](https://github.com/Azure/communication-ui-library-android/pull/13) 
