@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
+import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
@@ -19,7 +20,8 @@ internal enum class LocalParticipantViewMode {
 
 internal class LocalParticipantViewModel(
     private val dispatch: (Action) -> Unit,
-    private val localizationProvider: LocalizationProvider
+    private val localizationProvider: LocalizationProvider,
+    private val localParticipantConfig: LocalParticipantConfiguration?
 ) {
     private lateinit var videoStatusFlow: MutableStateFlow<VideoModel>
     private lateinit var displayFullScreenAvatarFlow: MutableStateFlow<Boolean>
@@ -31,6 +33,7 @@ internal class LocalParticipantViewModel(
     private lateinit var cameraDeviceSelectionFlow: MutableStateFlow<CameraDeviceSelectionStatus>
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
+    fun getImage() = localParticipantConfig?.personaData?.image
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
     fun getDisplayNameStateFlow(): StateFlow<String?> = displayNameStateFlow
