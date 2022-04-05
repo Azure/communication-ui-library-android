@@ -8,11 +8,15 @@ import android.content.Context
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
+import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
+// Manager to hook into accessibility and provide announcements
+// To add a Hook, extend AccessibilityHook and add to the "Hooks" list at the bottom of this file
+// These hooks make announcements based on Redux State changes
 internal class AccessibilityAnnouncementManager(
     private val store: Store<ReduxState>,
 ) {
@@ -35,7 +39,6 @@ internal class AccessibilityAnnouncementManager(
     }
 
     private fun announce(activity: Activity, message: String) {
-
         val manager = activity.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         if (manager.isEnabled) {
             val event = AccessibilityEvent.obtain()
@@ -55,6 +58,7 @@ internal abstract class AccessibilityHook {
     abstract fun message(lastState: ReduxState, newState: ReduxState, context: Context): String
 }
 
+// Hook to announce when participants join/leave a meeting
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     var callJoinTime = System.currentTimeMillis()
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
@@ -80,26 +84,27 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
 
         var result = ""
         if (added.size == 1) {
-            result = "${added.first().displayName} joined the meeting"
+            result = context.getString(R.string.azure_communication_ui_accessibility_user_added, added.first().displayName)
         } else if (removed.size == 1) {
-            result = "${removed.first().displayName} left the meeting"
+            result = context.getString(R.string.azure_communication_ui_accessibility_user_left, removed.first().displayName)
         }
         return result
     }
 }
 
+// Hook to announce the meeting was successfully joined
 internal class MeetingJoinedHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
         return (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
     }
 
     override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
-        return "Meeting Joined"
+        return context.getString(R.string.azure_communication_ui_accessibility_meeting_connected)
     }
 }
 
+// List of all hooks
 internal val accessibilityHooks = listOf(
     MeetingJoinedHook(),
     ParticipantAddedOrRemovedHook(),
-
 )
