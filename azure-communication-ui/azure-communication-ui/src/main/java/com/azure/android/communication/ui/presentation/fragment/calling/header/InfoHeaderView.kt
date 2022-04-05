@@ -64,15 +64,10 @@ internal class InfoHeaderView : ConstraintLayout {
             val localizationProvider = infoHeaderViewModel.getLocalizationProvider()
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
                 participantNumberText.text = when (it) {
-                    0 -> localizationProvider.getLocalizedString(
-                        context,
-                        R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join
-                    )
+                    0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
 
-                    1 -> localizationProvider.getLocalizedString(
-                        context,
-                        R.string.azure_communication_ui_calling_view_info_header_call_with_1_person
-                    )
+                    1 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_with_1_person)
+
                     else -> resources.getString(
                         R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
                         it
@@ -93,11 +88,6 @@ internal class InfoHeaderView : ConstraintLayout {
     }
 
     private fun setupAccessibility() {
-        displayParticipantsImageButton.contentDescription =
-            infoHeaderViewModel.getLocalizationProvider()
-                .getLocalizedString(
-                    context,
-                    R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label
-                )
+        displayParticipantsImageButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label)
     }
 }
