@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -58,10 +59,7 @@ internal class ErrorInfoView(private val rootView: View) {
                 dismiss()
             }
             show()
-            view.post {
-                view.requestFocus()
-                view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-            }
+            view.accessibilityFocus()
         }
     }
 
@@ -119,4 +117,12 @@ internal class ErrorInfoView(private val rootView: View) {
             snackBarActionButton.isAllCaps = false
         }
     }
+}
+
+fun View.accessibilityFocus(): View {
+    post {
+        performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+    }
+    return this
 }
