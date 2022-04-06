@@ -1,8 +1,17 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
+import android.graphics.Bitmap
+import android.widget.ImageView
+import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
+import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
+import com.azure.android.communication.ui.presentation.manager.PersonaManager
+import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
+import com.azure.android.communication.ui.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -12,6 +21,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class SetupParticipantAvatarViewModelUnitTest {
@@ -167,4 +177,130 @@ internal class SetupParticipantAvatarViewModelUnitTest {
 
             resultFlow.cancel()
         }
+
+    fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaName_when_personaDataNameIsSet() {
+        // arrange
+        val personaData = PersonaData("test")
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val setupViewModelFactory =
+            SetupViewModelFactory(mockAppStore, mockLocalizationProvider, personaManager)
+
+        // act
+        val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()
+
+        // assert
+        Assert.assertEquals(
+            personaData.name,
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            null,
+            viewModel.getPersonaData()?.image
+        )
+    }
+
+    fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaImage_when_personaImageIsSet() {
+        // arrange
+        val mockBitmap = mock<Bitmap> {}
+        val personaData = PersonaData(mockBitmap)
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val setupViewModelFactory =
+            SetupViewModelFactory(mockAppStore, mockLocalizationProvider, personaManager)
+
+        // act
+        val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()
+
+        // assert
+        Assert.assertEquals(
+            null,
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            mockBitmap,
+            viewModel.getPersonaData()?.image
+        )
+
+        Assert.assertEquals(
+            ImageView.ScaleType.FIT_XY,
+            viewModel.getPersonaData()?.scaleType
+        )
+    }
+
+    fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaData_when_personaDataIsSet() {
+        // arrange
+        val mockBitmap = mock<Bitmap> {}
+        val personaData = PersonaData("hello", mockBitmap, ImageView.ScaleType.CENTER)
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val setupViewModelFactory =
+            SetupViewModelFactory(mockAppStore, mockLocalizationProvider, personaManager)
+
+        // act
+        val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()
+
+        // assert
+        Assert.assertEquals(
+            "hello",
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            mockBitmap,
+            viewModel.getPersonaData()?.image
+        )
+
+        Assert.assertEquals(
+            ImageView.ScaleType.CENTER,
+            viewModel.getPersonaData()?.scaleType
+        )
+    }
+
+    fun setupParticipantAvatarViewModel_getPersonaScale_onCall_returnsPersonaScale_when_personaScaleIsSet() {
+        // arrange
+        val mockBitmap = mock<Bitmap> {}
+        val personaData = PersonaData(mockBitmap, ImageView.ScaleType.CENTER)
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val setupViewModelFactory =
+            SetupViewModelFactory(mockAppStore, mockLocalizationProvider, personaManager)
+
+        // act
+        val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()
+
+        // assert
+        Assert.assertEquals(
+            null,
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            mockBitmap,
+            viewModel.getPersonaData()?.image
+        )
+
+        Assert.assertEquals(
+            ImageView.ScaleType.CENTER,
+            viewModel.getPersonaData()?.scaleType
+        )
+    }
 }

@@ -3,9 +3,16 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
+import android.graphics.Bitmap
+import android.widget.ImageView
 import com.azure.android.communication.ui.configuration.AppLocalizationProvider
+import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
+import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
+import com.azure.android.communication.ui.presentation.manager.PersonaManager
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -289,7 +296,7 @@ internal class LocalParticipantGridCellViewModelTest {
         }
 
     @Test
-    fun localParticipantViewModel_update_when_cameraDeviceSelectionStatuss_Then_enableCameraSwitchUpdated() =
+    fun localParticipantViewModel_update_when_cameraDeviceSelectionStatus_Then_enableCameraSwitchUpdated() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
@@ -379,4 +386,150 @@ internal class LocalParticipantGridCellViewModelTest {
 
             displayLobbyJob.cancel()
         }
+
+    fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaName_when_personaDataNameIsSet() {
+        // arrange
+        val personaData = PersonaData("test")
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val callingViewModelFactory =
+            CallingViewModelFactory(
+                mockAppStore,
+                mockLocalizationProvider,
+                ParticipantGridCellViewModelFactory(),
+                personaManager
+            )
+
+        // act
+        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
+
+        // assert
+        Assert.assertEquals(
+            personaData.name,
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            null,
+            viewModel.getPersonaData()?.image
+        )
+    }
+
+    fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaImage_when_personaImageIsSet() {
+        // arrange
+        val mockBitmap = mock<Bitmap> {}
+        val personaData = PersonaData(mockBitmap)
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val callingViewModelFactory =
+            CallingViewModelFactory(
+                mockAppStore,
+                mockLocalizationProvider,
+                ParticipantGridCellViewModelFactory(),
+                personaManager
+            )
+
+        // act
+        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
+
+        // assert
+        Assert.assertEquals(
+            null,
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            mockBitmap,
+            viewModel.getPersonaData()?.image
+        )
+
+        Assert.assertEquals(
+            ImageView.ScaleType.FIT_XY,
+            viewModel.getPersonaData()?.scaleType
+        )
+    }
+
+    fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaData_when_personaDataIsSet() {
+        // arrange
+        val mockBitmap = mock<Bitmap> {}
+        val personaData = PersonaData("hello", mockBitmap, ImageView.ScaleType.CENTER)
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val callingViewModelFactory =
+            CallingViewModelFactory(
+                mockAppStore,
+                mockLocalizationProvider,
+                ParticipantGridCellViewModelFactory(),
+                personaManager
+            )
+
+        // act
+        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
+
+        // assert
+        Assert.assertEquals(
+            "hello",
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            mockBitmap,
+            viewModel.getPersonaData()?.image
+        )
+
+        Assert.assertEquals(
+            ImageView.ScaleType.CENTER,
+            viewModel.getPersonaData()?.scaleType
+        )
+    }
+
+    fun localParticipantViewModel_getPersonaScale_onCall_returnsPersonaScale_when_personaScaleIsSet() {
+        // arrange
+        val mockBitmap = mock<Bitmap> {}
+        val personaData = PersonaData(mockBitmap, ImageView.ScaleType.CENTER)
+
+        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+        val personaManager = PersonaManager(localParticipantConfiguration)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockLocalizationProvider = mock<LocalizationProvider> {}
+        val callingViewModelFactory =
+            CallingViewModelFactory(
+                mockAppStore,
+                mockLocalizationProvider,
+                ParticipantGridCellViewModelFactory(),
+                personaManager
+            )
+
+        // act
+        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
+
+        // assert
+        Assert.assertEquals(
+            null,
+            viewModel.getPersonaData()?.name
+        )
+
+        Assert.assertEquals(
+            mockBitmap,
+            viewModel.getPersonaData()?.image
+        )
+
+        Assert.assertEquals(
+            ImageView.ScaleType.CENTER,
+            viewModel.getPersonaData()?.scaleType
+        )
+    }
 }
