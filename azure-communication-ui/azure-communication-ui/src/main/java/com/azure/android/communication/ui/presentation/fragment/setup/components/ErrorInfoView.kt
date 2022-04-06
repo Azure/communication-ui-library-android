@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
@@ -31,7 +30,7 @@ internal class ErrorInfoView(private val rootView: View) {
                 if (it == null) {
                     snackBar.dismiss()
                 } else {
-                    displaySnackBar(it, snackBarViewModel.getLocalizationProvider())
+                    displaySnackBar(it)
                 }
             }
         }
@@ -44,11 +43,8 @@ internal class ErrorInfoView(private val rootView: View) {
         rootView.invalidate()
     }
 
-    private fun displaySnackBar(
-        it: CallStateError,
-        appLocalizationProvider: LocalizationProvider
-    ) {
-        val errorMessage = getErrorMessage(it, appLocalizationProvider)
+    private fun displaySnackBar(it: CallStateError) {
+        val errorMessage = getErrorMessage(it)
 
         if (errorMessage.isNotEmpty()) {
             snackBarTextView.text = errorMessage
@@ -58,21 +54,12 @@ internal class ErrorInfoView(private val rootView: View) {
         }
     }
 
-    private fun getErrorMessage(
-        it: CallStateError,
-        localizationProvider: LocalizationProvider
-    ): String {
+    private fun getErrorMessage(it: CallStateError): CharSequence {
         return when (it.communicationUIErrorCode) {
-            CommunicationUIErrorCode.CALL_END -> localizationProvider.getLocalizedString(
-                rootView.context!!.resources.getResourceEntryName(R.string.azure_communication_ui_cal_state_error_call_end),
-                rootView.context!!.getText(R.string.azure_communication_ui_cal_state_error_call_end)
-                    .toString()
-            )
-            CommunicationUIErrorCode.CALL_JOIN -> localizationProvider.getLocalizedString(
-                rootView.context!!.resources.getResourceEntryName(R.string.azure_communication_ui_snack_bar_text_error_call_join),
-                rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
-                    .toString()
-            )
+            CommunicationUIErrorCode.CALL_END -> rootView.context.getText(R.string.azure_communication_ui_cal_state_error_call_end)
+
+            CommunicationUIErrorCode.CALL_JOIN -> rootView.context.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
+
             else -> ""
         }
     }

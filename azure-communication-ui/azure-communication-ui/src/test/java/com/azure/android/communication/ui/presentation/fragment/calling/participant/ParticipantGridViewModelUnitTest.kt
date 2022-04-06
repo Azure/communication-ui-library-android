@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -27,7 +25,6 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class ParticipantGridViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -664,10 +661,7 @@ internal class ParticipantGridViewModelUnitTest {
             flowJob.cancel()
         }
 
-    private fun getParticipantGridViewModel() = ParticipantGridViewModel(
-        ParticipantGridCellViewModelFactory(),
-        appLocalizationProvider
-    )
+    private fun getParticipantGridViewModel() = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
 
     private fun getParticipantInfoModel(
         displayName: String,

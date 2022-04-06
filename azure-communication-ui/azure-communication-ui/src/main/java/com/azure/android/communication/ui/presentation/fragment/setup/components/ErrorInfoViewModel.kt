@@ -3,13 +3,12 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.redux.state.ErrorState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ErrorInfoViewModel(private val localizationProvider: LocalizationProvider) {
+internal class ErrorInfoViewModel {
     private val callStateErrorFlow: MutableStateFlow<CallStateError?> = MutableStateFlow(null)
 
     fun update(errorState: ErrorState) {
@@ -18,9 +17,5 @@ internal class ErrorInfoViewModel(private val localizationProvider: Localization
 
     fun getCallStateErrorStateFlow(): StateFlow<CallStateError?> {
         return callStateErrorFlow
-    }
-
-    fun getLocalizationProvider(): LocalizationProvider {
-        return localizationProvider
     }
 }
