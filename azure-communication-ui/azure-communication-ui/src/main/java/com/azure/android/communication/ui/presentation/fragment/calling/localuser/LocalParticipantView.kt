@@ -97,11 +97,23 @@ internal class LocalParticipantView : ConstraintLayout {
             viewModel.getDisplayNameStateFlow().collect {
                 it?.let {
                     avatar.name = it
-                    avatar.avatarImageBitmap = viewModel.getImage()
                     pipAvatar.name = it
-                    pipAvatar.avatarImageBitmap = viewModel.getImage()
-
                     displayNameText.text = it
+                    viewModel.getPersonaData()?.let { personaData ->
+                        personaData.image?.let { image ->
+                            avatar.avatarImageBitmap = image
+                            avatar.scaleType = personaData.scaleType
+                            avatar.adjustViewBounds = true
+                            pipAvatar.avatarImageBitmap = image
+                            pipAvatar.scaleType = personaData.scaleType
+                            pipAvatar.adjustViewBounds = true
+                        }
+                        personaData.name?.let { name ->
+                            avatar.name = name
+                            pipAvatar.name = name
+                            displayNameText.text = name
+                        }
+                    }
                 }
             }
         }
@@ -147,9 +159,15 @@ internal class LocalParticipantView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getIsLobbyOverlayDisplayedFlow().collect {
                 if (it) {
-                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                    ViewCompat.setImportantForAccessibility(
+                        switchCameraButton,
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                    )
                 } else {
-                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+                    ViewCompat.setImportantForAccessibility(
+                        switchCameraButton,
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
+                    )
                 }
             }
         }

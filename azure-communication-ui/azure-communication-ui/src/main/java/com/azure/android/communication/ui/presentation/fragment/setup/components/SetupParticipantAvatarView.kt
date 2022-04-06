@@ -20,11 +20,13 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
     ) {
         name = viewModel.getDisplayName()
         viewModel.getPersonaData()?.let {
-            avatarImageBitmap = it.image
-            adjustViewBounds = true
-            scaleType = it.scaleType
-            it.name?.let { n ->
-                name = n
+            it.image?.let { image ->
+                avatarImageBitmap = image
+                adjustViewBounds = true
+                scaleType = it.scaleType
+            }
+            it.name?.let { displayName ->
+                name = displayName
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {

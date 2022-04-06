@@ -21,7 +21,7 @@ internal enum class LocalParticipantViewMode {
 internal class LocalParticipantViewModel(
     private val dispatch: (Action) -> Unit,
     private val localizationProvider: LocalizationProvider,
-    private val localParticipantConfig: LocalParticipantConfiguration?
+    private val localParticipantConfig: LocalParticipantConfiguration?,
 ) {
     private lateinit var videoStatusFlow: MutableStateFlow<VideoModel>
     private lateinit var displayFullScreenAvatarFlow: MutableStateFlow<Boolean>
@@ -33,7 +33,7 @@ internal class LocalParticipantViewModel(
     private lateinit var cameraDeviceSelectionFlow: MutableStateFlow<CameraDeviceSelectionStatus>
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
-    fun getImage() = localParticipantConfig?.personaData?.image
+    fun getPersonaData() = localParticipantConfig?.personaData
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
     fun getDisplayNameStateFlow(): StateFlow<String?> = displayNameStateFlow
@@ -41,7 +41,8 @@ internal class LocalParticipantViewModel(
     fun getDisplaySwitchCameraButtonFlow(): StateFlow<Boolean> = displaySwitchCameraButtonFlow
     fun getDisplayPipSwitchCameraButtonFlow(): StateFlow<Boolean> = displayPipSwitchCameraButtonFlow
     fun getEnableCameraSwitchFlow(): StateFlow<Boolean> = enableCameraSwitchFlow
-    fun getCameraDeviceSelectionFlow(): StateFlow<CameraDeviceSelectionStatus> = cameraDeviceSelectionFlow
+    fun getCameraDeviceSelectionFlow(): StateFlow<CameraDeviceSelectionStatus> =
+        cameraDeviceSelectionFlow
 
     fun update(
         displayName: String?,
