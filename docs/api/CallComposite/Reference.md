@@ -7,10 +7,11 @@
 - [CallCompositeBuilder](classes/CallCompositeBuilder.md)
 - [GroupCallOptions](classes/GroupCallOptions.md)
 - [TeamsMeetingOptions](classes/TeamsMeetingOptions.md)
-- [ErrorEvent](classes/ErrorEvent.md)
-- [CallCompositeErrorCode](classes/CallCompositeErrorCode.md)
+- [CommunicationUIErrorEvent ](classes/CommunicationUIErrorEvent.md)
+- [CommunicationUIErrorCode](classes/CommunicationUIErrorCode.md)
 - [ThemeConfiguration](classes/ThemeConfiguration.md)
-
+- [LocalizationConfiguration](classes/LocalizationConfiguration.md)
+- [LanguageCode](classes/LanguageCode.md)
 
 
 ## Interfaces

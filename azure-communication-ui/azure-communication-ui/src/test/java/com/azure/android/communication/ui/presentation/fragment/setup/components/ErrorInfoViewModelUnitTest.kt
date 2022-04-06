@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 
 import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.LocalizationProvider
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.state.AppReduxState
@@ -31,7 +31,7 @@ internal class ErrorInfoViewModelUnitTest {
     fun snackBarViewModel_onUpdate_then_notifyCallStateErrorFlow() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
-            val expectedPermissionState = CallStateError(CallCompositeErrorCode.CALL_END)
+            val expectedPermissionState = CallStateError(CommunicationUIErrorCode.CALL_END)
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, expectedPermissionState)
 

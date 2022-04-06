@@ -11,34 +11,34 @@ import java.util.UUID;
  * Options to start group call experience using {@link CallComposite}.
  */
 public final class GroupCallOptions {
-    private final CommunicationTokenCredential communicationTokenCredential;
+    private final CommunicationTokenCredential credential;
     private final String displayName;
     private final UUID groupId;
 
     /**
      * Create {@link GroupCallOptions}.
      *
-     * @param communicationTokenCredential {@link CommunicationTokenCredential}
+     * @param credential {@link CommunicationTokenCredential}
      * @param groupId                      group call identifier
      */
     public GroupCallOptions(
-            final CommunicationTokenCredential communicationTokenCredential,
+            final CommunicationTokenCredential credential,
             final UUID groupId) {
-        this(communicationTokenCredential, groupId, "");
+        this(credential, groupId, "");
     }
 
     /**
      * Create {@link GroupCallOptions}.
      *
-     * @param communicationTokenCredential {@link CommunicationTokenCredential}
+     * @param credential {@link CommunicationTokenCredential}
      * @param groupId                      group call identifier
      * @param displayName                  user display name
      */
-    public GroupCallOptions(final CommunicationTokenCredential communicationTokenCredential,
+    public GroupCallOptions(final CommunicationTokenCredential credential,
                             final UUID groupId,
                             final String displayName) {
 
-        this.communicationTokenCredential = communicationTokenCredential;
+        this.credential = credential;
         this.displayName = displayName;
         this.groupId = groupId;
     }
@@ -48,8 +48,8 @@ public final class GroupCallOptions {
      *
      * @return {@link String}
      */
-    public CommunicationTokenCredential getCommunicationTokenCredential() {
-        return communicationTokenCredential;
+    public CommunicationTokenCredential getCredential() {
+        return credential;
     }
 
     /**

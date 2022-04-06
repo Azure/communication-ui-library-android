@@ -51,7 +51,9 @@ class FeatureFlagsTest {
             },
             end = {
                 started = false
-            }
+            },
+            fallbackLabel = "test",
+            fallbackBoolean = false
         )
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -84,7 +86,9 @@ class FeatureFlagsTest {
             },
             end = {
                 started = false
-            }
+            },
+            fallbackLabel = "test",
+            fallbackBoolean = false
         )
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext

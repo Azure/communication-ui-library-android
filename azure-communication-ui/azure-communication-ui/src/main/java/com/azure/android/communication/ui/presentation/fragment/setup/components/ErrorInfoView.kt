@@ -16,7 +16,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.configuration.LocalizationProvider
-import com.azure.android.communication.ui.configuration.events.CallCompositeErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.microsoft.fluentui.snackbar.Snackbar
@@ -69,13 +69,13 @@ internal class ErrorInfoView(private val rootView: View) {
         localizationProvider: LocalizationProvider
     ): String {
         val context = rootView.context!!
-        return when (it.callCompositeErrorCode) {
-            CallCompositeErrorCode.CALL_END -> localizationProvider.getLocalizedString(
+        return when (it.communicationUIErrorCode) {
+            CommunicationUIErrorCode.CALL_END -> localizationProvider.getLocalizedString(
                 context.resources.getResourceEntryName(R.string.azure_communication_ui_cal_state_error_call_end),
                 context.getText(R.string.azure_communication_ui_cal_state_error_call_end)
                     .toString()
             )
-            CallCompositeErrorCode.CALL_JOIN -> localizationProvider.getLocalizedString(
+            CommunicationUIErrorCode.CALL_JOIN -> localizationProvider.getLocalizedString(
                 context.resources.getResourceEntryName(R.string.azure_communication_ui_snack_bar_text_error_call_join),
                 context.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
                     .toString()
