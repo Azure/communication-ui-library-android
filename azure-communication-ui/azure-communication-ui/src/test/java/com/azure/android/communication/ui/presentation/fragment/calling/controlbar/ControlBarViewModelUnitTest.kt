@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.controlbar
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
@@ -43,7 +41,6 @@ internal class ControlBarViewModelUnitTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
@@ -67,10 +64,7 @@ internal class ControlBarViewModelUnitTest {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(
-            mockAppStore::dispatch,
-            appLocalizationProvider
-        )
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch)
         callingViewModel.turnMicOn()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -98,10 +92,7 @@ internal class ControlBarViewModelUnitTest {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(
-            mockAppStore::dispatch,
-            appLocalizationProvider
-        )
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch)
         callingViewModel.turnMicOff()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -124,10 +115,7 @@ internal class ControlBarViewModelUnitTest {
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
 
             val appStore = mock<AppStore<ReduxState>> { }
-            val callingViewModel = ControlBarViewModel(
-                appStore::dispatch,
-                appLocalizationProvider
-            )
+            val callingViewModel = ControlBarViewModel(appStore::dispatch)
             callingViewModel.init(
                 permissionState,
                 cameraState,
@@ -205,7 +193,7 @@ internal class ControlBarViewModelUnitTest {
                 mutableListOf<ControlBarViewModel.CameraModel>()
 
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, appLocalizationProvider)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch)
             val initialPermissionState = PermissionState(
                 PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
             )
@@ -253,10 +241,7 @@ internal class ControlBarViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(
-                appStore::dispatch,
-                appLocalizationProvider
-            )
+            val callingViewModel = ControlBarViewModel(appStore::dispatch)
 
             val permissionState = PermissionState(
                 PermissionStatus.GRANTED,
