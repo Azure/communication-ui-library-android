@@ -231,12 +231,14 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@CallLauncherActivity,
+            launcher.launch(
+                this@CallLauncherActivity,
                 userName,
                 groupId,
                 null,
                 ::showAlert,
-                localParticipantAvatarBitMap)
+                localParticipantAvatarBitMap
+            )
         }
 
         if (binding.teamsMeetingRadioButton.isChecked) {
@@ -248,12 +250,14 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@CallLauncherActivity,
+            launcher.launch(
+                this@CallLauncherActivity,
                 userName,
                 null,
                 meetingLink,
                 ::showAlert,
-                localParticipantAvatarBitMap)
+                localParticipantAvatarBitMap
+            )
         }
     }
 

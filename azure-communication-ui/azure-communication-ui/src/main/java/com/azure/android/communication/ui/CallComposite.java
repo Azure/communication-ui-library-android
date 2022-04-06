@@ -86,13 +86,17 @@ public final class CallComposite {
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
      * final GroupCallOptions groupCallOptions =
      *                 new GroupCallOptions&#40;context, communicationTokenCredential, groupId, displayName&#41;;
-     * callComposite.launch&#40;groupCallOptions&#41;;
+     * final LocalParticipantConfiguration config =
+     *                 new LocalParticipantConfiguration&#40;personaData&#41;;
+     * callComposite.launch&#40;groupCallOptions, config&#41;;
      *
      * </pre>
      *
-     * @param context          The android context used to start the Composite.
-     * @param groupCallOptions The {@link GroupCallOptions} has parameters to
-     *                         launch group call experience.
+     * @param context                       The android context used to start the Composite.
+     * @param groupCallOptions              The {@link GroupCallOptions} has parameters to
+     *                                      launch group call experience.
+     * @param localParticipantConfiguration The {@link LocalParticipantConfiguration} has parameters to
+     *                                      launch group call experience.
      */
     public void launch(final Context context,
                        final GroupCallOptions groupCallOptions,
@@ -149,13 +153,17 @@ public final class CallComposite {
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
      * final TeamsMeetingOptions teamsMeetingOptions =
      *                 new TeamsMeetingOptions&#40;context, communicationTokenCredential, meetingLink, displayName&#41;;
-     * callComposite.launch&#40;teamsMeetingOptions&#41;;
+     * final LocalParticipantConfiguration config =
+     *                 new LocalParticipantConfiguration&#40;personaData&#41;;
+     * callComposite.launch&#40;teamsMeetingOptions, config&#41;;
      *
      * </pre>
      *
-     * @param context             The android context used to start the Composite.
-     * @param teamsMeetingOptions The {@link TeamsMeetingOptions} has parameters to
-     *                            launch Teams meeting experience.
+     * @param context                       The android context used to start the Composite.
+     * @param teamsMeetingOptions           The {@link TeamsMeetingOptions} has parameters to
+     *                                      launch Teams meeting experience.
+     * @param localParticipantConfiguration The {@link LocalParticipantConfiguration} has parameters to
+     *                                      launch group call experience.
      */
     public void launch(final Context context,
                        final TeamsMeetingOptions teamsMeetingOptions,
