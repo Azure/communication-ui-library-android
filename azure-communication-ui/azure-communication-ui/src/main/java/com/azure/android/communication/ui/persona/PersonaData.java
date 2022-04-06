@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 public class PersonaData {
     private Bitmap image;
     private String name;
-    private Boolean adjustViewBounds = true;
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
 
     public PersonaData(final Bitmap image) {
@@ -23,17 +22,6 @@ public class PersonaData {
         this.scaleType = scaleType;
     }
 
-    public PersonaData(final Bitmap image, final Boolean adjustViewBounds) {
-        this.image = image;
-        this.adjustViewBounds = adjustViewBounds;
-    }
-
-    public PersonaData(final Bitmap image, final ImageView.ScaleType scaleType,
-                       final Boolean adjustViewBounds) {
-        this.image = image;
-        this.scaleType = scaleType;
-        this.adjustViewBounds = adjustViewBounds;
-    }
 
     public PersonaData(final String name) {
         this.name = name;
@@ -44,31 +32,12 @@ public class PersonaData {
         this.name = name;
     }
 
-    public PersonaData(final String name, final Bitmap image,
-                       final ImageView.ScaleType scaleType,
-                       final Boolean adjustViewBounds) {
-        this.name = name;
-        this.image = image;
-        this.scaleType = scaleType;
-        this.adjustViewBounds = adjustViewBounds;
-    }
 
     public PersonaData(final String name, final Bitmap image,
                        final ImageView.ScaleType scaleType) {
         this.name = name;
         this.image = image;
         this.scaleType = scaleType;
-    }
-
-    public PersonaData(final String name, final Bitmap image,
-                       final Boolean adjustViewBounds) {
-        this.name = name;
-        this.image = image;
-        this.adjustViewBounds = adjustViewBounds;
-    }
-
-    public Boolean getAdjustViewBounds() {
-        return adjustViewBounds;
     }
 
     public ImageView.ScaleType getScaleType() {

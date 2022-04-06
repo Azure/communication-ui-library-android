@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -21,6 +23,7 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import com.microsoft.appcenter.distribute.UpdateTrack
+import java.net.URL
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -28,9 +31,18 @@ class CallLauncherActivity : AppCompatActivity() {
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
     private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
+    private var localParticipantAvatarBitMap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Thread {
+            val url =
+                URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
+            localParticipantAvatarBitMap =
+                BitmapFactory.decodeStream(url.openConnection().getInputStream())
+        }.start()
+
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
@@ -207,6 +219,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun launch(launcher: CallingCompositeLauncher) {
         val userName = binding.userNameText.text.toString()
+
         if (binding.groupCallRadioButton.isChecked) {
             val groupId: UUID
             try {
@@ -218,7 +231,12 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@CallLauncherActivity, userName, groupId, null, ::showAlert)
+            launcher.launch(this@CallLauncherActivity,
+                userName,
+                groupId,
+                null,
+                ::showAlert,
+                localParticipantAvatarBitMap)
         }
 
         if (binding.teamsMeetingRadioButton.isChecked) {
@@ -230,7 +248,12 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@CallLauncherActivity, userName, null, meetingLink, ::showAlert)
+            launcher.launch(this@CallLauncherActivity,
+                userName,
+                null,
+                meetingLink,
+                ::showAlert,
+                localParticipantAvatarBitMap)
         }
     }
 
