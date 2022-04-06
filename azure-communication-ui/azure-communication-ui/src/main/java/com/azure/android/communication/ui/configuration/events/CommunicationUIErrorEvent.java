@@ -6,17 +6,17 @@ package com.azure.android.communication.ui.configuration.events;
 /**
  * Event with error type and caused throwable.
  */
-public final class ErrorEvent<T> {
+public final class CommunicationUIErrorEvent {
     private final Throwable cause;
-    private final T code;
+    private final CommunicationUIErrorCode code;
 
     /**
-     * Create {@link ErrorEvent} with error code and caused throwable.
+     * Create {@link CommunicationUIErrorEvent} with error code and caused throwable.
      *
      * @param code  error code
      * @param cause throwable that caused an exception
      */
-    public ErrorEvent(final T code, final Throwable cause) {
+    public CommunicationUIErrorEvent(final CommunicationUIErrorCode code, final Throwable cause) {
         this.cause = cause;
         this.code = code;
     }
@@ -38,7 +38,7 @@ public final class ErrorEvent<T> {
      *
      * @return the call error code {@code T} instance
      */
-    public T getErrorCode() {
+    public CommunicationUIErrorCode getErrorCode() {
         return code;
     }
 }

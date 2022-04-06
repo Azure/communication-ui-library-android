@@ -1,9 +1,9 @@
 **INTERFACE**
 
-# `CallingEventHandler<T>`
+# `CallingEventHandler`
 
 ```java
-public interface CallingEventHandler<T>
+public interface CallingEventHandler
 ```
 
 ## Description
@@ -17,5 +17,5 @@ Interface that defines callback to handle callbacks from `CallComposite`.
 Call back handler.
 
 ```java
-void handle(T eventArgs);
+void handle(ErrorEvent eventArgs);
 ```
