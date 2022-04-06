@@ -38,7 +38,7 @@ internal class LocalParticipantGridCellViewModelTest {
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
                     appLocalizationProvider,
-                    localParticipantConfig
+                    null
                 )
             viewModel.init(
                 displayName = "username",
@@ -110,7 +110,7 @@ internal class LocalParticipantGridCellViewModelTest {
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
                     appLocalizationProvider,
-                    localParticipantConfig
+                    null
                 )
             viewModel.init(
                 displayName = "username",
@@ -153,7 +153,7 @@ internal class LocalParticipantGridCellViewModelTest {
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
                     appLocalizationProvider,
-                    localParticipantConfig
+                    null
                 )
             viewModel.init(
                 displayName = "username",
@@ -229,7 +229,7 @@ internal class LocalParticipantGridCellViewModelTest {
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
                     appLocalizationProvider,
-                    localParticipantConfig
+                    null
                 )
             viewModel.init(
                 displayName = displayName,
@@ -303,7 +303,7 @@ internal class LocalParticipantGridCellViewModelTest {
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
                     appLocalizationProvider,
-                    localParticipantConfig
+                    null
                 )
             viewModel.init(
                 displayName = displayName,

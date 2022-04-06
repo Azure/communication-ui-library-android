@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.configuration;
 import androidx.annotation.Nullable;
 
 import com.azure.android.communication.ui.CallComposite;
-import com.azure.android.communication.ui.CallingEventHandler;
 import com.azure.android.communication.ui.persona.PersonaData;
 
 /**
