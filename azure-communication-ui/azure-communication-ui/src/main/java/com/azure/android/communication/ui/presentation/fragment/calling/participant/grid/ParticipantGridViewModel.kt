@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid
 
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ParticipantGridViewModel(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
-    private val localizationProvider: LocalizationProvider
 ) {
 
     private var remoteParticipantsUpdatedStateFlow: MutableStateFlow<List<ParticipantGridCellViewModel>> =
@@ -36,10 +34,6 @@ internal class ParticipantGridViewModel(
 
     fun setUpdateVideoStreamsCallback(callback: (List<Pair<String, String>>) -> Unit) {
         this.updateVideoStreamsCallback = callback
-    }
-
-    fun getLocalizationProvider(): LocalizationProvider {
-        return localizationProvider
     }
 
     fun update(

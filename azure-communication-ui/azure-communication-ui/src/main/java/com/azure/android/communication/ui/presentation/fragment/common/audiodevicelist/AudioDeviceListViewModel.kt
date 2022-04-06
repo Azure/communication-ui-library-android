@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -11,10 +10,7 @@ import com.azure.android.communication.ui.redux.state.AudioState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class AudioDeviceListViewModel(
-    private val dispatch: (Action) -> Unit,
-    private val localizationProvider: LocalizationProvider
-) {
+internal class AudioDeviceListViewModel(private val dispatch: (Action) -> Unit) {
 
     private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
 
@@ -44,9 +40,5 @@ internal class AudioDeviceListViewModel(
 
     fun closeAudioDeviceSelectionMenu() {
         displayAudioDeviceSelectionMenuMutableStateFlow.value = false
-    }
-
-    fun getLocalizationProvider(): LocalizationProvider {
-        return localizationProvider
     }
 }

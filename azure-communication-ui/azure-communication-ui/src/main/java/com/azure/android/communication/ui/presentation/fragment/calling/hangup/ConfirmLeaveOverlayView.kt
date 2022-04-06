@@ -56,17 +56,9 @@ internal class ConfirmLeaveOverlayView : LinearLayout {
     }
 
     private fun setupUi() {
-        confirmLeaveCallButton.text =
-            confirmLeaveOverlayViewModel.getLocalizationProvider().getLocalizedString(
-                context,
-                R.string.azure_communication_ui_calling_view_overlay_leave_call
-            )
+        confirmLeaveCallButton.text = context.getString(R.string.azure_communication_ui_calling_view_overlay_leave_call)
 
-        cancelLeaveCallButton.text =
-            confirmLeaveOverlayViewModel.getLocalizationProvider().getLocalizedString(
-                context,
-                R.string.azure_communication_ui_calling_view_overlay_cancel
-            )
+        cancelLeaveCallButton.text = context.getString(R.string.azure_communication_ui_calling_view_overlay_cancel)
     }
 
     private fun subscribeClickListener() {
