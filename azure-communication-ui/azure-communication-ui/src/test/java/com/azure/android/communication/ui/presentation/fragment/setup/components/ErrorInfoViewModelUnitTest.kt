@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.helper.MainCoroutineRule
@@ -24,7 +22,6 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class ErrorInfoViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -35,7 +32,7 @@ internal class ErrorInfoViewModelUnitTest {
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, expectedPermissionState)
 
-            val snackBarViewModel = ErrorInfoViewModel(appLocalizationProvider)
+            val snackBarViewModel = ErrorInfoViewModel()
 
             val emitResult = mutableListOf<CallStateError?>()
 

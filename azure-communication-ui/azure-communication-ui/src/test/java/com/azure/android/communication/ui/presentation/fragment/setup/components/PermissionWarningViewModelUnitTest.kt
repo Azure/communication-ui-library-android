@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.presentation.fragment.setup.components.PermissionWarningViewModel
 import com.azure.android.communication.ui.redux.AppStore
@@ -30,7 +28,6 @@ import org.mockito.kotlin.verify
 internal class PermissionWarningViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -46,7 +43,7 @@ internal class PermissionWarningViewModelUnitTest {
                 updatedExpectedCameraPermissionState
             )
             val mockAppStore = mock<AppStore<ReduxState>>()
-            val permissionsViewModel = PermissionWarningViewModel(mockAppStore::dispatch, appLocalizationProvider)
+            val permissionsViewModel = PermissionWarningViewModel(mockAppStore::dispatch)
 
             val initialPermissionState = PermissionState(
                 PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
@@ -100,7 +97,7 @@ internal class PermissionWarningViewModelUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val permissionWarningViewModel = PermissionWarningViewModel(mockAppStore::dispatch, appLocalizationProvider)
+        val permissionWarningViewModel = PermissionWarningViewModel(mockAppStore::dispatch)
 
         // Act
         permissionWarningViewModel.turnCameraOn()
