@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.factories
 
-import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
@@ -14,6 +13,7 @@ import com.azure.android.communication.ui.presentation.fragment.calling.localuse
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
+import com.azure.android.communication.ui.presentation.manager.PersonaManager
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 
@@ -21,7 +21,7 @@ internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val localizationProvider: LocalizationProvider,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
-    private val localParticipantConfig: LocalParticipantConfiguration?,
+    private val localParticipantConfig: PersonaManager,
 ) {
 
     private val participantGridViewModel by lazy {
@@ -35,7 +35,6 @@ internal class CallingViewModelFactory(
         )
     }
 
-    // %1 people
     private val floatingHeaderViewModel by lazy {
         InfoHeaderViewModel(localizationProvider)
     }
@@ -49,9 +48,11 @@ internal class CallingViewModelFactory(
     }
 
     private val localParticipantViewModel by lazy {
-        LocalParticipantViewModel(store::dispatch,
+        LocalParticipantViewModel(
+            store::dispatch,
             localizationProvider,
-            localParticipantConfig)
+            localParticipantConfig.getLocalParticipantConfiguration()
+        )
     }
 
     private val participantListViewModel by lazy {

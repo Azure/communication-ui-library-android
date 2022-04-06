@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
+import com.azure.android.communication.ui.presentation.manager.PersonaManager
 import com.azure.android.communication.ui.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.Middleware
@@ -73,6 +74,10 @@ internal class DependencyInjectionContainerImpl(
             appStore,
             applicationContext,
         )
+    }
+
+    override val personaManager by lazy {
+        PersonaManager(configuration.localParticipantConfig)
     }
 
     override val lifecycleManager by lazy {

@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
+import com.azure.android.communication.ui.presentation.manager.PersonaManager
 import com.azure.android.communication.ui.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandler
@@ -30,6 +31,7 @@ internal interface DependencyInjectionContainer {
 
     // System
     val permissionManager: PermissionManager
+    val personaManager: PersonaManager
     val audioSessionManager: AudioSessionManager
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter

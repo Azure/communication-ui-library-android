@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.factories
 
-import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.presentation.fragment.setup.components.ErrorInfoViewModel
@@ -13,13 +12,14 @@ import com.azure.android.communication.ui.presentation.fragment.setup.components
 import com.azure.android.communication.ui.presentation.fragment.setup.components.SetupControlBarViewModel
 import com.azure.android.communication.ui.presentation.fragment.setup.components.SetupGradientViewModel
 import com.azure.android.communication.ui.presentation.fragment.setup.components.SetupParticipantAvatarViewModel
+import com.azure.android.communication.ui.presentation.manager.PersonaManager
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
     private val localizationProvider: LocalizationProvider,
-    private val localParticipantConfig: LocalParticipantConfiguration?
+    private val localParticipantConfig: PersonaManager
 ) {
 
     private val audioDeviceListViewModel by lazy {
@@ -53,7 +53,7 @@ internal class SetupViewModelFactory(
     }
 
     private val participantAvatarViewModel by lazy {
-        SetupParticipantAvatarViewModel(localParticipantConfig)
+        SetupParticipantAvatarViewModel(localParticipantConfig.getLocalParticipantConfiguration())
     }
 
     private val joinCallButtonHolderViewModel by lazy {

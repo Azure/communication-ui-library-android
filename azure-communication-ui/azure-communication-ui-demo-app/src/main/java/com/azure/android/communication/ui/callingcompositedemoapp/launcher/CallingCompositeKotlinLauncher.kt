@@ -78,10 +78,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 displayName,
             )
             Thread {
-                //Run the long-time operation.
-                //val url = URL("https://i.postimg.cc/nrm9SQZQ/20220304-132347.jpg")
+                // Run the long-time operation.
+                // val url = URL("https://i.postimg.cc/nrm9SQZQ/20220304-132347.jpg")
                 val url = URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
-                //val url = URL("https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg")
+                // val url = URL("https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg")
 
                 val imageBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
@@ -91,8 +91,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 val personaData = PersonaData(imageBitmap)
                 val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
 
-                val bitmapByteCount= BitmapCompat.getAllocationByteCount(imageBitmap)
-
+                val bitmapByteCount = BitmapCompat.getAllocationByteCount(imageBitmap)
 
                 runOnUiThread {
                     callComposite.launch(
@@ -109,7 +108,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 displayName,
             )
             Thread {
-                //Run the long-time operation.
+                // Run the long-time operation.
                 val url =
                     URL("https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/12/9-Best-Online-Avatars-and-How-to-Make-Your-Own-for-Free-image1-5.png")
                 val imageBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
