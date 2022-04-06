@@ -5,11 +5,13 @@ package com.azure.android.communication.ui.presentation
 
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
+import android.content.res.AssetManager
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -31,7 +33,7 @@ import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.util.*
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
@@ -149,11 +151,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 window?.decorView?.layoutDirection = it
             }
             val config: Configuration = resources.configuration
-            val languageAttributes = localeConfig.languageCode.toString().split("-")
-            val languageCode = languageAttributes[0]
-            val countryCode =
-                if (languageAttributes.size > 1) languageAttributes[1] else ""
-            config.setLocale(Locale(languageCode, countryCode))
+            config.setLocale(Locale.forLanguageTag(localeConfig.languageCode.toString()))
             resources.updateConfiguration(config, resources.displayMetrics)
             localizationProvider.apply(localeConfig)
         }
