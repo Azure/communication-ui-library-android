@@ -61,7 +61,6 @@ internal class InfoHeaderView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val localizationProvider = infoHeaderViewModel.getLocalizationProvider()
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
                 participantNumberText.text = when (it) {
                     0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.controlbar
 
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
@@ -15,10 +14,7 @@ import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ControlBarViewModel(
-    private val dispatch: (Action) -> Unit,
-    private val localizationProvider: LocalizationProvider
-) {
+internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var cameraStateFlow: MutableStateFlow<CameraModel>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
@@ -78,10 +74,6 @@ internal class ControlBarViewModel(
 
     fun turnCameraOff() {
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
-    }
-
-    fun getLocalizationProvider(): LocalizationProvider {
-        return localizationProvider
     }
 
     private fun shouldEnableMicButton(audioState: AudioState): Boolean {
