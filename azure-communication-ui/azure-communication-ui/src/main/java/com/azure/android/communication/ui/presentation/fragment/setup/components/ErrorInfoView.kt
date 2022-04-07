@@ -94,14 +94,16 @@ internal class ErrorInfoView(private val rootView: View) {
                     R.color.azure_communication_ui_color_snack_bar_text_color
                 )
             )
-            val snackBarActionButton = view.findViewById<AppCompatButton>(R.id.snackbar_action)
-            snackBarActionButton.setTextColor(
-                ContextCompat.getColor(
-                    rootView.context,
-                    R.color.azure_communication_ui_color_snack_bar_text_color
+            view.findViewById<AppCompatButton>(R.id.snackbar_action).apply {
+                setTextColor(
+                    ContextCompat.getColor(
+                        rootView.context,
+                        R.color.azure_communication_ui_color_snack_bar_text_color
+                    )
                 )
-            )
-            snackBarActionButton.isAllCaps = false
+                isAllCaps = false
+                contentDescription = rootView.context.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)
+            }
             ViewCompat.setImportantForAccessibility(view, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
         }
     }
