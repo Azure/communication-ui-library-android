@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.configuration.CallCompositeConfigurati
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.presentation.VideoViewManager
+import com.azure.android.communication.ui.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
@@ -31,6 +32,7 @@ internal interface DependencyInjectionContainer {
     // System
     val permissionManager: PermissionManager
     val audioSessionManager: AudioSessionManager
+    val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService

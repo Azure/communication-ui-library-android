@@ -291,8 +291,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         coroutineScope.launch {
             callingService.getParticipantsInfoModelSharedFlow().collect {
                 if (isActive) {
-                    val participantUpdateAction = ParticipantAction.ListUpdated()
-                    participantUpdateAction.participantMap = it
+                    val participantUpdateAction = ParticipantAction.ListUpdated(HashMap(it))
                     store.dispatch(participantUpdateAction)
                 }
             }
@@ -329,7 +328,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END || it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN) {
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
-                        store.dispatch(ParticipantAction.ListUpdated())
+                        store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
                         store.dispatch(NavigationAction.SetupLaunched())
                     }
