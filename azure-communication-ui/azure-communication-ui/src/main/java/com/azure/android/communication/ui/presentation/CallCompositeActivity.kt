@@ -243,10 +243,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
         val oldAccessibilityValue = containerView.importantForAccessibility
         containerView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         transaction.replace(R.id.azure_communication_ui_fragment_container_view, fragment)
-        transaction.commit()
-        transaction.runOnCommit() {
+        transaction.runOnCommit {
             containerView.importantForAccessibility = oldAccessibilityValue
         }
+        transaction.commit()
     }
 
     private fun setStatusBarColor() {
