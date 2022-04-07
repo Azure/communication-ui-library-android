@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration;
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
+import com.azure.android.communication.ui.configuration.events.RemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -202,6 +203,29 @@ public final class CallComposite {
      */
     public void setOnErrorHandler(final CallingEventHandler<CommunicationUIErrorEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
+    }
+
+    /**
+     * Set {@link CallingEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; set remote participant joined handler
+     * callComposite.setOnRemoteParticipantJoinedHandler&#40;eventHandler -> {
+     *     &#47;&#47; Use call composite to set configurations for remote participant
+     * }&#41;;
+     *
+     *
+     * &#47;&#47; remove remote participant joined handler
+     * callComposite.setOnRemoteParticipantJoinedHandler&#40;null&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallingEventHandler}.
+     */
+    public void setOnRemoteParticipantJoinedHandler(
+            final CallingEventHandler<RemoteParticipantJoinedEvent> eventHandler) {
+
     }
 
     private void launch(
