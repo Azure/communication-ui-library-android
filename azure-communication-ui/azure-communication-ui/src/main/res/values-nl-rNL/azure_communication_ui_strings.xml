@@ -26,7 +26,6 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Geselecteerd</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">Knop Camera wisselen</string>
-    <string name="azure_communication_ui_call_setup_action_bar_title">Configuratie</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Wachten op host</string>
@@ -75,4 +74,12 @@
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">Actief gesprek</string>
     <string name="azure_communication_ui_service_notification_message">Tik om terug te gaan naar het gesprek</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+
+
+
 </resources>
