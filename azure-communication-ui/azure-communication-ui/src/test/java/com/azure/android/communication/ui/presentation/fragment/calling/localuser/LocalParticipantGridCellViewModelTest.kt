@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
@@ -26,7 +24,6 @@ internal class LocalParticipantGridCellViewModelTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun localParticipantViewModel_update_when_turnMic_then_audioState_update() =
@@ -35,10 +32,7 @@ internal class LocalParticipantGridCellViewModelTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
-                LocalParticipantViewModel(
-                    mockAppStore::dispatch,
-                    appLocalizationProvider
-                )
+                LocalParticipantViewModel(mockAppStore::dispatch)
             viewModel.init(
                 displayName = "username",
                 AudioOperationalStatus.PENDING,
@@ -106,10 +100,7 @@ internal class LocalParticipantGridCellViewModelTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
-                LocalParticipantViewModel(
-                    mockAppStore::dispatch,
-                    appLocalizationProvider
-                )
+                LocalParticipantViewModel(mockAppStore::dispatch)
             viewModel.init(
                 displayName = "username",
                 AudioOperationalStatus.PENDING,
@@ -148,10 +139,7 @@ internal class LocalParticipantGridCellViewModelTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
-                LocalParticipantViewModel(
-                    mockAppStore::dispatch,
-                    appLocalizationProvider
-                )
+                LocalParticipantViewModel(mockAppStore::dispatch)
             viewModel.init(
                 displayName = "username",
                 AudioOperationalStatus.PENDING,
@@ -223,10 +211,7 @@ internal class LocalParticipantGridCellViewModelTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
-                LocalParticipantViewModel(
-                    mockAppStore::dispatch,
-                    appLocalizationProvider
-                )
+                LocalParticipantViewModel(mockAppStore::dispatch)
             viewModel.init(
                 displayName = displayName,
                 audioState,
@@ -296,10 +281,7 @@ internal class LocalParticipantGridCellViewModelTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
-                LocalParticipantViewModel(
-                    mockAppStore::dispatch,
-                    appLocalizationProvider
-                )
+                LocalParticipantViewModel(mockAppStore::dispatch)
             viewModel.init(
                 displayName = displayName,
                 audioState,

@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.header
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.state.AppReduxState
@@ -27,7 +25,6 @@ internal class InfoHeaderViewModelUnitTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @ExperimentalCoroutinesApi
     @Test
@@ -57,7 +54,7 @@ internal class InfoHeaderViewModelUnitTest {
                 isTranscribing = false
             )
 
-            val floatingHeaderViewModel = InfoHeaderViewModel(appLocalizationProvider)
+            val floatingHeaderViewModel = InfoHeaderViewModel()
             floatingHeaderViewModel.init(appState.callState.callingStatus, expectedParticipantMap.count())
 
             val resultListFromNumberOfParticipantsFlow =

@@ -106,13 +106,11 @@ internal class SetupControlBarView : LinearLayout {
         when (audioOperationalStatus) {
             AudioOperationalStatus.ON -> {
                 micButton.isON = true
-                micButton.text =
-                    getLocalizedString(R.string.azure_communication_ui_setup_view_button_mic_on)
+                micButton.text = context.getString(R.string.azure_communication_ui_setup_view_button_mic_on)
             }
             AudioOperationalStatus.OFF -> {
                 micButton.isON = false
-                micButton.text =
-                    getLocalizedString(R.string.azure_communication_ui_setup_view_button_mic_off)
+                micButton.text = context.getString(R.string.azure_communication_ui_setup_view_button_mic_off)
             }
         }
         micButton.refreshDrawableState()
@@ -122,13 +120,11 @@ internal class SetupControlBarView : LinearLayout {
         when (operation) {
             CameraOperationalStatus.ON -> {
                 cameraButton.isON = true
-                cameraButton.text =
-                    getLocalizedString(R.string.azure_communication_ui_setup_view_button_video_on)
+                cameraButton.text = context.getString(R.string.azure_communication_ui_setup_view_button_video_on)
             }
             CameraOperationalStatus.OFF -> {
                 cameraButton.isON = false
-                cameraButton.text =
-                    getLocalizedString(R.string.azure_communication_ui_setup_view_button_video_off)
+                cameraButton.text = context.getString(R.string.azure_communication_ui_setup_view_button_video_off)
             }
         }
         cameraButton.refreshDrawableState()
@@ -164,19 +160,19 @@ internal class SetupControlBarView : LinearLayout {
     private fun setAudioDeviceButtonState(audioState: AudioState) {
         audioDeviceButton.text = when (audioState.device) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
-                getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_speaker)
+                context.getString(R.string.azure_communication_ui_audio_device_drawer_speaker)
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
                 when (audioState.isHeadphonePlugged) {
-                    true -> getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_headphone)
-                    false -> getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_android)
+                    true -> context.getString(R.string.azure_communication_ui_audio_device_drawer_headphone)
+                    false -> context.getString(R.string.azure_communication_ui_audio_device_drawer_android)
                 }
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
                 if (audioState.bluetoothState.deviceName.isNotBlank()) {
                     audioState.bluetoothState.deviceName
                 } else {
-                    getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_bluetooth)
                 }
             }
             else -> {
@@ -214,10 +210,6 @@ internal class SetupControlBarView : LinearLayout {
         } else {
             viewModel.turnCameraOn()
         }
-    }
-
-    private fun getLocalizedString(stringId: Int): String {
-        return viewModel.getLocalizationProvider().getLocalizedString(context, stringId)
     }
 }
 
