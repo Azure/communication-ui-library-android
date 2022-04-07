@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
-
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 
 import com.azure.android.communication.ui.redux.action.Action
