@@ -30,8 +30,8 @@ internal class ParticipantInfoModelStateReducerUnitTest {
             )
         val reducer = ParticipantStateReducerImpl()
         val oldState = RemoteParticipantsState(HashMap(), 0)
-        val action = ParticipantAction.ListUpdated()
-        action.participantMap = participantMap
+
+        val action = ParticipantAction.ListUpdated(participantMap)
 
         // act
         val newState = reducer.reduce(oldState, action)
