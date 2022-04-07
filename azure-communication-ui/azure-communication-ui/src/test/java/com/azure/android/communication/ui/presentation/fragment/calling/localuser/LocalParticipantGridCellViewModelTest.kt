@@ -8,6 +8,7 @@ import android.widget.ImageView
 import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
+
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
@@ -33,7 +34,6 @@ internal class LocalParticipantGridCellViewModelTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun localParticipantViewModel_update_when_turnMic_then_audioState_update() =
@@ -44,9 +44,9 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider,
                     null
                 )
+
             viewModel.init(
                 displayName = "username",
                 AudioOperationalStatus.PENDING,
@@ -116,9 +116,9 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider,
                     null
                 )
+
             viewModel.init(
                 displayName = "username",
                 AudioOperationalStatus.PENDING,
@@ -159,9 +159,9 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider,
                     null
                 )
+
             viewModel.init(
                 displayName = "username",
                 AudioOperationalStatus.PENDING,
@@ -235,9 +235,9 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider,
                     null
                 )
+
             viewModel.init(
                 displayName = displayName,
                 audioState,
@@ -309,9 +309,9 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    appLocalizationProvider,
                     null
                 )
+
             viewModel.init(
                 displayName = displayName,
                 audioState,

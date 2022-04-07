@@ -41,20 +41,15 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     }
 
     val setupViewModel by lazy {
-        SetupViewModel(
-            container.appStore,
-            SetupViewModelFactory(
+        SetupViewModelFactory(
                 container.appStore,
                 container.localizationProvider,
                 container.personaManager
             )
-        )
     }
 
     val callingViewModel by lazy {
-        CallingViewModel(
-            container.appStore,
-            CallingViewModelFactory(
+        CallingViewModelFactory(
                 container.appStore,
                 container.localizationProvider,
                 ParticipantGridCellViewModelFactory(),

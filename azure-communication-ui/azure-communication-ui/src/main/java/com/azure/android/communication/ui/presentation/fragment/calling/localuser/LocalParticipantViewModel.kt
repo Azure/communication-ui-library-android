@@ -3,8 +3,9 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
+
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
-import com.azure.android.communication.ui.configuration.LocalizationProvider
+
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
@@ -20,7 +21,6 @@ internal enum class LocalParticipantViewMode {
 
 internal class LocalParticipantViewModel(
     private val dispatch: (Action) -> Unit,
-    private val localizationProvider: LocalizationProvider,
     private val localParticipantConfig: LocalParticipantConfiguration?,
 ) {
     private lateinit var videoStatusFlow: MutableStateFlow<VideoModel>
@@ -112,10 +112,6 @@ internal class LocalParticipantViewModel(
 
     fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
         isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
-    }
-
-    fun getLocalizationProvider(): LocalizationProvider {
-        return localizationProvider
     }
 
     private fun shouldDisplayVideo(videoStreamID: String?) = videoStreamID != null

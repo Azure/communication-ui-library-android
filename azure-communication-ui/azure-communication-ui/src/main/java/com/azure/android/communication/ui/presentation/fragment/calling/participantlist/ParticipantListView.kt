@@ -140,11 +140,7 @@ internal class ParticipantListView(
         for (remoteParticipant in remoteParticipantCellModels) {
             bottomCellItems.add(
                 generateBottomCellItem(
-                    if (remoteParticipant.displayName.isEmpty()) viewModel.getLocalizationProvider()
-                        .getLocalizedString(
-                            context,
-                            R.string.azure_communication_ui_calling_view_participant_drawer_unnamed
-                        )
+                    if (remoteParticipant.displayName.isEmpty()) context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
                     else remoteParticipant.displayName,
                     remoteParticipant.isMuted
                 )
@@ -158,20 +154,13 @@ internal class ParticipantListView(
         return BottomCellItem(
             null,
             displayName,
-            displayName + viewModel.getLocalizationProvider().getLocalizedString(
-                context,
-                R.string.azure_communication_ui_calling_view_participant_list_dismiss_list
-            ),
+            displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list),
             ContextCompat.getDrawable(
                 context,
                 R.drawable.azure_communication_ui_ic_fluent_mic_off_24_regular
             ),
             R.color.azure_communication_ui_color_participant_list_mute_mic,
-            viewModel.getLocalizationProvider()
-                .getLocalizedString(
-                    context,
-                    R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label
-                ),
+            context.getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label),
             isMuted
         ) {
             if (accessibilityManager.isEnabled) {
