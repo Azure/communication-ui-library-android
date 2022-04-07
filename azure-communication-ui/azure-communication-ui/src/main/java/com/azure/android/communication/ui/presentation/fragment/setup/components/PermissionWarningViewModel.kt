@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.PermissionState
@@ -11,10 +10,7 @@ import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class PermissionWarningViewModel(
-    private val dispatch: (Action) -> Unit,
-    private val localizationProvider: LocalizationProvider
-) {
+internal class PermissionWarningViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var cameraPermissionStateFlow: MutableStateFlow<PermissionStatus>
     private lateinit var audioPermissionStateFlow: MutableStateFlow<PermissionStatus>
 
@@ -38,10 +34,6 @@ internal class PermissionWarningViewModel(
 
     fun turnCameraOn() {
         dispatchAction(action = LocalParticipantAction.CameraPreviewOnRequested())
-    }
-
-    fun getLocalizationProvider(): LocalizationProvider {
-        return localizationProvider
     }
 
     private fun dispatchAction(action: Action) {

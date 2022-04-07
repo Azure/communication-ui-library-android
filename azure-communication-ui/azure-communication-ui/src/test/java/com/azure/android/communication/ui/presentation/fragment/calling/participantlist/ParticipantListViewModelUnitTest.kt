@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -32,7 +30,6 @@ internal class ParticipantListViewModelUnitTest {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate() {
@@ -100,7 +97,7 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel(appLocalizationProvider)
+            val participantListViewModel = ParticipantListViewModel()
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState)
 
             val resultListFromRemoteParticipantListCellStateFlow =
@@ -190,7 +187,7 @@ internal class ParticipantListViewModelUnitTest {
                     )
                 }
 
-            val participantListViewModel = ParticipantListViewModel(appLocalizationProvider)
+            val participantListViewModel = ParticipantListViewModel()
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState
@@ -257,7 +254,7 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel(appLocalizationProvider)
+            val participantListViewModel = ParticipantListViewModel()
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState
