@@ -3,16 +3,14 @@
 
 package com.azure.android.communication.ui;
 
-import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
-
 /**
  * {@link CallingEventHandler}&lt;T&gt;
  *
  */
-public interface CallingEventHandler {
+public interface CallingEventHandler<T> {
     /**
-     * A callback method to process error event
-     * @param eventArgs {@link CommunicationUIErrorEvent}
+     * A callback method to process event
+     * @param eventArgs {@link T}
      */
-    void handle(CommunicationUIErrorEvent eventArgs);
+    void handle(T eventArgs);
 }

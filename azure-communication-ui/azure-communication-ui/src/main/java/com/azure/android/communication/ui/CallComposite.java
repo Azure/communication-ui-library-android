@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.configuration.CallCompositeConfigurati
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration;
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -199,7 +200,7 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallingEventHandler}.
      */
-    public void setOnErrorHandler(final CallingEventHandler eventHandler) {
+    public void setOnErrorHandler(final CallingEventHandler<CommunicationUIErrorEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
     }
 

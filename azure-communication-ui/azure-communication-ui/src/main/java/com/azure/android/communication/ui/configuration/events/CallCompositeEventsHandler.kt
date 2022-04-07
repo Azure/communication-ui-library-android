@@ -6,11 +6,11 @@ package com.azure.android.communication.ui.configuration.events
 import com.azure.android.communication.ui.CallingEventHandler
 
 internal class CallCompositeEventsHandler {
-    private var errorHandlers: CallingEventHandler? = null
+    private var errorHandlers: CallingEventHandler<CommunicationUIErrorEvent>? = null
 
     fun getOnErrorHandler() = errorHandlers
 
-    fun setOnErrorHandler(errorHandler: CallingEventHandler?) {
+    fun setOnErrorHandler(errorHandler: CallingEventHandler<CommunicationUIErrorEvent>?) {
         errorHandlers = errorHandler
     }
 }
