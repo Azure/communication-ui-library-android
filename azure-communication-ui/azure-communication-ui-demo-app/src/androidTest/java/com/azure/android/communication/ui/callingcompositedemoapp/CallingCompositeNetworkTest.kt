@@ -16,7 +16,7 @@ class CallingCompositeNetworkTest : BaseUiTest() {
 
     @Test
     fun testJoinTeamsCallAfterNetworkDisconnected() {
-
+        NetworkUtils.disableNetwork()
         val homeScreen = HomeScreenRobot()
             .setAcsToken(TestFixture.acsToken)
             .clickTeamsMeetingRadioButton()
@@ -26,7 +26,7 @@ class CallingCompositeNetworkTest : BaseUiTest() {
 
     @Test
     fun testJoinGroupCallAfterNetworkDisconnected() {
-
+        NetworkUtils.disableNetwork()
         val homeScreen = HomeScreenRobot()
             .setAcsToken(TestFixture.acsToken)
             .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
@@ -38,7 +38,6 @@ class CallingCompositeNetworkTest : BaseUiTest() {
 
         val setupScreen = homeScreen.clickLaunchButton()
         try {
-            NetworkUtils.disableNetwork()
             val callScreen = setupScreen
                 .turnCameraOn()
                 .clickJoinCallButton()
