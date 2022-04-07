@@ -5,9 +5,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling.localus
 
 import android.graphics.Bitmap
 import android.widget.ImageView
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.persona.PersonaData
@@ -395,11 +393,9 @@ internal class LocalParticipantGridCellViewModelTest {
         val personaManager = PersonaManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
-        val mockLocalizationProvider = mock<LocalizationProvider> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
-                mockLocalizationProvider,
                 ParticipantGridCellViewModelFactory(),
                 personaManager
             )
@@ -428,11 +424,9 @@ internal class LocalParticipantGridCellViewModelTest {
         val personaManager = PersonaManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
-        val mockLocalizationProvider = mock<LocalizationProvider> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
-                mockLocalizationProvider,
                 ParticipantGridCellViewModelFactory(),
                 personaManager
             )
@@ -466,11 +460,9 @@ internal class LocalParticipantGridCellViewModelTest {
         val personaManager = PersonaManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
-        val mockLocalizationProvider = mock<LocalizationProvider> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
-                mockLocalizationProvider,
                 ParticipantGridCellViewModelFactory(),
                 personaManager
             )
@@ -504,11 +496,9 @@ internal class LocalParticipantGridCellViewModelTest {
         val personaManager = PersonaManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
-        val mockLocalizationProvider = mock<LocalizationProvider> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
-                mockLocalizationProvider,
                 ParticipantGridCellViewModelFactory(),
                 personaManager
             )
