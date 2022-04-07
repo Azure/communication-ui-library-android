@@ -8,10 +8,15 @@ import android.content.res.Configuration
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityManager
 import android.widget.GridLayout
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.VideoStreamRenderer
+import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -35,6 +40,13 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var participantGridViewModel: ParticipantGridViewModel
     private lateinit var getVideoStreamCallback: (String, String) -> View?
     private lateinit var getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?
+    private lateinit var gridView: ParticipantGridView
+    private lateinit var accessibilityManager: AccessibilityManager
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        gridView = findViewById(R.id.azure_communication_ui_call_participant_container)
+    }
 
     fun start(
         participantGridViewModel: ParticipantGridViewModel,
@@ -42,6 +54,20 @@ internal class ParticipantGridView : GridLayout {
         viewLifecycleOwner: LifecycleOwner,
         showFloatingHeader: () -> Unit,
     ) {
+        accessibilityManager =
+            context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        if (accessibilityManager.isEnabled) {
+            ViewCompat.setAccessibilityDelegate(
+                this,
+                object : AccessibilityDelegateCompat() {
+                    override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                        super.onInitializeAccessibilityNodeInfo(host, info)
+                        info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
+                        info.isClickable = false
+                    }
+                }
+            )
+        }
         this.videoViewManager = videoViewManager
         this.viewLifecycleOwner = viewLifecycleOwner
         this.participantGridViewModel = participantGridViewModel
@@ -65,6 +91,16 @@ internal class ParticipantGridView : GridLayout {
             participantGridViewModel.getRemoteParticipantsUpdateStateFlow().collect {
                 post {
                     updateGrid(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            participantGridViewModel.getIsLobbyOverlayDisplayedFlow().collect {
+                if (it) {
+                    ViewCompat.setImportantForAccessibility(gridView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                } else {
+                    ViewCompat.setImportantForAccessibility(gridView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
                 }
             }
         }
