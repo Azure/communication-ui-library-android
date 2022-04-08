@@ -36,9 +36,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
             appState.remoteParticipantState = RemoteParticipantsState(mutableMapOf(), 0)
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-            }
+            val mockAppStore = mock<AppStore<ReduxState>> {}
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(mock { })
