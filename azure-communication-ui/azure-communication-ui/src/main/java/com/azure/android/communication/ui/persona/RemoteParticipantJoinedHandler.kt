@@ -17,7 +17,6 @@ internal class RemoteParticipantJoinedHandler(
     private val store: Store<ReduxState>,
     private val remoteParticipantsCollection: CallingSDKRemoteParticipantsCollection,
 ) {
-
     private var lastRemoteParticipantsState: RemoteParticipantsState? = null
     private val remoteParticipantMap: Map<String, ParticipantInfoModel> = mutableMapOf()
 
