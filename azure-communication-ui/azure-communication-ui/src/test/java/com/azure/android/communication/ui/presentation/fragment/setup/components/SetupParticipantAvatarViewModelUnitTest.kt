@@ -177,6 +177,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
             resultFlow.cancel()
         }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaName_when_personaDataNameIsSet() {
         // arrange
         val personaData = PersonaData("test")
@@ -203,6 +204,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         )
     }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaImage_when_personaImageIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
@@ -235,6 +237,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         )
     }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaData_when_personaDataIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
@@ -267,6 +270,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         )
     }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaScale_onCall_returnsPersonaScale_when_personaScaleIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
