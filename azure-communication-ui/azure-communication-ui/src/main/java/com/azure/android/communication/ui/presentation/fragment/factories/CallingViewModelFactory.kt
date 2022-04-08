@@ -19,11 +19,14 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
-    private val localParticipantConfig: PersonaManager,
+    private val personaManager: PersonaManager,
 ) {
 
     private val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory)
+        ParticipantGridViewModel(
+            participantGridCellViewModelFactory,
+            personaManager.getRemoteParticipantsConfiguration()
+        )
     }
 
     private val controlBarViewModel by lazy {
@@ -45,12 +48,12 @@ internal class CallingViewModelFactory(
     private val localParticipantViewModel by lazy {
         LocalParticipantViewModel(
             store::dispatch,
-            localParticipantConfig.getLocalParticipantConfiguration()
+            personaManager.getLocalParticipantConfiguration()
         )
     }
 
     private val participantListViewModel by lazy {
-        ParticipantListViewModel()
+        ParticipantListViewModel(personaManager.getRemoteParticipantsConfiguration())
     }
 
     private val bannerViewModel by lazy {

@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
-    private val localParticipantConfig: PersonaManager
+    private val personaManager: PersonaManager
 ) {
     private val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
@@ -44,7 +44,7 @@ internal class SetupViewModelFactory(
     }
 
     private val participantAvatarViewModel by lazy {
-        SetupParticipantAvatarViewModel(localParticipantConfig.getLocalParticipantConfiguration())
+        SetupParticipantAvatarViewModel(personaManager.getLocalParticipantConfiguration())
     }
 
     private val joinCallButtonHolderViewModel by lazy {

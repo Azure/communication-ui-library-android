@@ -32,7 +32,10 @@ internal class ParticipantGridCellViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
-            val participantGridViewModel = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+            val participantGridViewModel = ParticipantGridViewModel(
+                ParticipantGridCellViewModelFactory(),
+                personaManager.getRemoteParticipantsConfiguration()
+            )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -78,7 +81,10 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel =
-                ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+                ParticipantGridViewModel(
+                    ParticipantGridCellViewModelFactory(),
+                    personaManager.getRemoteParticipantsConfiguration()
+                )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -136,7 +142,10 @@ internal class ParticipantGridCellViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
-            val participantGridViewModel = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+            val participantGridViewModel = ParticipantGridViewModel(
+                ParticipantGridCellViewModelFactory(),
+                personaManager.getRemoteParticipantsConfiguration()
+            )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",

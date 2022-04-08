@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.persona
 
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.events.RemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
@@ -18,7 +17,6 @@ internal class RemoteParticipantJoinedHandler(
     private val remoteParticipantsCollection: CallingSDKRemoteParticipantsCollection,
 ) {
     private var lastRemoteParticipantsState: RemoteParticipantsState? = null
-    private val remoteParticipantMap: Map<String, ParticipantInfoModel> = mutableMapOf()
 
     suspend fun start() {
         store.getStateFlow().collect {
@@ -30,9 +28,14 @@ internal class RemoteParticipantJoinedHandler(
         if (configuration.callCompositeEventsHandler.getOnRemoteParticipantJoinedHandler() != null &&
             remoteParticipantsState.modifiedTimestamp != lastRemoteParticipantsState?.modifiedTimestamp
         ) {
-            val joinedParticipant =
-                remoteParticipantsState.participantMap.keys.filter { it !in remoteParticipantMap.keys }
-            sendRemoteParticipantJoinedEvent(joinedParticipant)
+            if (lastRemoteParticipantsState != null) {
+                val joinedParticipant =
+                    remoteParticipantsState.participantMap.keys.filter { it !in lastRemoteParticipantsState!!.participantMap.keys }
+                sendRemoteParticipantJoinedEvent(joinedParticipant)
+            } else {
+                sendRemoteParticipantJoinedEvent(remoteParticipantsState.participantMap.keys.toList())
+            }
+
             lastRemoteParticipantsState = remoteParticipantsState
         }
     }

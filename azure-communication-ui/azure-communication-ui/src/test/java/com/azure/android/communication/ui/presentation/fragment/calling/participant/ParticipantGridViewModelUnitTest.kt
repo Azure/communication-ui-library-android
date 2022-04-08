@@ -661,7 +661,10 @@ internal class ParticipantGridViewModelUnitTest {
             flowJob.cancel()
         }
 
-    private fun getParticipantGridViewModel() = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+    private fun getParticipantGridViewModel() = ParticipantGridViewModel(
+        ParticipantGridCellViewModelFactory(),
+        personaManager.getRemoteParticipantsConfiguration()
+    )
 
     private fun getParticipantInfoModel(
         displayName: String,

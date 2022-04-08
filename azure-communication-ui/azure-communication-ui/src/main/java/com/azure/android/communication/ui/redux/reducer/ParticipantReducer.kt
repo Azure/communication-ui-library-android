@@ -16,6 +16,12 @@ internal class ParticipantStateReducerImpl :
             is ParticipantAction.ListUpdated -> {
                 RemoteParticipantsState(action.participantMap, System.currentTimeMillis())
             }
+            is ParticipantAction.PersonaUpdated -> {
+                val participantMap = state.participantMap
+                participantMap[action.userIdentifier]?.modifiedTimestamp =
+                    System.currentTimeMillis()
+                RemoteParticipantsState(participantMap, System.currentTimeMillis())
+            }
             else -> state
         }
     }

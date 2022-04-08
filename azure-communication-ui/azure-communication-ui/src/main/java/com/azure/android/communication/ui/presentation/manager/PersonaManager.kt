@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.configuration.RemoteParticipantsConfig
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfigurationHandler
 import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.redux.AppStore
+import com.azure.android.communication.ui.redux.action.ParticipantAction
 import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class PersonaManager(
@@ -30,6 +31,7 @@ internal class PersonaManager(
     private val remoteParticipantsPersonaCache = mutableMapOf<String, PersonaData>()
 
     fun getLocalParticipantConfiguration() = localParticipantConfiguration
+    fun getRemoteParticipantsConfiguration() = remoteParticipantsConfiguration
 
     override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData) {
         val id = getRemoteParticipantId(data.identifier)
@@ -37,11 +39,13 @@ internal class PersonaManager(
             remoteParticipantsPersonaCache.remove(id)
         }
         remoteParticipantsPersonaCache[id] = data.personaData
+        appStore.dispatch(ParticipantAction.PersonaUpdated(id))
     }
 
     override fun getRemoteParticipantPersonaData(identifier: String): PersonaData? {
-        if (remoteParticipantsPersonaCache.contains(identifier))
+        if (remoteParticipantsPersonaCache.contains(identifier)) {
             return remoteParticipantsPersonaCache[identifier]
+        }
         return null
     }
 

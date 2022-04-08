@@ -3,8 +3,10 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid
 
+import android.util.Log
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.VideoStreamModel
+import com.azure.android.communication.ui.persona.PersonaData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -16,11 +18,13 @@ internal class ParticipantGridCellViewModel(
     isMuted: Boolean,
     isSpeaking: Boolean,
     modifiedTimestamp: Number,
+    personaData: PersonaData?,
 ) {
     private var displayNameStateFlow = MutableStateFlow(displayName)
     private var isMutedStateFlow = MutableStateFlow(isMuted)
     private var isSpeakingStateFlow = MutableStateFlow(isSpeaking && !isMuted)
     private var isNameIndicatorVisibleStateFlow = MutableStateFlow(true)
+    private var personaDataStateFlow = MutableStateFlow(personaData)
     private var videoViewModelStateFlow = MutableStateFlow(
         getVideoStreamModel(
             createVideoViewModel(cameraVideoStreamModel),
@@ -58,7 +62,10 @@ internal class ParticipantGridCellViewModel(
         return participantModifiedTimestamp
     }
 
-    fun update(participant: ParticipantInfoModel) {
+    fun getPersonaDataStateFlow(): StateFlow<PersonaData?> = personaDataStateFlow
+
+    fun update(participant: ParticipantInfoModel, personaData: PersonaData?) {
+        Log.d("helloo", " request update")
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
@@ -73,6 +80,7 @@ internal class ParticipantGridCellViewModel(
 
         this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
         this.participantModifiedTimestamp = participant.modifiedTimestamp
+        this.personaDataStateFlow.value = personaData
     }
 
     private fun createVideoViewModel(videoStreamModel: VideoStreamModel?): VideoViewModel? {

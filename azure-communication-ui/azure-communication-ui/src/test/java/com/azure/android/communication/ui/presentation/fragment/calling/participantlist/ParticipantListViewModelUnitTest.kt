@@ -97,7 +97,7 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(personaManager.getRemoteParticipantsConfiguration())
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState)
 
             val resultListFromRemoteParticipantListCellStateFlow =
@@ -187,7 +187,7 @@ internal class ParticipantListViewModelUnitTest {
                     )
                 }
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(personaManager.getRemoteParticipantsConfiguration())
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState
@@ -254,7 +254,7 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(personaManager.getRemoteParticipantsConfiguration())
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState

@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant.grid
 
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ParticipantGridViewModel(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
+    private val remoteParticipantsConfiguration: RemoteParticipantsConfiguration,
 ) {
 
     private var remoteParticipantsUpdatedStateFlow: MutableStateFlow<List<ParticipantGridCellViewModel>> =
@@ -59,7 +61,6 @@ internal class ParticipantGridViewModel(
         }
 
         remoteParticipantStateModifiedTimeStamp = participantStateUpdatedTimestamp
-
         var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)
 
@@ -110,7 +111,8 @@ internal class ParticipantGridViewModel(
                 != remoteParticipantsMapSorted[id]!!.modifiedTimestamp
             ) {
                 participantViewModel.update(
-                    remoteParticipantsMapSorted[id]!!
+                    remoteParticipantsMapSorted[id]!!,
+                    remoteParticipantsConfiguration.getPersonaData(id)
                 )
             }
             remoteParticipantsMapSorted.remove(id)
@@ -134,7 +136,10 @@ internal class ParticipantGridViewModel(
                 listToPreserveOrder.removeAt(indexToSwap)
                 val participantID = remoteParticipantsMapSorted.keys.first()
                 val participantInfoModel = remoteParticipantsMapSorted[participantID]
-                viewModel?.update(participantInfoModel!!)
+                viewModel?.update(
+                    participantInfoModel!!,
+                    remoteParticipantsConfiguration.getPersonaData(participantID)
+                )
                 listToPreserveOrder.add(indexToSwap, Pair(participantID, viewModel!!))
                 remoteParticipantsMapSorted.remove(participantID)
             }
@@ -147,7 +152,7 @@ internal class ParticipantGridViewModel(
         remoteParticipantsMapSorted.forEach { (id, participantInfoModel) ->
             displayedRemoteParticipantsViewModelMap[id] =
                 participantGridCellViewModelFactory.ParticipantGridCellViewModel(
-                    participantInfoModel
+                    participantInfoModel, remoteParticipantsConfiguration.getPersonaData(id)
                 )
         }
 
