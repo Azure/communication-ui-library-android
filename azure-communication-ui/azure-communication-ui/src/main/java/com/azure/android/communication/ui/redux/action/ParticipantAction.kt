@@ -5,9 +5,6 @@ package com.azure.android.communication.ui.redux.action
 
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 
-internal sealed class ParticipantAction(
-    var participantMap: Map<String, ParticipantInfoModel> = HashMap(),
-) :
-    Action {
-    class ListUpdated : ParticipantAction(HashMap())
+internal sealed class ParticipantAction : Action {
+    class ListUpdated(val participantMap: Map<String, ParticipantInfoModel>) : ParticipantAction()
 }

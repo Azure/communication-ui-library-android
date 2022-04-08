@@ -6,9 +6,12 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -46,11 +49,14 @@ internal class ErrorInfoView(private val rootView: View) {
     private fun displaySnackBar(it: CallStateError) {
         val errorMessage = getErrorMessage(it)
 
-        if (errorMessage.isNotEmpty()) {
-            snackBarTextView.text = errorMessage
-            if (!snackBar.isShown) {
-                snackBar.show()
+        if (errorMessage.isBlank()) return
+        snackBarTextView.text = errorMessage
+        snackBar.run {
+            if (isShown) {
+                dismiss()
             }
+            show()
+            view.accessibilityFocus()
         }
     }
 
@@ -88,14 +94,25 @@ internal class ErrorInfoView(private val rootView: View) {
                     R.color.azure_communication_ui_color_snack_bar_text_color
                 )
             )
-            val snackBarActionButton = view.findViewById<AppCompatButton>(R.id.snackbar_action)
-            snackBarActionButton.setTextColor(
-                ContextCompat.getColor(
-                    rootView.context,
-                    R.color.azure_communication_ui_color_snack_bar_text_color
+            view.findViewById<AppCompatButton>(R.id.snackbar_action).apply {
+                setTextColor(
+                    ContextCompat.getColor(
+                        rootView.context,
+                        R.color.azure_communication_ui_color_snack_bar_text_color
+                    )
                 )
-            )
-            snackBarActionButton.isAllCaps = false
+                isAllCaps = false
+                contentDescription = rootView.context.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)
+            }
+            ViewCompat.setImportantForAccessibility(view, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
         }
     }
+}
+
+fun View.accessibilityFocus(): View {
+    post {
+        performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+    }
+    return this
 }

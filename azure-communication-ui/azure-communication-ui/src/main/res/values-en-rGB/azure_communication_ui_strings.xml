@@ -26,7 +26,6 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Selected</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Setup Gradient</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">Switch Camera Button</string>
-    <string name="azure_communication_ui_call_setup_action_bar_title">Setup</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Waiting for host</string>
@@ -75,4 +74,12 @@
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">On-going call</string>
     <string name="azure_communication_ui_service_notification_message">Tap to return to the call</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+
+
+
 </resources>
