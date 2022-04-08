@@ -12,12 +12,6 @@ import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.persona.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.presentation.VideoViewManager
 
-import com.azure.android.communication.ui.presentation.fragment.ViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
-import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.presentation.manager.AccessibilityAnnouncementManager
 
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
