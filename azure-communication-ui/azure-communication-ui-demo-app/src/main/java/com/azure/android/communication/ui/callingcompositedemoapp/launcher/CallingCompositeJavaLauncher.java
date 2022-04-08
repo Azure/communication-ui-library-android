@@ -62,7 +62,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CallComposite callComposite = builder.build();
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
         callComposite.setOnRemoteParticipantJoinedHandler(
-                new CallLauncherActivityRemoteParticipantJoinedHandler(callLauncherActivity, callComposite)
+                new CallLauncherActivityRemoteParticipantJoinedHandler(callComposite)
         );
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =

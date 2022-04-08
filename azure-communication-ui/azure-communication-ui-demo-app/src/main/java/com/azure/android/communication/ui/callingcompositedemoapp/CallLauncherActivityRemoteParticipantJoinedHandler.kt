@@ -8,17 +8,12 @@ import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallingEventHandler
 import com.azure.android.communication.ui.configuration.events.RemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.persona.PersonaData
-import java.lang.ref.WeakReference
 import java.net.URL
 
 class CallLauncherActivityRemoteParticipantJoinedHandler(
-    callLauncherActivity: CallLauncherActivity,
     private val callComposite: CallComposite,
 ) :
     CallingEventHandler<RemoteParticipantJoinedEvent> {
-
-    private val activityWr: WeakReference<CallLauncherActivity> =
-        WeakReference(callLauncherActivity)
 
     override fun handle(it: RemoteParticipantJoinedEvent) {
         println("================= application is logging exception =================")
