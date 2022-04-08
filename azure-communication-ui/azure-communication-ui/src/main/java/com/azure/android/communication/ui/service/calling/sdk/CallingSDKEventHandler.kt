@@ -56,7 +56,7 @@ internal class CallingSDKEventHandler(
     private lateinit var recordingFeature: RecordingCallFeature
     private lateinit var transcriptionFeature: TranscriptionCallFeature
 
-    fun getRemoteParticipantsMap() = remoteParticipantsCacheMap
+    fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> = remoteParticipantsCacheMap
 
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
         callingStateWrapperSharedFlow
@@ -132,7 +132,7 @@ internal class CallingSDKEventHandler(
         }
 
     private fun onCallStateChange() {
-        var callState = call?.state
+        val callState = call?.state
         var callEndReason = 0
 
         when (callState) {

@@ -44,7 +44,6 @@ internal class DependencyInjectionContainerImpl(
 ) : DependencyInjectionContainer {
 
     //region Overrides
-    // These getters are required by the interface
     override val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
 
     override val navigationRouter by lazy {
@@ -63,7 +62,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val remoteParticipantJoinedHandler by lazy {
-        RemoteParticipantJoinedHandler(configuration, appStore)
+        RemoteParticipantJoinedHandler(configuration, appStore, callingSDKWrapper)
     }
 
     override val videoViewManager by lazy {

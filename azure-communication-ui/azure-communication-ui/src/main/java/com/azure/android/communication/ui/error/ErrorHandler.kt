@@ -125,7 +125,6 @@ internal class ErrorHandler(
     }
 
     private fun callErrorCallback(error: FatalError) {
-
         try {
             val eventArgs =
                 CommunicationUIErrorEvent(
