@@ -4,6 +4,7 @@
 
 ### New Features
 - Local participant persona injection [#180](https://github.com/Azure/communication-ui-library-android/pull/180)
+- Remote participant persona injection [#188](https://github.com/Azure/communication-ui-library-android/pull/188)
 
 ## 1.0.0-beta.3 (2022-04-04)
 
