@@ -393,6 +393,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )
@@ -428,6 +429,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )
@@ -468,6 +470,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )
@@ -508,6 +511,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )

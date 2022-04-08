@@ -85,6 +85,7 @@ internal class DependencyInjectionContainerImpl(
 
     override val personaManager by lazy {
         PersonaManager(
+            appStore,
             configuration.localParticipantConfig,
             configuration.remoteParticipantsConfiguration
         )

@@ -185,6 +185,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )
@@ -216,6 +217,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )
@@ -252,6 +254,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )
@@ -288,6 +291,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
         val personaManager = PersonaManager(
+            mock {},
             localParticipantConfiguration,
             RemoteParticipantsConfiguration()
         )

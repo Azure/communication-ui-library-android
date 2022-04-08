@@ -14,8 +14,11 @@ import com.azure.android.communication.ui.configuration.RemoteParticipantPersona
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfigurationHandler
 import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.redux.AppStore
+import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class PersonaManager(
+    private val appStore: AppStore<ReduxState>,
     private val localParticipantConfiguration: LocalParticipantConfiguration?,
     private val remoteParticipantsConfiguration: RemoteParticipantsConfiguration,
 ) : RemoteParticipantsConfigurationHandler {
