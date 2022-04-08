@@ -34,7 +34,10 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             ViewCompat.setAccessibilityDelegate(
                 itemView,
                 object : AccessibilityDelegateCompat() {
-                    override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                    override fun onInitializeAccessibilityNodeInfo(
+                        host: View,
+                        info: AccessibilityNodeInfoCompat,
+                    ) {
                         super.onInitializeAccessibilityNodeInfo(host, info)
                         info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
                         info.isClickable = false
@@ -44,6 +47,14 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             imageView.visibility = View.GONE
             avatarView.visibility = View.VISIBLE
             avatarView.name = bottomCellItem.title ?: ""
+            avatarView.avatarImageBitmap = bottomCellItem.personaData?.image
+            avatarView.adjustViewBounds = true
+            bottomCellItem.personaData?.scaleType?.let {
+                avatarView.scaleType = it
+            }
+            bottomCellItem.personaData?.name?.let {
+                avatarView.name = it
+            }
             title.contentDescription = bottomCellItem.contentDescription
         } else {
             imageView.setImageDrawable(bottomCellItem.icon)

@@ -53,7 +53,7 @@ internal class CallingViewModelFactory(
     }
 
     private val participantListViewModel by lazy {
-        ParticipantListViewModel(personaManager.getRemoteParticipantsConfiguration())
+        ParticipantListViewModel(personaManager)
     }
 
     private val bannerViewModel by lazy {
