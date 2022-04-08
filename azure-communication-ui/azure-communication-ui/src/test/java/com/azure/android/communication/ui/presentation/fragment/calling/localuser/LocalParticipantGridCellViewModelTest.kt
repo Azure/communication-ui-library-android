@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling.localus
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.persona.PersonaData
@@ -385,12 +386,16 @@ internal class LocalParticipantGridCellViewModelTest {
             displayLobbyJob.cancel()
         }
 
+    @Test
     fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaName_when_personaDataNameIsSet() {
         // arrange
         val personaData = PersonaData("test")
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =
@@ -415,13 +420,17 @@ internal class LocalParticipantGridCellViewModelTest {
         )
     }
 
+    @Test
     fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaImage_when_personaImageIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
         val personaData = PersonaData(mockBitmap)
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =
@@ -451,13 +460,17 @@ internal class LocalParticipantGridCellViewModelTest {
         )
     }
 
+    @Test
     fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaData_when_personaDataIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
         val personaData = PersonaData("hello", mockBitmap, ImageView.ScaleType.CENTER)
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =
@@ -487,13 +500,17 @@ internal class LocalParticipantGridCellViewModelTest {
         )
     }
 
+    @Test
     fun localParticipantViewModel_getPersonaScale_onCall_returnsPersonaScale_when_personaScaleIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
         val personaData = PersonaData(mockBitmap, ImageView.ScaleType.CENTER)
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =

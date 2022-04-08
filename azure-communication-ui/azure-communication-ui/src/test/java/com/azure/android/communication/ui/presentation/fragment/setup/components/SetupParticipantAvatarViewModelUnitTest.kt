@@ -3,6 +3,7 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
@@ -177,12 +178,16 @@ internal class SetupParticipantAvatarViewModelUnitTest {
             resultFlow.cancel()
         }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaName_when_personaDataNameIsSet() {
         // arrange
         val personaData = PersonaData("test")
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
@@ -203,13 +208,17 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         )
     }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaImage_when_personaImageIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
         val personaData = PersonaData(mockBitmap)
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
@@ -235,13 +244,17 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         )
     }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaData_when_personaDataIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
         val personaData = PersonaData("hello", mockBitmap, ImageView.ScaleType.CENTER)
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
@@ -267,13 +280,17 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         )
     }
 
+    @Test
     fun setupParticipantAvatarViewModel_getPersonaScale_onCall_returnsPersonaScale_when_personaScaleIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
         val personaData = PersonaData(mockBitmap, ImageView.ScaleType.CENTER)
 
         val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val personaManager = PersonaManager(
+            localParticipantConfiguration,
+            RemoteParticipantsConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =

@@ -6,6 +6,7 @@ package com.azure.android.communication.ui;
 import android.content.Context;
 import android.content.Intent;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
@@ -13,7 +14,10 @@ import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration;
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
 import com.azure.android.communication.ui.configuration.events.RemoteParticipantJoinedEvent;
+import com.azure.android.communication.ui.persona.PersonaData;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -226,6 +230,17 @@ public final class CallComposite {
     public void setOnRemoteParticipantJoinedHandler(
             final CallingEventHandler<RemoteParticipantJoinedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnRemoteParticipantJoinedHandler(eventHandler);
+    }
+
+    /**
+     * Set {@link PersonaData}.
+     *
+     * @param identifier  The {@link CommunicationIdentifier}.
+     * @param personaData The {@link PersonaData}.
+     */
+    public void setRemoteParticipantPersonaData(@NotNull final CommunicationIdentifier identifier,
+                                                @NotNull final PersonaData personaData) {
+        configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
     }
 
     private void launch(
