@@ -13,10 +13,15 @@ internal data class RemoteParticipantPersonaData(
 
 internal interface RemoteParticipantsConfigurationHandler {
     fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData)
+    fun getRemoteParticipantPersonaData(identifier: String): PersonaData?
 }
 
 internal class RemoteParticipantsConfiguration {
-    private var remoteParticipantsConfigurationHandler: RemoteParticipantsConfigurationHandler? = null
+    private var remoteParticipantsConfigurationHandler: RemoteParticipantsConfigurationHandler? =
+        null
+
+    fun getPersonaData(identifier: String) =
+        remoteParticipantsConfigurationHandler?.getRemoteParticipantPersonaData(identifier)
 
     fun setRemoteParticipantsConfigurationHandler(handler: RemoteParticipantsConfigurationHandler) {
         remoteParticipantsConfigurationHandler = handler
