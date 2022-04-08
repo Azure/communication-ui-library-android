@@ -65,7 +65,8 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
         callComposite.setOnRemoteParticipantJoinedHandler(
-            CallLauncherActivityRemoteParticipantJoinedHandler(callLauncherActivity))
+            CallLauncherActivityRemoteParticipantJoinedHandler(callLauncherActivity, callComposite)
+        )
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions(tokenRefresher, true)

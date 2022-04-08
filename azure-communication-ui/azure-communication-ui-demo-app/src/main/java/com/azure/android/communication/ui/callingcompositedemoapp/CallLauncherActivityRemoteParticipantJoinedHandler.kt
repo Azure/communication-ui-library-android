@@ -3,11 +3,15 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallingEventHandler
 import com.azure.android.communication.ui.configuration.events.RemoteParticipantJoinedEvent
 import java.lang.ref.WeakReference
 
-class CallLauncherActivityRemoteParticipantJoinedHandler(callLauncherActivity: CallLauncherActivity) :
+class CallLauncherActivityRemoteParticipantJoinedHandler(
+    callLauncherActivity: CallLauncherActivity,
+    callComposite: CallComposite,
+) :
     CallingEventHandler<RemoteParticipantJoinedEvent> {
 
     private val activityWr: WeakReference<CallLauncherActivity> =

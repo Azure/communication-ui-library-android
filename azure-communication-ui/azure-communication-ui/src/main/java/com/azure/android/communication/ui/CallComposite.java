@@ -225,7 +225,7 @@ public final class CallComposite {
      */
     public void setOnRemoteParticipantJoinedHandler(
             final CallingEventHandler<RemoteParticipantJoinedEvent> eventHandler) {
-
+        configuration.getCallCompositeEventsHandler().setOnRemoteParticipantJoinedHandler(eventHandler);
     }
 
     private void launch(
