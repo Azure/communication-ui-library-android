@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.configuration.CallCompositeConfigurati
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
+import com.azure.android.communication.ui.persona.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
@@ -59,6 +60,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val errorHandler by lazy {
         ErrorHandler(configuration, appStore)
+    }
+
+    override val remoteParticipantJoinedHandler by lazy {
+        RemoteParticipantJoinedHandler(configuration, appStore)
     }
 
     override val videoViewManager by lazy {
