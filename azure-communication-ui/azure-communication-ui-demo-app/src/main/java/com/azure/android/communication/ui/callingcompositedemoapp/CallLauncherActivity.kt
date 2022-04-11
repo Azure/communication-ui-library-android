@@ -46,9 +46,6 @@ class CallLauncherActivity : AppCompatActivity() {
         conditionallyRegisterDiagnostics(this)
         FeatureFlags.registerAdditionalFeature(AdditionalFeatures.secondaryThemeFeature)
 
-        // Initialize the FeatureFlags enum
-        FeatureFlags.initialize(this)
-
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
