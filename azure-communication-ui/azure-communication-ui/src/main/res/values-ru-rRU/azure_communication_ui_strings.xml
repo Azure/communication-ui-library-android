@@ -76,9 +76,9 @@
     <string name="azure_communication_ui_service_notification_message">Коснитесь, чтобы вернуться к звонку</string>
 
     <!--    Accessibility Hooks -->
-    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
-    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+    <string name="azure_communication_ui_accessibility_user_added">%1$s присоединяется к собранию</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s покидает собрание</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Подключено к собранию</string>
 
 
 

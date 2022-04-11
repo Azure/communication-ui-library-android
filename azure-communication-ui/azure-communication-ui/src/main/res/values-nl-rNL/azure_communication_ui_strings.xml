@@ -76,9 +76,9 @@
     <string name="azure_communication_ui_service_notification_message">Tik om terug te gaan naar het gesprek</string>
 
     <!--    Accessibility Hooks -->
-    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
-    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+    <string name="azure_communication_ui_accessibility_user_added">%1$s neemt nu deel aan de vergadering</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s heeft de vergadering verlaten</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Verbonden met vergadering</string>
 
 
 
