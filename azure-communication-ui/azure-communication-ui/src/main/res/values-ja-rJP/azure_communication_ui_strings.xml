@@ -76,9 +76,9 @@
     <string name="azure_communication_ui_service_notification_message">タップして通話に戻る</string>
 
     <!--    Accessibility Hooks -->
-    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
-    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+    <string name="azure_communication_ui_accessibility_user_added">%1$s が会議に参加しました</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s が会議から退出しました</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">会議に接続しました</string>
 
 
 
