@@ -132,8 +132,8 @@ internal class CallingSDKEventHandler(
         }
 
     private fun onCallStateChange() {
-        var callState = call?.state
-        var callEndReason = 0
+        val callState = call?.state
+        var callEndStatus = Pair(0,0)
 
         when (callState) {
             CallState.CONNECTED -> {
@@ -141,14 +141,18 @@ internal class CallingSDKEventHandler(
                 onRemoteParticipantUpdated()
             }
             CallState.NONE, CallState.DISCONNECTED -> {
-                val code = call!!.callEndReason.code
-                callEndReason = code
-                call?.removeOnStateChangedListener(onCallStateChanged)
+                callEndStatus = call?.let {
+                    it.removeOnStateChangedListener(onCallStateChanged)
+                    Pair(it.callEndReason.code, it.callEndReason.subcode)
+                } ?: Pair(0,0)
             }
+            else -> {}
         }
-        coroutineScope.launch {
-            if (callState != null) {
-                callingStateWrapperSharedFlow.emit(CallingStateWrapper(callState, callEndReason))
+        callState?.let {
+             coroutineScope.launch {
+                callingStateWrapperSharedFlow.emit(
+                    CallingStateWrapper(it, callEndStatus.first, callEndStatus.second)
+                )
                 if (callState == CallState.DISCONNECTED || callState == CallState.NONE) {
                     recreateFlows()
                 }
