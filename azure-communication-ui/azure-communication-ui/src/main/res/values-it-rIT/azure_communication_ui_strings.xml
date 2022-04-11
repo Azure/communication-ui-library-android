@@ -75,4 +75,12 @@
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">Chiamata in corso</string>
     <string name="azure_communication_ui_service_notification_message">Tocca per tornare alla chiamata</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+
+
+
 </resources>

@@ -65,14 +65,13 @@ val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ "<USER
 val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
 val options = GroupCallOptions(
-    context,
     communicationTokenCredential,
     UUID.fromString("<GROUP_CALL_ID>"),
     "<DISPLAY_NAME>",
 )
 
 val callComposite: CallComposite = CallCompositeBuilder().build()
-callComposite.launch(options)
+callComposite.launch(context, options)
 ```
 
 #### [Java](#tab/java)
@@ -85,14 +84,13 @@ CommunicationTokenCredential communicationTokenCredential =
         new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
 GroupCallOptions options = new GroupCallOptions(
-        context,
         communicationTokenCredential,
         UUID.fromString("<GROUP_CALL_ID>"),
         "<DISPLAY_NAME>"
     );
 
 CallComposite callComposite = new CallCompositeBuilder().build();
-callComposite.launch(options);
+callComposite.launch(context, options);
 ```
 
 For more details on Mobile UI Library functionalities visit the [API Reference Documentation](docs/api/CallComposite/Reference.md).

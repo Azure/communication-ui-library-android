@@ -97,19 +97,17 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled
                     ),
-                    getLocalizedString(
-                        when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
-                            true -> R.string.azure_communication_ui_audio_device_drawer_headphone
-                            false -> R.string.azure_communication_ui_audio_device_drawer_android
-                        }
-
-                    ),
+                    when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
+                        true -> context.getString(R.string.azure_communication_ui_audio_device_drawer_headphone)
+                        false -> context.getString(R.string.azure_communication_ui_audio_device_drawer_android)
+                    },
+                    null,
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
                     null,
-                    getLocalizedString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
+                    context.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
@@ -121,15 +119,15 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled
                     ),
-                    getLocalizedString(R.string.azure_communication_ui_audio_device_drawer_speaker),
+                    context.getString(R.string.azure_communication_ui_audio_device_drawer_speaker),
+                    null,
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
                     null,
-                    getLocalizedString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
+                    context.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                     audioDeviceDrawer.dismiss()
@@ -146,13 +144,14 @@ internal class AudioDeviceListView(
                             R.drawable.azure_communication_ui_ic_fluent_speaker_bluetooth_24_regular
                         ),
                         viewModel.audioStateFlow.value.bluetoothState.deviceName,
+                        null,
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
                         ),
 
                         null,
-                        getLocalizedString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
+                        context.getString(R.string.azure_communication_ui_setup_view_audio_device_selected_accessibility_label),
                         enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                     ) {
                         viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
@@ -171,17 +170,12 @@ internal class AudioDeviceListView(
 
     private fun getDeviceTypeName(audioState: AudioState): String {
         return when (audioState.device) {
-            AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED -> getLocalizedString(
-                R.string.azure_communication_ui_audio_device_drawer_android
-            )
-            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED -> getLocalizedString(
-                R.string.azure_communication_ui_audio_device_drawer_speaker
-            )
+            AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED ->
+                context.getString(R.string.azure_communication_ui_audio_device_drawer_android)
+
+            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED ->
+                context.getString(R.string.azure_communication_ui_audio_device_drawer_speaker)
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> audioState.bluetoothState.deviceName
         }
-    }
-
-    private fun getLocalizedString(stringId: Int): String {
-        return viewModel.getLocalizationProvider().getLocalizedString(context, stringId)
     }
 }

@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VA
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.configuration.LanguageCode
-import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import java.util.Locale
 
@@ -59,7 +58,7 @@ class SettingsFeatures {
 
         @JvmStatic
         fun selectedLanguageCode(languageCode: String): LanguageCode {
-            for (language in LocalizationConfiguration.getSupportedLanguages()) {
+            for (language in LanguageCode.values()) {
                 if (languageCode == language.toString()) {
                     return language
                 }

@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.PermissionAction
@@ -38,7 +36,6 @@ import org.mockito.kotlin.verify
 internal class SetupControlBarViewModelUnitTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-    private val appLocalizationProvider: LocalizationProvider = AppLocalizationProvider()
 
     @Test
     fun setupControlBarViewModel_init_audioPermission_notAsked_then_dispatchAudioPermissionRequested() {
@@ -47,7 +44,7 @@ internal class SetupControlBarViewModelUnitTest {
             on { dispatch(any()) } doAnswer { }
         }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.init(
@@ -84,7 +81,7 @@ internal class SetupControlBarViewModelUnitTest {
         }
 
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.init(
@@ -119,7 +116,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.init(
@@ -169,7 +166,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.init(
@@ -219,7 +216,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.init(
@@ -269,7 +266,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch, appLocalizationProvider)
+            SetupControlBarViewModel(mockAppStore::dispatch)
 
         // Act
         setupControlBarViewModel.init(

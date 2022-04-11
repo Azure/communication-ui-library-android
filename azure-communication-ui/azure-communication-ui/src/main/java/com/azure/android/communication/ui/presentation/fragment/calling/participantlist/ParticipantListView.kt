@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
 import android.content.Context
+import android.view.accessibility.AccessibilityManager
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -25,6 +26,7 @@ internal class ParticipantListView(
 
     private lateinit var participantListDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
+    private lateinit var accessibilityManager: AccessibilityManager
 
     init {
         inflate(context, R.layout.azure_communication_ui_listview, this)
@@ -72,6 +74,8 @@ internal class ParticipantListView(
     }
 
     private fun initializeParticipantListDrawer() {
+        accessibilityManager =
+            context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         participantListDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         participantListDrawer.setOnDismissListener {
             viewModel.closeParticipantList()
@@ -136,11 +140,7 @@ internal class ParticipantListView(
         for (remoteParticipant in remoteParticipantCellModels) {
             bottomCellItems.add(
                 generateBottomCellItem(
-                    if (remoteParticipant.displayName.isEmpty()) viewModel.getLocalizationProvider()
-                        .getLocalizedString(
-                            context,
-                            R.string.azure_communication_ui_calling_view_participant_drawer_unnamed
-                        )
+                    if (remoteParticipant.displayName.isEmpty()) context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
                     else remoteParticipant.displayName,
                     remoteParticipant.isMuted
                 )
@@ -154,18 +154,18 @@ internal class ParticipantListView(
         return BottomCellItem(
             null,
             displayName,
+            displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list),
             ContextCompat.getDrawable(
                 context,
                 R.drawable.azure_communication_ui_ic_fluent_mic_off_24_regular
             ),
             R.color.azure_communication_ui_color_participant_list_mute_mic,
-            viewModel.getLocalizationProvider()
-                .getLocalizedString(
-                    context,
-                    R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label
-                ),
+            context.getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label),
             isMuted
         ) {
+            if (accessibilityManager.isEnabled) {
+                participantListDrawer.dismiss()
+            }
         }
     }
 }

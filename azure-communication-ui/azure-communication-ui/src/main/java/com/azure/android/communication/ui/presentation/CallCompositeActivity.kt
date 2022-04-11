@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragm
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.redux.action.CallingAction
 import com.azure.android.communication.ui.redux.state.NavigationStatus
+import com.microsoft.fluentui.util.accessibilityManager
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -93,6 +94,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch { audioSessionManager.start() }
+        lifecycleScope.launch { container.accessibilityManager.start(activity) }
 
         lifecycleScope.launchWhenStarted {
             navigationRouter.getNavigationStateFlow().collect { onNavigationStateChange(it) }
@@ -145,7 +147,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     private fun configureLocalization() {
         configuration.localizationConfig?.let { localeConfig ->
-            localeConfig.layoutDirection().let {
+            localeConfig.layoutDirection.let {
                 window?.decorView?.layoutDirection = it
             }
             val config: Configuration = resources.configuration
@@ -232,7 +234,18 @@ internal class CallCompositeActivity : AppCompatActivity() {
             fragmentClassName
         )
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+
+        // For accessibility, we are going to turn it off during the transaction
+        // this is because it reads "toggle camera" after the transaction, which isn't really
+        // useful to the user. After the transaction we re-enable it so that the screen reader
+        // works as normal
+        val containerView = findViewById<View>(R.id.azure_communication_ui_fragment_container_view)
+        val oldAccessibilityValue = containerView.importantForAccessibility
+        containerView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         transaction.replace(R.id.azure_communication_ui_fragment_container_view, fragment)
+        transaction.runOnCommit {
+            containerView.importantForAccessibility = oldAccessibilityValue
+        }
         transaction.commit()
     }
 

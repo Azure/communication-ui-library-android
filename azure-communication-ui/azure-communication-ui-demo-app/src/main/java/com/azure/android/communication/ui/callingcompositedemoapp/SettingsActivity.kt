@@ -12,7 +12,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.configuration.LocalizationConfiguration
+import com.azure.android.communication.ui.configuration.LanguageCode
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.google.android.material.textfield.TextInputLayout
 
@@ -36,7 +36,7 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = LocalizationConfiguration.getSupportedLanguages().map { it -> SettingsFeatures.displayLanguageName(it.toString()) }
+        supportedLanguages = LanguageCode.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
     }
 

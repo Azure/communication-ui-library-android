@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.presentation.fragment.factories.Callin
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
+import com.azure.android.communication.ui.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
@@ -78,6 +79,12 @@ internal class DependencyInjectionContainerImpl(
         AudioSessionManager(
             appStore,
             applicationContext,
+        )
+    }
+
+    override val accessibilityManager by lazy {
+        AccessibilityAnnouncementManager(
+            appStore
         )
     }
 
@@ -179,13 +186,12 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(appStore, localizationProvider)
+        SetupViewModelFactory(appStore)
     }
 
     private val callingViewModelFactory by lazy {
         CallingViewModelFactory(
             appStore,
-            localizationProvider,
             participantGridCellViewModelFactory
         )
     }

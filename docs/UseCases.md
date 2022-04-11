@@ -19,9 +19,10 @@ Composites take care of the entire lifecycle of the call from setup to the call 
 |                                                                                                 | Video preview available throughout call for local user |
 |                                                                                                 | Default avatars available when video is off            |
 |                                                                                                 | Shared screen content displayed on participant gallery |
+|                                                                                                 | Shared screen content can be zoomed using gestures     |
 | Call configuration                                                                              | Microphone device management                           |
 |                                                                                                 | Camera device management                               |
-|                                                                                                 | Speaker device management                              |
+|                                                                                                 | Speaker device management(wired & bluetooth supported) |
 |                                                                                                 | Local preview available for user to check video        |
 | Participants                                                                                    | Participant roster                                     |
 
@@ -35,13 +36,11 @@ For more information on authentication, see [Authentication](https://docs.micros
 For [Teams Interop](https://docs.microsoft.com/azure/communication-services/concepts/teams-interop) scenarios, developers can use UI Library Components to join Teams meetings through Azure Communication Services.
 To enable Teams Interop, developers can use the calling composite which will take care of the lifecycle of joining a Teams Interop call.
 
-![Teams Interop pattern for calling and chat](../Documentation/media/TeamsInteropDiagram.png)
+![Teams Interop pattern for calling and chat](../docs/media/TeamsInteropDiagram.png)
 
 ## Theming
 
 The UI Library Calling Composite for iOS and Android provides interfaces for developers change the theme of the experience by passing in a primary color. The Composite uses that primary color to provide appropriate theming across the experience.
-
-//CODE SAMPLE
 
 ## Observability
 
@@ -67,8 +66,7 @@ These client libraries also require the context for the call they will join. Sim
 
 |Platform | Versions|
 |---------|---------|
-| iOS     | //NEED TO FILL IN |
-| Android | v23+    |
+| Android | v21+    |
 
 ## Accessibility
 

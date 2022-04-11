@@ -28,7 +28,7 @@ public CallCompositeBuilder theme(ThemeConfiguration theme)
 Set optional lcoalziation for call-composite to use by `CallComposite`.
 
 ```java
-public CallCompositeBuilder customizeLocalization(final LocalizationConfiguration localization)
+public CallCompositeBuilder localization(final LocalizationConfiguration localization)
 ```
 
 #### Parameters
