@@ -75,4 +75,12 @@ dando consentimento para que esta reunião seja transcrita.
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">Chamada em andamento</string>
     <string name="azure_communication_ui_service_notification_message">Toque para retornar à chamada</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+
+
+
 </resources>

@@ -3,13 +3,12 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.banner
 
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class BannerViewModel(private val localizationProvider: LocalizationProvider) {
+internal class BannerViewModel {
 
     private lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
@@ -28,10 +27,6 @@ internal class BannerViewModel(private val localizationProvider: LocalizationPro
 
     fun getShouldShowBannerStateFlow(): StateFlow<Boolean> {
         return shouldShowBannerStateFlow
-    }
-
-    fun getLocalizationProvider(): LocalizationProvider {
-        return localizationProvider
     }
 
     fun getDisplayedBannerType() = displayedBannerType

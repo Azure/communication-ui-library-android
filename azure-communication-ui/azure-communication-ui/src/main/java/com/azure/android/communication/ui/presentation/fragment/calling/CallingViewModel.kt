@@ -121,6 +121,8 @@ internal class CallingViewModel(
 
         lobbyOverlayViewModel.init(state.callState.callingStatus)
 
+        participantGridViewModel.init(state.callState.callingStatus)
+
         super.init(coroutineScope)
     }
 
@@ -152,6 +154,8 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.update(state.callState.callingStatus)
+
+        participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(

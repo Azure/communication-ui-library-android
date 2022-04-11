@@ -75,30 +75,13 @@ internal class ControlBarView : LinearLayout {
     }
 
     private fun setupAccessibility() {
-        val localizationProvider = viewModel.getLocalizationProvider()
-        endCallButton.contentDescription = localizationProvider
-            .getLocalizedString(
-                context,
-                R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label
-            )
+        endCallButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label)
 
-        callAudioDeviceButton.contentDescription = localizationProvider
-            .getLocalizedString(
-                context,
-                R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label
-            )
+        callAudioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
 
-        cameraToggle.contentDescription = localizationProvider
-            .getLocalizedString(
-                context,
-                R.string.azure_communication_ui_calling_view_button_toggle_video_accessibility_label
-            )
+        cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_toggle_video_accessibility_label)
 
-        micToggle.contentDescription = localizationProvider
-            .getLocalizedString(
-                context,
-                R.string.azure_communication_ui_calling_view_button_toggle_audio_accessibility_label
-            )
+        micToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_toggle_audio_accessibility_label)
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {

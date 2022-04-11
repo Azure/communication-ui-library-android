@@ -10,7 +10,6 @@ if (project.rootProject.file('local.properties').canRead()) {
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
