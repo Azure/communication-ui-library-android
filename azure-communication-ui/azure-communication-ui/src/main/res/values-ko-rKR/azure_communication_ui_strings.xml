@@ -26,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">선택함</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">설정 그라데이션</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">카메라 전환 단추</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">설정</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">호스트 대기 중</string>

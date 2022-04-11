@@ -26,6 +26,7 @@
     <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Выбрано</string>
     <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Настройка градиента</string>
     <string name="azure_communication_ui_button_switch_camera_accessibility_label">Кнопка переключения камеры</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">Настройка</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_lobby_view_text_waiting_for_host">Ожидание организатора</string>
