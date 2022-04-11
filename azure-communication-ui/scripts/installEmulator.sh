@@ -3,7 +3,8 @@
 #export ANDROID_SDK_ROOT=$PWD/android-sdk
 SYS_IMG_TAG=google_apis
 CPU=x86_64
-SYSTEM_IMAGE="system-images;android-29;${SYS_IMG_TAG};${CPU}"
+OS_VERSION=android-29
+SYSTEM_IMAGE="system-images;${OS_VERSION};${SYS_IMG_TAG};${CPU}"
 
 # Install AVD files
 echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install ${SYSTEM_IMAGE}
@@ -14,7 +15,7 @@ echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emu
 echo "avdmanager successfully created $($ANDROID_HOME/emulator/emulator -list-avds)"
 echo "Starting emulator"
 
-sed -i'' -e "s%android-sdk/system-images/android-29/${SYS_IMG_TAG}/${CPU}/%system-images/android-29/${SYS_IMG_TAG}/${CPU}/%g" ~/.android/avd/xamarin_android_emulator.avd/config.ini
+sed -i'' -e "s%android-sdk/system-images/${OS_VERSION}/${SYS_IMG_TAG}/${CPU}/%system-images/${OS_VERSION}/${SYS_IMG_TAG}/${CPU}/%g" ~/.android/avd/xamarin_android_emulator.avd/config.ini
 sed -i'' -e "s%hw.keyboard=no%hw.keyboard=yes%g" ~/.android/avd/xamarin_android_emulator.avd/config.ini
 
 
