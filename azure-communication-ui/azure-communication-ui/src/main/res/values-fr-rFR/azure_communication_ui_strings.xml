@@ -42,6 +42,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Ouvrir la liste des participants</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Son désactivé</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Raccrocher</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Activer/désactiver la vidéo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Activer/désactiver l’audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Options du périphérique</string>
