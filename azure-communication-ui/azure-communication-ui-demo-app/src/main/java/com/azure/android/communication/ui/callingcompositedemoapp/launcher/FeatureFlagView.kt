@@ -1,33 +1,29 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.AttributeSet
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 
 // This lists all the Features in the FeatureFlag system
 // and lets you enable/disable them.
 class FeatureFlagView(context: Context, attrs: AttributeSet?) :
-    LinearLayout(context, attrs), SharedPreferences.OnSharedPreferenceChangeListener {
+    LinearLayout(context, attrs) {
 
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-        FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE
-    )
+    //private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
+    //    FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE
+    //)
 
     init {
         orientation = VERTICAL
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        refreshButtons()
-    }
+    val onFeatureFlagsChanged  = Runnable { refreshButtons() }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        FeatureFlags.getterSetterDelegate.addListener(onFeatureFlagsChanged)
         refreshButtons()
     }
 
@@ -43,7 +39,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     }
 
     override fun onDetachedFromWindow() {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        FeatureFlags.getterSetterDelegate.removeListener(onFeatureFlagsChanged)
         super.onDetachedFromWindow()
     }
 }

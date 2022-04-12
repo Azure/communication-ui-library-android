@@ -6,13 +6,9 @@ package com.azure.android.communication.ui.callingcompositedemoapp.features
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LOCALE_CODE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.*
 import com.azure.android.communication.ui.configuration.LanguageCode
-import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
+
 import java.util.Locale
 
 class SettingsFeatures {
@@ -23,7 +19,7 @@ class SettingsFeatures {
         @JvmStatic
         fun initialize(context: Context) {
             sharedPrefs = context.getSharedPreferences(
-                FEATURE_FLAG_SHARED_PREFS_KEY,
+                SETTINGS_SHARED_PREFS,
                 Context.MODE_PRIVATE
             )
         }

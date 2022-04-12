@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.utilities.implementation
 
-import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import com.azure.android.communication.ui.R
 
 /* Feature Flag Management
@@ -63,10 +60,10 @@ enum class FeatureFlags(
     // ---------------------------- End Global Features ---------------------------------------------
 
     // Stubs for onStart/onEnd as we don't need it for the enum ones.
-    override val onEnd: (application: Application) -> Unit
+    override val onEnd: () -> Unit
         get() = {}
 
-    override val onStart: (application: Application) -> Unit
+    override val onStart: () -> Unit
         get() = {}
 
     // FeatureFlag Interface/Companion
@@ -87,7 +84,7 @@ enum class FeatureFlags(
         val features: List<FeatureFlag> get() = values().toList() + additionalEntries
 
         // The delegate to use for getting/setting, default in-memory
-        var getterSetterDelegate : FeatureGetterSetter = DefaultFeatureGetterSetter()
+        var getterSetterDelegate : FeatureGetterSetter = FallbackFeatureGetterSetter()
     }
 }
 
@@ -96,19 +93,19 @@ data class FeatureFlagEntry(
     override val labelId: Int,
     override val fallbackBoolean: Boolean,
     override val fallbackLabel: String,
-    private val start: (application: Application) -> Unit,
-    private val end: (application: Application) -> Unit,
+    private val start: () -> Unit,
+    private val end: () -> Unit,
 
 ) : FeatureFlag {
 
-    override val onStart: (application: Application) -> Unit
+    override val onStart: () -> Unit
         get() = {
-            if (active) start(it)
+            if (active) start()
         }
 
-    override val onEnd: (application: Application) -> Unit
+    override val onEnd: () -> Unit
         get() = {
-            if (!active) end(it)
+            if (!active) end()
         }
 }
 
@@ -116,8 +113,8 @@ data class FeatureFlagEntry(
 // This interface is shared between the Optional and Enum features
 interface FeatureFlag {
     val labelId: Int
-    val onStart: (application: Application) -> Unit
-    val onEnd: (application: Application) -> Unit
+    val onStart: () -> Unit
+    val onEnd: () -> Unit
 
     val fallbackBoolean: Boolean
     val fallbackLabel: String
@@ -142,27 +139,56 @@ interface FeatureFlag {
     }
 }
 
-interface FeatureGetterSetter {
-     fun set(name: String, value: Boolean)
-     fun get(name: String) : Boolean
-     fun getLabel(name: String) : String
+// Delegate interface for getting/setting the feature flag values
+//
+// Default implementation won't use context but will persist in memory changes,
+// while other implementations could either fix the values (i.e. no setter), or used SharedPrefs.
+
+abstract class FeatureGetterSetter {
+    private val listeners = ArrayList<Runnable>()
+
+    fun addListener(callback: Runnable) {
+        listeners.add(callback)
+    }
+
+    fun removeListener(callback: Runnable) {
+        listeners.remove(callback)
+    }
+
+    // Call this to notify the listeners in the setter
+    fun notifyListeners() {
+        for (listener in listeners) {
+            listener.run()
+        }
+    }
+
+    abstract fun set(key: String, value: Boolean)
+    abstract fun get(key: String) : Boolean
+    abstract fun getLabel(key: String) : String
 }
 
-class DefaultFeatureGetterSetter : FeatureGetterSetter {
+// FallbackFeatureGetterSetter
+//
+// Default implementation, persists to memory, doesn't use the labelID (no context)
+class FallbackFeatureGetterSetter : FeatureGetterSetter() {
     val values = HashMap<String, Boolean>()
-    override fun set(name: String, value: Boolean) {
-        values[name] = value
+    override fun set(key: String, value: Boolean) {
+
+        if (FeatureFlags.features.none { it.key == key })
+            return
+
+        values[key] = value
+        notifyListeners()
     }
 
-    override fun get(name: String): Boolean {
-        return values[name] ?: FeatureFlags.features.filter { it.key == name }.first().fallbackBoolean
+    override fun get(key: String): Boolean {
+        if (FeatureFlags.features.none { it.key == key })
+            return false
+
+        return values[key] ?: FeatureFlags.features.first { it.key == key }.fallbackBoolean
     }
 
-    override fun getLabel(name: String): String {
-        return FeatureFlags.features.filter { it.key == name }.first().fallbackLabel
+    override fun getLabel(key: String): String {
+        return FeatureFlags.features.first { it.key == key }.fallbackLabel
     }
 }
-
-
-// Key for the SharedPrefs store that will be used for FeatureFlags
-const val FEATURE_FLAG_SHARED_PREFS_KEY = "FeatureFlags"
