@@ -41,7 +41,7 @@ internal class ParticipantListViewModel(private val personaManager: PersonaManag
                 ParticipantListCellModel(
                     it.displayName.trim(),
                     it.isMuted,
-                    personaManager.getRemoteParticipantPersonaData(it.userIdentifier)
+                    personaManager.getRemoteParticipantsConfiguration().getPersonaData(it.userIdentifier)
                 )
             }
         remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
