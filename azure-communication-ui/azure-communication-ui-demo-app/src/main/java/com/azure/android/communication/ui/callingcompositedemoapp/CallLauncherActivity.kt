@@ -155,9 +155,6 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Will resume this feature if it's active
-        // This is a special case for the permission dialog for diagnostic feature
-        AdditionalFeatures.getDiagnosticFeature(application).onStart()
     }
 
     override fun onDestroy() {
