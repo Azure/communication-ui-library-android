@@ -61,7 +61,7 @@ class FeatureFlagsTest {
                 started = false
             },
             label = "test",
-            enabledByDefault = false
+            enabledByDefault = true
         )
 
         FeatureFlags.registerAdditionalFeature(entry)

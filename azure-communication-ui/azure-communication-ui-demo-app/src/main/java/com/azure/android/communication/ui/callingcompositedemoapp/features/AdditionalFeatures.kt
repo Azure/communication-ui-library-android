@@ -8,9 +8,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MagnifierViewer
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlagEntry
@@ -26,11 +23,11 @@ fun conditionallyRegisterDiagnostics(context: Context) {
 
 class AdditionalFeatures private constructor() {
     companion object {
-        private lateinit var diagnosticsFeature : FeatureFlagEntry
+        private lateinit var diagnosticsFeature: FeatureFlagEntry
 
         // Diagnostics Feature requires application context
         // It also hooks into life-cycle
-        fun getDiagnosticFeature(application: Application) : FeatureFlagEntry {
+        fun getDiagnosticFeature(application: Application): FeatureFlagEntry {
             if (!this::diagnosticsFeature.isInitialized) {
                 val magnifierViewer = MagnifierViewer.getMagnifierViewer(application)
 
@@ -44,7 +41,6 @@ class AdditionalFeatures private constructor() {
                     enabledByDefault = false,
                     label = "FPS, Memory Diagnostics"
                 )
-
 
                 // Hooks for Activities for this feature
                 application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
@@ -73,13 +69,11 @@ class AdditionalFeatures private constructor() {
                     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
                     override fun onActivityDestroyed(activity: Activity) {}
-
                 })
             }
 
             return diagnosticsFeature
         }
-
 
         val secondaryThemeFeature = FeatureFlagEntry(
             // Will use default false here

@@ -33,13 +33,12 @@ enum class FeatureFlags(
     override val enabledByDefault: Boolean,
     override val label: String,
 
-    ) : FeatureFlag {
+) : FeatureFlag {
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
     BluetoothAudio(
         true,
         "Bluetooth Audio"
-
     ),
     ScreenShareZoom(
         true,
@@ -62,10 +61,6 @@ enum class FeatureFlags(
     companion object {
         private val additionalEntries = ArrayList<FeatureFlag>()
 
-        init {
-            values().filter { it.active }.forEach { it.onStart }
-        }
-
         fun registerAdditionalFeature(feature: FeatureFlag) {
             if (!additionalEntries.contains(feature)) {
                 additionalEntries.add(feature)
@@ -79,7 +74,7 @@ enum class FeatureFlags(
         val features: List<FeatureFlag> get() = values().toList() + additionalEntries
 
         // The delegate to use for getting/setting, default in-memory
-        var flagStoreDelegate : FeatureFlagStore = DefaultFeatureFlagStore()
+        var flagStoreDelegate: FeatureFlagStore = DefaultFeatureFlagStore()
     }
 }
 
@@ -90,7 +85,7 @@ data class FeatureFlagEntry(
     private val start: () -> Unit,
     private val end: () -> Unit,
 
-    ) : FeatureFlag {
+) : FeatureFlag {
 
     override val onStart: () -> Unit
         get() = {
@@ -115,7 +110,6 @@ interface FeatureFlag {
     val key: String
         get() = this.label
 
-
     // Getters and Setters for Active
     // 1) SharedPreferences priority
     // 2) fallback to resource with defaultBooleanId
@@ -135,7 +129,7 @@ abstract class FeatureFlagStore {
 
     // Implement these to save/retrieve from your data-store
     abstract fun setInternal(flag: FeatureFlag, value: Boolean)
-    abstract fun getInternal(flag: FeatureFlag) : Boolean
+    abstract fun getInternal(flag: FeatureFlag): Boolean
 
     fun get(flag: FeatureFlag) = getInternal(flag)
 
