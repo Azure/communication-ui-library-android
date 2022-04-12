@@ -11,15 +11,11 @@ import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs) {
 
-    // private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-    //    FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE
-    // )
-
     init {
         orientation = VERTICAL
     }
 
-    val onFeatureFlagsChanged = Runnable { refreshButtons() }
+    private val onFeatureFlagsChanged = Runnable { refreshButtons() }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

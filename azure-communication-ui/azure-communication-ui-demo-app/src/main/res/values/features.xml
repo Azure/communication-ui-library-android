@@ -4,5 +4,5 @@
   -->
 <resources>
     <!-- This flag enabled/disables diagnostics (feature will be omitted if false) -->
-    <bool name="diagnostics">true</bool>
+    <bool name="diagnostics">false</bool>
 </resources>
