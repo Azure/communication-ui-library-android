@@ -26,15 +26,14 @@ class AdditionalFeatures private constructor() {
         fun getDiagnosticFeature(application: Application) : FeatureFlagEntry {
             if (!this::diagnosticsFeature.isInitialized) {
                 diagnosticsFeature = FeatureFlagEntry(
-                    labelId = R.string.diagnostics,
                     start = {
                         MagnifierViewer.getMagnifierViewer(application).show()
                     },
                     end = {
                         MagnifierViewer.getMagnifierViewer(application).hide()
                     },
-                    fallbackBoolean = false,
-                    fallbackLabel = "FPS, Memory Diagnostics"
+                    enabledByDefault = false,
+                    label = "FPS, Memory Diagnostics"
 
                 )
             }
@@ -44,11 +43,10 @@ class AdditionalFeatures private constructor() {
 
         val secondaryThemeFeature = FeatureFlagEntry(
             // Will use default false here
-            labelId = R.string.secondary_theme,
             start = {},
             end = {},
-            fallbackBoolean = false,
-            fallbackLabel = "Secondary theme"
+            enabledByDefault = false,
+            label = "Secondary theme"
         )
     }
 }

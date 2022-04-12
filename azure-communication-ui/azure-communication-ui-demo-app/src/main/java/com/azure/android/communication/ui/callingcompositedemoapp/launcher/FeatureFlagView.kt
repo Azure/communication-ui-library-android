@@ -23,7 +23,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        FeatureFlags.getterSetterDelegate.addListener(onFeatureFlagsChanged)
+        FeatureFlags.flagStoreDelegate.addListener(onFeatureFlagsChanged)
         refreshButtons()
     }
 
@@ -39,7 +39,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     }
 
     override fun onDetachedFromWindow() {
-        FeatureFlags.getterSetterDelegate.removeListener(onFeatureFlagsChanged)
+        FeatureFlags.flagStoreDelegate.removeListener(onFeatureFlagsChanged)
         super.onDetachedFromWindow()
     }
 }
