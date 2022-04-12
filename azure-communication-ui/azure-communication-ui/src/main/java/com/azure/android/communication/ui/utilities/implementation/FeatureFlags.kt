@@ -62,9 +62,16 @@ enum class FeatureFlags(
     companion object {
         private val additionalEntries = ArrayList<FeatureFlag>()
 
+        init {
+            values().filter { it.active }.forEach { it.onStart }
+        }
+
         fun registerAdditionalFeature(feature: FeatureFlag) {
             if (!additionalEntries.contains(feature)) {
                 additionalEntries.add(feature)
+                if (feature.active) {
+                    feature.onStart()
+                }
             }
         }
 
@@ -163,7 +170,6 @@ abstract class FeatureFlagStore {
 // Default implementation, persists to memory, doesn't use the labelID (no context)
 class DefaultFeatureFlagStore : FeatureFlagStore() {
     val values = HashMap<FeatureFlag, Boolean>()
-
 
     override fun setInternal(flag: FeatureFlag, value: Boolean) {
         if (FeatureFlags.features.none { it == flag })
