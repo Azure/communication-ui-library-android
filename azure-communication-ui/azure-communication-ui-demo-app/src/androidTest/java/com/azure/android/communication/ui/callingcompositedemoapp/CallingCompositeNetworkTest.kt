@@ -43,13 +43,13 @@ class CallingCompositeNetworkTest : BaseUiTest() {
                 .clickJoinCallButton()
 
             setupScreen.dismissNetworkLossBanner()
+            setupScreen.navigateUpFromSetupScreen()
+            homeScreen.clickAlertDialogOkButton()
         } catch (ex: Throwable) {
             println("Runtime Error: " + ex.message)
             throw ex
         } finally {
             NetworkUtils.enableNetworkThatWasDisabled {
-                setupScreen.navigateUpFromSetupScreen()
-                homeScreen.clickAlertDialogOkButton()
             }
         }
     }
