@@ -65,7 +65,7 @@ class SettingsActivity : AppCompatActivity() {
 
         if (view is CheckBox) {
             when (view.id) {
-                R.id.languageIsRTL -> {
+                R.id.language_is_rtl_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
                             sharedPreference.getString(
@@ -80,12 +80,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        callSettingLabelView = findViewById(R.id.callSellingLabelView)
-        languageSettingLabelView = findViewById(R.id.languageSettingLabelView)
-        languageSettingLabelDivider = findViewById(R.id.languageSettingLabelDivider)
-        isRTLCheckBox = findViewById(R.id.languageIsRTL)
-        languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
-        autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
+        callSettingLabelView = findViewById(R.id.call_setting_text_view)
+        languageSettingLabelView = findViewById(R.id.language_setting_text_view)
+        languageSettingLabelDivider = findViewById(R.id.language_setting_label_divider)
+        isRTLCheckBox = findViewById(R.id.language_is_rtl_checkbox)
+        languageAdapterLayout = findViewById(R.id.language_adapter_layout)
+        autoCompleteTextView = findViewById(R.id.auto_complete_text_view)
     }
 
     private fun updateRTLCheckbox() {
