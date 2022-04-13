@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKWrapper
+import com.azure.android.communication.ui.service.calling.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.utilities.CoroutineContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +44,11 @@ internal class CallingService(
         * Expected behavior.
         * */
         private const val CALL_END_REASON_DECLINED = 603
+        private const val CALL_END_REASON_EVICTED = 5000
+
+        private fun isEvicted(callingState: CallingStateWrapper) =
+            callingState.callEndReason == CALL_END_REASON_SUCCESS &&
+                    callingState.callEndReasonExtra == CALL_END_REASON_EVICTED
     }
 
     private val participantsInfoModelSharedFlow =
@@ -122,7 +128,14 @@ internal class CallingService(
         coroutineScope.launch {
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
                 val callStateError = when (it.callEndReason) {
-                    CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> null
+                    CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> {
+                        if (isEvicted(it)) {
+                            CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
+                        } else {
+                            null
+                        }
+                    }
+
                     CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED)
                     else -> {
                         if (callingStatus == CallingStatus.CONNECTED) {
