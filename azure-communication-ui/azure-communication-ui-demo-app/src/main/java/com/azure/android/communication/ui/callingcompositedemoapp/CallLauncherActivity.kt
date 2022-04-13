@@ -46,9 +46,6 @@ class CallLauncherActivity : AppCompatActivity() {
         conditionallyRegisterDiagnostics(this)
         FeatureFlags.registerAdditionalFeature(AdditionalFeatures.secondaryThemeFeature)
 
-        // Initialize the FeatureFlags enum
-        FeatureFlags.initialize(this)
-
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -158,9 +155,6 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Will resume this feature if it's active
-        // This is a special case for the permission dialog for diagnostic feature
-        AdditionalFeatures.diagnosticsFeature.onStart(application)
     }
 
     override fun onDestroy() {

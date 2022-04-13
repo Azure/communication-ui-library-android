@@ -1,33 +1,28 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.AttributeSet
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 
 // This lists all the Features in the FeatureFlag system
 // and lets you enable/disable them.
 class FeatureFlagView(context: Context, attrs: AttributeSet?) :
-    LinearLayout(context, attrs), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-        FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE
-    )
+    LinearLayout(context, attrs) {
 
     init {
         orientation = VERTICAL
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        refreshButtons()
-    }
+    private val onFeatureFlagsChanged = Runnable { refreshButtons() }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        FeatureFlags.flagStoreDelegate.addListener(onFeatureFlagsChanged)
         refreshButtons()
     }
 
@@ -43,7 +38,7 @@ class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     }
 
     override fun onDetachedFromWindow() {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        FeatureFlags.flagStoreDelegate.removeListener(onFeatureFlagsChanged)
         super.onDetachedFromWindow()
     }
 }
