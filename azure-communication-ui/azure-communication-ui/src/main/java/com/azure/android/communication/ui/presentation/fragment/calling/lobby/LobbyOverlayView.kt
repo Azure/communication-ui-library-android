@@ -5,9 +5,13 @@ package com.azure.android.communication.ui.presentation.fragment.calling.lobby
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -43,25 +47,24 @@ internal class LobbyOverlayView : LinearLayout {
                 visibility = if (it) VISIBLE else GONE
             }
         }
+
+        ViewCompat.setAccessibilityDelegate(
+            this,
+            object : AccessibilityDelegateCompat() {
+                override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                    super.onInitializeAccessibilityNodeInfo(host, info)
+                    info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
+                    info.isClickable = false
+                }
+            }
+        )
     }
 
     private fun setupUi() {
-        waitingIcon.contentDescription = viewModel.getLocalizationProvider()
-            .getLocalizedString(
-                context,
-                R.string.azure_communication_ui_lobby_view_text_waiting_for_host
-            )
+        waitingIcon.contentDescription = context.getString(R.string.azure_communication_ui_lobby_view_text_waiting_for_host)
 
-        overlayTitle.text = viewModel.getLocalizationProvider()
-            .getLocalizedString(
-                context,
-                R.string.azure_communication_ui_lobby_view_text_waiting_for_host
-            )
+        overlayTitle.text = context.getString(R.string.azure_communication_ui_lobby_view_text_waiting_for_host)
 
-        overlayInfo.text = viewModel.getLocalizationProvider()
-            .getLocalizedString(
-                context,
-                R.string.azure_communication_ui_lobby_view_text_waiting_details
-            )
+        overlayInfo.text = context.getString(R.string.azure_communication_ui_lobby_view_text_waiting_details)
     }
 }
