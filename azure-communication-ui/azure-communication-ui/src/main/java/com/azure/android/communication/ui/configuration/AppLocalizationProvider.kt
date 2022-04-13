@@ -3,14 +3,11 @@
 
 package com.azure.android.communication.ui.configuration
 
-internal class AppLocalizationProvider : LocalizationProvider {
-    private lateinit var language: String
-    private var customTranslation: Map<String, String>? = null
+import java.util.Locale
 
+internal class AppLocalizationProvider : LocalizationProvider {
+    private lateinit var locale: Locale
     override fun apply(localeConfig: LocalizationConfiguration) {
-        val supportedLocales = LanguageCode.values()
-        if (supportedLocales.contains(localeConfig.languageCode)) {
-            language = localeConfig.languageCode.toString()
-        }
+            locale = localeConfig.locale
     }
 }

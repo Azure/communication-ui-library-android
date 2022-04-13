@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.configuration;
 
 import com.azure.android.communication.ui.CallComposite;
 
+import java.util.Locale;
+
 /**
  * Localization configuration to provide for CallComposite.
  *
@@ -13,10 +15,10 @@ import com.azure.android.communication.ui.CallComposite;
  *
  * &#47;&#47; Initialize the call composite builder with different parameters
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .localization&#40;new LocalizationConfiguration&#40;LanguageCode.FRENCH&#41;&#41;;
+ *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE&#41;&#41;;
  *
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .localization&#40;new LocalizationConfiguration&#40;LanguageCode.FRENCH, layoutDirection&#41;&#41;;
+ *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE, LayoutDirection.RTL&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -26,38 +28,36 @@ import com.azure.android.communication.ui.CallComposite;
  * @see CallComposite
  */
 public final class LocalizationConfiguration {
-    private final LanguageCode languageCode;
     private int layoutDirection;
+    private final Locale locale;
 
     /**
      * Create Localization configuration.
      *
-     * Set {@link LanguageCode};.
-     *
-     * @param languageCode    The {@link LanguageCode}; eg,. LanguageCode.FRENCH
+     * @param locale          The {@link Locale}; eg,. Locale.US
      * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
-    public LocalizationConfiguration(final LanguageCode languageCode, final int layoutDirection) {
-        this.languageCode = languageCode;
+    public LocalizationConfiguration(final Locale locale, final int layoutDirection) {
+        this.locale = locale;
         this.layoutDirection = layoutDirection;
     }
 
     /**
      * Create Localization configuration.
      *
-     * @param languageCode The {@link LanguageCode}; eg,. LanguageCode.FRENCH
+     * @param locale The {@link Locale}; eg,. Locale.US
      */
-    public LocalizationConfiguration(final LanguageCode languageCode) {
-        this.languageCode = languageCode;
+    public LocalizationConfiguration(final Locale locale) {
+        this.locale = locale;
     }
 
     /**
      * Get current LanguageCode enum
      *
-     * @return The {@link LanguageCode};
+     * @return The {@link Locale};
      */
-    public LanguageCode getLanguageCode() {
-        return languageCode;
+    public Locale getLocale() {
+        return locale;
     }
 
     /**

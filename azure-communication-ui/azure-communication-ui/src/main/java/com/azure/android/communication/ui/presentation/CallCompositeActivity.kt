@@ -45,7 +45,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
-    private val localizationProvider get() = container.localizationProvider
     private val audioSessionManager get() = container.audioSessionManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
@@ -148,15 +147,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun configureLocalization() {
+        val config: Configuration = resources.configuration
         configuration.localizationConfig?.let { localeConfig ->
             localeConfig.layoutDirection.let {
                 window?.decorView?.layoutDirection = it
             }
-            val config: Configuration = resources.configuration
-            config.setLocale(Locale.forLanguageTag(localeConfig.languageCode.toString()))
-            resources.updateConfiguration(config, resources.displayMetrics)
-            localizationProvider.apply(localeConfig)
+            config.setLocale(localeConfig.locale)
         }
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun setActionBarVisibility() {

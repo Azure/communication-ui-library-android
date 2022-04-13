@@ -12,7 +12,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.configuration.LanguageCode
+import com.azure.android.communication.ui.configuration.SupportLanguage
 import com.google.android.material.textfield.TextInputLayout
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
@@ -38,7 +38,7 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = LanguageCode.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
+        supportedLanguages = SupportLanguage.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
     }
 
