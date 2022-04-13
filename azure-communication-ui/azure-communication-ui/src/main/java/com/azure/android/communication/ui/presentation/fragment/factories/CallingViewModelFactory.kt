@@ -12,14 +12,14 @@ import com.azure.android.communication.ui.presentation.fragment.calling.localuse
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
-import com.azure.android.communication.ui.presentation.manager.PersonaManager
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
-    private val localParticipantConfig: PersonaManager,
+    private val localParticipantConfig: AvatarViewManager,
 ) {
 
     private val participantGridViewModel by lazy {

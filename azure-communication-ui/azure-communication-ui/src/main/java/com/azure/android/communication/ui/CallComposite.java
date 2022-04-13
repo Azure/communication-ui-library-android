@@ -10,7 +10,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
-import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration;
+import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -95,12 +95,12 @@ public final class CallComposite {
      * @param context                       The android context used to start the Composite.
      * @param groupCallOptions              The {@link GroupCallOptions} has parameters to
      *                                      launch group call experience.
-     * @param localParticipantConfiguration The {@link LocalParticipantConfiguration} has parameters to
+     * @param communicationUILocalDataOptions The {@link CommunicationUILocalDataOptions} has parameters to
      *                                      launch group call experience.
      */
     public void launch(final Context context,
                        final GroupCallOptions groupCallOptions,
-                       final LocalParticipantConfiguration localParticipantConfiguration) {
+                       final CommunicationUILocalDataOptions communicationUILocalDataOptions) {
         launch(
                 context,
                 groupCallOptions.getCredential(),
@@ -108,7 +108,7 @@ public final class CallComposite {
                 groupCallOptions.getGroupId(),
                 null,
                 CallType.GROUP_CALL,
-                localParticipantConfiguration
+                communicationUILocalDataOptions
         );
     }
 
@@ -162,12 +162,12 @@ public final class CallComposite {
      * @param context                       The android context used to start the Composite.
      * @param teamsMeetingOptions           The {@link TeamsMeetingOptions} has parameters to
      *                                      launch Teams meeting experience.
-     * @param localParticipantConfiguration The {@link LocalParticipantConfiguration} has parameters to
+     * @param communicationUILocalDataOptions The {@link CommunicationUILocalDataOptions} has parameters to
      *                                      launch group call experience.
      */
     public void launch(final Context context,
                        final TeamsMeetingOptions teamsMeetingOptions,
-                       final LocalParticipantConfiguration localParticipantConfiguration) {
+                       final CommunicationUILocalDataOptions communicationUILocalDataOptions) {
         launch(
                 context,
                 teamsMeetingOptions.getCredential(),
@@ -175,7 +175,7 @@ public final class CallComposite {
                 null,
                 teamsMeetingOptions.getMeetingLink(),
                 CallType.TEAMS_MEETING,
-                localParticipantConfiguration
+                communicationUILocalDataOptions
         );
     }
 
@@ -233,7 +233,7 @@ public final class CallComposite {
             final UUID groupId,
             final String meetingLink,
             final CallType callType,
-            final LocalParticipantConfiguration localParticipantConfiguration
+            final CommunicationUILocalDataOptions communicationUILocalDataOptions
     ) {
         configuration.setCallConfig(new CallConfiguration(
                 communicationTokenCredential,
@@ -243,7 +243,7 @@ public final class CallComposite {
                 callType
         ));
 
-        configuration.setLocalParticipantConfig(localParticipantConfiguration);
+        configuration.setCommunicationUILocalDataOptions(communicationUILocalDataOptions);
 
         CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 

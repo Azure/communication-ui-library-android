@@ -6,10 +6,10 @@ package com.azure.android.communication.ui.configuration;
 import androidx.annotation.Nullable;
 
 import com.azure.android.communication.ui.CallComposite;
-import com.azure.android.communication.ui.persona.PersonaData;
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData;
 
 /**
- * LocalParticipantConfiguration for CallComposite.launch.
+ * CommunicationUILocalDataOptions for CallComposite.launch.
  *
  * <pre>
  *
@@ -19,7 +19,7 @@ import com.azure.android.communication.ui.persona.PersonaData;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalParticipantConfiguration with {@link PersonaData}
+ * &#47;&#47; Build the LocalParticipantConfiguration with {@link CommunicationUIPersonaData}
  * LocalParticipantConfiguration config = new LocalParticipantConfiguration(new PersonaData&#40;...&#41);
  *
  * &#47;&#47; Launch call
@@ -28,27 +28,27 @@ import com.azure.android.communication.ui.persona.PersonaData;
  *
  * @see CallComposite
  */
-public class LocalParticipantConfiguration {
-    private final PersonaData personaData;
+public class CommunicationUILocalDataOptions {
+    private final CommunicationUIPersonaData communicationUIPersonaData;
 
     /**
      * Create LocalParticipantConfiguration.
      *
-     * @param personaData The {@link PersonaData};
-     * @see PersonaData
+     * @param communicationUIPersonaData The {@link CommunicationUIPersonaData};
+     * @see CommunicationUIPersonaData
      */
-    public LocalParticipantConfiguration(final PersonaData personaData) {
-        this.personaData = personaData;
+    public CommunicationUILocalDataOptions(final CommunicationUIPersonaData communicationUIPersonaData) {
+        this.communicationUIPersonaData = communicationUIPersonaData;
     }
 
 
     /**
      * Get current PersonaData
      *
-     * @return The {@link PersonaData};
+     * @return The {@link CommunicationUIPersonaData};
      */
     @Nullable
-    public PersonaData getPersonaData() {
-        return personaData;
+    public CommunicationUIPersonaData getPersonaData() {
+        return communicationUIPersonaData;
     }
 }

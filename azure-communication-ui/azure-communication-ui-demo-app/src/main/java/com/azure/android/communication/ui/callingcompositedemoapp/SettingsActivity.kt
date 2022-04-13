@@ -12,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
+import com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarViewSelectionLinearlayout
 import com.azure.android.communication.ui.configuration.LanguageCode
 import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.google.android.material.textfield.TextInputLayout
@@ -26,6 +27,9 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var callSettingLabelView: TextView
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
+    private lateinit var renderDisplayNameTextView: TextView
+    private lateinit var linearLayoutAvatar: AvatarViewSelectionLinearlayout
+
     private val sharedPreference by lazy {
         getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
     }
@@ -38,7 +42,14 @@ class SettingsActivity : AppCompatActivity() {
         SettingsFeatures.initialize(this)
         supportedLanguages = LanguageCode.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
+        setAvatarSelection()
     }
+
+    override fun onStop() {
+        super.onStop()
+        updateAvatarSelection()
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -52,12 +63,15 @@ class SettingsActivity : AppCompatActivity() {
 
         updateRTLCheckbox()
 
+        updateAvatarSelection()
+
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
             setLanguageValueInSharedPref(selectedItem)
             updateRTLCheckbox()
         }
     }
+
 
     fun onCheckBoxTap(view: View) {
 
@@ -84,6 +98,10 @@ class SettingsActivity : AppCompatActivity() {
         isRTLCheckBox = findViewById(R.id.languageIsRTL)
         languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
+        linearLayoutAvatar = findViewById(R.id.avatarViewSelectionLinearlayout)
+        renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
+
+
     }
 
     private fun updateRTLCheckbox() {
@@ -129,6 +147,20 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_LANGUAGE_VALUE
         )
     }
+
+    private fun updateAvatarSelection() {
+
+        sharedPreference.edit().putString("RENDER_DISPLAY_NAME", renderDisplayNameTextView.text.toString()).apply()
+        sharedPreference.edit().putString("RENDER_AVATAR", linearLayoutAvatar.getAvatarName()).apply()
+
+
+    }
+
+    private fun setAvatarSelection() {
+        renderDisplayNameTextView.text = sharedPreference.getString("RENDER_DISPLAY_NAME", "")
+        linearLayoutAvatar.setAvatar(sharedPreference.getString("RENDER_AVATAR", ""))
+    }
+
 }
 
 // Shared pref Keys for language & rtl settings

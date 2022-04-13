@@ -20,12 +20,12 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
     ) {
         name = viewModel.getDisplayName()
         viewModel.getPersonaData()?.let {
-            it.image?.let { image ->
+            it.avatarBitmap?.let { image ->
                 avatarImageBitmap = image
                 adjustViewBounds = true
                 scaleType = it.scaleType
             }
-            it.name?.let { displayName ->
+            it.renderedDisplayName?.let { displayName ->
                 name = displayName
             }
         }

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
-import android.graphics.Bitmap
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.CallComposite
@@ -19,10 +18,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.languageCode
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
-import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
+import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
-import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -35,7 +34,6 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         groupId: UUID?,
         meetingLink: String?,
         showAlert: ((String) -> Unit)?,
-        localParticipantAvatarBitMap: Bitmap?,
     ) {
         initialize(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
@@ -75,8 +73,11 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 groupId,
                 displayName,
             )
-            val personaData = PersonaData(localParticipantAvatarBitMap)
-            val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+            val personaData =
+                CommunicationUIPersonaData("test")
+            val localParticipantConfiguration =
+                CommunicationUILocalDataOptions(
+                    personaData)
             callComposite.launch(
                 callLauncherActivity,
                 groupCallOptions,
@@ -88,8 +89,11 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 meetingLink,
                 displayName,
             )
-            val personaData = PersonaData(localParticipantAvatarBitMap)
-            val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
+            val personaData =
+                CommunicationUIPersonaData("test")
+            val localParticipantConfiguration =
+                CommunicationUILocalDataOptions(
+                    personaData)
             callComposite.launch(
                 callLauncherActivity,
                 teamsMeetingOptions,

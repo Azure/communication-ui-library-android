@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -18,10 +17,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
 import com.azure.android.communication.ui.configuration.LanguageCode;
-import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration;
+import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
 import com.azure.android.communication.ui.configuration.ThemeConfiguration;
-import com.azure.android.communication.ui.persona.PersonaData;
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData;
 
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -41,8 +40,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final String displayName,
                        final UUID groupId,
                        final String meetingLink,
-                       final Function1<? super String, Unit> showAlert,
-                       final Bitmap localParticipantAvatarBitMap) {
+                       final Function1<? super String, Unit> showAlert) {
 
         final CallCompositeBuilder builder = new CallCompositeBuilder();
 
@@ -67,8 +65,10 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
 
-        final PersonaData personaData = new PersonaData(localParticipantAvatarBitMap);
-        final LocalParticipantConfiguration configuration = new LocalParticipantConfiguration(personaData);
+        final CommunicationUIPersonaData communicationUIPersonaData =
+                new CommunicationUIPersonaData("test");
+        final CommunicationUILocalDataOptions configuration =
+                new CommunicationUILocalDataOptions(communicationUIPersonaData);
         if (groupId != null) {
             final GroupCallOptions groupCallOptions =
                     new GroupCallOptions(communicationTokenCredential, groupId, displayName);

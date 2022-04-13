@@ -2,11 +2,11 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 
 import android.graphics.Bitmap
 import android.widget.ImageView
-import com.azure.android.communication.ui.configuration.LocalParticipantConfiguration
+import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
 import com.azure.android.communication.ui.helper.MainCoroutineRule
-import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
-import com.azure.android.communication.ui.presentation.manager.PersonaManager
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
@@ -180,10 +180,14 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     @Test
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaName_when_personaDataNameIsSet() {
         // arrange
-        val personaData = PersonaData("test")
+        val personaData =
+            CommunicationUIPersonaData(
+                "test")
 
-        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val localParticipantConfiguration =
+            CommunicationUILocalDataOptions(
+                personaData)
+        val personaManager = AvatarViewManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
@@ -194,13 +198,13 @@ internal class SetupParticipantAvatarViewModelUnitTest {
 
         // assert
         Assert.assertEquals(
-            personaData.name,
-            viewModel.getPersonaData()?.name
+            personaData.renderedDisplayName,
+            viewModel.getPersonaData()?.renderedDisplayName
         )
 
         Assert.assertEquals(
             null,
-            viewModel.getPersonaData()?.image
+            viewModel.getPersonaData()?.avatarBitmap
         )
     }
 
@@ -208,10 +212,14 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaImage_when_personaImageIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
-        val personaData = PersonaData(mockBitmap)
+        val personaData =
+            CommunicationUIPersonaData(
+                mockBitmap)
 
-        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val localParticipantConfiguration =
+            CommunicationUILocalDataOptions(
+                personaData)
+        val personaManager = AvatarViewManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
@@ -223,12 +231,12 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         // assert
         Assert.assertEquals(
             null,
-            viewModel.getPersonaData()?.name
+            viewModel.getPersonaData()?.renderedDisplayName
         )
 
         Assert.assertEquals(
             mockBitmap,
-            viewModel.getPersonaData()?.image
+            viewModel.getPersonaData()?.avatarBitmap
         )
 
         Assert.assertEquals(
@@ -241,10 +249,16 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     fun setupParticipantAvatarViewModel_getPersonaData_onCall_returnsPersonaData_when_personaDataIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
-        val personaData = PersonaData("hello", mockBitmap, ImageView.ScaleType.CENTER)
+        val personaData =
+            CommunicationUIPersonaData(
+                "hello",
+                mockBitmap,
+                ImageView.ScaleType.CENTER)
 
-        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val localParticipantConfiguration =
+            CommunicationUILocalDataOptions(
+                personaData)
+        val personaManager = AvatarViewManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
@@ -256,12 +270,12 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         // assert
         Assert.assertEquals(
             "hello",
-            viewModel.getPersonaData()?.name
+            viewModel.getPersonaData()?.renderedDisplayName
         )
 
         Assert.assertEquals(
             mockBitmap,
-            viewModel.getPersonaData()?.image
+            viewModel.getPersonaData()?.avatarBitmap
         )
 
         Assert.assertEquals(
@@ -274,10 +288,15 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     fun setupParticipantAvatarViewModel_getPersonaScale_onCall_returnsPersonaScale_when_personaScaleIsSet() {
         // arrange
         val mockBitmap = mock<Bitmap> {}
-        val personaData = PersonaData(mockBitmap, ImageView.ScaleType.CENTER)
+        val personaData =
+            CommunicationUIPersonaData(
+                mockBitmap,
+                ImageView.ScaleType.CENTER)
 
-        val localParticipantConfiguration = LocalParticipantConfiguration(personaData)
-        val personaManager = PersonaManager(localParticipantConfiguration)
+        val localParticipantConfiguration =
+            CommunicationUILocalDataOptions(
+                personaData)
+        val personaManager = AvatarViewManager(localParticipantConfiguration)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
@@ -289,12 +308,12 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         // assert
         Assert.assertEquals(
             null,
-            viewModel.getPersonaData()?.name
+            viewModel.getPersonaData()?.renderedDisplayName
         )
 
         Assert.assertEquals(
             mockBitmap,
-            viewModel.getPersonaData()?.image
+            viewModel.getPersonaData()?.avatarBitmap
         )
 
         Assert.assertEquals(

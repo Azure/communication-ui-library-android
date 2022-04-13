@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.graphics.Bitmap;
-
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 
 import java.util.UUID;
@@ -16,6 +14,5 @@ public interface CallingCompositeLauncher {
                 String userName,
                 UUID groupId,
                 String meetingLink,
-                Function1<? super String, Unit> showAlert,
-                Bitmap localParticipantAvatarBitMap);
+                Function1<? super String, Unit> showAlert);
 }
