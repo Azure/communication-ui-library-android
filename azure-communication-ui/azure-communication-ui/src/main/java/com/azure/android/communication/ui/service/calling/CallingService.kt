@@ -47,8 +47,9 @@ internal class CallingService(
         private const val CALL_END_REASON_EVICTED = 5000
 
         private fun isEvicted(callingState: CallingStateWrapper) =
+            callingState.callState == CallState.DISCONNECTED &&
             callingState.callEndReason == CALL_END_REASON_SUCCESS &&
-                    callingState.callEndReasonExtra == CALL_END_REASON_EVICTED
+            callingState.callEndReasonExtra == CALL_END_REASON_EVICTED
     }
 
     private val participantsInfoModelSharedFlow =
@@ -128,14 +129,14 @@ internal class CallingService(
         coroutineScope.launch {
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
                 val callStateError = when (it.callEndReason) {
-                    CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> {
+                    CALL_END_REASON_SUCCESS -> {
                         if (isEvicted(it)) {
                             CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
                         } else {
                             null
                         }
                     }
-
+                    CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> null
                     CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED)
                     else -> {
                         if (callingStatus == CallingStatus.CONNECTED) {
@@ -145,7 +146,7 @@ internal class CallingService(
                         }
                     }
                 }
-                callingStatus = getCallingState(it.callState)
+                callingStatus = getCallingState(it)
                 callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
         }
@@ -177,36 +178,19 @@ internal class CallingService(
         return callingSDKWrapper.startCall(cameraState, audioState)
     }
 
-    private fun getCallingState(callState: CallState): CallingStatus {
-        when (callState) {
-            CallState.CONNECTED -> {
-                return CallingStatus.CONNECTED
-            }
-            CallState.CONNECTING -> {
-                return CallingStatus.CONNECTING
-            }
-            CallState.DISCONNECTED -> {
-                return CallingStatus.DISCONNECTED
-            }
-            CallState.DISCONNECTING -> {
-                return CallingStatus.DISCONNECTING
-            }
-            CallState.EARLY_MEDIA -> {
-                return CallingStatus.EARLY_MEDIA
-            }
-            CallState.RINGING -> {
-                return CallingStatus.RINGING
-            }
-            CallState.LOCAL_HOLD -> {
-                return CallingStatus.LOCAL_HOLD
-            }
-            CallState.IN_LOBBY -> {
-                return CallingStatus.IN_LOBBY
-            }
-            CallState.REMOTE_HOLD -> {
-                return CallingStatus.REMOTE_HOLD
-            }
-            else -> return CallingStatus.NONE
+    private fun getCallingState(callingState: CallingStateWrapper): CallingStatus {
+        if (isEvicted(callingState)) return CallingStatus.CALL_EVICTED
+        return when (callingState.callState) {
+            CallState.CONNECTED -> CallingStatus.CONNECTED
+            CallState.CONNECTING -> CallingStatus.CONNECTING
+            CallState.DISCONNECTED -> CallingStatus.DISCONNECTED
+            CallState.DISCONNECTING -> CallingStatus.DISCONNECTING
+            CallState.EARLY_MEDIA -> CallingStatus.EARLY_MEDIA
+            CallState.RINGING -> CallingStatus.RINGING
+            CallState.LOCAL_HOLD -> CallingStatus.LOCAL_HOLD
+            CallState.IN_LOBBY -> CallingStatus.IN_LOBBY
+            CallState.REMOTE_HOLD -> CallingStatus.REMOTE_HOLD
+            else -> CallingStatus.NONE
         }
     }
 }
