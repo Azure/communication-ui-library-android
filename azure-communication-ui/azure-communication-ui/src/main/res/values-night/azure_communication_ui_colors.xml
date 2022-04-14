@@ -23,6 +23,7 @@
     <color name="azure_communication_ui_color_status_bar">#000000</color>
     <color name="azure_communication_ui_color_text_primary">#E1E1E1</color>
     <color name="azure_communication_ui_color_action_bar_text">#FFFFFF</color>
+    <color name="azure_communication_ui_color_focus_highlight">#737373</color>
 
     <!--Static colors-->
     <color name="azure_communication_ui_color_on_surface_camera_active">#FFFFFF</color>
