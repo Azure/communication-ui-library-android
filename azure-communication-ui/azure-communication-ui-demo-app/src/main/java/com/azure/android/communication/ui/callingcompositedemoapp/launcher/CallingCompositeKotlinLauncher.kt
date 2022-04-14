@@ -20,9 +20,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
-import java.util.concurrent.Callable
 import java.util.Locale
 import java.util.UUID
+import java.util.concurrent.Callable
 
 class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :
     CallingCompositeLauncher {

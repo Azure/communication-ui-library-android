@@ -5,13 +5,11 @@ package com.azure.android.communication.ui.presentation
 
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
-import android.content.res.AssetManager
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS

@@ -8,6 +8,6 @@ import java.util.Locale
 internal class AppLocalizationProvider : LocalizationProvider {
     private lateinit var locale: Locale
     override fun apply(localeConfig: LocalizationConfiguration) {
-            locale = localeConfig.locale
+        locale = localeConfig.locale
     }
 }
