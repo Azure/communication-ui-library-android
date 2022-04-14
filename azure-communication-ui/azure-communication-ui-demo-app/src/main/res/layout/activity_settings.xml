@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/azure_communication_ui_fab_margin"
-        android:text="Avatar Injection"
+        android:text="@string/avatar_injection"
         android:textSize="24sp"
         android:textStyle="bold"
         />
@@ -103,38 +103,85 @@
         android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
         />
 
-    <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarViewSelectionLinearlayout
+    <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout
+        android:id="@+id/avatarImageSelectionLinearlayout"
         android:layout_width="wrap_content"
-        android:id="@+id/avatarViewSelectionLinearlayout"
         android:layout_height="wrap_content"
         >
 
         <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarOneImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/image_button_background"
+            android:id="@+id/avatarCatImageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:src="@drawable/persona_image"
+            android:background="@drawable/avatar_image_button_background"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/image_cat"
             />
-
 
         <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarTwoImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/image_button_background"
+            android:id="@+id/avatarFoxImageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:src="@drawable/cat_persona"
+            android:background="@drawable/avatar_image_button_background"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/image_fox"
             />
 
-    </com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarViewSelectionLinearlayout>
+        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+            android:id="@+id/avatarKoalaImageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/avatar_image_button_background"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/image_koala"
+            />
+
+        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+            android:id="@+id/avatarMonkeyImageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/avatar_image_button_background"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/image_monkey"
+            />
+
+        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+            android:id="@+id/avatarMouseImageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/avatar_image_button_background"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/image_mouse"
+            />
+
+        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+            android:id="@+id/avatarOctopusImageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/avatar_image_button_background"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/image_octopus"
+            />
+
+    </com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout>
 
     <EditText
         android:id="@+id/renderDisplayName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:hint="Rendered Display Name"
+        android:hint="@string/rendered_display_name"
         />
 </androidx.appcompat.widget.LinearLayoutCompat>

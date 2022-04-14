@@ -390,19 +390,21 @@ internal class LocalParticipantGridCellViewModelTest {
         // arrange
         val personaData =
             CommunicationUIPersonaData(
-                "test")
+                "test"
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
                 ParticipantGridCellViewModelFactory(),
-                personaManager
+                avatarViewManager
             )
 
         // act
@@ -426,19 +428,21 @@ internal class LocalParticipantGridCellViewModelTest {
         val mockBitmap = mock<Bitmap> {}
         val personaData =
             CommunicationUIPersonaData(
-                mockBitmap)
+                mockBitmap
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
                 ParticipantGridCellViewModelFactory(),
-                personaManager
+                avatarViewManager
             )
 
         // act
@@ -469,19 +473,21 @@ internal class LocalParticipantGridCellViewModelTest {
             CommunicationUIPersonaData(
                 "hello",
                 mockBitmap,
-                ImageView.ScaleType.CENTER)
+                ImageView.ScaleType.CENTER
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
                 ParticipantGridCellViewModelFactory(),
-                personaManager
+                avatarViewManager
             )
 
         // act
@@ -511,19 +517,21 @@ internal class LocalParticipantGridCellViewModelTest {
         val personaData =
             CommunicationUIPersonaData(
                 mockBitmap,
-                ImageView.ScaleType.CENTER)
+                ImageView.ScaleType.CENTER
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
                 ParticipantGridCellViewModelFactory(),
-                personaManager
+                avatarViewManager
             )
 
         // act

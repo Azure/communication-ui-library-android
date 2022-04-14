@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
 
 /**
- * PersonaData for local participant configuration.
+ * PersonaData for local participant.
  *
  * <pre>
  *
@@ -21,8 +21,8 @@ import com.azure.android.communication.ui.configuration.CommunicationUILocalData
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalParticipantConfiguration with PersonaData
- * LocalParticipantConfiguration config = new LocalParticipantConfiguration(new PersonaData&#40;...&#41);
+ * &#47;&#47; Build the CommunicationUILocalDataOptions with CommunicationUIPersonaData
+ * CommunicationUILocalDataOptions options = new CommunicationUILocalDataOptions(new CommunicationUIPersonaData&#40;...&#41);
  *
  * </pre>
  *
@@ -56,7 +56,7 @@ public class CommunicationUIPersonaData {
     }
 
     /**
-     * Create PersonaData.
+     * Create CommunicationUIPersonaData.
      *
      * @param renderedDisplayName The {@link String};
      * @see CommunicationUILocalDataOptions
@@ -66,7 +66,7 @@ public class CommunicationUIPersonaData {
     }
 
     /**
-     * Create PersonaData.
+     * Create CommunicationUIPersonaData.
      *
      * @param renderedDisplayName  The {@link String};
      * @param avatarBitmap The {@link Bitmap};
@@ -78,7 +78,7 @@ public class CommunicationUIPersonaData {
     }
 
     /**
-     * Create PersonaData.
+     * Create CommunicationUIPersonaData.
      *
      * @param renderedDisplayName      The {@link String};
      * @param avatarBitmap     The {@link Bitmap};
@@ -103,7 +103,7 @@ public class CommunicationUIPersonaData {
     }
 
     /**
-     * Get current name
+     * Get rendered display name
      *
      * @return The {@link String};
      */
@@ -113,7 +113,7 @@ public class CommunicationUIPersonaData {
     }
 
     /**
-     * Get current Bitmap
+     * Get current avatar Bitmap
      *
      * @return The {@link Bitmap};
      */

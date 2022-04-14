@@ -86,9 +86,9 @@ public final class CallComposite {
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
      * final GroupCallOptions groupCallOptions =
      *                 new GroupCallOptions&#40;context, communicationTokenCredential, groupId, displayName&#41;;
-     * final LocalParticipantConfiguration config =
-     *                 new LocalParticipantConfiguration&#40;personaData&#41;;
-     * callComposite.launch&#40;groupCallOptions, config&#41;;
+     * final CommunicationUILocalDataOptions dataOptions =
+     *                 new CommunicationUILocalDataOptions&#40;personaData&#41;;
+     * callComposite.launch&#40;groupCallOptions, dataOptions&#41;;
      *
      * </pre>
      *
@@ -153,9 +153,9 @@ public final class CallComposite {
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
      * final TeamsMeetingOptions teamsMeetingOptions =
      *                 new TeamsMeetingOptions&#40;context, communicationTokenCredential, meetingLink, displayName&#41;;
-     * final LocalParticipantConfiguration config =
-     *                 new LocalParticipantConfiguration&#40;personaData&#41;;
-     * callComposite.launch&#40;teamsMeetingOptions, config&#41;;
+     * final CommunicationUILocalDataOptions dataOptions =
+     *                 new CommunicationUILocalDataOptions&#40;personaData&#41;;
+     * callComposite.launch&#40;teamsMeetingOptions, dataOptions&#41;;
      *
      * </pre>
      *

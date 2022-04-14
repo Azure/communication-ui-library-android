@@ -45,7 +45,7 @@ internal class CallingViewModelFactory(
     private val localParticipantViewModel by lazy {
         LocalParticipantViewModel(
             store::dispatch,
-            localParticipantConfig.getLocalParticipantConfiguration()
+            localParticipantConfig.getCommunicationUILocalDataOptions()
         )
     }
 

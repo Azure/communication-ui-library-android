@@ -12,7 +12,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarViewSelectionLinearlayout
+import com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout
 import com.azure.android.communication.ui.configuration.LanguageCode
 import com.google.android.material.textfield.TextInputLayout
 
@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
-    private lateinit var linearLayoutAvatar: AvatarViewSelectionLinearlayout
+    private lateinit var linearLayoutAvatar: AvatarImageSelectionLinearlayout
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -52,7 +52,6 @@ class SettingsActivity : AppCompatActivity() {
         updateAvatarSelection()
     }
 
-
     override fun onResume() {
         super.onResume()
 
@@ -73,7 +72,6 @@ class SettingsActivity : AppCompatActivity() {
             updateRTLCheckbox()
         }
     }
-
 
     fun onCheckBoxTap(view: View) {
 
@@ -100,10 +98,8 @@ class SettingsActivity : AppCompatActivity() {
         isRTLCheckBox = findViewById(R.id.languageIsRTL)
         languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
-        linearLayoutAvatar = findViewById(R.id.avatarViewSelectionLinearlayout)
+        linearLayoutAvatar = findViewById(R.id.avatarImageSelectionLinearlayout)
         renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
-
-
     }
 
     private fun updateRTLCheckbox() {
@@ -151,28 +147,24 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateAvatarSelection() {
-
-        sharedPreference.edit().putString("RENDER_DISPLAY_NAME", renderDisplayNameTextView.text.toString()).apply()
-        sharedPreference.edit().putString("RENDER_AVATAR", linearLayoutAvatar.getAvatarName()).apply()
-
-
+        sharedPreference.edit().putString(RENDER_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
     }
 
     private fun setAvatarSelection() {
-        renderDisplayNameTextView.text = sharedPreference.getString("RENDER_DISPLAY_NAME", "")
-        linearLayoutAvatar.setAvatar(sharedPreference.getString("RENDER_AVATAR", ""))
+        renderDisplayNameTextView.text = sharedPreference.getString(RENDER_DISPLAY_NAME, "")
     }
-
 }
 
 // Shared pref Keys for language & rtl settings
-
 const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
 const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "RTL_VALUE_OF_"
 const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
 
 // Shared pref default values for language & rtl settings
-
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_RTL_VALUE = false
 const val DEFAULT_LOCALE_CODE = "en"
+
+// Shared pref default values for persona data
+const val RENDER_DISPLAY_NAME = "RENDER_DISPLAY_NAME"
+const val AVATAR_IMAGE = "AVATAR_IMAGE"

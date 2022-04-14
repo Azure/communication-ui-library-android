@@ -182,16 +182,18 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         // arrange
         val personaData =
             CommunicationUIPersonaData(
-                "test")
+                "test"
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
-            SetupViewModelFactory(mockAppStore, personaManager)
+            SetupViewModelFactory(mockAppStore, avatarViewManager)
 
         // act
         val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()
@@ -214,16 +216,18 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         val mockBitmap = mock<Bitmap> {}
         val personaData =
             CommunicationUIPersonaData(
-                mockBitmap)
+                mockBitmap
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
-            SetupViewModelFactory(mockAppStore, personaManager)
+            SetupViewModelFactory(mockAppStore, avatarViewManager)
 
         // act
         val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()
@@ -253,16 +257,18 @@ internal class SetupParticipantAvatarViewModelUnitTest {
             CommunicationUIPersonaData(
                 "hello",
                 mockBitmap,
-                ImageView.ScaleType.CENTER)
+                ImageView.ScaleType.CENTER
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
-            SetupViewModelFactory(mockAppStore, personaManager)
+            SetupViewModelFactory(mockAppStore, avatarViewManager)
 
         // act
         val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()
@@ -291,16 +297,18 @@ internal class SetupParticipantAvatarViewModelUnitTest {
         val personaData =
             CommunicationUIPersonaData(
                 mockBitmap,
-                ImageView.ScaleType.CENTER)
+                ImageView.ScaleType.CENTER
+            )
 
-        val localParticipantConfiguration =
+        val dataOptions =
             CommunicationUILocalDataOptions(
-                personaData)
-        val personaManager = AvatarViewManager(localParticipantConfiguration)
+                personaData
+            )
+        val avatarViewManager = AvatarViewManager(dataOptions)
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
         val setupViewModelFactory =
-            SetupViewModelFactory(mockAppStore, personaManager)
+            SetupViewModelFactory(mockAppStore, avatarViewManager)
 
         // act
         val viewModel = setupViewModelFactory.provideParticipantAvatarViewModel()

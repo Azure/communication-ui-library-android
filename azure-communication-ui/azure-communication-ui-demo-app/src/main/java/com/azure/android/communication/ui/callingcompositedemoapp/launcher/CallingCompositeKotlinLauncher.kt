@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCommunicationUIPersonaDataData
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.isRTL
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
@@ -21,7 +22,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -36,6 +36,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)
+        val personaData = getCommunicationUIPersonaDataData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
         val selectedLanguageCode = selectedLanguage?.let { it ->
             languageCode(it)?.let { selectedLanguageCode(it) }
@@ -73,32 +74,40 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 groupId,
                 displayName,
             )
-            val personaData =
-                CommunicationUIPersonaData("test")
-            val localParticipantConfiguration =
-                CommunicationUILocalDataOptions(
-                    personaData)
-            callComposite.launch(
-                callLauncherActivity,
-                groupCallOptions,
-                localParticipantConfiguration
-            )
+
+            if (personaData != null) {
+                val dataOptions = CommunicationUILocalDataOptions(personaData)
+                callComposite.launch(
+                    callLauncherActivity,
+                    groupCallOptions,
+                    dataOptions
+                )
+            } else {
+                callComposite.launch(
+                    callLauncherActivity,
+                    groupCallOptions,
+                )
+            }
         } else if (!meetingLink.isNullOrBlank()) {
             val teamsMeetingOptions = TeamsMeetingOptions(
                 communicationTokenCredential,
                 meetingLink,
                 displayName,
             )
-            val personaData =
-                CommunicationUIPersonaData("test")
-            val localParticipantConfiguration =
-                CommunicationUILocalDataOptions(
-                    personaData)
-            callComposite.launch(
-                callLauncherActivity,
-                teamsMeetingOptions,
-                localParticipantConfiguration
-            )
+
+            if (personaData != null) {
+                val dataOptions = CommunicationUILocalDataOptions(personaData)
+                callComposite.launch(
+                    callLauncherActivity,
+                    teamsMeetingOptions,
+                    dataOptions
+                )
+            } else {
+                callComposite.launch(
+                    callLauncherActivity,
+                    teamsMeetingOptions,
+                )
+            }
         }
     }
 }
