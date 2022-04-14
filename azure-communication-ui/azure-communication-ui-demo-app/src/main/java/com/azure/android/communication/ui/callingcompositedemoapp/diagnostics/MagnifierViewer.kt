@@ -10,13 +10,13 @@ class MagnifierViewer private constructor(
     private val context: Application,
 ) {
     companion object {
-        private var magnifierViewer: MagnifierViewer? = null
+        private lateinit var magnifierViewer: MagnifierViewer
 
         fun getMagnifierViewer(context: Application): MagnifierViewer {
-            if (magnifierViewer == null) {
+            if (!this::magnifierViewer.isInitialized) {
                 magnifierViewer = MagnifierViewer(context)
             }
-            return magnifierViewer!!
+            return magnifierViewer
         }
     }
 

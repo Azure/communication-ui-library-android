@@ -13,8 +13,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.configuration.LanguageCode
-import com.azure.android.communication.ui.utilities.implementation.FEATURE_FLAG_SHARED_PREFS_KEY
 import com.google.android.material.textfield.TextInputLayout
+
+// Key for the SharedPrefs store that will be used for FeatureFlags
+const val SETTINGS_SHARED_PREFS = "Settings"
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -27,7 +29,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private val sharedPreference by lazy {
-        getSharedPreferences(FEATURE_FLAG_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+        getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
