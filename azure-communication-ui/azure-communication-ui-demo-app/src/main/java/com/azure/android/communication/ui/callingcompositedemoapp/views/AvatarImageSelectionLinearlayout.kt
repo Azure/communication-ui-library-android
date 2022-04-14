@@ -37,38 +37,42 @@ class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
 
         catImageButton.setOnClickListener {
             selectImage(catImageButton)
-            sharedPreference.edit().putString(AVATAR_IMAGE, R.drawable.image_cat.toString())
-                .apply()
+            setAvatarImagePreferences(catImageButton, R.drawable.image_cat.toString())
         }
 
         foxImageButton.setOnClickListener {
             selectImage(foxImageButton)
-            sharedPreference.edit().putString(AVATAR_IMAGE, R.drawable.image_fox.toString())
-                .apply()
+            setAvatarImagePreferences(foxImageButton, R.drawable.image_fox.toString())
         }
 
         koalaImageButton.setOnClickListener {
             selectImage(koalaImageButton)
-            sharedPreference.edit().putString(AVATAR_IMAGE, R.drawable.image_koala.toString())
-                .apply()
+            setAvatarImagePreferences(koalaImageButton, R.drawable.image_koala.toString())
         }
 
         monkeyImageButton.setOnClickListener {
             selectImage(monkeyImageButton)
-            sharedPreference.edit().putString(AVATAR_IMAGE, R.drawable.image_monkey.toString())
-                .apply()
+            setAvatarImagePreferences(monkeyImageButton, R.drawable.image_monkey.toString())
         }
 
         mouseImageButton.setOnClickListener {
             selectImage(mouseImageButton)
-            sharedPreference.edit().putString(AVATAR_IMAGE, R.drawable.image_mouse.toString())
-                .apply()
+            setAvatarImagePreferences(mouseImageButton, R.drawable.image_mouse.toString())
         }
 
         octopusImageButton.setOnClickListener {
             selectImage(octopusImageButton)
+            setAvatarImagePreferences(octopusImageButton, R.drawable.image_octopus.toString())
+        }
+    }
+
+    private fun setAvatarImagePreferences(button: AvatarImageButton, imageId: String) {
+        if (button.isButtonSelected()) {
             sharedPreference.edit()
-                .putString(AVATAR_IMAGE, R.drawable.image_octopus.toString()).apply()
+                .putString(AVATAR_IMAGE, imageId).apply()
+        } else {
+            sharedPreference.edit()
+                .putString(AVATAR_IMAGE, "").apply()
         }
     }
 
@@ -96,8 +100,11 @@ class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
     }
 
     private fun selectImage(button: AvatarImageButton) {
+        val previousState = button.isButtonSelected()
         unselectAllImages()
-        button.select()
+        if (!previousState) {
+            button.select()
+        }
         button.refreshDrawableState()
     }
 

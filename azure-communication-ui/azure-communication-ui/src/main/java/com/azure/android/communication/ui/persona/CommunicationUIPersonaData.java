@@ -35,7 +35,7 @@ public class CommunicationUIPersonaData {
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
 
     /**
-     * Create PersonaData.
+     * Create CommunicationUIPersonaData.
      *
      * @param avatarBitmap The {@link Bitmap};
      * @see CommunicationUILocalDataOptions
@@ -45,7 +45,7 @@ public class CommunicationUIPersonaData {
     }
 
     /**
-     * Create PersonaData.
+     * Create CommunicationUIPersonaData.
      *
      * @param avatarBitmap     The {@link Bitmap};
      * @param scaleType The {@link ImageView.ScaleType};

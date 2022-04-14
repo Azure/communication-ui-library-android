@@ -23,12 +23,10 @@ open class AvatarImageButton(context: Context, attrs: AttributeSet?) :
         return drawableState
     }
 
+    fun isButtonSelected() = isButtonSelected
+
     fun unSelect() {
         isButtonSelected = false
-    }
-
-    fun toggle() {
-        isButtonSelected = !isButtonSelected
     }
 
     fun select() {
