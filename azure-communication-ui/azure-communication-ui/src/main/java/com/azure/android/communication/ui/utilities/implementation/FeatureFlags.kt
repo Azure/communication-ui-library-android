@@ -3,23 +3,12 @@
 
 package com.azure.android.communication.ui.utilities.implementation
 
-import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
-import com.azure.android.communication.ui.R
-
 /* Feature Flag Management
 
 There is 2 parts to this system.
 1) Enum entries (fixed features). These are features in the Composite Library itself
 2) Pluggable entries (dynamic features). This allows the Application (e.g. Demo, Contoso) to add
    additional features using the system.
-
-Initialization:
-  The feature flag system requires an application context to access String and Boolean resources
-  as well as the SharedPreferences to retain choices
-
-  `FeatureFlags.initialize(context)` anywhere early in your code e.g. (activity/application).onCreate
 
 # Usage:
   ## Checking Flags:
@@ -40,36 +29,28 @@ Initialization:
 
  */
 enum class FeatureFlags(
-    // Id of the bool resource containing the default
-    override val defaultBooleanId: Int,
-
     // Label to display on screen
-    override val labelId: Int,
-    override val fallbackBoolean: Boolean,
-    override val fallbackLabel: String,
+    override val enabledByDefault: Boolean,
+    override val label: String,
+
 ) : FeatureFlag {
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
     BluetoothAudio(
-        R.bool.azure_communication_ui_feature_flag_bluetooth_audio,
-        R.string.azure_communication_ui_feature_flag_bluetooth_audio_label,
         true,
         "Bluetooth Audio"
-
     ),
     ScreenShareZoom(
-        R.bool.azure_communication_ui_feature_screen_share_zoom,
-        R.string.azure_communication_ui_feature_screen_share_zoom_label,
         true,
         "Screen Share Zoom"
     );
     // ---------------------------- End Global Features ---------------------------------------------
 
     // Stubs for onStart/onEnd as we don't need it for the enum ones.
-    override val onEnd: (application: Application) -> Unit
+    override val onEnd: () -> Unit
         get() = {}
 
-    override val onStart: (application: Application) -> Unit
+    override val onStart: () -> Unit
         get() = {}
 
     // FeatureFlag Interface/Companion
@@ -78,117 +59,63 @@ enum class FeatureFlags(
     // 2) `initialize(context)` at app/activity start to initialize/start the system
     // 3) `features` to get the list of all the available Feature Flags
     companion object {
-        lateinit var applicationContext: Application
-        lateinit var sharedPrefs: SharedPreferences
-
-        // Ensure this has an ApplicationContext to get SharedPreferences from
-        // This will allow us to access the current value and also the Resources to read the default
-        fun initialize(context: Context) {
-            applicationContext = context.applicationContext as Application
-            sharedPrefs = applicationContext.getSharedPreferences(
-                FEATURE_FLAG_SHARED_PREFS_KEY,
-                Context.MODE_PRIVATE
-            )
-
-            // Start default features
-            features.filter { it.active }.forEach { it.onStart(applicationContext) }
-        }
-
         private val additionalEntries = ArrayList<FeatureFlag>()
 
         fun registerAdditionalFeature(feature: FeatureFlag) {
             if (!additionalEntries.contains(feature)) {
                 additionalEntries.add(feature)
+                if (feature.active) {
+                    feature.onStart()
+                }
             }
         }
 
         // List of all features
         val features: List<FeatureFlag> get() = values().toList() + additionalEntries
+
+        // The delegate to use for getting/setting, default in-memory
+        var flagStoreDelegate: FeatureFlagStore = DefaultFeatureFlagStore()
     }
 }
 
 // Class to add additional Entries to the FeatureFlag system (e.g. from the Demo, or another app)
 data class FeatureFlagEntry(
-    override val defaultBooleanId: Int,
-    override val labelId: Int,
-    override val fallbackBoolean: Boolean,
-    override val fallbackLabel: String,
-    private val start: (application: Application) -> Unit,
-    private val end: (application: Application) -> Unit,
+    override val enabledByDefault: Boolean,
+    override val label: String,
+    private val start: () -> Unit,
+    private val end: () -> Unit,
 
 ) : FeatureFlag {
 
-    override val onStart: (application: Application) -> Unit
+    override val onStart: () -> Unit
         get() = {
-            if (active) start(it)
+            if (active) start()
         }
 
-    override val onEnd: (application: Application) -> Unit
+    override val onEnd: () -> Unit
         get() = {
-            if (!active) end(it)
+            if (!active) end()
         }
 }
 
 // A Feature Flag
 // This interface is shared between the Optional and Enum features
 interface FeatureFlag {
-    val defaultBooleanId: Int
-    val labelId: Int
-    val onStart: (application: Application) -> Unit
-    val onEnd: (application: Application) -> Unit
+    val onStart: () -> Unit
+    val onEnd: () -> Unit
 
-    val fallbackBoolean: Boolean
-    val fallbackLabel: String
+    val enabledByDefault: Boolean
+    val label: String
 
     val key: String
-        get() = "$defaultBooleanId"
+        get() = this.label
 
     // Getters and Setters for Active
     // 1) SharedPreferences priority
     // 2) fallback to resource with defaultBooleanId
     var active: Boolean
-        get() {
-            try {
-                // If not added to the system, return false
-                if (!FeatureFlags.features.contains(this)) {
-                    return false
-                }
-
-                return FeatureFlags.sharedPrefs.getBoolean(
-                    key,
-                    FeatureFlags.applicationContext.resources.getBoolean(defaultBooleanId)
-                )
-            } catch (exception: Exception) {
-                return fallbackBoolean
-            }
-        }
-        set(value) {
-            try {
-                val wasActive = active
-                FeatureFlags.sharedPrefs.edit().putBoolean(key, value).apply()
-                if (value != wasActive) {
-                    // Toggled
-                    if (value) {
-                        onStart(FeatureFlags.applicationContext)
-                    } else {
-                        onEnd(FeatureFlags.applicationContext)
-                    }
-                }
-            } catch (exception: Exception) {
-                // Do nothing
-                // Without SharedPrefs we can not toggle
-            }
-        }
-
-    // Helper to get the String value of the label
-    val label: String
-        get() {
-            return try {
-                FeatureFlags.applicationContext.getString(labelId)
-            } catch (exception: Exception) {
-                fallbackLabel
-            }
-        }
+        get() = FeatureFlags.flagStoreDelegate.get(this)
+        set(value) = FeatureFlags.flagStoreDelegate.set(this, value)
 
     // Toggle a feature flag
     fun toggle() {
@@ -196,5 +123,59 @@ interface FeatureFlag {
     }
 }
 
-// Key for the SharedPrefs store that will be used for FeatureFlags
-const val FEATURE_FLAG_SHARED_PREFS_KEY = "FeatureFlags"
+// Storage for FeatureFlagValues.
+abstract class FeatureFlagStore {
+    private val listeners = ArrayList<Runnable>()
+
+    // Implement these to save/retrieve from your data-store
+    abstract fun setInternal(flag: FeatureFlag, value: Boolean)
+    abstract fun getInternal(flag: FeatureFlag): Boolean
+
+    fun get(flag: FeatureFlag) = getInternal(flag)
+
+    fun set(flag: FeatureFlag, enabled: Boolean) {
+        val wasEnabled = get(flag)
+
+        setInternal(flag, enabled)
+
+        if (enabled && !wasEnabled) flag.onStart()
+        if (!enabled && wasEnabled) flag.onEnd()
+
+        notifyListeners()
+    }
+
+    fun addListener(callback: Runnable) {
+        listeners.add(callback)
+    }
+
+    fun removeListener(callback: Runnable) {
+        listeners.remove(callback)
+    }
+
+    private fun notifyListeners() {
+        for (listener in listeners) {
+            listener.run()
+        }
+    }
+}
+
+// FallbackFeatureGetterSetter
+//
+// Default implementation, persists to memory, doesn't use the labelID (no context)
+class DefaultFeatureFlagStore : FeatureFlagStore() {
+    val values = HashMap<FeatureFlag, Boolean>()
+
+    override fun setInternal(flag: FeatureFlag, value: Boolean) {
+        if (FeatureFlags.features.none { it == flag })
+            return
+
+        values[flag] = value
+    }
+
+    override fun getInternal(flag: FeatureFlag): Boolean {
+        if (FeatureFlags.features.none { it == flag })
+            return false
+
+        return values[flag] ?: FeatureFlags.features.first { it == flag }.enabledByDefault
+    }
+}

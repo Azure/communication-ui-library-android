@@ -5,6 +5,4 @@
 <resources>
     <!-- This flag enabled/disables diagnostics (feature will be omitted if false) -->
     <bool name="diagnostics">false</bool>
-
-    <bool name="feature_theme_selection">false</bool>
 </resources>
