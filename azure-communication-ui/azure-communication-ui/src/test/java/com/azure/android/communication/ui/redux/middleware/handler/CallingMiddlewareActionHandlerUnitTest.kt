@@ -1372,6 +1372,57 @@ internal class CallingMiddlewareActionHandlerUnitTest {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdate_then_dispatch_CallEviction() =
+        mainCoroutineRule.testDispatcher.runBlockingTest {
+            // arrange
+            val appState = AppReduxState("")
+
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                TestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            callInfoModelStateFlow.value = CallInfoModel(
+                CallingStatus.CALL_EVICTED,
+                CallStateError(
+                    CommunicationUIErrorCode.CALL_EVICTED
+                )
+            )
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ErrorAction.CallStateErrorOccurred &&
+                            action.callStateError.communicationUIErrorCode == CommunicationUIErrorCode.CALL_EVICTED
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdateTypeEndCall_then_dispatch_stateUpdatedAndSetupLaunched() =
         mainCoroutineRule.testDispatcher.runBlockingTest {
             // arrange

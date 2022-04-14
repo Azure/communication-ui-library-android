@@ -327,7 +327,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_EVICTED) {
                         store.dispatch(NavigationAction.SetupLaunched())
                     } else if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END ||
-                        it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN) {
+                               it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN) {
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))

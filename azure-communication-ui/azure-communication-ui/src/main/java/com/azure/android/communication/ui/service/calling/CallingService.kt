@@ -44,7 +44,7 @@ internal class CallingService(
         * Expected behavior.
         * */
         private const val CALL_END_REASON_DECLINED = 603
-        private const val CALL_END_REASON_EVICTED = 5000
+        internal const val CALL_END_REASON_EVICTED = 5000
 
         private fun isEvicted(callingState: CallingStateWrapper) =
             callingState.callState == CallState.DISCONNECTED &&
