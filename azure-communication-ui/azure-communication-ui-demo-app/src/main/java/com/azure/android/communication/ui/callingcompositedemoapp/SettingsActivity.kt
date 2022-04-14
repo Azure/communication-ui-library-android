@@ -12,7 +12,6 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout
 import com.azure.android.communication.ui.configuration.LanguageCode
 import com.google.android.material.textfield.TextInputLayout
 
@@ -30,7 +29,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
-    private lateinit var linearLayoutAvatar: AvatarImageSelectionLinearlayout
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -49,7 +47,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        updateAvatarSelection()
+        updateRenderedDisplayNameSharedPreferences()
     }
 
     override fun onResume() {
@@ -64,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
 
         updateRTLCheckbox()
 
-        updateAvatarSelection()
+        updateRenderedDisplayNameSharedPreferences()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -98,7 +96,6 @@ class SettingsActivity : AppCompatActivity() {
         isRTLCheckBox = findViewById(R.id.languageIsRTL)
         languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
-        linearLayoutAvatar = findViewById(R.id.avatarImageSelectionLinearlayout)
         renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
     }
 
@@ -146,12 +143,12 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
-    private fun updateAvatarSelection() {
-        sharedPreference.edit().putString(RENDER_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
+    private fun updateRenderedDisplayNameSharedPreferences() {
+        sharedPreference.edit().putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
     }
 
     private fun setAvatarSelection() {
-        renderDisplayNameTextView.text = sharedPreference.getString(RENDER_DISPLAY_NAME, "")
+        renderDisplayNameTextView.text = sharedPreference.getString(RENDERED_DISPLAY_NAME, "")
     }
 }
 
@@ -166,5 +163,5 @@ const val DEFAULT_RTL_VALUE = false
 const val DEFAULT_LOCALE_CODE = "en"
 
 // Shared pref default values for persona data
-const val RENDER_DISPLAY_NAME = "RENDER_DISPLAY_NAME"
+const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"
 const val AVATAR_IMAGE = "AVATAR_IMAGE"

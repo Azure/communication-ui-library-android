@@ -14,7 +14,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LOCALE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.RENDER_DISPLAY_NAME
+import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.configuration.LanguageCode
 import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
@@ -76,7 +76,7 @@ class SettingsFeatures {
 
         @JvmStatic
         fun getCommunicationUIPersonaDataData(context: Context): CommunicationUIPersonaData? {
-            val displayName = sharedPrefs.getString(RENDER_DISPLAY_NAME, "")
+            val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
             val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
             var avatarImageBitmap: Bitmap? = null
             avatarImageName?.let {
