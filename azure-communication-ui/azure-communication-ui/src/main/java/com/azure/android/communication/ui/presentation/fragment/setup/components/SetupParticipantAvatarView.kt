@@ -23,7 +23,7 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
             it.avatarBitmap?.let { image ->
                 avatarImageBitmap = image
                 adjustViewBounds = true
-                scaleType = ScaleType.FIT_CENTER
+                scaleType = it.scaleType
             }
             it.renderedDisplayName?.let { displayName ->
                 name = displayName
