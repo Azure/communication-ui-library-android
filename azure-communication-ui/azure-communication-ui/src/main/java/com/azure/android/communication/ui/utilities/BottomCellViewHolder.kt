@@ -34,11 +34,6 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             personaData.renderedDisplayName?.let {
                 title.text = it
             }
-            personaData.avatarBitmap?.let {
-                avatarView.avatarImageBitmap = it
-                avatarView.adjustViewBounds = true
-                avatarView.scaleType = personaData.scaleType
-            }
         }
         if (bottomCellItem.icon == null) {
             ViewCompat.setAccessibilityDelegate(
@@ -58,6 +53,16 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             avatarView.visibility = View.VISIBLE
             avatarView.name = bottomCellItem.title ?: ""
             title.contentDescription = bottomCellItem.contentDescription
+            bottomCellItem.personaData?.let { personaData ->
+                personaData.renderedDisplayName?.let {
+                    avatarView.name = it
+                }
+                personaData.avatarBitmap?.let {
+                    avatarView.avatarImageBitmap = it
+                    avatarView.adjustViewBounds = true
+                    avatarView.scaleType = personaData.scaleType
+                }
+            }
         } else {
             imageView.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
