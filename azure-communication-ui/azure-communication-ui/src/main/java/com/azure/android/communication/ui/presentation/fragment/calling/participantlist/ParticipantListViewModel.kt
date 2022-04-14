@@ -32,7 +32,7 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
     fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
         (localParticipantListCellStateFlow.value.displayName.trim() + " " + suffix).trim(),
         localParticipantListCellStateFlow.value.isMuted,
-        getLocalParticipantPersonaData()
+        getLocalParticipantPersonaDataWithSuffix(suffix)
     )
 
     fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
@@ -83,6 +83,17 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
 
     private fun getLocalParticipantPersonaData() =
         avatarViewManager.getCommunicationUILocalDataOptions()?.personaData
+
+    private fun getLocalParticipantPersonaDataWithSuffix(suffix: String): CommunicationUIPersonaData? {
+        avatarViewManager.getCommunicationUILocalDataOptions()?.personaData?.let {
+            var displayName: String? = null
+            it.renderedDisplayName?.let { renderedDisplayName ->
+                displayName = "$renderedDisplayName $suffix"
+            }
+            return CommunicationUIPersonaData(displayName, it.avatarBitmap, it.scaleType)
+        }
+        return null
+    }
 }
 
 internal data class ParticipantListCellModel(
