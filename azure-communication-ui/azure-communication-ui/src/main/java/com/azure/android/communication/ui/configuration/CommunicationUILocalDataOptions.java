@@ -22,7 +22,8 @@ import org.jetbrains.annotations.NotNull;
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
  * &#47;&#47; Build the CommunicationUILocalDataOptions with {@link CommunicationUIPersonaData}
- * CommunicationUILocalDataOptions dataOptions = new CommunicationUILocalDataOptions(new CommunicationUIPersonaData&#40;...&#41);
+ * CommunicationUILocalDataOptions dataOptions =
+ * new CommunicationUILocalDataOptions(new CommunicationUIPersonaData&#40;...&#41);
  *
  * &#47;&#47; Launch call
  * callComposite.launch&#40; .., .., dataOptions&#41

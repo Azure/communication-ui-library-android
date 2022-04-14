@@ -22,7 +22,8 @@ import com.azure.android.communication.ui.configuration.CommunicationUILocalData
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
  * &#47;&#47; Build the CommunicationUILocalDataOptions with CommunicationUIPersonaData
- * CommunicationUILocalDataOptions options = new CommunicationUILocalDataOptions(new CommunicationUIPersonaData&#40;...&#41);
+ * CommunicationUILocalDataOptions options =
+ * new CommunicationUILocalDataOptions(new CommunicationUIPersonaData&#40;...&#41);
  *
  * </pre>
  *
