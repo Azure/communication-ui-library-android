@@ -103,79 +103,85 @@
         android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
         />
 
-    <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout
-        android:id="@+id/avatarImageSelectionLinearlayout"
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
-        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarCatImageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/avatar_image_button_background"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/image_cat"
-            />
+        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout
+            android:id="@+id/avatarImageSelectionLinearlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            
+            <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+                android:id="@+id/avatarCatImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_cat"
+                />
 
-        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarFoxImageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/avatar_image_button_background"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/image_fox"
-            />
+            <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+                android:id="@+id/avatarFoxImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_fox"
+                />
 
-        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarKoalaImageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/avatar_image_button_background"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/image_koala"
-            />
+            <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+                android:id="@+id/avatarKoalaImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_koala"
+                />
 
-        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarMonkeyImageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/avatar_image_button_background"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/image_monkey"
-            />
+            <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+                android:id="@+id/avatarMonkeyImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_monkey"
+                />
 
-        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarMouseImageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/avatar_image_button_background"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/image_mouse"
-            />
+            <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+                android:id="@+id/avatarMouseImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_mouse"
+                />
 
-        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
-            android:id="@+id/avatarOctopusImageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/avatar_image_button_background"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/image_octopus"
-            />
+            <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageButton
+                android:id="@+id/avatarOctopusImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_octopus"
+                />
 
-    </com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout>
+        </com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout>
+    </HorizontalScrollView>
 
     <EditText
         android:id="@+id/renderDisplayName"
