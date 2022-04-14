@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.app.Activity
 import android.content.Context
-import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.R
@@ -24,11 +23,10 @@ internal class AccessibilityAnnouncementManager(
     private var lastState: ReduxState = store.getCurrentState()
 
     suspend fun start(activity: Activity) {
-        val rootView = activity.window.decorView.findViewById<View>(android.R.id.content)
         store.getStateFlow().collect { newState ->
             accessibilityHooks.forEach {
                 if (it.shouldTrigger(lastState, newState)) {
-                    val message = it.message(lastState, newState, rootView.context)
+                    val message = it.message(lastState, newState, activity)
                     if (message.isNotBlank()) {
                         announce(activity, message)
                     }
