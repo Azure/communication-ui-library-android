@@ -115,7 +115,6 @@ dependencies {
     implementation(name: "magnifier-0.0.17", ext: 'aar')
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
-    implementation "com.microsoft.fluentui:fluentui_persona:$fluent_ui_version"
     appCenterImplementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     testImplementation "junit:junit:$junit"
