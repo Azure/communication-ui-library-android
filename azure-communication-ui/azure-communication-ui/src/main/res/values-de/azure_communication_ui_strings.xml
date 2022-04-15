@@ -66,6 +66,7 @@
  transkribieren jetzt nur diese Besprechung. <u>Datenschutzbestimmungen</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Die Transkription wurde beendet.
     </b> Sie nehmen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Schließen</string>

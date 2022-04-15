@@ -66,6 +66,7 @@
         solo está transcribiendo esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La transcripción se ha detenido.
     </b> Ahora solo está grabando esta reunión. <u>Directiva de privacidad</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Descartar</string>
