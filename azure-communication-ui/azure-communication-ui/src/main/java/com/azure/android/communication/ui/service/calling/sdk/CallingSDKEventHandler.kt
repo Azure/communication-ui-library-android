@@ -133,7 +133,7 @@ internal class CallingSDKEventHandler(
 
     private fun onCallStateChange() {
         val callState = call?.state
-        var callEndStatus = Pair(0,0)
+        var callEndStatus = Pair(0, 0)
 
         when (callState) {
             CallState.CONNECTED -> {
@@ -144,12 +144,12 @@ internal class CallingSDKEventHandler(
                 callEndStatus = call?.let {
                     it.removeOnStateChangedListener(onCallStateChanged)
                     Pair(it.callEndReason.code, it.callEndReason.subcode)
-                } ?: Pair(0,0)
+                } ?: Pair(0, 0)
             }
             else -> {}
         }
         callState?.let {
-             coroutineScope.launch {
+            coroutineScope.launch {
                 callingStateWrapperSharedFlow.emit(
                     CallingStateWrapper(it, callEndStatus.first, callEndStatus.second)
                 )

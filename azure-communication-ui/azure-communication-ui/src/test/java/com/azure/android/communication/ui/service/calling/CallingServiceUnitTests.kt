@@ -185,7 +185,6 @@ internal class CallingServiceUnitTests {
             job.cancel()
         }
 
-
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateStateFlow_when_invokedByCallingGateway_returnCallingState() =

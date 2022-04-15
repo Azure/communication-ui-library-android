@@ -48,8 +48,8 @@ internal class CallingService(
 
         private fun isEvicted(callingState: CallingStateWrapper) =
             callingState.callState == CallState.DISCONNECTED &&
-            callingState.callEndReason == CALL_END_REASON_SUCCESS &&
-            callingState.callEndReasonExtra == CALL_END_REASON_EVICTED
+                callingState.callEndReason == CALL_END_REASON_SUCCESS &&
+                callingState.callEndReasonExtra == CALL_END_REASON_EVICTED
     }
 
     private val participantsInfoModelSharedFlow =
