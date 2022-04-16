@@ -106,21 +106,14 @@ class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
         if (!previousState) {
             button.isSelected = true
         }
-        button.refreshDrawableState()
     }
 
     private fun unselectAllImages() {
         catImageButton.isSelected = false
-        catImageButton.refreshDrawableState()
         foxImageButton.isSelected = false
-        foxImageButton.refreshDrawableState()
         koalaImageButton.isSelected = false
-        koalaImageButton.refreshDrawableState()
         monkeyImageButton.isSelected = false
-        monkeyImageButton.refreshDrawableState()
         mouseImageButton.isSelected = false
-        mouseImageButton.refreshDrawableState()
         octopusImageButton.isSelected = false
-        octopusImageButton.refreshDrawableState()
     }
 }
