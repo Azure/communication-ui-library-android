@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatImageButton
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
@@ -13,12 +14,12 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARE
 class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs) {
 
-    private lateinit var catImageButton: AvatarImageButton
-    private lateinit var foxImageButton: AvatarImageButton
-    private lateinit var koalaImageButton: AvatarImageButton
-    private lateinit var monkeyImageButton: AvatarImageButton
-    private lateinit var mouseImageButton: AvatarImageButton
-    private lateinit var octopusImageButton: AvatarImageButton
+    private lateinit var catImageButton: AppCompatImageButton
+    private lateinit var foxImageButton: AppCompatImageButton
+    private lateinit var koalaImageButton: AppCompatImageButton
+    private lateinit var monkeyImageButton: AppCompatImageButton
+    private lateinit var mouseImageButton: AppCompatImageButton
+    private lateinit var octopusImageButton: AppCompatImageButton
 
     private val sharedPreference by lazy {
         context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -66,8 +67,8 @@ class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
         }
     }
 
-    private fun setAvatarImagePreferences(button: AvatarImageButton, imageId: String) {
-        if (button.isButtonSelected()) {
+    private fun setAvatarImagePreferences(button: AppCompatImageButton, imageId: String) {
+        if (button.isSelected) {
             sharedPreference.edit()
                 .putString(AVATAR_IMAGE, imageId).apply()
         } else {
@@ -80,46 +81,46 @@ class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
         val savedImage = sharedPreference.getString(AVATAR_IMAGE, "")
 
         if (savedImage == R.drawable.image_cat.toString()) {
-            catImageButton.select()
+            catImageButton.isSelected = true
         }
         if (savedImage == R.drawable.image_fox.toString()) {
-            foxImageButton.select()
+            foxImageButton.isSelected = true
         }
         if (savedImage == R.drawable.image_koala.toString()) {
-            koalaImageButton.select()
+            koalaImageButton.isSelected = true
         }
         if (savedImage == R.drawable.image_monkey.toString()) {
-            monkeyImageButton.select()
+            monkeyImageButton.isSelected = true
         }
         if (savedImage == R.drawable.image_mouse.toString()) {
-            mouseImageButton.select()
+            mouseImageButton.isSelected = true
         }
         if (savedImage == R.drawable.image_octopus.toString()) {
-            octopusImageButton.select()
+            octopusImageButton.isSelected = true
         }
     }
 
-    private fun selectImage(button: AvatarImageButton) {
-        val previousState = button.isButtonSelected()
+    private fun selectImage(button: AppCompatImageButton) {
+        val previousState = button.isSelected
         unselectAllImages()
         if (!previousState) {
-            button.select()
+            button.isSelected = true
         }
         button.refreshDrawableState()
     }
 
     private fun unselectAllImages() {
-        catImageButton.unSelect()
+        catImageButton.isSelected = false
         catImageButton.refreshDrawableState()
-        foxImageButton.unSelect()
+        foxImageButton.isSelected = false
         foxImageButton.refreshDrawableState()
-        koalaImageButton.unSelect()
+        koalaImageButton.isSelected = false
         koalaImageButton.refreshDrawableState()
-        monkeyImageButton.unSelect()
+        monkeyImageButton.isSelected = false
         monkeyImageButton.refreshDrawableState()
-        mouseImageButton.unSelect()
+        mouseImageButton.isSelected = false
         mouseImageButton.refreshDrawableState()
-        octopusImageButton.unSelect()
+        octopusImageButton.isSelected = false
         octopusImageButton.refreshDrawableState()
     }
 }

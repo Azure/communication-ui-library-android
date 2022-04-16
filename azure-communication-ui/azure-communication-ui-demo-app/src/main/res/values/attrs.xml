@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="azure_communication_ui">
-        <attr name="is_selected" format="boolean" />
-    </declare-styleable>
-</resources>
