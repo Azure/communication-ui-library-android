@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.configuration.LanguageCode
 import com.google.android.material.textfield.TextInputLayout
@@ -42,12 +43,7 @@ class SettingsActivity : AppCompatActivity() {
         SettingsFeatures.initialize(this)
         supportedLanguages = LanguageCode.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
-        setAvatarSelection()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        updateRenderedDisplayNameSharedPreferences()
+        updateRenderedDisplayNameText()
     }
 
     override fun onResume() {
@@ -62,7 +58,7 @@ class SettingsActivity : AppCompatActivity() {
 
         updateRTLCheckbox()
 
-        updateRenderedDisplayNameSharedPreferences()
+        saveRenderedDisplayName()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -97,6 +93,9 @@ class SettingsActivity : AppCompatActivity() {
         languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
         renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
+        renderDisplayNameTextView.addTextChangedListener {
+            saveRenderedDisplayName()
+        }
     }
 
     private fun updateRTLCheckbox() {
@@ -143,11 +142,11 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
-    private fun updateRenderedDisplayNameSharedPreferences() {
+    private fun saveRenderedDisplayName() {
         sharedPreference.edit().putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
     }
 
-    private fun setAvatarSelection() {
+    private fun updateRenderedDisplayNameText() {
         renderDisplayNameTextView.text = sharedPreference.getString(RENDERED_DISPLAY_NAME, "")
     }
 }
