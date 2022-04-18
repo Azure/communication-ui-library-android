@@ -24,6 +24,11 @@
             @color/fluentui_communication_tint_30
         </item>
 
-        <item name="titleTextColor">@color/azure_communication_ui_color_action_bar_text</item>
+        <item name="android:colorControlHighlight">
+            @color/azure_communication_ui_color_focus_highlight
+        </item>
+        <item name="titleTextColor">
+            @color/azure_communication_ui_color_action_bar_text
+        </item>
     </style>
 </resources>
