@@ -71,7 +71,7 @@
     <string name="azure_communication_ui_snack_bar_button_dismiss">却下</string>
     <string name="azure_communication_ui_cal_state_error_call_end">エラーが発生したため、通話から削除されました。</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">エラーが発生したため、通話に参加できません。</string>
-    <string name="azure_communication_ui_call_state_call_evicted">You were removed from the call.</string>
+    <string name="azure_communication_ui_call_state_call_evicted"></string>
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">進行中の通話</string>
     <string name="azure_communication_ui_service_notification_message">タップして通話に戻る</string>

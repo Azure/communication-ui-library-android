@@ -71,7 +71,7 @@
     <string name="azure_communication_ui_snack_bar_button_dismiss">Закрыть</string>
     <string name="azure_communication_ui_cal_state_error_call_end">Вы были удалены из звонка из-за ошибки.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
-    <string name="azure_communication_ui_call_state_call_evicted">You were removed from the call.</string>
+    <string name="azure_communication_ui_call_state_call_evicted"></string>
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">Текущий звонок</string>
     <string name="azure_communication_ui_service_notification_message">Коснитесь, чтобы вернуться к звонку</string>

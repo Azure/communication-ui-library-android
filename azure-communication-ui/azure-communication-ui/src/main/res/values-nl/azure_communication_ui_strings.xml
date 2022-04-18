@@ -71,7 +71,7 @@
     <string name="azure_communication_ui_snack_bar_button_dismiss">Sluiten</string>
     <string name="azure_communication_ui_cal_state_error_call_end">U bent uit de oproep verwijderd vanwege een fout.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
-    <string name="azure_communication_ui_call_state_call_evicted">You were removed from the call.</string>
+    <string name="azure_communication_ui_call_state_call_evicted"></string>
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">Actief gesprek</string>
     <string name="azure_communication_ui_service_notification_message">Tik om terug te gaan naar het gesprek</string>
