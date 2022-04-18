@@ -75,7 +75,7 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun getCommunicationUIPersonaDataData(context: Context): CommunicationUIPersonaData? {
+        fun getCommunicationUIPersonaData(context: Context): CommunicationUIPersonaData? {
             val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
             val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
             var avatarImageBitmap: Bitmap? = null

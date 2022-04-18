@@ -29,12 +29,7 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
     }
 
     fun setCellData(bottomCellItem: BottomCellItem) {
-        title.text = bottomCellItem.title
-        bottomCellItem.personaData?.let { personaData ->
-            personaData.renderedDisplayName?.let {
-                title.text = it
-            }
-        }
+        title.text = bottomCellItem.personaData?.renderedDisplayName ?: bottomCellItem.title
         if (bottomCellItem.icon == null) {
             ViewCompat.setAccessibilityDelegate(
                 itemView,

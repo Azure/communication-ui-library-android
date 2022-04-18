@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCommunicationUIPersonaDataData
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCommunicationUIPersonaData
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.isRTL
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
@@ -36,7 +36,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)
-        val personaData = getCommunicationUIPersonaDataData(callLauncherActivity.applicationContext)
+        val personaData = getCommunicationUIPersonaData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
         val selectedLanguageCode = selectedLanguage?.let { it ->
             languageCode(it)?.let { selectedLanguageCode(it) }

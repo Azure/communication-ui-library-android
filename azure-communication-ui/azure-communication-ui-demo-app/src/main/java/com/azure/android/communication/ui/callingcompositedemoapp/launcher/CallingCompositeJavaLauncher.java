@@ -47,7 +47,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
 
         final CommunicationUIPersonaData personaData =
-                SettingsFeatures.getCommunicationUIPersonaDataData(callLauncherActivity.getApplicationContext());
+                SettingsFeatures.getCommunicationUIPersonaData(callLauncherActivity.getApplicationContext());
 
         final String selectedLanguage = SettingsFeatures.language();
         final LanguageCode languageCode = SettingsFeatures
@@ -68,34 +68,26 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-        if (personaData != null) {
-            final CommunicationUILocalDataOptions configuration =
-                    new CommunicationUILocalDataOptions(personaData);
-            if (groupId != null) {
-                final GroupCallOptions groupCallOptions =
-                        new GroupCallOptions(communicationTokenCredential, groupId, displayName);
-
-                callComposite.launch(callLauncherActivity, groupCallOptions, configuration);
-
-            } else if (!TextUtils.isEmpty(meetingLink)) {
-                final TeamsMeetingOptions teamsMeetingOptions =
-                        new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
-                callComposite.launch(callLauncherActivity, teamsMeetingOptions, configuration);
-            }
-        } else {
-            if (groupId != null) {
-                final GroupCallOptions groupCallOptions =
-                        new GroupCallOptions(communicationTokenCredential, groupId, displayName);
-
+        if (groupId != null) {
+            final GroupCallOptions groupCallOptions =
+                    new GroupCallOptions(communicationTokenCredential, groupId, displayName);
+            if (personaData != null) {
+                final CommunicationUILocalDataOptions dataOptions =
+                        new CommunicationUILocalDataOptions(personaData);
+                callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions);
+            } else {
                 callComposite.launch(callLauncherActivity, groupCallOptions);
-
-            } else if (!TextUtils.isEmpty(meetingLink)) {
-                final TeamsMeetingOptions teamsMeetingOptions =
-                        new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
+            }
+        } else if (!TextUtils.isEmpty(meetingLink)) {
+            final TeamsMeetingOptions teamsMeetingOptions =
+                    new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
+            if (personaData != null) {
+                final CommunicationUILocalDataOptions dataOptions =
+                        new CommunicationUILocalDataOptions(personaData);
+                callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions);
+            } else {
                 callComposite.launch(callLauncherActivity, teamsMeetingOptions);
             }
         }
-
-
     }
 }
