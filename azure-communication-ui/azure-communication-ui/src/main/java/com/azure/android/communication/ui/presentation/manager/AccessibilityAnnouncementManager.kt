@@ -20,9 +20,10 @@ internal class AccessibilityAnnouncementManager(
     private val store: Store<ReduxState>,
 ) {
 
-    private var lastState: ReduxState = store.getCurrentState()
+    private lateinit var lastState: ReduxState
 
     suspend fun start(activity: Activity) {
+        lastState = store.getCurrentState()
         store.getStateFlow().collect { newState ->
             accessibilityHooks.forEach {
                 if (it.shouldTrigger(lastState, newState)) {
@@ -92,13 +93,11 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
 
 // Hook to announce the meeting was successfully joined
 internal class MeetingJoinedHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
-        return (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
-    }
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
+        (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
 
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
-        return context.getString(R.string.azure_communication_ui_accessibility_meeting_connected)
-    }
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context) =
+        context.getString(R.string.azure_communication_ui_accessibility_meeting_connected)
 }
 
 // List of all hooks

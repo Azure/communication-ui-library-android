@@ -86,8 +86,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
-
-
-
+    <string name="azure_communication_ui_accessibility_meeting_connected">You have joined the call</string>
 </resources>
