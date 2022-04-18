@@ -5,6 +5,4 @@ package com.azure.android.communication.ui.presentation.manager
 
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
 
-internal class AvatarViewManager(private val communicationUILocalDataOptions: CommunicationUILocalDataOptions?) {
-    fun getCommunicationUILocalDataOptions() = communicationUILocalDataOptions
-}
+internal class AvatarViewManager(val communicationUILocalDataOptions: CommunicationUILocalDataOptions?)

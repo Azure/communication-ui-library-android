@@ -44,7 +44,7 @@ internal class SetupViewModelFactory(
     }
 
     private val participantAvatarViewModel by lazy {
-        SetupParticipantAvatarViewModel(avatarViewManager.getCommunicationUILocalDataOptions())
+        SetupParticipantAvatarViewModel(avatarViewManager.communicationUILocalDataOptions)
     }
 
     private val joinCallButtonHolderViewModel by lazy {

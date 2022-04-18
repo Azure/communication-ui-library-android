@@ -82,10 +82,10 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
     }
 
     private fun getLocalParticipantPersonaData() =
-        avatarViewManager.getCommunicationUILocalDataOptions()?.personaData
+        avatarViewManager.communicationUILocalDataOptions?.personaData
 
     private fun getLocalParticipantPersonaDataWithSuffix(suffix: String): CommunicationUIPersonaData? {
-        avatarViewManager.getCommunicationUILocalDataOptions()?.personaData?.let {
+        avatarViewManager.communicationUILocalDataOptions?.personaData?.let {
             var displayName: String? = null
             it.renderedDisplayName?.let { renderedDisplayName ->
                 displayName = "$renderedDisplayName $suffix"
