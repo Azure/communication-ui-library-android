@@ -77,9 +77,9 @@ dando consentimento para que esta reunião seja transcrita.
     <string name="azure_communication_ui_service_notification_message">Toque para retornar à chamada</string>
 
     <!--    Accessibility Hooks -->
-    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
-    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+    <string name="azure_communication_ui_accessibility_user_added">%1$s ingressou na reunião</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s saiu da reunião</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Conectado à reunião</string>
 
 
 

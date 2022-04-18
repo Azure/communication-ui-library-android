@@ -77,9 +77,9 @@
     <string name="azure_communication_ui_service_notification_message">Pulse para volver a la llamada</string>
 
     <!--    Accessibility Hooks -->
-    <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
-    <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
+    <string name="azure_communication_ui_accessibility_user_added">%1$s se ha unido a la reunión</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s ha abandonado la reunión</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Conectado a la reunión</string>
 
 
 
