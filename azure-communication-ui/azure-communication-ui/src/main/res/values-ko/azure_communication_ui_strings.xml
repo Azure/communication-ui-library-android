@@ -67,6 +67,7 @@
         전사만 합니다. <u>개인 정보 취급 방침</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>대화 내용 기록이 중지되었습니다.</b>이제 이 모임에서
         녹음만 합니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">해제</string>

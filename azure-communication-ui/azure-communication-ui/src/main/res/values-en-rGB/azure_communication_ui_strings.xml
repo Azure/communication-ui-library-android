@@ -67,6 +67,7 @@
         are now only transcribing this meeting. <u>Privacy policy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcription has stopped.
     </b> You are now only recording this meeting. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Dismiss</string>
