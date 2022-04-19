@@ -3,6 +3,7 @@
    Licensed under the MIT License.
   -->
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settingsPage"
     android:layout_width="match_parent"
@@ -10,7 +11,8 @@
     android:layout_marginStart="@dimen/azure_communication_ui_side_margin"
     android:layout_marginEnd="@dimen/azure_communication_ui_side_margin"
     android:orientation="vertical"
-    tools:context=".SettingsActivity">
+    tools:context=".SettingsActivity"
+    >
 
     <TextView
         android:id="@+id/languageSettingLabelView"
@@ -19,21 +21,24 @@
         android:paddingTop="@dimen/azure_communication_ui_fab_margin"
         android:text="@string/languageSettingLabel"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <View
         android:id="@+id/languageSettingLabelDivider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/azure_communication_ui_color_on_surface"
-        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding" />
+        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/languageAdapterLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding">
+        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        >
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView"
@@ -45,7 +50,8 @@
             android:paddingTop="@dimen/azure_communication_ui_fab_margin"
             android:paddingBottom="@dimen/azure_communication_ui_fab_margin"
             android:text="@string/languageDefaultSelection"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
@@ -54,7 +60,8 @@
         android:layout_height="wrap_content"
         android:onClick="onCheckBoxTap"
         android:text="@string/isRTLCheckboxLabel"
-        tools:ignore="UsingOnClickInXml" />
+        tools:ignore="UsingOnClickInXml"
+        />
 
     <TextView
         android:id="@+id/callSellingLabelView"
@@ -63,17 +70,124 @@
         android:paddingTop="@dimen/azure_communication_ui_fab_margin"
         android:text="@string/callSettingLabel"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/azure_communication_ui_color_on_surface"
-        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding" />
+        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        />
 
     <com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/azure_communication_ui_inner_space_padding" />
+        android:layout_marginTop="@dimen/azure_communication_ui_inner_space_padding"
+        />
 
+    <TextView
+        android:id="@+id/callSellingAvatarInjection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/azure_communication_ui_fab_margin"
+        android:text="@string/avatar_injection"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/azure_communication_ui_color_on_surface"
+        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout
+            android:id="@+id/avatarImageSelectionLinearlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/avatarCatImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_cat"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/avatarFoxImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_fox"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/avatarKoalaImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_koala"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/avatarMonkeyImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_monkey"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/avatarMouseImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_mouse"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/avatarOctopusImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/avatar_image_button_background"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_octopus"
+                />
+
+        </com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout>
+    </HorizontalScrollView>
+
+    <EditText
+        android:id="@+id/renderDisplayName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/rendered_display_name"
+        />
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.model.VideoStreamModel
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
@@ -51,7 +52,8 @@ internal class ParticipantListViewModelUnitTest {
                 initialRemoteParticipantsMap.values.map {
                     ParticipantListCellModel(
                         it.displayName,
-                        it.isMuted
+                        it.isMuted,
+                        null
                     )
                 }
 
@@ -79,7 +81,8 @@ internal class ParticipantListViewModelUnitTest {
                 updatedRemoteParticipantsMap.values.map {
                     ParticipantListCellModel(
                         it.displayName,
-                        it.isMuted
+                        it.isMuted,
+                        null
                     )
                 }
 
@@ -97,7 +100,7 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(AvatarViewManager(null))
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState)
 
             val resultListFromRemoteParticipantListCellStateFlow =
@@ -160,7 +163,8 @@ internal class ParticipantListViewModelUnitTest {
                 initialExpectedLocalUserState.displayName?.let {
                     ParticipantListCellModel(
                         it,
-                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF
+                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF,
+                        null
                     )
                 }
 
@@ -183,11 +187,12 @@ internal class ParticipantListViewModelUnitTest {
                 initialExpectedLocalUserState.displayName?.let {
                     ParticipantListCellModel(
                         it,
-                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON
+                        initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON,
+                        null
                     )
                 }
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(AvatarViewManager(null))
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState
@@ -254,7 +259,7 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val participantListViewModel = ParticipantListViewModel(AvatarViewManager(null))
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState

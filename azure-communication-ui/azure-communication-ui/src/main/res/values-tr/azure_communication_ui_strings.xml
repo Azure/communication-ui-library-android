@@ -66,6 +66,7 @@
     Şu anda yalnızca bu toplantının dökümünü alıyorsunuz. <u>Gizlilik ilkesi</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Döküm durduruldu.</b>
     Şu anda yalnızca bu toplantıyı kaydediyorsunuz. <u>Gizlilik ilkesi</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Yoksay</string>

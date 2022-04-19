@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.0-beta.4 (upcoming)
+
+### New Features
+- Local participant persona injection [#180](https://github.com/Azure/communication-ui-library-android/pull/180)
+
 ## 1.0.0-beta.3 (2022-04-04)
 
 ### Bug Fixes

@@ -66,6 +66,7 @@
         この会議の文字起こしのみが行われるようになります。<u>プライバシー ポリシー</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>文字起こしが停止しました。</b>
         この会議のレコーディングのみが行われるようになります。<u>プライバシー ポリシー</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">却下</string>

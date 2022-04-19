@@ -99,6 +99,21 @@ internal class LocalParticipantView : ConstraintLayout {
                     avatar.name = it
                     pipAvatar.name = it
                     displayNameText.text = it
+                    viewModel.getPersonaData()?.let { personaData ->
+                        personaData.avatarBitmap?.let { image ->
+                            avatar.avatarImageBitmap = image
+                            avatar.adjustViewBounds = true
+                            avatar.scaleType = personaData.scaleType
+                            pipAvatar.avatarImageBitmap = image
+                            pipAvatar.adjustViewBounds = true
+                            pipAvatar.scaleType = personaData.scaleType
+                        }
+                        personaData.renderedDisplayName?.let { name ->
+                            avatar.name = name
+                            pipAvatar.name = name
+                            displayNameText.text = name
+                        }
+                    }
                 }
             }
         }
@@ -144,9 +159,15 @@ internal class LocalParticipantView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getIsLobbyOverlayDisplayedFlow().collect {
                 if (it) {
-                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
+                    ViewCompat.setImportantForAccessibility(
+                        switchCameraButton,
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                    )
                 } else {
-                    ViewCompat.setImportantForAccessibility(switchCameraButton, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+                    ViewCompat.setImportantForAccessibility(
+                        switchCameraButton,
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
+                    )
                 }
             }
         }
