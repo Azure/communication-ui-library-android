@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation.manager
 import android.app.Activity
 import android.content.Context
 import com.azure.android.communication.ui.redux.Store
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.utilities.OffHookDetectionReceiver
@@ -40,19 +41,31 @@ internal abstract class ReduxTrigger {
     abstract fun action(context: Context, store: Store<ReduxState>)
 }
 
-// Hook to announce when participants join/leave a meeting
+// The listener to phone state
+// It is bound while a call is Connected and permissions are granted
 internal class ManagePhoneOffHookListener : ReduxTrigger() {
-    var receiver : OffHookDetectionReceiver? = null
+    private var receiver : OffHookDetectionReceiver? = null
     private val started
         get() = receiver != null
 
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
-        (!started && newState.permissionState.audioPermissionState == PermissionStatus.GRANTED)
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
+        return if (!started) {
+                // Turn on when CallingStatus == Connected and has permissions
+            (!started && newState.permissionState.audioPermissionState == PermissionStatus.GRANTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
+        } else {
+                // Turn off when CallingStatus != CONNECTED (if it has been started)
+            (started && newState.callState.callingStatus != CallingStatus.CONNECTED)
+        }
+    }
 
     override fun action(context: Context, store: Store<ReduxState>) {
-        when (started) {
-            false -> {
-                receiver = OffHookDetectionReceiver.register(context);
+        receiver = when (started) {
+            // Turn On
+            false -> OffHookDetectionReceiver.register(context, store)
+            // Turn Off
+            true -> {
+                receiver?.unregister()
+                null
             }
         }
     }
