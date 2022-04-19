@@ -73,6 +73,7 @@
     <string name="azure_communication_ui_calling_view_link_privacy_policy_url" translatable="false">
         https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
     </string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Dismiss</string>

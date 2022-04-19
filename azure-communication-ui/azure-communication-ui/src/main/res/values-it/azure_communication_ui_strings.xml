@@ -66,6 +66,7 @@
         stai solo trascrivendo questa riunione. <u>Informativa sulla privacy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La trascrizione è stata arrestata.
     </b>Ora stai solo registrando questa riunione. <u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Ignora</string>
