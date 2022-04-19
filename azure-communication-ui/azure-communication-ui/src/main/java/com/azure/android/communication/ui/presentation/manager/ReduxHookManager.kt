@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.utilities.OffHookDetectionReceiver
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
 
 // Similar to AccessibilityAnnouncementManager, but more generic for hooks.
@@ -49,6 +50,8 @@ internal class ManagePhoneOffHookListener : ReduxTrigger() {
         get() = receiver != null
 
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
+        if (!FeatureFlags.EndCallOnOffHook.active) return false
+
         return if (!started) {
                 // Turn on when CallingStatus == Connected and has permissions
             (!started && newState.permissionState.audioPermissionState == PermissionStatus.GRANTED && newState.callState.callingStatus == CallingStatus.CONNECTED)

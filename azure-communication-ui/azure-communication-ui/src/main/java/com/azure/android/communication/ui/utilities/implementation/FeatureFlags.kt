@@ -43,6 +43,10 @@ enum class FeatureFlags(
     ScreenShareZoom(
         true,
         "Screen Share Zoom"
+    ),
+    EndCallOnOffHook(
+        enabledByDefault = false,
+        label = "End composite on accept PSTN call"
     );
     // ---------------------------- End Global Features ---------------------------------------------
 
