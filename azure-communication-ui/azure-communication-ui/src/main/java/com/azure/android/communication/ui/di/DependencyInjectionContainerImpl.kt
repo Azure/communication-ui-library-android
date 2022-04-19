@@ -10,13 +10,12 @@ import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.presentation.VideoViewManager
-import com.azure.android.communication.ui.presentation.manager.*
 import com.azure.android.communication.ui.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
-import com.azure.android.communication.ui.presentation.manager.ReduxHookManager
+import com.azure.android.communication.ui.presentation.manager.ReduxTriggerManager
 
 import com.azure.android.communication.ui.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.redux.AppStore
@@ -91,7 +90,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val reduxHookManager by lazy {
-        ReduxHookManager(appStore)
+        ReduxTriggerManager(appStore)
     }
 
     override val lifecycleManager by lazy {
