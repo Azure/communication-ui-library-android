@@ -30,26 +30,26 @@ internal class CallingService(
 ) {
     companion object {
         private const val LOCAL_VIDEO_STREAM_ID = "BuiltInCameraVideoStream"
-        private const val CALL_END_REASON_TOKEN_EXPIRED = 401
-        private const val CALL_END_REASON_SUCCESS = 0
+        internal const val CALL_END_REASON_TOKEN_EXPIRED = 401
+        internal const val CALL_END_REASON_SUCCESS = 0
 
         /*
         * Call canceled, locally declined, ended due to an endpoint mismatch issue, or failed to generate media offer.
         * Expected behavior.
         * */
-        private const val CALL_END_REASON_CANCELED = 487
+        internal const val CALL_END_REASON_CANCELED = 487
 
         /*
         * Call globally declined by remote Communication Services participant.
         * Expected behavior.
         * */
-        private const val CALL_END_REASON_DECLINED = 603
+        internal const val CALL_END_REASON_DECLINED = 603
         internal const val CALL_END_REASON_EVICTED = 5000
 
         private fun isEvicted(callingState: CallingStateWrapper) =
             callingState.callState == CallState.DISCONNECTED &&
                 callingState.callEndReason == CALL_END_REASON_SUCCESS &&
-                callingState.callEndReasonExtra == CALL_END_REASON_EVICTED
+                callingState.callEndReasonSubCode == CALL_END_REASON_EVICTED
     }
 
     private val participantsInfoModelSharedFlow =
@@ -128,26 +128,8 @@ internal class CallingService(
     fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
         coroutineScope.launch {
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
-                val callStateError = when (it.callEndReason) {
-                    CALL_END_REASON_SUCCESS -> {
-                        if (isEvicted(it)) {
-                            CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
-                        } else {
-                            null
-                        }
-                    }
-                    CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> null
-                    CALL_END_REASON_TOKEN_EXPIRED -> CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED)
-                    else -> {
-                        if (callingStatus == CallingStatus.CONNECTED) {
-                            CallStateError(CommunicationUIErrorCode.CALL_END)
-                        } else {
-                            CallStateError(CommunicationUIErrorCode.CALL_JOIN)
-                        }
-                    }
-                }
                 callingStatus = getCallingState(it)
-                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, getCallStateError(it)))
             }
         }
 
@@ -177,6 +159,26 @@ internal class CallingService(
 
         return callingSDKWrapper.startCall(cameraState, audioState)
     }
+
+    private fun getCallStateError(callingState: CallingStateWrapper): CallStateError? =
+        callingState.run {
+            when {
+                callEndReason == CALL_END_REASON_SUCCESS && isEvicted(callingState) ->
+                    CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
+                callEndReason == CALL_END_REASON_SUCCESS ||
+                    callEndReason == CALL_END_REASON_CANCELED ||
+                    callEndReason == CALL_END_REASON_DECLINED -> null
+                callEndReason == CALL_END_REASON_TOKEN_EXPIRED ->
+                    CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED)
+                else -> {
+                    if (callingStatus == CallingStatus.CONNECTED) {
+                        CallStateError(CommunicationUIErrorCode.CALL_END)
+                    } else {
+                        CallStateError(CommunicationUIErrorCode.CALL_JOIN)
+                    }
+                }
+            }
+        }
 
     private fun getCallingState(callingState: CallingStateWrapper): CallingStatus {
         if (isEvicted(callingState)) return CallingStatus.CALL_EVICTED

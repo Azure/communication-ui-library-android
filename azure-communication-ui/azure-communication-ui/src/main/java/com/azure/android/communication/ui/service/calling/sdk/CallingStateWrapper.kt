@@ -8,5 +8,5 @@ import com.azure.android.communication.calling.CallState
 internal data class CallingStateWrapper(
     val callState: CallState,
     val callEndReason: Int,
-    val callEndReasonExtra: Int = 0
+    val callEndReasonSubCode: Int = 0
 )

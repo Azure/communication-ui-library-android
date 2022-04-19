@@ -69,9 +69,9 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Ignora</string>
-    <string name="azure_communication_ui_cal_state_error_call_end">Sei stato rimosso dalla chiamata a causa di un errore.</string>
+    <string name="azure_communication_ui_call_state_error_call_end">Sei stato rimosso dalla chiamata a causa di un errore.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Impossibile partecipare alla chiamata a causa di un errore.</string>
-    <string name="azure_communication_ui_call_state_call_evicted"></string>
+    <string name="azure_communication_ui_call_state_evicted"></string>
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">Chiamata in corso</string>
     <string name="azure_communication_ui_service_notification_message">Tocca per tornare alla chiamata</string>
