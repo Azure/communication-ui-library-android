@@ -15,12 +15,13 @@ internal interface OffHookDetectionReceiver {
     companion object {
         fun register(context: Context): OffHookDetectionReceiver {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            var receiver : OffHookDetectionReceiver = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 OffHookDetectionReceiver31(tm)
             } else {
                 OffHookDetectionReceiverLegacy(tm)
             }
+            receiver.register()
+            return receiver
         }
     }
 
@@ -28,12 +29,12 @@ internal interface OffHookDetectionReceiver {
     fun unregister()
 
     fun offhook() {
-
+        System.out.println("OFF HOOK NOW")
     }
 }
 
 /// Legacy Version for < 31
-internal class OffHookDetectionReceiverLegacy(val telephonyManager: TelephonyManager) :
+internal class OffHookDetectionReceiverLegacy(private val telephonyManager: TelephonyManager) :
     PhoneStateListener(), OffHookDetectionReceiver {
 
     override fun onCallStateChanged(state: Int, phoneNumber: String?) {

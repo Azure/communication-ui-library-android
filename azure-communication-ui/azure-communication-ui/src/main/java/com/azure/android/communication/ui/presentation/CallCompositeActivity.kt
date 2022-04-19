@@ -95,6 +95,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         lifecycleScope.launch { audioSessionManager.start() }
         lifecycleScope.launch { container.accessibilityManager.start(activity) }
+        lifecycleScope.launch { container.reduxHookManager.start(activity) }
 
         lifecycleScope.launchWhenStarted {
             navigationRouter.getNavigationStateFlow().collect { onNavigationStateChange(it) }

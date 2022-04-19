@@ -7,11 +7,13 @@ import com.azure.android.communication.ui.configuration.CallCompositeConfigurati
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.presentation.VideoViewManager
+import com.azure.android.communication.ui.presentation.manager.*
 import com.azure.android.communication.ui.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.presentation.manager.PermissionManager
-import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.presentation.manager.ReduxHookManager
 import com.azure.android.communication.ui.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.middleware.handler.CallingMiddlewareActionHandler
@@ -35,6 +37,7 @@ internal interface DependencyInjectionContainer {
     val avatarViewManager: AvatarViewManager
     val audioSessionManager: AudioSessionManager
     val accessibilityManager: AccessibilityAnnouncementManager
+    val reduxHookManager : ReduxHookManager
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService

@@ -30,6 +30,7 @@ internal class PermissionManager(
         Manifest.permission.BLUETOOTH_CONNECT,
         Manifest.permission.ACCESS_NETWORK_STATE,
         Manifest.permission.WAKE_LOCK,
+        Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.MODIFY_AUDIO_SETTINGS,
         Manifest.permission.FOREGROUND_SERVICE
     )
