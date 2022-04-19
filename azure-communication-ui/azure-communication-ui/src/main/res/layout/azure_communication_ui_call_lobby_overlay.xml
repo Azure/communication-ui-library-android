@@ -23,6 +23,7 @@
         android:id="@+id/azure_communication_ui_call_call_lobby_overlay_wait_for_host_image"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:importantForAccessibility="no"
         android:contentDescription="@string/azure_communication_ui_lobby_view_text_waiting_for_host"
         android:src="@drawable/azure_communication_ui_ic_fluent_clock_24_filled"
         />
