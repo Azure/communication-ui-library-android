@@ -62,7 +62,9 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             imageView.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
         }
-        accessoryImage.setImageDrawable(bottomCellItem.accessoryImage)
+        if (bottomCellItem.accessoryImage != null) {
+            accessoryImage.setImageDrawable(bottomCellItem.accessoryImage)
+        }
         if (bottomCellItem.accessoryColor != null) {
             accessoryImage.setColorFilter(
                 ContextCompat.getColor(
@@ -71,8 +73,10 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
                 )
             )
         }
-        accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
-        accessoryImage.visibility = if (bottomCellItem.enabled) View.VISIBLE else View.INVISIBLE
+        if (accessoryImage.contentDescription != null) {
+            accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
+        }
+        accessoryImage.visibility = if (bottomCellItem.enabled == true) View.VISIBLE else View.INVISIBLE
         onClickAction = bottomCellItem.onClickAction
     }
 }

@@ -56,10 +56,9 @@ internal class CallingFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
-        confirmLeaveOverlayView = view.findViewById(R.id.azure_communication_ui_call_leave_overlay)
+        confirmLeaveOverlayView = ConfirmLeaveOverlayView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
         confirmLeaveOverlayView.start(
-            viewLifecycleOwner,
-            viewModel.getConfirmLeaveOverlayViewModel()
+            viewLifecycleOwner
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
@@ -135,12 +134,12 @@ internal class CallingFragment :
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             participantGridView.stop()
-            confirmLeaveOverlayView.stop()
             viewModel.getBannerViewModel().dismissBanner()
         }
         localParticipantView.stop()
         participantListView.stop()
         audioDeviceListView.stop()
+        confirmLeaveOverlayView.stop()
         if (wakeLock.isHeld) {
             wakeLock.setReferenceCounted(false)
             wakeLock.release()

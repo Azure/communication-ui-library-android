@@ -38,7 +38,8 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Call with %1$d people</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unnamed participant</string>
-    <string name="azure_communication_ui_calling_view_overlay_leave_call">Leave call</string>
+    <string name="azure_communication_ui_calling_view_overlay_leave_call">Leave call?</string>
+    <string name="azure_communication_ui_calling_view_overlay_leave_call_button_text" translatable="false">Leave</string>
     <string name="azure_communication_ui_calling_view_overlay_cancel">Cancel</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list" translatable="false">Double tap to dismiss Participant list</string>

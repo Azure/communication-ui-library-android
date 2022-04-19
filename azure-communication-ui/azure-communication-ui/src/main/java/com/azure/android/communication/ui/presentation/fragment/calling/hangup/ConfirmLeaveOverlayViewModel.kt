@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class ConfirmLeaveOverlayViewModel(private val dispatch: (Action) -> Unit) {
-    private val shouldDisplayConfirmLeaveOverlayStateFlow = MutableStateFlow(false)
+    private val shouldDisplayConfirmLeaveOverlayMutableStateFlow = MutableStateFlow(false)
+    var shouldDisplayConfirmLeaveOverlayStateFlow = shouldDisplayConfirmLeaveOverlayMutableStateFlow as StateFlow<Boolean>
 
     fun getShouldDisplayConfirmLeaveOverlayFlow(): StateFlow<Boolean> {
         return shouldDisplayConfirmLeaveOverlayStateFlow
@@ -20,11 +21,11 @@ internal class ConfirmLeaveOverlayViewModel(private val dispatch: (Action) -> Un
     }
 
     fun cancel() {
-        shouldDisplayConfirmLeaveOverlayStateFlow.value = false
+        shouldDisplayConfirmLeaveOverlayMutableStateFlow.value = false
     }
 
     fun requestExitConfirmation() {
-        shouldDisplayConfirmLeaveOverlayStateFlow.value = true
+        shouldDisplayConfirmLeaveOverlayMutableStateFlow.value = true
     }
 
     private fun dispatchAction(action: Action) {
