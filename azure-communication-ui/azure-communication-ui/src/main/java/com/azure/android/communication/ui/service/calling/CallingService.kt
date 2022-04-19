@@ -128,8 +128,9 @@ internal class CallingService(
     fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
         coroutineScope.launch {
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
+                val callStateError = getCallStateError(it)
                 callingStatus = getCallingState(it)
-                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, getCallStateError(it)))
+                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
         }
 
