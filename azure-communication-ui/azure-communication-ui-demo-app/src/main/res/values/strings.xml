@@ -27,4 +27,6 @@
     <string name="version">version:</string>
     <string name="debug">Debug</string>
     <string name="enableCustomTranslation">Enable Custom Translation</string>
+    <string name="rendered_display_name">Rendered Display Name</string>
+    <string name="avatar_injection">Avatar Injection</string>
 </resources>

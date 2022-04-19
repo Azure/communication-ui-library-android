@@ -24,6 +24,7 @@ Composites take care of the entire lifecycle of the call from setup to the call 
 |                                                                                                 | Camera device management                               |
 |                                                                                                 | Speaker device management(wired & bluetooth supported) |
 |                                                                                                 | Local preview available for user to check video        |
+|                                                                                                 | Local participant avatar image can be customized       |
 | Participants                                                                                    | Participant roster                                     |
 
 ## Supported Identities
