@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
@@ -135,14 +136,19 @@ internal class ParticipantListView(
             )
         bottomCellItems
             .add(
-                generateBottomCellItem(localParticipant.displayName, localParticipant.isMuted)
+                generateBottomCellItem(
+                    localParticipant.displayName,
+                    localParticipant.isMuted,
+                    localParticipant.personaData
+                )
             )
         for (remoteParticipant in remoteParticipantCellModels) {
             bottomCellItems.add(
                 generateBottomCellItem(
                     if (remoteParticipant.displayName.isEmpty()) context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
                     else remoteParticipant.displayName,
-                    remoteParticipant.isMuted
+                    remoteParticipant.isMuted,
+                    remoteParticipant.personaData
                 )
             )
         }
@@ -150,7 +156,11 @@ internal class ParticipantListView(
         return bottomCellItems
     }
 
-    private fun generateBottomCellItem(displayName: String?, isMuted: Boolean): BottomCellItem {
+    private fun generateBottomCellItem(
+        displayName: String?,
+        isMuted: Boolean,
+        personaData: CommunicationUIPersonaData?,
+    ): BottomCellItem {
         return BottomCellItem(
             null,
             displayName,
@@ -161,7 +171,8 @@ internal class ParticipantListView(
             ),
             R.color.azure_communication_ui_color_participant_list_mute_mic,
             context.getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label),
-            isMuted
+            isMuted,
+            personaData,
         ) {
             if (accessibilityManager.isEnabled) {
                 participantListDrawer.dismiss()

@@ -12,12 +12,14 @@ import com.azure.android.communication.ui.presentation.fragment.calling.localuse
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
+    private val avatarViewManager: AvatarViewManager,
 ) {
 
     private val participantGridViewModel by lazy {
@@ -28,7 +30,6 @@ internal class CallingViewModelFactory(
         ControlBarViewModel(store::dispatch)
     }
 
-    // %1 people
     private val floatingHeaderViewModel by lazy {
         InfoHeaderViewModel()
     }
@@ -42,11 +43,14 @@ internal class CallingViewModelFactory(
     }
 
     private val localParticipantViewModel by lazy {
-        LocalParticipantViewModel(store::dispatch)
+        LocalParticipantViewModel(
+            store::dispatch,
+            avatarViewManager.communicationUILocalDataOptions
+        )
     }
 
     private val participantListViewModel by lazy {
-        ParticipantListViewModel()
+        ParticipantListViewModel(avatarViewManager)
     }
 
     private val bannerViewModel by lazy {
