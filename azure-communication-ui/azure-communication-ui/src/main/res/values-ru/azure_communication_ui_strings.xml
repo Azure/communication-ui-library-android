@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Открыть список участников</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Уведомления отключены</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Повесить трубку</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Включить или отключить видео</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Включить или отключить звук</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Параметры устройства</string>

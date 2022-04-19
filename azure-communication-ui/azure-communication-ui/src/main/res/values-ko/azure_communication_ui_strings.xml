@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">참가자 목록 열기</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">음소거</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">끊기</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">비디오 설정/해제</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">오디오 설정/해제</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">디바이스 옵션</string>
