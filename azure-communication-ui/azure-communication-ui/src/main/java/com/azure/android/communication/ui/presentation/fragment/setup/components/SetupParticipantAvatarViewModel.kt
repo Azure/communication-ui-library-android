@@ -3,12 +3,13 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class SetupParticipantAvatarViewModel {
+internal class SetupParticipantAvatarViewModel(private val communicationUILocalParticipantConfig: CommunicationUILocalDataOptions?) {
     private lateinit var displayName: String
     private lateinit var shouldDisplayAvatarViewStateFlow: MutableStateFlow<Boolean>
 
@@ -17,6 +18,8 @@ internal class SetupParticipantAvatarViewModel {
     fun getShouldDisplayAvatarViewStateFlow(): StateFlow<Boolean> {
         return shouldDisplayAvatarViewStateFlow
     }
+
+    fun getPersonaData() = communicationUILocalParticipantConfig?.personaData
 
     fun update(videoStreamID: String?, permissionState: PermissionState) {
         shouldDisplayAvatarViewStateFlow.value =

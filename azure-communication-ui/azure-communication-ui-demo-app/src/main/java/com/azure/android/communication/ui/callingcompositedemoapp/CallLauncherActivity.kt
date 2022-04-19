@@ -31,6 +31,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
@@ -201,6 +202,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun launch(launcher: CallingCompositeLauncher) {
         val userName = binding.userNameText.text.toString()
+
         if (binding.groupCallRadioButton.isChecked) {
             val groupId: UUID
             try {
@@ -212,7 +214,13 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@CallLauncherActivity, userName, groupId, null, ::showAlert)
+            launcher.launch(
+                this@CallLauncherActivity,
+                userName,
+                groupId,
+                null,
+                ::showAlert
+            )
         }
 
         if (binding.teamsMeetingRadioButton.isChecked) {
@@ -224,7 +232,13 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
 
-            launcher.launch(this@CallLauncherActivity, userName, null, meetingLink, ::showAlert)
+            launcher.launch(
+                this@CallLauncherActivity,
+                userName,
+                null,
+                meetingLink,
+                ::showAlert,
+            )
         }
     }
 

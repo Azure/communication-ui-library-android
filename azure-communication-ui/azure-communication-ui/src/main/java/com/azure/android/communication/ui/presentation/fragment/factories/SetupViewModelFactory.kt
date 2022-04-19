@@ -11,11 +11,14 @@ import com.azure.android.communication.ui.presentation.fragment.setup.components
 import com.azure.android.communication.ui.presentation.fragment.setup.components.SetupControlBarViewModel
 import com.azure.android.communication.ui.presentation.fragment.setup.components.SetupGradientViewModel
 import com.azure.android.communication.ui.presentation.fragment.setup.components.SetupParticipantAvatarViewModel
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.state.ReduxState
 
-internal class SetupViewModelFactory(private val store: Store<ReduxState>) {
-
+internal class SetupViewModelFactory(
+    private val store: Store<ReduxState>,
+    private val avatarViewManager: AvatarViewManager
+) {
     private val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
     }
@@ -41,7 +44,7 @@ internal class SetupViewModelFactory(private val store: Store<ReduxState>) {
     }
 
     private val participantAvatarViewModel by lazy {
-        SetupParticipantAvatarViewModel()
+        SetupParticipantAvatarViewModel(avatarViewManager.communicationUILocalDataOptions)
     }
 
     private val joinCallButtonHolderViewModel by lazy {
