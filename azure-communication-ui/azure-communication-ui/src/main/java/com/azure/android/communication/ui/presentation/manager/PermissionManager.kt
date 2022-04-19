@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.redux.action.PermissionAction
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
 
 internal class PermissionManager(
@@ -24,16 +25,27 @@ internal class PermissionManager(
     private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
     private var previousPermissionState: PermissionState? = null
 
-    private val audioPermission = arrayOf(
-        Manifest.permission.BLUETOOTH_CONNECT,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.BLUETOOTH_CONNECT,
-        Manifest.permission.ACCESS_NETWORK_STATE,
-        Manifest.permission.WAKE_LOCK,
-        Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.MODIFY_AUDIO_SETTINGS,
-        Manifest.permission.FOREGROUND_SERVICE
-    )
+    private val audioPermission
+        get() = if (FeatureFlags.EndCallOnOffHook.active) arrayOf(
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.FOREGROUND_SERVICE
+        )
+        else // No Read phone state if end call on off hook is off
+            arrayOf(
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.WAKE_LOCK,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                Manifest.permission.FOREGROUND_SERVICE
+            )
 
     suspend fun start(
         activity: Activity,
@@ -94,9 +106,9 @@ internal class PermissionManager(
 
         val audioAccess =
             (
-                ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
-                    == PackageManager.PERMISSION_GRANTED
-                )
+                    ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
+                            == PackageManager.PERMISSION_GRANTED
+                    )
         var isAudioPermissionPreviouslyDenied = false
         if (!audioAccess && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             isAudioPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
@@ -118,9 +130,9 @@ internal class PermissionManager(
 
     private fun getCameraPermissionState(activity: Activity): PermissionStatus {
         val cameraAccess = (
-            ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED
-            )
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED
+                )
         var isCameraPermissionPreviouslyDenied = false
         if (!cameraAccess && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             isCameraPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
