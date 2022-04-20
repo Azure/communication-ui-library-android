@@ -49,7 +49,7 @@
             android:inputType="none"
             android:paddingTop="@dimen/azure_communication_ui_fab_margin"
             android:paddingBottom="@dimen/azure_communication_ui_fab_margin"
-            android:text="@string/languageDefaultSelection"
+            android:text="@string/language_default_selection"
             android:textSize="16sp"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onCheckBoxTap"
-        android:text="@string/isRTLCheckboxLabel"
+        android:text="@string/is_rtl_check_box_label"
         tools:ignore="UsingOnClickInXml"
         />
 
