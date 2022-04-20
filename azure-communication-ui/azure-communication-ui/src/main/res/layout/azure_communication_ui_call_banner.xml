@@ -41,5 +41,6 @@
         android:src="@drawable/azure_communication_ui_ic_fluent_dismiss_12_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/azure_communication_ui_calling_view_button_close_button_accessibility_label"
         />
 </com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView>

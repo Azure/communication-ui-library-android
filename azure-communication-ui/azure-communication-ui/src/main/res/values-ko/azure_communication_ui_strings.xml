@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">참가자 목록 열기</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">음소거</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">끊기</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">비디오 설정/해제</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">오디오 설정/해제</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">디바이스 옵션</string>
@@ -66,6 +67,7 @@
         전사만 합니다. <u>개인 정보 취급 방침</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>대화 내용 기록이 중지되었습니다.</b>이제 이 모임에서
         녹음만 합니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">해제</string>

@@ -11,6 +11,8 @@ import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.configuration.SupportLanguage
 import com.google.android.material.textfield.TextInputLayout
@@ -28,6 +30,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var callSettingLabelView: TextView
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
+    private lateinit var renderDisplayNameTextView: TextView
+
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
     }
@@ -40,6 +44,7 @@ class SettingsActivity : AppCompatActivity() {
         SettingsFeatures.initialize(this)
         supportedLanguages = SupportLanguage.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
+        updateRenderedDisplayNameText()
     }
 
     override fun onResume() {
@@ -53,6 +58,8 @@ class SettingsActivity : AppCompatActivity() {
         setLanguageInAdapter()
 
         updateRTLCheckbox()
+
+        saveRenderedDisplayName()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -86,6 +93,10 @@ class SettingsActivity : AppCompatActivity() {
         isRTLCheckBox = findViewById(R.id.language_is_rtl_checkbox)
         languageAdapterLayout = findViewById(R.id.language_adapter_layout)
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view)
+        renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
+        renderDisplayNameTextView.addTextChangedListener {
+            saveRenderedDisplayName()
+        }
     }
 
     private fun updateRTLCheckbox() {
@@ -131,16 +142,26 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_LANGUAGE_VALUE
         )
     }
+
+    private fun saveRenderedDisplayName() {
+        sharedPreference.edit().putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
+    }
+
+    private fun updateRenderedDisplayNameText() {
+        renderDisplayNameTextView.text = sharedPreference.getString(RENDERED_DISPLAY_NAME, "")
+    }
 }
 
 // Shared pref Keys for language & rtl settings
-
 const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
 const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "RTL_VALUE_OF_"
 const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
 
 // Shared pref default values for language & rtl settings
-
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_RTL_VALUE = false
 const val DEFAULT_LOCALE_CODE = "en"
+
+// Shared pref default values for persona data
+const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"
+const val AVATAR_IMAGE = "AVATAR_IMAGE"

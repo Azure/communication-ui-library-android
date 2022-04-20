@@ -19,6 +19,16 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
         viewModel: SetupParticipantAvatarViewModel,
     ) {
         name = viewModel.getDisplayName()
+        viewModel.getPersonaData()?.let {
+            it.avatarBitmap?.let { image ->
+                avatarImageBitmap = image
+                adjustViewBounds = true
+                scaleType = it.scaleType
+            }
+            it.renderedDisplayName?.let { displayName ->
+                name = displayName
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getShouldDisplayAvatarViewStateFlow().collect {
                 visibility = if (it) VISIBLE else GONE
