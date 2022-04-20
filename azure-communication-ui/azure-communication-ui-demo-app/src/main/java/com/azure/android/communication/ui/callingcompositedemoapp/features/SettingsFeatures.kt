@@ -16,8 +16,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPT
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.configuration.SupportLanguage
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import java.util.Locale
 
 class SettingsFeatures {
