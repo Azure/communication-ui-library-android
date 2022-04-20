@@ -94,7 +94,7 @@ internal class CallingViewModel(
     }
 
     fun resumeCamera() {
-        if(pauseCameraFlow) {
+        if (pauseCameraFlow) {
             localParticipantViewModel.resumeCamera()
         }
         pauseCameraFlow = false
