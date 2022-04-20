@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -661,7 +662,10 @@ internal class ParticipantGridViewModelUnitTest {
             flowJob.cancel()
         }
 
-    private fun getParticipantGridViewModel() = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+    private fun getParticipantGridViewModel() = ParticipantGridViewModel(
+        ParticipantGridCellViewModelFactory(),
+        RemoteParticipantsConfiguration()
+    )
 
     private fun getParticipantInfoModel(
         displayName: String,

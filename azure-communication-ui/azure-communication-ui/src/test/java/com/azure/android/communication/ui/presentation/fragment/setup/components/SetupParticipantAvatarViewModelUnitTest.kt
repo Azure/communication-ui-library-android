@@ -3,6 +3,7 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
@@ -189,9 +190,9 @@ internal class SetupParticipantAvatarViewModelUnitTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
+
         val setupViewModelFactory =
             SetupViewModelFactory(mockAppStore, avatarViewManager)
 
@@ -223,9 +224,9 @@ internal class SetupParticipantAvatarViewModelUnitTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
+
         val setupViewModelFactory =
             SetupViewModelFactory(mockAppStore, avatarViewManager)
 
@@ -264,9 +265,9 @@ internal class SetupParticipantAvatarViewModelUnitTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
+
         val setupViewModelFactory =
             SetupViewModelFactory(mockAppStore, avatarViewManager)
 
@@ -304,9 +305,8 @@ internal class SetupParticipantAvatarViewModelUnitTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
         val setupViewModelFactory =
             SetupViewModelFactory(mockAppStore, avatarViewManager)
 

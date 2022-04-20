@@ -12,6 +12,8 @@ internal class CallCompositeConfiguration {
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
     var communicationUILocalDataOptions: CommunicationUILocalDataOptions? = null
+    val remoteParticipantsConfiguration: RemoteParticipantsConfiguration =
+        RemoteParticipantsConfiguration()
 
     /*
     CallCompositeConfiguration Storage

@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.model.VideoStreamModel
 import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
@@ -17,6 +19,7 @@ import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.redux.state.LocalUserState
+import com.azure.android.communication.ui.redux.state.ReduxState
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -25,6 +28,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ParticipantListViewModelUnitTest {
@@ -100,7 +104,14 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel(AvatarViewManager(null))
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val participantListViewModel = ParticipantListViewModel(
+                AvatarViewManager(
+                    mockAppStore,
+                    null,
+                    RemoteParticipantsConfiguration()
+                )
+            )
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState)
 
             val resultListFromRemoteParticipantListCellStateFlow =
@@ -192,7 +203,14 @@ internal class ParticipantListViewModelUnitTest {
                     )
                 }
 
-            val participantListViewModel = ParticipantListViewModel(AvatarViewManager(null))
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val participantListViewModel = ParticipantListViewModel(
+                AvatarViewManager(
+                    mockAppStore,
+                    null,
+                    RemoteParticipantsConfiguration()
+                )
+            )
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState
@@ -259,7 +277,14 @@ internal class ParticipantListViewModelUnitTest {
                 "local_user"
             )
 
-            val participantListViewModel = ParticipantListViewModel(AvatarViewManager(null))
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val participantListViewModel = ParticipantListViewModel(
+                AvatarViewManager(
+                    mockAppStore,
+                    null,
+                    RemoteParticipantsConfiguration()
+                )
+            )
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState

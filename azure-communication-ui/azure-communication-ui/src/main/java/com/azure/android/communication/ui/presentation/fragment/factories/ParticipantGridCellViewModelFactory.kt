@@ -4,10 +4,14 @@
 package com.azure.android.communication.ui.presentation.fragment.factories
 
 import com.azure.android.communication.ui.model.ParticipantInfoModel
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 
 internal class ParticipantGridCellViewModelFactory {
-    fun ParticipantGridCellViewModel(participantInfoModel: ParticipantInfoModel): ParticipantGridCellViewModel =
+    fun ParticipantGridCellViewModel(
+        participantInfoModel: ParticipantInfoModel,
+        communicationUIPersonaData: CommunicationUIPersonaData?
+    ): ParticipantGridCellViewModel =
         ParticipantGridCellViewModel(
             participantInfoModel.userIdentifier,
             participantInfoModel.displayName,
@@ -15,6 +19,7 @@ internal class ParticipantGridCellViewModelFactory {
             participantInfoModel.screenShareVideoStreamModel,
             participantInfoModel.isMuted,
             participantInfoModel.isSpeaking,
-            participantInfoModel.modifiedTimestamp
+            participantInfoModel.modifiedTimestamp,
+            communicationUIPersonaData
         )
 }

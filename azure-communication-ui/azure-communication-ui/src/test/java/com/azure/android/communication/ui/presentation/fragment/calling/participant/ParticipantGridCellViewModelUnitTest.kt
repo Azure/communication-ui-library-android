@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -32,7 +33,10 @@ internal class ParticipantGridCellViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
-            val participantGridViewModel = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+            val participantGridViewModel = ParticipantGridViewModel(
+                ParticipantGridCellViewModelFactory(),
+                RemoteParticipantsConfiguration()
+            )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -78,7 +82,10 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel =
-                ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+                ParticipantGridViewModel(
+                    ParticipantGridCellViewModelFactory(),
+                    RemoteParticipantsConfiguration()
+                )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -136,7 +143,10 @@ internal class ParticipantGridCellViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
-            val participantGridViewModel = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+            val participantGridViewModel = ParticipantGridViewModel(
+                ParticipantGridCellViewModelFactory(),
+                RemoteParticipantsConfiguration()
+            )
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -205,7 +215,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
+                personaData = null,
             )
 
             val flowJobDisplayName = launch {
@@ -258,7 +269,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
+                personaData = null,
             )
 
             val flowJobDisplayName = launch {
@@ -305,7 +317,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
+                personaData = null,
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -347,7 +360,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                     ),
                     modifiedTimestamp = 456,
                     speakingTimestamp = 567
-                )
+                ),
+                null
             )
 
             // assert
@@ -380,7 +394,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
+                personaData = null,
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -425,7 +440,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                     ),
                     modifiedTimestamp = 456,
                     speakingTimestamp = 567
-                )
+                ),
+                null
             )
 
             // assert
@@ -463,7 +479,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
+                personaData = null,
             )
 
             val flowJobDisplayName = launch {
@@ -495,7 +512,8 @@ internal class ParticipantGridCellViewModelUnitTest {
                     ),
                     modifiedTimestamp = 456,
                     speakingTimestamp = 567
-                )
+                ),
+                null
             )
 
             // assert

@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
+import com.azure.android.communication.ui.handlers.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.presentation.VideoViewManager
 
@@ -80,7 +81,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val avatarViewManager by lazy {
-        AvatarViewManager(configuration.communicationUILocalDataOptions)
+        AvatarViewManager(
+            appStore,
+            configuration.communicationUILocalDataOptions,
+            configuration.remoteParticipantsConfiguration
+        )
     }
 
     override val accessibilityManager by lazy {
@@ -108,6 +113,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val localizationProvider: LocalizationProvider by lazy {
         AppLocalizationProvider()
+    }
+
+    override val remoteParticipantJoinedHandler by lazy {
+        RemoteParticipantJoinedHandler(configuration, appStore, callingSDKWrapper)
     }
 
     //region Redux

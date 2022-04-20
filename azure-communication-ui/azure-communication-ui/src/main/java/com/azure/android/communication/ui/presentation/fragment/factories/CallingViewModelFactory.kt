@@ -23,7 +23,7 @@ internal class CallingViewModelFactory(
 ) {
 
     private val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory)
+        ParticipantGridViewModel(participantGridCellViewModelFactory, avatarViewManager.remoteParticipantsConfiguration)
     }
 
     private val controlBarViewModel by lazy {

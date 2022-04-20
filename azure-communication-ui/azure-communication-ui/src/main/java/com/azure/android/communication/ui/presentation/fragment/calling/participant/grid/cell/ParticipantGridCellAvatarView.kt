@@ -57,6 +57,21 @@ internal class ParticipantGridCellAvatarView(
                 }
             }
         }
+
+        lifecycleScope.launch {
+            participantViewModel.getPersonaDataStateFlow().collect {
+                if (it == null || it.renderedDisplayName == null) {
+                    avatarView.name = participantViewModel.getDisplayNameStateFlow().value
+                } else {
+                    avatarView.name = it.renderedDisplayName.toString()
+                }
+                avatarView.avatarImageBitmap = it?.avatarBitmap
+                avatarView.adjustViewBounds = true
+                it?.let { personaData ->
+                    avatarView.scaleType = personaData.scaleType
+                }
+            }
+        }
     }
 
     private fun setSpeakingIndicator(

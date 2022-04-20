@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling.localus
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
@@ -397,9 +398,8 @@ internal class LocalParticipantGridCellViewModelTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
@@ -435,9 +435,8 @@ internal class LocalParticipantGridCellViewModelTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
@@ -480,9 +479,8 @@ internal class LocalParticipantGridCellViewModelTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,
@@ -524,9 +522,8 @@ internal class LocalParticipantGridCellViewModelTest {
             CommunicationUILocalDataOptions(
                 personaData
             )
-        val avatarViewManager = AvatarViewManager(dataOptions)
-
         val mockAppStore = mock<AppStore<ReduxState>> {}
+        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
         val callingViewModelFactory =
             CallingViewModelFactory(
                 mockAppStore,

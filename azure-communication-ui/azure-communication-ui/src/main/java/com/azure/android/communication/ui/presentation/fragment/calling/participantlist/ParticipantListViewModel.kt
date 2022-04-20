@@ -61,7 +61,7 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
                 ParticipantListCellModel(
                     it.displayName.trim(),
                     it.isMuted,
-                    null
+                    avatarViewManager.getRemoteParticipantPersonaData(it.userIdentifier)
                 )
             }
         remoteParticipantListCellStateFlow.value = remoteParticipantList

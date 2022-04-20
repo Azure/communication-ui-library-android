@@ -6,12 +6,17 @@ package com.azure.android.communication.ui;
 import android.content.Context;
 import android.content.Intent;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
+import com.azure.android.communication.ui.configuration.events.CommunicationUIRemoteParticipantJoinedEvent;
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -92,11 +97,11 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context                       The android context used to start the Composite.
-     * @param groupCallOptions              The {@link GroupCallOptions} has parameters to
-     *                                      launch group call experience.
+     * @param context                         The android context used to start the Composite.
+     * @param groupCallOptions                The {@link GroupCallOptions} has parameters to
+     *                                        launch group call experience.
      * @param communicationUILocalDataOptions The {@link CommunicationUILocalDataOptions} has parameters to
-     *                                      launch group call experience.
+     *                                        launch group call experience.
      */
     public void launch(final Context context,
                        final GroupCallOptions groupCallOptions,
@@ -159,11 +164,11 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context                       The android context used to start the Composite.
-     * @param teamsMeetingOptions           The {@link TeamsMeetingOptions} has parameters to
-     *                                      launch Teams meeting experience.
+     * @param context                         The android context used to start the Composite.
+     * @param teamsMeetingOptions             The {@link TeamsMeetingOptions} has parameters to
+     *                                        launch Teams meeting experience.
      * @param communicationUILocalDataOptions The {@link CommunicationUILocalDataOptions} has parameters to
-     *                                      launch group call experience.
+     *                                        launch group call experience.
      */
     public void launch(final Context context,
                        final TeamsMeetingOptions teamsMeetingOptions,
@@ -201,6 +206,40 @@ public final class CallComposite {
      */
     public void setOnErrorHandler(final CallingEventHandler eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
+    }
+
+    /**
+     * Set {@link CallingEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; set remote participant joined handler
+     * callComposite.setOnRemoteParticipantJoinedHandler&#40;eventHandler -> {
+     *     &#47;&#47; Use call composite to set configurations for remote participant
+     * }&#41;;
+     *
+     *
+     * &#47;&#47; remove remote participant joined handler
+     * callComposite.setOnRemoteParticipantJoinedHandler&#40;null&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallingEventHandler}.
+     */
+    public void setOnRemoteParticipantJoinedHandler(
+            final CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().setOnRemoteParticipantJoinedHandler(eventHandler);
+    }
+
+    /**
+     * Set {@link CommunicationUIPersonaData}.
+     *
+     * @param identifier  The {@link CommunicationIdentifier}.
+     * @param personaData The {@link CommunicationUIPersonaData}.
+     */
+    public void setRemoteParticipantPersonaData(@NotNull final CommunicationIdentifier identifier,
+                                                @NotNull final CommunicationUIPersonaData personaData) {
+        configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
     }
 
     private void launch(

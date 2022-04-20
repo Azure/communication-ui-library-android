@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.di
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
+import com.azure.android.communication.ui.handlers.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.presentation.manager.AudioSessionManager
@@ -29,6 +30,7 @@ internal interface DependencyInjectionContainer {
     // Config
     val configuration: CallCompositeConfiguration
     val errorHandler: ErrorHandler
+    val remoteParticipantJoinedHandler: RemoteParticipantJoinedHandler
 
     // System
     val permissionManager: PermissionManager
