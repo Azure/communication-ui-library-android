@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Teilnehmerliste öffnen</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Stummgeschaltet</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Auflegen</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Auf Video umschalten</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Auf Audio umschalten</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Geräteoptionen</string>

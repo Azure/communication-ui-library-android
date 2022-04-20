@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Apri elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Notifiche disattivate</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Disconnetti</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Attiva/disattiva video</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Attiva/Disattiva audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opzioni dispositivo</string>
