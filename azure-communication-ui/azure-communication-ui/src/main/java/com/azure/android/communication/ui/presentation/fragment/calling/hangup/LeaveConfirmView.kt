@@ -22,8 +22,8 @@ import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class ConfirmLeaveOverlayView(
-    private val viewModel: ConfirmLeaveOverlayViewModel,
+internal class LeaveConfirmView(
+    private val viewModel: LeaveConfirmViewModel,
     context: Context,
 ) : RelativeLayout(context) {
 
@@ -86,7 +86,7 @@ internal class ConfirmLeaveOverlayView(
 
         initializeLeaveConfirmMenuDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.shouldDisplayConfirmLeaveOverlayStateFlow.collect {
+            viewModel.shouldDisplayLeaveConfirmStateFlow.collect {
                 if (it) {
                     showLeaveCallConfirm()
                 }
