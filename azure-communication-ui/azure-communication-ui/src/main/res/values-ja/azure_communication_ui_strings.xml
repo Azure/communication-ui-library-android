@@ -38,12 +38,14 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d 人のユーザーと通話</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(自分)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">名前のない参加者</string>
-    <string name="azure_communication_ui_calling_view_leave_call">通話から退出</string>
-    <string name="azure_communication_ui_calling_view_leave_call_cancel">キャンセル</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">参加者リストを開く</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">ミュート状態</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">切断</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">[閉じる] ボタン</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">ビデオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">オーディオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">デバイス オプション</string>
@@ -67,7 +69,7 @@
         この会議の文字起こしのみが行われるようになります。<u>プライバシー ポリシー</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>文字起こしが停止しました。</b>
         この会議のレコーディングのみが行われるようになります。<u>プライバシー ポリシー</u></string>
-    <string name="azure_communication_ui_calling_view_link">Link</string>
+    <string name="azure_communication_ui_calling_view_link">リンク</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">却下</string>

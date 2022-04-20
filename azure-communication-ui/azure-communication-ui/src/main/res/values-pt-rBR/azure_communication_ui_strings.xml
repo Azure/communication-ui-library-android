@@ -38,12 +38,14 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ligar com %1$d pessoas</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(eu)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participante Sem Nome</string>
-    <string name="azure_communication_ui_calling_view_leave_call">Sair da chamada</string>
-    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancelar</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Abrir Lista de Participantes</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Mudo Ativado</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Desligar</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Botão Fechar</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Ativar/Desativar Vídeo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Ativar/Desativar Áudio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opções do Dispositivo</string>

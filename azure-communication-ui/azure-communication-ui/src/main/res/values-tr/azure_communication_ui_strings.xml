@@ -38,12 +38,14 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d kişi ile arama</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ben)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Adsız katılımcı</string>
-    <string name="azure_communication_ui_calling_view_leave_call">Aramadan ayrıl</string>
-    <string name="azure_communication_ui_calling_view_leave_call_cancel">İptal</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Katılımcı Listesini Aç</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Sessize alınmış</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Kapat</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Kapat Düğmesi</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Görüntüyü Aç/Kapat</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Sesi Aç/Kapat</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Cihaz Seçenekleri</string>
@@ -67,7 +69,7 @@
     Şu anda yalnızca bu toplantının dökümünü alıyorsunuz. <u>Gizlilik ilkesi</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Döküm durduruldu.</b>
     Şu anda yalnızca bu toplantıyı kaydediyorsunuz. <u>Gizlilik ilkesi</u></string>
-    <string name="azure_communication_ui_calling_view_link">Link</string>
+    <string name="azure_communication_ui_calling_view_link">Bağlantı</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Yoksay</string>
