@@ -156,11 +156,13 @@ internal class CallingFragment :
                 if (!wakeLock.isHeld) {
                     wakeLock.acquire()
                 }
+                pauseCamera()
             } else {
                 if (!wakeLock.isHeld) {
                     wakeLock.setReferenceCounted(false)
                     wakeLock.release()
                 }
+                resumeCamera()
             }
         }
     }
@@ -183,5 +185,13 @@ internal class CallingFragment :
 
     private fun switchFloatingHeader() {
         viewModel.switchFloatingHeader()
+    }
+
+    private fun pauseCamera() {
+        viewModel.pauseCamera()
+    }
+
+    private fun resumeCamera() {
+        viewModel.resumeCamera()
     }
 }

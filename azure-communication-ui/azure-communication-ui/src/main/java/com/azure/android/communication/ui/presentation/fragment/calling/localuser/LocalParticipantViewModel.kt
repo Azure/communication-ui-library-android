@@ -31,6 +31,7 @@ internal class LocalParticipantViewModel(
     private lateinit var enableCameraSwitchFlow: MutableStateFlow<Boolean>
     private lateinit var cameraDeviceSelectionFlow: MutableStateFlow<CameraDeviceSelectionStatus>
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var cameraPauseFlow: MutableStateFlow<Boolean>
 
     fun getPersonaData() = communicationUILocalParticipantConfig?.personaData
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
@@ -42,6 +43,7 @@ internal class LocalParticipantViewModel(
     fun getEnableCameraSwitchFlow(): StateFlow<Boolean> = enableCameraSwitchFlow
     fun getCameraDeviceSelectionFlow(): StateFlow<CameraDeviceSelectionStatus> =
         cameraDeviceSelectionFlow
+    fun getCameraPauseFlow(): StateFlow<Boolean> = cameraPauseFlow
 
     fun update(
         displayName: String?,
@@ -68,6 +70,7 @@ internal class LocalParticipantViewModel(
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
+        cameraPauseFlow.value = displayVideo
     }
 
     fun clear() {
@@ -103,9 +106,14 @@ internal class LocalParticipantViewModel(
         )
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState))
+        cameraPauseFlow = MutableStateFlow(false)
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())
+
+    fun pauseCamera() = dispatch(LocalParticipantAction.CameraOffTriggered())
+
+    fun resumeCamera() = dispatch(LocalParticipantAction.CameraOnRequested())
 
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
 

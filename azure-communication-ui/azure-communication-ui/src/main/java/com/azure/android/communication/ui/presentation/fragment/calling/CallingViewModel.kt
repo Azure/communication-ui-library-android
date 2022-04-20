@@ -26,6 +26,7 @@ internal class CallingViewModel(
 ) :
     BaseViewModel(store) {
 
+    private var pauseCameraFlow: Boolean = false
     private val participantGridViewModel =
         callingViewModelProvider.provideParticipantGridViewModel()
     private val controlBarViewModel = callingViewModelProvider.provideControlBarViewModel()
@@ -83,6 +84,20 @@ internal class CallingViewModel(
 
     fun requestCallEnd() {
         confirmLeaveOverlayViewModel.requestExitConfirmation()
+    }
+
+    fun pauseCamera() {
+        if (localParticipantViewModel.getCameraPauseFlow().value) {
+            localParticipantViewModel.pauseCamera()
+            pauseCameraFlow = true
+        }
+    }
+
+    fun resumeCamera() {
+        if(pauseCameraFlow) {
+            localParticipantViewModel.resumeCamera()
+        }
+        pauseCameraFlow = false
     }
 
     override fun init(coroutineScope: CoroutineScope) {
