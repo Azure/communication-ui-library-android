@@ -38,8 +38,8 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Appel avec %1$d personnes</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(moi)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participant sans nom</string>
-    <string name="azure_communication_ui_calling_view_overlay_leave_call">Quitter l\'appel</string>
-    <string name="azure_communication_ui_calling_view_overlay_cancel">Annuler</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Quitter l\'appel</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Annuler</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Ouvrir la liste des participants</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Son désactivé</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Raccrocher</string>
