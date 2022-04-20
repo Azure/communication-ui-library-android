@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">参加者リストを開く</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">ミュート状態</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">切断</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">ビデオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">オーディオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">デバイス オプション</string>
@@ -66,6 +67,7 @@
         この会議の文字起こしのみが行われるようになります。<u>プライバシー ポリシー</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>文字起こしが停止しました。</b>
         この会議のレコーディングのみが行われるようになります。<u>プライバシー ポリシー</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">却下</string>
