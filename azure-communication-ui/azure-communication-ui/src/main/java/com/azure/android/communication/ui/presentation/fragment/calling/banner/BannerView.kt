@@ -67,7 +67,9 @@ internal class BannerView : ConstraintLayout {
             viewModel.setDisplayedBannerType(bannerInfoType)
             bannerText.text = getBannerInfo(bannerInfoType)
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
-            announceForAccessibility(bannerText.text)
+
+            val textToAnnounce = "${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
+            announceForAccessibility(textToAnnounce)
         }
         // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
         // and screen is rotated, blank banner is displayed.
@@ -75,7 +77,9 @@ internal class BannerView : ConstraintLayout {
         else if (bannerText.text.isNullOrBlank() && viewModel.getDisplayedBannerType() != BannerInfoType.BLANK) {
             bannerText.text = getBannerInfo(viewModel.getDisplayedBannerType())
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
-            announceForAccessibility(bannerText.text)
+
+            val textToAnnounce = "${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
+            announceForAccessibility(textToAnnounce)
         }
     }
 

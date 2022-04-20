@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Muted</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Hang Up</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Toggle Video</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Toggle Audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Device Options</string>
@@ -66,6 +67,7 @@
         are now only transcribing this meeting. <u>Privacy policy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcription has stopped.
     </b> You are now only recording this meeting. <u>Privacy policy</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Dismiss</string>
