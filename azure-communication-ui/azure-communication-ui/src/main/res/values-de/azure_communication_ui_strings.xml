@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Teilnehmerliste öffnen</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Stummgeschaltet</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Auflegen</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Auf Video umschalten</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Auf Audio umschalten</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Geräteoptionen</string>
@@ -66,6 +67,7 @@
  transkribieren jetzt nur diese Besprechung. <u>Datenschutzbestimmungen</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Die Transkription wurde beendet.
     </b> Sie nehmen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Schließen</string>

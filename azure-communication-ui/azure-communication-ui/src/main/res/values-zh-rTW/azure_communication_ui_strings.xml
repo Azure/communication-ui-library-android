@@ -43,6 +43,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">開啟參與者清單</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已靜音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">掛斷</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切換視訊</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切換音訊</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">裝置選項</string>
@@ -66,6 +67,7 @@
         現在只能轉譯此會議。<u>隱私權原則</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>轉錄已停止。</b> 您
         現在只能錄製此會議。<u>隱私權原則</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">關閉</string>
