@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <!--    Device-->
+    <string name="azure_communication_ui_audio_device_drawer_android">Android</string>
+    <string name="azure_communication_ui_audio_device_drawer_speaker">Altoparlante</string>
+    <string name="azure_communication_ui_audio_device_drawer_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_audio_device_drawer_headphone">Cuffie</string>
+    <string name="azure_communication_ui_switch_camera_button_front">Passa alla fotocamera anteriore</string>
+    <string name="azure_communication_ui_switch_camera_button_back">Passa alla videocamera posteriore</string>
+    <string name="azure_communication_ui_setup_audio_device_select_content_description">Seleziona dispositivo audio %1$s</string>
+    <!--    Setup View-->
+    <string name="azure_communication_ui_setup_view_button_connecting_call">Partecipazione alla chiamata…</string>
+    <string name="azure_communication_ui_setup_view_button_video_off">Video disattivato</string>
+    <string name="azure_communication_ui_setup_view_button_video_on">Video attivato</string>
+    <string name="azure_communication_ui_setup_view_button_mic_off">Microfono disattivato</string>
+    <string name="azure_communication_ui_setup_view_button_mic_on">Microfono acceso</string>
+    <string name="azure_communication_ui_setup_view_button_join_call">Partecipa alla chiamata</string>
+    <string name="azure_communication_ui_setup_view_preview_area_audio_disabled">L\'audio è disabilitato. Per abilitaloe, vai a Impostazioni per consentire l\'accesso. È necessario
+        abilitare l\'audio per avviare questa chiamata.</string>
+    <string name="azure_communication_ui_setup_view_preview_area_camera_disabled">La fotocamera è disabilitata. Per abilitarla, passare a Impostazioni
+        per consentire l\'accesso.</string>
+    <string name="azure_communication_ui_setup_view_warning_missing_text">Autorizzazioni necessarie</string>
+    <string name="azure_communication_ui_setup_view_audio_device_selected_accessibility_label">Selezionato</string>
+    <string name="azure_communication_ui_setup_view_background_gradient_accessibility_label">Imposta sfumatura</string>
+    <string name="azure_communication_ui_button_switch_camera_accessibility_label">Pulsante Gira fotocamera</string>
+    <string name="azure_communication_ui_call_setup_action_bar_title">Configura</string>
+
+    <!--    Lobby View-->
+    <string name="azure_communication_ui_lobby_view_text_waiting_for_host">In attesa dell\'organizzatore</string>
+    <string name="azure_communication_ui_lobby_view_text_waiting_details">A breve qualcuno nella riunione ti farà partecipare</string>
+
+    <!--    Calling View-->
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">In attesa di altri partecipanti</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Chiamata con 1 persona</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Chiamata con %1$d persone</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Partecipante senza nome</string>
+    <string name="azure_communication_ui_calling_view_overlay_leave_call">Abbandona chiamata</string>
+    <string name="azure_communication_ui_calling_view_overlay_cancel">Annulla</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Apri elenco partecipanti</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Notifiche disattivate</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Disconnetti</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Pulsante Chiudi</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Attiva/disattiva video</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Attiva/Disattiva audio</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opzioni dispositivo</string>
+
+    <!--    Compliance Banner-->
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La registrazione è stata avviata.</b> Partecipando,
+        fornisci il consenso per la trascrizione della riunione 
+         <u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>È in corso il salvataggio della registrazione. </b> La registrazione è stata arrestata.
+         <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>trascrizione è stata avviata.</b> Partecipando,
+        fornisci il consenso per la trascrizione della riunione.<u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>È in corso il salvataggio della trascrizione.</b> La trascrizione
+        è stata arrestata. <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Registrazione e trascrizione sono
+        avviati.</b> Partecipando, fornisci il consenso per la trascrizione della riunione.
+        . <u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Registrazione e trascrizione sono
+        in fase di salvataggio.</b> La registrazione e la trascrizione sono state arrestate. <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>La registrazione è stata arrestata.</b>Ora
+        stai solo trascrivendo questa riunione. <u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La trascrizione è stata arrestata.
+    </b>Ora stai solo registrando questa riunione. <u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_link">Collegamento</string>
+
+    <!--    PopUp warning-->
+    <string name="azure_communication_ui_snack_bar_button_dismiss">Ignora</string>
+    <string name="azure_communication_ui_call_state_error_call_end">Sei stato rimosso dalla chiamata a causa di un errore.</string>
+    <string name="azure_communication_ui_snack_bar_text_error_call_join">Impossibile partecipare alla chiamata a causa di un errore.</string>
+    <string name="azure_communication_ui_call_state_evicted">You were removed from the call.</string>
+    <!--    Notification-->
+    <string name="azure_communication_ui_service_notification_title">Chiamata in corso</string>
+    <string name="azure_communication_ui_service_notification_message">Tocca per tornare alla chiamata</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_accessibility_user_added">%1$s ha partecipato alla riunione</string>
+    <string name="azure_communication_ui_accessibility_user_left">%1$s ha abbandonato la riunione</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Connesso alla riunione</string>
+
+
+
+</resources>
