@@ -71,7 +71,7 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Descartar</string>
-    <string name="azure_communication_ui_call_state_error_call_end">You were removed from the call due to an error.</string>
+    <string name="azure_communication_ui_call_state_error_call_end">Se le ha quitado de la llamada debido a un error.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">No se puede unir a la llamada debido a un error.</string>
     <string name="azure_communication_ui_call_state_evicted">You were removed from the call.</string>
     <!--    Notification-->

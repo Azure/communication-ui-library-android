@@ -71,9 +71,9 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">關閉</string>
-    <string name="azure_communication_ui_call_state_error_call_end">You were removed from the call due to an error.</string>
+    <string name="azure_communication_ui_call_state_error_call_end">因為發生錯誤，您已從通話中移除。</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">因為發生錯誤，所以無法加入通話。</string>
-    <string name="azure_communication_ui_call_state_evicted">You were removed from the call.</string>
+    <string name="azure_communication_ui_call_state_evicted">已從通話中移除您。</string>
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">通話進行中</string>
     <string name="azure_communication_ui_service_notification_message">點選以返回通話</string>

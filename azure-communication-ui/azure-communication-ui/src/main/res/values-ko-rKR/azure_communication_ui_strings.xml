@@ -71,9 +71,9 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">해제</string>
-    <string name="azure_communication_ui_call_state_error_call_end">You were removed from the call due to an error.</string>
+    <string name="azure_communication_ui_call_state_error_call_end">오류로 인해 통화에서 제외되었습니다.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
-    <string name="azure_communication_ui_call_state_evicted">You were removed from the call.</string>
+    <string name="azure_communication_ui_call_state_evicted">통화에서 제거되었습니다.</string>
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">진행 중인 통화</string>
     <string name="azure_communication_ui_service_notification_message">통화로 돌아가려면 탭하세요.</string>
