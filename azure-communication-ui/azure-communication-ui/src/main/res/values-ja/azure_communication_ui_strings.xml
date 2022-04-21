@@ -38,9 +38,11 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d 人のユーザーと通話</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(自分)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">名前のない参加者</string>
-    <string name="azure_communication_ui_calling_view_overlay_leave_call">通話から退出</string>
-    <string name="azure_communication_ui_calling_view_overlay_cancel">キャンセル</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">参加者リストを開く</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">ミュート状態</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">切断</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">[閉じる] ボタン</string>
