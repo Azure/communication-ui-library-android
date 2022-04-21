@@ -8,11 +8,12 @@ import com.azure.android.communication.ui.redux.action.CallingAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ConfirmLeaveOverlayViewModel(private val dispatch: (Action) -> Unit) {
-    private val shouldDisplayConfirmLeaveOverlayStateFlow = MutableStateFlow(false)
+internal class LeaveConfirmViewModel(private val dispatch: (Action) -> Unit) {
+    private val shouldDisplayLeaveConfirmMutableStateFlow = MutableStateFlow(false)
+    var shouldDisplayLeaveConfirmStateFlow = shouldDisplayLeaveConfirmMutableStateFlow as StateFlow<Boolean>
 
-    fun getShouldDisplayConfirmLeaveOverlayFlow(): StateFlow<Boolean> {
-        return shouldDisplayConfirmLeaveOverlayStateFlow
+    fun getShouldDisplayLeaveConfirmFlow(): StateFlow<Boolean> {
+        return shouldDisplayLeaveConfirmStateFlow
     }
 
     fun confirm() {
@@ -20,11 +21,11 @@ internal class ConfirmLeaveOverlayViewModel(private val dispatch: (Action) -> Un
     }
 
     fun cancel() {
-        shouldDisplayConfirmLeaveOverlayStateFlow.value = false
+        shouldDisplayLeaveConfirmMutableStateFlow.value = false
     }
 
     fun requestExitConfirmation() {
-        shouldDisplayConfirmLeaveOverlayStateFlow.value = true
+        shouldDisplayLeaveConfirmMutableStateFlow.value = true
     }
 
     private fun dispatchAction(action: Action) {
