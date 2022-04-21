@@ -36,50 +36,24 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
     )
 
     fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
-
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
-                val personaData =
-                    avatarViewManager.getRemoteParticipantPersonaData(it.userIdentifier)
-                ParticipantListCellModel(
-                    personaData?.renderedDisplayName ?: it.displayName.trim(),
-                    it.isMuted,
-                    personaData
-                )
+                getRemoteParticipantListCellModel(it)
             }
         remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
 
-        val localParticipantPersonaData = getLocalParticipantPersonaData()
-        val localUserDisplayName =
-            localParticipantPersonaData?.renderedDisplayName ?: localUserState.displayName
         localParticipantListCellStateFlow =
-            MutableStateFlow(
-                ParticipantListCellModel(
-                    localUserDisplayName ?: "",
-                    localUserState.audioState.operation == AudioOperationalStatus.OFF,
-                    getLocalParticipantPersonaData()
-                )
-            )
+            MutableStateFlow(getLocalParticipantListCellModel(localUserState))
     }
 
     fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
-                val personaData =
-                    avatarViewManager.getRemoteParticipantPersonaData(it.userIdentifier)
-                ParticipantListCellModel(
-                    personaData?.renderedDisplayName ?: it.displayName.trim(),
-                    it.isMuted,
-                    personaData
-                )
+                getRemoteParticipantListCellModel(it)
             }
         remoteParticipantListCellStateFlow.value = remoteParticipantList
-        localParticipantListCellStateFlow.value =
-            ParticipantListCellModel(
-                localUserState.displayName ?: "",
-                localUserState.audioState.operation == AudioOperationalStatus.OFF,
-                getLocalParticipantPersonaData()
-            )
+
+        localParticipantListCellStateFlow.value = getLocalParticipantListCellModel(localUserState)
     }
 
     fun displayParticipantList() {
@@ -102,6 +76,27 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
             return CommunicationUIPersonaData(displayName, it.avatarBitmap, it.scaleType)
         }
         return null
+    }
+
+    private fun getLocalParticipantListCellModel(localUserState: LocalUserState): ParticipantListCellModel {
+        val localParticipantPersonaData = getLocalParticipantPersonaData()
+        val localUserDisplayName =
+            localParticipantPersonaData?.renderedDisplayName ?: localUserState.displayName
+        return ParticipantListCellModel(
+            localUserDisplayName ?: "",
+            localUserState.audioState.operation == AudioOperationalStatus.OFF,
+            getLocalParticipantPersonaData()
+        )
+    }
+
+    private fun getRemoteParticipantListCellModel(it: ParticipantInfoModel): ParticipantListCellModel {
+        val personaData =
+            avatarViewManager.getRemoteParticipantPersonaData(it.userIdentifier)
+        return ParticipantListCellModel(
+            personaData?.renderedDisplayName ?: it.displayName.trim(),
+            it.isMuted,
+            personaData
+        )
     }
 }
 
