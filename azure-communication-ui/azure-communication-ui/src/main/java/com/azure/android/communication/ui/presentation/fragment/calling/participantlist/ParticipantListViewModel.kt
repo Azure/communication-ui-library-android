@@ -36,19 +36,26 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
     )
 
     fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
+
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
+                val personaData =
+                    avatarViewManager.getRemoteParticipantPersonaData(it.userIdentifier)
                 ParticipantListCellModel(
-                    it.displayName.trim(),
+                    personaData?.renderedDisplayName ?: it.displayName.trim(),
                     it.isMuted,
-                    getLocalParticipantPersonaData()
+                    personaData
                 )
             }
         remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
+
+        val localParticipantPersonaData = getLocalParticipantPersonaData()
+        val localUserDisplayName =
+            localParticipantPersonaData?.renderedDisplayName ?: localUserState.displayName
         localParticipantListCellStateFlow =
             MutableStateFlow(
                 ParticipantListCellModel(
-                    localUserState.displayName ?: "",
+                    localUserDisplayName ?: "",
                     localUserState.audioState.operation == AudioOperationalStatus.OFF,
                     getLocalParticipantPersonaData()
                 )
@@ -58,10 +65,12 @@ internal class ParticipantListViewModel(private val avatarViewManager: AvatarVie
     fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
-                ParticipantListCellModel(
-                    it.displayName.trim(),
-                    it.isMuted,
+                val personaData =
                     avatarViewManager.getRemoteParticipantPersonaData(it.userIdentifier)
+                ParticipantListCellModel(
+                    personaData?.renderedDisplayName ?: it.displayName.trim(),
+                    it.isMuted,
+                    personaData
                 )
             }
         remoteParticipantListCellStateFlow.value = remoteParticipantList
