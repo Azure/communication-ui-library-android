@@ -66,7 +66,7 @@ class SettingsFeatures {
 
         @JvmStatic
         fun selectedLanguageCode(languageCode: String): SupportLanguage {
-            for (language in SupportLanguage.values()) {
+            SupportLanguage.values().forEach { language ->
                 if (languageCode == language.toString()) {
                     return language
                 }

@@ -4,9 +4,7 @@
 package com.azure.android.communication.ui.di
 
 import android.content.Context
-import com.azure.android.communication.ui.configuration.AppLocalizationProvider
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.configuration.LocalizationProvider
 import com.azure.android.communication.ui.error.ErrorHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.presentation.VideoViewManager
@@ -104,10 +102,6 @@ internal class DependencyInjectionContainerImpl(
 
     override val notificationService by lazy {
         NotificationService(parentContext, appStore)
-    }
-
-    override val localizationProvider: LocalizationProvider by lazy {
-        AppLocalizationProvider()
     }
 
     //region Redux
