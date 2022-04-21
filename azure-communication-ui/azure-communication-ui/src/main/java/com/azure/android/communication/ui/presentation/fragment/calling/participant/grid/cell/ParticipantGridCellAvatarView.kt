@@ -60,6 +60,8 @@ internal class ParticipantGridCellAvatarView(
 
         lifecycleScope.launch {
             participantViewModel.getPersonaDataStateFlow().collect {
+                // force bitmap update be setting resource to 0
+                avatarView.setImageResource(0)
                 if (it == null || it.renderedDisplayName == null) {
                     avatarView.name = participantViewModel.getDisplayNameStateFlow().value
                 } else {

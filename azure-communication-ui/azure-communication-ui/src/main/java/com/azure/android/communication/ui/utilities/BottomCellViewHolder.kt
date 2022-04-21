@@ -30,6 +30,8 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
 
     fun setCellData(bottomCellItem: BottomCellItem) {
         title.text = bottomCellItem.personaData?.renderedDisplayName ?: bottomCellItem.title
+        // force bitmap update be setting resource to 0
+        avatarView.setImageResource(0)
         if (bottomCellItem.icon == null) {
             ViewCompat.setAccessibilityDelegate(
                 itemView,
