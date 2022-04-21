@@ -12,8 +12,8 @@ internal data class BottomCellItem(
     var contentDescription: String?,
     var accessoryImage: Drawable?,
     var accessoryColor: Int?,
-    var accessoryImageDescription: String,
-    var enabled: Boolean,
+    var accessoryImageDescription: String?,
+    var enabled: Boolean?,
     var personaData: CommunicationUIPersonaData?,
     var onClickAction: Runnable,
 )

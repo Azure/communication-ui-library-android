@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling
 import com.azure.android.communication.ui.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
-import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayViewModel
+import com.azure.android.communication.ui.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.localuser.LocalParticipantViewModel
@@ -57,7 +57,7 @@ internal class CallingViewModel(
         return controlBarViewModel
     }
 
-    fun getConfirmLeaveOverlayViewModel(): ConfirmLeaveOverlayViewModel {
+    fun getConfirmLeaveOverlayViewModel(): LeaveConfirmViewModel {
         return confirmLeaveOverlayViewModel
     }
 
