@@ -19,7 +19,8 @@ internal class ParticipantGridCellViewModel(
     modifiedTimestamp: Number,
     personaData: CommunicationUIPersonaData?,
 ) {
-    private var displayNameStateFlow = MutableStateFlow(displayName)
+    private var displayNameStateFlow =
+        MutableStateFlow(personaData?.renderedDisplayName ?: displayName)
     private var isMutedStateFlow = MutableStateFlow(isMuted)
     private var isSpeakingStateFlow = MutableStateFlow(isSpeaking && !isMuted)
     private var isNameIndicatorVisibleStateFlow = MutableStateFlow(true)
@@ -65,10 +66,11 @@ internal class ParticipantGridCellViewModel(
 
     fun update(
         participant: ParticipantInfoModel,
-        personaData: CommunicationUIPersonaData?
+        personaData: CommunicationUIPersonaData?,
     ) {
         this.participantUserIdentifier = participant.userIdentifier
-        this.displayNameStateFlow.value = participant.displayName
+        this.displayNameStateFlow.value =
+            personaData?.renderedDisplayName ?: participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
 
         this.isNameIndicatorVisibleStateFlow.value =
