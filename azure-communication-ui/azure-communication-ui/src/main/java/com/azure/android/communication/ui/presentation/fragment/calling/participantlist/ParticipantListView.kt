@@ -173,7 +173,7 @@ internal class ParticipantListView(
         val micAccessibilityAnnouncement = if (isMuted) context.getString(
             R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label
         )
-        else "Unmuted"
+        else context.getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
         return BottomCellItem(
             null,
