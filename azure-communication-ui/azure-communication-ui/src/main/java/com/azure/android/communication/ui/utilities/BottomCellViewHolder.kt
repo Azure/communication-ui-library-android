@@ -73,15 +73,8 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
                 )
             )
         }
-<<<<<<< HEAD
-        if (accessoryImage.contentDescription != null) {
-            accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
-        }
-        accessoryImage.visibility = if (bottomCellItem.enabled == true) View.VISIBLE else View.INVISIBLE
-=======
         accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
         accessoryImage.visibility = View.VISIBLE
->>>>>>> 3e0bb5ce ([Android] participant list mic on talkback bugfix)
         onClickAction = bottomCellItem.onClickAction
     }
 }
