@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.configuration.LanguageCode
+import com.azure.android.communication.ui.configuration.SupportLanguage
 import com.google.android.material.textfield.TextInputLayout
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
@@ -41,7 +41,7 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = LanguageCode.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
+        supportedLanguages = SupportLanguage.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
         setLanguageInSharedPrefForFirstTime()
         updateRenderedDisplayNameText()
     }
@@ -71,7 +71,7 @@ class SettingsActivity : AppCompatActivity() {
 
         if (view is CheckBox) {
             when (view.id) {
-                R.id.languageIsRTL -> {
+                R.id.language_is_rtl_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
                             sharedPreference.getString(
@@ -86,12 +86,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        callSettingLabelView = findViewById(R.id.callSellingLabelView)
-        languageSettingLabelView = findViewById(R.id.languageSettingLabelView)
-        languageSettingLabelDivider = findViewById(R.id.languageSettingLabelDivider)
-        isRTLCheckBox = findViewById(R.id.languageIsRTL)
-        languageAdapterLayout = findViewById(R.id.languageAdapterLayout)
-        autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
+        callSettingLabelView = findViewById(R.id.call_setting_text_view)
+        languageSettingLabelView = findViewById(R.id.language_setting_text_view)
+        languageSettingLabelDivider = findViewById(R.id.language_setting_label_divider)
+        isRTLCheckBox = findViewById(R.id.language_is_rtl_checkbox)
+        languageAdapterLayout = findViewById(R.id.language_adapter_layout)
+        autoCompleteTextView = findViewById(R.id.auto_complete_text_view)
         renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
