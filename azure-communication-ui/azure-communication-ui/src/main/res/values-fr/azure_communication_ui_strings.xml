@@ -45,6 +45,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Ouvrir la liste des participants</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Son désactivé</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Unmuted</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Raccrocher</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Bouton Fermer</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Activer/désactiver la vidéo</string>
@@ -85,7 +86,4 @@
     <string name="azure_communication_ui_accessibility_user_added">%1$s a rejoint la réunion</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s a quitté la réunion</string>
     <string name="azure_communication_ui_accessibility_meeting_connected">Connecté à la réunion</string>
-
-
-
 </resources>
