@@ -18,18 +18,18 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ConfirmLeaveOverlayViewModelUnitTest {
+internal class LeaveConfirmViewModelUnitTest {
 
     @Test
-    fun confirmLeaveOverlayViewModel_confirm_then_dispatchEndCall() {
+    fun leaveConfirmViewModel_confirm_then_dispatchEndCall() {
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
 
-        var confirmLeaveOverlayViewModel = ConfirmLeaveOverlayViewModel(mockAppStore::dispatch)
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore::dispatch)
 
-        confirmLeaveOverlayViewModel.confirm()
+        leaveConfirmViewModel.confirm()
 
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
@@ -39,17 +39,17 @@ internal class ConfirmLeaveOverlayViewModelUnitTest {
     }
 
     @Test
-    fun confirmLeaveOverlayViewModel_cancel_then_isConfirmLeaveOverlayDisplayed_updated() {
+    fun leaveConfirmViewModel_cancel_then_isLeaveConfirmDisplayed_updated() {
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        var confirmLeaveOverlayViewModel = ConfirmLeaveOverlayViewModel(mockAppStore::dispatch)
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore::dispatch)
 
-        confirmLeaveOverlayViewModel.cancel()
+        leaveConfirmViewModel.cancel()
 
         Assert.assertEquals(
             false,
-            confirmLeaveOverlayViewModel.getShouldDisplayConfirmLeaveOverlayFlow().value
+            leaveConfirmViewModel.getShouldDisplayLeaveConfirmFlow().value
         )
     }
 }

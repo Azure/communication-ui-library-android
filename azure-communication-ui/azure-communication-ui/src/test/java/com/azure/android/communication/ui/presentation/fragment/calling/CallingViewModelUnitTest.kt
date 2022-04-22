@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
-import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayViewModel
+import com.azure.android.communication.ui.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.localuser.LocalParticipantViewModel
@@ -69,7 +69,7 @@ internal class CallingViewModelUnitTest {
                 on { update(any(), any(), any()) } doAnswer { }
             }
 
-            val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
+            val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
                 on { update(any(), any(), any(), any(), any(), any()) } doAnswer { }
@@ -143,7 +143,7 @@ internal class CallingViewModelUnitTest {
                 on { update(any(), any(), any()) } doAnswer { }
             }
 
-            val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
+            val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
                 on { update(any(), any(), any(), any(), any(), any()) } doAnswer { }
@@ -218,7 +218,7 @@ internal class CallingViewModelUnitTest {
                 on { update(any(), any(), any()) } doAnswer { }
             }
 
-            val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
+            val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
                 on { update(any(), any(), any(), any(), any(), any()) } doAnswer { }
@@ -299,7 +299,7 @@ internal class CallingViewModelUnitTest {
                 on { update(any(), any(), any()) } doAnswer { }
             }
 
-            val mockConfirmLeaveOverlayViewModel = mock<ConfirmLeaveOverlayViewModel> {}
+            val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
                 on { update(any(), any(), any(), any(), any(), any()) } doAnswer { }
