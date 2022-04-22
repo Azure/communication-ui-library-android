@@ -45,6 +45,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Открыть список участников</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Уведомления отключены</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Unmuted</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Повесить трубку</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Кнопка "Закрыть"</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Включить или отключить видео</string>
@@ -85,7 +86,4 @@
     <string name="azure_communication_ui_accessibility_user_added">%1$s присоединяется к собранию</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s покидает собрание</string>
     <string name="azure_communication_ui_accessibility_meeting_connected">Подключено к собранию</string>
-
-
-
 </resources>

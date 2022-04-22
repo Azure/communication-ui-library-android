@@ -45,6 +45,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Lijst van deelnemers openen</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Gedempt</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Unmuted</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Ophangen</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Knop Sluiten</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Video in-/uitschakelen</string>
@@ -85,7 +86,4 @@
     <string name="azure_communication_ui_accessibility_user_added">%1$s neemt nu deel aan de vergadering</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s heeft de vergadering verlaten</string>
     <string name="azure_communication_ui_accessibility_meeting_connected">Verbonden met vergadering</string>
-
-
-
 </resources>
