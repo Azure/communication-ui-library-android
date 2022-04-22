@@ -19,7 +19,7 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarView
-import com.azure.android.communication.ui.presentation.fragment.calling.hangup.ConfirmLeaveOverlayView
+import com.azure.android.communication.ui.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.presentation.fragment.calling.header.InfoHeaderView
 import com.azure.android.communication.ui.presentation.fragment.calling.lobby.LobbyOverlayView
 import com.azure.android.communication.ui.presentation.fragment.calling.localuser.LocalParticipantView
@@ -39,7 +39,7 @@ internal class CallingFragment :
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
-    private lateinit var confirmLeaveOverlayView: ConfirmLeaveOverlayView
+    private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
     private lateinit var infoHeaderView: InfoHeaderView
     private lateinit var participantGridView: ParticipantGridView
@@ -56,10 +56,9 @@ internal class CallingFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
-        confirmLeaveOverlayView = view.findViewById(R.id.azure_communication_ui_call_leave_overlay)
+        confirmLeaveOverlayView = LeaveConfirmView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
         confirmLeaveOverlayView.start(
-            viewLifecycleOwner,
-            viewModel.getConfirmLeaveOverlayViewModel()
+            viewLifecycleOwner
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
@@ -135,12 +134,12 @@ internal class CallingFragment :
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             participantGridView.stop()
-            confirmLeaveOverlayView.stop()
             viewModel.getBannerViewModel().dismissBanner()
         }
         localParticipantView.stop()
         participantListView.stop()
         audioDeviceListView.stop()
+        confirmLeaveOverlayView.stop()
         if (wakeLock.isHeld) {
             wakeLock.setReferenceCounted(false)
             wakeLock.release()

@@ -38,10 +38,12 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Call with %1$d people</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unnamed participant</string>
-    <string name="azure_communication_ui_calling_view_overlay_leave_call">Leave call</string>
-    <string name="azure_communication_ui_calling_view_overlay_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list" translatable="false">Double tap to dismiss Participant list</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Muted</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Hang Up</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
@@ -88,8 +90,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
-
-
-
+    <string name="azure_communication_ui_accessibility_meeting_connected">You have joined the call</string>
 </resources>
