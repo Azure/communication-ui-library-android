@@ -161,16 +161,22 @@ internal class ParticipantListView(
         isMuted: Boolean,
         personaData: CommunicationUIPersonaData?,
     ): BottomCellItem {
+        val micIcon = if(isMuted) ContextCompat.getDrawable(context,
+        R.drawable.azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_filled_grey)
+        else ContextCompat.getDrawable(context,
+        R.drawable.azure_communication_ui_ic_fluent_mic_on_24_filled_composite_button_filled_grey)
+
+        val micAccessibilityAnnouncement = if(isMuted) context.getString(
+            R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
+        else "Unmuted"
+
         return BottomCellItem(
             null,
             displayName,
             displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list),
-            ContextCompat.getDrawable(
-                context,
-                R.drawable.azure_communication_ui_ic_fluent_mic_off_24_regular
-            ),
+            micIcon,
             R.color.azure_communication_ui_color_participant_list_mute_mic,
-            context.getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label),
+            micAccessibilityAnnouncement,
             isMuted,
             personaData,
         ) {
