@@ -39,6 +39,7 @@
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(moi)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participant sans nom</string>
     <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
     <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Ouvrir la liste des participants</string>
