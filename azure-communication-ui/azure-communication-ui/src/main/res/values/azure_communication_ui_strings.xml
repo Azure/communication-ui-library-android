@@ -39,7 +39,7 @@
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unnamed participant</string>
     <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
-    <string name="azure_communication_ui_calling_view_leave_call_button_text" translatable="false">Leave</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
     <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
@@ -90,8 +90,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s has joined the meeting</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s has left the meeting</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connected to meeting</string>
-
-
-
+    <string name="azure_communication_ui_accessibility_meeting_connected">You have joined the call</string>
 </resources>

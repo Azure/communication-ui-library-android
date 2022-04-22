@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
+import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -48,7 +49,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
                     .localization(
                         LocalizationConfiguration(
-                            selectedLanguageCode,
+                            Locale.forLanguageTag(selectedLanguageCode.toString()),
                             isRTL()
                         )
                     )
@@ -56,7 +57,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             else
                 CallCompositeBuilder().localization(
                     LocalizationConfiguration(
-                        selectedLanguageCode,
+                        Locale.forLanguageTag(selectedLanguageCode.toString()),
                         isRTL()
                     )
                 )
