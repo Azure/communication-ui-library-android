@@ -16,24 +16,46 @@ Creates an instance of `LocalizationConfiguration` with related parameters.
 
 ```java
 public LocalizationConfiguration(
-    final LanguageCode languageCode
+    final Locale locale
 )         
 ```
 
 ### Parameters
-* `languageCode` - LanguageCode Enum(ie. LanguageCode.ITALIAN, LanguageCode.JAPANESE, LanguageCode.CHINESE_SIMPLIFIED...)
+* `locale` - Locale (ie. Locale.US)
 
 
 ```java
 public LocalizationConfiguration(
-    final LanguageCode languageCode, 
+    final Locale locale, 
     final int layoutDirection
 ) 
 ```
 
 ### Parameters
-* `languageCode` - LanguageCode Enum(ie. LanguageCode.ITALIAN, LanguageCode.JAPANESE, LanguageCode.CHINESE_SIMPLIFIED ...)
+* `locale` - Locale (ie. Locale.US)
 * `layoutDiection` - int for layout direction. Default value is `LayoutDirection.LTR`.
+
+
+```java
+public LocalizationConfiguration(
+    final String language
+)         
+```
+
+### Parameters
+* `language` - Language String (ie. "fr", "en")
+  
+
+```java
+public LocalizationConfiguration(
+    final String language,
+    final String country 
+)         
+```
+
+### Parameters
+* `language` - Language String (ie. "fr", "en")
+* `country` - Country String (ie. "FR", "US")
 
 
 ## Methods
@@ -46,10 +68,10 @@ The layoutDirection int value to be used by `CallComposite`.
 public boolean getLayoutDirection() 
 ```
  
-### `getLanguageCode`
+### `getLocale`
 
 The language code to be used by `CallComposite`.
 
 ```java
-public LanguageCode getLanguageCode() 
+public LanguageCode getLocale() 
 ```
