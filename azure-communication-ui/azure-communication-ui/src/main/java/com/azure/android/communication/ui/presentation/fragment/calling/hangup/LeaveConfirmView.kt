@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.RelativeLayout
@@ -22,21 +23,22 @@ import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@SuppressLint("ViewConstructor")
 internal class LeaveConfirmView(
     private val viewModel: LeaveConfirmViewModel,
     context: Context,
 ) : RelativeLayout(context) {
 
     private var leaveConfirmMenuTable: RecyclerView
-    private var tittle: TextView
+    private var title: TextView
     private lateinit var leaveConfirmMenuDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
 
     init {
         inflate(context, R.layout.azure_communication_ui_listview, this)
         leaveConfirmMenuTable = findViewById(R.id.bottom_drawer_table)
-        tittle = TextView(context)
-        this.setBackgroundResource(R.color.azure_communication_ui_color_bottom_drawer_background)
+        title = TextView(context)
+        setBackgroundResource(R.color.azure_communication_ui_color_bottom_drawer_background)
     }
 
     fun stop() {
@@ -46,7 +48,7 @@ internal class LeaveConfirmView(
             leaveConfirmMenuDrawer.dismissDialog()
             viewModel.requestExitConfirmation()
         }
-        this.removeAllViews()
+        removeAllViews()
     }
 
     fun start(
@@ -60,9 +62,9 @@ internal class LeaveConfirmView(
         val titleLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, (24 * dp).toInt())
         titleLayoutParams.setMargins((16 * dp).toInt(), (12 * dp).toInt(), (72 * dp).toInt(), (12 * dp).toInt())
 
-        tittle.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_color_text_primary))
-        tittle.text = context.getString(R.string.azure_communication_ui_calling_view_leave_call)
-        tittle.layoutParams = titleLayoutParams
+        title.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_color_text_primary))
+        title.text = context.getString(R.string.azure_communication_ui_calling_view_leave_call)
+        title.layoutParams = titleLayoutParams
 
         ViewCompat.setAccessibilityDelegate(
             this,
@@ -77,8 +79,8 @@ internal class LeaveConfirmView(
                 }
             }
         )
-        this.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_leave_call_dismiss)
-        this.addView(tittle)
+        contentDescription = context.getString(R.string.azure_communication_ui_calling_view_leave_call_dismiss)
+        addView(title)
         bottomCellAdapter = BottomCellAdapter(context)
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         leaveConfirmMenuTable.adapter = bottomCellAdapter
