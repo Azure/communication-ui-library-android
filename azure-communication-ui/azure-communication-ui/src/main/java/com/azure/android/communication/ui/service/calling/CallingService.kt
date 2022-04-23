@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.service.calling
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
+import com.azure.android.communication.ui.logger.DefaultLogger
+import com.azure.android.communication.ui.logger.Logger
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.state.AudioState
@@ -27,6 +29,7 @@ import kotlinx.coroutines.launch
 internal class CallingService(
     private val callingSDKWrapper: CallingSDKWrapper,
     coroutineContextProvider: CoroutineContextProvider,
+    private val logger: Logger? = DefaultLogger()
 ) {
     companion object {
         private const val LOCAL_VIDEO_STREAM_ID = "BuiltInCameraVideoStream"
@@ -44,12 +47,14 @@ internal class CallingService(
         * Expected behavior.
         * */
         internal const val CALL_END_REASON_DECLINED = 603
+        internal const val CALL_END_REASON_TEAMS_EVICTED = 5300
         internal const val CALL_END_REASON_EVICTED = 5000
 
         private fun isEvicted(callingState: CallingStateWrapper) =
             callingState.callState == CallState.DISCONNECTED &&
-                callingState.callEndReason == CALL_END_REASON_SUCCESS &&
-                callingState.callEndReasonSubCode == CALL_END_REASON_EVICTED
+            callingState.callEndReason == CALL_END_REASON_SUCCESS &&
+            (callingState.callEndReasonSubCode == CALL_END_REASON_EVICTED ||
+            callingState.callEndReasonSubCode == CALL_END_REASON_TEAMS_EVICTED)
     }
 
     private val participantsInfoModelSharedFlow =
@@ -163,9 +168,9 @@ internal class CallingService(
 
     private fun getCallStateError(callingState: CallingStateWrapper): CallStateError? =
         callingState.run {
+            logger?.warning(callingState.toString())
             when {
-                callEndReason == CALL_END_REASON_SUCCESS && isEvicted(callingState) ->
-                    CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
+                isEvicted(callingState) -> CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
                 callEndReason == CALL_END_REASON_SUCCESS ||
                     callEndReason == CALL_END_REASON_CANCELED ||
                     callEndReason == CALL_END_REASON_DECLINED -> null

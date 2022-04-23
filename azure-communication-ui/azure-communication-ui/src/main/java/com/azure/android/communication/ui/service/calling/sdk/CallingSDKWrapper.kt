@@ -33,6 +33,8 @@ import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 internal class CallingSDKWrapper(
     private val instanceId: Int,
@@ -111,25 +113,30 @@ internal class CallingSDKWrapper(
 
     fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
         val startCallCompletableFuture = CompletableFuture<Void>()
-        createCallAgent().thenAccept { agent: CallAgent ->
-            val audioOptions = AudioOptions()
-            audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
+        logger?.warning(" CallingSDKWrapper createCallAgent() ....")
+        createCallAgent()
+            .orTimeout( 15, TimeUnit.SECONDS)
+            .thenAccept { agent: CallAgent ->
+                val audioOptions = AudioOptions()
+                audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
 
-            var videoOptions: VideoOptions? = null
-            if (cameraState.operation == CameraOperationalStatus.ON) {
-                val localVideoStreams = arrayOf(getLocalVideoStream().get())
-                videoOptions = VideoOptions(localVideoStreams)
+                var videoOptions: VideoOptions? = null
+                if (cameraState.operation == CameraOperationalStatus.ON) {
+                    val localVideoStreams = arrayOf(getLocalVideoStream().get())
+                    videoOptions = VideoOptions(localVideoStreams)
+                }
+
+                val callLocator: JoinMeetingLocator = when (callConfig.callType) {
+                    CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
+                    CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
+                }
+                logger?.warning(" CallingSDKWrapper startCall() joining call....")
+                joinCall(agent, audioOptions, videoOptions, callLocator)
+
+                startCallCompletableFuture.complete(null)
             }
-
-            val callLocator: JoinMeetingLocator = when (callConfig.callType) {
-                CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
-                CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
-            }
-            joinCall(agent, audioOptions, videoOptions, callLocator)
-
-            startCallCompletableFuture.complete(null)
-        }
             .exceptionally { error ->
+                logger?.error("createCallAgent() exception: ", error)
                 startCallCompletableFuture.completeExceptionally(error)
                 null
             }
@@ -276,14 +283,19 @@ internal class CallingSDKWrapper(
                     callConfig.communicationTokenCredential,
                     options
                 )
-                createCallAgentFutureCompletableFuture.whenComplete { callAgent: CallAgent, error: Throwable? ->
-                    if (error != null) {
-                        callAgentCompletableFuture!!.completeExceptionally(error)
-                    } else {
-                        callAgentCompletableFuture!!.complete(callAgent)
+                createCallAgentFutureCompletableFuture
+
+                    .whenComplete { callAgent: CallAgent, error: Throwable? ->
+                        if (error != null) {
+                            logger?.error("createCallAgent Received timeout: ", error)
+                            callAgentCompletableFuture!!.completeExceptionally(error)
+                        } else {
+                            callAgentCompletableFuture!!.complete(callAgent)
+                        }
                     }
-                }
-            } catch (error: Throwable) {
+            }
+            catch (error: Throwable) {
+                logger?.error("createCallAgent Received error: ", error)
                 callAgentCompletableFuture!!.completeExceptionally(error)
             }
         }
@@ -293,13 +305,14 @@ internal class CallingSDKWrapper(
 
     private fun joinCall(
         agent: CallAgent,
-        audioOptions: AudioOptions,
-        videoOptions: VideoOptions?,
+        audio: AudioOptions,
+        video: VideoOptions?,
         joinMeetingLocator: JoinMeetingLocator,
     ) {
-        val joinCallOptions = JoinCallOptions()
-        joinCallOptions.audioOptions = audioOptions
-        videoOptions?.let { joinCallOptions.videoOptions = videoOptions }
+        val joinCallOptions = JoinCallOptions().apply {
+            audioOptions = audio
+            video?.let { videoOptions = it }
+        }
 
         nullableCall = agent.join(context, joinMeetingLocator, joinCallOptions)
         callingSDKEventHandler.onJoinCall(call)
@@ -397,6 +410,7 @@ internal class CallingSDKWrapper(
     }
 
     private fun getCallClient(): CallClient {
+        logger?.warning("getting Call Client .......")
         val callClientOptions = CallClientOptions().apply {
             configuration.callConfig?.diagnosticConfig?.tags?.let { telemetryTags ->
                 val diagnosticOptions = getOrCreateDiagnosticOptions(this)
