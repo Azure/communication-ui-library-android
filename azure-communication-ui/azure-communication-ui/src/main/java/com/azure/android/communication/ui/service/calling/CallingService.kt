@@ -168,7 +168,7 @@ internal class CallingService(
 
     private fun getCallStateError(callingState: CallingStateWrapper): CallStateError? =
         callingState.run {
-            logger?.warning(callingState.toString())
+            logger?.debug(callingState.toString())
             when {
                 isEvicted(callingState) -> CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
                 callEndReason == CALL_END_REASON_SUCCESS ||
