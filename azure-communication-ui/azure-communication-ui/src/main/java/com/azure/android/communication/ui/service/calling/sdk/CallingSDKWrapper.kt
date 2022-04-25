@@ -35,7 +35,6 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import java.lang.NullPointerException
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
 
 internal class CallingSDKWrapper(
     private val instanceId: Int,

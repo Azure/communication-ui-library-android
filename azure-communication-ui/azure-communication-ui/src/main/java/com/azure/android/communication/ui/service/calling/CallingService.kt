@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.service.calling
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallStateError
-import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.logger.Logger
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
@@ -29,7 +28,7 @@ import kotlinx.coroutines.launch
 internal class CallingService(
     private val callingSDKWrapper: CallingSDKWrapper,
     coroutineContextProvider: CoroutineContextProvider,
-    private val logger: Logger? = DefaultLogger()
+    private val logger: Logger? = null,
 ) {
     companion object {
         private const val LOCAL_VIDEO_STREAM_ID = "BuiltInCameraVideoStream"
@@ -52,9 +51,10 @@ internal class CallingService(
 
         private fun isEvicted(callingState: CallingStateWrapper) =
             callingState.callState == CallState.DISCONNECTED &&
-            callingState.callEndReason == CALL_END_REASON_SUCCESS &&
-            (callingState.callEndReasonSubCode == CALL_END_REASON_EVICTED ||
-            callingState.callEndReasonSubCode == CALL_END_REASON_TEAMS_EVICTED)
+                callingState.callEndReason == CALL_END_REASON_SUCCESS && (
+                callingState.callEndReasonSubCode == CALL_END_REASON_EVICTED ||
+                    callingState.callEndReasonSubCode == CALL_END_REASON_TEAMS_EVICTED
+                )
     }
 
     private val participantsInfoModelSharedFlow =
