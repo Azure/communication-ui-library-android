@@ -109,10 +109,6 @@ internal class DependencyInjectionContainerImpl(
         NotificationService(parentContext, appStore)
     }
 
-    override val localizationProvider: LocalizationProvider by lazy {
-        AppLocalizationProvider()
-    }
-
     override val remoteParticipantJoinedHandler by lazy {
         RemoteParticipantJoinedHandler(configuration, appStore, callingSDKWrapper)
     }
