@@ -38,14 +38,14 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(Я)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
-    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
-    <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
-    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Выйти из звонка?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Выйти</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Отмена</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Дважды коснитесь, чтобы выйти из меню подтверждения</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Открыть список участников</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Дважды коснитесь, чтобы закрыть список участников</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Уведомления отключены</string>
-    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Unmuted</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Звук включен</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Повесить трубку</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Кнопка "Закрыть"</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Включить или отключить видео</string>
@@ -85,5 +85,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s присоединяется к собранию</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s покидает собрание</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Подключено к собранию</string>
+    <string name="azure_communication_ui_accessibility_meeting_connected">Вы присоединились к звонку</string>
 </resources>
