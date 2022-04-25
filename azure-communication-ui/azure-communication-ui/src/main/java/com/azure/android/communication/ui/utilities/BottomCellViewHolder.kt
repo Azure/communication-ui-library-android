@@ -79,7 +79,7 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
         onClickAction = bottomCellItem.onClickAction
     }
 
-    fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
+    private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
         val muteDescription = itemView.rootView.context
             .getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
         val unmutedDescription = itemView.rootView.context
