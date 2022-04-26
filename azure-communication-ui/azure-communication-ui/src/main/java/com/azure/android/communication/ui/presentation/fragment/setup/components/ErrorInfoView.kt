@@ -56,13 +56,15 @@ internal class ErrorInfoView(private val rootView: View) {
                 dismiss()
             }
             show()
+
+            view.contentDescription = "${context.getString(R.string.azure_communication_ui_alert_title)}: $errorMessage"
             view.accessibilityFocus()
         }
     }
 
     private fun getErrorMessage(it: CallStateError): CharSequence {
         return when (it.communicationUIErrorCode) {
-            CommunicationUIErrorCode.CALL_END -> rootView.context.getText(R.string.azure_communication_ui_cal_state_error_call_end)
+            CommunicationUIErrorCode.CALL_END -> rootView.context.getText(R.string.azure_communication_ui_call_state_error_call_end)
 
             CommunicationUIErrorCode.CALL_JOIN -> rootView.context.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
 

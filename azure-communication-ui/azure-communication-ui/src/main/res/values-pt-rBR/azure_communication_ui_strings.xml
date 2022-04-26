@@ -71,7 +71,7 @@ dando consentimento para que esta reunião seja transcrita.
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Ignorar</string>
-    <string name="azure_communication_ui_cal_state_error_call_end">Você foi removido da chamada devido a um erro.</string>
+    <string name="azure_communication_ui_call_state_error_call_end">Você foi removido da chamada devido a um erro.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Não é possível ingressar na chamada devido a um erro.</string>
 
     <!--    Notification-->

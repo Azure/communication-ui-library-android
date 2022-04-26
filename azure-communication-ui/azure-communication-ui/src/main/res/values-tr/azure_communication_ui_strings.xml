@@ -71,7 +71,7 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Yoksay</string>
-    <string name="azure_communication_ui_cal_state_error_call_end">Bir hata nedeniyle aramadan çıkarıldınız.</string>
+    <string name="azure_communication_ui_call_state_error_call_end">Bir hata nedeniyle aramadan çıkarıldınız.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Bir hata nedeniyle aramaya katılınamıyor.</string>
 
     <!--    Notification-->
