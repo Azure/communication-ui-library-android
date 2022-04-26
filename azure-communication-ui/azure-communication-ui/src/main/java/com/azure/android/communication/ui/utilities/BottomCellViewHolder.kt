@@ -85,10 +85,9 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
         val unmutedDescription = itemView.rootView.context
             .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
-        if (bottomCellItem.enabled == true) return true
-        else if (bottomCellItem.accessoryImageDescription == muteDescription ||
-            bottomCellItem.accessoryImageDescription == unmutedDescription
-        ) return true
-        return false
+        return (
+            bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
+                bottomCellItem.accessoryImageDescription == unmutedDescription
+            )
     }
 }
