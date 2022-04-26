@@ -3,14 +3,12 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 import org.hamcrest.Matchers
-import java.lang.IllegalStateException
 
 class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
 
