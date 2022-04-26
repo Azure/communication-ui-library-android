@@ -44,6 +44,8 @@ internal class ErrorInfoView(private val rootView: View) {
             snackBar.dismiss()
         }
         rootView.invalidate()
+        // to fix memory leak
+        snackBar.anchorView = null
     }
 
     private fun displaySnackBar(it: CallStateError) {
