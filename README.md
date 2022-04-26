@@ -99,6 +99,7 @@ For more details on Mobile UI Library functionalities visit the [API Reference D
 
 Privious Android API devices could perform accessibility differently comparing to the latest version. We run through accessibility testing on previous Android API (21, 24, 27, 28) devices to detect the possible differences on accessibility performance.
 
+#### [API 21](#tab/API21)
 ```API 21 
 When focusing on buttons, screen reader will not announce "double tap to activate".
 There is no initial focus on setup screen.
@@ -106,6 +107,7 @@ The state/selected change for video/mic buttons swich camera button and audio de
 The snackbar on setup screen with error message will not be focused and announced.
 ```
 
+#### [API 27/28](#tab/API27_28)
 ``` API 27/28
 The state/selected change for video/mic buttons swich camera button and audio device select menu may not be announced.
 The snackbar on setup screen with error message may take more time to show up. 
