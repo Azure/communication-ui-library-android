@@ -141,6 +141,9 @@ object UiTestUtils {
         return viewAction.getText()
     }
 
+    fun getTextFromTextView(@IdRes viewId: Int) =
+        getTextFromViewAction(viewId, GetTextViewAction())
+
     fun getTextFromButtonView(@IdRes viewId: Int) =
         getTextFromViewAction(viewId, GetButtonTextAction())
 

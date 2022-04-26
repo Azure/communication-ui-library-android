@@ -56,7 +56,7 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
     }
 
     fun clickAlertDialogOkButton() {
-        waitUntilViewIdIsDisplayed(android.R.id.button1)
+        waitUntilViewAndTextIsDisplayed(android.R.id.button1, "OK")
         UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
     }
 }
