@@ -38,12 +38,16 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">與 %1$d 個人通話</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的參與者</string>
-    <string name="azure_communication_ui_calling_view_overlay_leave_call">離開通話</string>
-    <string name="azure_communication_ui_calling_view_overlay_cancel">取消</string>
+    <string name="azure_communication_ui_calling_view_leave_call">離開通話</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">離開</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">點兩下以關閉離開確認功能表</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">開啟參與者清單</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">點兩下以關閉 [參與者清單]</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已靜音</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消靜音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">掛斷</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">[關閉] 按鈕</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切換視訊</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切換音訊</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">裝置選項</string>
@@ -67,13 +71,13 @@
         現在只能轉譯此會議。<u>隱私權原則</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>轉錄已停止。</b> 您
         現在只能錄製此會議。<u>隱私權原則</u></string>
-    <string name="azure_communication_ui_calling_view_link">Link</string>
+    <string name="azure_communication_ui_calling_view_link">連結</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">關閉</string>
     <string name="azure_communication_ui_call_state_error_call_end">因為發生錯誤，您已從通話中移除。</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">因為發生錯誤，所以無法加入通話。</string>
-
+    <string name="azure_communication_ui_call_state_evicted">已從通話中移除您。</string>
     <!--    Notification-->
     <string name="azure_communication_ui_service_notification_title">通話進行中</string>
     <string name="azure_communication_ui_service_notification_message">點選以返回通話</string>
@@ -81,8 +85,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s 已加入會議</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s 已離開會議</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">已連線至會議</string>
-
-
-
+    <string name="azure_communication_ui_accessibility_meeting_connected">您已加入通話</string>
 </resources>

@@ -16,12 +16,12 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
-import com.azure.android.communication.ui.configuration.LanguageCode;
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
 import com.azure.android.communication.ui.configuration.ThemeConfiguration;
 import com.azure.android.communication.ui.persona.CommunicationUIPersonaData;
 
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
@@ -50,10 +50,10 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 SettingsFeatures.getCommunicationUIPersonaData(callLauncherActivity.getApplicationContext());
 
         final String selectedLanguage = SettingsFeatures.language();
-        final LanguageCode languageCode = SettingsFeatures
-                .selectedLanguageCode(SettingsFeatures.languageCode(selectedLanguage));
+        final Locale locale = Locale.forLanguageTag(SettingsFeatures
+                .selectedLanguageCode(SettingsFeatures.languageCode(selectedLanguage)).toString());
 
-        builder.localization(new LocalizationConfiguration(languageCode,
+        builder.localization(new LocalizationConfiguration(locale,
                 SettingsFeatures.isRTL()));
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {

@@ -62,7 +62,9 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             imageView.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
         }
-        accessoryImage.setImageDrawable(bottomCellItem.accessoryImage)
+        if (bottomCellItem.accessoryImage != null) {
+            accessoryImage.setImageDrawable(bottomCellItem.accessoryImage)
+        }
         if (bottomCellItem.accessoryColor != null) {
             accessoryImage.setColorFilter(
                 ContextCompat.getColor(
@@ -72,7 +74,20 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             )
         }
         accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
-        accessoryImage.visibility = if (bottomCellItem.enabled) View.VISIBLE else View.INVISIBLE
+        accessoryImage.visibility =
+            if (isAccessoryImageViewable(bottomCellItem)) View.VISIBLE else View.INVISIBLE
         onClickAction = bottomCellItem.onClickAction
+    }
+
+    private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
+        val muteDescription = itemView.rootView.context
+            .getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
+        val unmutedDescription = itemView.rootView.context
+            .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
+
+        return (
+            bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
+                bottomCellItem.accessoryImageDescription == unmutedDescription
+            )
     }
 }

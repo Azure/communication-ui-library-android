@@ -5,7 +5,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settingsPage"
+    android:id="@+id/settings_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="@dimen/azure_communication_ui_side_margin"
@@ -15,17 +15,17 @@
     >
 
     <TextView
-        android:id="@+id/languageSettingLabelView"
+        android:id="@+id/language_setting_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/azure_communication_ui_fab_margin"
-        android:text="@string/languageSettingLabel"
+        android:text="@string/language_setting_label"
         android:textSize="24sp"
         android:textStyle="bold"
         />
 
     <View
-        android:id="@+id/languageSettingLabelDivider"
+        android:id="@+id/language_setting_label_divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/azure_communication_ui_color_on_surface"
@@ -33,7 +33,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/languageAdapterLayout"
+        android:id="@+id/language_adapter_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,34 +41,34 @@
         >
 
         <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
+            android:id="@+id/auto_complete_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/languageDropdownHint"
+            android:hint="@string/language_dropdown_hint"
             android:inputType="none"
             android:paddingTop="@dimen/azure_communication_ui_fab_margin"
             android:paddingBottom="@dimen/azure_communication_ui_fab_margin"
-            android:text="@string/languageDefaultSelection"
+            android:text="@string/language_default_selection"
             android:textSize="16sp"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/languageIsRTL"
+        android:id="@+id/language_is_rtl_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onCheckBoxTap"
-        android:text="@string/isRTLCheckboxLabel"
+        android:text="@string/is_rtl_check_box_label"
         tools:ignore="UsingOnClickInXml"
         />
 
     <TextView
-        android:id="@+id/callSellingLabelView"
+        android:id="@+id/call_setting_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/azure_communication_ui_fab_margin"
-        android:text="@string/callSettingLabel"
+        android:text="@string/call_setting_label"
         android:textSize="24sp"
         android:textStyle="bold"
         />

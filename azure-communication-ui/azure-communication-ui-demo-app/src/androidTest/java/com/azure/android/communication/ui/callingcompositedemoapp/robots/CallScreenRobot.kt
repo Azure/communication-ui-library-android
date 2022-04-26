@@ -64,11 +64,11 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     fun clickLeaveCall() {
         val idlingResource = ViewIsDisplayedResource()
         idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdIsDisplayed(R.id.azure_communication_ui_call_leave_confirm)
+            UiTestUtils.checkViewWithTextIsDisplayed("Leave call?")
         }
         UiTestUtils.clickViewWithIdAndText(
-            R.id.azure_communication_ui_call_leave_confirm,
-            "Leave call"
+            R.id.cell_text,
+            "Leave"
         )
     }
 }

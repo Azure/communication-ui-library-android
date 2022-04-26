@@ -44,6 +44,8 @@ internal class ErrorInfoView(private val rootView: View) {
             snackBar.dismiss()
         }
         rootView.invalidate()
+        // to fix memory leak
+        snackBar.anchorView = null
     }
 
     private fun displaySnackBar(it: CallStateError) {
@@ -65,12 +67,10 @@ internal class ErrorInfoView(private val rootView: View) {
     private fun getErrorMessage(it: CallStateError): CharSequence {
         return when (it.communicationUIErrorCode) {
             CommunicationUIErrorCode.CALL_END -> rootView.context.getText(R.string.azure_communication_ui_call_state_error_call_end)
-
             CommunicationUIErrorCode.CALL_JOIN -> rootView.context.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
-
+            CommunicationUIErrorCode.CALL_EVICTED -> rootView.context.getText(R.string.azure_communication_ui_call_state_evicted)
             else -> ""
         }
-    }
 
     private fun initSnackBar() {
         snackBar = Snackbar.make(
