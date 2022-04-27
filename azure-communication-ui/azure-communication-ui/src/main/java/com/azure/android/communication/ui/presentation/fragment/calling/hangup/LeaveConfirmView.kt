@@ -59,7 +59,7 @@ internal class LeaveConfirmView(
         tableLayoutParams.setMargins(0, (48 * dp).toInt(), 0, 0)
         leaveConfirmMenuTable.layoutParams = tableLayoutParams
 
-        val titleLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, (24 * dp).toInt())
+        val titleLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         titleLayoutParams.setMargins((16 * dp).toInt(), (12 * dp).toInt(), (72 * dp).toInt(), (12 * dp).toInt())
 
         title.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_color_text_primary))
