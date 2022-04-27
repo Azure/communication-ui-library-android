@@ -30,10 +30,10 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
         set(value) {
-            if (!CallCompositeConfiguration.hasConfig(value)){
+            if (!CallCompositeConfiguration.hasConfig(value)) {
                 throw IllegalArgumentException(
                     "Configuration with instanceId:$value does not exist. " +
-                            "Please ensure that you have set a valid instanceId before retrieving the container."
+                        "Please ensure that you have set a valid instanceId before retrieving the container."
                 )
             }
             field = value

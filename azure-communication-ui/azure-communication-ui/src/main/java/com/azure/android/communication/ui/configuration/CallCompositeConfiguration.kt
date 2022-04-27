@@ -44,6 +44,6 @@ internal class CallCompositeConfiguration {
             )
 
         // Check if config exists
-        fun hasConfig(id: Int):Boolean = configs[id] != null
+        fun hasConfig(id: Int): Boolean = configs[id] != null
     }
 }

@@ -51,7 +51,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
-        if (!CallCompositeConfiguration.hasConfig(instanceId)){
+        if (!CallCompositeConfiguration.hasConfig(instanceId)) {
             super.onDestroy()
             return
         }
@@ -71,8 +71,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // so it can initialize it's container holding the dependencies
         try {
             diContainerHolder.instanceId = instanceId
-        }
-        catch (invalidIDException:IllegalArgumentException){
+        } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
