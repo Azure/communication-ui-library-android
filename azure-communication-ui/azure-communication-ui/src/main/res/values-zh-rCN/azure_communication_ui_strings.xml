@@ -38,13 +38,14 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">与 %1$d 人通话</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的参与者</string>
-    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
-    <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
-    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
+    <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">离开</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">双击以关闭“退出确认”菜单</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">打开参与者列表</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">双击以关闭参与者列表</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已静音</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消静音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">挂断</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">“关闭”按钮</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切换视频</string>
@@ -84,8 +85,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s 已加入会议</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s 已离开会议。</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">已连接到会议</string>
-
-
-
+    <string name="azure_communication_ui_accessibility_meeting_connected">你已加入通话</string>
 </resources>
