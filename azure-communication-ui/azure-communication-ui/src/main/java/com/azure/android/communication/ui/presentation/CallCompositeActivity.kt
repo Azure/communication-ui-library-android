@@ -31,6 +31,7 @@ import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
@@ -50,6 +51,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
+        if (!CallCompositeConfiguration.hasConfig(instanceId)){
+            super.onDestroy()
+            return
+        }
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
             CallCompositeConfiguration.putConfig(instanceId, null)
@@ -64,7 +69,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         // Assign the Dependency Injection Container the appropriate instanceId,
         // so it can initialize it's container holding the dependencies
-        diContainerHolder.instanceId = instanceId
+        try {
+            diContainerHolder.instanceId = instanceId
+        }
+        catch (invalidIDException:IllegalArgumentException){
+            finish() // Container has vanished (probably due to process death); we cannot continue
+            return
+        }
+
         lifecycleScope.launch { errorHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
