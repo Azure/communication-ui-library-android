@@ -38,13 +38,14 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Chiamata con %1$d persone</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Partecipante senza nome</string>
-    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
-    <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
-    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Abbandona la chiamata?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Abbandona</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Annulla</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Tocca due volte per chiudere il menu Conferma uscita</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Apri elenco partecipanti</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Tocca due volte per chiudere l\'elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Notifiche disattivate</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Microfono riattivato</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Disconnetti</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Pulsante Chiudi</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Attiva/disattiva video</string>
@@ -84,8 +85,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s ha partecipato alla riunione</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s ha abbandonato la riunione</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Connesso alla riunione</string>
-
-
-
+    <string name="azure_communication_ui_accessibility_meeting_connected">Hai partecipato alla chiamata</string>
 </resources>
