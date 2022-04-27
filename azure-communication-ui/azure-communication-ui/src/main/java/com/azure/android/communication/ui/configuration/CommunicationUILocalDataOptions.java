@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @see CallComposite
  */
-public class CommunicationUILocalDataOptions {
+public final class CommunicationUILocalDataOptions {
     private final CommunicationUIPersonaData communicationUIPersonaData;
 
     /**

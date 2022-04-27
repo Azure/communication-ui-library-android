@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.configuration.CommunicationUILocalData
  *
  * @see CommunicationUILocalDataOptions
  */
-public class CommunicationUIPersonaData {
+public final class CommunicationUIPersonaData {
     private Bitmap avatarBitmap;
     private String renderedDisplayName;
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
