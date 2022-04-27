@@ -38,13 +38,14 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Anruf mit %1$d Personen</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ich)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unbenannter Teilnehmer</string>
-    <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
-    <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
-    <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Double tap to dismiss leave confirm menu</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Anruf verlassen?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlassen</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Abbrechen</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Doppeltippen Sie, um das Bestätigungsmenü zum Verlassen zu schließen.</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Teilnehmerliste öffnen</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Doppeltippen Sie, um die Teilnehmerliste zu schließen.</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Stummgeschaltet</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Stummschaltung aufgehoben</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Auflegen</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Schaltfläche „Schließen“</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Auf Video umschalten</string>
@@ -84,8 +85,5 @@
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_accessibility_user_added">%1$s ist der Besprechung beigetreten</string>
     <string name="azure_communication_ui_accessibility_user_left">%1$s hat die Besprechung verlassen</string>
-    <string name="azure_communication_ui_accessibility_meeting_connected">Mit der Besprechung verbunden</string>
-
-
-
+    <string name="azure_communication_ui_accessibility_meeting_connected">Sie sind dem Anruf beigetreten.</string>
 </resources>
