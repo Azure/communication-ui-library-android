@@ -133,6 +133,9 @@ internal class CallingFragment :
 
     override fun onDestroy() {
         super.onDestroy()
+        // Covers edge case where Android tries to recreate call activity after process death
+        // (e.g. due to revoked permission).
+        // If no configs are detected we can just exit without cleanup.
         if (CallCompositeConfiguration.hasConfig(holder.instanceId)) {
             if (activity?.isChangingConfigurations == false) {
                 participantGridView.stop()

@@ -51,6 +51,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
+        // Covers edge case where Android tries to recreate call activity after process death
+        // (e.g. due to revoked permission).
+        // If no configs are detected we can just exit without cleanup.
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
