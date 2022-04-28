@@ -73,10 +73,21 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
                 )
             )
         }
-        if (accessoryImage.contentDescription != null) {
-            accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
-        }
-        accessoryImage.visibility = if (bottomCellItem.enabled == true) View.VISIBLE else View.INVISIBLE
+        accessoryImage.contentDescription = bottomCellItem.accessoryImageDescription
+        accessoryImage.visibility =
+            if (isAccessoryImageViewable(bottomCellItem)) View.VISIBLE else View.INVISIBLE
         onClickAction = bottomCellItem.onClickAction
+    }
+
+    private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
+        val muteDescription = itemView.rootView.context
+            .getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
+        val unmutedDescription = itemView.rootView.context
+            .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
+
+        return (
+            bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
+                bottomCellItem.accessoryImageDescription == unmutedDescription
+            )
     }
 }
