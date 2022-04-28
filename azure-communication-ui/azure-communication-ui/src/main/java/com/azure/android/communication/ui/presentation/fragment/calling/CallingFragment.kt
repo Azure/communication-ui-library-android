@@ -133,24 +133,21 @@ internal class CallingFragment :
 
     override fun onDestroy() {
         super.onDestroy()
-        if (!CallCompositeConfiguration.hasConfig(holder.instanceId)) {
-            return // InstanceId is not valid, possibly due to reopening after process death
-            // We return without attempting to stop or release resources because
-            // CallCompositeActivity has quit early in its onCreate()
+        if (CallCompositeConfiguration.hasConfig(holder.instanceId)) {
+            if (activity?.isChangingConfigurations == false) {
+                participantGridView.stop()
+                viewModel.getBannerViewModel().dismissBanner()
+            }
+            localParticipantView.stop()
+            participantListView.stop()
+            audioDeviceListView.stop()
+            confirmLeaveOverlayView.stop()
+            if (wakeLock.isHeld) {
+                wakeLock.setReferenceCounted(false)
+                wakeLock.release()
+            }
+            sensorManager.unregisterListener(this)
         }
-        if (activity?.isChangingConfigurations == false) {
-            participantGridView.stop()
-            viewModel.getBannerViewModel().dismissBanner()
-        }
-        localParticipantView.stop()
-        participantListView.stop()
-        audioDeviceListView.stop()
-        confirmLeaveOverlayView.stop()
-        if (wakeLock.isHeld) {
-            wakeLock.setReferenceCounted(false)
-            wakeLock.release()
-        }
-        sensorManager.unregisterListener(this)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

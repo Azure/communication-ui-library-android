@@ -51,15 +51,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
-        if (!CallCompositeConfiguration.hasConfig(instanceId)) {
-            super.onDestroy()
-            return
+        if (CallCompositeConfiguration.hasConfig(instanceId)) {
+            if (isFinishing) {
+                store.dispatch(CallingAction.CallEndRequested())
+                CallCompositeConfiguration.putConfig(instanceId, null)
+            }
+            audioSessionManager.stop()
         }
-        if (isFinishing) {
-            store.dispatch(CallingAction.CallEndRequested())
-            CallCompositeConfiguration.putConfig(instanceId, null)
-        }
-        audioSessionManager.stop()
         super.onDestroy()
     }
 
