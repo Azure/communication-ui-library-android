@@ -3,11 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.manager
 
-import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
-import com.azure.android.communication.common.PhoneNumberIdentifier
-import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
 import com.azure.android.communication.ui.configuration.RemoteParticipantPersonaData
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
@@ -16,6 +11,7 @@ import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.ParticipantAction
 import com.azure.android.communication.ui.redux.state.ReduxState
+import com.azure.android.communication.ui.service.calling.ParticipantIdentifierHelper
 
 internal class AvatarViewManager(
     private val appStore: AppStore<ReduxState>,
@@ -31,7 +27,7 @@ internal class AvatarViewManager(
     private val remoteParticipantsPersonaCache = mutableMapOf<String, CommunicationUIPersonaData>()
 
     override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData) {
-        val id = getRemoteParticipantId(data.identifier)
+        val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
         if (remoteParticipantsPersonaCache.contains(id)) {
             remoteParticipantsPersonaCache.remove(id)
         }
@@ -44,22 +40,5 @@ internal class AvatarViewManager(
             return remoteParticipantsPersonaCache[identifier]
         }
         return null
-    }
-
-    private fun getRemoteParticipantId(identifier: CommunicationIdentifier): String {
-        return when (identifier) {
-            is PhoneNumberIdentifier -> {
-                identifier.phoneNumber
-            }
-            is MicrosoftTeamsUserIdentifier -> {
-                identifier.userId
-            }
-            is CommunicationUserIdentifier -> {
-                identifier.id
-            }
-            else -> {
-                (identifier as UnknownIdentifier).id
-            }
-        }
     }
 }
