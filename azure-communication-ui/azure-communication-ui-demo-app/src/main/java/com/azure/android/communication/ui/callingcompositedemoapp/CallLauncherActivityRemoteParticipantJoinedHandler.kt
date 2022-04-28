@@ -26,20 +26,23 @@ class CallLauncherActivityRemoteParticipantJoinedHandler(
         // For testing purpose, the images are hosted on Azure Storage in .png format
         val imageTestUrl = BuildConfig.REMOTE_PARTICIPANT_AVATAR_TEST_URL
         if (imageTestUrl.isNotEmpty()) {
-            Thread {
-                try {
-                    val id =
-                        getRemoteParticipantId(event.communicationIdentifier).filterNot { it == ":"[0] || it == "-"[0] }
-                    val url =
-                        URL("$imageTestUrl$id.png")
-                    val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                    callComposite.setRemoteParticipantPersonaData(
-                        event.communicationIdentifier,
-                        CommunicationUIPersonaData(bitMap)
-                    )
-                } catch (e: Exception) {
-                }
-            }.start()
+            event.identifiers.forEach {
+                Thread {
+                    try {
+                        val id =
+                            getRemoteParticipantId(it).filterNot { it == ":"[0] || it == "-"[0] }
+                        val url =
+                            URL("$imageTestUrl$id.png")
+                        val bitMap =
+                            BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                        callComposite.setRemoteParticipantPersonaData(
+                            it,
+                            CommunicationUIPersonaData(bitMap)
+                        )
+                    } catch (e: Exception) {
+                    }
+                }.start()
+            }
         }
     }
 

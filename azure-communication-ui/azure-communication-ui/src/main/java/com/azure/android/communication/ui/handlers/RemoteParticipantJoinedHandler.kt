@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.handlers
 
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.events.CommunicationUIRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.redux.Store
@@ -42,12 +43,15 @@ internal class RemoteParticipantJoinedHandler(
 
     private fun sendRemoteParticipantJoinedEvent(joinedParticipant: List<String>) {
         try {
-            joinedParticipant.forEach {
-                val eventArgs =
-                    CommunicationUIRemoteParticipantJoinedEvent(
+            if (joinedParticipant.isNotEmpty()) {
+                val identifiers = mutableListOf<CommunicationIdentifier>()
+                joinedParticipant.forEach {
+                    identifiers.add(
                         remoteParticipantsCollection.getRemoteParticipantsMap()
                             .getValue(it).identifier
                     )
+                }
+                val eventArgs = CommunicationUIRemoteParticipantJoinedEvent(identifiers)
                 configuration.callCompositeEventsHandler.getOnRemoteParticipantJoinedHandler()
                     ?.handle(eventArgs)
             }
