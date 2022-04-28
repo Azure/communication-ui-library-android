@@ -5,9 +5,11 @@ package com.azure.android.communication.ui.presentation.fragment.calling.control
 
 import com.azure.android.communication.ui.redux.action.Action
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.redux.state.*
 import com.azure.android.communication.ui.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.AudioState
+import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CameraState
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
@@ -19,11 +21,12 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
     private lateinit var shouldEnableMicButtonStateFlow: MutableStateFlow<Boolean>
+    private lateinit var micIsEnabledStateFlow: MutableStateFlow<Boolean>
 
     fun init(
         permissionState: PermissionState,
         cameraState: CameraState,
-        audioState: AudioState,
+        audioState: AudioState
     ) {
         cameraStateFlow =
             MutableStateFlow(CameraModel(permissionState.cameraPermissionState, cameraState))
@@ -36,7 +39,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     fun update(
         permissionState: PermissionState,
         cameraState: CameraState,
-        audioState: AudioState,
+        audioState: AudioState
     ) {
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
         audioOperationalStatusStateFlow.value = audioState.operation
@@ -82,6 +85,10 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
 
     private fun dispatchAction(action: Action) {
         dispatch(action)
+    }
+
+    private fun isControlsDisabled(callingState: CallingState): Boolean {
+        return callingState.joinCallIsRequested || callingState.callingStatus != CallingStatus.NONE
     }
 
     internal data class CameraModel(

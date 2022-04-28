@@ -36,29 +36,31 @@
             style="@style/Widget.FluentUI.Button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:accessibilityTraversalAfter="@id/azure_communication_ui_call_call_audio"
+            android:accessibilityTraversalAfter="@id/azure_communication_ui_call_call_mic_button"
             android:background="@color/azure_communication_ui_color_button_background_transparent"
             android:contentDescription="@string/azure_communication_ui_calling_view_button_device_options_accessibility_label"
             android:src="@drawable/azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled"
             />
 
-        <ImageButton
-            android:id="@+id/azure_communication_ui_call_call_audio"
+        <com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlButton
+            android:id="@+id/azure_communication_ui_call_call_mic_button"
+            style="@style/Widget.FluentUI.Button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:accessibilityTraversalAfter="@id/azure_communication_ui_call_cameraToggle"
+            android:accessibilityTraversalAfter="@id/azure_communication_ui_call_camera_button"
             android:background="@color/azure_communication_ui_color_button_background_transparent"
-            android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_audio_accessibility_label"
-            android:src="@drawable/azure_communication_ui_toggle_selector_mic_for_call"
+            android:drawableTint="@color/azure_communication_ui_toggle_selector"
+            android:drawableTop="@drawable/azure_communication_ui_toggle_selector_mic_for_call"
             />
 
-        <ImageButton
-            android:id="@+id/azure_communication_ui_call_cameraToggle"
+        <com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlButton
+            android:id="@+id/azure_communication_ui_call_camera_button"
+            style="@style/Widget.FluentUI.Button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/azure_communication_ui_color_button_background_transparent"
-            android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_video_accessibility_label"
-            android:src="@drawable/azure_communication_ui_toggle_selector_camera_for_call"
+            android:drawableTint="@color/azure_communication_ui_toggle_selector"
+            android:drawableTop="@drawable/azure_communication_ui_toggle_selector_camera_for_call"
             />
     </LinearLayout>
 

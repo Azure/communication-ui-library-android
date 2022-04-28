@@ -7,6 +7,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -23,8 +24,8 @@ internal class ControlBarView : LinearLayout {
 
     private lateinit var viewModel: ControlBarViewModel
     private lateinit var endCallButton: ImageButton
-    private lateinit var cameraToggle: ImageButton
-    private lateinit var micToggle: ImageButton
+    private lateinit var micButton: ControlButton
+    private lateinit var cameraButton: ControlButton
     private lateinit var callAudioDeviceButton: ImageButton
     private lateinit var requestCallEndCallback: () -> Unit
     private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
@@ -32,8 +33,8 @@ internal class ControlBarView : LinearLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
         endCallButton = findViewById(R.id.azure_communication_ui_call_end_call_button)
-        cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
-        micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
+        cameraButton = findViewById(R.id.azure_communication_ui_call_camera_button)
+        micButton = findViewById(R.id.azure_communication_ui_call_call_mic_button)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
         subscribeClickListener()
     }
@@ -69,51 +70,48 @@ internal class ControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getShouldEnableMicButtonStateFlow().collect {
-                micToggle.isEnabled = it
+                micButton.isEnabled = it
             }
         }
     }
 
     private fun setupAccessibility() {
         endCallButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label)
-
         callAudioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
+}
 
-        cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_toggle_video_accessibility_label)
-
-        micToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_toggle_audio_accessibility_label)
-    }
-
-    private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
-        val permissionIsNotDenied = cameraState.cameraPermissionState != PermissionStatus.DENIED
-
-        when (cameraState.cameraState.operation) {
+    private fun updateCamera(cameraModel: ControlBarViewModel.CameraModel) {
+        val permissionIsNotDenied = cameraModel.cameraPermissionState != PermissionStatus.DENIED
+        when (cameraModel.cameraState.operation) {
             CameraOperationalStatus.ON -> {
-                cameraToggle.isSelected = true
-                cameraToggle.isEnabled = permissionIsNotDenied
+                cameraButton.isON = true
+                cameraButton.contentDescription = context.getString(R.string.azure_communication_ui_setup_view_button_video_on)
+                cameraButton.isEnabled = permissionIsNotDenied
             }
             CameraOperationalStatus.OFF -> {
-                cameraToggle.isSelected = false
-                cameraToggle.isEnabled = permissionIsNotDenied
+                cameraButton.isON = false
+                cameraButton.contentDescription = context.getString(R.string.azure_communication_ui_setup_view_button_video_off)
+                cameraButton.isEnabled = permissionIsNotDenied
             }
             else -> {
-                // disable button
-                cameraToggle.isEnabled = false
+                cameraButton.isEnabled = false
             }
         }
+        cameraButton.refreshDrawableState()
     }
 
     private fun updateMic(audioOperationalStatus: AudioOperationalStatus) {
         when (audioOperationalStatus) {
             AudioOperationalStatus.ON -> {
-                // show un-mute icon
-                micToggle.isSelected = true
+                micButton.isON = true
+                micButton.contentDescription = context.getString(R.string.azure_communication_ui_setup_view_button_mic_on)
             }
             AudioOperationalStatus.OFF -> {
-                // show mute icon
-                micToggle.isSelected = false
+                micButton.isON = false
+                micButton.contentDescription = context.getString(R.string.azure_communication_ui_setup_view_button_mic_off)
             }
         }
+        micButton.refreshDrawableState()
     }
 
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
@@ -141,15 +139,15 @@ internal class ControlBarView : LinearLayout {
         endCallButton.setOnClickListener {
             requestCallEndCallback()
         }
-        micToggle.setOnClickListener {
-            if (micToggle.isSelected) {
+        micButton.setOnClickListener {
+            if (micButton.isON) {
                 viewModel.turnMicOff()
             } else {
                 viewModel.turnMicOn()
             }
         }
-        cameraToggle.setOnClickListener {
-            if (cameraToggle.isSelected) {
+        cameraButton.setOnClickListener {
+            if (cameraButton.isON) {
                 viewModel.turnCameraOff()
             } else {
                 viewModel.turnCameraOn()
@@ -158,5 +156,20 @@ internal class ControlBarView : LinearLayout {
         callAudioDeviceButton.setOnClickListener {
             openAudioDeviceSelectionMenuCallback()
         }
+    }
+}
+
+internal open class ControlButton(context: Context, attrs: AttributeSet?) :
+    AppCompatButton(context, attrs) {
+    var isON = false
+    override fun onCreateDrawableState(extraSpace: Int): IntArray? {
+        val drawableState = super.onCreateDrawableState(extraSpace + 1)
+        if (isON) {
+            mergeDrawableStates(
+                drawableState,
+                intArrayOf(R.attr.azure_communication_ui_state_on)
+            )
+        }
+        return drawableState
     }
 }

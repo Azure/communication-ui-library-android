@@ -48,8 +48,6 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消静音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">挂断</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">“关闭”按钮</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切换视频</string>
-    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切换音频</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">设备选项</string>
 
     <!--    Compliance Banner-->
