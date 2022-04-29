@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.configuration.SupportLanguage
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
 import java.util.Locale
 
 class SettingsFeatures {
@@ -75,7 +75,7 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun getCommunicationUIPersonaData(context: Context): CommunicationUIPersonaData? {
+        fun getCommunicationUIPersonaData(context: Context): PersonaData? {
             val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
             val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
             var avatarImageBitmap: Bitmap? = null
@@ -86,15 +86,22 @@ class SettingsFeatures {
             }
 
             if (!displayName.isNullOrEmpty() && avatarImageBitmap != null) {
-                return CommunicationUIPersonaData(displayName, avatarImageBitmap)
+                return PersonaData(
+                    displayName,
+                    avatarImageBitmap
+                )
             }
 
             if (avatarImageBitmap != null) {
-                return CommunicationUIPersonaData(avatarImageBitmap)
+                return PersonaData(
+                    avatarImageBitmap
+                )
             }
 
             if (!displayName.isNullOrEmpty()) {
-                return CommunicationUIPersonaData(displayName)
+                return PersonaData(
+                    displayName
+                )
             }
 
             return null

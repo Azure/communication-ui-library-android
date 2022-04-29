@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.utilities.BottomCellItem
@@ -151,7 +151,7 @@ internal class ParticipantListView(
                 resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
             )
         val localParticipantPersonaData =
-            avatarViewManager.communicationUILocalDataOptions?.personaData
+            avatarViewManager.localDataOptions?.personaData
         bottomCellItems
             .add(
                 generateBottomCellItem(
@@ -183,7 +183,7 @@ internal class ParticipantListView(
     private fun generateBottomCellItem(
         displayName: String?,
         isMuted: Boolean,
-        personaData: CommunicationUIPersonaData?,
+        personaData: PersonaData?,
     ): BottomCellItem {
         val micIcon = ContextCompat.getDrawable(
             context,
@@ -213,7 +213,7 @@ internal class ParticipantListView(
     }
 
     private fun getNameToDisplay(
-        personaData: CommunicationUIPersonaData?,
+        personaData: PersonaData?,
         displayName: String,
     ): String {
         return personaData?.renderedDisplayName ?: displayName

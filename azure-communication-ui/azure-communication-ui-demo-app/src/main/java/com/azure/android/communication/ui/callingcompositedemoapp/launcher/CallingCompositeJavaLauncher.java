@@ -17,10 +17,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
-import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
+import com.azure.android.communication.ui.configuration.LocalDataOptions;
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
 import com.azure.android.communication.ui.configuration.ThemeConfiguration;
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData;
+import com.azure.android.communication.ui.persona.PersonaData;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -47,7 +47,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
 
-        final CommunicationUIPersonaData personaData =
+        final PersonaData personaData =
                 SettingsFeatures.getCommunicationUIPersonaData(callLauncherActivity.getApplicationContext());
 
         final String selectedLanguage = SettingsFeatures.language();
@@ -76,8 +76,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
             final GroupCallOptions groupCallOptions =
                     new GroupCallOptions(communicationTokenCredential, groupId, displayName);
             if (personaData != null) {
-                final CommunicationUILocalDataOptions dataOptions =
-                        new CommunicationUILocalDataOptions(personaData);
+                final LocalDataOptions dataOptions =
+                        new LocalDataOptions(personaData);
                 callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions);
             } else {
                 callComposite.launch(callLauncherActivity, groupCallOptions);
@@ -86,8 +86,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
             final TeamsMeetingOptions teamsMeetingOptions =
                     new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
             if (personaData != null) {
-                final CommunicationUILocalDataOptions dataOptions =
-                        new CommunicationUILocalDataOptions(personaData);
+                final LocalDataOptions dataOptions =
+                        new LocalDataOptions(personaData);
                 callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions);
             } else {
                 callComposite.launch(callLauncherActivity, teamsMeetingOptions);

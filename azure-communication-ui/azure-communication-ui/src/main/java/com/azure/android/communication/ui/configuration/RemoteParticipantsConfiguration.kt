@@ -4,16 +4,16 @@
 package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
 
 internal data class RemoteParticipantPersonaData(
     val identifier: CommunicationIdentifier,
-    val personaData: CommunicationUIPersonaData,
+    val personaData: PersonaData,
 )
 
 internal interface RemoteParticipantsConfigurationHandler {
     fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData)
-    fun getRemoteParticipantPersonaData(identifier: String): CommunicationUIPersonaData?
+    fun getRemoteParticipantPersonaData(identifier: String): PersonaData?
 }
 
 internal class RemoteParticipantsConfiguration {
@@ -29,7 +29,7 @@ internal class RemoteParticipantsConfiguration {
 
     fun setPersonaData(
         identifier: CommunicationIdentifier,
-        personaData: CommunicationUIPersonaData,
+        personaData: PersonaData,
     ) {
         remoteParticipantsConfigurationHandler?.onSetRemoteParticipantPersonaData(
             RemoteParticipantPersonaData(

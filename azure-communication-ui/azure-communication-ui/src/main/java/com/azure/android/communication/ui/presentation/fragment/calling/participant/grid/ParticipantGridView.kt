@@ -17,7 +17,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.presentation.VideoViewManager
 import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import kotlinx.coroutines.flow.collect
@@ -45,7 +45,7 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var gridView: ParticipantGridView
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var displayedRemoteParticipantsView: MutableList<ParticipantGridCellView>
-    private lateinit var getPersonaDataCallback: (participantID: String) -> CommunicationUIPersonaData?
+    private lateinit var getPersonaDataCallback: (participantID: String) -> PersonaData?
 
     override fun onFinishInflate() {
         super.onFinishInflate()

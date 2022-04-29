@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
-import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
+import com.azure.android.communication.ui.configuration.LocalDataOptions;
 
 /**
  * PersonaData for local participant.
@@ -21,74 +21,74 @@ import com.azure.android.communication.ui.configuration.CommunicationUILocalData
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the CommunicationUILocalDataOptions with CommunicationUIPersonaData
- * CommunicationUILocalDataOptions options =
- * new CommunicationUILocalDataOptions(new CommunicationUIPersonaData&#40;...&#41);
+ * &#47;&#47; Build the LocalDataOptions with PersonaData
+ * LocalDataOptions options =
+ * new LocalDataOptions(new PersonaData&#40;...&#41);
  *
  * </pre>
  *
- * @see CommunicationUILocalDataOptions
+ * @see LocalDataOptions
  */
-public final class CommunicationUIPersonaData {
+public final class PersonaData {
     private Bitmap avatarBitmap;
     private String renderedDisplayName;
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
 
     /**
-     * Create CommunicationUIPersonaData.
+     * Create PersonaData.
      *
      * @param avatarBitmap The {@link Bitmap};
-     * @see CommunicationUILocalDataOptions
+     * @see LocalDataOptions
      */
-    public CommunicationUIPersonaData(final Bitmap avatarBitmap) {
+    public PersonaData(final Bitmap avatarBitmap) {
         this.avatarBitmap = avatarBitmap;
     }
 
     /**
-     * Create CommunicationUIPersonaData.
+     * Create PersonaData.
      *
      * @param avatarBitmap     The {@link Bitmap};
      * @param scaleType The {@link ImageView.ScaleType};
-     * @see CommunicationUILocalDataOptions
+     * @see LocalDataOptions
      */
-    public CommunicationUIPersonaData(final Bitmap avatarBitmap, final ImageView.ScaleType scaleType) {
+    public PersonaData(final Bitmap avatarBitmap, final ImageView.ScaleType scaleType) {
         this.avatarBitmap = avatarBitmap;
         this.scaleType = scaleType;
     }
 
     /**
-     * Create CommunicationUIPersonaData.
+     * Create PersonaData.
      *
      * @param renderedDisplayName The {@link String};
-     * @see CommunicationUILocalDataOptions
+     * @see LocalDataOptions
      */
-    public CommunicationUIPersonaData(final String renderedDisplayName) {
+    public PersonaData(final String renderedDisplayName) {
         this.renderedDisplayName = renderedDisplayName;
     }
 
     /**
-     * Create CommunicationUIPersonaData.
+     * Create PersonaData.
      *
      * @param renderedDisplayName  The {@link String};
      * @param avatarBitmap The {@link Bitmap};
-     * @see CommunicationUILocalDataOptions
+     * @see LocalDataOptions
      */
-    public CommunicationUIPersonaData(final String renderedDisplayName, final Bitmap avatarBitmap) {
+    public PersonaData(final String renderedDisplayName, final Bitmap avatarBitmap) {
         this.avatarBitmap = avatarBitmap;
         this.renderedDisplayName = renderedDisplayName;
     }
 
     /**
-     * Create CommunicationUIPersonaData.
+     * Create PersonaData.
      *
      * @param renderedDisplayName      The {@link String};
      * @param avatarBitmap     The {@link Bitmap};
      * @param scaleType The {@link ImageView.ScaleType};
-     * @see CommunicationUILocalDataOptions
+     * @see LocalDataOptions
      */
-    public CommunicationUIPersonaData(final String renderedDisplayName,
-                                      final Bitmap avatarBitmap,
-                                      final ImageView.ScaleType scaleType) {
+    public PersonaData(final String renderedDisplayName,
+                       final Bitmap avatarBitmap,
+                       final ImageView.ScaleType scaleType) {
         this.renderedDisplayName = renderedDisplayName;
         this.avatarBitmap = avatarBitmap;
         this.scaleType = scaleType;

@@ -20,7 +20,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.languageCode
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
-import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
+import com.azure.android.communication.ui.configuration.LocalDataOptions
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
 import java.util.Locale
@@ -80,7 +80,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             )
 
             if (personaData != null) {
-                val dataOptions = CommunicationUILocalDataOptions(personaData)
+                val dataOptions =
+                    LocalDataOptions(
+                        personaData
+                    )
                 callComposite.launch(
                     callLauncherActivity,
                     groupCallOptions,
@@ -100,7 +103,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             )
 
             if (personaData != null) {
-                val dataOptions = CommunicationUILocalDataOptions(personaData)
+                val dataOptions =
+                    LocalDataOptions(
+                        personaData
+                    )
                 callComposite.launch(
                     callLauncherActivity,
                     teamsMeetingOptions,

@@ -11,10 +11,10 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.configuration.CallConfiguration;
 import com.azure.android.communication.ui.configuration.CallType;
-import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions;
+import com.azure.android.communication.ui.configuration.LocalDataOptions;
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
 import com.azure.android.communication.ui.configuration.events.CommunicationUIRemoteParticipantJoinedEvent;
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData;
+import com.azure.android.communication.ui.persona.PersonaData;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -92,8 +92,8 @@ public final class CallComposite {
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
      * final GroupCallOptions groupCallOptions =
      *                 new GroupCallOptions&#40;context, communicationTokenCredential, groupId, displayName&#41;;
-     * final CommunicationUILocalDataOptions dataOptions =
-     *                 new CommunicationUILocalDataOptions&#40;personaData&#41;;
+     * final LocalDataOptions dataOptions =
+     *                 new LocalDataOptions&#40;personaData&#41;;
      * callComposite.launch&#40;groupCallOptions, dataOptions&#41;;
      *
      * </pre>
@@ -101,12 +101,12 @@ public final class CallComposite {
      * @param context                         The android context used to start the Composite.
      * @param groupCallOptions                The {@link GroupCallOptions} has parameters to
      *                                        launch group call experience.
-     * @param communicationUILocalDataOptions The {@link CommunicationUILocalDataOptions} has parameters to
+     * @param localDataOptions The {@link LocalDataOptions} has parameters to
      *                                        launch group call experience.
      */
     public void launch(final Context context,
                        final GroupCallOptions groupCallOptions,
-                       final CommunicationUILocalDataOptions communicationUILocalDataOptions) {
+                       final LocalDataOptions localDataOptions) {
         launch(
                 context,
                 groupCallOptions.getCredential(),
@@ -114,7 +114,7 @@ public final class CallComposite {
                 groupCallOptions.getGroupId(),
                 null,
                 CallType.GROUP_CALL,
-                communicationUILocalDataOptions
+                localDataOptions
         );
     }
 
@@ -159,8 +159,8 @@ public final class CallComposite {
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
      * final TeamsMeetingOptions teamsMeetingOptions =
      *                 new TeamsMeetingOptions&#40;context, communicationTokenCredential, meetingLink, displayName&#41;;
-     * final CommunicationUILocalDataOptions dataOptions =
-     *                 new CommunicationUILocalDataOptions&#40;personaData&#41;;
+     * final LocalDataOptions dataOptions =
+     *                 new LocalDataOptions&#40;personaData&#41;;
      * callComposite.launch&#40;teamsMeetingOptions, dataOptions&#41;;
      *
      * </pre>
@@ -168,12 +168,12 @@ public final class CallComposite {
      * @param context                         The android context used to start the Composite.
      * @param teamsMeetingOptions             The {@link TeamsMeetingOptions} has parameters to
      *                                        launch Teams meeting experience.
-     * @param communicationUILocalDataOptions The {@link CommunicationUILocalDataOptions} has parameters to
+     * @param localDataOptions The {@link LocalDataOptions} has parameters to
      *                                        launch group call experience.
      */
     public void launch(final Context context,
                        final TeamsMeetingOptions teamsMeetingOptions,
-                       final CommunicationUILocalDataOptions communicationUILocalDataOptions) {
+                       final LocalDataOptions localDataOptions) {
         launch(
                 context,
                 teamsMeetingOptions.getCredential(),
@@ -181,7 +181,7 @@ public final class CallComposite {
                 null,
                 teamsMeetingOptions.getMeetingLink(),
                 CallType.TEAMS_MEETING,
-                communicationUILocalDataOptions
+                localDataOptions
         );
     }
 
@@ -233,13 +233,13 @@ public final class CallComposite {
     }
 
     /**
-     * Set {@link CommunicationUIPersonaData}.
+     * Set {@link PersonaData}.
      *
      * @param identifier  The {@link CommunicationIdentifier}.
-     * @param personaData The {@link CommunicationUIPersonaData}.
+     * @param personaData The {@link PersonaData}.
      */
     public void setRemoteParticipantPersonaData(@NotNull final CommunicationIdentifier identifier,
-                                                @NotNull final CommunicationUIPersonaData personaData) {
+                                                @NotNull final PersonaData personaData) {
         configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
     }
 
@@ -273,7 +273,7 @@ public final class CallComposite {
             final UUID groupId,
             final String meetingLink,
             final CallType callType,
-            final CommunicationUILocalDataOptions communicationUILocalDataOptions
+            final LocalDataOptions localDataOptions
     ) {
         configuration.setCallConfig(new CallConfiguration(
                 communicationTokenCredential,
@@ -283,7 +283,7 @@ public final class CallComposite {
                 callType
         ));
 
-        configuration.setCommunicationUILocalDataOptions(communicationUILocalDataOptions);
+        configuration.setLocalDataOptions(localDataOptions);
 
         CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 

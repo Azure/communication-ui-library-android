@@ -3,11 +3,11 @@
 
 package com.azure.android.communication.ui.presentation.manager
 
-import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
+import com.azure.android.communication.ui.configuration.LocalDataOptions
 import com.azure.android.communication.ui.configuration.RemoteParticipantPersonaData
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.service.calling.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 internal class AvatarViewManager(
     coroutineContextProvider: CoroutineContextProvider,
-    val communicationUILocalDataOptions: CommunicationUILocalDataOptions?,
+    val localDataOptions: LocalDataOptions?,
     remoteParticipantsConfiguration: RemoteParticipantsConfiguration,
 ) :
     RemoteParticipantsConfigurationHandler {
@@ -28,11 +28,11 @@ internal class AvatarViewManager(
         remoteParticipantsConfiguration.setRemoteParticipantsConfigurationHandler(this)
     }
 
-    private val remoteParticipantsPersonaCache = mutableMapOf<String, CommunicationUIPersonaData>()
+    private val remoteParticipantsPersonaCache = mutableMapOf<String, PersonaData>()
     private val remoteParticipantsPersonaSharedFlow =
-        MutableSharedFlow<Map<String, CommunicationUIPersonaData>>()
+        MutableSharedFlow<Map<String, PersonaData>>()
 
-    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, CommunicationUIPersonaData>> =
+    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, PersonaData>> =
         remoteParticipantsPersonaSharedFlow
 
     override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData) {
@@ -47,7 +47,7 @@ internal class AvatarViewManager(
         }
     }
 
-    override fun getRemoteParticipantPersonaData(identifier: String): CommunicationUIPersonaData? {
+    override fun getRemoteParticipantPersonaData(identifier: String): PersonaData? {
         if (remoteParticipantsPersonaCache.contains(identifier)) {
             return remoteParticipantsPersonaCache[identifier]
         }
