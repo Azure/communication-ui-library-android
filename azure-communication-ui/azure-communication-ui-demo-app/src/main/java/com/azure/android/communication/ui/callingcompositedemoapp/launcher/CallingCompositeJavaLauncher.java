@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityRemoteParticipantJoinedHandler;
+import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
@@ -64,7 +64,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CallComposite callComposite = builder.build();
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
         callComposite.setOnRemoteParticipantJoinedHandler(
-                new CallLauncherActivityRemoteParticipantJoinedHandler(callComposite)
+                new RemoteParticipantJoinedHandler(callComposite)
         );
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =

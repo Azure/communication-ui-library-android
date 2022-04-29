@@ -15,7 +15,7 @@ import com.azure.android.communication.ui.configuration.events.CommunicationUIRe
 import com.azure.android.communication.ui.persona.PersonaData
 import java.net.URL
 
-class CallLauncherActivityRemoteParticipantJoinedHandler(
+class RemoteParticipantJoinedHandler(
     private val callComposite: CallComposite,
 ) :
     CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent> {
