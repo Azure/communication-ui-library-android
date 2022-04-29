@@ -147,7 +147,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun configureLocalization() {
         val config: Configuration = resources.configuration
         val locale = when (configuration.localizationConfig) {
-            null -> { supportedOSLocale() }
+            null -> {
+                supportedOSLocale()
+            }
             else -> {
                 configuration.localizationConfig!!.layoutDirection.let {
                     window?.decorView?.layoutDirection = it
@@ -239,7 +241,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // works as normal
         val containerView = findViewById<View>(R.id.azure_communication_ui_fragment_container_view)
         val oldAccessibilityValue = containerView.importantForAccessibility
-        containerView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+        containerView.importantForAccessibility =
+            View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         transaction.replace(R.id.azure_communication_ui_fragment_container_view, fragment)
         transaction.runOnCommit {
             containerView.importantForAccessibility = oldAccessibilityValue
