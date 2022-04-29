@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.CallComposite
 import com.azure.android.communication.ui.CallingEventHandler
 import com.azure.android.communication.ui.configuration.events.CommunicationUIRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.persona.SetPersonaDataResult
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(
@@ -35,12 +36,20 @@ class RemoteParticipantJoinedHandler(
                             URL("$imageTestUrl$id.png")
                         val bitMap =
                             BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                        callComposite.setRemoteParticipantPersonaData(
+                        val result = callComposite.setRemoteParticipantPersonaData(
                             it,
                             PersonaData(
                                 bitMap
                             )
                         )
+
+                        if (result == SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL) {
+                            // participant not in call
+                        }
+
+                        if (result == SetPersonaDataResult.SUCCESS) {
+                            // success
+                        }
                     } catch (e: Exception) {
                     }
                 }.start()
