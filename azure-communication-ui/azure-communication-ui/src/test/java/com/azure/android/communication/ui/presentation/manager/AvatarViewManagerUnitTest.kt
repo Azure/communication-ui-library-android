@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.model.VideoStreamModel
 import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.persona.SetPersonaDataResult
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -158,7 +159,125 @@ internal class AvatarViewManagerUnitTest {
     }
 
     @Test
-    fun avatarViewManager_update_then_remoteParticipantSharedFlow_notify_subscribers() {
+    fun avatarViewManager_onSetRemoteParticipantPersonaData_returnSuccess_ifCalledWithValidParticipantID() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn reduxState
+            }
+            val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
+            val avatarViewManager = AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                null,
+                remoteParticipantsConfiguration
+            )
+
+            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+                CommunicationUserIdentifier("test"),
+                PersonaData("test")
+            )
+
+            // act
+            val result =
+                avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                SetPersonaDataResult.SUCCESS,
+                result
+            )
+        }
+    }
+
+    @Test
+    fun avatarViewManager_onSetRemoteParticipantPersonaData_returnFail_ifCalledWithInValidParticipantID() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn reduxState
+            }
+            val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
+            val avatarViewManager = AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                null,
+                remoteParticipantsConfiguration
+            )
+
+            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+                CommunicationUserIdentifier("test1"),
+                PersonaData("test")
+            )
+
+            // act
+            val result =
+                avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL,
+                result
+            )
+        }
+    }
+
+    @Test
+    fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaInjected() {
         runTest {
             // arrange
             val reduxState = AppReduxState("")
@@ -219,6 +338,163 @@ internal class AvatarViewManagerUnitTest {
             Assert.assertEquals(
                 remoteParticipantPersonaData.personaData,
                 resultList[0]["test"]
+            )
+
+            flowJob.cancel()
+        }
+    }
+
+    @Test
+    fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaUpdated() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn reduxState
+            }
+            val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
+            val avatarViewManager = AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                null,
+                remoteParticipantsConfiguration
+            )
+
+            val resultList =
+                mutableListOf<Map<String, PersonaData>>()
+
+            val flowJob = launch {
+                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                    .toList(resultList)
+            }
+
+            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+                CommunicationUserIdentifier("test"),
+                PersonaData("test")
+            )
+
+            val remoteParticipantPersonaDataUpdated = RemoteParticipantPersonaData(
+                CommunicationUserIdentifier("test"),
+                PersonaData("testUpdated")
+            )
+
+            // act
+            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                remoteParticipantPersonaData.personaData,
+                resultList[0]["test"]
+            )
+
+            // act
+            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaDataUpdated)
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                remoteParticipantPersonaDataUpdated.personaData,
+                resultList[1]["test"]
+            )
+
+            flowJob.cancel()
+        }
+    }
+
+    @Test
+    fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaWithBitmapInjected() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn reduxState
+            }
+            val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
+            val avatarViewManager = AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                null,
+                remoteParticipantsConfiguration
+            )
+
+            val resultList =
+                mutableListOf<Map<String, PersonaData>>()
+
+            val flowJob = launch {
+                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                    .toList(resultList)
+            }
+
+            val mockBitmap = mock<Bitmap>()
+            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+                CommunicationUserIdentifier("test"),
+                PersonaData(mockBitmap)
+            )
+
+            // act
+            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                remoteParticipantPersonaData.personaData.avatarBitmap,
+                resultList[0]["test"]?.avatarBitmap
+            )
+
+            Assert.assertEquals(
+                remoteParticipantPersonaData.personaData.scaleType,
+                resultList[0]["test"]?.scaleType
             )
 
             flowJob.cancel()
