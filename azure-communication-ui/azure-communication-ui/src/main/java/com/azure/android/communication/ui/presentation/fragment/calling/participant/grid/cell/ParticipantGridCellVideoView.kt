@@ -83,7 +83,11 @@ internal class ParticipantGridCellVideoView(
     }
 
     fun updatePersonaData() {
-        getPersonaDataCallback(participantViewModel.getParticipantUserIdentifier())?.let { personaData ->
+        val personaData =
+            getPersonaDataCallback(participantViewModel.getParticipantUserIdentifier())
+        if (personaData == null) {
+            setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
+        } else {
             if (lastPersonaData != personaData) {
                 lastPersonaData = personaData
                 personaData.renderedDisplayName?.let { displayName ->

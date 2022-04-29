@@ -8,8 +8,6 @@ import com.azure.android.communication.ui.configuration.RemoteParticipantPersona
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfigurationHandler
 import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
-import com.azure.android.communication.ui.redux.AppStore
-import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.service.calling.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope

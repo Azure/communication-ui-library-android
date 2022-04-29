@@ -64,11 +64,16 @@ internal class ParticipantGridCellAvatarView(
     }
 
     fun updatePersonaData() {
-        getPersonaDataCallback(participantViewModel.getParticipantUserIdentifier())?.let { personaData ->
+        val personaData =
+            getPersonaDataCallback(participantViewModel.getParticipantUserIdentifier())
+        if (personaData == null) {
+            // force bitmap update be setting resource to 0
+            avatarView.setImageResource(0)
+            setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
+        } else {
             if (lastPersonaData != personaData) {
                 lastPersonaData = personaData
-                // force bitmap update be setting resource to 0
-                avatarView.setImageResource(0)
+
                 avatarView.avatarImageBitmap = personaData.avatarBitmap
                 avatarView.adjustViewBounds = true
                 personaData.scaleType?.let { scaleType ->
