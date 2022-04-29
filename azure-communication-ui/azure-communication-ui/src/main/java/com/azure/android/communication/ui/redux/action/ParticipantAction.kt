@@ -7,5 +7,4 @@ import com.azure.android.communication.ui.model.ParticipantInfoModel
 
 internal sealed class ParticipantAction : Action {
     class ListUpdated(val participantMap: Map<String, ParticipantInfoModel>) : ParticipantAction()
-    class PersonaUpdated(val userIdentifier: String) : ParticipantAction()
 }

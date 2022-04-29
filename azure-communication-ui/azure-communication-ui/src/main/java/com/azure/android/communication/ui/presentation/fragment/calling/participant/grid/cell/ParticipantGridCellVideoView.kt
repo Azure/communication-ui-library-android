@@ -18,6 +18,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.model.StreamType
+import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
@@ -38,15 +39,17 @@ internal class ParticipantGridCellVideoView(
     private val getVideoStreamCallback: (String, String) -> View?,
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
-
+    private val getPersonaDataCallback: (participantID: String) -> CommunicationUIPersonaData?,
 ) {
     private var videoStream: View? = null
     private var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout? = null
+    private var lastPersonaData: CommunicationUIPersonaData? = null
 
     init {
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
                 setDisplayName(it)
+                updatePersonaData()
             }
         }
 
@@ -74,6 +77,17 @@ internal class ParticipantGridCellVideoView(
                     videoContainer.visibility = VISIBLE
                 } else {
                     videoContainer.visibility = INVISIBLE
+                }
+            }
+        }
+    }
+
+    fun updatePersonaData() {
+        getPersonaDataCallback(participantViewModel.getParticipantUserIdentifier())?.let { personaData ->
+            if (lastPersonaData != personaData) {
+                lastPersonaData = personaData
+                personaData.renderedDisplayName?.let { displayName ->
+                    setDisplayName(displayName)
                 }
             }
         }

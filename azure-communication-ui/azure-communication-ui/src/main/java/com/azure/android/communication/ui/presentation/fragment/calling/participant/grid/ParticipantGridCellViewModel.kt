@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.presentation.fragment.calling.partici
 
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.VideoStreamModel
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -17,10 +16,8 @@ internal class ParticipantGridCellViewModel(
     isMuted: Boolean,
     isSpeaking: Boolean,
     modifiedTimestamp: Number,
-    personaData: CommunicationUIPersonaData?,
 ) {
-    private var displayNameStateFlow =
-        MutableStateFlow(personaData?.renderedDisplayName ?: displayName)
+    private var displayNameStateFlow = MutableStateFlow(displayName)
     private var isMutedStateFlow = MutableStateFlow(isMuted)
     private var isSpeakingStateFlow = MutableStateFlow(isSpeaking && !isMuted)
     private var isNameIndicatorVisibleStateFlow = MutableStateFlow(true)
@@ -32,9 +29,6 @@ internal class ParticipantGridCellViewModel(
     )
     private var participantModifiedTimestamp = modifiedTimestamp
     private var participantUserIdentifier = userIdentifier
-    private var personaDataStateFlow = MutableStateFlow(personaData)
-
-    fun getPersonaDataStateFlow(): StateFlow<CommunicationUIPersonaData?> = personaDataStateFlow
 
     fun getParticipantUserIdentifier(): String {
         return participantUserIdentifier
@@ -66,11 +60,9 @@ internal class ParticipantGridCellViewModel(
 
     fun update(
         participant: ParticipantInfoModel,
-        personaData: CommunicationUIPersonaData?,
     ) {
         this.participantUserIdentifier = participant.userIdentifier
-        this.displayNameStateFlow.value =
-            personaData?.renderedDisplayName ?: participant.displayName
+        this.displayNameStateFlow.value = participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
 
         this.isNameIndicatorVisibleStateFlow.value =
@@ -83,7 +75,6 @@ internal class ParticipantGridCellViewModel(
 
         this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
         this.participantModifiedTimestamp = participant.modifiedTimestamp
-        this.personaDataStateFlow.value = personaData
     }
 
     private fun createVideoViewModel(videoStreamModel: VideoStreamModel?): VideoViewModel? {

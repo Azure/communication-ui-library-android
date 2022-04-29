@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.presentation.VideoViewManager
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatus
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
@@ -75,6 +76,7 @@ internal class LocalParticipantView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         viewModel: LocalParticipantViewModel,
         videoViewManager: VideoViewManager,
+        avatarViewManager: AvatarViewManager,
     ) {
 
         this.viewModel = viewModel
@@ -99,7 +101,7 @@ internal class LocalParticipantView : ConstraintLayout {
                     avatar.name = it
                     pipAvatar.name = it
                     displayNameText.text = it
-                    viewModel.getPersonaData()?.let { personaData ->
+                    avatarViewManager.communicationUILocalDataOptions?.personaData?.let { personaData ->
                         personaData.avatarBitmap?.let { image ->
                             avatar.avatarImageBitmap = image
                             avatar.adjustViewBounds = true
@@ -174,7 +176,8 @@ internal class LocalParticipantView : ConstraintLayout {
     }
 
     private fun setupAccessibility() {
-        switchCameraButton.contentDescription = context.getString(R.string.azure_communication_ui_button_switch_camera_accessibility_label)
+        switchCameraButton.contentDescription =
+            context.getString(R.string.azure_communication_ui_button_switch_camera_accessibility_label)
     }
 
     private fun setLocalParticipantVideo(model: LocalParticipantViewModel.VideoModel) {

@@ -9,22 +9,33 @@ import com.azure.android.communication.ui.configuration.RemoteParticipantsConfig
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfigurationHandler
 import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
 import com.azure.android.communication.ui.redux.AppStore
-import com.azure.android.communication.ui.redux.action.ParticipantAction
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.service.calling.ParticipantIdentifierHelper
+import com.azure.android.communication.ui.utilities.CoroutineContextProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
 
 internal class AvatarViewManager(
-    private val appStore: AppStore<ReduxState>,
+    coroutineContextProvider: CoroutineContextProvider,
     val communicationUILocalDataOptions: CommunicationUILocalDataOptions?,
-    val remoteParticipantsConfiguration: RemoteParticipantsConfiguration,
+    remoteParticipantsConfiguration: RemoteParticipantsConfiguration,
 ) :
     RemoteParticipantsConfigurationHandler {
+
+    private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     init {
         remoteParticipantsConfiguration.setRemoteParticipantsConfigurationHandler(this)
     }
 
     private val remoteParticipantsPersonaCache = mutableMapOf<String, CommunicationUIPersonaData>()
+    private val remoteParticipantsPersonaSharedFlow =
+        MutableSharedFlow<Map<String, CommunicationUIPersonaData>>()
+
+    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, CommunicationUIPersonaData>> =
+        remoteParticipantsPersonaSharedFlow
 
     override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData) {
         val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
@@ -32,7 +43,10 @@ internal class AvatarViewManager(
             remoteParticipantsPersonaCache.remove(id)
         }
         remoteParticipantsPersonaCache[id] = data.personaData
-        appStore.dispatch(ParticipantAction.PersonaUpdated(id))
+
+        coroutineScope.launch {
+            remoteParticipantsPersonaSharedFlow.emit(remoteParticipantsPersonaCache)
+        }
     }
 
     override fun getRemoteParticipantPersonaData(identifier: String): CommunicationUIPersonaData? {

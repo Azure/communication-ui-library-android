@@ -3,16 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
-import android.graphics.Bitmap
-import android.widget.ImageView
-import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
-import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
-
 import com.azure.android.communication.ui.helper.MainCoroutineRule
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
-import com.azure.android.communication.ui.presentation.fragment.factories.CallingViewModelFactory
-import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -43,7 +34,6 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    null
                 )
 
             viewModel.init(
@@ -115,7 +105,6 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    null
                 )
 
             viewModel.init(
@@ -158,7 +147,6 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    null
                 )
 
             viewModel.init(
@@ -234,7 +222,6 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    null
                 )
 
             viewModel.init(
@@ -308,7 +295,6 @@ internal class LocalParticipantGridCellViewModelTest {
             val viewModel =
                 LocalParticipantViewModel(
                     mockAppStore::dispatch,
-                    null
                 )
 
             viewModel.init(
@@ -385,169 +371,4 @@ internal class LocalParticipantGridCellViewModelTest {
 
             displayLobbyJob.cancel()
         }
-
-    @Test
-    fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaName_when_personaDataNameIsSet() {
-        // arrange
-        val personaData =
-            CommunicationUIPersonaData(
-                "test"
-            )
-
-        val dataOptions =
-            CommunicationUILocalDataOptions(
-                personaData
-            )
-        val mockAppStore = mock<AppStore<ReduxState>> {}
-        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
-        val callingViewModelFactory =
-            CallingViewModelFactory(
-                mockAppStore,
-                ParticipantGridCellViewModelFactory(),
-                avatarViewManager
-            )
-
-        // act
-        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
-
-        // assert
-        Assert.assertEquals(
-            personaData.renderedDisplayName,
-            viewModel.getPersonaData()?.renderedDisplayName
-        )
-
-        Assert.assertEquals(
-            null,
-            viewModel.getPersonaData()?.avatarBitmap
-        )
-    }
-
-    @Test
-    fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaImage_when_personaImageIsSet() {
-        // arrange
-        val mockBitmap = mock<Bitmap> {}
-        val personaData =
-            CommunicationUIPersonaData(
-                mockBitmap
-            )
-
-        val dataOptions =
-            CommunicationUILocalDataOptions(
-                personaData
-            )
-        val mockAppStore = mock<AppStore<ReduxState>> {}
-        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
-        val callingViewModelFactory =
-            CallingViewModelFactory(
-                mockAppStore,
-                ParticipantGridCellViewModelFactory(),
-                avatarViewManager
-            )
-
-        // act
-        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
-
-        // assert
-        Assert.assertEquals(
-            null,
-            viewModel.getPersonaData()?.renderedDisplayName
-        )
-
-        Assert.assertEquals(
-            mockBitmap,
-            viewModel.getPersonaData()?.avatarBitmap
-        )
-
-        Assert.assertEquals(
-            ImageView.ScaleType.FIT_XY,
-            viewModel.getPersonaData()?.scaleType
-        )
-    }
-
-    @Test
-    fun localParticipantViewModel_getPersonaData_onCall_returnsPersonaData_when_personaDataIsSet() {
-        // arrange
-        val mockBitmap = mock<Bitmap> {}
-        val personaData =
-            CommunicationUIPersonaData(
-                "hello",
-                mockBitmap,
-                ImageView.ScaleType.CENTER
-            )
-
-        val dataOptions =
-            CommunicationUILocalDataOptions(
-                personaData
-            )
-        val mockAppStore = mock<AppStore<ReduxState>> {}
-        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
-        val callingViewModelFactory =
-            CallingViewModelFactory(
-                mockAppStore,
-                ParticipantGridCellViewModelFactory(),
-                avatarViewManager
-            )
-
-        // act
-        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
-
-        // assert
-        Assert.assertEquals(
-            "hello",
-            viewModel.getPersonaData()?.renderedDisplayName
-        )
-
-        Assert.assertEquals(
-            mockBitmap,
-            viewModel.getPersonaData()?.avatarBitmap
-        )
-
-        Assert.assertEquals(
-            ImageView.ScaleType.CENTER,
-            viewModel.getPersonaData()?.scaleType
-        )
-    }
-
-    @Test
-    fun localParticipantViewModel_getPersonaScale_onCall_returnsPersonaScale_when_personaScaleIsSet() {
-        // arrange
-        val mockBitmap = mock<Bitmap> {}
-        val personaData =
-            CommunicationUIPersonaData(
-                mockBitmap,
-                ImageView.ScaleType.CENTER
-            )
-
-        val dataOptions =
-            CommunicationUILocalDataOptions(
-                personaData
-            )
-        val mockAppStore = mock<AppStore<ReduxState>> {}
-        val avatarViewManager = AvatarViewManager(mockAppStore, dataOptions, RemoteParticipantsConfiguration())
-        val callingViewModelFactory =
-            CallingViewModelFactory(
-                mockAppStore,
-                ParticipantGridCellViewModelFactory(),
-                avatarViewManager
-            )
-
-        // act
-        val viewModel = callingViewModelFactory.provideLocalParticipantViewModel()
-
-        // assert
-        Assert.assertEquals(
-            null,
-            viewModel.getPersonaData()?.renderedDisplayName
-        )
-
-        Assert.assertEquals(
-            mockBitmap,
-            viewModel.getPersonaData()?.avatarBitmap
-        )
-
-        Assert.assertEquals(
-            ImageView.ScaleType.CENTER,
-            viewModel.getPersonaData()?.scaleType
-        )
-    }
 }
