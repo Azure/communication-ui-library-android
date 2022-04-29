@@ -248,11 +248,360 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
-                    event.identifiers.size == 2
-                        && event.identifiers[0] == communicationIdentifierFirst
-                        && event.identifiers[1] == communicationIdentifierSecond
+                    event.identifiers.size == 2 &&
+                        event.identifiers[0] == communicationIdentifierFirst &&
+                        event.identifiers[1] == communicationIdentifierSecond
                 }
             )
+
+            job.cancel()
+        }
+    }
+
+    @Test
+    fun remoteParticipantJoinedHandler_start_onStateChangeMultipleTimes_then_eventIsFiredForNewJoinedParticipants() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        ),
+                        Pair(
+                            "test2",
+                            ParticipantInfoModel(
+                                displayName = "user two",
+                                userIdentifier = "test2",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doReturn storeStateFlow
+            }
+            val mockParticipantJoinedHandler =
+                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+
+            val communicationIdentifierFirst = CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
+            val communicationIdentifierNew = CommunicationUserIdentifier("testNew")
+
+            val mockRemoteParticipantFirst = mock<RemoteParticipant> {
+                on { identifier } doReturn communicationIdentifierFirst
+            }
+            val mockRemoteParticipantSecond = mock<RemoteParticipant> {
+                on { identifier } doReturn communicationIdentifierSecond
+            }
+            val mockRemoteParticipantNew = mock<RemoteParticipant> {
+                on { identifier } doReturn communicationIdentifierNew
+            }
+            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> {
+                on { getRemoteParticipantsMap() } doReturn mapOf(
+                    Pair(
+                        "test",
+                        mockRemoteParticipantFirst
+                    ),
+                    Pair(
+                        "test2",
+                        mockRemoteParticipantSecond
+                    ),
+                    Pair(
+                        "testNew",
+                        mockRemoteParticipantNew
+                    )
+                )
+            }
+
+            val configuration = CallCompositeConfiguration()
+            configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
+                mockParticipantJoinedHandler
+            )
+            val handler = RemoteParticipantJoinedHandler(
+                configuration,
+                mockAppStore,
+                mockRemoteParticipantsCollection
+            )
+
+            // act
+            var job = launch {
+                handler.start()
+            }
+            testScheduler.runCurrent()
+
+            // assert
+            verify(mockParticipantJoinedHandler, times(1)).handle(any())
+            verify(mockParticipantJoinedHandler, times(1)).handle(
+                argThat { event ->
+                    event.identifiers.size == 2 &&
+                        event.identifiers[0] == communicationIdentifierFirst &&
+                        event.identifiers[1] == communicationIdentifierSecond
+                }
+            )
+
+            job.cancel()
+
+            // arrange
+            val newReduxState = AppReduxState("")
+            newReduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        ),
+                        Pair(
+                            "test2",
+                            ParticipantInfoModel(
+                                displayName = "user two",
+                                userIdentifier = "test2",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        ),
+                        Pair(
+                            "testNew",
+                            ParticipantInfoModel(
+                                displayName = "user two",
+                                userIdentifier = "testNew",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123456
+                )
+
+            // act
+            storeStateFlow.value = newReduxState
+            job = launch {
+                handler.start()
+            }
+            testScheduler.runCurrent()
+
+            // assert
+            verify(mockParticipantJoinedHandler, times(2)).handle(any())
+            verify(mockParticipantJoinedHandler, times(1)).handle(
+                argThat { event ->
+                    event.identifiers.size == 1 &&
+                        event.identifiers[0] == communicationIdentifierNew
+                }
+            )
+
+            job.cancel()
+        }
+    }
+
+    @Test
+    fun remoteParticipantJoinedHandler_start_onStateChangeMultipleTimes_then_eventIsNotFiredForRemovedParticipants() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        ),
+                        Pair(
+                            "test2",
+                            ParticipantInfoModel(
+                                displayName = "user two",
+                                userIdentifier = "test2",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doReturn storeStateFlow
+            }
+            val mockParticipantJoinedHandler =
+                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+
+            val communicationIdentifierFirst = CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
+
+            val mockRemoteParticipantFirst = mock<RemoteParticipant> {
+                on { identifier } doReturn communicationIdentifierFirst
+            }
+            val mockRemoteParticipantSecond = mock<RemoteParticipant> {
+                on { identifier } doReturn communicationIdentifierSecond
+            }
+
+            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> {
+                on { getRemoteParticipantsMap() } doReturn mapOf(
+                    Pair(
+                        "test",
+                        mockRemoteParticipantFirst
+                    ),
+                    Pair(
+                        "test2",
+                        mockRemoteParticipantSecond
+                    )
+                )
+            }
+
+            val configuration = CallCompositeConfiguration()
+            configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
+                mockParticipantJoinedHandler
+            )
+            val handler = RemoteParticipantJoinedHandler(
+                configuration,
+                mockAppStore,
+                mockRemoteParticipantsCollection
+            )
+
+            // act
+            var job = launch {
+                handler.start()
+            }
+            testScheduler.runCurrent()
+
+            // assert
+            verify(mockParticipantJoinedHandler, times(1)).handle(any())
+            verify(mockParticipantJoinedHandler, times(1)).handle(
+                argThat { event ->
+                    event.identifiers.size == 2 &&
+                        event.identifiers[0] == communicationIdentifierFirst &&
+                        event.identifiers[1] == communicationIdentifierSecond
+                }
+            )
+
+            job.cancel()
+
+            // arrange
+            val newReduxState = AppReduxState("")
+            newReduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test2",
+                            ParticipantInfoModel(
+                                displayName = "user two",
+                                userIdentifier = "test2",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        ),
+                    ),
+                    123456
+                )
+
+            // act
+            storeStateFlow.value = newReduxState
+            job = launch {
+                handler.start()
+            }
+            testScheduler.runCurrent()
+
+            // assert
+            verify(mockParticipantJoinedHandler, times(1)).handle(any())
 
             job.cancel()
         }
