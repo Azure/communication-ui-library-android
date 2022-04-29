@@ -292,7 +292,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 return Locale(languageCode, countryCode)
             }
         }
-        return Locale(SupportLanguage.EN_US.toString())
+        return Locale.US
     }
 
     companion object {
