@@ -13,7 +13,7 @@ internal data class RemoteParticipantPersonaData(
 )
 
 internal interface RemoteParticipantsConfigurationHandler {
-    fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData) : SetPersonaDataResult
+    fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult
     fun getRemoteParticipantPersonaData(identifier: String): PersonaData?
 }
 

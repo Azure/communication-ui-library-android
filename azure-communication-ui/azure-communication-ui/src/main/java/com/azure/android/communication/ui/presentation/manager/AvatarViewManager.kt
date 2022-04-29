@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.configuration.RemoteParticipantsConfig
 import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.persona.SetPersonaDataResult
 import com.azure.android.communication.ui.redux.AppStore
-import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.service.calling.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.utilities.CoroutineContextProvider
@@ -40,7 +39,7 @@ internal class AvatarViewManager(
     fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, PersonaData>> =
         remoteParticipantsPersonaSharedFlow
 
-    override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData) : SetPersonaDataResult {
+    override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult {
         val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
         if (!appStore.getCurrentState().remoteParticipantState.participantMap.keys.contains(id)) {
             return SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL
