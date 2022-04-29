@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.configuration.LocalDataOptions;
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent;
 import com.azure.android.communication.ui.configuration.events.CommunicationUIRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.persona.PersonaData;
+import com.azure.android.communication.ui.persona.SetPersonaDataResult;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -237,10 +238,11 @@ public final class CallComposite {
      *
      * @param identifier  The {@link CommunicationIdentifier}.
      * @param personaData The {@link PersonaData}.
+     * @return {@link SetPersonaDataResult}
      */
-    public void setRemoteParticipantPersonaData(@NotNull final CommunicationIdentifier identifier,
-                                                @NotNull final PersonaData personaData) {
-        configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
+    public SetPersonaDataResult setRemoteParticipantPersonaData(@NotNull final CommunicationIdentifier identifier,
+                                                                @NotNull final PersonaData personaData) {
+        return configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
     }
 
     private void launch(

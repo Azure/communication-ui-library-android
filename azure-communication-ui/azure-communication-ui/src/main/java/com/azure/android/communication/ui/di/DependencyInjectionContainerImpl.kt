@@ -81,6 +81,7 @@ internal class DependencyInjectionContainerImpl(
     override val avatarViewManager by lazy {
         AvatarViewManager(
             coroutineContextProvider,
+            appStore,
             configuration.localDataOptions,
             configuration.remoteParticipantsConfiguration
         )

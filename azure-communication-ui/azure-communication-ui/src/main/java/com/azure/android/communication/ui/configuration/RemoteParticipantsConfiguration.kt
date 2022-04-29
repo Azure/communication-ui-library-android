@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.persona.SetPersonaDataResult
 
 internal data class RemoteParticipantPersonaData(
     val identifier: CommunicationIdentifier,
@@ -12,16 +13,12 @@ internal data class RemoteParticipantPersonaData(
 )
 
 internal interface RemoteParticipantsConfigurationHandler {
-    fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData)
+    fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData) : SetPersonaDataResult
     fun getRemoteParticipantPersonaData(identifier: String): PersonaData?
 }
 
 internal class RemoteParticipantsConfiguration {
-    private var remoteParticipantsConfigurationHandler: RemoteParticipantsConfigurationHandler? =
-        null
-
-    fun getPersonaData(identifier: String) =
-        remoteParticipantsConfigurationHandler?.getRemoteParticipantPersonaData(identifier)
+    private lateinit var remoteParticipantsConfigurationHandler: RemoteParticipantsConfigurationHandler
 
     fun setRemoteParticipantsConfigurationHandler(handler: RemoteParticipantsConfigurationHandler) {
         remoteParticipantsConfigurationHandler = handler
@@ -30,8 +27,8 @@ internal class RemoteParticipantsConfiguration {
     fun setPersonaData(
         identifier: CommunicationIdentifier,
         personaData: PersonaData,
-    ) {
-        remoteParticipantsConfigurationHandler?.onSetRemoteParticipantPersonaData(
+    ): SetPersonaDataResult {
+        return remoteParticipantsConfigurationHandler.onSetRemoteParticipantPersonaData(
             RemoteParticipantPersonaData(
                 identifier,
                 personaData
