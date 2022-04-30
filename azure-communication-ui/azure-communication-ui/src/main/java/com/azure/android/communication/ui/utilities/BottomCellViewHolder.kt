@@ -29,7 +29,7 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
     }
 
     fun setCellData(bottomCellItem: BottomCellItem) {
-        title.text = bottomCellItem.personaData?.renderedDisplayName ?: bottomCellItem.title
+        title.text = bottomCellItem.title
         // force bitmap update be setting resource to 0
         avatarView.setImageResource(0)
         if (bottomCellItem.icon == null) {
@@ -51,9 +51,6 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             avatarView.name = bottomCellItem.title ?: ""
             title.contentDescription = bottomCellItem.contentDescription
             bottomCellItem.personaData?.let { personaData ->
-                personaData.renderedDisplayName?.let {
-                    avatarView.name = it
-                }
                 personaData.avatarBitmap?.let {
                     avatarView.avatarImageBitmap = it
                     avatarView.adjustViewBounds = true

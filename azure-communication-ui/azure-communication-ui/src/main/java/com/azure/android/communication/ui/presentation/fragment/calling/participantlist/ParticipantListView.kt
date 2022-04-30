@@ -155,7 +155,10 @@ internal class ParticipantListView(
         bottomCellItems
             .add(
                 generateBottomCellItem(
-                    getNameToDisplay(localParticipantPersonaData, localParticipant.displayName),
+                    getLocalParticipantNameToDisplay(
+                        localParticipantPersonaData,
+                        localParticipant.displayName
+                    ),
                     localParticipant.isMuted,
                     localParticipantPersonaData
                 )
@@ -163,14 +166,13 @@ internal class ParticipantListView(
         for (remoteParticipant in remoteParticipantCellModels) {
             val remoteParticipantPersonaData =
                 avatarViewManager.getRemoteParticipantPersonaData(remoteParticipant.userIdentifier)
+            val finalName = getNameToDisplay(
+                remoteParticipantPersonaData,
+                remoteParticipant.displayName
+            )
             bottomCellItems.add(
                 generateBottomCellItem(
-                    if (getNameToDisplay(
-                            remoteParticipantPersonaData,
-                            remoteParticipant.displayName
-                        ).isEmpty()
-                    ) context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
-                    else remoteParticipant.displayName,
+                    finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },
                     remoteParticipant.isMuted,
                     remoteParticipantPersonaData
                 )
@@ -178,6 +180,18 @@ internal class ParticipantListView(
         }
         bottomCellItems.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title!! })
         return bottomCellItems
+    }
+
+    private fun getLocalParticipantNameToDisplay(
+        personaData: PersonaData?,
+        displayName: String,
+    ): String {
+        personaData?.renderedDisplayName?.let {
+            if (it.trim().isNotEmpty()) {
+                return it + " " + resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
+            }
+        }
+        return displayName
     }
 
     private fun generateBottomCellItem(
