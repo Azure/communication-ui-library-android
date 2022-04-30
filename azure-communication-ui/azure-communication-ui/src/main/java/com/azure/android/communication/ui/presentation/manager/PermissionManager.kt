@@ -24,15 +24,7 @@ internal class PermissionManager(
     private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
     private var previousPermissionState: PermissionState? = null
 
-    private val audioPermission = arrayOf(
-        Manifest.permission.BLUETOOTH_CONNECT,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.BLUETOOTH_CONNECT,
-        Manifest.permission.ACCESS_NETWORK_STATE,
-        Manifest.permission.WAKE_LOCK,
-        Manifest.permission.MODIFY_AUDIO_SETTINGS,
-        Manifest.permission.FOREGROUND_SERVICE
-    )
+    private val audioPermission by lazy { getPermissionsList() }
 
     suspend fun start(
         activity: Activity,
@@ -67,35 +59,23 @@ internal class PermissionManager(
     }
 
     private fun onPermissionStateChange(permissionState: PermissionState) {
-        when {
-            permissionState.audioPermissionState == PermissionStatus.REQUESTING -> {
-                createAudioPermissionRequest()
-            }
-            permissionState.cameraPermissionState == PermissionStatus.REQUESTING -> {
-                createCameraPermissionRequest()
-            }
-            permissionState.cameraPermissionState == PermissionStatus.UNKNOWN -> {
+        when (permissionState.audioPermissionState) {
+            PermissionStatus.REQUESTING -> createAudioPermissionRequest()
+            PermissionStatus.UNKNOWN -> setAudioPermissionsState()
+            else -> {}
+        }
+        when (permissionState.cameraPermissionState) {
+            PermissionStatus.REQUESTING -> createCameraPermissionRequest()
+            PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
                 setCameraPermissionsState()
             }
-            permissionState.audioPermissionState == PermissionStatus.UNKNOWN -> {
-                setAudioPermissionsState()
-            }
-            permissionState.cameraPermissionState == PermissionStatus.GRANTED -> {
-                setCameraPermissionsState()
-            }
-            permissionState.cameraPermissionState == PermissionStatus.DENIED -> {
-                setCameraPermissionsState()
-            }
+            else -> {}
         }
     }
 
     private fun getAudioPermissionState(activity: Activity): PermissionStatus {
 
-        val audioAccess =
-            (
-                ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
-                    == PackageManager.PERMISSION_GRANTED
-                )
+        val audioAccess = isPermissionGranted(Manifest.permission.RECORD_AUDIO)
         var isAudioPermissionPreviouslyDenied = false
         if (!audioAccess && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             isAudioPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
@@ -103,23 +83,14 @@ internal class PermissionManager(
             )
         }
         return when {
-            audioAccess -> {
-                PermissionStatus.GRANTED
-            }
-            isAudioPermissionPreviouslyDenied -> {
-                PermissionStatus.DENIED
-            }
-            else -> {
-                PermissionStatus.NOT_ASKED
-            }
+            audioAccess -> PermissionStatus.GRANTED
+            isAudioPermissionPreviouslyDenied -> PermissionStatus.DENIED
+            else -> PermissionStatus.NOT_ASKED
         }
     }
 
     private fun getCameraPermissionState(activity: Activity): PermissionStatus {
-        val cameraAccess = (
-            ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED
-            )
+        val cameraAccess = isPermissionGranted(Manifest.permission.CAMERA)
         var isCameraPermissionPreviouslyDenied = false
         if (!cameraAccess && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             isCameraPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
@@ -127,15 +98,9 @@ internal class PermissionManager(
             )
         }
         return when {
-            cameraAccess -> {
-                PermissionStatus.GRANTED
-            }
-            isCameraPermissionPreviouslyDenied -> {
-                PermissionStatus.DENIED
-            }
-            else -> {
-                PermissionStatus.NOT_ASKED
-            }
+            cameraAccess -> PermissionStatus.GRANTED
+            isCameraPermissionPreviouslyDenied -> PermissionStatus.DENIED
+            else -> PermissionStatus.NOT_ASKED
         }
     }
 
@@ -146,4 +111,35 @@ internal class PermissionManager(
     fun setCameraPermissionsState() {
         store.dispatch(PermissionAction.CameraPermissionIsSet(getCameraPermissionState(activity)))
     }
+
+    private fun isPermissionGranted(permission: String) =
+        ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
+
+    private fun getPermissionsList(): Array<String> =
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
+                arrayOf(
+                    Manifest.permission.BLUETOOTH_CONNECT,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.WAKE_LOCK,
+                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                    Manifest.permission.FOREGROUND_SERVICE
+                )
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ->
+                arrayOf(
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.WAKE_LOCK,
+                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                    Manifest.permission.FOREGROUND_SERVICE
+                )
+            else ->
+                arrayOf(
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.WAKE_LOCK,
+                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                )
+        }
 }
