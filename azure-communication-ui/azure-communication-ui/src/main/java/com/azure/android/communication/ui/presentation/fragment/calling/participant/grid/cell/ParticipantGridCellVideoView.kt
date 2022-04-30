@@ -87,12 +87,10 @@ internal class ParticipantGridCellVideoView(
             getPersonaDataCallback(participantViewModel.getParticipantUserIdentifier())
         if (personaData == null) {
             setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
-        } else {
-            if (lastPersonaData != personaData) {
-                lastPersonaData = personaData
-                personaData.renderedDisplayName?.let { displayName ->
-                    setDisplayName(displayName)
-                }
+        } else if (lastPersonaData != personaData) {
+            lastPersonaData = personaData
+            personaData.renderedDisplayName?.let { displayName ->
+                setDisplayName(displayName)
             }
         }
     }

@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * Defines values for SetPersonaDataResult.
  */
-public class SetPersonaDataResult extends ExpandableStringEnum<SetPersonaDataResult> {
+public final class SetPersonaDataResult extends ExpandableStringEnum<SetPersonaDataResult> {
     public static final SetPersonaDataResult SUCCESS = fromString("success");
     public static final SetPersonaDataResult PARTICIPANT_NOT_IN_CALL = fromString("participantNotInCall");
 

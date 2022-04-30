@@ -70,18 +70,16 @@ internal class ParticipantGridCellAvatarView(
             // force bitmap update be setting resource to 0
             avatarView.setImageResource(0)
             setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
-        } else {
-            if (lastPersonaData != personaData) {
-                lastPersonaData = personaData
+        } else if (lastPersonaData != personaData) {
+            lastPersonaData = personaData
 
-                avatarView.avatarImageBitmap = personaData.avatarBitmap
-                avatarView.adjustViewBounds = true
-                personaData.scaleType?.let { scaleType ->
-                    avatarView.scaleType = scaleType
-                }
-                personaData.renderedDisplayName?.let { displayName ->
-                    setDisplayName(displayName)
-                }
+            avatarView.avatarImageBitmap = personaData.avatarBitmap
+            avatarView.adjustViewBounds = true
+            personaData.scaleType?.let { scaleType ->
+                avatarView.scaleType = scaleType
+            }
+            personaData.renderedDisplayName?.let { displayName ->
+                setDisplayName(displayName)
             }
         }
     }
