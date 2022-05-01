@@ -44,7 +44,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioSessionManager get() = container.audioSessionManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
-    private val remoteParticipantJoinedHandler get() = container.remoteParticipantJoinedHandler
+    private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager

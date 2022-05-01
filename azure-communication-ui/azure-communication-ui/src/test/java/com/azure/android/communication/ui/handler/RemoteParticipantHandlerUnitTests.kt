@@ -7,8 +7,9 @@ import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.CallingEventHandler
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.configuration.RemoteParticipantsConfigurationHandler
 import com.azure.android.communication.ui.configuration.events.CommunicationUIRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.handlers.RemoteParticipantJoinedHandler
+import com.azure.android.communication.ui.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -33,12 +34,12 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class RemoteParticipantJoinedHandlerUnitTests {
+internal class RemoteParticipantHandlerUnitTests {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     @Test
-    fun remoteParticipantJoinedHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {
+    fun remoteParticipantHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {
         runTest {
             // arrange
             val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState(""))
@@ -54,7 +55,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
             configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
                 mockParticipantJoinedHandler
             )
-            val handler = RemoteParticipantJoinedHandler(
+            val handler = RemoteParticipantHandler(
                 configuration,
                 mockAppStore,
                 mockRemoteParticipantsCollection
@@ -74,7 +75,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
     }
 
     @Test
-    fun remoteParticipantJoinedHandler_start_onStateChangeWithOneRemoteParticipant_then_eventIsFiredToOnce() {
+    fun remoteParticipantHandler_start_onStateChangeWithOneRemoteParticipant_then_eventIsFiredToOnce() {
         runTest {
             // arrange
             val reduxState = AppReduxState("")
@@ -128,7 +129,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
             configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
                 mockParticipantJoinedHandler
             )
-            val handler = RemoteParticipantJoinedHandler(
+            val handler = RemoteParticipantHandler(
                 configuration,
                 mockAppStore,
                 mockRemoteParticipantsCollection
@@ -152,7 +153,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
     }
 
     @Test
-    fun remoteParticipantJoinedHandler_start_onStateChangeWithTwoRemoteParticipant_then_eventIsFiredToOnce() {
+    fun remoteParticipantHandler_start_onStateChangeWithTwoRemoteParticipant_then_eventIsFiredToOnce() {
         runTest {
             // arrange
             val reduxState = AppReduxState("")
@@ -233,7 +234,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
             configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
                 mockParticipantJoinedHandler
             )
-            val handler = RemoteParticipantJoinedHandler(
+            val handler = RemoteParticipantHandler(
                 configuration,
                 mockAppStore,
                 mockRemoteParticipantsCollection
@@ -259,7 +260,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
     }
 
     @Test
-    fun remoteParticipantJoinedHandler_start_onStateChangeMultipleTimes_then_eventIsFiredForNewJoinedParticipants() {
+    fun remoteParticipantHandler_start_onStateChangeMultipleTimes_then_eventIsFiredForNewJoinedParticipants() {
         runTest {
             // arrange
             val reduxState = AppReduxState("")
@@ -348,7 +349,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
             configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
                 mockParticipantJoinedHandler
             )
-            val handler = RemoteParticipantJoinedHandler(
+            val handler = RemoteParticipantHandler(
                 configuration,
                 mockAppStore,
                 mockRemoteParticipantsCollection
@@ -459,7 +460,7 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
     }
 
     @Test
-    fun remoteParticipantJoinedHandler_start_onStateChangeMultipleTimes_then_eventIsNotFiredForRemovedParticipants() {
+    fun remoteParticipantHandler_start_onStateChangeMultipleTimes_then_eventIsNotFiredForRemovedParticipants() {
         runTest {
             // arrange
             val reduxState = AppReduxState("")
@@ -537,11 +538,16 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
                 )
             }
 
+            val mockRemoteParticipantsConfigurationHandler =
+                mock<RemoteParticipantsConfigurationHandler>()
             val configuration = CallCompositeConfiguration()
+            configuration.remoteParticipantsConfiguration.setRemoteParticipantsConfigurationHandler(
+                mockRemoteParticipantsConfigurationHandler
+            )
             configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
                 mockParticipantJoinedHandler
             )
-            val handler = RemoteParticipantJoinedHandler(
+            val handler = RemoteParticipantHandler(
                 configuration,
                 mockAppStore,
                 mockRemoteParticipantsCollection
@@ -602,6 +608,11 @@ internal class RemoteParticipantJoinedHandlerUnitTests {
 
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(any())
+            verify(mockRemoteParticipantsConfigurationHandler, times(1)).onRemoveParticipantPersonaData(
+                argThat { identifier ->
+                    identifier == "test"
+                }
+            )
 
             job.cancel()
         }

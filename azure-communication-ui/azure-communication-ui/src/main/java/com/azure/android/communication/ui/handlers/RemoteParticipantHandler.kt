@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.service.calling.sdk.CallingSDKRemoteParticipantsCollection
 import kotlinx.coroutines.flow.collect
 
-internal class RemoteParticipantJoinedHandler(
+internal class RemoteParticipantHandler(
     private val configuration: CallCompositeConfiguration,
     private val store: Store<ReduxState>,
     private val remoteParticipantsCollection: CallingSDKRemoteParticipantsCollection,
@@ -35,6 +35,12 @@ internal class RemoteParticipantJoinedHandler(
                 sendRemoteParticipantJoinedEvent(joinedParticipant)
             } else {
                 sendRemoteParticipantJoinedEvent(remoteParticipantsState.participantMap.keys.toList())
+            }
+
+            val leftParticipant =
+                lastRemoteParticipantsState?.participantMap?.keys?.filter { it !in remoteParticipantsState.participantMap.keys }
+            leftParticipant?.forEach {
+                configuration.remoteParticipantsConfiguration.removePersonaData(it)
             }
 
             lastRemoteParticipantsState = remoteParticipantsState

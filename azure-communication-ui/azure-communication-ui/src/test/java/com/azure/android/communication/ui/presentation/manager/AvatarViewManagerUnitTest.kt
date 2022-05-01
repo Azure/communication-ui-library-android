@@ -500,4 +500,187 @@ internal class AvatarViewManagerUnitTest {
             flowJob.cancel()
         }
     }
+
+    @Test
+    fun avatarViewManager_onRemoveParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_ifIdentifierIsValid() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn reduxState
+            }
+            val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
+            val avatarViewManager = AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                null,
+                remoteParticipantsConfiguration
+            )
+
+            val resultList =
+                mutableListOf<Map<String, PersonaData>>()
+
+            val flowJob = launch {
+                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                    .toList(resultList)
+            }
+
+            val mockBitmap = mock<Bitmap>()
+            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+                CommunicationUserIdentifier("test"),
+                PersonaData(mockBitmap)
+            )
+
+            // act
+            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                remoteParticipantPersonaData.personaData.avatarBitmap,
+                resultList[0]["test"]?.avatarBitmap
+            )
+
+            Assert.assertEquals(
+                remoteParticipantPersonaData.personaData.scaleType,
+                resultList[0]["test"]?.scaleType
+            )
+
+            Assert.assertEquals(
+                1,
+                resultList.size
+            )
+
+            // act
+            avatarViewManager.onRemoveParticipantPersonaData("test")
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                0,
+                resultList[1].size
+            )
+
+            Assert.assertEquals(
+                2,
+                resultList.size
+            )
+
+            flowJob.cancel()
+        }
+    }
+
+    @Test
+    fun avatarViewManager_onRemoveParticipantPersonaData_then_remoteParticipantSharedFlow_doesNot_subscribers_ifIdentifierIsNotValid() {
+        runTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567
+                            )
+                        )
+                    ),
+                    123
+                )
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn reduxState
+            }
+            val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
+            val avatarViewManager = AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                null,
+                remoteParticipantsConfiguration
+            )
+
+            val resultList =
+                mutableListOf<Map<String, PersonaData>>()
+
+            val flowJob = launch {
+                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                    .toList(resultList)
+            }
+
+            val mockBitmap = mock<Bitmap>()
+            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+                CommunicationUserIdentifier("test"),
+                PersonaData(mockBitmap)
+            )
+
+            // act
+            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                remoteParticipantPersonaData.personaData.avatarBitmap,
+                resultList[0]["test"]?.avatarBitmap
+            )
+
+            Assert.assertEquals(
+                remoteParticipantPersonaData.personaData.scaleType,
+                resultList[0]["test"]?.scaleType
+            )
+
+            Assert.assertEquals(
+                1,
+                resultList.size
+            )
+
+            // act
+            avatarViewManager.onRemoveParticipantPersonaData("test1")
+            testScheduler.runCurrent()
+
+            // assert
+            Assert.assertEquals(
+                1,
+                resultList.size
+            )
+
+            flowJob.cancel()
+        }
+    }
 }

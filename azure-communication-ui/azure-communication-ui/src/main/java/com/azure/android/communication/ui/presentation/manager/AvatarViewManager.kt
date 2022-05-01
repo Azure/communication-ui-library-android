@@ -57,6 +57,15 @@ internal class AvatarViewManager(
         return SetPersonaDataResult.SUCCESS
     }
 
+    override fun onRemoveParticipantPersonaData(identifier: String) {
+        if (remoteParticipantsPersonaCache.contains(identifier)) {
+            remoteParticipantsPersonaCache.remove(identifier)
+            coroutineScope.launch {
+                remoteParticipantsPersonaSharedFlow.emit(remoteParticipantsPersonaCache)
+            }
+        }
+    }
+
     override fun getRemoteParticipantPersonaData(identifier: String): PersonaData? {
         if (remoteParticipantsPersonaCache.contains(identifier)) {
             return remoteParticipantsPersonaCache[identifier]

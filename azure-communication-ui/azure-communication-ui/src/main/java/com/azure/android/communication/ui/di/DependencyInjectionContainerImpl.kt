@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.di
 import android.content.Context
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.error.ErrorHandler
-import com.azure.android.communication.ui.handlers.RemoteParticipantJoinedHandler
+import com.azure.android.communication.ui.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.logger.DefaultLogger
 import com.azure.android.communication.ui.presentation.VideoViewManager
 
@@ -110,8 +110,8 @@ internal class DependencyInjectionContainerImpl(
         NotificationService(parentContext, appStore)
     }
 
-    override val remoteParticipantJoinedHandler by lazy {
-        RemoteParticipantJoinedHandler(configuration, appStore, callingSDKWrapper)
+    override val remoteParticipantHandler by lazy {
+        RemoteParticipantHandler(configuration, appStore, callingSDKWrapper)
     }
 
     //region Redux
