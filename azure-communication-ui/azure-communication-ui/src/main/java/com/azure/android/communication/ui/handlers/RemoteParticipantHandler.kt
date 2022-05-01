@@ -30,16 +30,16 @@ internal class RemoteParticipantHandler(
             remoteParticipantsState.modifiedTimestamp != lastRemoteParticipantsState?.modifiedTimestamp
         ) {
             if (lastRemoteParticipantsState != null) {
-                val joinedParticipant =
+                val joinedParticipants =
                     remoteParticipantsState.participantMap.keys.filter { it !in lastRemoteParticipantsState!!.participantMap.keys }
-                sendRemoteParticipantJoinedEvent(joinedParticipant)
+                sendRemoteParticipantJoinedEvent(joinedParticipants)
             } else {
                 sendRemoteParticipantJoinedEvent(remoteParticipantsState.participantMap.keys.toList())
             }
 
-            val leftParticipant =
+            val leftParticipants =
                 lastRemoteParticipantsState?.participantMap?.keys?.filter { it !in remoteParticipantsState.participantMap.keys }
-            leftParticipant?.forEach {
+            leftParticipants?.forEach {
                 configuration.remoteParticipantsConfiguration.removePersonaData(it)
             }
 
