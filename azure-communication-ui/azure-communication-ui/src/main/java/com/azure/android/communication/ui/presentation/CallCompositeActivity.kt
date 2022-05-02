@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.configuration.SupportLanguage
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
@@ -31,6 +32,7 @@ import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
@@ -144,12 +146,18 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     private fun configureLocalization() {
         val config: Configuration = resources.configuration
-        configuration.localizationConfig?.let { localeConfig ->
-            localeConfig.layoutDirection.let {
-                window?.decorView?.layoutDirection = it
+        val locale = when (configuration.localizationConfig) {
+            null -> {
+                supportedOSLocale()
             }
-            config.setLocale(localeConfig.locale)
+            else -> {
+                configuration.localizationConfig!!.layoutDirection.let {
+                    window?.decorView?.layoutDirection = it
+                }
+                configuration.localizationConfig!!.locale
+            }
         }
+        config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
@@ -233,7 +241,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // works as normal
         val containerView = findViewById<View>(R.id.azure_communication_ui_fragment_container_view)
         val oldAccessibilityValue = containerView.importantForAccessibility
-        containerView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+        containerView.importantForAccessibility =
+            View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         transaction.replace(R.id.azure_communication_ui_fragment_container_view, fragment)
         transaction.runOnCommit {
             containerView.importantForAccessibility = oldAccessibilityValue
@@ -276,6 +285,17 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun supportedOSLocale(): Locale {
+        val languageCode = Locale.getDefault().language
+        val countryCode = Locale.getDefault().country
+        for (language in SupportLanguage.values()) {
+            if (language.toString() == "$languageCode-$countryCode") {
+                return Locale(languageCode, countryCode)
+            }
+        }
+        return Locale.US
     }
 
     companion object {
