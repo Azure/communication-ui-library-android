@@ -48,7 +48,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
 
         final PersonaData personaData =
-                SettingsFeatures.getCommunicationUIPersonaData(callLauncherActivity.getApplicationContext());
+                SettingsFeatures.getPersonaData(callLauncherActivity.getApplicationContext());
 
         final String selectedLanguage = SettingsFeatures.language();
         final Locale locale = Locale.forLanguageTag(SettingsFeatures
