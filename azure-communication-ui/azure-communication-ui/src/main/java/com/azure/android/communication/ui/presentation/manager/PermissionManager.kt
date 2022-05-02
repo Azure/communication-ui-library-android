@@ -62,14 +62,13 @@ internal class PermissionManager(
         when (permissionState.audioPermissionState) {
             PermissionStatus.REQUESTING -> createAudioPermissionRequest()
             PermissionStatus.UNKNOWN -> setAudioPermissionsState()
-            else -> {}
-        }
-        when (permissionState.cameraPermissionState) {
-            PermissionStatus.REQUESTING -> createCameraPermissionRequest()
-            PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
-                setCameraPermissionsState()
+            else -> when (permissionState.cameraPermissionState) {
+                PermissionStatus.REQUESTING -> createCameraPermissionRequest()
+                PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
+                    setCameraPermissionsState()
+                }
+                else -> {}
             }
-            else -> {}
         }
     }
 
