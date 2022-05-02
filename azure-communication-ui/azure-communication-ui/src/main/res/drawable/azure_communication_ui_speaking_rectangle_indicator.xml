@@ -8,6 +8,6 @@
     <corners android:radius="2dp" />
     <stroke
         android:width="4dp"
-        android:color="?attr/azure_communication_ui_communication_primary"
+        android:color="?attr/azure_communication_ui_primary_color"
         />
 </shape>
