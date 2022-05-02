@@ -25,7 +25,7 @@ public final class SupportLanguage extends ExpandableStringEnum<SupportLanguage>
     public static final SupportLanguage JA_JP = fromString("ja-JP");
     public static final SupportLanguage FR = fromString("fr");
     public static final SupportLanguage FR_FR = fromString("fr-FR");
-    public static final SupportLanguage PT = fromString("pt-BR");
+    public static final SupportLanguage PT = fromString("pt");
     public static final SupportLanguage PT_BR = fromString("pt-BR");
     public static final SupportLanguage DE = fromString("de");
     public static final SupportLanguage DE_DE = fromString("de-DE");
