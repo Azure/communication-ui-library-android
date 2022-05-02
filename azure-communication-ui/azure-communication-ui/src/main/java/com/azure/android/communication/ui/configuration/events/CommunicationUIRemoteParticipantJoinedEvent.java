@@ -5,29 +5,31 @@ package com.azure.android.communication.ui.configuration.events;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Remote participants joined event with communication identifiers.
  */
 public final class CommunicationUIRemoteParticipantJoinedEvent {
-    private final List<CommunicationIdentifier> identifiers;
+    private final Collection<CommunicationIdentifier> identifiers;
 
     /**
      * Create {@link CommunicationUIRemoteParticipantJoinedEvent} with user identifiers.
      *
      * @param identifiers {@link CommunicationIdentifier};
      */
-    public CommunicationUIRemoteParticipantJoinedEvent(final List<CommunicationIdentifier> identifiers) {
+    public CommunicationUIRemoteParticipantJoinedEvent(final Collection<CommunicationIdentifier> identifiers) {
         this.identifiers = identifiers;
     }
 
     /**
      * Returns the communication identifiers.
      *
-     * @return The list of {@link CommunicationIdentifier};
+     * @return The collection of {@link CommunicationIdentifier};
      */
-    public List<CommunicationIdentifier> getIdentifiers() {
-        return identifiers;
+    public Collection<CommunicationIdentifier> getIdentifiers() {
+        return Collections.unmodifiableCollection(identifiers);
     }
 }
