@@ -7,7 +7,6 @@ import com.azure.android.communication.common.CommunicationIdentifier;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Remote participants joined event with communication identifiers.
