@@ -12,10 +12,10 @@
             When supplying your own theme, choose your primary and also associated tints/shades
         -->
 
-        <item name="azure_communication_ui_communication_primary">#7800D4</item>
-        <item name="azure_communication_ui_communication_tint_10">#882BD8</item>
-        <item name="azure_communication_ui_communication_tint_20">#E0C7F4</item>
-        <item name="azure_communication_ui_communication_tint_30">#ECDEF9</item>
+        <item name="azure_communication_ui_primary_color">#7800D4</item>
+        <item name="azure_communication_ui_primary_color_tint10">#882BD8</item>
+        <item name="azure_communication_ui_primary_color_tint20">#E0C7F4</item>
+        <item name="azure_communication_ui_primary_color_tint30">#ECDEF9</item>
     </style>
 
     <!-- Launcher theme. -->
