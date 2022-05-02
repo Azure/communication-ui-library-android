@@ -4,6 +4,10 @@
 
 ### New Features
 - Local participant persona injection [#180](https://github.com/Azure/communication-ui-library-android/pull/180)
+- Tint/shades for the primary color [#208](https://github.com/Azure/communication-ui-library-android/pull/208)
+
+### Breaking Changes
+- Renamed `azure_communication_ui_communication_primary` to `azure_communication_ui_primary_color` in Theme. [#208](https://github.com/Azure/communication-ui-library-android/pull/208)
 
 ## 1.0.0-beta.3 (2022-04-04)
 
