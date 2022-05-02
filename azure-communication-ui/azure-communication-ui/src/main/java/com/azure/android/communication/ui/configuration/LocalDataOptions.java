@@ -3,12 +3,11 @@
 
 package com.azure.android.communication.ui.configuration;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.azure.android.communication.ui.CallComposite;
 import com.azure.android.communication.ui.persona.PersonaData;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * LocalDataOptions for CallComposite.launch.
@@ -40,7 +39,7 @@ public final class LocalDataOptions {
      * @param personaData The {@link PersonaData};
      * @see PersonaData
      */
-    public LocalDataOptions(@NotNull final PersonaData personaData) {
+    public LocalDataOptions(@NonNull final PersonaData personaData) {
         this.personaData = personaData;
     }
 

@@ -6,6 +6,8 @@ package com.azure.android.communication.ui;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration;
@@ -17,8 +19,6 @@ import com.azure.android.communication.ui.configuration.events.CommunicationUIRe
 import com.azure.android.communication.ui.persona.PersonaData;
 import com.azure.android.communication.ui.persona.SetPersonaDataResult;
 import com.azure.android.communication.ui.presentation.CallCompositeActivity;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -240,8 +240,8 @@ public final class CallComposite {
      * @param personaData The {@link PersonaData}.
      * @return {@link SetPersonaDataResult}
      */
-    public SetPersonaDataResult setRemoteParticipantPersonaData(@NotNull final CommunicationIdentifier identifier,
-                                                                @NotNull final PersonaData personaData) {
+    public SetPersonaDataResult setRemoteParticipantPersonaData(@NonNull final CommunicationIdentifier identifier,
+                                                                @NonNull final PersonaData personaData) {
         return configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
     }
 
