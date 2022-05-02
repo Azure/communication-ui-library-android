@@ -36,9 +36,6 @@ internal class AvatarViewManager(
     private val remoteParticipantsPersonaSharedFlow =
         MutableSharedFlow<Map<String, PersonaData>>()
 
-    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, PersonaData>> =
-        remoteParticipantsPersonaSharedFlow
-
     override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult {
         val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
         if (!appStore.getCurrentState().remoteParticipantState.participantMap.keys.contains(id)) {
@@ -66,10 +63,13 @@ internal class AvatarViewManager(
         }
     }
 
-    override fun getRemoteParticipantPersonaData(identifier: String): PersonaData? {
+    fun getRemoteParticipantPersonaData(identifier: String): PersonaData? {
         if (remoteParticipantsPersonaCache.contains(identifier)) {
             return remoteParticipantsPersonaCache[identifier]
         }
         return null
     }
+
+    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, PersonaData>> =
+        remoteParticipantsPersonaSharedFlow
 }

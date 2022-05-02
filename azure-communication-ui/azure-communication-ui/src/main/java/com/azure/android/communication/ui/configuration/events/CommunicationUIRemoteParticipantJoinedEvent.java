@@ -25,7 +25,7 @@ public final class CommunicationUIRemoteParticipantJoinedEvent {
     /**
      * Returns the communication identifiers.
      *
-     * @return The {@link List<CommunicationIdentifier>};
+     * @return The list of {@link CommunicationIdentifier};
      */
     public List<CommunicationIdentifier> getIdentifiers() {
         return identifiers;

@@ -15,7 +15,6 @@ internal data class RemoteParticipantPersonaData(
 internal interface RemoteParticipantsConfigurationHandler {
     fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult
     fun onRemoveParticipantPersonaData(identifier: String)
-    fun getRemoteParticipantPersonaData(identifier: String): PersonaData?
 }
 
 internal class RemoteParticipantsConfiguration {
