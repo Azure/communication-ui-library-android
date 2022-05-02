@@ -144,7 +144,7 @@ internal class RemoteParticipantHandlerUnitTests {
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
-                    event.identifiers.size == 1 && event.identifiers[0] == communicationIdentifier
+                    event.identifiers.size == 1 && event.identifiers.toList()[0] == communicationIdentifier
                 }
             )
 
@@ -250,8 +250,8 @@ internal class RemoteParticipantHandlerUnitTests {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers[0] == communicationIdentifierFirst &&
-                        event.identifiers[1] == communicationIdentifierSecond
+                        event.identifiers.toList()[0] == communicationIdentifierFirst &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond
                 }
             )
 
@@ -366,8 +366,8 @@ internal class RemoteParticipantHandlerUnitTests {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers[0] == communicationIdentifierFirst &&
-                        event.identifiers[1] == communicationIdentifierSecond
+                        event.identifiers.toList()[0] == communicationIdentifierFirst &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond
                 }
             )
 
@@ -451,7 +451,7 @@ internal class RemoteParticipantHandlerUnitTests {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 1 &&
-                        event.identifiers[0] == communicationIdentifierNew
+                        event.identifiers.toList()[0] == communicationIdentifierNew
                 }
             )
 
@@ -564,8 +564,8 @@ internal class RemoteParticipantHandlerUnitTests {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers[0] == communicationIdentifierFirst &&
-                        event.identifiers[1] == communicationIdentifierSecond
+                        event.identifiers.toList()[0] == communicationIdentifierFirst &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond
                 }
             )
 
