@@ -133,24 +133,27 @@ internal class CallingFragment :
 
     override fun onDestroy() {
         super.onDestroy()
-        // Covers edge case where Android tries to recreate call activity after process death
-        // (e.g. due to revoked permission).
-        // If no configs are detected we can just exit without cleanup.
-        if (CallCompositeConfiguration.hasConfig(holder.instanceId)) {
-            if (activity?.isChangingConfigurations == false) {
-                participantGridView.stop()
+        if (activity?.isChangingConfigurations == false) {
+            if (this::participantGridView.isInitialized) participantGridView.stop()
+            if (CallCompositeConfiguration.hasConfig(holder.instanceId)) {
+                // Covers edge case where Android tries to recreate call activity after process death
+                // (e.g. due to revoked permission).
+                // If no configs are detected we can just exit without cleanup.
                 viewModel.getBannerViewModel().dismissBanner()
             }
-            localParticipantView.stop()
-            participantListView.stop()
-            audioDeviceListView.stop()
-            confirmLeaveOverlayView.stop()
+        }
+        if (this::localParticipantView.isInitialized) localParticipantView.stop()
+        if (this::participantListView.isInitialized) participantListView.stop()
+        if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
+        if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
+
+        if (this::wakeLock.isInitialized) {
             if (wakeLock.isHeld) {
                 wakeLock.setReferenceCounted(false)
                 wakeLock.release()
             }
-            sensorManager.unregisterListener(this)
         }
+        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
