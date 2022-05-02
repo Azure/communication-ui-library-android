@@ -13,22 +13,22 @@ internal data class RemoteParticipantPersonaData(
 )
 
 internal interface RemoteParticipantsConfigurationHandler {
-    fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult
-    fun onRemoveParticipantPersonaData(identifier: String)
+    fun onSetPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult
+    fun onRemovePersonaData(identifier: String)
 }
 
 internal class RemoteParticipantsConfiguration {
-    private lateinit var remoteParticipantsConfigurationHandler: RemoteParticipantsConfigurationHandler
+    private lateinit var handler: RemoteParticipantsConfigurationHandler
 
-    fun setRemoteParticipantsConfigurationHandler(handler: RemoteParticipantsConfigurationHandler) {
-        remoteParticipantsConfigurationHandler = handler
+    fun setHandler(handler: RemoteParticipantsConfigurationHandler) {
+        this.handler = handler
     }
 
     fun setPersonaData(
         identifier: CommunicationIdentifier,
         personaData: PersonaData,
     ): SetPersonaDataResult {
-        return remoteParticipantsConfigurationHandler.onSetRemoteParticipantPersonaData(
+        return handler.onSetPersonaData(
             RemoteParticipantPersonaData(
                 identifier,
                 personaData
@@ -37,6 +37,6 @@ internal class RemoteParticipantsConfiguration {
     }
 
     fun removePersonaData(identifier: String) {
-        remoteParticipantsConfigurationHandler.onRemoveParticipantPersonaData(identifier)
+        handler.onRemovePersonaData(identifier)
     }
 }

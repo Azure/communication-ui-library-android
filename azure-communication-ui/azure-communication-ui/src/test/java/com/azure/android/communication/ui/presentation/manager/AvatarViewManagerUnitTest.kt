@@ -206,7 +206,7 @@ internal class AvatarViewManagerUnitTest {
 
             // act
             val result =
-                avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+                avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
@@ -265,7 +265,7 @@ internal class AvatarViewManagerUnitTest {
 
             // act
             val result =
-                avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+                avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
@@ -331,7 +331,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
@@ -404,7 +404,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
@@ -414,7 +414,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaDataUpdated)
+            avatarViewManager.onSetPersonaData(remoteParticipantPersonaDataUpdated)
             testScheduler.runCurrent()
 
             // assert
@@ -483,7 +483,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
@@ -557,7 +557,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
@@ -577,7 +577,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onRemoveParticipantPersonaData("test")
+            avatarViewManager.onRemovePersonaData("test")
             testScheduler.runCurrent()
 
             // assert
@@ -651,7 +651,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onSetRemoteParticipantPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
@@ -671,7 +671,7 @@ internal class AvatarViewManagerUnitTest {
             )
 
             // act
-            avatarViewManager.onRemoveParticipantPersonaData("test1")
+            avatarViewManager.onRemovePersonaData("test1")
             testScheduler.runCurrent()
 
             // assert

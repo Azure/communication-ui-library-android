@@ -541,7 +541,7 @@ internal class RemoteParticipantHandlerUnitTests {
             val mockRemoteParticipantsConfigurationHandler =
                 mock<RemoteParticipantsConfigurationHandler>()
             val configuration = CallCompositeConfiguration()
-            configuration.remoteParticipantsConfiguration.setRemoteParticipantsConfigurationHandler(
+            configuration.remoteParticipantsConfiguration.setHandler(
                 mockRemoteParticipantsConfigurationHandler
             )
             configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
@@ -608,7 +608,7 @@ internal class RemoteParticipantHandlerUnitTests {
 
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(any())
-            verify(mockRemoteParticipantsConfigurationHandler, times(1)).onRemoveParticipantPersonaData(
+            verify(mockRemoteParticipantsConfigurationHandler, times(1)).onRemovePersonaData(
                 argThat { identifier ->
                     identifier == "test"
                 }

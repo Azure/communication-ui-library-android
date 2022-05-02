@@ -22,21 +22,21 @@ internal class AvatarViewManager(
     coroutineContextProvider: CoroutineContextProvider,
     private val appStore: AppStore<ReduxState>,
     val localDataOptions: LocalDataOptions?,
-    remoteParticipantsConfiguration: RemoteParticipantsConfiguration,
+    configuration: RemoteParticipantsConfiguration,
 ) :
     RemoteParticipantsConfigurationHandler {
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     init {
-        remoteParticipantsConfiguration.setRemoteParticipantsConfigurationHandler(this)
+        configuration.setHandler(this)
     }
 
     private val remoteParticipantsPersonaCache = mutableMapOf<String, PersonaData>()
     private val remoteParticipantsPersonaSharedFlow =
         MutableSharedFlow<Map<String, PersonaData>>()
 
-    override fun onSetRemoteParticipantPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult {
+    override fun onSetPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult {
         val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
         if (!appStore.getCurrentState().remoteParticipantState.participantMap.keys.contains(id)) {
             return SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL
@@ -54,7 +54,7 @@ internal class AvatarViewManager(
         return SetPersonaDataResult.SUCCESS
     }
 
-    override fun onRemoveParticipantPersonaData(identifier: String) {
+    override fun onRemovePersonaData(identifier: String) {
         if (remoteParticipantsPersonaCache.contains(identifier)) {
             remoteParticipantsPersonaCache.remove(identifier)
             coroutineScope.launch {
