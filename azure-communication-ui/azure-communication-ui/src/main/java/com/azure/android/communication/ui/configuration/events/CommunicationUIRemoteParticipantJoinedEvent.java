@@ -14,7 +14,7 @@ public final class CommunicationUIRemoteParticipantJoinedEvent {
     private final List<CommunicationIdentifier> identifiers;
 
     /**
-     * Create{@linkRemoteParticipantJoinedEvent} with user identifiers.
+     * Create {@link CommunicationUIRemoteParticipantJoinedEvent} with user identifiers.
      *
      * @param identifiers {@link CommunicationIdentifier};
      */
