@@ -21,6 +21,7 @@ import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
+import com.azure.android.communication.ui.CallCompositeException
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.CallConfiguration
 import com.azure.android.communication.ui.configuration.CallType
@@ -55,7 +56,7 @@ internal class CallingSDKWrapper(
     private val callConfig: CallConfiguration
         get() {
             if (configuration.callConfig == null)
-                throw IllegalStateException("Call configurations are not set")
+                throw CallCompositeException("Call configurations are not set")
 
             return configuration.callConfig!!
         }
@@ -63,7 +64,7 @@ internal class CallingSDKWrapper(
     private val call: Call
         get() {
             if (nullableCall == null)
-                throw IllegalStateException("Call is not started")
+                throw CallCompositeException("Call is not started")
 
             return nullableCall!!
         }

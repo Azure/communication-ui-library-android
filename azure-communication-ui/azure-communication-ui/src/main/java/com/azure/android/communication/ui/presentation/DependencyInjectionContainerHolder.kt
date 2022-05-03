@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.azure.android.communication.ui.CallCompositeException
 import com.azure.android.communication.ui.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.di.DependencyInjectionContainerImpl
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingViewModel
@@ -12,7 +13,6 @@ import com.azure.android.communication.ui.presentation.fragment.factories.Callin
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
-import java.lang.RuntimeException
 
 /**
  * ViewModel for the CallCompositeActivity
@@ -30,7 +30,7 @@ internal class DependencyInjectionContainerHolder(application: Application) :
 
     val container: DependencyInjectionContainer by lazy {
         if (instanceId == -1) {
-            throw RuntimeException(
+            throw CallCompositeException(
                 "Will not be able to locate a Configuration for instanceId: -1. " +
                     "Please ensure that you have set instanceId before retrieving the container."
             )
