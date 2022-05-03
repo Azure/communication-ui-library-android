@@ -46,6 +46,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioSessionManager get() = container.audioSessionManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
+    private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
@@ -68,6 +69,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // so it can initialize it's container holding the dependencies
         diContainerHolder.instanceId = instanceId
         lifecycleScope.launch { errorHandler.start() }
+        lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureActionBar()

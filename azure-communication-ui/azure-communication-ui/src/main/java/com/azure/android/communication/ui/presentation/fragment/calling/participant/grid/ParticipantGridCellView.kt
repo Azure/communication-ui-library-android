@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.persona.PersonaData
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
 import com.microsoft.fluentui.persona.AvatarView
@@ -26,13 +27,28 @@ internal class ParticipantGridCellView(
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getVideoStreamCallback: (String, String) -> View?,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
+    private val getPersonaDataCallback: (participantID: String) -> PersonaData?,
 ) : RelativeLayout(context) {
+
+    private lateinit var avatarView: ParticipantGridCellAvatarView
+    private lateinit var videoView: ParticipantGridCellVideoView
 
     init {
         inflate(context, R.layout.azure_communication_ui_participant_avatar_view, this)
         inflate(context, R.layout.azure_communication_ui_participant_video_view, this)
         createVideoView()
         createAvatarView()
+    }
+
+    fun getParticipantIdentifier() = participantViewModel.getParticipantUserIdentifier()
+
+    fun updatePersonaData() {
+        if (::avatarView.isInitialized) {
+            avatarView.updatePersonaData()
+        }
+        if (::videoView.isInitialized) {
+            videoView.updatePersonaData()
+        }
     }
 
     private fun createAvatarView() {
@@ -51,12 +67,13 @@ internal class ParticipantGridCellView(
         val micIndicatorAudioImageView: ImageView =
             findViewById(R.id.azure_communication_ui_participant_audio_view_mic_indicator)
 
-        ParticipantGridCellAvatarView(
+        avatarView = ParticipantGridCellAvatarView(
             avatarControl,
             participantAvatarSpeakingIndicator,
             participantAvatarContainer,
             displayNameAudioTextView,
             micIndicatorAudioImageView,
+            getPersonaDataCallback,
             participantViewModel,
             context,
             lifecycleScope,
@@ -79,7 +96,7 @@ internal class ParticipantGridCellView(
         val micIndicatorOnVideoImageView: ImageView =
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
-        ParticipantGridCellVideoView(
+        videoView = ParticipantGridCellVideoView(
             context,
             lifecycleScope,
             participantVideoContainerFrameLayout,
@@ -90,7 +107,8 @@ internal class ParticipantGridCellView(
             participantViewModel,
             getVideoStreamCallback,
             showFloatingHeaderCallBack,
-            getScreenShareVideoStreamRendererCallback
+            getScreenShareVideoStreamRendererCallback,
+            getPersonaDataCallback,
         )
     }
 }
