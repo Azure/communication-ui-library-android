@@ -55,7 +55,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 .selectedLanguageCode(SettingsFeatures.languageCode(selectedLanguage)).toString());
 
         builder.localization(new LocalizationConfiguration(locale,
-                SettingsFeatures.isRTL()));
+                SettingsFeatures.getLayoutDirection()));
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
             builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
