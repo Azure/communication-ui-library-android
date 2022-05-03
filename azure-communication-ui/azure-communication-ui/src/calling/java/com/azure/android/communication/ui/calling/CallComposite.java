@@ -240,8 +240,8 @@ public final class CallComposite {
      * @param personaData The {@link PersonaData}.
      * @return {@link SetPersonaDataResult}
      */
-    public SetPersonaDataResult setRemoteParticipantPersonaData(@NonNull final CommunicationIdentifier identifier,
-                                                                @NonNull final PersonaData personaData) {
+    public SetPersonaDataResult setRemoteParticipantPersonaData(final CommunicationIdentifier identifier,
+                                                                final PersonaData personaData) {
         return configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
     }
 

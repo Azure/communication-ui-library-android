@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.calling.configuration;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.persona.PersonaData;
 
@@ -39,7 +36,7 @@ public final class LocalDataOptions {
      * @param personaData The {@link PersonaData};
      * @see PersonaData
      */
-    public LocalDataOptions(@NonNull final PersonaData personaData) {
+    public LocalDataOptions(final PersonaData personaData) {
         this.personaData = personaData;
     }
 
@@ -49,7 +46,6 @@ public final class LocalDataOptions {
      *
      * @return The {@link PersonaData};
      */
-    @Nullable
     public PersonaData getPersonaData() {
         return personaData;
     }

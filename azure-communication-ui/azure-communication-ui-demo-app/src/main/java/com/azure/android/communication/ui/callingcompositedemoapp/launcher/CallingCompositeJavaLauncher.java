@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 import com.azure.android.communication.ui.calling.GroupCallOptions;
 import com.azure.android.communication.ui.calling.TeamsMeetingOptions;
+import com.azure.android.communication.ui.calling.configuration.SupportLanguage;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;

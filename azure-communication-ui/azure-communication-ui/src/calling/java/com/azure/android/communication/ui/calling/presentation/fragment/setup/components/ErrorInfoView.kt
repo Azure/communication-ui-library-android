@@ -113,7 +113,7 @@ internal class ErrorInfoView(private val rootView: View) {
     }
 }
 
-fun View.accessibilityFocus(): View {
+internal fun View.accessibilityFocus(): View {
     post {
         performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
         sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
