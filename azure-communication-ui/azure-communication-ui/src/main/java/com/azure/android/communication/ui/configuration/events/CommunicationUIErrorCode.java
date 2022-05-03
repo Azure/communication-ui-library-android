@@ -16,8 +16,6 @@ public final class CommunicationUIErrorCode extends ExpandableStringEnum<Communi
 
     public static final CommunicationUIErrorCode CALL_END = fromString("callEnd");
 
-    public static final CommunicationUIErrorCode CALL_EVICTED = fromString("callEvicted");
-
     public static final CommunicationUIErrorCode TOKEN_EXPIRED = fromString("tokenExpired");
 
     public static final CommunicationUIErrorCode SWITCH_CAMERA = fromString("switchCamera");

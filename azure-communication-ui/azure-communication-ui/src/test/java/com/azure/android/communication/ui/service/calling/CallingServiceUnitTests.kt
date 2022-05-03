@@ -7,6 +7,9 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode.CALL_EVICTED
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.helper.TestContextProvider
@@ -178,8 +181,8 @@ internal class CallingServiceUnitTests {
             Assert.assertEquals(CallingStatus.CONNECTED, emitResultFromFlow[1].callingStatus)
             Assert.assertEquals(CallingStatus.CALL_EVICTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
-                CommunicationUIErrorCode.CALL_EVICTED,
-                emitResultFromFlow[2].callStateError!!.communicationUIErrorCode
+                CommunicationUIEventCode.CALL_EVICTED,
+                emitResultFromFlow[2].callStateError!!.communicationUIEventCode
             )
 
             job.cancel()
