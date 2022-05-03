@@ -7,20 +7,20 @@ import android.text.TextUtils;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
-import com.azure.android.communication.ui.CallComposite;
-import com.azure.android.communication.ui.CallCompositeBuilder;
-import com.azure.android.communication.ui.GroupCallOptions;
-import com.azure.android.communication.ui.TeamsMeetingOptions;
+import com.azure.android.communication.ui.calling.CallComposite;
+import com.azure.android.communication.ui.calling.CallCompositeBuilder;
+import com.azure.android.communication.ui.calling.GroupCallOptions;
+import com.azure.android.communication.ui.calling.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
-import com.azure.android.communication.ui.configuration.LocalDataOptions;
-import com.azure.android.communication.ui.configuration.LocalizationConfiguration;
-import com.azure.android.communication.ui.configuration.ThemeConfiguration;
-import com.azure.android.communication.ui.persona.PersonaData;
+import com.azure.android.communication.ui.calling.configuration.LocalDataOptions;
+import com.azure.android.communication.ui.calling.configuration.LocalizationConfiguration;
+import com.azure.android.communication.ui.calling.configuration.ThemeConfiguration;
+import com.azure.android.communication.ui.calling.persona.PersonaData;
 
 import java.util.Locale;
 import java.util.UUID;

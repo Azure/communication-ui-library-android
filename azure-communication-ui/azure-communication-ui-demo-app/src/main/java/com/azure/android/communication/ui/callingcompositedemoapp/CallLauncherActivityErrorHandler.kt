@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import com.azure.android.communication.ui.CallingEventHandler
-import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.calling.CallingEventHandler
+import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorEvent
 import java.lang.ref.WeakReference
 
 // Handles forwarding of error messages to the CallLauncherActivity

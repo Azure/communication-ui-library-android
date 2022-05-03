@@ -72,6 +72,50 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
+
+    sourceSets {
+        calling {
+            java.srcDirs = ['src/main/java','src/calling/java']
+            res.srcDirs = ['src/main/res','src/calling/res']
+        }
+        chat {
+            java.srcDirs = ['src/main/java','src/chat/java']
+            res.srcDirs = ['src/main/res','src/chat/res']
+        }
+    }
+
+    flavorDimensions 'product'
+    productFlavors {
+        chat {
+            dimension 'product'
+            println versionName
+        }
+        calling {
+            dimension 'product'
+        }
+    }
+
+    publishing {
+        multipleVariants('releaseCalling') {
+            withSourcesJar()
+            withJavadocJar()
+            includeBuildTypeValues('release')
+            includeFlavorDimensionAndValues(
+                    /*dimension =*/ 'product',
+                    /*values =*/ 'calling'
+            )
+        }
+        multipleVariants('releaseChat') {
+            withSourcesJar()
+            withJavadocJar()
+            includeBuildTypeValues('release')
+            includeFlavorDimensionAndValues(
+                    /*dimension =*/ 'product',
+                    /*values =*/ 'chat'
+            )
+        }
+    }
+
 }
 
 dependencies {
@@ -81,13 +125,13 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation "com.azure.android:azure-core:$azure_core_version"
-    api ("com.azure.android:azure-communication-calling:$calling_sdk_version")
-    implementation "com.microsoft.device:dualscreen-layout:1.0.0-alpha01"
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation "com.microsoft.fluentui:fluentui_others:$fluent_ui_version"
-    implementation "com.microsoft.fluentui:fluentui_drawer:$fluent_ui_version"
-    implementation "com.microsoft.fluentui:fluentui_persona:$fluent_ui_version"
-    implementation "com.microsoft.fluentui:fluentui_transients:$fluent_ui_version"
+    callingApi ("com.azure.android:azure-communication-calling:$calling_sdk_version")
+    callingImplementation "com.microsoft.device:dualscreen-layout:1.0.0-alpha01"
+    callingImplementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    callingImplementation "com.microsoft.fluentui:fluentui_others:$fluent_ui_version"
+    callingImplementation "com.microsoft.fluentui:fluentui_drawer:$fluent_ui_version"
+    callingImplementation "com.microsoft.fluentui:fluentui_persona:$fluent_ui_version"
+    callingImplementation "com.microsoft.fluentui:fluentui_transients:$fluent_ui_version"
 
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "junit:junit:$junit"

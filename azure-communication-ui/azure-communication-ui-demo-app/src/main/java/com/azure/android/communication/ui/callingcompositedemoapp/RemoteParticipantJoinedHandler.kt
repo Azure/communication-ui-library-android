@@ -9,11 +9,11 @@ import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
 import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
-import com.azure.android.communication.ui.CallComposite
-import com.azure.android.communication.ui.CallingEventHandler
-import com.azure.android.communication.ui.configuration.events.CommunicationUIRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.persona.PersonaData
-import com.azure.android.communication.ui.persona.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.CallingEventHandler
+import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.persona.PersonaData
+import com.azure.android.communication.ui.calling.persona.SetPersonaDataResult
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(
