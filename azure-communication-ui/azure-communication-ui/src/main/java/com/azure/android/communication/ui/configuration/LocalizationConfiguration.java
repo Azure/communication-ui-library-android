@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.configuration;
 
-
-import android.util.LayoutDirection;
-
 import androidx.annotation.NonNull;
 
 import com.azure.android.communication.ui.CallComposite;
@@ -35,7 +32,7 @@ import java.util.Locale;
  * @see CallComposite
  */
 public final class LocalizationConfiguration {
-    private final Integer layoutDirection;
+    private Integer layoutDirection;
     private final Locale locale;
 
     /**
@@ -45,7 +42,6 @@ public final class LocalizationConfiguration {
      */
     public LocalizationConfiguration(@NonNull final Locale locale) {
         this.locale = locale;
-        this.layoutDirection = LayoutDirection.LTR;
     }
 
     /**
@@ -62,11 +58,10 @@ public final class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param language language String; eg,. "fr"
+     * @param languageCode language String; eg,. "fr"
      */
-    public LocalizationConfiguration(@NonNull final String language) {
-        this.locale = new Locale(language);
-        this.layoutDirection = LayoutDirection.LTR;
+    public LocalizationConfiguration(@NonNull final String languageCode) {
+        this.locale = new Locale(languageCode);
     }
 
     /**
@@ -88,7 +83,6 @@ public final class LocalizationConfiguration {
      */
     public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode) {
         this.locale = new Locale(language, countryCode);
-        this.layoutDirection = LayoutDirection.LTR;
     }
 
     /**
