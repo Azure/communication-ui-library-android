@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.redux.middleware.handler
 
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.error.CallCompositeError
 import com.azure.android.communication.ui.error.FatalError
 import com.azure.android.communication.ui.redux.Store
@@ -324,7 +325,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 callInfoModel.callStateError?.let {
                     val action = ErrorAction.CallStateErrorOccurred(it)
                     store.dispatch(action)
-                    if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_EVICTED) {
+                    if (it.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED) {
                         store.dispatch(NavigationAction.SetupLaunched())
                     } else if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END ||
                         it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN
