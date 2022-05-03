@@ -26,15 +26,15 @@ internal class RemoteParticipantHandler(
     }
 
     private fun onStateChanged(remoteParticipantsState: RemoteParticipantsState) {
-        if (configuration.callCompositeEventsHandler.getOnRemoteParticipantJoinedHandler() != null &&
-            remoteParticipantsState.modifiedTimestamp != lastRemoteParticipantsState?.modifiedTimestamp
-        ) {
-            if (lastRemoteParticipantsState != null) {
-                val joinedParticipants =
-                    remoteParticipantsState.participantMap.keys.filter { it !in lastRemoteParticipantsState!!.participantMap.keys }
-                sendRemoteParticipantJoinedEvent(joinedParticipants)
-            } else {
-                sendRemoteParticipantJoinedEvent(remoteParticipantsState.participantMap.keys.toList())
+        if (remoteParticipantsState.modifiedTimestamp != lastRemoteParticipantsState?.modifiedTimestamp) {
+            if (configuration.callCompositeEventsHandler.getOnRemoteParticipantJoinedHandler() != null) {
+                if (lastRemoteParticipantsState != null) {
+                    val joinedParticipants =
+                        remoteParticipantsState.participantMap.keys.filter { it !in lastRemoteParticipantsState!!.participantMap.keys }
+                    sendRemoteParticipantJoinedEvent(joinedParticipants)
+                } else {
+                    sendRemoteParticipantJoinedEvent(remoteParticipantsState.participantMap.keys.toList())
+                }
             }
 
             val leftParticipants =
