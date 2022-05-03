@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling.control
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageButton
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class ControlBarView : LinearLayout {
+internal class ControlBarView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 

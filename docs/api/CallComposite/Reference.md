@@ -12,9 +12,9 @@
 - [ThemeConfiguration](classes/ThemeConfiguration.md)
 - [LocalizationConfiguration](classes/LocalizationConfiguration.md)
 - [LanguageCode](classes/LanguageCode.md)
-- [CommunicationUILocalDataOptions](classes/CommunicationUILocalDataOptions.md)
-- [CommunicationUIPersonaData](classes/CommunicationUIPersonaData.md)
-
+- [LocalDataOptions](classes/LocalDataOptions.md)
+- [PersonaData](classes/PersonaData.md)
+- [SetPersonaDataResult](classes/SetPersonaDataResult.md)
 
 ## Interfaces
 

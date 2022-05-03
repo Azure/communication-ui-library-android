@@ -39,7 +39,7 @@ internal class CallingSDKWrapper(
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val logger: Logger? = null,
-) {
+) : CallingSDKRemoteParticipantsCollection {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
 
@@ -68,7 +68,7 @@ internal class CallingSDKWrapper(
             return nullableCall!!
         }
 
-    fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
+    override fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
 
     fun getCallingStateWrapperSharedFlow() =
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()

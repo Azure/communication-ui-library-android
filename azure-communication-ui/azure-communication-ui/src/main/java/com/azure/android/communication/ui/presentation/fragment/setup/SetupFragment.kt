@@ -40,6 +40,7 @@ internal class SetupFragment :
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
 
     private val videoViewManager get() = holder.container.videoViewManager
+    private val avatarViewManager get() = holder.container.avatarViewManager
     private val viewModel get() = holder.setupViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +59,11 @@ internal class SetupFragment :
         )
 
         participantAvatarView = view.findViewById(R.id.azure_communication_ui_setup_default_avatar)
-        participantAvatarView.start(viewLifecycleOwner, viewModel.getParticipantAvatarViewModel())
+        participantAvatarView.start(
+            viewLifecycleOwner,
+            viewModel.getParticipantAvatarViewModel(),
+            avatarViewManager.localDataOptions?.personaData,
+        )
 
         warningsView = view.findViewById(R.id.azure_communication_ui_setup_permission_info)
         warningsView.start(
@@ -101,10 +106,16 @@ internal class SetupFragment :
     }
 
     private fun setActionBarTitle() {
-        val mSpannableText = SpannableString(getString(R.string.azure_communication_ui_call_setup_action_bar_title))
+        val mSpannableText =
+            SpannableString(getString(R.string.azure_communication_ui_call_setup_action_bar_title))
 
         mSpannableText.setSpan(
-            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.azure_communication_ui_color_action_bar_text)),
+            ForegroundColorSpan(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.azure_communication_ui_color_action_bar_text
+                )
+            ),
             0,
             mSpannableText.length,
             Spannable.SPAN_INCLUSIVE_INCLUSIVE

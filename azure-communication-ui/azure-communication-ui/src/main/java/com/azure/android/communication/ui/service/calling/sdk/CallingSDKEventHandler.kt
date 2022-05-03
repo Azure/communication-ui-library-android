@@ -13,11 +13,8 @@ import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
-import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
-import com.azure.android.communication.common.PhoneNumberIdentifier
-import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.model.ParticipantInfoModel
+import com.azure.android.communication.ui.service.calling.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -56,7 +53,7 @@ internal class CallingSDKEventHandler(
     private lateinit var recordingFeature: RecordingCallFeature
     private lateinit var transcriptionFeature: TranscriptionCallFeature
 
-    fun getRemoteParticipantsMap() = remoteParticipantsCacheMap
+    fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> = remoteParticipantsCacheMap
 
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
         callingStateWrapperSharedFlow
@@ -184,7 +181,7 @@ internal class CallingSDKEventHandler(
 
     private fun addParticipants(remoteParticipantValue: List<RemoteParticipant>) {
         remoteParticipantValue.forEach { addedParticipant ->
-            val id = getRemoteParticipantId(addedParticipant)
+            val id = ParticipantIdentifierHelper.getRemoteParticipantId(addedParticipant.identifier)
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
             }
@@ -209,7 +206,7 @@ internal class CallingSDKEventHandler(
         val currentTimestamp = System.currentTimeMillis()
         return ParticipantInfoModel(
             participant.displayName,
-            getRemoteParticipantId(participant),
+            ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
             participant.isMuted,
             participant.isSpeaking && !participant.isMuted,
             createVideoStreamModel(participant, MediaStreamType.SCREEN_SHARING),
@@ -230,14 +227,15 @@ internal class CallingSDKEventHandler(
 
     private fun onParticipantsUpdated(participantsUpdatedEvent: ParticipantsUpdatedEvent) {
         participantsUpdatedEvent.addedParticipants.forEach { addedParticipant ->
-            val id = getRemoteParticipantId(addedParticipant)
+            val id = ParticipantIdentifierHelper.getRemoteParticipantId(addedParticipant.identifier)
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
             }
         }
 
         participantsUpdatedEvent.removedParticipants.forEach { removedParticipant ->
-            val id = getRemoteParticipantId(removedParticipant)
+            val id =
+                ParticipantIdentifierHelper.getRemoteParticipantId(removedParticipant.identifier)
             if (remoteParticipantsCacheMap.containsKey(id)) {
                 removedParticipant.removeOnVideoStreamsUpdatedListener(
                     videoStreamsUpdatedListenersMap[id]
@@ -303,23 +301,6 @@ internal class CallingSDKEventHandler(
 
         isSpeakingChangedListenerMap[id] = addOnIsSpeakingChangedEvent
         addedParticipant.addOnIsSpeakingChangedListener(isSpeakingChangedListenerMap[id])
-    }
-
-    private fun getRemoteParticipantId(remoteParticipant: RemoteParticipant): String {
-        return when (val identifier = remoteParticipant.identifier) {
-            is PhoneNumberIdentifier -> {
-                identifier.phoneNumber
-            }
-            is MicrosoftTeamsUserIdentifier -> {
-                identifier.userId
-            }
-            is CommunicationUserIdentifier -> {
-                identifier.id
-            }
-            else -> {
-                (identifier as UnknownIdentifier).id
-            }
-        }
     }
 
     private fun onRemoteParticipantUpdated() {

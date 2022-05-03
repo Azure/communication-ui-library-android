@@ -35,6 +35,7 @@ internal class CallingFragment :
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
 
     private val videoViewManager get() = holder.container.videoViewManager
+    private val avatarViewManager get() = holder.container.avatarViewManager
     private val viewModel get() = holder.callingViewModel
 
     private val closeToUser = 0f
@@ -56,7 +57,8 @@ internal class CallingFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
-        confirmLeaveOverlayView = LeaveConfirmView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
+        confirmLeaveOverlayView =
+            LeaveConfirmView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
         confirmLeaveOverlayView.start(
             viewLifecycleOwner
         )
@@ -75,7 +77,8 @@ internal class CallingFragment :
             viewModel.getParticipantGridViewModel(),
             videoViewManager,
             viewLifecycleOwner,
-            this::switchFloatingHeader
+            this::switchFloatingHeader,
+            avatarViewManager
         )
 
         lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
@@ -86,9 +89,11 @@ internal class CallingFragment :
             viewLifecycleOwner,
             viewModel.getLocalParticipantViewModel(),
             videoViewManager,
+            avatarViewManager,
         )
 
-        accessibilityManager = context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        accessibilityManager =
+            context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         infoHeaderView = view.findViewById(R.id.azure_communication_ui_call_floating_header)
         infoHeaderView.start(
             viewLifecycleOwner,
@@ -104,6 +109,7 @@ internal class CallingFragment :
         participantListView = ParticipantListView(
             viewModel.getParticipantListViewModel(),
             this.requireContext(),
+            avatarViewManager,
         )
         participantListView.start(viewLifecycleOwner)
 
