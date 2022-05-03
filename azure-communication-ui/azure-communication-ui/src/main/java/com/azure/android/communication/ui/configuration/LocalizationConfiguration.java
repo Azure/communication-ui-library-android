@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.configuration;
 
 
+import android.util.LayoutDirection;
+
 import androidx.annotation.NonNull;
 
 import com.azure.android.communication.ui.CallComposite;
@@ -33,7 +35,7 @@ import java.util.Locale;
  * @see CallComposite
  */
 public final class LocalizationConfiguration {
-    private int layoutDirection;
+    private final Integer layoutDirection;
     private final Locale locale;
 
     /**
@@ -41,8 +43,9 @@ public final class LocalizationConfiguration {
      *
      * @param locale The {@link Locale}; eg,. Locale.US
      */
-    public LocalizationConfiguration(final Locale locale) {
+    public LocalizationConfiguration(@NonNull final Locale locale) {
         this.locale = locale;
+        this.layoutDirection = LayoutDirection.LTR;
     }
 
     /**
@@ -51,7 +54,7 @@ public final class LocalizationConfiguration {
      * @param locale          The {@link Locale}; eg,. Locale.US
      * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
-    public LocalizationConfiguration(final Locale locale, final int layoutDirection) {
+    public LocalizationConfiguration(@NonNull final Locale locale, final int layoutDirection) {
         this.locale = locale;
         this.layoutDirection = layoutDirection;
     }
@@ -63,6 +66,7 @@ public final class LocalizationConfiguration {
      */
     public LocalizationConfiguration(@NonNull final String language) {
         this.locale = new Locale(language);
+        this.layoutDirection = LayoutDirection.LTR;
     }
 
     /**
@@ -84,6 +88,7 @@ public final class LocalizationConfiguration {
      */
     public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode) {
         this.locale = new Locale(language, countryCode);
+        this.layoutDirection = LayoutDirection.LTR;
     }
 
     /**
@@ -93,7 +98,8 @@ public final class LocalizationConfiguration {
      * @param countryCode country code String; eg,. "FR"
      * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
-    public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode, final int layoutDirection) {
+    public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode,
+                                     final int layoutDirection) {
         this.locale = new Locale(language, countryCode);
         this.layoutDirection = layoutDirection;
     }
