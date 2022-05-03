@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.configuration;
 
 
+import androidx.annotation.NonNull;
+
 import com.azure.android.communication.ui.CallComposite;
 
 import java.util.Locale;
@@ -37,6 +39,15 @@ public final class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
+     * @param locale The {@link Locale}; eg,. Locale.US
+     */
+    public LocalizationConfiguration(final Locale locale) {
+        this.locale = locale;
+    }
+
+    /**
+     * Create Localization configuration.
+     *
      * @param locale          The {@link Locale}; eg,. Locale.US
      * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
@@ -49,28 +60,42 @@ public final class LocalizationConfiguration {
      * Create Localization configuration.
      *
      * @param language language String; eg,. "fr"
-     * @param country  country String; eg,. "FR"
      */
-    public LocalizationConfiguration(final String language, final String country) {
-        this.locale = new Locale(language, country);
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language language String; eg,. "fr"
-     */
-    public LocalizationConfiguration(final String language) {
+    public LocalizationConfiguration(@NonNull final String language) {
         this.locale = new Locale(language);
     }
 
     /**
      * Create Localization configuration.
      *
-     * @param locale The {@link Locale}; eg,. Locale.US
+     * @param language language String; eg,. "fr"
+     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
      */
-    public LocalizationConfiguration(final Locale locale) {
-        this.locale = locale;
+    public LocalizationConfiguration(@NonNull final String language, final int layoutDirection) {
+        this.locale = new Locale(language);
+        this.layoutDirection = layoutDirection;
+    }
+
+    /**
+     * Create Localization configuration.
+     *
+     * @param language language String; eg,. "fr"
+     * @param countryCode country code String; eg,. "FR"
+     */
+    public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode) {
+        this.locale = new Locale(language, countryCode);
+    }
+
+    /**
+     * Create Localization configuration.
+     *
+     * @param language language String; eg,. "fr"
+     * @param countryCode country code String; eg,. "FR"
+     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
+     */
+    public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode, final int layoutDirection) {
+        this.locale = new Locale(language, countryCode);
+        this.layoutDirection = layoutDirection;
     }
 
     /**
