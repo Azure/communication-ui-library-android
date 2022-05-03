@@ -7,7 +7,6 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
-import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode.CALL_EVICTED
 import com.azure.android.communication.ui.helper.MainCoroutineRule

@@ -1433,7 +1433,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED
+                        action.callStateError.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED
                 }
             )
         }
@@ -1497,8 +1497,8 @@ internal class CallingMiddlewareActionHandlerUnitTest {
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                    action.callStateError.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END &&
-                    action.callStateError.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED
+                        action.callStateError.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END &&
+                        action.callStateError.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
