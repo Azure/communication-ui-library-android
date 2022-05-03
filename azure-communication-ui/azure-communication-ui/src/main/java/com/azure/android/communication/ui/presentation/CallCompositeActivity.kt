@@ -56,6 +56,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
             CallCompositeConfiguration.putConfig(instanceId, null)
+            audioSessionManager.finalize()
         }
         audioSessionManager.stop()
         super.onDestroy()

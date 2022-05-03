@@ -23,6 +23,7 @@ import android.media.AudioDeviceInfo
 import android.os.Build
 
 import androidx.core.content.ContextCompat.getSystemService
+import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 
 internal class AudioSessionManager(
@@ -90,6 +91,8 @@ internal class AudioSessionManager(
 
             previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
             previousPermissionState = it.permissionState.audioPermissionState
+
+
         }
     }
 
@@ -263,12 +266,15 @@ internal class AudioSessionManager(
             closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
         }
         context.unregisterReceiver(this)
+    }
+
+    // Call when the Activity is finalizing (i.e. call is done)
+    fun finalize() {
         if (audioManager.isBluetoothScoOn) {
             audioManager.stopBluetoothSco()
         }
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = false
-
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
