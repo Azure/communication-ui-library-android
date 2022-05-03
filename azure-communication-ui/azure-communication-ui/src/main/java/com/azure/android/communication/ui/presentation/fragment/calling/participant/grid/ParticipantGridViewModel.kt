@@ -110,7 +110,7 @@ internal class ParticipantGridViewModel(
                 != remoteParticipantsMapSorted[id]!!.modifiedTimestamp
             ) {
                 participantViewModel.update(
-                    remoteParticipantsMapSorted[id]!!
+                    remoteParticipantsMapSorted[id]!!,
                 )
             }
             remoteParticipantsMapSorted.remove(id)
@@ -147,7 +147,7 @@ internal class ParticipantGridViewModel(
         remoteParticipantsMapSorted.forEach { (id, participantInfoModel) ->
             displayedRemoteParticipantsViewModelMap[id] =
                 participantGridCellViewModelFactory.ParticipantGridCellViewModel(
-                    participantInfoModel
+                    participantInfoModel,
                 )
         }
 

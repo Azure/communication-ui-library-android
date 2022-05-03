@@ -12,7 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
+import com.azure.android.communication.ui.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 internal class ParticipantListView(
     private val viewModel: ParticipantListViewModel,
     context: Context,
+    private val avatarViewManager: AvatarViewManager,
 ) : RelativeLayout(context) {
     private var participantTable: RecyclerView
 
@@ -37,9 +39,21 @@ internal class ParticipantListView(
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
         initializeParticipantListDrawer()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            avatarViewManager.getRemoteParticipantsPersonaSharedFlow().collect {
+                if (participantListDrawer.isShowing) {
+                    updateRemoteParticipantListContent(viewModel.getRemoteParticipantListCellStateFlow().value)
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getRemoteParticipantListCellStateFlow().collect {
-                updateRemoteParticipantListContent(it)
+                // To avoid, unnecessary updated to list, the state will update lists only when displayed
+                if (participantListDrawer.isShowing) {
+                    updateRemoteParticipantListContent(it)
+                }
             }
         }
 
@@ -70,6 +84,8 @@ internal class ParticipantListView(
 
     private fun showParticipantList() {
         if (!participantListDrawer.isShowing) {
+            // on show the list is updated to get latest data
+            updateRemoteParticipantListContent(viewModel.getRemoteParticipantListCellStateFlow().value)
             participantListDrawer.show()
         }
     }
@@ -134,32 +150,54 @@ internal class ParticipantListView(
             viewModel.createLocalParticipantListCell(
                 resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
             )
+        val localParticipantPersonaData =
+            avatarViewManager.localDataOptions?.personaData
         bottomCellItems
             .add(
                 generateBottomCellItem(
-                    localParticipant.displayName,
+                    getLocalParticipantNameToDisplay(
+                        localParticipantPersonaData,
+                        localParticipant.displayName
+                    ),
                     localParticipant.isMuted,
-                    localParticipant.personaData
+                    localParticipantPersonaData
                 )
             )
         for (remoteParticipant in remoteParticipantCellModels) {
+            val remoteParticipantPersonaData =
+                avatarViewManager.getRemoteParticipantPersonaData(remoteParticipant.userIdentifier)
+            val finalName = getNameToDisplay(
+                remoteParticipantPersonaData,
+                remoteParticipant.displayName
+            )
             bottomCellItems.add(
                 generateBottomCellItem(
-                    if (remoteParticipant.displayName.isEmpty()) context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
-                    else remoteParticipant.displayName,
+                    finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },
                     remoteParticipant.isMuted,
-                    remoteParticipant.personaData
+                    remoteParticipantPersonaData
                 )
             )
         }
-        bottomCellItems.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.title!! }))
+        bottomCellItems.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title!! })
         return bottomCellItems
+    }
+
+    private fun getLocalParticipantNameToDisplay(
+        personaData: PersonaData?,
+        displayName: String,
+    ): String {
+        personaData?.renderedDisplayName?.let {
+            if (it.trim().isNotEmpty()) {
+                return it + " " + resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
+            }
+        }
+        return displayName
     }
 
     private fun generateBottomCellItem(
         displayName: String?,
         isMuted: Boolean,
-        personaData: CommunicationUIPersonaData?,
+        personaData: PersonaData?,
     ): BottomCellItem {
         val micIcon = ContextCompat.getDrawable(
             context,
@@ -186,5 +224,12 @@ internal class ParticipantListView(
                 participantListDrawer.dismiss()
             }
         }
+    }
+
+    private fun getNameToDisplay(
+        personaData: PersonaData?,
+        displayName: String,
+    ): String {
+        return personaData?.renderedDisplayName ?: displayName
     }
 }
