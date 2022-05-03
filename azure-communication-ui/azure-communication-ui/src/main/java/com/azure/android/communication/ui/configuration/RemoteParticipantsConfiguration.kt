@@ -18,7 +18,7 @@ internal interface RemoteParticipantsConfigurationHandler {
 }
 
 internal class RemoteParticipantsConfiguration {
-    private lateinit var handler: RemoteParticipantsConfigurationHandler
+    private var handler: RemoteParticipantsConfigurationHandler? = null
 
     fun setHandler(handler: RemoteParticipantsConfigurationHandler) {
         this.handler = handler
@@ -28,15 +28,18 @@ internal class RemoteParticipantsConfiguration {
         identifier: CommunicationIdentifier,
         personaData: PersonaData,
     ): SetPersonaDataResult {
-        return handler.onSetPersonaData(
-            RemoteParticipantPersonaData(
-                identifier,
-                personaData
+        if (handler != null) {
+            return handler!!.onSetPersonaData(
+                RemoteParticipantPersonaData(
+                    identifier,
+                    personaData
+                )
             )
-        )
+        }
+        return SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL
     }
 
     fun removePersonaData(identifier: String) {
-        handler.onRemovePersonaData(identifier)
+        handler?.onRemovePersonaData(identifier)
     }
 }
