@@ -42,7 +42,7 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun isRTL(): Int {
+        fun getLayoutDirection(): Int {
             val isRTLKey =
                 LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + sharedPrefs.getString(
                     LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
