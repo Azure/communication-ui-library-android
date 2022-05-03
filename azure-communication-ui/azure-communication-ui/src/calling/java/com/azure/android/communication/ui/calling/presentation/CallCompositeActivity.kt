@@ -153,7 +153,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 supportedOSLocale()
             }
             else -> {
-                configuration.localizationConfig!!.layoutDirection.let {
+                configuration.localizationConfig!!.layoutDirection?.let {
                     window?.decorView?.layoutDirection = it
                 }
                 configuration.localizationConfig!!.locale

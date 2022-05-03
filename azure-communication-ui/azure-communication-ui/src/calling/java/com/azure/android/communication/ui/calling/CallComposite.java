@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.annotation.NonNull;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;

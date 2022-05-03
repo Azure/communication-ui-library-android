@@ -59,6 +59,9 @@ internal class ErrorInfoView(private val rootView: View) {
                 dismiss()
             }
             show()
+
+            view.contentDescription =
+                "${context.getString(R.string.azure_communication_ui_alert_title)}: $errorMessage"
             view.accessibilityFocus()
         }
     }
@@ -83,7 +86,8 @@ internal class ErrorInfoView(private val rootView: View) {
         ).apply {
             animationMode = ANIMATION_MODE_FADE
             setAction(rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)) {}
-            anchorView = rootView.findViewById(R.id.azure_communication_ui_setup_join_call_button)
+            anchorView =
+                rootView.findViewById(R.id.azure_communication_ui_setup_join_call_button)
             view.background.colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(
                     rootView.context,
@@ -106,17 +110,21 @@ internal class ErrorInfoView(private val rootView: View) {
                     )
                 )
                 isAllCaps = false
-                contentDescription = rootView.context.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)
+                contentDescription =
+                    rootView.context.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)
             }
-            ViewCompat.setImportantForAccessibility(view, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
+            ViewCompat.setImportantForAccessibility(
+                view,
+                ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
+            )
         }
     }
-}
 
-internal fun View.accessibilityFocus(): View {
-    post {
-        performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
-        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+    private fun View.accessibilityFocus(): View {
+        post {
+            performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
+            sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+        }
+        return this
     }
-    return this
 }

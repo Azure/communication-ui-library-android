@@ -75,6 +75,7 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Sluiten</string>
+    <string name="azure_communication_ui_alert_title">Alert</string>
     <string name="azure_communication_ui_call_state_error_call_end">U bent uit de oproep verwijderd vanwege een fout.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_call_state_evicted">U bent verwijderd uit het gesprek.</string>

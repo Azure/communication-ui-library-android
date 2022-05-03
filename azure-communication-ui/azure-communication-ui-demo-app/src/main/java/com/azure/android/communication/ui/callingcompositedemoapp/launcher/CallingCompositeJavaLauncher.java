@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 import com.azure.android.communication.ui.calling.GroupCallOptions;
 import com.azure.android.communication.ui.calling.TeamsMeetingOptions;
-import com.azure.android.communication.ui.calling.configuration.SupportLanguage;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
@@ -56,7 +55,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 .selectedLanguageCode(SettingsFeatures.languageCode(selectedLanguage)).toString());
 
         builder.localization(new LocalizationConfiguration(locale,
-                SettingsFeatures.isRTL()));
+                SettingsFeatures.getLayoutDirection()));
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
             builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));

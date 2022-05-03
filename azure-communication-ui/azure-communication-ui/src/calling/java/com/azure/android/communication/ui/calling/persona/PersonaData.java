@@ -6,8 +6,6 @@ package com.azure.android.communication.ui.calling.persona;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-
 import com.azure.android.communication.ui.calling.configuration.LocalDataOptions;
 
 /**
@@ -108,7 +106,6 @@ public final class PersonaData {
      *
      * @return The {@link String};
      */
-    @Nullable
     public String getRenderedDisplayName() {
         return renderedDisplayName;
     }
@@ -118,7 +115,6 @@ public final class PersonaData {
      *
      * @return The {@link Bitmap};
      */
-    @Nullable
     public Bitmap getAvatarBitmap() {
         return avatarBitmap;
     }
