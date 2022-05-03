@@ -323,18 +323,18 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
 
                 callInfoModel.callStateError?.let {
+                    val action = ErrorAction.CallStateErrorOccurred(it)
+                    store.dispatch(action)
                     if (it.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED) {
-                            store.dispatch(NavigationAction.SetupLaunched())
-                    } else {
-                        store.dispatch(ErrorAction.CallStateErrorOccurred(it))
-                        if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END ||
-                            it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN) {
-                            store.dispatch(CallingAction.IsTranscribingUpdated(false))
-                            store.dispatch(CallingAction.IsRecordingUpdated(false))
-                            store.dispatch(ParticipantAction.ListUpdated(HashMap()))
-                            store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                            store.dispatch(NavigationAction.SetupLaunched())
-                        }
+                        store.dispatch(NavigationAction.SetupLaunched())
+                    } else if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END ||
+                        it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN
+                    ) {
+                        store.dispatch(CallingAction.IsTranscribingUpdated(false))
+                        store.dispatch(CallingAction.IsRecordingUpdated(false))
+                        store.dispatch(ParticipantAction.ListUpdated(HashMap()))
+                        store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
+                        store.dispatch(NavigationAction.SetupLaunched())
                     }
                 }
 
@@ -343,7 +343,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                         CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
                             store.dispatch(NavigationAction.CallLaunched())
                         }
-                        CallingStatus.DISCONNECTED -> store.dispatch(NavigationAction.Exit())
+                        CallingStatus.DISCONNECTED -> {
+                            store.dispatch(NavigationAction.Exit())
+                        }
                     }
                 }
             }
