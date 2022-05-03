@@ -263,6 +263,12 @@ internal class AudioSessionManager(
             closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
         }
         context.unregisterReceiver(this)
+        if (audioManager.isBluetoothScoOn) {
+            audioManager.stopBluetoothSco()
+        }
+        audioManager.isBluetoothScoOn = false
+        audioManager.isSpeakerphoneOn = false
+
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
