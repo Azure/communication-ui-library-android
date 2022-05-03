@@ -16,7 +16,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticip
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getPersonaData
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.isRTL
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.languageCode
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
@@ -50,7 +50,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                     .localization(
                         LocalizationConfiguration(
                             Locale.forLanguageTag(selectedLanguageCode.toString()),
-                            isRTL()
+                            getLayoutDirection()
                         )
                     )
                     .build()
@@ -58,7 +58,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 CallCompositeBuilder().localization(
                     LocalizationConfiguration(
                         Locale.forLanguageTag(selectedLanguageCode.toString()),
-                        isRTL()
+                        getLayoutDirection()
                     )
                 )
                     .build()
