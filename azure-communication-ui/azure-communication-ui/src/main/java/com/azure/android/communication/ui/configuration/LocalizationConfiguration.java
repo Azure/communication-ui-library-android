@@ -48,7 +48,7 @@ public final class LocalizationConfiguration {
      * Create Localization configuration.
      *
      * @param locale          The {@link Locale}; eg,. Locale.US
-     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
+     * @param layoutDirection layout direction int; eg,. LayoutDirection.RTL
      */
     public LocalizationConfiguration(@NonNull final Locale locale, final int layoutDirection) {
         this.locale = locale;
@@ -58,17 +58,17 @@ public final class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param languageCode language String; eg,. "fr"
+     * @param language language {@link String}; eg,. "fr"
      */
-    public LocalizationConfiguration(@NonNull final String languageCode) {
-        this.locale = new Locale(languageCode);
+    public LocalizationConfiguration(@NonNull final String language) {
+        this.locale = new Locale(language);
     }
 
     /**
      * Create Localization configuration.
      *
-     * @param language language String; eg,. "fr"
-     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
+     * @param language language {@link String}; eg,. "fr"
+     * @param layoutDirection layout direction int; eg,. LayoutDirection.RTL
      */
     public LocalizationConfiguration(@NonNull final String language, final int layoutDirection) {
         this.locale = new Locale(language);
@@ -78,8 +78,8 @@ public final class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param language language String; eg,. "fr"
-     * @param countryCode country code String; eg,. "FR"
+     * @param language language {@link String}; eg,. "fr"
+     * @param countryCode country code {@link String}; eg,. "FR"
      */
     public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode) {
         this.locale = new Locale(language, countryCode);
@@ -88,9 +88,9 @@ public final class LocalizationConfiguration {
     /**
      * Create Localization configuration.
      *
-     * @param language language String; eg,. "fr"
-     * @param countryCode country code String; eg,. "FR"
-     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
+     * @param language language {@link String}; eg,. "fr"
+     * @param countryCode country code {@link String}; eg,. "FR"
+     * @param layoutDirection layout direction int; eg,. LayoutDirection.RTL
      */
     public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode,
                                      final int layoutDirection) {
@@ -99,20 +99,20 @@ public final class LocalizationConfiguration {
     }
 
     /**
-     * Get current LanguageCode enum
+     * Get current {@link Locale}.
      *
-     * @return The {@link Locale};
+     * @return The {@link Locale}
      */
     public Locale getLocale() {
         return locale;
     }
 
     /**
-     * Get layoutDirection int.
+     * Get layoutDirection {@link Integer}.
      *
-     * @return layoutDirection int
+     * @return layoutDirection {@link Integer}
      */
-    public int getLayoutDirection() {
+    public Integer getLayoutDirection() {
         return layoutDirection;
     }
 }
