@@ -6,6 +6,7 @@
 - Local participant persona injection [#180](https://github.com/Azure/communication-ui-library-android/pull/180)
 - Remote participant persona injection [#207](https://github.com/Azure/communication-ui-library-android/pull/207)
 - Tint/shades for the primary color [#208](https://github.com/Azure/communication-ui-library-android/pull/208)
+- Localization API addition [#226](https://github.com/Azure/communication-ui-library-android/pull/226)
 
 ### Breaking Changes
 - Changed `CallingEventHandler` to `CallingEventHandler<T>` [#207](https://github.com/Azure/communication-ui-library-android/pull/207)
