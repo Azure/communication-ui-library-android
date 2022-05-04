@@ -53,12 +53,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
+
+        audioSessionManager.onDestroy(this)
         if (isFinishing) {
             store.dispatch(CallingAction.CallEndRequested())
             CallCompositeConfiguration.putConfig(instanceId, null)
-            audioSessionManager.finalize()
         }
-        audioSessionManager.stop()
         super.onDestroy()
     }
 
@@ -95,7 +95,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-        lifecycleScope.launch { audioSessionManager.start() }
+        audioSessionManager.onCreate(savedInstanceState)
+
         lifecycleScope.launch { container.accessibilityManager.start(activity) }
 
         lifecycleScope.launchWhenStarted {
@@ -128,6 +129,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        audioSessionManager.onStart(this)
         lifecycleScope.launch { lifecycleManager.resume() }
 
         permissionManager.setCameraPermissionsState()
