@@ -52,15 +52,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
-    override fun onDestroy() {
-
-        audioSessionManager.onDestroy(this)
-        if (isFinishing) {
-            store.dispatch(CallingAction.CallEndRequested())
-            CallCompositeConfiguration.putConfig(instanceId, null)
-        }
-        super.onDestroy()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +101,30 @@ internal class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope)
     }
 
+    override fun onStart() {
+        super.onStart()
+        audioSessionManager.onStart(this)
+        lifecycleScope.launch { lifecycleManager.resume() }
+        permissionManager.setCameraPermissionsState()
+        permissionManager.setAudioPermissionsState()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (!isChangingConfigurations) {
+            lifecycleScope.launch { lifecycleManager.pause() }
+        }
+    }
+
+    override fun onDestroy() {
+        audioSessionManager.onDestroy(this)
+        if (isFinishing) {
+            store.dispatch(CallingAction.CallEndRequested())
+            CallCompositeConfiguration.putConfig(instanceId, null)
+        }
+        super.onDestroy()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -120,21 +135,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (!isChangingConfigurations) {
-            lifecycleScope.launch { lifecycleManager.pause() }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        audioSessionManager.onStart(this)
-        lifecycleScope.launch { lifecycleManager.resume() }
-
-        permissionManager.setCameraPermissionsState()
-        permissionManager.setAudioPermissionsState()
-    }
 
     private fun configureActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
