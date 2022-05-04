@@ -16,8 +16,6 @@ import com.azure.android.communication.ui.presentation.fragment.factories.SetupV
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
 import java.lang.IllegalStateException
 import java.lang.IllegalArgumentException
-import java.lang.RuntimeException
-
 
 /**
  * ViewModel for the CallCompositeActivity
@@ -34,10 +32,9 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     var instanceId: Int = -1
         set(value) {
             if (!CallCompositeConfiguration.hasConfig(value)) {
-                throw IllegalArgumentException(
-                    "Configuration with instanceId:$value does not exist. " +
-                        "Please ensure that you have set a valid instanceId before retrieving the container."
-                )
+                val exceptionMessage = "Configuration with instanceId:$value does not exist. " +
+                    "Please ensure that you have set a valid instanceId before retrieving the container."
+                throw CallCompositeException(exceptionMessage, IllegalArgumentException(exceptionMessage))
             }
             field = value
         }
@@ -45,7 +42,7 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     val container: DependencyInjectionContainer by lazy {
         if (instanceId == -1) {
             val exceptionMessage = "Will not be able to locate a Configuration for instanceId: -1. " +
-                    "Please ensure that you have set instanceId before retrieving the container."
+                "Please ensure that you have set instanceId before retrieving the container."
             throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
