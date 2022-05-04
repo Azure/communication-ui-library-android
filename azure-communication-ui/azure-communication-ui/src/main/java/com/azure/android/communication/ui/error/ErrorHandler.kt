@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.error
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.redux.Store
 import com.azure.android.communication.ui.redux.action.ErrorAction
 import com.azure.android.communication.ui.redux.state.ReduxState
@@ -95,8 +96,10 @@ internal class ErrorHandler(
         function: (CallStateError) -> Unit,
     ) {
         if (newCallStateError != null && newCallStateError != lastCallStateError) {
-            function(newCallStateError)
-            callStateErrorCallback(newCallStateError)
+            if (newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_EVICTED) {
+                function(newCallStateError)
+                callStateErrorCallback(newCallStateError)
+            }
         }
     }
 

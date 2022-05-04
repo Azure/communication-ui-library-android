@@ -32,7 +32,7 @@ internal class ParticipantGridCellViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
-            val participantGridViewModel = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+            val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -78,7 +78,7 @@ internal class ParticipantGridCellViewModelUnitTest {
 
             // arrange
             val participantGridViewModel =
-                ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+                getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -136,7 +136,7 @@ internal class ParticipantGridCellViewModelUnitTest {
         mainCoroutineRule.testDispatcher.runBlockingTest {
 
             // arrange
-            val participantGridViewModel = ParticipantGridViewModel(ParticipantGridCellViewModelFactory())
+            val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             remoteParticipantsMap["user1"] = getParticipantInfoModel(
                 "user one",
@@ -187,6 +187,10 @@ internal class ParticipantGridCellViewModelUnitTest {
             flowJob.cancel()
         }
 
+    private fun getParticipantGridViewModel() = ParticipantGridViewModel(
+        ParticipantGridCellViewModelFactory(),
+    )
+
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_when_created_then_notifyAllStateChange() =
@@ -205,7 +209,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
             )
 
             val flowJobDisplayName = launch {
@@ -258,7 +262,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
             )
 
             val flowJobDisplayName = launch {
@@ -305,7 +309,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -347,7 +351,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                     ),
                     modifiedTimestamp = 456,
                     speakingTimestamp = 567
-                )
+                ),
             )
 
             // assert
@@ -380,7 +384,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -425,7 +429,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                     ),
                     modifiedTimestamp = 456,
                     speakingTimestamp = 567
-                )
+                ),
             )
 
             // assert
@@ -463,7 +467,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456
+                modifiedTimestamp = 456,
             )
 
             val flowJobDisplayName = launch {
@@ -495,7 +499,7 @@ internal class ParticipantGridCellViewModelUnitTest {
                     ),
                     modifiedTimestamp = 456,
                     speakingTimestamp = 567
-                )
+                ),
             )
 
             // assert
