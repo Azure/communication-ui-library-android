@@ -6,11 +6,13 @@
 - Local participant persona injection [#180](https://github.com/Azure/communication-ui-library-android/pull/180)
 - Remote participant persona injection [#207](https://github.com/Azure/communication-ui-library-android/pull/207)
 - Tint/shades for the primary color [#208](https://github.com/Azure/communication-ui-library-android/pull/208)
-- Localization API addition [#226](https://github.com/Azure/communication-ui-library-android/pull/226)
+- Localization API Updated [#235](https://github.com/Azure/communication-ui-library-android/pull/235)
 
 ### Breaking Changes
 - Changed `CallingEventHandler` to `CallingEventHandler<T>` [#207](https://github.com/Azure/communication-ui-library-android/pull/207)
 - Renamed `azure_communication_ui_communication_primary` to `azure_communication_ui_primary_color` in Theme. [#208](https://github.com/Azure/communication-ui-library-android/pull/208)
+- Renamed `SupportLanguage` to `CommunicationUISupportedLocale` in Localization. [#234](https://github.com/Azure/communication-ui-library-android/pull/234)
+- Changed `SupportLanguage` ExpandableStringEnum type to `Locale` type. [#234](https://github.com/Azure/communication-ui-library-android/pull/234)
 
 ## 1.0.0-beta.3 (2022-04-04)
 
