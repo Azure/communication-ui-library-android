@@ -23,7 +23,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.configuration.SupportLanguage
+import com.azure.android.communication.ui.configuration.CommunicationUISupportedLocale
 import com.azure.android.communication.ui.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.presentation.navigation.BackNavigation
@@ -32,6 +32,7 @@ import com.azure.android.communication.ui.redux.state.NavigationStatus
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
@@ -53,11 +54,16 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
     override fun onDestroy() {
-        if (isFinishing) {
-            store.dispatch(CallingAction.CallEndRequested())
-            CallCompositeConfiguration.putConfig(instanceId, null)
+        // Covers edge case where Android tries to recreate call activity after process death
+        // (e.g. due to revoked permission).
+        // If no configs are detected we can just exit without cleanup.
+        if (CallCompositeConfiguration.hasConfig(instanceId)) {
+            if (isFinishing) {
+                store.dispatch(CallingAction.CallEndRequested())
+                CallCompositeConfiguration.putConfig(instanceId, null)
+            }
+            audioSessionManager.stop()
         }
-        audioSessionManager.stop()
         super.onDestroy()
     }
 
@@ -67,7 +73,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         // Assign the Dependency Injection Container the appropriate instanceId,
         // so it can initialize it's container holding the dependencies
-        diContainerHolder.instanceId = instanceId
+        try {
+            diContainerHolder.instanceId = instanceId
+        } catch (invalidIDException: IllegalArgumentException) {
+            finish() // Container has vanished (probably due to process death); we cannot continue
+            return
+        }
+
         lifecycleScope.launch { errorHandler.start() }
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
@@ -292,8 +304,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun supportedOSLocale(): Locale {
         val languageCode = Locale.getDefault().language
         val countryCode = Locale.getDefault().country
-        for (language in SupportLanguage.values()) {
-            if (language.toString() == "$languageCode-$countryCode") {
+        for (language in CommunicationUISupportedLocale.getSupportedLocales()) {
+            if (language.language == "$languageCode-$countryCode") {
                 return Locale(languageCode, countryCode)
             }
         }
