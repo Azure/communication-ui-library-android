@@ -16,7 +16,7 @@ import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.configuration.CommunicationUISupportedLocale
 import com.google.android.material.textfield.TextInputLayout
-import java.util.*
+import java.util.Locale
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
 const val SETTINGS_SHARED_PREFS = "Settings"
@@ -79,10 +79,10 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.language_is_rtl_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
-                                sharedPreference.getString(
-                                    LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                                    DEFAULT_LANGUAGE_VALUE
-                                ),
+                            sharedPreference.getString(
+                                LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                                DEFAULT_LANGUAGE_VALUE
+                            ),
                         view.isChecked
                     ).apply()
                 }

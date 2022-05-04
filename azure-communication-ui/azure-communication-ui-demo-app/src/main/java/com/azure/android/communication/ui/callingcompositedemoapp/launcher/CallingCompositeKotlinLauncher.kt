@@ -22,7 +22,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.configuration.LocalDataOptions
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.Callable
 
 class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :

@@ -8,16 +8,19 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.callingcompositedemoapp.*
-import com.azure.android.communication.ui.configuration.CommunicationUISupportedLocale
+import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
+import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.persona.PersonaData
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import java.util.*
+import java.util.Locale
 
 class SettingsFeatures {
-
-
 
     companion object {
         private lateinit var sharedPrefs: SharedPreferences

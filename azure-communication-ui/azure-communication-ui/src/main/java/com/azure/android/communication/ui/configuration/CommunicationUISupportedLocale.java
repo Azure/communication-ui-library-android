@@ -22,6 +22,7 @@ public final class CommunicationUISupportedLocale {
     public static final Locale EN = new Locale("en");
     public static final Locale EN_US = new Locale("en", "US");
     public static final Locale EN_UK = new Locale("en", "GB");
+    public static final Locale ZH = new Locale("zh");
     public static final Locale ZH_CN = new Locale("zh", "CN");
     public static final Locale ZH_TW = new Locale("zh", "TW");
     public static final Locale ES = new Locale("es");
