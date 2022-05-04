@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -13,8 +14,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.configuration.SupportLanguage
+import com.azure.android.communication.ui.configuration.CommunicationUISupportedLocale
 import com.google.android.material.textfield.TextInputLayout
+import java.util.Locale
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
 const val SETTINGS_SHARED_PREFS = "Settings"
@@ -41,7 +43,10 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = SupportLanguage.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
+        supportedLanguages = CommunicationUISupportedLocale.getSupportedLocales().map {
+            SettingsFeatures.displayLanguageName(it)
+        }
+        for (locale in supportedLanguages) Log.d("Mohtasim", "locale is " + locale)
         setLanguageInSharedPrefForFirstTime()
         updateRenderedDisplayNameText()
     }
@@ -109,7 +114,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setLanguageInSharedPrefForFirstTime() {
         if (isFirstRun()) {
-            setLanguageValueInSharedPref(DEFAULT_LANGUAGE_VALUE)
+            setLanguageValueInSharedPref(Locale.ENGLISH.displayName)
         }
     }
 
@@ -118,7 +123,7 @@ class SettingsActivity : AppCompatActivity() {
         autoCompleteTextView.setText(
             sharedPreference.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                DEFAULT_LANGUAGE_VALUE
+                Locale.ENGLISH.displayName
             ),
             true
         )
@@ -126,13 +131,17 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun isFirstRun(): Boolean {
-        return sharedPreference.getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, LANGUAGE_IS_YET_TOBE_SET).equals(
+        return sharedPreference.getString(
+            LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+            LANGUAGE_IS_YET_TOBE_SET
+        ).equals(
             LANGUAGE_IS_YET_TOBE_SET
         )
     }
 
     private fun setLanguageValueInSharedPref(languageValue: String) {
-        sharedPreference.edit().putString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, languageValue).apply()
+        sharedPreference.edit().putString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, languageValue)
+            .apply()
     }
 
     private fun getSelectedLanguageValue(): String? {
@@ -143,7 +152,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun saveRenderedDisplayName() {
-        sharedPreference.edit().putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
+        sharedPreference.edit()
+            .putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
     }
 
     private fun updateRenderedDisplayNameText() {
