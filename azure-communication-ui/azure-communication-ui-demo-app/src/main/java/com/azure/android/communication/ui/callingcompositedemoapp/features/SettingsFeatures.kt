@@ -16,7 +16,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPT
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
-import com.azure.android.communication.ui.configuration.SupportLanguage
+import com.azure.android.communication.ui.configuration.SupportedLanguage
 import com.azure.android.communication.ui.persona.PersonaData
 import java.util.Locale
 
@@ -65,13 +65,13 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun selectedLanguageCode(languageCode: String): SupportLanguage {
-            SupportLanguage.values().forEach { language ->
+        fun selectedLanguageCode(languageCode: String): SupportedLanguage {
+            SupportedLanguage.values().forEach { language ->
                 if (languageCode == language.toString()) {
                     return language
                 }
             }
-            return SupportLanguage.EN_US
+            return SupportedLanguage.EN_US
         }
 
         @JvmStatic
