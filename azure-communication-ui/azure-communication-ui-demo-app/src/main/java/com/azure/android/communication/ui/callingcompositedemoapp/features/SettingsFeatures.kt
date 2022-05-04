@@ -11,6 +11,7 @@ import android.util.LayoutDirection
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LOCALE_CODE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
@@ -72,6 +73,14 @@ class SettingsFeatures {
                 }
             }
             return SupportLanguage.EN_US
+        }
+
+        @JvmStatic
+        fun getRemoteParticipantPersonaInjectionSelection(): Boolean {
+            return sharedPrefs.getBoolean(
+                DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                false
+            )
         }
 
         @JvmStatic
