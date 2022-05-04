@@ -8,22 +8,20 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LOCALE_CODE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
-import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
-import com.azure.android.communication.ui.configuration.SupportedLanguage
+import com.azure.android.communication.ui.callingcompositedemoapp.*
+import com.azure.android.communication.ui.configuration.CommunicationUISupportedLocale
 import com.azure.android.communication.ui.persona.PersonaData
-import java.util.Locale
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import java.util.*
 
 class SettingsFeatures {
 
+
+
     companion object {
         private lateinit var sharedPrefs: SharedPreferences
+        private val defaultLocaleString = Gson().toJson(Locale.US)
 
         @JvmStatic
         fun initialize(context: Context) {
@@ -53,25 +51,17 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun languageCode(languageDisplayName: String): String? {
-            return sharedPrefs.getString(languageDisplayName, DEFAULT_LOCALE_CODE)
+        fun locale(languageDisplayName: String): Locale {
+            val localeString = sharedPrefs.getString(languageDisplayName, defaultLocaleString)
+            return GsonBuilder().create().fromJson(localeString, Locale::class.java)
         }
 
         @JvmStatic
-        fun displayLanguageName(languageCode: String): String {
-            val displayName = Locale.forLanguageTag(languageCode).displayName
-            sharedPrefs.edit().putString(displayName, languageCode).apply()
+        fun displayLanguageName(locale: Locale): String {
+            val displayName = locale.displayName
+            val localeString = Gson().toJson(locale)
+            sharedPrefs.edit().putString(displayName, localeString).apply()
             return displayName
-        }
-
-        @JvmStatic
-        fun selectedLanguageCode(languageCode: String): SupportedLanguage {
-            SupportedLanguage.values().forEach { language ->
-                if (languageCode == language.toString()) {
-                    return language
-                }
-            }
-            return SupportedLanguage.EN_US
         }
 
         @JvmStatic
