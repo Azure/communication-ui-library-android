@@ -27,7 +27,6 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
-import com.azure.android.communication.ui.redux.state.CallingStatus
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -67,7 +66,7 @@ internal class AudioSessionManager(
         return manager.adapter
     }
 
-    fun onCreate(savedInstanceState : Bundle?) {
+    fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             initializeAudioDeviceState()
 
@@ -289,9 +288,6 @@ internal class AudioSessionManager(
             audioManager.isSpeakerphoneOn = false
         }
     }
-
-
-
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
         bluetoothAudioProxy = proxy as BluetoothHeadset

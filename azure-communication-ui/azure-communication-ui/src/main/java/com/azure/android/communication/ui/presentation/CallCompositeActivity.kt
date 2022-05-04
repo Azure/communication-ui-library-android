@@ -52,7 +52,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_VOICE_CALL
@@ -134,7 +133,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     private fun configureActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
