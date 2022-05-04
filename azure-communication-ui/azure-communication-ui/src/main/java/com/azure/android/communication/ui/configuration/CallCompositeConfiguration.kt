@@ -46,5 +46,8 @@ internal class CallCompositeConfiguration {
                 "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite",
                 NullPointerException()
             )
+
+        // Check if config exists
+        fun hasConfig(id: Int): Boolean = configs[id] != null
     }
 }
