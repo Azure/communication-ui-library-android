@@ -9,6 +9,7 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import java.lang.NullPointerException
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CallCompositeExceptionTest {
@@ -26,6 +27,10 @@ internal class CallCompositeExceptionTest {
         assertThat(
             "invalid message, expecting: ${ex.message}",
             ex.message?.startsWith("This ID is not valid, and no entry exists in the map") ?: false
+        )
+        assertThat(
+            "Empty cause: ${ex.javaClass.simpleName}",
+            ex.cause is NullPointerException
         )
     }
 

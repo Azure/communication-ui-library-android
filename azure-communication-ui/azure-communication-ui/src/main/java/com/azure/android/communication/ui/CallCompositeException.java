@@ -3,23 +3,13 @@
 
 package com.azure.android.communication.ui;
 
+import androidx.annotation.NonNull;
+
+/**
+ * Defines the base type of custom Exception that can be thrown by this Library.
+ */
 public class CallCompositeException extends RuntimeException {
-    /**
-     * Constructs a new Calling Composite exception with null as its error message.
-     *
-     */
-    public CallCompositeException() {
-        super();
-    }
-    /**
-     * Constructs a new Calling Composite exception with the specified error message.
-     *
-     * @param errorMessage - the error message.  The error message can be retrieved by the
-     *                     getMessage() method
-     */
-    public CallCompositeException(final String errorMessage) {
-        super(errorMessage);
-    }
+
     /**
      * Constructs a new Calling Composite exception with the specified error message and cause. Note
      * that the error message associated with "cause" is not automatically incorporated into this
@@ -30,7 +20,7 @@ public class CallCompositeException extends RuntimeException {
      * @param cause - the cause (which is saved for later retrieval by the getCause() method).  A
      *              null value is permitted, and indicates that the cause is non-existent or unknown.
      */
-    public CallCompositeException(final String errorMessage, final Throwable cause) {
+    public CallCompositeException(final String errorMessage, @NonNull final Throwable cause) {
         super(errorMessage, cause);
     }
     /**

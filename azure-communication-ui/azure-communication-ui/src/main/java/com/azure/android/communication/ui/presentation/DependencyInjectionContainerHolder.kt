@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.presentation.fragment.factories.Callin
 import com.azure.android.communication.ui.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.presentation.fragment.setup.SetupViewModel
+import java.lang.IllegalStateException
 
 /**
  * ViewModel for the CallCompositeActivity
@@ -30,10 +31,9 @@ internal class DependencyInjectionContainerHolder(application: Application) :
 
     val container: DependencyInjectionContainer by lazy {
         if (instanceId == -1) {
-            throw CallCompositeException(
-                "Will not be able to locate a Configuration for instanceId: -1. " +
+            val exceptionMessage = "Will not be able to locate a Configuration for instanceId: -1. " +
                     "Please ensure that you have set instanceId before retrieving the container."
-            )
+            throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
         // Generate a new instance

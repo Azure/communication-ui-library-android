@@ -34,6 +34,7 @@ import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.redux.state.CameraState
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
+import java.lang.IllegalStateException
 
 internal class CallingSDKWrapper(
     private val instanceId: Int,
@@ -55,18 +56,20 @@ internal class CallingSDKWrapper(
 
     private val callConfig: CallConfiguration
         get() {
-            if (configuration.callConfig == null)
-                throw CallCompositeException("Call configurations are not set")
-
-            return configuration.callConfig!!
+            try {
+                return configuration.callConfig!!
+            } catch (ex: Exception) {
+                throw CallCompositeException("Call configurations are not set", IllegalStateException())
+            }
         }
 
     private val call: Call
         get() {
-            if (nullableCall == null)
-                throw CallCompositeException("Call is not started")
-
-            return nullableCall!!
+            try {
+                return nullableCall!!
+            } catch (ex: Exception) {
+                throw CallCompositeException("Call is not started", IllegalStateException())
+            }
         }
 
     override fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
