@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarView
@@ -139,18 +140,26 @@ internal class CallingFragment :
     override fun onDestroy() {
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
-            participantGridView.stop()
-            viewModel.getBannerViewModel().dismissBanner()
+            if (this::participantGridView.isInitialized) participantGridView.stop()
+            if (CallCompositeConfiguration.hasConfig(holder.instanceId)) {
+                // Covers edge case where Android tries to recreate call activity after process death
+                // (e.g. due to revoked permission).
+                // If no configs are detected we can just exit without cleanup.
+                viewModel.getBannerViewModel().dismissBanner()
+            }
         }
-        localParticipantView.stop()
-        participantListView.stop()
-        audioDeviceListView.stop()
-        confirmLeaveOverlayView.stop()
-        if (wakeLock.isHeld) {
-            wakeLock.setReferenceCounted(false)
-            wakeLock.release()
+        if (this::localParticipantView.isInitialized) localParticipantView.stop()
+        if (this::participantListView.isInitialized) participantListView.stop()
+        if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
+        if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
+
+        if (this::wakeLock.isInitialized) {
+            if (wakeLock.isHeld) {
+                wakeLock.setReferenceCounted(false)
+                wakeLock.release()
+            }
         }
-        sensorManager.unregisterListener(this)
+        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

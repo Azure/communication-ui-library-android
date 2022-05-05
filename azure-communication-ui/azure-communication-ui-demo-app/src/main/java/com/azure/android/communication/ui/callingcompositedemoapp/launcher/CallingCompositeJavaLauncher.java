@@ -13,8 +13,8 @@ import com.azure.android.communication.ui.GroupCallOptions;
 import com.azure.android.communication.ui.TeamsMeetingOptions;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
-import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
+import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
 import com.azure.android.communication.ui.configuration.LocalDataOptions;
@@ -51,8 +51,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 SettingsFeatures.getPersonaData(callLauncherActivity.getApplicationContext());
 
         final String selectedLanguage = SettingsFeatures.language();
-        final Locale locale = Locale.forLanguageTag(SettingsFeatures
-                .selectedLanguageCode(SettingsFeatures.languageCode(selectedLanguage)).toString());
+        final Locale locale = SettingsFeatures.locale(selectedLanguage);
 
         builder.localization(new LocalizationConfiguration(locale,
                 SettingsFeatures.getLayoutDirection()));
@@ -63,9 +62,12 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         final CallComposite callComposite = builder.build();
         callComposite.setOnErrorHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
-        callComposite.setOnRemoteParticipantJoinedHandler(
-                new RemoteParticipantJoinedHandler(callComposite)
-        );
+
+        if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
+            callComposite.setOnRemoteParticipantJoinedHandler(
+                    new RemoteParticipantJoinedHandler(callComposite, callLauncherActivity)
+            );
+        }
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
                 new CommunicationTokenRefreshOptions(tokenRefresher, true);
