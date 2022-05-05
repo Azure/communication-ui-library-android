@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticip
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getPersonaData
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getRemoteParticipantPersonaInjectionSelection
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.locale
@@ -58,9 +59,13 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 ).build()
 
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
-        callComposite.setOnRemoteParticipantJoinedHandler(
-            RemoteParticipantJoinedHandler(callComposite)
-        )
+
+        if (getRemoteParticipantPersonaInjectionSelection()) {
+            callComposite.setOnRemoteParticipantJoinedHandler(
+                RemoteParticipantJoinedHandler(callComposite, callLauncherActivity)
+            )
+        }
+
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions(tokenRefresher, true)
         val communicationTokenCredential =
