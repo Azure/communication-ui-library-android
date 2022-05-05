@@ -150,8 +150,8 @@ internal class LocalParticipantView : ConstraintLayout {
                 listOf(switchCameraButton, pipSwitchCameraButton).forEach {
                     it.contentDescription = context.getString(
                         when (cameraDeviceSelectionStatus) {
-                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_switch_camera_button_back
-                            else -> R.string.azure_communication_ui_switch_camera_button_front
+                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_calling_switch_camera_button_back
+                            else -> R.string.azure_communication_ui_calling_switch_camera_button_front
                         }
                     )
                 }
@@ -177,7 +177,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
     private fun setupAccessibility() {
         switchCameraButton.contentDescription =
-            context.getString(R.string.azure_communication_ui_button_switch_camera_accessibility_label)
+            context.getString(R.string.azure_communication_ui_calling_button_switch_camera_accessibility_label)
     }
 
     private fun setLocalParticipantVideo(model: LocalParticipantViewModel.VideoModel) {
@@ -203,7 +203,7 @@ internal class LocalParticipantView : ConstraintLayout {
         view?.background = this.context.let {
             ContextCompat.getDrawable(
                 it,
-                R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
+                R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
             )
         }
         videoHolder.addView(view, 0)

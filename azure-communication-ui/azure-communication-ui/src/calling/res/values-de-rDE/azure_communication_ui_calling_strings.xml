@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <!--    Device-->
+    <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Lautsprecher</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Zur Frontkamera wechseln</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Zur Rückkamera wechseln</string>
+    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audiogerät auswählen %1$s</string>
+    <!--    Setup View-->
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Teilnehmen am Anruf…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_off">Video aus</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_on">Video ein</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon aus</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon ein</string>
+    <string name="azure_communication_ui_calling_setup_view_button_join_call">An Anruf teilnehmen</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ihr Audio ist deaktiviert. Um es zu aktivieren, wechseln Sie zu „Einstellungen“, um den Zugriff zuzulassen. Sie müssen
+ Audio aktivieren, um diesen Anruf zu starten.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Ihre Kamera ist deaktiviert. Wechseln Sie zum Aktivieren zu „Einstellungen“
+,         um den Zugriff zuzulassen.</string>
+    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Erforderliche Berechtigungen</string>
+    <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Ausgewählt</string>
+    <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Schaltfläche „Kamera wechseln“</string>
+    <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
+
+    <!--    Lobby View-->
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Warten auf Host</string>
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Ein Teilnehmer der Besprechung wird Sie in Kürze einlassen</string>
+
+    <!--    Calling View-->
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Warten auf andere Teilnehmer</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Anruf mit 1 Person</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Anruf mit %1$d Personen</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ich)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unbenannter Teilnehmer</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Anruf verlassen?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlassen</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Abbrechen</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Doppeltippen Sie, um das Bestätigungsmenü zum Verlassen zu schließen.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Teilnehmerliste öffnen</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Doppeltippen Sie, um die Teilnehmerliste zu schließen.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Stummgeschaltet</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Stummschaltung aufgehoben</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Auflegen</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Schaltfläche „Schließen“</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Auf Video umschalten</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Auf Audio umschalten</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Geräteoptionen</string>
+
+    <!--    Compliance Banner-->
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
+ sich damit einverstanden, dass diese Besprechung transkribiert wird.
+ <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Die Aufnahme wird gespeichert.</b> Die Aufzeichnung wurde beendet.
+         <u>Weitere Informationen</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
+ sich damit einverstanden, dass dieses Treffen transkribiert wird. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Die Transkription wird gespeichert.</b> Die Transkription
+        wurde beendet. <u>Weitere Informationen</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Aufzeichnung und Transkription haben
+      begonnen.</b> Mit Ihrer Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird
+     . <u>Datenschutzbestimmungen</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Aufnahme und Transkription werden
+        gespeichert.</b> Aufzeichnung und Transkription wurden beendet. <u>Weitere Informationen</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Die Aufzeichnung wurde gestoppt.</b> Sie
+ transkribieren jetzt nur diese Besprechung. <u>Datenschutzbestimmungen</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Die Transkription wurde beendet.
+    </b> Sie nehmen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
+
+    <!--    PopUp warning-->
+    <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Schließen</string>
+    <string name="azure_communication_ui_calling_alert_title">Alert</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Sie wurden aufgrund eines Fehlers aus dem Anruf entfernt.</string>
+    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Teilnahme am Anruf aufgrund eines Fehlers nicht möglich.</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">Sie wurden aus dem Anruf entfernt.</string>
+    <!--    Notification-->
+    <string name="azure_communication_ui_calling_service_notification_title">Laufender Anruf</string>
+    <string name="azure_communication_ui_calling_service_notification_message">Tippen Sie, um zum Anruf zurückzukehren.</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_calling_accessibility_user_added">%1$s ist der Besprechung beigetreten</string>
+    <string name="azure_communication_ui_calling_accessibility_user_left">%1$s hat die Besprechung verlassen</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Sie sind dem Anruf beigetreten.</string>
+</resources>

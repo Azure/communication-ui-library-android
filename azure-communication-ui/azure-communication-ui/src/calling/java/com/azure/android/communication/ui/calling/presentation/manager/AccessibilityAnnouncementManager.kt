@@ -83,9 +83,9 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
 
         var result = ""
         if (added.size == 1) {
-            result = context.getString(R.string.azure_communication_ui_accessibility_user_added, added.first().displayName)
+            result = context.getString(R.string.azure_communication_ui_calling_accessibility_user_added, added.first().displayName)
         } else if (removed.size == 1) {
-            result = context.getString(R.string.azure_communication_ui_accessibility_user_left, removed.first().displayName)
+            result = context.getString(R.string.azure_communication_ui_calling_accessibility_user_left, removed.first().displayName)
         }
         return result
     }
@@ -97,7 +97,7 @@ internal class MeetingJoinedHook : AccessibilityHook() {
         (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
 
     override fun message(lastState: ReduxState, newState: ReduxState, context: Context) =
-        context.getString(R.string.azure_communication_ui_accessibility_meeting_connected)
+        context.getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected)
 }
 
 // List of all hooks

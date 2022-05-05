@@ -154,11 +154,11 @@ internal class ParticipantGridCellVideoView(
                 // to avoid content outside speaking rectangle removing round corners
                 videoContainer.background = ContextCompat.getDrawable(
                     context,
-                    R.color.azure_communication_ui_color_surface
+                    R.color.azure_communication_ui_calling_color_surface
                 )
                 participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
                     context,
-                    R.drawable.azure_communication_ui_speaking_rectangle_indicator_no_corner
+                    R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator_no_corner
                 )
                 return
             }
@@ -166,15 +166,15 @@ internal class ParticipantGridCellVideoView(
 
         rendererView.background = ContextCompat.getDrawable(
             context,
-            R.drawable.azure_communication_ui_corner_radius_rectangle_4dp
+            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
         )
         videoContainer.background = ContextCompat.getDrawable(
             context,
-            R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_surface
+            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_surface
         )
         participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
             context,
-            R.drawable.azure_communication_ui_speaking_rectangle_indicator
+            R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator
         )
         videoContainer.addView(rendererView, 0)
     }

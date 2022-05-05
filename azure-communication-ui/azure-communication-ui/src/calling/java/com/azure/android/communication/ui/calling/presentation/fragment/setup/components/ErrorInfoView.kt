@@ -61,18 +61,18 @@ internal class ErrorInfoView(private val rootView: View) {
             show()
 
             view.contentDescription =
-                "${context.getString(R.string.azure_communication_ui_alert_title)}: $errorMessage"
+                "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: $errorMessage"
             view.accessibilityFocus()
         }
     }
 
     private fun getErrorMessage(it: CallStateError): CharSequence {
         if (CommunicationUIEventCode.CALL_EVICTED == it.communicationUIEventCode) {
-            return rootView.context.getText(R.string.azure_communication_ui_call_state_evicted)
+            return rootView.context.getText(R.string.azure_communication_ui_calling_call_state_evicted)
         }
         return when (it.communicationUIErrorCode) {
-            CommunicationUIErrorCode.CALL_END -> rootView.context.getText(R.string.azure_communication_ui_call_state_error_call_end)
-            CommunicationUIErrorCode.CALL_JOIN -> rootView.context.getText(R.string.azure_communication_ui_snack_bar_text_error_call_join)
+            CommunicationUIErrorCode.CALL_END -> rootView.context.getText(R.string.azure_communication_ui_calling_call_state_error_call_end)
+            CommunicationUIErrorCode.CALL_JOIN -> rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_text_error_call_join)
             else -> ""
         }
     }
@@ -85,13 +85,13 @@ internal class ErrorInfoView(private val rootView: View) {
             Snackbar.Style.REGULAR
         ).apply {
             animationMode = ANIMATION_MODE_FADE
-            setAction(rootView.context!!.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)) {}
+            setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {}
             anchorView =
                 rootView.findViewById(R.id.azure_communication_ui_setup_join_call_button)
             view.background.colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(
                     rootView.context,
-                    R.color.azure_communication_ui_color_snack_bar_background
+                    R.color.azure_communication_ui_calling_color_snack_bar_background
                 ),
                 PorterDuff.Mode.SRC_IN
             )
@@ -99,19 +99,19 @@ internal class ErrorInfoView(private val rootView: View) {
             snackBarTextView.setTextColor(
                 ContextCompat.getColor(
                     rootView.context,
-                    R.color.azure_communication_ui_color_snack_bar_text_color
+                    R.color.azure_communication_ui_calling_color_snack_bar_text_color
                 )
             )
             view.findViewById<AppCompatButton>(R.id.snackbar_action).apply {
                 setTextColor(
                     ContextCompat.getColor(
                         rootView.context,
-                        R.color.azure_communication_ui_color_snack_bar_text_color
+                        R.color.azure_communication_ui_calling_color_snack_bar_text_color
                     )
                 )
                 isAllCaps = false
                 contentDescription =
-                    rootView.context.getText(R.string.azure_communication_ui_snack_bar_button_dismiss)
+                    rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)
             }
             ViewCompat.setImportantForAccessibility(
                 view,

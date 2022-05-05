@@ -68,7 +68,7 @@ internal class BannerView : ConstraintLayout {
             bannerText.text = getBannerInfo(bannerInfoType)
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
 
-            val textToAnnounce = "${context.getString(R.string.azure_communication_ui_alert_title)}: ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
+            val textToAnnounce = "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
             announceForAccessibility(textToAnnounce)
         }
         // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
@@ -78,7 +78,7 @@ internal class BannerView : ConstraintLayout {
             bannerText.text = getBannerInfo(viewModel.getDisplayedBannerType())
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
 
-            val textToAnnounce = "${context.getString(R.string.azure_communication_ui_alert_title)}: ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
+            val textToAnnounce = "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
             announceForAccessibility(textToAnnounce)
         }
     }

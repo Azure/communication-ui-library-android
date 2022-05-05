@@ -61,10 +61,10 @@ internal class LobbyOverlayView : LinearLayout {
     }
 
     private fun setupUi() {
-        waitingIcon.contentDescription = context.getString(R.string.azure_communication_ui_lobby_view_text_waiting_for_host)
+        waitingIcon.contentDescription = context.getString(R.string.azure_communication_ui_calling_lobby_view_text_waiting_for_host)
 
-        overlayTitle.text = context.getString(R.string.azure_communication_ui_lobby_view_text_waiting_for_host)
+        overlayTitle.text = context.getString(R.string.azure_communication_ui_calling_lobby_view_text_waiting_for_host)
 
-        overlayInfo.text = context.getString(R.string.azure_communication_ui_lobby_view_text_waiting_details)
+        overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_lobby_view_text_waiting_details)
     }
 }

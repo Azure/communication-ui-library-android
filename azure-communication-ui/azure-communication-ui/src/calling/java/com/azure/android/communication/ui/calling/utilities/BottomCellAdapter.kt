@@ -16,7 +16,7 @@ internal class BottomCellAdapter(context: Context) : RecyclerView.Adapter<Bottom
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomCellViewHolder {
         val view: View =
-            mInflater.inflate(R.layout.azure_communication_ui_bottom_drawer_cell, parent, false)
+            mInflater.inflate(R.layout.azure_communication_ui_calling_bottom_drawer_cell, parent, false)
         return BottomCellViewHolder(view)
     }
 

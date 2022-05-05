@@ -37,7 +37,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         joiningCallText = findViewById(R.id.azure_communication_ui_setup_start_call_joining_text)
         setupJoinCallButton.background = ContextCompat.getDrawable(
             context,
-            R.drawable.azure_communication_ui_corner_radius_rectangle_4dp_primary_background
+            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_primary_background
         )
     }
 
@@ -46,8 +46,8 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewModel: JoinCallButtonHolderViewModel,
     ) {
         this.viewModel = viewModel
-        setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_setup_view_button_join_call)
-        joiningCallText.text = context.getString(R.string.azure_communication_ui_setup_view_button_connecting_call)
+        setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
+        joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
             viewModel.launchCallScreen()

@@ -34,8 +34,8 @@ internal class ParticipantGridCellView(
     private lateinit var videoView: ParticipantGridCellVideoView
 
     init {
-        inflate(context, R.layout.azure_communication_ui_participant_avatar_view, this)
-        inflate(context, R.layout.azure_communication_ui_participant_video_view, this)
+        inflate(context, R.layout.azure_communication_ui_calling_participant_avatar_view, this)
+        inflate(context, R.layout.azure_communication_ui_calling_participant_video_view, this)
         createVideoView()
         createAvatarView()
     }

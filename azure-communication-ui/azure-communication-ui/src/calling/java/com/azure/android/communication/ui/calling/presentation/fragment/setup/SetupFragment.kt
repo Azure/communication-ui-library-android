@@ -25,7 +25,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class SetupFragment :
-    Fragment(R.layout.azure_communication_ui_fragment_setup), BackNavigation {
+    Fragment(R.layout.azure_communication_ui_calling_fragment_setup), BackNavigation {
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
@@ -107,13 +107,13 @@ internal class SetupFragment :
 
     private fun setActionBarTitle() {
         val mSpannableText =
-            SpannableString(getString(R.string.azure_communication_ui_call_setup_action_bar_title))
+            SpannableString(getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title))
 
         mSpannableText.setSpan(
             ForegroundColorSpan(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.azure_communication_ui_color_action_bar_text
+                    R.color.azure_communication_ui_calling_color_action_bar_text
                 )
             ),
             0,

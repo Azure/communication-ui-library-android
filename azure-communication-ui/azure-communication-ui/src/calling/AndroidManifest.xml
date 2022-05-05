@@ -23,7 +23,7 @@
         <activity
             android:name="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AzureCommunicationUI.Theme.Calling"
+            android:theme="@style/AzureCommunicationUICalling.Theme.Calling"
             android:exported="false"
             />
         <service

@@ -95,7 +95,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-        setContentView(R.layout.azure_communication_ui_activity_call_composite)
+        setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
 
         val activity = this
         lifecycleScope.launch {
@@ -151,11 +151,11 @@ internal class CallCompositeActivity : AppCompatActivity() {
             ColorDrawable(
                 ContextCompat.getColor(
                     this,
-                    R.color.azure_communication_ui_color_background
+                    R.color.azure_communication_ui_calling_color_background
                 )
             )
         )
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_ic_fluent_arrow_left_24_filled)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
     }
 
     private fun configureLocalization() {
@@ -268,7 +268,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.statusBarColor = ContextCompat.getColor(
                 this,
-                R.color.azure_communication_ui_color_status_bar
+                R.color.azure_communication_ui_calling_color_status_bar
             )
             val isNightMode = this.resources.configuration.uiMode
                 .and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES

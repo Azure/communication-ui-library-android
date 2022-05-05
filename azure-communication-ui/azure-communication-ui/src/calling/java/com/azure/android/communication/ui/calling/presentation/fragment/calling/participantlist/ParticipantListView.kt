@@ -32,9 +32,9 @@ internal class ParticipantListView(
     private lateinit var accessibilityManager: AccessibilityManager
 
     init {
-        inflate(context, R.layout.azure_communication_ui_listview, this)
+        inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         participantTable = findViewById(R.id.bottom_drawer_table)
-        this.setBackgroundResource(R.color.azure_communication_ui_color_bottom_drawer_background)
+        this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
@@ -201,8 +201,8 @@ internal class ParticipantListView(
     ): BottomCellItem {
         val micIcon = ContextCompat.getDrawable(
             context,
-            if (isMuted) R.drawable.azure_communication_ui_ic_fluent_mic_off_24_filled_composite_button_filled_grey
-            else R.drawable.azure_communication_ui_ic_fluent_mic_on_24_filled_composite_button_filled_grey
+            if (isMuted) R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_filled_grey
+            else R.drawable.azure_communication_ui_calling_ic_fluent_mic_on_24_filled_composite_button_filled_grey
         )
 
         val micAccessibilityAnnouncement = context.getString(
@@ -215,7 +215,7 @@ internal class ParticipantListView(
             displayName,
             displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list),
             micIcon,
-            R.color.azure_communication_ui_color_participant_list_mute_mic,
+            R.color.azure_communication_ui_calling_color_participant_list_mute_mic,
             micAccessibilityAnnouncement,
             isMuted,
             personaData,

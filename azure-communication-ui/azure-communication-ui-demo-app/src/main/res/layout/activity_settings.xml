@@ -8,8 +8,8 @@
     android:id="@+id/settings_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/azure_communication_ui_side_margin"
-    android:layout_marginEnd="@dimen/azure_communication_ui_side_margin"
+    android:layout_marginStart="@dimen/azure_communication_ui_calling_side_margin"
+    android:layout_marginEnd="@dimen/azure_communication_ui_calling_side_margin"
     android:orientation="vertical"
     tools:context=".SettingsActivity"
     >
@@ -18,7 +18,7 @@
         android:id="@+id/language_setting_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/azure_communication_ui_fab_margin"
+        android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
         android:text="@string/language_setting_label"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -28,8 +28,8 @@
         android:id="@+id/language_setting_label_divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/azure_communication_ui_color_on_surface"
-        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        android:background="@color/azure_communication_ui_calling_color_on_surface"
+        android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
         />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -37,7 +37,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
         >
 
         <AutoCompleteTextView
@@ -47,8 +47,8 @@
             android:layout_weight="1"
             android:hint="@string/language_dropdown_hint"
             android:inputType="none"
-            android:paddingTop="@dimen/azure_communication_ui_fab_margin"
-            android:paddingBottom="@dimen/azure_communication_ui_fab_margin"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:paddingBottom="@dimen/azure_communication_ui_calling_fab_margin"
             android:text="@string/language_default_selection"
             android:textSize="16sp"
             />
@@ -67,7 +67,7 @@
         android:id="@+id/call_setting_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/azure_communication_ui_fab_margin"
+        android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
         android:text="@string/call_setting_label"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -76,21 +76,21 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/azure_communication_ui_color_on_surface"
-        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        android:background="@color/azure_communication_ui_calling_color_on_surface"
+        android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
         />
 
     <com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/azure_communication_ui_inner_space_padding"
+        android:layout_marginTop="@dimen/azure_communication_ui_calling_inner_space_padding"
         />
 
     <TextView
         android:id="@+id/callSellingAvatarInjection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/azure_communication_ui_fab_margin"
+        android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
         android:text="@string/avatar_injection"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -99,8 +99,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/azure_communication_ui_color_on_surface"
-        android:paddingTop="@dimen/azure_communication_ui_inner_space_padding"
+        android:background="@color/azure_communication_ui_calling_color_on_surface"
+        android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
         />
 
     <HorizontalScrollView

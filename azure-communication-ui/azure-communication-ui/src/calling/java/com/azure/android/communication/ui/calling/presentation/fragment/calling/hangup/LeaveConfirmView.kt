@@ -35,10 +35,10 @@ internal class LeaveConfirmView(
     private lateinit var bottomCellAdapter: BottomCellAdapter
 
     init {
-        inflate(context, R.layout.azure_communication_ui_listview, this)
+        inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         leaveConfirmMenuTable = findViewById(R.id.bottom_drawer_table)
         title = TextView(context)
-        setBackgroundResource(R.color.azure_communication_ui_color_bottom_drawer_background)
+        setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
     }
 
     fun stop() {
@@ -62,7 +62,7 @@ internal class LeaveConfirmView(
         val titleLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         titleLayoutParams.setMargins((16 * dp).toInt(), (12 * dp).toInt(), (72 * dp).toInt(), (12 * dp).toInt())
 
-        title.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_color_text_primary))
+        title.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_text_primary))
         title.text = context.getString(R.string.azure_communication_ui_calling_view_leave_call)
         title.layoutParams = titleLayoutParams
 
@@ -117,7 +117,7 @@ internal class LeaveConfirmView(
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_leave_confirm_telephone_21_10
+                        R.drawable.azure_communication_ui_calling_leave_confirm_telephone_21_10
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
                     null,
@@ -134,7 +134,7 @@ internal class LeaveConfirmView(
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_leave_confirm_dismiss_16_regular
+                        R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_16_regular
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
                     null,

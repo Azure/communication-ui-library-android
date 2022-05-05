@@ -90,7 +90,7 @@ internal class ParticipantGridCellAvatarView(
         if (isSpeaking) {
             participantAvatarSpeakingFrameLayout.background = ContextCompat.getDrawable(
                 context,
-                R.drawable.azure_communication_ui_speaking_round_indicator
+                R.drawable.azure_communication_ui_calling_speaking_round_indicator
             )
         } else {
             participantAvatarSpeakingFrameLayout.setBackgroundResource(0)
