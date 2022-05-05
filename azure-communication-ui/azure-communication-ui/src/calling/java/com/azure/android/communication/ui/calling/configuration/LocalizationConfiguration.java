@@ -21,18 +21,6 @@ import java.util.Locale;
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
  *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE, LayoutDirection.RTL&#41;&#41;;
  *
- * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *      .localization&#40;new LocalizationConfiguration&#40;"fr"&#41;&#41;;
- *
- * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *      .localization&#40;new LocalizationConfiguration&#40;"fr", LayoutDirection.LTR&#41;&#41;;
- *
- * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .localization&#40;new LocalizationConfiguration&#40;"fr", "FR"&#41;&#41;;
- *
- * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .localization&#40;new LocalizationConfiguration&#40;"fr", "FR", LayoutDirection.LTR&#41;&#41;;
- *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
@@ -61,49 +49,6 @@ public final class LocalizationConfiguration {
      */
     public LocalizationConfiguration(@NonNull final Locale locale, final int layoutDirection) {
         this.locale = locale;
-        this.layoutDirection = layoutDirection;
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language language {@link String}; eg,. "fr"
-     */
-    public LocalizationConfiguration(@NonNull final String language) {
-        this.locale = new Locale(language);
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language language {@link String}; eg,. "fr"
-     * @param layoutDirection layout direction int; eg,. LayoutDirection.RTL
-     */
-    public LocalizationConfiguration(@NonNull final String language, final int layoutDirection) {
-        this.locale = new Locale(language);
-        this.layoutDirection = layoutDirection;
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language language {@link String}; eg,. "fr"
-     * @param countryCode country code {@link String}; eg,. "FR"
-     */
-    public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode) {
-        this.locale = new Locale(language, countryCode);
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language language {@link String}; eg,. "fr"
-     * @param countryCode country code {@link String}; eg,. "FR"
-     * @param layoutDirection layout direction int; eg,. LayoutDirection.RTL
-     */
-    public LocalizationConfiguration(@NonNull final String language, @NonNull final String countryCode,
-                                     final int layoutDirection) {
-        this.locale = new Locale(language, countryCode);
         this.layoutDirection = layoutDirection;
     }
 

@@ -32,6 +32,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
+    private lateinit var remoteAvatarInjectionCheckBox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -63,6 +64,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateRTLCheckbox()
 
+        updateAvatarInjectionCheckbox()
+
         saveRenderedDisplayName()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
@@ -73,7 +76,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun onCheckBoxTap(view: View) {
-
         if (view is CheckBox) {
             when (view.id) {
                 R.id.language_is_rtl_checkbox -> {
@@ -86,6 +88,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.remote_avatar_injection_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -95,9 +103,10 @@ class SettingsActivity : AppCompatActivity() {
         languageSettingLabelView = findViewById(R.id.language_setting_text_view)
         languageSettingLabelDivider = findViewById(R.id.language_setting_label_divider)
         isRTLCheckBox = findViewById(R.id.language_is_rtl_checkbox)
+        remoteAvatarInjectionCheckBox = findViewById(R.id.remote_avatar_injection_check_box)
         languageAdapterLayout = findViewById(R.id.language_adapter_layout)
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view)
-        renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
+        renderDisplayNameTextView = findViewById(R.id.render_display_name)
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
         }
@@ -159,6 +168,14 @@ class SettingsActivity : AppCompatActivity() {
     private fun updateRenderedDisplayNameText() {
         renderDisplayNameTextView.text = sharedPreference.getString(RENDERED_DISPLAY_NAME, "")
     }
+
+    private fun updateAvatarInjectionCheckbox() {
+        remoteAvatarInjectionCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE
+            )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -174,3 +191,5 @@ const val DEFAULT_LOCALE_CODE = "en"
 // Shared pref default values for persona data
 const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"
 const val AVATAR_IMAGE = "AVATAR_IMAGE"
+const val DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY = "PERSONA_INJECTION_VALUE_PREF_KEY"
+const val REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE = false
