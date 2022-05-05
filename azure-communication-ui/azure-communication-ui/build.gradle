@@ -2,7 +2,6 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
-
 }
 
 apply from: file('publish.gradle')
@@ -16,10 +15,13 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
 
-        buildConfigField('String', 'UI_LIBRARY_VERSION_NAME', "\"${ui_library_version_name}\"")
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        buildConfig = false
+        resValues = false
     }
 
     buildTypes {

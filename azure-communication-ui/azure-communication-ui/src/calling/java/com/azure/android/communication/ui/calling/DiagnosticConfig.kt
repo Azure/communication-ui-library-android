@@ -3,13 +3,11 @@
 
 package com.azure.android.communication.ui.calling
 
-import com.azure.android.communication.ui.BuildConfig
-
 internal class DiagnosticConfig {
     val tags: Array<String> by lazy { arrayOf(getApplicationId()) }
 
     private fun getApplicationId(): String {
-        val callingCompositeVersionName = BuildConfig.UI_LIBRARY_VERSION_NAME
+        val callingCompositeVersionName = "1.0.0-beta.3"
         return "aca110/$callingCompositeVersionName"
     }
 }
