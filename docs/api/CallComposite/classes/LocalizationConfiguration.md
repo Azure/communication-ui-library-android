@@ -36,52 +36,6 @@ public LocalizationConfiguration(
 * `layoutDiection` - int for layout direction. Default value is `LayoutDirection.LTR`.
 
 
-```java
-public LocalizationConfiguration(
-    final String language
-)         
-```
-
-### Parameters
-* `language` - Language String (ie. "fr", "en")
-
-
-```java
-public LocalizationConfiguration(
-    final String language,
-    final int layoutDirection
-)         
-```
-
-### Parameters
-* `language` - Language String (ie. "fr", "en")
-* `layoutDiection` - int for layout direction. Default value is `LayoutDirection.LTR`.
-  
-
-```java
-public LocalizationConfiguration(
-    final String language,
-    final String countryCode
-)         
-```
-
-### Parameters
-* `language` - Language String (ie. "fr", "en")
-* `countryCode` - Country code String (ie. "FR", "US")
-
-```java
-public LocalizationConfiguration(
-    final String language,
-    final String countryCode,
-    final int layoutDirection
-)         
-```
-
-### Parameters
-* `language` - Language String (ie. "fr", "en")
-* `countryCode` - Country code String (ie. "FR", "US")
-* `layoutDiection` - int for layout direction. Default value is `LayoutDirection.LTR`.
-
 ## Methods
 
 ### `getLayoutDirection`
