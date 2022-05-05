@@ -6,10 +6,10 @@ package com.azure.android.communication.ui.presentation.manager
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.common.CommunicationUserIdentifier
+import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.configuration.LocalDataOptions
 import com.azure.android.communication.ui.configuration.RemoteParticipantPersonaData
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.StandardTestContextProvider
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
@@ -22,9 +22,7 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -32,10 +30,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AvatarViewManagerUnitTest {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class AvatarViewManagerUnitTest: ACSBaseUnitTest() {
 
     @Test
     fun avatarViewManager_call_localDataOption_then_returnNullIfLocalDataOptionNotSet() {
@@ -160,7 +155,7 @@ internal class AvatarViewManagerUnitTest {
 
     @Test
     fun avatarViewManager_onSetRemoteParticipantPersonaData_returnSuccess_ifCalledWithValidParticipantID() {
-        runTest {
+        runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =
@@ -219,7 +214,7 @@ internal class AvatarViewManagerUnitTest {
 
     @Test
     fun avatarViewManager_onSetRemoteParticipantPersonaData_returnFail_ifCalledWithInValidParticipantID() {
-        runTest {
+        runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =
@@ -278,7 +273,7 @@ internal class AvatarViewManagerUnitTest {
 
     @Test
     fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaInjected() {
-        runTest {
+        runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =
@@ -346,7 +341,7 @@ internal class AvatarViewManagerUnitTest {
 
     @Test
     fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaUpdated() {
-        runTest {
+        runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =
@@ -429,7 +424,7 @@ internal class AvatarViewManagerUnitTest {
 
     @Test
     fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaWithBitmapInjected() {
-        runTest {
+        runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =
@@ -503,7 +498,7 @@ internal class AvatarViewManagerUnitTest {
 
     @Test
     fun avatarViewManager_onRemoveParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_ifIdentifierIsValid() {
-        runTest {
+        runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =
@@ -597,7 +592,7 @@ internal class AvatarViewManagerUnitTest {
 
     @Test
     fun avatarViewManager_onRemoveParticipantPersonaData_then_remoteParticipantSharedFlow_doesNot_subscribers_ifIdentifierIsNotValid() {
-        runTest {
+        runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =

@@ -6,10 +6,9 @@ package com.azure.android.communication.ui.service.calling
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
+import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
-import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode.CALL_EVICTED
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.helper.TestContextProvider
 import com.azure.android.communication.ui.model.CallInfoModel
@@ -31,9 +30,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -42,9 +39,7 @@ import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingServiceUnitTests {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
     @Mock
     private lateinit var mockCallingGateway: CallingSDKWrapper
@@ -55,7 +50,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallInfoModelEventSharedFlow_when_disconnected_normally() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -121,7 +116,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallInfoModelEventSharedFlow_when_evicted() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -190,7 +185,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateStateFlow_when_invokedByCallingGateway_returnCallingState() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -262,7 +257,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getRemoteParticipantSharedFlow_when_invokedByCallingGateway_returnParticipantsInOrder() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -475,7 +470,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_invokedByCallingGatewayWithAnyErrorCodeTokenExpired_returnErrorTypeTokenExpired() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -537,7 +532,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_nonErrorErrorCode_doesNotRaiseError() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -598,7 +593,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_stateConnectedAndInvokedByCallingGatewayWithAnyErrorCodeNonZero_returnErrorTypeCallEnd() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -659,7 +654,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_stateNotConnectedAndInvokedByCallingGatewayWithAnyErrorCodeNonZero_returnErrorTypeCallJoin() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =

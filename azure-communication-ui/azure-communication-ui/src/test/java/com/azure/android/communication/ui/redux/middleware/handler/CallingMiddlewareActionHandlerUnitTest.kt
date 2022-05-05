@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.redux.middleware.handler
 
+import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.error.CallStateError
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.TestContextProvider
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
@@ -40,8 +40,6 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.inOrder
@@ -55,10 +53,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingMiddlewareActionHandlerUnitTest {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
     @Test
     fun callingMiddlewareActionHandler_turnCameraOff_when_navigationState_inCall_then_dispatchUpdateCameraStateToStore() {
@@ -341,7 +336,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_then_dispatchParticipantUpdateActionToStore() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
@@ -414,7 +409,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_then_dispatchCallStateUpdateActionToStore() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
@@ -476,7 +471,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_fails_then_dispatchFatalError() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.callState = CallingState(CallingStatus.CONNECTED)
@@ -541,7 +536,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_cameraOff_micOff_then_useCorrectCameraAndAudioStates() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.OFF,
@@ -601,7 +596,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_cameraOff_micOn_then_useCorrectCameraAndAudioStates() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.OFF,
@@ -661,7 +656,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_cameraOn_micOff_then_useCorrectCameraAndAudioStates() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.ON,
@@ -721,7 +716,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_cameraOn_micOn_then_useCorrectCameraAndAudioStates() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.ON,
@@ -1324,7 +1319,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdate_then_dispatch_CallStateErrorOccurred() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
 
@@ -1375,7 +1370,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdate_then_dispatch_CallEviction() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
 
@@ -1441,7 +1436,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdate_then_verify_CallEviction_Sequence() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
 
@@ -1509,7 +1504,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdateTypeEndCall_then_dispatch_stateUpdatedAndSetupLaunched() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
 
@@ -1589,7 +1584,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdateStateDisconnectWithNoError_then_dispatchNavigationExit() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
 
@@ -1655,7 +1650,7 @@ internal class CallingMiddlewareActionHandlerUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_OnSubscribeCallInfoModelUpdateStateDisconnectWithError_then_notDispatchNavigationExit() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
 

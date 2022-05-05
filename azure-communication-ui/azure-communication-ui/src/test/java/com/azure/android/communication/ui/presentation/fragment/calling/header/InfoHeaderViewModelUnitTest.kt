@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.header
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.CallingState
@@ -12,24 +12,19 @@ import com.azure.android.communication.ui.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class InfoHeaderViewModelUnitTest {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class InfoHeaderViewModelUnitTest: ACSBaseUnitTest() {
 
     @ExperimentalCoroutinesApi
     @Test
     fun floatingHeaderViewModel_update_then_numberOfParticipantsFlowReflectsUpdate() {
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             val appState = AppReduxState("")
 

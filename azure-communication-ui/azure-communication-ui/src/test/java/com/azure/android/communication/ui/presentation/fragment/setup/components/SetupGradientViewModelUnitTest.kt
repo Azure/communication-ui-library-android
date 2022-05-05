@@ -1,26 +1,22 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class SetupGradientViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class SetupGradientViewModelUnitTest: ACSBaseUnitTest() {
 
     @ExperimentalCoroutinesApi
     @Test
     fun setupGradientViewModel_onUpdate_then_notifyGradientEnabled_when_videoStreamIDHasValue() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val viewModel = SetupGradientViewModel()
             viewModel.init("", CameraOperationalStatus.ON)
@@ -52,7 +48,7 @@ internal class SetupGradientViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun setupGradientViewModel_onUpdate_then_notifyGradientDisabled_when_videoStreamIDHasNoValue() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val viewModel = SetupGradientViewModel()
             viewModel.init("id1", CameraOperationalStatus.ON)
@@ -84,7 +80,7 @@ internal class SetupGradientViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun setupGradientViewModel_onUpdate_then_notifyGradientDisabled_when_videoStreamHasValueAndCameraIsNotOn() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val viewModel = SetupGradientViewModel()
             viewModel.init("id1", CameraOperationalStatus.ON)

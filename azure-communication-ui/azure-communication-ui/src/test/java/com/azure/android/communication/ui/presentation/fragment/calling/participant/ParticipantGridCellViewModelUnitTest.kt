@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.model.VideoStreamModel
@@ -14,22 +14,18 @@ import com.azure.android.communication.ui.presentation.fragment.factories.Partic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ParticipantGridCellViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class ParticipantGridCellViewModelUnitTest: ACSBaseUnitTest() {
 
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_update_when_isCalledWithParticipantInfoModel_then_participantGridViewModelReceiveStateChange() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
@@ -74,7 +70,7 @@ internal class ParticipantGridCellViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_update_when_isCalledWithParticipantInfoModel_then_participantGridViewModelReceiveStateChangeForSameParticipantWithNewModifiedTimestamp() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val participantGridViewModel =
@@ -133,7 +129,7 @@ internal class ParticipantGridCellViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_update_when_isCalledWithParticipantInfoModel_then_participantGridViewModelReceiveStateChangeForSameParticipantWithSameModifiedTimestamp() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
@@ -194,7 +190,7 @@ internal class ParticipantGridCellViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_when_created_then_notifyAllStateChange() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val emitResultDisplayName = mutableListOf<String>()
             val emitResultIsMuted = mutableListOf<Boolean>()
@@ -247,7 +243,7 @@ internal class ParticipantGridCellViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_when_created_then_notifyStateChangeWithAudioViewIfParticipantHasNoVideo() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val emitResultDisplayName = mutableListOf<String>()
             val emitResultIsMuted = mutableListOf<Boolean>()
@@ -300,7 +296,7 @@ internal class ParticipantGridCellViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_when_created_then_notifyStateChangeWithVideoViewIfParticipantHasVideo() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
@@ -375,7 +371,7 @@ internal class ParticipantGridCellViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_when_created_then_notifyStateChangeWithVideoViewIfParticipantHasScreenShare() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
@@ -453,7 +449,7 @@ internal class ParticipantGridCellViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_created_with_blankUsername_checkIfNameAndMicIndicator_should_be_displayed() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val emitResultDisplayName = mutableListOf<String>()
             val emitResultIsMuted = mutableListOf<Boolean>()
