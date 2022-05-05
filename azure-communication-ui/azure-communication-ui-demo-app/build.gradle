@@ -136,6 +136,7 @@ dependencies {
     implementation(name: "magnifier-0.0.17", ext: 'aar')
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     testImplementation "junit:junit:$junit"

@@ -21,9 +21,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getPersonaData
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.languageCode
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
-import java.util.Locale
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.locale
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -40,28 +38,24 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         initialize(callLauncherActivity.applicationContext)
         val personaData = getPersonaData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
-        val selectedLanguageCode = selectedLanguage?.let { it ->
-            languageCode(it)?.let { selectedLanguageCode(it) }
-        }
+        val locale = selectedLanguage?.let { locale(it) }
 
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
                     .localization(
                         LocalizationConfiguration(
-                            Locale.forLanguageTag(selectedLanguageCode.toString()),
+                            locale!!,
                             getLayoutDirection()
                         )
-                    )
-                    .build()
+                    ).build()
             else
                 CallCompositeBuilder().localization(
                     LocalizationConfiguration(
-                        Locale.forLanguageTag(selectedLanguageCode.toString()),
+                        locale!!,
                         getLayoutDirection()
                     )
-                )
-                    .build()
+                ).build()
 
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
         callComposite.setOnRemoteParticipantJoinedHandler(

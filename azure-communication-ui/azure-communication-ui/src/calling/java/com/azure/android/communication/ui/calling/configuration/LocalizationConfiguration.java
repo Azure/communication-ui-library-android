@@ -22,7 +22,16 @@ import java.util.Locale;
  *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE, LayoutDirection.RTL&#41;&#41;;
  *
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *      .localization&#40;new LocalizationConfiguration&#40;"fr", "FR"&#41;&#41;;
+ *      .localization&#40;new LocalizationConfiguration&#40;"fr"&#41;&#41;;
+ *
+ * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
+ *      .localization&#40;new LocalizationConfiguration&#40;"fr", LayoutDirection.LTR&#41;&#41;;
+ *
+ * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
+ *     .localization&#40;new LocalizationConfiguration&#40;"fr", "FR"&#41;&#41;;
+ *
+ * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
+ *     .localization&#40;new LocalizationConfiguration&#40;"fr", "FR", LayoutDirection.LTR&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;

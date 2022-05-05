@@ -97,8 +97,8 @@ internal class SetupFragment :
 
     override fun onDestroy() {
         super.onDestroy()
-        audioDeviceListView.stop()
-        errorInfoView.stop()
+        if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
+        if (this::errorInfoView.isInitialized) errorInfoView.stop()
     }
 
     override fun onBackPressed() {
