@@ -6,6 +6,11 @@ package com.azure.android.communication.ui.utilities
 import android.graphics.drawable.Drawable
 import com.azure.android.communication.ui.persona.PersonaData
 
+internal enum class BottomCellItemType {
+    BottomMenuAction,
+    BottomMenuTitle
+}
+
 internal data class BottomCellItem(
     var icon: Drawable?,
     var title: String?,
@@ -15,5 +20,6 @@ internal data class BottomCellItem(
     var accessoryImageDescription: String?,
     var enabled: Boolean?,
     var personaData: PersonaData?,
-    var onClickAction: Runnable,
+    val itemType: BottomCellItemType = BottomCellItemType.BottomMenuAction,
+    var onClickAction: Runnable?
 )

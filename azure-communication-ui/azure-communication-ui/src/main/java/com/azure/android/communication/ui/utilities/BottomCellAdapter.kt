@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.utilities
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
@@ -15,9 +14,17 @@ internal class BottomCellAdapter(context: Context) : RecyclerView.Adapter<Bottom
     private var bottomCellItems: List<BottomCellItem> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomCellViewHolder {
-        val view: View =
-            mInflater.inflate(R.layout.azure_communication_ui_bottom_drawer_cell, parent, false)
-        return BottomCellViewHolder(view)
+        val bottomCellType = BottomCellItemType.values().get(viewType)
+        when (bottomCellType) {
+            BottomCellItemType.BottomMenuAction -> {
+                val view = mInflater.inflate(R.layout.azure_communication_ui_bottom_drawer_cell, parent, false)
+                return BottomCellActionViewHolder(view)
+            }
+            BottomCellItemType.BottomMenuTitle -> {
+                val view = mInflater.inflate(R.layout.azure_communication_ui_bottom_drawer_title_cell, parent, false)
+                return BottomCellViewHolder(view)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: BottomCellViewHolder, position: Int) {
@@ -38,5 +45,9 @@ internal class BottomCellAdapter(context: Context) : RecyclerView.Adapter<Bottom
             bottomCellItem.enabled = bottomCellItem.title == bottomCellItemName
         }
         super.notifyDataSetChanged()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return bottomCellItems[position].itemType.ordinal
     }
 }
