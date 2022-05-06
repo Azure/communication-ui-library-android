@@ -10,20 +10,22 @@ import android.graphics.BitmapFactory
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LOCALE_CODE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
-import com.azure.android.communication.ui.configuration.SupportLanguage
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.util.Locale
 
 class SettingsFeatures {
 
     companion object {
         private lateinit var sharedPrefs: SharedPreferences
+        private val defaultLocaleString = Gson().toJson(Locale.US)
 
         @JvmStatic
         fun initialize(context: Context) {
@@ -42,7 +44,7 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun isRTL(): Int {
+        fun getLayoutDirection(): Int {
             val isRTLKey =
                 LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + sharedPrefs.getString(
                     LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
@@ -53,29 +55,29 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun languageCode(languageDisplayName: String): String? {
-            return sharedPrefs.getString(languageDisplayName, DEFAULT_LOCALE_CODE)
+        fun locale(languageDisplayName: String): Locale {
+            val localeString = sharedPrefs.getString(languageDisplayName, defaultLocaleString)
+            return GsonBuilder().create().fromJson(localeString, Locale::class.java)
         }
 
         @JvmStatic
-        fun displayLanguageName(languageCode: String): String {
-            val displayName = Locale.forLanguageTag(languageCode).displayName
-            sharedPrefs.edit().putString(displayName, languageCode).apply()
+        fun displayLanguageName(locale: Locale): String {
+            val displayName = locale.displayName
+            val localeString = Gson().toJson(locale)
+            sharedPrefs.edit().putString(displayName, localeString).apply()
             return displayName
         }
 
         @JvmStatic
-        fun selectedLanguageCode(languageCode: String): SupportLanguage {
-            SupportLanguage.values().forEach { language ->
-                if (languageCode == language.toString()) {
-                    return language
-                }
-            }
-            return SupportLanguage.EN_US
+        fun getRemoteParticipantPersonaInjectionSelection(): Boolean {
+            return sharedPrefs.getBoolean(
+                DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                false
+            )
         }
 
         @JvmStatic
-        fun getCommunicationUIPersonaData(context: Context): CommunicationUIPersonaData? {
+        fun getPersonaData(context: Context): PersonaData? {
             val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
             val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
             var avatarImageBitmap: Bitmap? = null
@@ -86,15 +88,22 @@ class SettingsFeatures {
             }
 
             if (!displayName.isNullOrEmpty() && avatarImageBitmap != null) {
-                return CommunicationUIPersonaData(displayName, avatarImageBitmap)
+                return PersonaData(
+                    displayName,
+                    avatarImageBitmap
+                )
             }
 
             if (avatarImageBitmap != null) {
-                return CommunicationUIPersonaData(avatarImageBitmap)
+                return PersonaData(
+                    avatarImageBitmap
+                )
             }
 
             if (!displayName.isNullOrEmpty()) {
-                return CommunicationUIPersonaData(displayName)
+                return PersonaData(
+                    displayName
+                )
             }
 
             return null

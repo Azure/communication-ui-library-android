@@ -36,42 +36,20 @@ public LocalizationConfiguration(
 * `layoutDiection` - int for layout direction. Default value is `LayoutDirection.LTR`.
 
 
-```java
-public LocalizationConfiguration(
-    final String language
-)         
-```
-
-### Parameters
-* `language` - Language String (ie. "fr", "en")
-  
-
-```java
-public LocalizationConfiguration(
-    final String language,
-    final String country 
-)         
-```
-
-### Parameters
-* `language` - Language String (ie. "fr", "en")
-* `country` - Country String (ie. "FR", "US")
-
-
 ## Methods
 
 ### `getLayoutDirection`
 
-The layoutDirection int value to be used by `CallComposite`.
+The layoutDirection Integer value to be used by `CallComposite`.
 
 ```java
-public boolean getLayoutDirection() 
+public Integer getLayoutDirection() 
 ```
  
 ### `getLocale`
 
-The language code to be used by `CallComposite`.
+The Locale to be used by `CallComposite`.
 
 ```java
-public LanguageCode getLocale() 
+public Locale getLocale() 
 ```

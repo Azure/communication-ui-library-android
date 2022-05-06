@@ -4,7 +4,10 @@
 package com.azure.android.communication.ui.service.calling
 
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode.CALL_END
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode.CALL_JOIN
+import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode.TOKEN_EXPIRED
+import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode.CALL_EVICTED
 import com.azure.android.communication.ui.error.CallStateError
 import com.azure.android.communication.ui.logger.Logger
 import com.azure.android.communication.ui.model.CallInfoModel
@@ -170,17 +173,17 @@ internal class CallingService(
         callingState.run {
             logger?.debug(callingState.toString())
             when {
-                isEvicted(callingState) -> CallStateError(CommunicationUIErrorCode.CALL_EVICTED)
+                isEvicted(callingState) -> CallStateError(CALL_END, CALL_EVICTED)
                 callEndReason == CALL_END_REASON_SUCCESS ||
                     callEndReason == CALL_END_REASON_CANCELED ||
                     callEndReason == CALL_END_REASON_DECLINED -> null
                 callEndReason == CALL_END_REASON_TOKEN_EXPIRED ->
-                    CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED)
+                    CallStateError(TOKEN_EXPIRED)
                 else -> {
                     if (callingStatus == CallingStatus.CONNECTED) {
-                        CallStateError(CommunicationUIErrorCode.CALL_END)
+                        CallStateError(CALL_END)
                     } else {
-                        CallStateError(CommunicationUIErrorCode.CALL_JOIN)
+                        CallStateError(CALL_JOIN)
                     }
                 }
             }

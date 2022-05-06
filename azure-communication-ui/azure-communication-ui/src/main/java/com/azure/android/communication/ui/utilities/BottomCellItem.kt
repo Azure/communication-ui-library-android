@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.utilities
 
 import android.graphics.drawable.Drawable
-import com.azure.android.communication.ui.persona.CommunicationUIPersonaData
+import com.azure.android.communication.ui.persona.PersonaData
 
 internal data class BottomCellItem(
     var icon: Drawable?,
@@ -14,6 +14,6 @@ internal data class BottomCellItem(
     var accessoryColor: Int?,
     var accessoryImageDescription: String?,
     var enabled: Boolean?,
-    var personaData: CommunicationUIPersonaData?,
+    var personaData: PersonaData?,
     var onClickAction: Runnable,
 )

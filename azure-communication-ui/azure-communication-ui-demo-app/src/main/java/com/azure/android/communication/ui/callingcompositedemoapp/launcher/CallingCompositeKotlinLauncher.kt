@@ -12,17 +12,17 @@ import com.azure.android.communication.ui.TeamsMeetingOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
+import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCommunicationUIPersonaData
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getLayoutDirection
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getPersonaData
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getRemoteParticipantPersonaInjectionSelection
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.isRTL
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.languageCode
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.selectedLanguageCode
-import com.azure.android.communication.ui.configuration.CommunicationUILocalDataOptions
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.locale
+import com.azure.android.communication.ui.configuration.LocalDataOptions
 import com.azure.android.communication.ui.configuration.LocalizationConfiguration
 import com.azure.android.communication.ui.configuration.ThemeConfiguration
-import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.Callable
 
@@ -37,32 +37,34 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)
-        val personaData = getCommunicationUIPersonaData(callLauncherActivity.applicationContext)
+        val personaData = getPersonaData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
-        val selectedLanguageCode = selectedLanguage?.let { it ->
-            languageCode(it)?.let { selectedLanguageCode(it) }
-        }
+        val locale = selectedLanguage?.let { locale(it) }
 
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
                     .localization(
                         LocalizationConfiguration(
-                            Locale.forLanguageTag(selectedLanguageCode.toString()),
-                            isRTL()
+                            locale!!,
+                            getLayoutDirection()
                         )
-                    )
-                    .build()
+                    ).build()
             else
                 CallCompositeBuilder().localization(
                     LocalizationConfiguration(
-                        Locale.forLanguageTag(selectedLanguageCode.toString()),
-                        isRTL()
+                        locale!!,
+                        getLayoutDirection()
                     )
-                )
-                    .build()
+                ).build()
 
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
+
+        if (getRemoteParticipantPersonaInjectionSelection()) {
+            callComposite.setOnRemoteParticipantJoinedHandler(
+                RemoteParticipantJoinedHandler(callComposite, callLauncherActivity)
+            )
+        }
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions(tokenRefresher, true)
@@ -77,7 +79,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             )
 
             if (personaData != null) {
-                val dataOptions = CommunicationUILocalDataOptions(personaData)
+                val dataOptions =
+                    LocalDataOptions(
+                        personaData
+                    )
                 callComposite.launch(
                     callLauncherActivity,
                     groupCallOptions,
@@ -97,7 +102,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             )
 
             if (personaData != null) {
-                val dataOptions = CommunicationUILocalDataOptions(personaData)
+                val dataOptions =
+                    LocalDataOptions(
+                        personaData
+                    )
                 callComposite.launch(
                     callLauncherActivity,
                     teamsMeetingOptions,

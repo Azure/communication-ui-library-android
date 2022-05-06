@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference
 //
 // CallLauncherActivity is loosely coupled and will detach the weak reference after disposed.
 class CallLauncherActivityErrorHandler(callLauncherActivity: CallLauncherActivity) :
-    CallingEventHandler {
+    CallingEventHandler<CommunicationUIErrorEvent> {
 
     private val activityWr: WeakReference<CallLauncherActivity> =
         WeakReference(callLauncherActivity)
