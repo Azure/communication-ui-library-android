@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.service.calling
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.helper.MockitoHelper.any
@@ -39,7 +39,7 @@ import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingServiceUnitTests: ACSBaseUnitTest() {
+internal class CallingServiceUnitTests: ACSBaseTestCoroutine() {
 
     @Mock
     private lateinit var mockCallingGateway: CallingSDKWrapper

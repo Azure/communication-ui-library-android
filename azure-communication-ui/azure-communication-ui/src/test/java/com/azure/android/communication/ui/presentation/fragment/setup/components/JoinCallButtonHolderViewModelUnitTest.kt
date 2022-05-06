@@ -1,6 +1,6 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -16,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class JoinCallButtonHolderViewModelUnitTest: ACSBaseUnitTest() {
+internal class JoinCallButtonHolderViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

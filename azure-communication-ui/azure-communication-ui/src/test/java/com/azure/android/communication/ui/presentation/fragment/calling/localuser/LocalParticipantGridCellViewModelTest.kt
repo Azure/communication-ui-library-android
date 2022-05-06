@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class LocalParticipantGridCellViewModelTest: ACSBaseUnitTest() {
+internal class LocalParticipantGridCellViewModelTest: ACSBaseTestCoroutine() {
 
     @Test
     fun localParticipantViewModel_update_when_turnMic_then_audioState_update() =

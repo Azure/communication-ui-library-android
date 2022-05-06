@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.header
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.CallingState
@@ -19,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class InfoHeaderViewModelUnitTest: ACSBaseUnitTest() {
+internal class InfoHeaderViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

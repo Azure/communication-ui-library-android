@@ -1,6 +1,6 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.state.PermissionState
 import com.azure.android.communication.ui.redux.state.PermissionStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class SetupParticipantAvatarViewModelUnitTest: ACSBaseUnitTest() {
+internal class SetupParticipantAvatarViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

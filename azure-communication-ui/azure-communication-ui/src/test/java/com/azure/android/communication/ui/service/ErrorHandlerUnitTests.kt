@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.service
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.error.CallCompositeError
@@ -37,7 +37,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ErrorHandlerUnitTest: ACSBaseUnitTest() {
+internal class ErrorHandlerUnitTest: ACSBaseTestCoroutine() {
 
     @Test
     fun errorHandler_onStateChange_withNoError_callsNothing() =

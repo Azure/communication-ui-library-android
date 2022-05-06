@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.presentation.fragment.setup.components.PermissionWarningViewModel
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
@@ -23,7 +23,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class PermissionWarningViewModelUnitTest: ACSBaseUnitTest() {
+internal class PermissionWarningViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.handler
 
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.CallingEventHandler
 import com.azure.android.communication.ui.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfigurationHandler
@@ -32,7 +32,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class RemoteParticipantHandlerUnitTests: ACSBaseUnitTest() {
+internal class RemoteParticipantHandlerUnitTests: ACSBaseTestCoroutine() {
 
     @Test
     fun remoteParticipantHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {

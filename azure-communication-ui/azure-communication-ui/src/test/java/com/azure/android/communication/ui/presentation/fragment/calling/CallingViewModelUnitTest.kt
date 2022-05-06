@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -43,7 +43,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingViewModelUnitTest: ACSBaseUnitTest() {
+internal class CallingViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @Test
     @ExperimentalCoroutinesApi

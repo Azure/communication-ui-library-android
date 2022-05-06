@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.presentation.manager
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.configuration.LocalDataOptions
 import com.azure.android.communication.ui.configuration.RemoteParticipantPersonaData
 import com.azure.android.communication.ui.configuration.RemoteParticipantsConfiguration
@@ -30,7 +30,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AvatarViewManagerUnitTest: ACSBaseUnitTest() {
+internal class AvatarViewManagerUnitTest: ACSBaseTestCoroutine() {
 
     @Test
     fun avatarViewManager_call_localDataOption_then_returnNullIfLocalDataOptionNotSet() {

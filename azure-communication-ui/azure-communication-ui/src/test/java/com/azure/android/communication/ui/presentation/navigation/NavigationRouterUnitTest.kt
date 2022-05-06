@@ -3,8 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.navigation
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
-import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AppReduxState
 import com.azure.android.communication.ui.redux.state.NavigationState
@@ -15,12 +14,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.runTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -33,7 +27,7 @@ import org.mockito.kotlin.mock
  */
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-internal class NavigationRouterUnitTest: ACSBaseUnitTest() {
+internal class NavigationRouterUnitTest: ACSBaseTestCoroutine() {
 
     private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
         Pair<NavigationRouter, List<NavigationStatus>> {

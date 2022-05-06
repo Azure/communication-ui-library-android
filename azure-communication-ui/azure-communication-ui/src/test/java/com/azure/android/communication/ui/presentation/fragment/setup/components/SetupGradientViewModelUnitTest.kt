@@ -1,6 +1,6 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.state.CameraOperationalStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class SetupGradientViewModelUnitTest: ACSBaseUnitTest() {
+internal class SetupGradientViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

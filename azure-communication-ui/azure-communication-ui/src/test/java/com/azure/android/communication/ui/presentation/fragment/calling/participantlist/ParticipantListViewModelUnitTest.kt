@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.model.VideoStreamModel
@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ParticipantListViewModelUnitTest: ACSBaseUnitTest() {
+internal class ParticipantListViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @Test
     fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate() {

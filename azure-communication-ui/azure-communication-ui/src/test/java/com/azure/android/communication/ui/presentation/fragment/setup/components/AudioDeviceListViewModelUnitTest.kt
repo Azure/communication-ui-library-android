@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
@@ -27,7 +27,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AudioDeviceListViewModelUnitTest: ACSBaseUnitTest() {
+internal class AudioDeviceListViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @Test
     fun audioDeviceListViewModel_switchAudioDevice_then_dispatchAudioDeviceChangeRequested() {

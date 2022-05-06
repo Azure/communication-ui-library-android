@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.controlbar
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.redux.state.AppReduxState
@@ -34,7 +34,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ControlBarViewModelUnitTest: ACSBaseUnitTest() {
+internal class ControlBarViewModelUnitTest: ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {

@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.configuration
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.CallingEventHandler
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.redux.state.AppReduxState
@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallCompositeEventsHandlerTests: ACSBaseUnitTest() {
+internal class CallCompositeEventsHandlerTests: ACSBaseTestCoroutine() {
 
     @Test
     fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() =

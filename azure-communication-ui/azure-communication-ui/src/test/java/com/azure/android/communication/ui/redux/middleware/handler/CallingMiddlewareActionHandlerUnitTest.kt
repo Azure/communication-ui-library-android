@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.redux.middleware.handler
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.error.CallStateError
@@ -53,7 +53,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
+internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseTestCoroutine() {
 
     @Test
     fun callingMiddlewareActionHandler_turnCameraOff_when_navigationState_inCall_then_dispatchUpdateCameraStateToStore() {

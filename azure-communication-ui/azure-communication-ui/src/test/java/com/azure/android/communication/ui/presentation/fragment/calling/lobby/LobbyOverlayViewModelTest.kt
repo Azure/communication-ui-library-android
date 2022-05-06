@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.lobby
 
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.state.CallingStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class LobbyOverlayViewModelTest: ACSBaseUnitTest() {
+internal class LobbyOverlayViewModelTest: ACSBaseTestCoroutine() {
 
     @Test
     fun lobbyOverlayViewModel_when_callingStateChange_then_notifyLobbyState() =

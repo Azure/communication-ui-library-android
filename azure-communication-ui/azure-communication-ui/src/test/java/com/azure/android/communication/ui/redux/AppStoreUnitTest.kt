@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.redux
 
 import android.os.Handler
-import com.azure.android.communication.ui.ACSBaseUnitTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.helper.HandlerAnswerStub
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.action.Action
@@ -24,7 +24,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AppStoreUnitTest: ACSBaseUnitTest() {
+internal class AppStoreUnitTest: ACSBaseTestCoroutine() {
 
     @Mock
     private lateinit var mockAppStateReducer: AppStateReducer
