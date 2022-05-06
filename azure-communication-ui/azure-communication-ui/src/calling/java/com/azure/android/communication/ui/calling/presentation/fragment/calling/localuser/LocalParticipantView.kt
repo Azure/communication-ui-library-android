@@ -101,7 +101,7 @@ internal class LocalParticipantView : ConstraintLayout {
                     avatar.name = it
                     pipAvatar.name = it
                     displayNameText.text = it
-                    avatarViewManager.localDataOptions?.personaData?.let { personaData ->
+                    avatarViewManager.localSettings?.personaData?.let { personaData ->
                         personaData.avatarBitmap?.let { image ->
                             avatar.avatarImageBitmap = image
                             avatar.adjustViewBounds = true

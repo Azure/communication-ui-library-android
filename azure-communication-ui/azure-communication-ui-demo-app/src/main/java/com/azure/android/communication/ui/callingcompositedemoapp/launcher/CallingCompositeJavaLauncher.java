@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
-import com.azure.android.communication.ui.calling.models.LocalDataOptions;
+import com.azure.android.communication.ui.calling.models.LocalSettings;
 import com.azure.android.communication.ui.calling.models.LocalizationConfiguration;
 import com.azure.android.communication.ui.calling.models.ThemeConfiguration;
 import com.azure.android.communication.ui.calling.models.PersonaData;
@@ -78,8 +78,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
             final GroupCallOptions groupCallOptions =
                     new GroupCallOptions(communicationTokenCredential, groupId, displayName);
             if (personaData != null) {
-                final LocalDataOptions dataOptions =
-                        new LocalDataOptions(personaData);
+                final LocalSettings dataOptions =
+                        new LocalSettings(personaData);
                 callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions);
             } else {
                 callComposite.launch(callLauncherActivity, groupCallOptions);
@@ -88,8 +88,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
             final TeamsMeetingOptions teamsMeetingOptions =
                     new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
             if (personaData != null) {
-                final LocalDataOptions dataOptions =
-                        new LocalDataOptions(personaData);
+                final LocalSettings dataOptions =
+                        new LocalSettings(personaData);
                 callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions);
             } else {
                 callComposite.launch(callLauncherActivity, teamsMeetingOptions);

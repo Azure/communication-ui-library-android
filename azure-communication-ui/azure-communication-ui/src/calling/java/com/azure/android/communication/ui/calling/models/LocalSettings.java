@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
- * LocalDataOptions for CallComposite.launch.
+ * LocalSettings for CallComposite.launch.
  *
  * <pre>
  *
@@ -16,9 +16,9 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalDataOptions with {@link PersonaData}
- * LocalDataOptions dataOptions =
- * new LocalDataOptions(new PersonaData&#40;...&#41);
+ * &#47;&#47; Build the LocalSettings with {@link PersonaData}
+ * LocalSettings settings =
+ * new LocalSettings(new PersonaData&#40;...&#41);
  *
  * &#47;&#47; Launch call
  * callComposite.launch&#40; .., .., dataOptions&#41
@@ -26,16 +26,16 @@ import com.azure.android.communication.ui.calling.CallComposite;
  *
  * @see CallComposite
  */
-public final class LocalDataOptions {
+public final class LocalSettings {
     private final PersonaData personaData;
 
     /**
-     * Create LocalDataOptions.
+     * Create LocalSettings.
      *
      * @param personaData The {@link PersonaData};
      * @see PersonaData
      */
-    public LocalDataOptions(final PersonaData personaData) {
+    public LocalSettings(final PersonaData personaData) {
         this.personaData = personaData;
     }
 

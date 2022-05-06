@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
-import com.azure.android.communication.ui.calling.models.LocalDataOptions
+import com.azure.android.communication.ui.calling.models.LocalSettings
 import com.azure.android.communication.ui.calling.models.LocalizationConfiguration
 import com.azure.android.communication.ui.calling.models.ThemeConfiguration
 import java.lang.RuntimeException
@@ -14,7 +14,7 @@ internal class CallCompositeConfiguration {
     var localizationConfig: LocalizationConfiguration? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
-    var localDataOptions: LocalDataOptions? = null
+    var localSettings: LocalSettings? = null
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration =
         RemoteParticipantsConfiguration()
 

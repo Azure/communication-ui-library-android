@@ -151,7 +151,7 @@ internal class ParticipantListView(
                 resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
             )
         val localParticipantPersonaData =
-            avatarViewManager.localDataOptions?.personaData
+            avatarViewManager.localSettings?.personaData
         bottomCellItems
             .add(
                 generateBottomCellItem(

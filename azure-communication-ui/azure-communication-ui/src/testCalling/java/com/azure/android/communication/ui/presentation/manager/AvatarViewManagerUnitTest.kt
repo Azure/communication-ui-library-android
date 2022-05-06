@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.presentation.manager
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.ui.calling.models.LocalDataOptions
+import com.azure.android.communication.ui.calling.models.LocalSettings
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantPersonaData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.helper.MainCoroutineRule
@@ -51,7 +51,7 @@ internal class AvatarViewManagerUnitTest {
         )
 
         // act
-        val result = avatarViewManager.localDataOptions
+        val result = avatarViewManager.localSettings
 
         // assert
         Assert.assertEquals(
@@ -61,19 +61,19 @@ internal class AvatarViewManagerUnitTest {
     }
 
     @Test
-    fun avatarViewManager_call_localDataOptionSet_then_returnDisplayName_ifLocalDataOptionIsSetWithRenderedDisplayName() {
+    fun avatarViewManager_call_localSettingsSet_then_returnDisplayName_ifLocalDataOptionIsSetWithRenderedDisplayName() {
         // arrange
         val mockAppStore = mock<AppStore<ReduxState>>()
         val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalDataOptions(PersonaData("test")),
+            LocalSettings(PersonaData("test")),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localDataOptions
+        val result = avatarViewManager.localSettings
 
         // assert
         Assert.assertEquals(
@@ -87,7 +87,7 @@ internal class AvatarViewManagerUnitTest {
     }
 
     @Test
-    fun avatarViewManager_call_localDataOptionSet_then_returnBitMap_ifLocalDataOptionIsSetWithBitMap() {
+    fun avatarViewManager_call_localSettingsSet_then_returnBitMap_ifLocalDataOptionIsSetWithBitMap() {
         // arrange
         val mockAppStore = mock<AppStore<ReduxState>>()
         val mockBitMap = mock<Bitmap>()
@@ -95,12 +95,12 @@ internal class AvatarViewManagerUnitTest {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalDataOptions(PersonaData(mockBitMap)),
+            LocalSettings(PersonaData(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localDataOptions
+        val result = avatarViewManager.localSettings
 
         // assert
         Assert.assertEquals(
@@ -114,7 +114,7 @@ internal class AvatarViewManagerUnitTest {
     }
 
     @Test
-    fun avatarViewManager_call_localDataOptionSet_then_returnScaleXY_ifScaleIsNotSet() {
+    fun avatarViewManager_call_localSettingsSet_then_returnScaleXY_ifScaleIsNotSet() {
         // arrange
         val mockAppStore = mock<AppStore<ReduxState>>()
         val mockBitMap = mock<Bitmap>()
@@ -122,12 +122,12 @@ internal class AvatarViewManagerUnitTest {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalDataOptions(PersonaData(mockBitMap)),
+            LocalSettings(PersonaData(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localDataOptions
+        val result = avatarViewManager.localSettings
 
         // assert
         Assert.assertEquals(
@@ -137,7 +137,7 @@ internal class AvatarViewManagerUnitTest {
     }
 
     @Test
-    fun avatarViewManager_call_localDataOptionSet_then_returnScaleSet_ifScaleIsSet() {
+    fun avatarViewManager_call_localSettingsSet_then_returnScaleSet_ifScaleIsSet() {
         // arrange
         val mockAppStore = mock<AppStore<ReduxState>>()
         val mockBitMap = mock<Bitmap>()
@@ -145,12 +145,12 @@ internal class AvatarViewManagerUnitTest {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalDataOptions(PersonaData(mockBitMap, ImageView.ScaleType.FIT_CENTER)),
+            LocalSettings(PersonaData(mockBitMap, ImageView.ScaleType.FIT_CENTER)),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localDataOptions
+        val result = avatarViewManager.localSettings
 
         // assert
         Assert.assertEquals(

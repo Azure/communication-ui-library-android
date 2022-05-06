@@ -17,13 +17,13 @@ import android.widget.ImageView;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalDataOptions with PersonaData
- * LocalDataOptions options =
- * new LocalDataOptions(new PersonaData&#40;...&#41);
+ * &#47;&#47; Build the LocalSettings with PersonaData
+ * LocalSettings localSettings =
+ * new LocalSettings(new PersonaData&#40;...&#41);
  *
  * </pre>
  *
- * @see LocalDataOptions
+ * @see LocalSettings
  */
 public final class PersonaData {
     private Bitmap avatarBitmap;
@@ -34,7 +34,7 @@ public final class PersonaData {
      * Create PersonaData.
      *
      * @param avatarBitmap The {@link Bitmap};
-     * @see LocalDataOptions
+     * @see LocalSettings
      */
     public PersonaData(final Bitmap avatarBitmap) {
         this.avatarBitmap = avatarBitmap;
@@ -45,7 +45,7 @@ public final class PersonaData {
      *
      * @param avatarBitmap     The {@link Bitmap};
      * @param scaleType The {@link ImageView.ScaleType};
-     * @see LocalDataOptions
+     * @see LocalSettings
      */
     public PersonaData(final Bitmap avatarBitmap, final ImageView.ScaleType scaleType) {
         this.avatarBitmap = avatarBitmap;
@@ -56,7 +56,7 @@ public final class PersonaData {
      * Create PersonaData.
      *
      * @param renderedDisplayName The {@link String};
-     * @see LocalDataOptions
+     * @see LocalSettings
      */
     public PersonaData(final String renderedDisplayName) {
         this.renderedDisplayName = renderedDisplayName;
@@ -67,7 +67,7 @@ public final class PersonaData {
      *
      * @param renderedDisplayName  The {@link String};
      * @param avatarBitmap The {@link Bitmap};
-     * @see LocalDataOptions
+     * @see LocalSettings
      */
     public PersonaData(final String renderedDisplayName, final Bitmap avatarBitmap) {
         this.avatarBitmap = avatarBitmap;
@@ -80,7 +80,7 @@ public final class PersonaData {
      * @param renderedDisplayName      The {@link String};
      * @param avatarBitmap     The {@link Bitmap};
      * @param scaleType The {@link ImageView.ScaleType};
-     * @see LocalDataOptions
+     * @see LocalSettings
      */
     public PersonaData(final String renderedDisplayName,
                        final Bitmap avatarBitmap,
