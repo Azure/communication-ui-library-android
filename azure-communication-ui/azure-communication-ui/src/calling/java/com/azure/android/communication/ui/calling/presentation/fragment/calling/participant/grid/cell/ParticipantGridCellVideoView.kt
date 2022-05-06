@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.model.StreamType
+import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.PersonaData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models
 
-import com.azure.android.communication.ui.calling.model.VideoStreamModel
 
 internal data class ParticipantInfoModel(
     val displayName: String,

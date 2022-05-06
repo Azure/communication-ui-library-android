@@ -12,8 +12,8 @@ import com.azure.android.communication.ui.calling.models.CommunicationUIRemotePa
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.model.StreamType
-import com.azure.android.communication.ui.calling.model.VideoStreamModel
+import com.azure.android.communication.ui.calling.models.StreamType
+import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState

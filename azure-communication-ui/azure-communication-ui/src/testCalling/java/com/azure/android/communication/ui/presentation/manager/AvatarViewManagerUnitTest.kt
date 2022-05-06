@@ -12,8 +12,8 @@ import com.azure.android.communication.ui.calling.configuration.RemoteParticipan
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.StandardTestContextProvider
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.model.StreamType
-import com.azure.android.communication.ui.calling.model.VideoStreamModel
+import com.azure.android.communication.ui.calling.models.StreamType
+import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.models.PersonaData
 import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager

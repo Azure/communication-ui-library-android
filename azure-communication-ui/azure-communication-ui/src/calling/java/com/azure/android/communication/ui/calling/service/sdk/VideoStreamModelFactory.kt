@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.RemoteVideoStream
-import com.azure.android.communication.ui.calling.model.StreamType
-import com.azure.android.communication.ui.calling.model.VideoStreamModel
+import com.azure.android.communication.ui.calling.models.StreamType
+import com.azure.android.communication.ui.calling.models.VideoStreamModel
 
 internal object VideoStreamModelFactory {
     fun create(

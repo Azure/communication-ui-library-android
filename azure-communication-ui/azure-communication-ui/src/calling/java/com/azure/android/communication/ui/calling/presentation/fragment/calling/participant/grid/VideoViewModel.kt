@@ -3,6 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid
 
-import com.azure.android.communication.ui.calling.model.StreamType
+import com.azure.android.communication.ui.calling.models.StreamType
 
 internal data class VideoViewModel(val videoStreamID: String, val streamType: StreamType)
