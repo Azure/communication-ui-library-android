@@ -32,9 +32,7 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
         holder.setCellData(item)
     }
 
-    override fun getItemCount(): Int {
-        return bottomCellItems.size
-    }
+    override fun getItemCount() = bottomCellItems.size
 
     fun setBottomCellItems(bottomCellItems: List<BottomCellItem>) {
         this.bottomCellItems = bottomCellItems
@@ -47,7 +45,5 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
         super.notifyDataSetChanged()
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return bottomCellItems[position].itemType.ordinal
-    }
+    override fun getItemViewType(position: Int) = bottomCellItems[position].itemType.ordinal
 }
