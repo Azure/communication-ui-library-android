@@ -11,7 +11,9 @@ internal class CallCompositeConfiguration {
     var localizationConfig: LocalizationConfiguration? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
-    var communicationUILocalDataOptions: CommunicationUILocalDataOptions? = null
+    var localDataOptions: LocalDataOptions? = null
+    val remoteParticipantsConfiguration: RemoteParticipantsConfiguration =
+        RemoteParticipantsConfiguration()
 
     /*
     CallCompositeConfiguration Storage
@@ -42,5 +44,8 @@ internal class CallCompositeConfiguration {
             ?: throw RuntimeException(
                 "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite"
             )
+
+        // Check if config exists
+        fun hasConfig(id: Int): Boolean = configs[id] != null
     }
 }

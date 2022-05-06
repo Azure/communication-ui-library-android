@@ -27,5 +27,7 @@
     <string name="version">version:</string>
     <string name="debug">Debug</string>
     <string name="rendered_display_name">Rendered Display Name</string>
-    <string name="avatar_injection">Avatar Injection</string>
+    <string name="local_avatar_injection">Local Avatar Injection</string>
+    <string name="remote_avatar_injection">Remote Avatar Injection</string>
+    <string name="remote_participant_inject_avatar">Inject avatar\'s</string>
 </resources>

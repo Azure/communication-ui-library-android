@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -13,8 +14,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.configuration.SupportLanguage
+import com.azure.android.communication.ui.configuration.CommunicationUISupportedLocale
 import com.google.android.material.textfield.TextInputLayout
+import java.util.Locale
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
 const val SETTINGS_SHARED_PREFS = "Settings"
@@ -30,6 +32,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
+    private lateinit var remoteAvatarInjectionCheckBox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -41,7 +44,10 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = SupportLanguage.values().map { SettingsFeatures.displayLanguageName(it.toString()) }
+        supportedLanguages = CommunicationUISupportedLocale.getSupportedLocales().map {
+            SettingsFeatures.displayLanguageName(it)
+        }
+        for (locale in supportedLanguages) Log.d("Mohtasim", "locale is " + locale)
         setLanguageInSharedPrefForFirstTime()
         updateRenderedDisplayNameText()
     }
@@ -58,6 +64,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateRTLCheckbox()
 
+        updateAvatarInjectionCheckbox()
+
         saveRenderedDisplayName()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
@@ -68,7 +76,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun onCheckBoxTap(view: View) {
-
         if (view is CheckBox) {
             when (view.id) {
                 R.id.language_is_rtl_checkbox -> {
@@ -81,6 +88,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.remote_avatar_injection_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -90,9 +103,10 @@ class SettingsActivity : AppCompatActivity() {
         languageSettingLabelView = findViewById(R.id.language_setting_text_view)
         languageSettingLabelDivider = findViewById(R.id.language_setting_label_divider)
         isRTLCheckBox = findViewById(R.id.language_is_rtl_checkbox)
+        remoteAvatarInjectionCheckBox = findViewById(R.id.remote_avatar_injection_check_box)
         languageAdapterLayout = findViewById(R.id.language_adapter_layout)
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view)
-        renderDisplayNameTextView = findViewById(R.id.renderDisplayName)
+        renderDisplayNameTextView = findViewById(R.id.render_display_name)
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
         }
@@ -109,7 +123,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setLanguageInSharedPrefForFirstTime() {
         if (isFirstRun()) {
-            setLanguageValueInSharedPref(DEFAULT_LANGUAGE_VALUE)
+            setLanguageValueInSharedPref(Locale.ENGLISH.displayName)
         }
     }
 
@@ -118,7 +132,7 @@ class SettingsActivity : AppCompatActivity() {
         autoCompleteTextView.setText(
             sharedPreference.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                DEFAULT_LANGUAGE_VALUE
+                Locale.ENGLISH.displayName
             ),
             true
         )
@@ -126,13 +140,17 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun isFirstRun(): Boolean {
-        return sharedPreference.getString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, LANGUAGE_IS_YET_TOBE_SET).equals(
+        return sharedPreference.getString(
+            LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+            LANGUAGE_IS_YET_TOBE_SET
+        ).equals(
             LANGUAGE_IS_YET_TOBE_SET
         )
     }
 
     private fun setLanguageValueInSharedPref(languageValue: String) {
-        sharedPreference.edit().putString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, languageValue).apply()
+        sharedPreference.edit().putString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, languageValue)
+            .apply()
     }
 
     private fun getSelectedLanguageValue(): String? {
@@ -143,11 +161,20 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun saveRenderedDisplayName() {
-        sharedPreference.edit().putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
+        sharedPreference.edit()
+            .putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
     }
 
     private fun updateRenderedDisplayNameText() {
         renderDisplayNameTextView.text = sharedPreference.getString(RENDERED_DISPLAY_NAME, "")
+    }
+
+    private fun updateAvatarInjectionCheckbox() {
+        remoteAvatarInjectionCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE
+            )
     }
 }
 
@@ -164,3 +191,5 @@ const val DEFAULT_LOCALE_CODE = "en"
 // Shared pref default values for persona data
 const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"
 const val AVATAR_IMAGE = "AVATAR_IMAGE"
+const val DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY = "PERSONA_INJECTION_VALUE_PREF_KEY"
+const val REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE = false

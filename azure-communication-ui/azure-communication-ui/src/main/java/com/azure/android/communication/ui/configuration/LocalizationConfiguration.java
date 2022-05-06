@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.configuration;
 
+import androidx.annotation.NonNull;
 
 import com.azure.android.communication.ui.CallComposite;
 
@@ -20,9 +21,6 @@ import java.util.Locale;
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
  *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE, LayoutDirection.RTL&#41;&#41;;
  *
- * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *      .localization&#40;new LocalizationConfiguration&#40;"fr", "FR"&#41;&#41;;
- *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
@@ -31,63 +29,44 @@ import java.util.Locale;
  * @see CallComposite
  */
 public final class LocalizationConfiguration {
-    private int layoutDirection;
+    private Integer layoutDirection;
     private final Locale locale;
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param locale          The {@link Locale}; eg,. Locale.US
-     * @param layoutDirection layout direction eg,. LayoutDirection.RTL
-     */
-    public LocalizationConfiguration(final Locale locale, final int layoutDirection) {
-        this.locale = locale;
-        this.layoutDirection = layoutDirection;
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language language String; eg,. "fr"
-     * @param country  country String; eg,. "FR"
-     */
-    public LocalizationConfiguration(final String language, final String country) {
-        this.locale = new Locale(language, country);
-    }
-
-    /**
-     * Create Localization configuration.
-     *
-     * @param language language String; eg,. "fr"
-     */
-    public LocalizationConfiguration(final String language) {
-        this.locale = new Locale(language);
-    }
 
     /**
      * Create Localization configuration.
      *
      * @param locale The {@link Locale}; eg,. Locale.US
      */
-    public LocalizationConfiguration(final Locale locale) {
+    public LocalizationConfiguration(@NonNull final Locale locale) {
         this.locale = locale;
     }
 
     /**
-     * Get current LanguageCode enum
+     * Create Localization configuration.
      *
-     * @return The {@link Locale};
+     * @param locale          The {@link Locale}; eg,. Locale.US
+     * @param layoutDirection layout direction int; eg,. LayoutDirection.RTL
+     */
+    public LocalizationConfiguration(@NonNull final Locale locale, final int layoutDirection) {
+        this.locale = locale;
+        this.layoutDirection = layoutDirection;
+    }
+
+    /**
+     * Get current {@link Locale}.
+     *
+     * @return The {@link Locale}
      */
     public Locale getLocale() {
         return locale;
     }
 
     /**
-     * Get layoutDirection int.
+     * Get layoutDirection {@link Integer}.
      *
-     * @return layoutDirection int
+     * @return layoutDirection {@link Integer}
      */
-    public int getLayoutDirection() {
+    public Integer getLayoutDirection() {
         return layoutDirection;
     }
 }

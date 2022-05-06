@@ -58,7 +58,9 @@ internal class ParticipantGridCellViewModel(
         return participantModifiedTimestamp
     }
 
-    fun update(participant: ParticipantInfoModel) {
+    fun update(
+        participant: ParticipantInfoModel,
+    ) {
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
