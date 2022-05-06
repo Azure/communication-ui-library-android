@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.helper.MockitoHelper.any
-import com.azure.android.communication.ui.helper.TestContextProvider
+import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -78,7 +78,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -144,7 +144,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -213,7 +213,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -351,7 +351,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<Map<String, ParticipantInfoModel>>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getParticipantsInfoModelSharedFlow().toList(emitResultFromFlow)
@@ -421,7 +421,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
         // arrange
         var videoStreamId: String? = null
         val cameraStateCompletableFuture: CompletableFuture<LocalVideoStream> = CompletableFuture()
-        val callingService = CallingService(mockCallingGateway, TestContextProvider())
+        val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
         val mockVideoDevice = mock(VideoDeviceInfo::class.java)
 
         Mockito.`when`(mockCallingGateway.turnOnVideoAsync())
@@ -448,7 +448,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
         // arrange
         var videoStreamId: String? = null
         val cameraStateCompletableFuture: CompletableFuture<LocalVideoStream> = CompletableFuture()
-        val callingService = CallingService(mockCallingGateway, TestContextProvider())
+        val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
         Mockito.`when`(mockCallingGateway.turnOnVideoAsync())
             .thenReturn(cameraStateCompletableFuture)
@@ -498,7 +498,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -560,7 +560,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -621,7 +621,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -682,7 +682,7 @@ internal class CallingServiceUnitTests: ACSBaseUnitTest() {
 
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)

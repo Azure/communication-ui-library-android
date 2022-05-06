@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.ACSBaseUnitTest
 import com.azure.android.communication.ui.configuration.events.CommunicationUIErrorCode
 import com.azure.android.communication.ui.configuration.events.CommunicationUIEventCode
 import com.azure.android.communication.ui.error.CallStateError
-import com.azure.android.communication.ui.helper.TestContextProvider
+import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.model.CallInfoModel
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.redux.AppStore
@@ -70,7 +70,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         }
 
         val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, TestContextProvider()
+            mockCallingService, UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
@@ -116,7 +116,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         }
 
         val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, TestContextProvider()
+            mockCallingService, UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
@@ -153,7 +153,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         }
 
         val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, TestContextProvider()
+            mockCallingService, UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -187,7 +187,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         val mockCallingService: CallingService = mock {}
 
         val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, TestContextProvider()
+            mockCallingService, UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
@@ -218,7 +218,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
@@ -248,7 +248,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
@@ -282,7 +282,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -315,7 +315,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -385,7 +385,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -447,7 +447,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -510,7 +510,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -577,7 +577,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -637,7 +637,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -697,7 +697,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -757,7 +757,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -805,7 +805,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -854,7 +854,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         val mockCallingService: CallingService = mock()
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -906,7 +906,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         val mockCallingService: CallingService = mock {}
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -959,7 +959,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         val mockCallingService: CallingService = mock()
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1010,7 +1010,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         }
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1056,7 +1056,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         val mockCallingService: CallingService = mock()
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1104,7 +1104,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
         val mockCallingService: CallingService = mock()
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1147,7 +1147,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1197,7 +1197,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1243,7 +1243,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1293,7 +1293,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
         val handler = CallingMiddlewareActionHandlerImpl(
             mockCallingService,
-            TestContextProvider()
+            UnconfinedTestContextProvider()
         )
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1341,7 +1341,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1392,7 +1392,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1458,7 +1458,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1526,7 +1526,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1606,7 +1606,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1672,7 +1672,7 @@ internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseUnitTest() {
 
             val handler = CallingMiddlewareActionHandlerImpl(
                 mockCallingService,
-                TestContextProvider()
+                UnconfinedTestContextProvider()
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
