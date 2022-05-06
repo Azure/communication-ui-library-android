@@ -11,6 +11,7 @@
     <string name="azure_communication_ui_switch_camera_button_front">Switch to Front Camera</string>
     <string name="azure_communication_ui_switch_camera_button_back">Switch to Back Camera</string>
     <string name="azure_communication_ui_setup_audio_device_select_content_description">Select Audio Device %1$s</string>
+    <string name="azure_communication_ui_selected_audio_device_announcement">%1$s audio device, selected</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Joining call…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">Video off</string>
