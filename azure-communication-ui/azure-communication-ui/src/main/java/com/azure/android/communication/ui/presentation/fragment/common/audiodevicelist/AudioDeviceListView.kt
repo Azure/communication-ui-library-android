@@ -4,11 +4,8 @@
 package com.azure.android.communication.ui.presentation.fragment.common.audiodevicelist
 
 import android.content.Context
-import android.content.DialogInterface
-import android.util.Log
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -187,10 +184,12 @@ internal class AudioDeviceListView(
     private fun updateSelectedAudioDevice(audioState: AudioState) {
         if (this::bottomCellAdapter.isInitialized) {
             bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(audioState))
-            announceForAccessibility(context.getString(
-                R.string.azure_communication_ui_selected_audio_device_announcement,
-                getDeviceTypeName(audioState)
-            ))
+            announceForAccessibility(
+                context.getString(
+                    R.string.azure_communication_ui_selected_audio_device_announcement,
+                    getDeviceTypeName(audioState)
+                )
+            )
         }
     }
 
