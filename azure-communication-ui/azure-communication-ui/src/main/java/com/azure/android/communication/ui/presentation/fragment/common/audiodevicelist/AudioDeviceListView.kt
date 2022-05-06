@@ -58,22 +58,6 @@ internal class AudioDeviceListView(
                 deviceTable.adapter = bottomCellAdapter
             }
         }
-
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.getIsLobbyOverlayDisplayedFlow().collect {
-//                if (it) {
-//                    ViewCompat.setImportantForAccessibility(
-//                        deviceTable,
-//                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
-//                    )
-//                } else {
-//                    ViewCompat.setImportantForAccessibility(
-//                        deviceTable,
-//                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
-//                    )
-//                }
-//            }
-//        }
     }
 
     fun stop() {
