@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models
 
-
 internal data class ParticipantInfoModel(
     val displayName: String,
     val userIdentifier: String,
