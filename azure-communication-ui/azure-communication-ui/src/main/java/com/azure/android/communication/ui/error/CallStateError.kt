@@ -5,5 +5,5 @@ import com.azure.android.communication.ui.configuration.events.CommunicationUIEv
 
 internal class CallStateError(
     val communicationUIErrorCode: CommunicationUIErrorCode,
-    val communicationUIEventCode: CommunicationUIEventCode = CommunicationUIEventCode.NOP
+    val communicationUIEventCode: CommunicationUIEventCode? = null
 )

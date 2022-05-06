@@ -12,7 +12,6 @@ import java.util.Collection;
  * Defines values for CommunicationUIEventCode.
  */
 public class CommunicationUIEventCode extends ExpandableStringEnum<CommunicationUIEventCode> {
-    public static final CommunicationUIEventCode NOP = fromString("nop");
     public static final CommunicationUIEventCode CALL_EVICTED = fromString("callEvicted");
 
     /**
