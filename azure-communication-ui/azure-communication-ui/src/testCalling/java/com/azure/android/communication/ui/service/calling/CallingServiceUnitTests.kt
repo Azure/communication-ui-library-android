@@ -7,13 +7,13 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorCode
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.helper.TestContextProvider
-import com.azure.android.communication.ui.calling.model.CallInfoModel
-import com.azure.android.communication.ui.calling.model.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -649,7 +649,7 @@ internal class CallingServiceUnitTests {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorCode.CALL_END,
+                CommunicationUIErrorCode.CALL_END_FAILED,
                 emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
 
@@ -710,7 +710,7 @@ internal class CallingServiceUnitTests {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorCode.CALL_JOIN,
+                CommunicationUIErrorCode.CALL_JOIN_FAILED,
                 emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
             )
 

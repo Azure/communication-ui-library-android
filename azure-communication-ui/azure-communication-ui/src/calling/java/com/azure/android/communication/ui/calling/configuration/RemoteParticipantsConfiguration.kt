@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.persona.PersonaData
-import com.azure.android.communication.ui.calling.persona.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
 
 internal data class RemoteParticipantPersonaData(
     val identifier: CommunicationIdentifier,

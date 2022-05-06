@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
 import com.azure.android.communication.ui.helper.MainCoroutineRule
-import com.azure.android.communication.ui.calling.model.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.model.StreamType
 import com.azure.android.communication.ui.calling.model.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel

@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorCode
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.redux.Store
@@ -67,7 +67,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (error != null) {
                         store.dispatch(
                             LocalParticipantAction.CameraPauseFailed(
-                                CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF, error)
+                                CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF_FAILED, error)
                             )
                         )
                     } else {
@@ -89,7 +89,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (error != null) {
                         store.dispatch(
                             LocalParticipantAction.CameraPauseFailed(
-                                CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_ON, error)
+                                CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_ON_FAILED, error)
                             )
                         )
                     } else {
@@ -133,7 +133,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         ErrorAction.FatalErrorOccurred(
-                            FatalError(error, CommunicationUIErrorCode.CALL_END)
+                            FatalError(error, CommunicationUIErrorCode.CALL_END_FAILED)
                         )
                     )
                 }
@@ -153,7 +153,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             if (error != null) {
                 store.dispatch(
                     LocalParticipantAction.CameraPreviewOnFailed(
-                        CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_ON, error)
+                        CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_ON_FAILED, error)
                     )
                 )
             } else {
@@ -168,7 +168,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.CameraOffFailed(
-                            CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF, error)
+                            CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF_FAILED, error)
                         )
                     )
                 } else {
@@ -196,7 +196,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             if (error != null) {
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
-                        FatalError(error, CommunicationUIErrorCode.CALL_JOIN)
+                        FatalError(error, CommunicationUIErrorCode.CALL_JOIN_FAILED)
                     )
                 )
             }
@@ -217,7 +217,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.CameraOnFailed(
-                            CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_ON, error)
+                            CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_ON_FAILED, error)
                         )
                     )
                 } else {
@@ -235,7 +235,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(
                     LocalParticipantAction.CameraSwitchFailed(
                         currentCamera,
-                        CallCompositeError(CommunicationUIErrorCode.SWITCH_CAMERA, error)
+                        CallCompositeError(CommunicationUIErrorCode.SWITCH_CAMERA_FAILED, error)
                     )
                 )
             } else {
@@ -250,7 +250,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.MicOnFailed(
-                            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_ON, error)
+                            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_ON_FAILED, error)
                         )
                     )
                 }
@@ -264,7 +264,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.MicOffFailed(
-                            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF, error)
+                            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF_FAILED, error)
                         )
                     )
                 }
@@ -327,8 +327,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                     store.dispatch(action)
                     if (it.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED) {
                         store.dispatch(NavigationAction.SetupLaunched())
-                    } else if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END ||
-                        it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN
+                    } else if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END_FAILED ||
+                        it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN_FAILED
                     ) {
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))

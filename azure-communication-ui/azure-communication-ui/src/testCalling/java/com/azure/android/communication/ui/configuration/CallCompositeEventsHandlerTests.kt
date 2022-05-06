@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.calling.CallingEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ErrorState

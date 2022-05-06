@@ -3,12 +3,12 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-import com.azure.android.communication.ui.calling.configuration.LocalDataOptions
+import com.azure.android.communication.ui.calling.models.LocalDataOptions
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantPersonaData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.persona.PersonaData
-import com.azure.android.communication.ui.calling.persona.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper

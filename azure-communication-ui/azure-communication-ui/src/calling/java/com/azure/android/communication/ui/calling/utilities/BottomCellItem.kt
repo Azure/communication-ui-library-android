@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.utilities
 
 import android.graphics.drawable.Drawable
-import com.azure.android.communication.ui.calling.persona.PersonaData
+import com.azure.android.communication.ui.calling.models.PersonaData
 
 internal data class BottomCellItem(
     var icon: Drawable?,

@@ -12,11 +12,13 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
-import com.azure.android.communication.ui.calling.configuration.LocalDataOptions;
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorEvent;
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIRemoteParticipantJoinedEvent;
-import com.azure.android.communication.ui.calling.persona.PersonaData;
-import com.azure.android.communication.ui.calling.persona.SetPersonaDataResult;
+import com.azure.android.communication.ui.calling.models.LocalDataOptions;
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent;
+import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent;
+import com.azure.android.communication.ui.calling.models.GroupCallOptions;
+import com.azure.android.communication.ui.calling.models.TeamsMeetingOptions;
+import com.azure.android.communication.ui.calling.models.PersonaData;
+import com.azure.android.communication.ui.calling.models.SetPersonaDataResult;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -203,10 +205,10 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param eventHandler The {@link CallingEventHandler}.
+     * @param errorHandler The {@link CallingEventHandler}.
      */
-    public void setOnErrorHandler(final CallingEventHandler<CommunicationUIErrorEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().setOnErrorHandler(eventHandler);
+    public void setOnErrorHandler(final CallingEventHandler<CommunicationUIErrorEvent> errorHandler) {
+        configuration.getCallCompositeEventsHandler().setOnErrorHandler(errorHandler);
     }
 
     /**

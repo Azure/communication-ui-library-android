@@ -8,10 +8,10 @@ import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.calling.CallingEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.helper.MainCoroutineRule
-import com.azure.android.communication.ui.calling.model.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.model.StreamType
 import com.azure.android.communication.ui.calling.model.VideoStreamModel
 import com.azure.android.communication.ui.calling.redux.AppStore

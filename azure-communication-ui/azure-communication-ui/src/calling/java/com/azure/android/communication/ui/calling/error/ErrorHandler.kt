@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorEvent
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorCode
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState

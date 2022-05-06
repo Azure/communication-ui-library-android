@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.calling;
 
-import com.azure.android.communication.ui.calling.configuration.LocalizationConfiguration;
-import com.azure.android.communication.ui.calling.configuration.ThemeConfiguration;
+import com.azure.android.communication.ui.calling.models.LocalizationConfiguration;
+import com.azure.android.communication.ui.calling.models.ThemeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 
 /**

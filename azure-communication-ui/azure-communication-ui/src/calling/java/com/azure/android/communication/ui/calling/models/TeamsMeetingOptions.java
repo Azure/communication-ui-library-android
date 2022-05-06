@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling;
+package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
+import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
  * Options to start Teams meeting call experience using {@link CallComposite}.
@@ -30,7 +31,7 @@ public final class TeamsMeetingOptions {
      *
      * @param credential {@link CommunicationTokenCredential}
      * @param meetingLink                  Teams meeting link, more information can check Quickstart Doc
-     * @param displayName                  user display name
+     * @param displayName                  user display name other call participants will see
      */
     public TeamsMeetingOptions(final CommunicationTokenCredential credential,
                                final String meetingLink,
@@ -50,7 +51,7 @@ public final class TeamsMeetingOptions {
     }
 
     /**
-     * Get user display name.
+     * Get user display name other call participants will see.
      *
      * @return {@link String}
      */

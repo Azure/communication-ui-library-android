@@ -4,14 +4,14 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorCode.CALL_JOIN
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorCode.CALL_END
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorCode.TOKEN_EXPIRED
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIEventCode.CALL_EVICTED
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_JOIN_FAILED
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.CALL_EVICTED
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.model.CallInfoModel
-import com.azure.android.communication.ui.calling.model.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -173,17 +173,17 @@ internal class CallingService(
         callingState.run {
             logger?.debug(callingState.toString())
             when {
-                isEvicted(callingState) -> CallStateError(CALL_END, CALL_EVICTED)
+                isEvicted(callingState) -> CallStateError(CALL_END_FAILED, CALL_EVICTED)
                 callEndReason == CALL_END_REASON_SUCCESS ||
                     callEndReason == CALL_END_REASON_CANCELED ||
                     callEndReason == CALL_END_REASON_DECLINED -> null
                 callEndReason == CALL_END_REASON_TOKEN_EXPIRED ->
-                    CallStateError(TOKEN_EXPIRED)
+                    CallStateError(TOKEN_EXPIRED, null)
                 else -> {
                     if (callingStatus == CallingStatus.CONNECTED) {
-                        CallStateError(CALL_END)
+                        CallStateError(CALL_END_FAILED, null)
                     } else {
-                        CallStateError(CALL_JOIN)
+                        CallStateError(CALL_JOIN_FAILED, null)
                     }
                 }
             }

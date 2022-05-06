@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.service
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorHandler
@@ -94,7 +94,7 @@ internal class ErrorHandlerUnitTests {
                 CameraState(
                     CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.REMOTE,
-                    CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF, error),
+                    CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF_FAILED, error),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -129,7 +129,7 @@ internal class ErrorHandlerUnitTests {
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
                 argThat { exception ->
-                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_CAMERA_OFF
+                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_CAMERA_OFF_FAILED
                 }
             )
 
@@ -152,7 +152,7 @@ internal class ErrorHandlerUnitTests {
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth"),
-                    CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF, error),
+                    CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF_FAILED, error),
                 ),
                 videoStreamID = null,
                 displayName = "name"
@@ -183,7 +183,7 @@ internal class ErrorHandlerUnitTests {
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
                 argThat { exception ->
-                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_MIC_OFF
+                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_MIC_OFF_FAILED
                 }
             )
 
@@ -196,7 +196,7 @@ internal class ErrorHandlerUnitTests {
             // arrange
             val appState = AppReduxState("")
             appState.errorState =
-                ErrorState(null, CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED))
+                ErrorState(null, CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED, null))
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
             val mockAppStore = mock<AppStore<ReduxState>> {

@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.calling.configuration.events
 
 import com.azure.android.communication.ui.calling.CallingEventHandler
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
+import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
 
 internal class CallCompositeEventsHandler {
     private var errorHandlers: CallingEventHandler<CommunicationUIErrorEvent>? = null

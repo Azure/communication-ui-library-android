@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling;
+package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
+import com.azure.android.communication.ui.calling.CallComposite;
 
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public final class GroupCallOptions {
      *
      * @param credential {@link CommunicationTokenCredential}
      * @param groupId                      group call identifier
-     * @param displayName                  user display name
+     * @param displayName                  user display name other call participants will see
      */
     public GroupCallOptions(final CommunicationTokenCredential credential,
                             final UUID groupId,

@@ -11,9 +11,9 @@ import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallingEventHandler
-import com.azure.android.communication.ui.calling.configuration.events.CommunicationUIRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.calling.persona.PersonaData
-import com.azure.android.communication.ui.calling.persona.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(

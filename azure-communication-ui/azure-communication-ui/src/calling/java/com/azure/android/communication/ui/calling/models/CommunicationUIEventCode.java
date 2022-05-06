@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.configuration.events;
+package com.azure.android.communication.ui.calling.models;
 
 
 import com.azure.android.core.util.ExpandableStringEnum;
@@ -12,7 +12,6 @@ import java.util.Collection;
  * Defines values for CommunicationUIEventCode.
  */
 public final class CommunicationUIEventCode extends ExpandableStringEnum<CommunicationUIEventCode> {
-    public static final CommunicationUIEventCode NOP = fromString("nop");
     public static final CommunicationUIEventCode CALL_EVICTED = fromString("callEvicted");
 
     /**
