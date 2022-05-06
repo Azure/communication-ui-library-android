@@ -53,7 +53,7 @@ internal class AudioDeviceListView(
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioStateFlow.collect {
                 // / rebind the list of items
-                bottomCellAdapter = BottomCellAdapter(context)
+                bottomCellAdapter = BottomCellAdapter()
                 bottomCellAdapter.setBottomCellItems(bottomCellItems)
                 deviceTable.adapter = bottomCellAdapter
             }
@@ -81,7 +81,7 @@ internal class AudioDeviceListView(
             viewModel.closeAudioDeviceSelectionMenu()
         }
 
-        bottomCellAdapter = BottomCellAdapter(context)
+        bottomCellAdapter = BottomCellAdapter()
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         deviceTable.adapter = bottomCellAdapter
         deviceTable.layoutManager = LinearLayoutManager(context)

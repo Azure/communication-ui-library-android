@@ -51,7 +51,7 @@ internal class LeaveConfirmView(
     fun start(
         viewLifecycleOwner: LifecycleOwner
     ) {
-        bottomCellAdapter = BottomCellAdapter(context)
+        bottomCellAdapter = BottomCellAdapter()
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         leaveConfirmMenuTable.adapter = bottomCellAdapter
         leaveConfirmMenuTable.layoutManager = AccessibilityManipulatingLinearLayoutManager(context)

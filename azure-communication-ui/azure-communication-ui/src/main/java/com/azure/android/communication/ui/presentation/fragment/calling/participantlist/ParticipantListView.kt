@@ -98,7 +98,7 @@ internal class ParticipantListView(
             viewModel.closeParticipantList()
         }
         participantListDrawer.setContentView(this)
-        bottomCellAdapter = BottomCellAdapter(context)
+        bottomCellAdapter = BottomCellAdapter()
         participantTable.adapter = bottomCellAdapter
         updateRemoteParticipantListContent(0)
         participantTable.layoutManager = LinearLayoutManager(context)
