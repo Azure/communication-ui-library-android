@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallCompositeEventsHandlerTests: ACSBaseTestCoroutine() {
+internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
 
     @Test
     fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() =

@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class BannerViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

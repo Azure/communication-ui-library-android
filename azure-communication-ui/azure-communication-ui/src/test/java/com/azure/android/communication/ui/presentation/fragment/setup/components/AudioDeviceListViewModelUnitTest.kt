@@ -27,7 +27,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AudioDeviceListViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class AudioDeviceListViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun audioDeviceListViewModel_switchAudioDevice_then_dispatchAudioDeviceChangeRequested() {

@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class LobbyOverlayViewModelTest: ACSBaseTestCoroutine() {
+internal class LobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
 
     @Test
     fun lobbyOverlayViewModel_when_callingStateChange_then_notifyLobbyState() =

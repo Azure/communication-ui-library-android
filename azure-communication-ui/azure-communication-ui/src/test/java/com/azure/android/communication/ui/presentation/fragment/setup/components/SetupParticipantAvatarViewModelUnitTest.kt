@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class SetupParticipantAvatarViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

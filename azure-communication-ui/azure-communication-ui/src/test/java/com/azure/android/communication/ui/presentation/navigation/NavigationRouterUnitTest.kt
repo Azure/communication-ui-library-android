@@ -27,7 +27,7 @@ import org.mockito.kotlin.mock
  */
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-internal class NavigationRouterUnitTest: ACSBaseTestCoroutine() {
+internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
 
     private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
         Pair<NavigationRouter, List<NavigationStatus>> {

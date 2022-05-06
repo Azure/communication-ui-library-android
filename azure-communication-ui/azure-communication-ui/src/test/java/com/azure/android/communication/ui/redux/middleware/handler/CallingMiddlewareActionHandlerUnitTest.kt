@@ -53,7 +53,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingMiddlewareActionHandlerUnitTest: ACSBaseTestCoroutine() {
+internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun callingMiddlewareActionHandler_turnCameraOff_when_navigationState_inCall_then_dispatchUpdateCameraStateToStore() {

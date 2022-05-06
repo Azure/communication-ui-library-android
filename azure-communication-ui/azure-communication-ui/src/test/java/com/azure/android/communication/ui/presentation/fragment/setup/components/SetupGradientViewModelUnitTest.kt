@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class SetupGradientViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

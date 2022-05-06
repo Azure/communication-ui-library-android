@@ -24,7 +24,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AppStoreUnitTest: ACSBaseTestCoroutine() {
+internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
 
     @Mock
     private lateinit var mockAppStateReducer: AppStateReducer

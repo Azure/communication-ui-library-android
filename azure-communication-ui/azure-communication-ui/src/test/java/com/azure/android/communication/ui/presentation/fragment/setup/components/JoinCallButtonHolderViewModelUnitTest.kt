@@ -16,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class JoinCallButtonHolderViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

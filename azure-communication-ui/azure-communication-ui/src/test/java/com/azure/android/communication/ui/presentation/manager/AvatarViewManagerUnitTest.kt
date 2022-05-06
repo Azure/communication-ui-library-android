@@ -30,7 +30,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AvatarViewManagerUnitTest: ACSBaseTestCoroutine() {
+internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun avatarViewManager_call_localDataOption_then_returnNullIfLocalDataOptionNotSet() {

@@ -20,7 +20,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ParticipantGridCellViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

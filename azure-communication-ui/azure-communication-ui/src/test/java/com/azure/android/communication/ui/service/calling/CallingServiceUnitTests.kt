@@ -39,7 +39,7 @@ import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingServiceUnitTests: ACSBaseTestCoroutine() {
+internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
     @Mock
     private lateinit var mockCallingGateway: CallingSDKWrapper
@@ -50,7 +50,7 @@ internal class CallingServiceUnitTests: ACSBaseTestCoroutine() {
 
     private fun provideCallingService(
         callState: CallState = CallState.NONE
-    ) : Pair<CallingService, MutableStateFlow<CallingStateWrapper>> {
+    ): Pair<CallingService, MutableStateFlow<CallingStateWrapper>> {
         val remoteParticipantsInfoModelSharedFlow =
             MutableSharedFlow<Map<String, ParticipantInfoModel>>()
 

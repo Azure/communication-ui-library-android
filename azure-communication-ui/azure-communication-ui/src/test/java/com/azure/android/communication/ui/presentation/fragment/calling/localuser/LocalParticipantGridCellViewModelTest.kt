@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class LocalParticipantGridCellViewModelTest: ACSBaseTestCoroutine() {
+internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
 
     @Test
     fun localParticipantViewModel_update_when_turnMic_then_audioState_update() =

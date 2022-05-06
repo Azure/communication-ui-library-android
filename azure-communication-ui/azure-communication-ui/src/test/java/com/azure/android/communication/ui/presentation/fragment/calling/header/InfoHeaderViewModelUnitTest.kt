@@ -19,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class InfoHeaderViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

@@ -23,7 +23,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class PermissionWarningViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class PermissionWarningViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test

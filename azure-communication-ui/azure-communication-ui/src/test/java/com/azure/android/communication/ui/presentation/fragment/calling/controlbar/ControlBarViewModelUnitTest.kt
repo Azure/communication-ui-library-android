@@ -34,7 +34,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ControlBarViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {

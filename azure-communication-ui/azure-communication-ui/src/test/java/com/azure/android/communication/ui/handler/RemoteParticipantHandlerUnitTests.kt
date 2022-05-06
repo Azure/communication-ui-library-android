@@ -32,7 +32,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class RemoteParticipantHandlerUnitTests: ACSBaseTestCoroutine() {
+internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
 
     @Test
     fun remoteParticipantHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {

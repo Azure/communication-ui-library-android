@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ParticipantListViewModelUnitTest: ACSBaseTestCoroutine() {
+internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate() {
