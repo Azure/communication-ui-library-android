@@ -13,6 +13,7 @@
         android:startX="66"
         android:startY="69.526"
         android:type="linear"
+        android:centerColor="@color/colorPrimary"
         />
     <corners android:radius="4dp" />
 </shape>
