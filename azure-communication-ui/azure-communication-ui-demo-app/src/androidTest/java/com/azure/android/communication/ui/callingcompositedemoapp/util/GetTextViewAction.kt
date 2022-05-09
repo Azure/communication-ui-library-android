@@ -19,12 +19,12 @@ class GetTextViewAction : ACSViewAction {
             ViewMatchers.isAssignableFrom(TextView::class.java)
         )
 
-    override fun getDescription() = "getting text from an EditText View"
+    override fun getDescription() = "getting text from a Text View"
 
     override fun perform(uiController: UiController?, view: View?) {
-        val editText = view as TextView
+        val textView = view as TextView
 
-        stringHolder = editText.text.toString()
+        stringHolder = textView.text.toString()
     }
 
     override fun getText() = stringHolder
