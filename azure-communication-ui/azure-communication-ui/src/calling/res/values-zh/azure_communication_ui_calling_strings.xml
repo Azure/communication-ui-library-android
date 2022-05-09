@@ -11,6 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">切换到前置摄像头</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">切换到后置摄像头</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">选择音频设备 %1$s</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">正在加入通话…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">视频关闭</string>
@@ -75,7 +76,7 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">关闭</string>
-    <string name="azure_communication_ui_calling_alert_title">Alert</string>
+    <string name="azure_communication_ui_calling_alert_title">警报</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">由于出现错误，你已从通话中删除。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">由于出现错误，无法加入呼叫。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>

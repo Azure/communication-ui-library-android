@@ -168,6 +168,12 @@ internal class AudioDeviceListView(
     private fun updateSelectedAudioDevice(audioState: AudioState) {
         if (this::bottomCellAdapter.isInitialized) {
             bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(audioState))
+            announceForAccessibility(
+                context.getString(
+                    R.string.azure_communication_ui_calling_selected_audio_device_announcement,
+                    getDeviceTypeName(audioState)
+                )
+            )
         }
     }
 
@@ -175,10 +181,10 @@ internal class AudioDeviceListView(
         return when (audioState.device) {
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED ->
                 context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
-
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED ->
                 context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker)
-            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> audioState.bluetoothState.deviceName
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED ->
+                audioState.bluetoothState.deviceName
         }
     }
 }

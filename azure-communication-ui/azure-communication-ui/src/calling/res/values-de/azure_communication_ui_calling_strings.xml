@@ -11,6 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">Zur Frontkamera wechseln</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Zur Rückkamera wechseln</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audiogerät auswählen %1$s</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Teilnehmen am Anruf…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video aus</string>
@@ -75,7 +76,7 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Schließen</string>
-    <string name="azure_communication_ui_calling_alert_title">Alert</string>
+    <string name="azure_communication_ui_calling_alert_title">Warnung</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">Sie wurden aufgrund eines Fehlers aus dem Anruf entfernt.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Teilnahme am Anruf aufgrund eines Fehlers nicht möglich.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sie wurden aus dem Anruf entfernt.</string>
