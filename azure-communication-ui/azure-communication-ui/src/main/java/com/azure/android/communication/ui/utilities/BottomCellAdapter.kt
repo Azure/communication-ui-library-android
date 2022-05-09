@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.utilities
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

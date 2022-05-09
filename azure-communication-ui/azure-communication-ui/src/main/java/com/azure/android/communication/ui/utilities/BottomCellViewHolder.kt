@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.utilities
 
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
