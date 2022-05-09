@@ -22,7 +22,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
         return this
     }
 
-    fun checkParticipantList(): CallScreenRobot {
+    fun checkFirstParticipantInList(): CallScreenRobot {
         val viewIds = Triple(
             R.id.cell_icon,
             R.id.azure_communication_ui_participant_list_avatar,
@@ -70,5 +70,15 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
             R.id.cell_text,
             "Leave"
         )
+    }
+
+    fun verifyFirstParticipantName(userName: String): CallScreenRobot {
+        UiTestUtils.checkRecyclerViewViewHolderText(
+            R.id.bottom_drawer_table,
+            0,
+            R.id.cell_text,
+            userName
+        )
+        return this
     }
 }

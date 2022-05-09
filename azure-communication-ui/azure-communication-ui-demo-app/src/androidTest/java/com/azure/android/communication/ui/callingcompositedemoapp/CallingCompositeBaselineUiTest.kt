@@ -68,7 +68,6 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
         val callScreen = setupScreen.clickJoinCallButton()
         callScreen
             .showParticipantList()
-            .checkParticipantList()
             .dismissParticipantList()
             .clickEndCall()
             .clickLeaveCall()

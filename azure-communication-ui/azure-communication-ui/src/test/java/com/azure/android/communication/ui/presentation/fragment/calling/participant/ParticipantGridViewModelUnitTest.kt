@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participant
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.model.ParticipantInfoModel
 import com.azure.android.communication.ui.model.StreamType
 import com.azure.android.communication.ui.model.VideoStreamModel
@@ -13,23 +13,19 @@ import com.azure.android.communication.ui.presentation.fragment.factories.Partic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ParticipantGridViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_then_notifyRemoteParticipantsSharedFlow() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -62,7 +58,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_inputMoreThanSixUsers_then_notifyRemoteParticipantsSharedFlowWithSixUsers() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -107,7 +103,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_inputMoreThanSixUsers_then_notifyRemoteParticipantsSharedFlowWithSixUsersWithMaxTimeStamp() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -153,7 +149,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledMultipleWithSameList_then_notifyRemoteParticipantsSharedFlowOnlyOnce() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -196,7 +192,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledMultipleWithSameStateModifiedTimeStamp_then_notifyRemoteParticipantsSharedFlowOnlyOnce() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -255,7 +251,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledMultipleWithDifferentStateModifiedTimeStamp_then_notifyRemoteParticipantsSharedFlowTwice() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -311,7 +307,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledMultipleWith_addedUserList_then_notifyRemoteParticipantsStateFlow() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -370,7 +366,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledMultipleWith_removedUserList_then_notifyRemoteParticipantsStateFlow() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -438,7 +434,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledWith_moreThanSix_then_notifyRemoteParticipantsShared_with_sortedModifiedList() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -488,7 +484,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledMultipleTimesWith_moreThanSix_then_notifyRemoteParticipantsShared_with_sortedModifiedList() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
@@ -573,7 +569,7 @@ internal class ParticipantGridViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun participantGridViewModel_update_when_calledWithParticipantsSharingScreen_then_notifyRemoteParticipantsGrid_with_singleParticipantList() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
