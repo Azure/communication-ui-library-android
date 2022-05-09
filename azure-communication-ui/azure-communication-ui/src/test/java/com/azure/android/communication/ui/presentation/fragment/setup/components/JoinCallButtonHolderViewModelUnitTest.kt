@@ -1,6 +1,6 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.CallingState
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -9,23 +9,19 @@ import com.azure.android.communication.ui.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class JoinCallButtonHolderViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
     fun joinCallButtonHolderViewModel_onUpdate_then_notifyButtonEnabled_when_audioPermissionStateIsGranted() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
@@ -59,7 +55,7 @@ internal class JoinCallButtonHolderViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun joinCallButtonHolderViewModel_onUpdate_then_notifyButtonDisabled_when_audioPermissionStateIsNotGranted() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
@@ -93,7 +89,7 @@ internal class JoinCallButtonHolderViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun joinCallButtonHolderViewModel_launchCallScreen_then_notifyButtonDisabled() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
