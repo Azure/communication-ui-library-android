@@ -5,8 +5,14 @@ package com.azure.android.communication.ui.presentation.fragment.calling.control
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -74,7 +80,43 @@ internal class ControlBarView : ConstraintLayout {
         }
     }
 
+    private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
+
+    private val alwaysOffSelectedAccessibilityDelegate = object : AccessibilityDelegateCompat() {
+        override fun onInitializeAccessibilityNodeInfo(
+            host: View?,
+            info: AccessibilityNodeInfoCompat?
+        ) {
+            super.onInitializeAccessibilityNodeInfo(host, info)
+            if (host in accessibilityNonSelectableViews()) {
+                // From an accessibility standpoint these views are never selected
+                info?.isSelected = false
+            }
+        }
+    }
+
     private fun setupAccessibility() {
+        ViewCompat.setAccessibilityDelegate(
+            this,
+            object : AccessibilityDelegateCompat() {
+                override fun onRequestSendAccessibilityEvent(
+                    host: ViewGroup?,
+                    child: View?,
+                    event: AccessibilityEvent?
+                ): Boolean {
+                    if (child in accessibilityNonSelectableViews() && event?.eventType == AccessibilityEvent.TYPE_VIEW_SELECTED) {
+                        // We don't want Accessibility TalkBock to read out the "Selected" status of
+                        // these views because that's just the way we've internally set up the
+                        // icons to have different drawables based on the current status
+                        return false
+                    }
+                    return super.onRequestSendAccessibilityEvent(host, child, event)
+                }
+            }
+        )
+        ViewCompat.setAccessibilityDelegate(micToggle, alwaysOffSelectedAccessibilityDelegate)
+        ViewCompat.setAccessibilityDelegate(cameraToggle, alwaysOffSelectedAccessibilityDelegate)
+
         endCallButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label)
 
         callAudioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
