@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -31,11 +30,11 @@ import com.azure.android.communication.ui.calling.redux.state.LifecycleState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -46,15 +45,13 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     @ExperimentalCoroutinesApi
     fun callingViewModel_onStateChange_when_stateIsBackground_then_doesNotCallChildViewModels() {
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.localParticipantState = getLocalUserState()
@@ -128,7 +125,7 @@ internal class CallingViewModelUnitTest {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onStateChange_when_stateIsNotBackground_then_callChildViewModels() {
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.localParticipantState = getLocalUserState()
@@ -202,7 +199,7 @@ internal class CallingViewModelUnitTest {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onStateChange_when_callStateConnected_then_callingChildViewModelsAreUpdated() {
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.localParticipantState = getLocalUserState()
@@ -284,7 +281,7 @@ internal class CallingViewModelUnitTest {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onStateChange_when_callStateNotConnected_then_callingChildViewModelsAreNotUpdated() {
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.localParticipantState = getLocalUserState()

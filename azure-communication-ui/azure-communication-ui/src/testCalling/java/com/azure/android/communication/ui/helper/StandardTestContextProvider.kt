@@ -3,13 +3,7 @@
 
 package com.azure.android.communication.ui.helper
 
-import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlin.coroutines.CoroutineContext
 
-internal class StandardTestContextProvider : CoroutineContextProvider() {
-    private val testCoroutineDispatcher = StandardTestDispatcher()
-    override val Main: CoroutineContext = testCoroutineDispatcher
-    override val IO: CoroutineContext = testCoroutineDispatcher
-    override val Default: CoroutineContext = testCoroutineDispatcher
-}
+internal class StandardTestContextProvider :
+    BaseTestContextProvider(StandardTestDispatcher(name = "StandardTestContextProvider"))

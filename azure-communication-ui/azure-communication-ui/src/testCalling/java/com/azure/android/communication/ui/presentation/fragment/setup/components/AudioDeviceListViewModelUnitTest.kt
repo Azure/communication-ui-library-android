@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
@@ -12,13 +11,11 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -30,9 +27,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AudioDeviceListViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class AudioDeviceListViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun audioDeviceListViewModel_switchAudioDevice_then_dispatchAudioDeviceChangeRequested() {
@@ -57,7 +52,7 @@ internal class AudioDeviceListViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun audioDeviceListViewModel_displayAudioDeviceSelectionMenu_then_notifyDisplayAudioDeviceSelectionMenuStateFlow() {
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>>()
             val audioDeviceListViewModel = AudioDeviceListViewModel(mockAppStore::dispatch)

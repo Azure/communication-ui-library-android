@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.helper.HandlerAnswerStub
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.Action
@@ -18,10 +17,9 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -30,10 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AppStoreUnitTest {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
 
     @Mock
     private lateinit var mockAppStateReducer: AppStateReducer
@@ -49,7 +44,7 @@ internal class AppStoreUnitTest {
 
     @Test
     fun appStore_dispatch_when_invoked_then_updateStoreState() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
             val stateTest = AppReduxState("")
@@ -80,7 +75,7 @@ internal class AppStoreUnitTest {
 
     @Test
     fun appStore_dispatch_when_invoked_then_callAllMiddlewares() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
             val middleware1 = TestMiddlewareImplementation() as Middleware<AppReduxState>
@@ -108,7 +103,7 @@ internal class AppStoreUnitTest {
 
     @Test
     fun appStore_dispatch_when_invoked_then_callAllReducers() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
 
@@ -135,7 +130,7 @@ internal class AppStoreUnitTest {
 
     @Test
     fun appStore_stateFlow_when_invoked_emit_latestState() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
             val testState = AppReduxState("")

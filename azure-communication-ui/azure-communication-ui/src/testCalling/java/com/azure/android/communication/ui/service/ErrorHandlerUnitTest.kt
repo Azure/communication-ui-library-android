@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCod
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorHandler
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -23,10 +22,9 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -39,13 +37,11 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ErrorHandlerUnitTests {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun errorHandler_onStateChange_withNoError_callsNothing() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, null)
@@ -85,7 +81,7 @@ internal class ErrorHandlerUnitTests {
 
     @Test
     fun errorHandler_onStateChange_withCameraError_callsOnException() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             val error = Exception("Camera error")
@@ -138,7 +134,7 @@ internal class ErrorHandlerUnitTests {
 
     @Test
     fun errorHandler_onStateChange_withMicError_callsOnException() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             val error = Exception("Mic error")
@@ -192,7 +188,7 @@ internal class ErrorHandlerUnitTests {
 
     @Test
     fun errorHandler_onStateChange_withCallStateErrorTokenExpired_callsOnException() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.errorState =

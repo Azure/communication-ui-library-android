@@ -6,28 +6,24 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ErrorInfoViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
     fun snackBarViewModel_onUpdate_then_notifyCallStateErrorFlow() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val expectedPermissionState = CallStateError(CommunicationUIErrorCode.CALL_END_FAILED, null)
             val appState = AppReduxState("")

@@ -4,11 +4,9 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaViewModel
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -21,8 +19,6 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class PreviewAreaViewViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
 
     @Test
     fun rendererForegroundViewViewModel_switchCamera_then_dispatchCameraSwitchTriggered() {

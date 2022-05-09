@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -18,24 +17,20 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ParticipantListViewModelUnitTest {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate() {
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
@@ -132,7 +127,7 @@ internal class ParticipantListViewModelUnitTest {
 
     @Test
     fun participantListViewModel_update_then_localParticipantListCellStateFlowReflectsUpdate() {
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
                 mutableMapOf()
@@ -230,7 +225,7 @@ internal class ParticipantListViewModelUnitTest {
 
     @Test
     fun participantListViewModel_displayParticipantList_then_displayParticipantListStateFlowReflectsUpdate() {
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =

@@ -5,20 +5,18 @@ package com.azure.android.communication.ui.presentation.navigation
 
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -31,9 +29,7 @@ import org.mockito.kotlin.mock
  */
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-internal class NavigationRouterUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
 
     private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
         Pair<NavigationRouter, List<NavigationStatus>> {
@@ -54,7 +50,7 @@ internal class NavigationRouterUnitTest {
 
     @Test
     fun store_onSubscribe_then_invoke_navigationRouterOnStateChange() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("").apply {
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
@@ -86,7 +82,7 @@ internal class NavigationRouterUnitTest {
 
     @Test
     fun store_onSubscribe_then_test_navigationRouterOnStateChange_emits_initial_state() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialState = AppReduxState("")
             val appState = AppReduxState("").apply {
@@ -113,7 +109,7 @@ internal class NavigationRouterUnitTest {
 
     @Test
     fun store_onSubscribe_then_test_navigationRouterNewButSameNavigationStateOnNavigationStateChange_called_1x() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialState = AppReduxState("").apply {
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
@@ -146,7 +142,7 @@ internal class NavigationRouterUnitTest {
 
     @Test
     fun store_onSubscribe_then_test_navigationRouterWithSameStateOnNavigationStateChange_called_once() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("").apply {
                 navigationState = NavigationState(NavigationStatus.SETUP)
@@ -176,7 +172,7 @@ internal class NavigationRouterUnitTest {
 
     @Test
     fun store_onSubscribe_then_test_navigationRouterOnNavigationStateChange_called_3x() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialState = AppReduxState("")
             val appState = AppReduxState("").apply {

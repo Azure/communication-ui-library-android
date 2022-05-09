@@ -3,26 +3,21 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.banner
 
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerInfoType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class BannerViewModelUnitTest {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
@@ -36,7 +31,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.BLANK
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -73,7 +68,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -110,7 +105,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.RECORDING_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -148,7 +143,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -191,7 +186,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.TRANSCRIPTION_STOPPED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -234,7 +229,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -278,7 +273,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -322,7 +317,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -370,7 +365,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.TRANSCRIPTION_STOPPED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -418,7 +413,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -467,7 +462,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -516,7 +511,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -559,7 +554,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.RECORDING_STOPPED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -603,7 +598,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -646,7 +641,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.RECORDING_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -690,7 +685,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -734,7 +729,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -778,7 +773,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -822,7 +817,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -866,7 +861,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -915,7 +910,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -964,7 +959,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1013,7 +1008,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1062,7 +1057,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1110,7 +1105,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.RECORDING_STOPPED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1159,7 +1154,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1207,7 +1202,7 @@ internal class BannerViewModelUnitTest {
         )
         val expectedBannerInfoType: BannerInfoType = BannerInfoType.RECORDING_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1256,7 +1251,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1305,7 +1300,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1354,7 +1349,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1403,7 +1398,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1452,7 +1447,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1501,7 +1496,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.BLANK
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1550,7 +1545,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1599,7 +1594,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
@@ -1648,7 +1643,7 @@ internal class BannerViewModelUnitTest {
         val expectedBannerInfoType: BannerInfoType =
             BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED
 
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()

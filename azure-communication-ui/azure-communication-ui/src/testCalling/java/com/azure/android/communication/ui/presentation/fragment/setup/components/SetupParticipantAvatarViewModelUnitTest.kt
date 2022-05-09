@@ -1,28 +1,24 @@
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarViewModel
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class SetupParticipantAvatarViewModelUnitTest {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarTrue_when_videoStreamIDHasNoValueAndHasCameraPermissions() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val viewModel = getSetupParticipantAvatarViewModel()
             viewModel.init(
@@ -61,7 +57,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarFalse_when_videoStreamIDHasValueAndHasCameraPermissions() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val viewModel = getSetupParticipantAvatarViewModel()
             viewModel.init(
@@ -100,7 +96,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarFalse_when_videoStreamIDHasNoValueAndHasCameraPermissionsDenied() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val viewModel = getSetupParticipantAvatarViewModel()
             viewModel.init(
@@ -136,7 +132,7 @@ internal class SetupParticipantAvatarViewModelUnitTest {
     @ExperimentalCoroutinesApi
     @Test
     fun setupParticipantAvatarViewModel_onUpdate_notifyDisplayAvatarFalse_when_videoStreamIDHasNoValueAndHasAudioPermissionsDenied() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val viewModel = getSetupParticipantAvatarViewModel()
             viewModel.init(

@@ -9,9 +9,7 @@ import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
 import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.helper.MockitoHelper.any
-import com.azure.android.communication.ui.helper.TestContextProvider
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -25,15 +23,15 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -42,49 +40,52 @@ import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallingServiceUnitTests {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
     @Mock
     private lateinit var mockCallingGateway: CallingSDKWrapper
 
     @Mock
     private lateinit var mockLocalVideoStream: LocalVideoStream
+    private val contextProvider = UnconfinedTestContextProvider()
+
+    private fun provideCallingService(
+        callState: CallState = CallState.NONE
+    ): Pair<CallingService, MutableStateFlow<CallingStateWrapper>> {
+        val remoteParticipantsInfoModelSharedFlow =
+            MutableSharedFlow<Map<String, ParticipantInfoModel>>()
+
+        val callingStateWrapperStateFlow =
+            MutableStateFlow(CallingStateWrapper(callState, 0))
+        val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+        val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+        val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+
+        Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
+            .thenReturn(remoteParticipantsInfoModelSharedFlow)
+        Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
+            .thenReturn(callingStateWrapperStateFlow)
+        Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
+            .thenReturn(isMutedSharedFlow)
+        Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
+            .thenReturn(isRecordingSharedFlow)
+        Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
+            .thenReturn(isTranscribingSharedFlow)
+        Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
+            any(), any()
+        )
+
+        return Pair(CallingService(mockCallingGateway, contextProvider), callingStateWrapperStateFlow)
+    }
 
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallInfoModelEventSharedFlow_when_disconnected_normally() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
-            val remoteParticipantsInfoModelSharedFlow =
-                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-
-            val callingStateWrapperStateFlow =
-                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-
-            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
-                .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
-                .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
-            )
-
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
-
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService()
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
             }
@@ -121,36 +122,11 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallInfoModelEventSharedFlow_when_evicted() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
-            val remoteParticipantsInfoModelSharedFlow =
-                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-
-            val callingStateWrapperStateFlow =
-                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-
-            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
-                .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
-                .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
-            )
-
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService()
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
-
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
             }
@@ -190,36 +166,11 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateStateFlow_when_invokedByCallingGateway_returnCallingState() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
-            val remoteParticipantsInfoModelSharedFlow =
-                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-
-            val callingStateWrapperStateFlow =
-                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-
-            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
-                .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
-                .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
-            )
-
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService()
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
-
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
             }
@@ -262,7 +213,7 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getRemoteParticipantSharedFlow_when_invokedByCallingGateway_returnParticipantsInOrder() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
@@ -356,7 +307,7 @@ internal class CallingServiceUnitTests {
 
             val emitResultFromFlow = mutableListOf<Map<String, ParticipantInfoModel>>()
 
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
             val job = launch {
                 callingService.getParticipantsInfoModelSharedFlow().toList(emitResultFromFlow)
@@ -426,7 +377,7 @@ internal class CallingServiceUnitTests {
         // arrange
         var videoStreamId: String? = null
         val cameraStateCompletableFuture: CompletableFuture<LocalVideoStream> = CompletableFuture()
-        val callingService = CallingService(mockCallingGateway, TestContextProvider())
+        val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
         val mockVideoDevice = mock(VideoDeviceInfo::class.java)
 
         Mockito.`when`(mockCallingGateway.turnOnVideoAsync())
@@ -453,7 +404,7 @@ internal class CallingServiceUnitTests {
         // arrange
         var videoStreamId: String? = null
         val cameraStateCompletableFuture: CompletableFuture<LocalVideoStream> = CompletableFuture()
-        val callingService = CallingService(mockCallingGateway, TestContextProvider())
+        val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
         Mockito.`when`(mockCallingGateway.turnOnVideoAsync())
             .thenReturn(cameraStateCompletableFuture)
@@ -475,35 +426,11 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_invokedByCallingGatewayWithAnyErrorCodeTokenExpired_returnErrorTypeTokenExpired() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
-            val remoteParticipantsInfoModelSharedFlow =
-                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-
-            val callingStateWrapperStateFlow =
-                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-
-            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
-                .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
-                .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
-            )
-
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService()
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -537,35 +464,11 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_nonErrorErrorCode_doesNotRaiseError() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
-            val remoteParticipantsInfoModelSharedFlow =
-                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-
-            val callingStateWrapperStateFlow =
-                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-
-            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
-                .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
-                .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
-            )
-
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService()
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -598,35 +501,11 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_stateConnectedAndInvokedByCallingGatewayWithAnyErrorCodeNonZero_returnErrorTypeCallEnd() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
-            val remoteParticipantsInfoModelSharedFlow =
-                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-
-            val callingStateWrapperStateFlow =
-                MutableStateFlow(CallingStateWrapper(CallState.CONNECTED, 0))
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-
-            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
-                .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
-                .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
-            )
-
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService(CallState.CONNECTED)
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
@@ -659,35 +538,11 @@ internal class CallingServiceUnitTests {
     @ExperimentalCoroutinesApi
     @Test
     fun callingService_getCallStateErrorFlow_when_stateNotConnectedAndInvokedByCallingGatewayWithAnyErrorCodeNonZero_returnErrorTypeCallJoin() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
-            val remoteParticipantsInfoModelSharedFlow =
-                MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-
-            val callingStateWrapperStateFlow =
-                MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-
-            Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
-                .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
-                .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
-            )
-
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-
-            val callingService = CallingService(mockCallingGateway, TestContextProvider())
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService()
 
             val job = launch {
                 callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)

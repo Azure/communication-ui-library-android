@@ -6,25 +6,21 @@ package com.azure.android.communication.ui.configuration
 import com.azure.android.communication.ui.calling.CallingEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
-import com.azure.android.communication.ui.helper.MainCoroutineRule
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
-import kotlinx.coroutines.test.runBlockingTest
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallCompositeEventsHandlerTests {
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
 
     @Test
     fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
             // arrange
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, null)

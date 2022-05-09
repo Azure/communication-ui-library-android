@@ -4,11 +4,14 @@
 package com.azure.android.communication.ui.helper
 
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlin.coroutines.CoroutineContext
 
-internal class TestContextProvider : CoroutineContextProvider() {
-    val testCoroutineDispatcher = TestCoroutineDispatcher()
+internal class UnconfinedTestContextProvider :
+    BaseTestContextProvider(UnconfinedTestDispatcher(name = "UnconfinedTestContextProvider"))
+
+internal open class BaseTestContextProvider(testCoroutineDispatcher: TestDispatcher) : CoroutineContextProvider() {
     override val Main: CoroutineContext = testCoroutineDispatcher
     override val IO: CoroutineContext = testCoroutineDispatcher
     override val Default: CoroutineContext = testCoroutineDispatcher
