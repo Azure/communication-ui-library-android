@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.localuser
 
-import com.azure.android.communication.ui.helper.MainCoroutineRule
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.redux.AppStore
 import com.azure.android.communication.ui.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.redux.state.CallingStatus
@@ -11,23 +11,18 @@ import com.azure.android.communication.ui.redux.state.CameraDeviceSelectionStatu
 import com.azure.android.communication.ui.redux.state.ReduxState
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class LocalParticipantGridCellViewModelTest {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
 
     @Test
     fun localParticipantViewModel_update_when_turnMic_then_audioState_update() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -98,7 +93,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
     @Test
     fun localParticipantViewModel_update_when_displayNameChanged_then_displayNameFlowUpdated() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -140,7 +135,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
     @Test
     fun localParticipantViewModel_update_when_videoStreamIdOViewModeUpdated_Then_modelFlowUpdated() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -210,7 +205,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
     @Test
     fun localParticipantViewModel_update_when_remoteParticipantNumber_Then_fullScreenAvatarUpdated() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val displayName = "username"
@@ -283,7 +278,7 @@ internal class LocalParticipantGridCellViewModelTest {
 
     @Test
     fun localParticipantViewModel_update_when_cameraDeviceSelectionStatus_Then_enableCameraSwitchUpdated() =
-        mainCoroutineRule.testDispatcher.runBlockingTest {
+        runScopedTest {
 
             // arrange
             val displayName = "username"
