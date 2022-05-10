@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.CallScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
-import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
+import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,8 +39,8 @@ class CallingCompositeParticipantListTest : BaseUiTest() {
 
     private fun joinGroupCall(videoEnabled: Boolean = true): CallScreenRobot {
         val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            .setAcsToken(TestFixture.acsToken)
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getUUID())
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
             .clickLaunchButton()
 
         if (videoEnabled) {

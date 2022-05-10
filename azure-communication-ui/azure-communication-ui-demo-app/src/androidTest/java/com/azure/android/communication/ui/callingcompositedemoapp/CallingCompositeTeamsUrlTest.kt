@@ -1,8 +1,12 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
+import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import org.junit.Before
@@ -15,9 +19,7 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
     @Before
     override fun setup() {
         super.setup()
-        if (isAppCenter()) {
-            Thread.sleep(2000)
-        }
+        Thread.sleep(2000)
     }
 
     @Test
@@ -26,10 +28,10 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
         val homeScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(testString)
-            .setAcsToken(TestFixture.acsToken)
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
         val setupScreen = homeScreen.clickLaunchButton()
 
-        val callScreen = setupScreen.clickJoinCallButton()
+        setupScreen.clickJoinCallButton()
 
         homeScreen.clickAlertDialogOkButton()
     }
@@ -41,10 +43,10 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
         val homeScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(testString)
-            .setAcsToken(TestFixture.acsToken)
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
         val setupScreen = homeScreen.clickLaunchButton()
 
-        val callScreen = setupScreen.clickJoinCallButton()
+        setupScreen.clickJoinCallButton()
 
         homeScreen.clickAlertDialogOkButton()
     }
@@ -54,8 +56,8 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
         val homeScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setEmptyTeamsUrl()
-            .setAcsToken(TestFixture.acsToken)
-        val setupScreen = homeScreen.clickLaunchButton()
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
+        homeScreen.clickLaunchButton()
 
         homeScreen.clickAlertDialogOkButton()
     }
