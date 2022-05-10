@@ -42,7 +42,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
     fun selectAndroidAudioDevice(isSelected: Boolean): SetupScreenRobot {
         selectAudioDevice(
-            R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled,
+            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled,
             "Android",
             isSelected
         )
@@ -51,7 +51,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
     fun selectSpeakerAudioDevice(isSelected: Boolean = false): SetupScreenRobot {
         selectAudioDevice(
-            R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled,
+            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled,
             "Speaker",
             false
         )
