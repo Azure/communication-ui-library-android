@@ -11,6 +11,7 @@
     <string name="azure_communication_ui_switch_camera_button_front">Overschakelen naar camera aan voorzijde</string>
     <string name="azure_communication_ui_switch_camera_button_back">Overschakelen naar de camera aan achterzijde</string>
     <string name="azure_communication_ui_setup_audio_device_select_content_description">Audioapparaat %1$s selecteren</string>
+    <string name="azure_communication_ui_selected_audio_device_announcement">%1$s audio device, selected</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Deelnemen aan gesprek…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">Video uit</string>
@@ -75,7 +76,7 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Sluiten</string>
-    <string name="azure_communication_ui_alert_title">Alert</string>
+    <string name="azure_communication_ui_alert_title">Waarschuwing</string>
     <string name="azure_communication_ui_call_state_error_call_end">U bent uit de oproep verwijderd vanwege een fout.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_call_state_evicted">U bent verwijderd uit het gesprek.</string>

@@ -11,6 +11,7 @@
     <string name="azure_communication_ui_switch_camera_button_front">Alternar Para a Câmera Frontal</string>
     <string name="azure_communication_ui_switch_camera_button_back">Alternar Para a Câmera Traseira</string>
     <string name="azure_communication_ui_setup_audio_device_select_content_description">Selecionar o Dispositivo de Áudio %1$s</string>
+    <string name="azure_communication_ui_selected_audio_device_announcement">%1$s audio device, selected</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_setup_view_button_connecting_call">Ingressando na chamada…</string>
     <string name="azure_communication_ui_setup_view_button_video_off">Vídeo desativado</string>
@@ -75,7 +76,7 @@ dando consentimento para que esta reunião seja transcrita.
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_snack_bar_button_dismiss">Ignorar</string>
-    <string name="azure_communication_ui_alert_title">Alert</string>
+    <string name="azure_communication_ui_alert_title">Alerta</string>
     <string name="azure_communication_ui_call_state_error_call_end">Você foi removido da chamada devido a um erro.</string>
     <string name="azure_communication_ui_snack_bar_text_error_call_join">Não é possível ingressar na chamada devido a um erro.</string>
     <string name="azure_communication_ui_call_state_evicted">Você foi removido da chamada.</string>
