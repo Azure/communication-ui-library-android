@@ -88,9 +88,9 @@ class RemoteParticipantJoinedHandler(
                             BitmapFactory.decodeResource(callLauncherActivity.resources, it)
                         val result = callComposite.setRemoteParticipantViewData(
                             communicationIdentifier,
-                            ParticipantViewData()
-                                .setRenderedDisplayName(callLauncherActivity.resources.getResourceEntryName(it))
-                                .setAvatarBitmap(bitMap)
+                            ParticipantViewData(
+                                callLauncherActivity.resources.getResourceEntryName(it), bitMap
+                            )
                         )
 
                         if (result == SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
