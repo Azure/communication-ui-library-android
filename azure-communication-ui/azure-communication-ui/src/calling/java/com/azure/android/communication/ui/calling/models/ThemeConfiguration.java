@@ -27,14 +27,14 @@ public final class ThemeConfiguration {
     /**
      * Create Theme configuration.
      *
-     * @param theme Style resource id that is derived from "AzureCommunicationUI.Theme.Calling" theme.
+     * @param theme Style resource id that is derived from "AzureCommunicationUICalling.Theme.Calling" theme.
      */
     public ThemeConfiguration(final int theme) {
         this.theme = theme;
     }
 
     /**
-     * Get theme id. Style resource id that is derived from "AzureCommunicationUI.Theme.Calling" theme.
+     * Get theme id. Style resource id that is derived from "AzureCommunicationUICalling.Theme.Calling theme.
      *
      * @return theme id
      */

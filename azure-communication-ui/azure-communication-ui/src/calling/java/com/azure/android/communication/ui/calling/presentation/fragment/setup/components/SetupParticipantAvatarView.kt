@@ -7,7 +7,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -18,10 +18,10 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: SetupParticipantAvatarViewModel,
-        personaData: PersonaData?,
+        participantViewData: ParticipantViewData?,
     ) {
         name = viewModel.getDisplayName()
-        personaData?.let {
+        participantViewData?.let {
             it.avatarBitmap?.let { image ->
                 avatarImageBitmap = image
                 adjustViewBounds = true

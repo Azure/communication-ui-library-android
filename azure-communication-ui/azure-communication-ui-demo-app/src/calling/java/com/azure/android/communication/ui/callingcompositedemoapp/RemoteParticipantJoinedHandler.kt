@@ -12,8 +12,8 @@ import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallingEventHandler
 import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.calling.models.PersonaData
-import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(
@@ -43,24 +43,19 @@ class RemoteParticipantJoinedHandler(
         if (imageTestUrl.isNotEmpty()) {
             Thread {
                 try {
-                    val id =
-                        getRemoteParticipantId(communicationIdentifier).filterNot { it == ":"[0] || it == "-"[0] }
-                    val url =
-                        URL("$imageTestUrl$id.png")
-                    val bitMap =
-                        BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                    val result = callComposite.setRemoteParticipantPersonaData(
-                        communicationIdentifier,
-                        PersonaData(
-                            bitMap
-                        )
+                    val id = getRemoteParticipantId(communicationIdentifier)
+                        .filterNot { it == ":"[0] || it == "-"[0] }
+                    val url = URL("$imageTestUrl$id.png")
+                    val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                    val result = callComposite.setRemoteParticipantViewData(
+                        communicationIdentifier, ParticipantViewData().setAvatarBitmap(bitMap)
                     )
 
-                    if (result == SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL) {
+                    if (result == SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
                         // participant not in call
                     }
 
-                    if (result == SetPersonaDataResult.SUCCESS) {
+                    if (result == SetParticipantViewDataResult.SUCCESS) {
                         // success
                     }
                 } catch (e: Exception) {
@@ -91,19 +86,18 @@ class RemoteParticipantJoinedHandler(
                     images[number].let {
                         val bitMap =
                             BitmapFactory.decodeResource(callLauncherActivity.resources, it)
-                        val result = callComposite.setRemoteParticipantPersonaData(
+                        val result = callComposite.setRemoteParticipantViewData(
                             communicationIdentifier,
-                            PersonaData(
-                                callLauncherActivity.resources.getResourceEntryName(it),
-                                bitMap
-                            )
+                            ParticipantViewData()
+                                .setRenderedDisplayName(callLauncherActivity.resources.getResourceEntryName(it))
+                                .setAvatarBitmap(bitMap)
                         )
 
-                        if (result == SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL) {
+                        if (result == SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
                             // participant not in call
                         }
 
-                        if (result == SetPersonaDataResult.SUCCESS) {
+                        if (result == SetParticipantViewDataResult.SUCCESS) {
                             // success
                         }
                     }
