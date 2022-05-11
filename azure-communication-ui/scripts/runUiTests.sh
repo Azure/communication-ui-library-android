@@ -14,7 +14,7 @@ printf "ACS_TOKEN=\"$1\"\n" >> ./temp_file
 mv -f ./temp_file ./local.properties
 
 # run Ui tests with the required parameters
-./gradlew clean connectedCallingDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.teamsUrl="$2" -Pandroid.testInstrumentationRunnerArguments.groupId="$3" -Pandroid.testInstrumentationRunnerArguments.acsToken=$4
+./gradlew clean connectedCallingDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.expiredToken=$1 -Pandroid.testInstrumentationRunnerArguments.teamsUrl="$2" -Pandroid.testInstrumentationRunnerArguments.groupId="$3" -Pandroid.testInstrumentationRunnerArguments.acsToken=$4 -Pandroid.testInstrumentationRunnerArguments.tokenFunctionUrl=$5
 
 # clean up
 if [ -z "$DEVICE" ]; then
