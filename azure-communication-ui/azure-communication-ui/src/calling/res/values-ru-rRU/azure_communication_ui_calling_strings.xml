@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <!--    Device-->
+    <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Динамик</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Гарнитура</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Переключиться на переднюю камеру</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Переключиться на заднюю камеру</string>
+    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Выбрать звуковое устройство %1$s</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <!--    Setup View-->
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Подключение к звонку…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_off">Видео отключено</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_on">Видео включено</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_off">Микрофон выключен</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_on">Микрофон включен</string>
+    <string name="azure_communication_ui_calling_setup_view_button_join_call">Присоединиться к звонку</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать
+        этот звонок, включите звук.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры",
+        чтобы разрешить доступ.</string>
+    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Требуются разрешения</string>
+    <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Выбрано</string>
+    <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Настройка градиента</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Кнопка переключения камеры</string>
+    <string name="azure_communication_ui_calling_call_setup_action_bar_title">Настройка</string>
+
+    <!--    Lobby View-->
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Ожидание организатора</string>
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Кто-то из участников собрания скоро вас подключит</string>
+
+    <!--    Calling View-->
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Ожидание присоединения других участников</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Звонок с 1 пользователем</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(Я)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Выйти из звонка?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Выйти</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Отмена</string>
+    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Дважды коснитесь, чтобы выйти из меню подтверждения</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Открыть список участников</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Дважды коснитесь, чтобы закрыть список участников</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Уведомления отключены</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Звук включен</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Повесить трубку</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Кнопка "Закрыть"</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Включить или отключить видео</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Включить или отключить звук</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Параметры устройства</string>
+
+    <!--    Compliance Banner-->
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Началась запись.</b> Присоединяясь, вы
+        даете согласие на транскрибирование этого собрания.
+         <u>Политика конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Запись сохраняется.</b> Запись остановлена.
+         <u>Подробнее</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Запущено транскрибирование.</b> Присоединяясь, вы
+        даете согласие на транскрибирование этого собрания. <u>Политика конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Транскрибирование сохраняется.</b> Транскрибирование
+        остановлено. <u>Подробнее</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Запись и транскрибирование
+        начаты.</b> Присоединяясь, вы даете согласие на транскрибирование этого собрания
+        . <u>Политика конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Запись и транскрибирование
+        сохраняются.</b> Запись и транскрибирование остановлены. <u>Подробнее</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Запись остановлена.</b> Теперь вы
+        только транскрибируете это собрание. <u>Политика конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Транскрибирование остановлено.
+    </b> Теперь вы только записываете это собрание. <u>Политика конфиденциальности</u></string>
+    <string name="azure_communication_ui_calling_view_link">Ссылка</string>
+
+    <!--    PopUp warning-->
+    <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Закрыть</string>
+    <string name="azure_communication_ui_calling_alert_title">Оповещение</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Вы были удалены из звонка из-за ошибки.</string>
+    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из звонка.</string>
+    <!--    Notification-->
+    <string name="azure_communication_ui_calling_service_notification_title">Текущий звонок</string>
+    <string name="azure_communication_ui_calling_service_notification_message">Коснитесь, чтобы вернуться к звонку</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_calling_accessibility_user_added">%1$s присоединяется к собранию</string>
+    <string name="azure_communication_ui_calling_accessibility_user_left">%1$s покидает собрание</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Вы присоединились к звонку</string>
+</resources>
