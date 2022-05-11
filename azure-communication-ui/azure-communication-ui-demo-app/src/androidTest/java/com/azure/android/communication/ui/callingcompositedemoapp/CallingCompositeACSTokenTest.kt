@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
+import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Assume
@@ -60,8 +61,8 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
 
     @Test
     fun testExpiredAcsToken() {
-        val expiredAcsToken =
-            "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwMyIsIng1dCI6Ikc5WVVVTFMwdlpLQTJUNjFGM1dzYWdCdmFMbyIsInR5cCI6IkpXVCJ9.eyJza3lwZWlkIjoiYWNzOjcxZWM1OTBiLWNiYWQtNDkwYy05OWM1LWI1NzhiZGFjZGU1NF8wMDAwMDAwZS00MDM0LTAyZTYtNmEwYi0zNDNhMGQwMDA2ZTEiLCJzY3AiOjE3OTIsImNzaSI6IjE2MzkwNzIyOTIiLCJleHAiOjE2MzkxNTg2OTIsImFjc1Njb3BlIjoidm9pcCIsInJlc291cmNlSWQiOiI3MWVjNTkwYi1jYmFkLTQ5MGMtOTljNS1iNTc4YmRhY2RlNTQiLCJpYXQiOjE2MzkwNzIyOTJ9.aS6Z93eQKHjTJVwM6NHO-goWInC1CSnFlqQQ7clXFL4ey_oL4JOcE6EfaM3KtNCrCOrPPtLUIetin_pEzXW0xz8fzN0CtEdVfqo0W12RH1W4gUeUTwrXfCt5z6gqHek0ixu8VtrQ6XT_1dSgpR49J2p0_kspkbWg_WajDiy3Lr1-_Zg28bRaJhhLsuwIs7WnV6tr_RrcDrzMNBjYALvesVryBkJCSu8BFBQoyFT7OoWvaywPT6AkRt8mJTwZUyTGWIqydEQd5hCpfspxqNyQJ1siWCkOjhOGNLWyq0xQ5GhQOYG2RYrV7t5WfWraJGnCEfVGCpedT92unkwctLyzCQ"
+        val expiredAcsToken = TestFixture.expiredToken.toString()
+
         Assert.assertTrue(
             "Invalid acs token: ${expiredAcsToken.length}",
             expiredAcsToken.length >= 700

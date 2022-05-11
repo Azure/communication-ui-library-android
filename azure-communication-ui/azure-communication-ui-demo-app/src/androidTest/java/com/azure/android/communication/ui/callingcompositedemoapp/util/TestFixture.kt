@@ -15,4 +15,8 @@ object TestFixture {
     val tokenFunctionUrl by lazy {
         InstrumentationRegistry.getArguments().getString("tokenFunctionUrl") ?: BuildConfig.TOKEN_FUNCTION_URL
     }
+
+    val expiredToken by lazy {
+        InstrumentationRegistry.getArguments().getString("expiredToken") ?: BuildConfig.ACS_TOKEN_EXPIRED
+    }
 }
