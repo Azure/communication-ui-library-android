@@ -61,7 +61,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
 
     @Test
     fun testExpiredAcsToken() {
-        val expiredAcsToken = TestFixture.expiredToken.toString()
+        val expiredAcsToken = TestFixture.expiredToken
 
         Assert.assertTrue(
             "Invalid acs token: ${expiredAcsToken.length}",
@@ -69,7 +69,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
         )
 
         val homeScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getUUID())
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setAcsToken(expiredAcsToken)
 
         val setupScreen = homeScreen.clickLaunchButton()
@@ -84,7 +84,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
     @Test
     fun testEmptyAcsToken() {
         val homeScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getUUID())
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setEmptyAcsToken()
 
         val setupScreen = homeScreen.clickLaunchButton()

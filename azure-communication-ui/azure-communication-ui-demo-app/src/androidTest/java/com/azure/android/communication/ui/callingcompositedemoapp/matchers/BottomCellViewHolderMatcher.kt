@@ -26,6 +26,9 @@ class BottomCellViewHolderMatcher(
         val holderRoot = item?.itemView ?: return false
         val checkMark: ImageView = holderRoot.findViewById(R.id.cell_check_mark)
         val audioDeviceTextView: TextView = holderRoot.findViewById(R.id.cell_text)
+
+        // helps to click after delay
+        // on API 31, test case will fail if delay is removed
         Thread.sleep(1000)
 
         return audioDeviceTextView.text.toString().contains(name) &&

@@ -59,7 +59,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     private fun joinGroupCall(videoEnabled: Boolean = true) {
         val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getUUID())
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setAcsToken(CallIdentifiersHelper.getACSToken())
             .clickLaunchButton()
 

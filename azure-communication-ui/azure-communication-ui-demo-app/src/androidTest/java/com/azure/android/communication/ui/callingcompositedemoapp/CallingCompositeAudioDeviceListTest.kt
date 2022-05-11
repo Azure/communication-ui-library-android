@@ -33,7 +33,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
 
     private fun joinGroupSetupScreen(): SetupScreenRobot {
         val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getUUID())
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setAcsToken(CallIdentifiersHelper.getACSToken())
             .clickLaunchButton()
 

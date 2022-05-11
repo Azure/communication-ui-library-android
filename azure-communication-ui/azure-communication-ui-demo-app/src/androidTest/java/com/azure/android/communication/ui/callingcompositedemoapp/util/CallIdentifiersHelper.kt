@@ -9,7 +9,7 @@ import java.util.UUID
 
 class CallIdentifiersHelper {
     companion object {
-        fun getUUID() = UUID.randomUUID().toString()
+        fun getGroupId() = UUID.randomUUID().toString()
         fun getACSToken(): String = JSONObject(
             TestFixture.tokenFunctionUrl.httpGet().responseString().component3()
                 .get()

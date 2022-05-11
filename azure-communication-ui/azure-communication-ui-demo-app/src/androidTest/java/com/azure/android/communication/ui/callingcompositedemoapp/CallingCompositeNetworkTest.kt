@@ -34,7 +34,7 @@ class CallingCompositeNetworkTest : BaseUiTest() {
         NetworkUtils.disableNetwork()
         val homeScreen = HomeScreenRobot()
             .setAcsToken(acsToken)
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getUUID())
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
 
         joinAfterNetworkDisconnected(homeScreen)
     }
