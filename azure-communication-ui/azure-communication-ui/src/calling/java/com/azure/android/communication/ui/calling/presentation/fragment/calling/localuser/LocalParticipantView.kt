@@ -30,6 +30,7 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var videoViewManager: VideoViewManager
     private lateinit var localParticipantFullCameraHolder: ConstraintLayout
     private lateinit var localParticipantPip: ConstraintLayout
+    private lateinit var localPipWrapper: ConstraintLayout
     private lateinit var localParticipantPipCameraHolder: ConstraintLayout
     private lateinit var switchCameraButton: ImageView
     private lateinit var pipSwitchCameraButton: ConstraintLayout
@@ -38,6 +39,7 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var pipAvatar: AvatarView
     private lateinit var displayNameText: TextView
     private lateinit var micImage: ImageView
+    private lateinit var dragTouchListener: DragTouchListener
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -45,6 +47,7 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_full_video_holder)
         localParticipantPip =
             findViewById(R.id.azure_communication_ui_call_local_pip)
+        localPipWrapper = findViewById(R.id.azure_communication_ui_call_local_pip_wrapper)
         localParticipantPipCameraHolder =
             findViewById(R.id.azure_communication_ui_call_local_pip_video_holder)
         switchCameraButton =
@@ -65,6 +68,7 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_mic_indicator)
         switchCameraButton.setOnClickListener { viewModel.switchCamera() }
         pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
+        dragTouchListener = DragTouchListener()
     }
 
     fun stop() {
@@ -170,6 +174,17 @@ internal class LocalParticipantView : ConstraintLayout {
                         switchCameraButton,
                         ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
                     )
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getNumberOfRemoteParticipantsFlow().collect {
+                if (it >= 1) {
+                    dragTouchListener.setView(localPipWrapper)
+                    localPipWrapper.setOnTouchListener(dragTouchListener)
+                } else {
+                    localPipWrapper.setOnTouchListener(null)
                 }
             }
         }
