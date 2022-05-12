@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothManager
@@ -21,7 +22,12 @@ import com.azure.android.communication.ui.calling.utilities.implementation.Featu
 import kotlinx.coroutines.flow.collect
 import android.media.AudioDeviceInfo
 import android.os.Build
+import android.os.Bundle
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
+import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 
 internal class AudioSessionManager(
@@ -59,36 +65,61 @@ internal class AudioSessionManager(
         return manager.adapter
     }
 
-    suspend fun start() {
+    fun onCreate(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            initializeAudioDeviceState()
 
-        // On first launch we need to init the redux-state, check Bluetooth and Headset status
-        initializeAudioDeviceState()
+            // Listeners we need to rebind with Activity (Bluetooth, Headset, State Updates)
+            btAdapter?.run {
+                getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+            }
 
-        // Listeners we need to rebind with Activity (Bluetooth, Headset, State Updates)
-        btAdapter?.run {
-            getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+            filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
+            context.registerReceiver(this@AudioSessionManager, filter)
         }
+    }
 
-        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-        filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
-        context.registerReceiver(this@AudioSessionManager, filter)
+    fun onStart(activity: Activity) {
+        if (activity !is LifecycleOwner) {
+            throw IllegalArgumentException("Activity must be a LifecycleOwner)")
+        }
+        (activity as LifecycleOwner).lifecycle.coroutineScope.launch {
+            // On first launch we need to init the redux-state, check Bluetooth and Headset status
 
-        store.getStateFlow().collect {
-            if (previousAudioDeviceSelectionStatus == null ||
-                previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
-            ) {
-                onAudioDeviceStateChange(it.localParticipantState.audioState.device)
+            store.getStateFlow().collect {
+                if (previousAudioDeviceSelectionStatus == null ||
+                    previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
+                ) {
+                    onAudioDeviceStateChange(it.localParticipantState.audioState.device)
+                }
+
+                // After permission is granted, double check bluetooth status
+                if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
+                    previousPermissionState != PermissionStatus.GRANTED
+                ) {
+                    updateBluetoothStatus()
+                }
+
+                previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
+                previousPermissionState = it.permissionState.audioPermissionState
             }
+        }
+    }
 
-            // After permission is granted, double check bluetooth status
-            if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
-                previousPermissionState != PermissionStatus.GRANTED
-            ) {
-                updateBluetoothStatus()
+    // Call when the Activity is finishing (i.e. call is done)
+    fun onDestroy(activity: Activity) {
+        if (activity.isFinishing) {
+            btAdapter?.run {
+                closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             }
+            context.unregisterReceiver(this)
 
-            previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
-            previousPermissionState = it.permissionState.audioPermissionState
+            if (audioManager.isBluetoothScoOn) {
+                audioManager.stopBluetoothSco()
+            }
+            audioManager.isBluetoothScoOn = false
+            audioManager.isSpeakerphoneOn = false
         }
     }
 
@@ -255,13 +286,6 @@ internal class AudioSessionManager(
             audioManager.isBluetoothScoOn = true
             audioManager.isSpeakerphoneOn = false
         }
-    }
-
-    fun stop() {
-        btAdapter?.run {
-            closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
-        }
-        context.unregisterReceiver(this)
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {

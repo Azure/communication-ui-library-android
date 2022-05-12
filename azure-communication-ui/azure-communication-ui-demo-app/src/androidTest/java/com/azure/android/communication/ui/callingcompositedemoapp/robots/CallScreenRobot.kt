@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.Espresso
@@ -33,7 +34,8 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     }
 
     fun showParticipantList(): CallScreenRobot {
-        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_floating_header)
+        waitUntilViewIdIsDisplayedWhileCheckingForDialog(R.id.azure_communication_ui_call_floating_header)
+
         UiTestUtils.clickViewWithId(R.id.azure_communication_ui_call_bottom_drawer_button)
         return this
     }
@@ -73,6 +75,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     }
 
     fun verifyFirstParticipantName(userName: String): CallScreenRobot {
+
         UiTestUtils.checkRecyclerViewViewHolderText(
             R.id.bottom_drawer_table,
             0,
