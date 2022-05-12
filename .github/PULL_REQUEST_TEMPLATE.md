@@ -21,7 +21,7 @@ What kind of change does this Pull Request introduce?
 [ ] Documentation content changes
 [ ] Other... Please describe:
 ```
-## Pull Request CheckList
+## Pull Request Checklist
 
 <!-- Please check that applies to this PR using "x". -->
 ```
