@@ -38,6 +38,7 @@ What kind of change does this Pull Request introduce?
 [ ] Tests
   [ ] Memory leak analysis performed
   [ ] Tested on API 21, 26 and latest 
+  [ ] Tested for background mode
   [ ] Unit Tests Included
   [ ] UI Automated Tests Included
 ```
