@@ -17,7 +17,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import kotlinx.coroutines.flow.collect
@@ -45,7 +45,7 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var gridView: ParticipantGridView
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var displayedRemoteParticipantsView: MutableList<ParticipantGridCellView>
-    private lateinit var getPersonaDataCallback: (participantID: String) -> PersonaData?
+    private lateinit var getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -97,18 +97,18 @@ internal class ParticipantGridView : GridLayout {
             this.videoViewManager.removeRemoteParticipantVideoRenderer(users)
         }
 
-        this.getPersonaDataCallback = { participantID: String ->
-            avatarViewManager.getRemoteParticipantPersonaData(participantID)
+        this.getParticipantViewDataCallback = { participantID: String ->
+            avatarViewManager.getRemoteParticipantViewData(participantID)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
-                .collect { remoteParticipantsPersonaData ->
+                .collect { remoteParticipantViewData ->
                     if (::displayedRemoteParticipantsView.isInitialized) {
                         displayedRemoteParticipantsView.forEach { displayedParticipant ->
                             val identifier = displayedParticipant.getParticipantIdentifier()
-                            if (remoteParticipantsPersonaData.keys.contains(identifier)) {
-                                displayedParticipant.updatePersonaData()
+                            if (remoteParticipantViewData.keys.contains(identifier)) {
+                                displayedParticipant.updateParticipantViewData()
                             }
                         }
                     }
@@ -285,6 +285,6 @@ internal class ParticipantGridView : GridLayout {
             showFloatingHeaderCallBack,
             getVideoStreamCallback,
             getScreenShareVideoStreamRendererCallback,
-            getPersonaDataCallback
+            getParticipantViewDataCallback
         )
 }

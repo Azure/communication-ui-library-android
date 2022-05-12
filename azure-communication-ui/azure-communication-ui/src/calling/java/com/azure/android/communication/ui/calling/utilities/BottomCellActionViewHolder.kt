@@ -52,11 +52,11 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             imageView.visibility = View.GONE
             avatarView.visibility = View.VISIBLE
             avatarView.name = bottomCellItem.title ?: ""
-            bottomCellItem.personaData?.let { personaData ->
-                personaData.avatarBitmap?.let {
+            bottomCellItem.participantViewData?.let { participantViewData ->
+                participantViewData.avatarBitmap?.let {
                     avatarView.avatarImageBitmap = it
                     avatarView.adjustViewBounds = true
-                    avatarView.scaleType = personaData.scaleType
+                    avatarView.scaleType = participantViewData.scaleType
                 }
             }
         } else {
@@ -87,8 +87,8 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
         return (
-            bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
-                bottomCellItem.accessoryImageDescription == unMutedDescription
-            )
+                bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
+                        bottomCellItem.accessoryImageDescription == unMutedDescription
+                )
     }
 }

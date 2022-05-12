@@ -604,7 +604,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(any())
-            verify(mockRemoteParticipantsConfigurationHandler, times(1)).onRemovePersonaData(
+            verify(mockRemoteParticipantsConfigurationHandler, times(1)).onRemoveParticipantViewData(
                 argThat { identifier ->
                     identifier == "test"
                 }

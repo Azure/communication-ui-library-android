@@ -4,25 +4,27 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import android.view.View
-import android.widget.Button
+import android.widget.TextView
 import androidx.test.espresso.UiController
-import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers
 
-class GetButtonTextAction : ACSViewAction {
+class GetTextViewAction : ACSViewAction {
     private lateinit var stringHolder: String
 
     override fun getConstraints(): Matcher<View> =
-        allOf(isDisplayed(), isAssignableFrom(Button::class.java))
+        Matchers.allOf(
+            ViewMatchers.isDisplayed(),
+            ViewMatchers.isAssignableFrom(TextView::class.java)
+        )
 
-    override fun getDescription() = "getting text from a Button View"
+    override fun getDescription() = "getting text from a Text View"
 
     override fun perform(uiController: UiController?, view: View?) {
-        val button = view as Button
+        val textView = view as TextView
 
-        stringHolder = button.text.toString()
+        stringHolder = textView.text.toString()
     }
 
     override fun getText() = stringHolder
