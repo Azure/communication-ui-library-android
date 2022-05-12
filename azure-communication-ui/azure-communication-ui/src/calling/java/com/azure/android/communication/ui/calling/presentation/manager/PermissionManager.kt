@@ -30,10 +30,8 @@ internal class PermissionManager(
          arrayOf(
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.WAKE_LOCK,
-            Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.MODIFY_AUDIO_SETTINGS,
             Manifest.permission.FOREGROUND_SERVICE
         )
@@ -84,13 +82,19 @@ internal class PermissionManager(
         when (permissionState.micPermissionState) {
             PermissionStatus.REQUESTING -> createAudioPermissionRequest()
             PermissionStatus.UNKNOWN -> setAudioPermissionsState()
-            else -> when (permissionState.cameraPermissionState) {
-                PermissionStatus.REQUESTING -> createCameraPermissionRequest()
-                PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
-                    setCameraPermissionsState()
-                }
-                else -> {}
-            }
+            else -> {}
+        }
+
+        when (permissionState.cameraPermissionState) {
+            PermissionStatus.REQUESTING -> createCameraPermissionRequest()
+            PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> setCameraPermissionsState()
+            else -> {}
+        }
+
+        when (permissionState.phonePermissionState) {
+            PermissionStatus.REQUESTING -> createPhonePermissionRequest()
+            PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> setPhonePermissionState()
+            else -> {}
         }
     }
 
@@ -155,31 +159,4 @@ internal class PermissionManager(
     private fun isPermissionGranted(permission: String) =
         ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
 
-    private fun getPermissionsList(): Array<String> =
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
-                arrayOf(
-                    Manifest.permission.BLUETOOTH_CONNECT,
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.WAKE_LOCK,
-                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                    Manifest.permission.FOREGROUND_SERVICE
-                )
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ->
-                arrayOf(
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.WAKE_LOCK,
-                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                    Manifest.permission.FOREGROUND_SERVICE
-                )
-            else ->
-                arrayOf(
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.WAKE_LOCK,
-                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                )
-        }
 }

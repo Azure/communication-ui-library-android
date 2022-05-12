@@ -31,7 +31,7 @@ internal class AppReduxState(displayName: String?) : ReduxState {
         )
 
     override var permissionState: PermissionState =
-        PermissionState(PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN)
+        PermissionState(PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN)
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 

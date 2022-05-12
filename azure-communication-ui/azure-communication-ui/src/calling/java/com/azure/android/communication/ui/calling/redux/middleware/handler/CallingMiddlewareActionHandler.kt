@@ -179,6 +179,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun setupCall(store: Store<ReduxState>) {
+        store.dispatch(PermissionAction.PhonePermissionRequested())
         callingService.setupCall()
     }
 
