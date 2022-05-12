@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.os.Build
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
-import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
 import org.junit.After
@@ -50,8 +50,6 @@ open class BaseUiTest {
     fun tearDown() {
         reportHelper.label("Stopping test")
     }
-
-    protected fun isAppCenter() = TestFixture.acsToken.isBlank()
 }
 
 fun <T> Array<T>.append(element: T): Array<T?> {
