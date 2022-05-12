@@ -7,13 +7,14 @@ if [ -z "$DEVICE" ]; then
 fi
 
 cd ..
+echo 'USER_NAME="Test User"' >> local.properties
 #Replace ACS Token with expired token
 cat ./local.properties | sed -e '/^ACS_TOKEN=/d' > ./temp_file
 printf "ACS_TOKEN=\"$1\"\n" >> ./temp_file
 mv -f ./temp_file ./local.properties
 
 # run Ui tests with the required parameters
-./gradlew clean connectedAppCenterDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.teamsUrl="$2" -Pandroid.testInstrumentationRunnerArguments.groupId="$3" -Pandroid.testInstrumentationRunnerArguments.acsToken=$4
+./gradlew clean connectedCallingDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.teamsUrl="$2" -Pandroid.testInstrumentationRunnerArguments.groupId="$3" -Pandroid.testInstrumentationRunnerArguments.acsToken=$4
 
 # clean up
 if [ -z "$DEVICE" ]; then
