@@ -13,5 +13,4 @@ internal sealed class PermissionAction :
     class AudioPermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
     class CameraPermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
     class PhonePermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
-
 }

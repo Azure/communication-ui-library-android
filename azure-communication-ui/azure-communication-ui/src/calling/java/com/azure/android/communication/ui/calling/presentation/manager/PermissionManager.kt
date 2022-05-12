@@ -27,7 +27,7 @@ internal class PermissionManager(
     private var previousPermissionState: PermissionState? = null
 
     private val audioPermissions =
-         arrayOf(
+        arrayOf(
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.ACCESS_NETWORK_STATE,
@@ -82,19 +82,15 @@ internal class PermissionManager(
         when (permissionState.micPermissionState) {
             PermissionStatus.REQUESTING -> createAudioPermissionRequest()
             PermissionStatus.UNKNOWN -> setAudioPermissionsState()
-            else -> {}
-        }
-
-        when (permissionState.cameraPermissionState) {
-            PermissionStatus.REQUESTING -> createCameraPermissionRequest()
-            PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> setCameraPermissionsState()
-            else -> {}
-        }
-
-        when (permissionState.phonePermissionState) {
-            PermissionStatus.REQUESTING -> createPhonePermissionRequest()
-            PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> setPhonePermissionState()
-            else -> {}
+            else -> when (permissionState.cameraPermissionState) {
+                PermissionStatus.REQUESTING -> createCameraPermissionRequest()
+                PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> setCameraPermissionsState()
+                else -> when (permissionState.phonePermissionState) {
+                    PermissionStatus.REQUESTING -> createPhonePermissionRequest()
+                    PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> setPhonePermissionState()
+                    else -> {}
+                }
+            }
         }
     }
 
@@ -158,5 +154,4 @@ internal class PermissionManager(
 
     private fun isPermissionGranted(permission: String) =
         ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
-
 }
