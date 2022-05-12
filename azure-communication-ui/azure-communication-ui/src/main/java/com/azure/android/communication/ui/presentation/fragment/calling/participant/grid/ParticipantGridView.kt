@@ -34,6 +34,12 @@ internal class ParticipantGridView : GridLayout {
         private const val FOUR_PARTICIPANTS = 4
         private const val FIVE_PARTICIPANTS = 5
         private const val SIX_PARTICIPANTS = 6
+        private const val SEVEN_PARTICIPANTS = 7
+        private const val EIGHT_PARTICIPANTS = 8
+        private const val NINE_PARTICIPANTS = 9
+        private const val TEN_PARTICIPANTS = 10
+        private const val ELEVEN_PARTICIPANTS = 11
+        private const val TWELVE_PARTICIPANTS = 12
     }
 
     private lateinit var showFloatingHeaderCallBack: () -> Unit
@@ -184,15 +190,16 @@ internal class ParticipantGridView : GridLayout {
         displayedRemoteParticipantsView: List<ParticipantGridCellView>,
     ) {
         when (displayedRemoteParticipantsView.size) {
-            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS -> {
+            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, EIGHT_PARTICIPANTS,
+            NINE_PARTICIPANTS, TEN_PARTICIPANTS, TWELVE_PARTICIPANTS -> {
                 displayedRemoteParticipantsView.forEach {
                     addParticipantToGrid(
                         participantGridCellView = it
                     )
                 }
             }
-            THREE_PARTICIPANTS, FIVE_PARTICIPANTS -> {
-                // for 3 or 5 number of participants, first participant will take two cells
+            THREE_PARTICIPANTS, FIVE_PARTICIPANTS, SEVEN_PARTICIPANTS, ELEVEN_PARTICIPANTS -> {
+                // for 3, 5, 7, or 11 number of participants, first participant will take two cells
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     addParticipantToGrid(
                         columnSpan = 2,
@@ -236,6 +243,27 @@ internal class ParticipantGridView : GridLayout {
                     setGridRowsColumn(rows = 3, columns = 2)
                 } else {
                     setGridRowsColumn(rows = 2, columns = 3)
+                }
+            } 7, 8 -> {
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setGridRowsColumn(rows = 4, columns = 2)
+                } else {
+                    setGridRowsColumn(rows = 2, columns = 4)
+                }
+            }
+            9 -> {
+                setGridRowsColumn(rows = 3, columns = 3)
+            } 10 -> {
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setGridRowsColumn(rows = 5, columns = 2)
+                } else {
+                    setGridRowsColumn(rows = 2, columns = 5)
+                }
+            } 11, 12 -> {
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setGridRowsColumn(rows = 3, columns = 4)
+                } else {
+                    setGridRowsColumn(rows = 4, columns = 3)
                 }
             }
         }

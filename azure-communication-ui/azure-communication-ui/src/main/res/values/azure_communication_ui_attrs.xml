@@ -7,4 +7,6 @@
         <attr name="azure_communication_ui_state_setup_audio_device_bluetooth" format="boolean" />
         <attr name="azure_communication_ui_state_on" format="boolean" />
     </declare-styleable>
+
+    <integer name="azure_communication_ui_max_remote_participants">6</integer>
 </resources>
