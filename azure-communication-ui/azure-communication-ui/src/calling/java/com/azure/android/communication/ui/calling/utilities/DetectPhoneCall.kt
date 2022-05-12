@@ -33,7 +33,7 @@ internal class DetectPhoneCallTrigger : ReduxTrigger() {
 
         return if (!started) {
             // Turn on when CallingStatus == Connected and has permissions
-            (!started && newState.permissionState.micPermissionState == PermissionStatus.GRANTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
+            (!started && newState.permissionState.phonePermissionState == PermissionStatus.GRANTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
         } else {
             // Turn off when CallingStatus != CONNECTED (if it has been started)
             (started && newState.callState.callingStatus != CallingStatus.CONNECTED)
@@ -51,6 +51,10 @@ internal class DetectPhoneCallTrigger : ReduxTrigger() {
             }
         }
     }
+}
+
+internal class DetectPhoneCallManager(val context: Context, val store : Store<ReduxState>) {
+
 }
 
 /// Common Interface for the API >= 31 and < 31 mechanisms to do this
@@ -71,14 +75,11 @@ internal interface DetectPhoneCall {
     val store: Store<ReduxState>
     fun register()
     fun unregister()
-    fun onOffHook() {
-        // Hang up the call
-        store.dispatch(CallingAction.CallEndRequested())
-    }
+    fun onOffHook() = store.dispatch(CallingAction.CallEndRequested())
 }
 
 /// Legacy Version for < 31
-internal class DetectPhoneCallLegacy(private val telephonyManager: TelephonyManager, override val store:Store<ReduxState>) :
+private class DetectPhoneCallLegacy(private val telephonyManager: TelephonyManager, override val store:Store<ReduxState>) :
     PhoneStateListener(), DetectPhoneCall {
 
     override fun onCallStateChanged(state: Int, phoneNumber: String?) {
@@ -99,7 +100,7 @@ internal class DetectPhoneCallLegacy(private val telephonyManager: TelephonyMana
 
 // New version for >=31
 @RequiresApi(Build.VERSION_CODES.S)
-internal class DetectPhoneCallV31(val telephonyManager: TelephonyManager, override val store:Store<ReduxState>) :
+private class DetectPhoneCallV31(val telephonyManager: TelephonyManager, override val store:Store<ReduxState>) :
     TelephonyCallback(), TelephonyCallback.CallStateListener, DetectPhoneCall {
     override fun onCallStateChanged(state: Int) {
         if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
