@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.view.MotionEvent
 import android.view.View
 
-class DragTouchListener : View.OnTouchListener {
+class DragTouchListener internal constructor() : View.OnTouchListener {
 
     private var curX = 0f
     private var curY = 0f
@@ -15,8 +15,6 @@ class DragTouchListener : View.OnTouchListener {
     private var tranX = 0f
     private var tranY = 0f
     private lateinit var view: View
-
-    internal constructor() {}
 
     fun setView(view: View) {
         this.view = view
