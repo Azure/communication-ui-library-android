@@ -1,5 +1,6 @@
-package com.azure.android.communication.ui.calling.utilities
+package com.azure.android.communication.ui.calling.presentation.manager
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Handler
@@ -8,13 +9,13 @@ import android.telephony.PhoneStateListener
 import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.presentation.manager.ReduxTrigger
+
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlags
+import kotlinx.coroutines.flow.collect
 import java.util.concurrent.Executor
 
 
@@ -23,6 +24,7 @@ import java.util.concurrent.Executor
 // - When a call is connected, and the permissions granted and flag enabled, it will start listening
 // - When a call is disconnected and it's listening, it will stop
 // - While listening, if CallStatus == OFF_HOOK, we request to end the call
+/*
 internal class DetectPhoneCallTrigger : ReduxTrigger() {
     private var receiver : DetectPhoneCall? = null
     private val started
@@ -51,14 +53,25 @@ internal class DetectPhoneCallTrigger : ReduxTrigger() {
             }
         }
     }
-}
+}*/
 
 internal class DetectPhoneCallManager(val context: Context, val store : Store<ReduxState>) {
+    private val detectPhoneCall = DetectPhoneCall.register(context, store)
+
+    suspend fun onCreate() {
+        store.getStateFlow().collect {
+            if (it.permissionState.phonePermissionState == PermissionStatus.GRANTED) {
+                detectPhoneCall.register()
+            }
+        }
+    }
+
+    fun onDestroy() = detectPhoneCall.unregister()
 
 }
 
 /// Common Interface for the API >= 31 and < 31 mechanisms to do this
-internal interface DetectPhoneCall {
+private interface DetectPhoneCall {
     companion object {
         fun register(context: Context, store: Store<ReduxState>): DetectPhoneCall {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -75,7 +88,11 @@ internal interface DetectPhoneCall {
     val store: Store<ReduxState>
     fun register()
     fun unregister()
-    fun onOffHook() = store.dispatch(CallingAction.CallEndRequested())
+    fun onOffHook() {
+        if (store.getCurrentState().callState.callingStatus == CallingStatus.CONNECTED) {
+            store.dispatch(CallingAction.CallEndRequested())
+        }
+    }
 }
 
 /// Legacy Version for < 31

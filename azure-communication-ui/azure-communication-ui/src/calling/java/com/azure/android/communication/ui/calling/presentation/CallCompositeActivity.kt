@@ -45,6 +45,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
+    private val detectPhoneCallManager get() = container.detectPhoneCallManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -96,7 +97,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         audioSessionManager.onCreate(savedInstanceState)
 
         lifecycleScope.launch { container.accessibilityManager.start(activity) }
-        lifecycleScope.launch { container.reduxHookManager.start(activity) }
+        lifecycleScope.launch { detectPhoneCallManager.onCreate() }
 
         lifecycleScope.launchWhenStarted {
             navigationRouter.getNavigationStateFlow().collect { onNavigationStateChange(it) }
@@ -128,6 +129,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // Covers edge case where Android tries to recreate call activity after process death
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
+
+        detectPhoneCallManager.onDestroy()
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
             audioSessionManager.onDestroy(this)
             if (isFinishing) {

@@ -7,13 +7,12 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.*
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
-import com.azure.android.communication.ui.calling.presentation.manager.ReduxTriggerManager
+import com.azure.android.communication.ui.calling.presentation.manager.DetectPhoneCallManager
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
@@ -43,5 +42,5 @@ internal interface DependencyInjectionContainer {
     val notificationService: NotificationService
     // UI
     val videoViewManager: VideoViewManager
-    val reduxHookManager: ReduxTriggerManager
+    val detectPhoneCallManager: DetectPhoneCallManager
 }

@@ -10,13 +10,14 @@ import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
-
+import com.azure.android.communication.ui.calling.presentation.manager.*
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
-
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
+import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.DetectPhoneCallManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
-import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
@@ -39,7 +40,6 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHan
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
-import com.azure.android.communication.ui.calling.presentation.manager.ReduxTriggerManager
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
@@ -95,8 +95,8 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    override val reduxHookManager by lazy {
-        ReduxTriggerManager(appStore)
+    override val detectPhoneCallManager by lazy {
+        DetectPhoneCallManager(applicationContext, appStore)
     }
 
     override val lifecycleManager by lazy {
