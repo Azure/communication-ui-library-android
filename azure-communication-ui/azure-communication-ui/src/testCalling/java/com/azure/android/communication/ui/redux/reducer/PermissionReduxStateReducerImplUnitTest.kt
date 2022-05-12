@@ -98,6 +98,21 @@ internal class PermissionReduxStateReducerImplUnitTest {
         Assert.assertEquals(PermissionStatus.REQUESTING, newState.cameraPermissionState)
     }
 
+
+    @Test
+    fun permissionStateReducer_reduce_when_actionRequestPhonePermission_oldStateNotAsked_then_changeStateToRequested() {
+        // arrange
+        val reducer = PermissionStateReducerImpl()
+        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
+        val action = PermissionAction.PhonePermissionRequested()
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(PermissionStatus.REQUESTING, newState.phonePermissionState)
+    }
+
     @Test
     fun permissionStateReducer_reduce_when_actionRequestCameraPermission_oldStateRequested_then_changeStateToRequested() {
         // arrange
