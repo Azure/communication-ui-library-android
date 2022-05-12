@@ -34,7 +34,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui:+'
+    implementation 'com.azure.android:azure-communication-ui-calling:+'
     ...
 }
 ```
@@ -93,7 +93,7 @@ CallComposite callComposite = new CallCompositeBuilder().build();
 callComposite.launch(context, options);
 ```
 
-For more details on Mobile UI Library functionalities visit the [API Reference Documentation](docs/api/CallComposite/Reference.md).
+For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-mobileui/index.html).
 
 ### Accessibility
 

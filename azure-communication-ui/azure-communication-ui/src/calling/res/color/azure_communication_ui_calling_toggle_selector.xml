@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:color="@color/azure_communication_ui_calling_color_on_surface" android:state_enabled="true" app:azure_communication_ui_calling_state_setup_camera_on="false" />
+    <item android:color="@color/azure_communication_ui_calling_color_on_surface_camera_active" android:state_enabled="true" app:azure_communication_ui_calling_state_setup_camera_on="true" />
+    <item android:color="@color/azure_communication_ui_calling_color_on_surface_disabled" android:state_enabled="false" />
+</selector>
