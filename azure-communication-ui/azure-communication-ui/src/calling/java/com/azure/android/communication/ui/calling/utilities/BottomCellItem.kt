@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.utilities
 
 import android.graphics.drawable.Drawable
-import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
 
 internal data class BottomCellItem(
     var icon: Drawable?,
@@ -14,6 +14,6 @@ internal data class BottomCellItem(
     var accessoryColor: Int?,
     var accessoryImageDescription: String?,
     var enabled: Boolean?,
-    var personaData: PersonaData?,
+    var participantViewData: ParticipantViewData?,
     var onClickAction: Runnable,
 )
