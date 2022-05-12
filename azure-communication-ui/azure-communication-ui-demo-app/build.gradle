@@ -90,7 +90,12 @@ android {
     }
     sourceSets {
         calling {
-            java.srcDirs = ['src/main/java','src/calling/java']
+            java.srcDirs = ['src/main/java','src/calling/java','src/telemetryStub/java']
+            res.srcDirs = ['src/main/res','src/calling/res']
+            manifest.srcFile 'src/calling/AndroidManifest.xml'
+        }
+        callingTelemetry {
+            java.srcDirs = ['src/main/java','src/calling/java','src/telemetry/java']
             res.srcDirs = ['src/main/res','src/calling/res']
             manifest.srcFile 'src/calling/AndroidManifest.xml'
         }
@@ -107,6 +112,10 @@ android {
         calling {
             dimension "product"
             matchingFallbacks = ["calling"]
+        }
+        callingTelemetry {
+            dimension "product"
+            matchingFallbacks = ["callingTelemetry"]
         }
         chat {
             dimension "product"

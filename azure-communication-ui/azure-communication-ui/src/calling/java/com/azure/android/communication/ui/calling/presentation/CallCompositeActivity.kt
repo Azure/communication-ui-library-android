@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
 import com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
@@ -220,10 +221,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 finish()
             }
             NavigationStatus.IN_CALL -> {
+                PerformanceDiagnostics.startTrackingMetric(PerformanceDiagnostics.CALL_SCREEN_LOADING)
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 launchFragment(CallingFragment::class.java.name)
+                PerformanceDiagnostics.finishTrackingMetric(PerformanceDiagnostics.CALL_SCREEN_LOADING)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
