@@ -45,7 +45,7 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
     }
 
     fun clickTeamsMeetingRadioButton(): HomeScreenRobot {
-        waitUntilViewAndTextIsDisplayed(R.id.teamsMeetingRadioButton, R.string.teams_meeting_label)
+        waitUntilTextOnViewIsDisplayed(R.id.teamsMeetingRadioButton, R.string.teams_meeting_label)
         UiTestUtils.clickViewWithId(R.id.teamsMeetingRadioButton)
         return this
     }
@@ -57,7 +57,7 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
     }
 
     fun clickAlertDialogOkButton() {
-        waitUntilViewIdIsDisplayed(android.R.id.button1)
+        waitUntilTextOnViewIsDisplayed(android.R.id.button1, "OK")
         UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
     }
 }

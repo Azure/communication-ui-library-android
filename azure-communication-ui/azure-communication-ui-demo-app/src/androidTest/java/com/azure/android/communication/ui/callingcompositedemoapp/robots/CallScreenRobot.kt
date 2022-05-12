@@ -34,7 +34,8 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     }
 
     fun showParticipantList(): CallScreenRobot {
-        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_floating_header)
+        waitUntilViewIdIsDisplayedWhileCheckingForDialog(R.id.azure_communication_ui_call_floating_header)
+
         UiTestUtils.clickViewWithId(R.id.azure_communication_ui_call_bottom_drawer_button)
         return this
     }

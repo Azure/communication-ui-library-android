@@ -13,7 +13,7 @@ import junit.framework.Assert.assertTrue
 class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
     fun tapSpeakerIcon(): SetupScreenRobot {
-        val speakerButton = waitUntilViewAndTextIsDisplayed(
+        val speakerButton = waitUntilTextOnViewIsDisplayed(
             R.id.azure_communication_ui_setup_audio_device_button,
             "Android"
         )
