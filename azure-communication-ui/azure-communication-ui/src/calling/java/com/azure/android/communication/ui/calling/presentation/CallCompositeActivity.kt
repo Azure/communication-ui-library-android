@@ -53,20 +53,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
 
-    override fun onDestroy() {
-        // Covers edge case where Android tries to recreate call activity after process death
-        // (e.g. due to revoked permission).
-        // If no configs are detected we can just exit without cleanup.
-        if (CallCompositeConfiguration.hasConfig(instanceId)) {
-            if (isFinishing) {
-                store.dispatch(CallingAction.CallEndRequested())
-                CallCompositeConfiguration.putConfig(instanceId, null)
-            }
-            audioSessionManager.stop()
-        }
-        super.onDestroy()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_VOICE_CALL
@@ -107,7 +93,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-        lifecycleScope.launch { audioSessionManager.start() }
+        audioSessionManager.onCreate(savedInstanceState)
+
         lifecycleScope.launch { container.accessibilityManager.start(activity) }
         lifecycleScope.launch { container.reduxHookManager.start(activity) }
 
@@ -122,14 +109,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onStart() {
+        super.onStart()
+        audioSessionManager.onStart(this)
+        lifecycleScope.launch { lifecycleManager.resume() }
+        permissionManager.setCameraPermissionsState()
+        permissionManager.setAudioPermissionsState()
     }
 
     override fun onStop() {
@@ -139,12 +124,28 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        lifecycleScope.launch { lifecycleManager.resume() }
+    override fun onDestroy() {
+        // Covers edge case where Android tries to recreate call activity after process death
+        // (e.g. due to revoked permission).
+        // If no configs are detected we can just exit without cleanup.
+        if (CallCompositeConfiguration.hasConfig(instanceId)) {
+            audioSessionManager.onDestroy(this)
+            if (isFinishing) {
+                store.dispatch(CallingAction.CallEndRequested())
+                CallCompositeConfiguration.putConfig(instanceId, null)
+            }
+        }
+        super.onDestroy()
+    }
 
-        permissionManager.setCameraPermissionsState()
-        permissionManager.setAudioPermissionsState()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun configureActionBar() {

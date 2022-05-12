@@ -40,7 +40,7 @@ internal class RemoteParticipantHandler(
             val leftParticipants =
                 lastRemoteParticipantsState?.participantMap?.keys?.filter { it !in remoteParticipantsState.participantMap.keys }
             leftParticipants?.forEach {
-                configuration.remoteParticipantsConfiguration.removePersonaData(it)
+                configuration.remoteParticipantsConfiguration.removeParticipantViewData(it)
             }
 
             lastRemoteParticipantsState = remoteParticipantsState

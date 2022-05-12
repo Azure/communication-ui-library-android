@@ -4,17 +4,17 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.models.PersonaData
-import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
 
-internal data class RemoteParticipantPersonaData(
+internal data class RemoteParticipantViewData(
     val identifier: CommunicationIdentifier,
-    val personaData: PersonaData,
+    val participantViewData: ParticipantViewData,
 )
 
 internal interface RemoteParticipantsConfigurationHandler {
-    fun onSetPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult
-    fun onRemovePersonaData(identifier: String)
+    fun onSetParticipantViewData(data: RemoteParticipantViewData): SetParticipantViewDataResult
+    fun onRemoveParticipantViewData(identifier: String)
 }
 
 internal class RemoteParticipantsConfiguration {
@@ -24,22 +24,19 @@ internal class RemoteParticipantsConfiguration {
         this.handler = handler
     }
 
-    fun setPersonaData(
+    fun setParticipantViewData(
         identifier: CommunicationIdentifier,
-        personaData: PersonaData,
-    ): SetPersonaDataResult {
-        if (handler != null) {
-            return handler!!.onSetPersonaData(
-                RemoteParticipantPersonaData(
-                    identifier,
-                    personaData
-                )
+        participantViewData: ParticipantViewData,
+    ): SetParticipantViewDataResult {
+        handler?.let {
+            return@setParticipantViewData it.onSetParticipantViewData(
+                RemoteParticipantViewData(identifier, participantViewData)
             )
         }
-        return SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL
+        return SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
     }
 
-    fun removePersonaData(identifier: String) {
-        handler?.onRemovePersonaData(identifier)
+    fun removeParticipantViewData(identifier: String) {
+        handler?.onRemoveParticipantViewData(identifier)
     }
 }
