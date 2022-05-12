@@ -37,7 +37,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         callingState: CallingState,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
     ) {
-        visibleStateFlow = MutableStateFlow(isVisible(permissionState.audioPermissionState))
+        visibleStateFlow = MutableStateFlow(isVisible(permissionState.micPermissionState))
         cameraIsEnabledStateFlow = MutableStateFlow(permissionState.cameraPermissionState != PermissionStatus.DENIED)
         micIsEnabledStateFlow = MutableStateFlow(isMicEnabled(callingState, audioState.operation))
         deviceIsEnabledStateFlow = MutableStateFlow(!isControlsDisabled(callingState))
@@ -48,7 +48,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         callingStatusStateFlow = MutableStateFlow(callingState.callingStatus)
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState)
 
-        if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
+        if (permissionState.micPermissionState == PermissionStatus.NOT_ASKED) {
             requestAudioPermission()
         }
     }
@@ -59,7 +59,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         audioState: AudioState,
         callingState: CallingState,
     ) {
-        visibleStateFlow.value = isVisible(permissionState.audioPermissionState)
+        visibleStateFlow.value = isVisible(permissionState.micPermissionState)
         cameraIsEnabledStateFlow.value = isCameraEnabled(callingState, permissionState.cameraPermissionState)
         micIsEnabledStateFlow.value = isMicEnabled(callingState, audioState.operation)
         deviceIsEnabledStateFlow.value = !isControlsDisabled(callingState)

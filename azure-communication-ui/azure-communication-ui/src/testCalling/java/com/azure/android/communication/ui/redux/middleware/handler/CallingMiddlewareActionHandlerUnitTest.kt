@@ -182,7 +182,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val appState = AppReduxState("")
         appState.permissionState = PermissionState(
             cameraPermissionState = PermissionStatus.NOT_ASKED,
-            audioPermissionState = PermissionStatus.NOT_ASKED
+            micPermissionState = PermissionStatus.NOT_ASKED
         )
 
         val mockCallingService: CallingService = mock {}
@@ -212,7 +212,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val appState = AppReduxState("")
         appState.permissionState = PermissionState(
             cameraPermissionState = PermissionStatus.GRANTED,
-            audioPermissionState = PermissionStatus.NOT_ASKED
+            micPermissionState = PermissionStatus.NOT_ASKED
         )
 
         val mockCallingService: CallingService = mock {}

@@ -81,14 +81,14 @@ internal class AudioSessionManager(
             }
 
             // After permission is granted, double check bluetooth status
-            if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
+            if (it.permissionState.micPermissionState == PermissionStatus.GRANTED &&
                 previousPermissionState != PermissionStatus.GRANTED
             ) {
                 updateBluetoothStatus()
             }
 
             previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
-            previousPermissionState = it.permissionState.audioPermissionState
+            previousPermissionState = it.permissionState.micPermissionState
         }
     }
 

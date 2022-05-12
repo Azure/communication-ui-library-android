@@ -12,7 +12,12 @@ internal enum class PermissionStatus {
 }
 
 internal data class PermissionState(
-    // TODO: rename to micPermissionState
-    val audioPermissionState: PermissionStatus,
+    // Microphone used to record audio
+    val micPermissionState: PermissionStatus,
+
+    // Camera to share your camera feed
     val cameraPermissionState: PermissionStatus,
+
+    // Phone state in order to detect incoming calls (and hang up)
+    val phonePermissionState: PermissionStatus,
 )

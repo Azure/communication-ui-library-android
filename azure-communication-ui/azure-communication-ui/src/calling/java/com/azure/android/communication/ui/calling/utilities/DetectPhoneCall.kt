@@ -33,7 +33,7 @@ internal class DetectPhoneCallTrigger : ReduxTrigger() {
 
         return if (!started) {
             // Turn on when CallingStatus == Connected and has permissions
-            (!started && newState.permissionState.audioPermissionState == PermissionStatus.GRANTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
+            (!started && newState.permissionState.micPermissionState == PermissionStatus.GRANTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
         } else {
             // Turn off when CallingStatus != CONNECTED (if it has been started)
             (started && newState.callState.callingStatus != CallingStatus.CONNECTED)

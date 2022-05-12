@@ -25,7 +25,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(PermissionStatus.GRANTED, newState.audioPermissionState)
+        Assert.assertEquals(PermissionStatus.GRANTED, newState.micPermissionState)
     }
 
     @Test
@@ -53,7 +53,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(PermissionStatus.REQUESTING, newState.audioPermissionState)
+        Assert.assertEquals(PermissionStatus.REQUESTING, newState.micPermissionState)
     }
 
     @Test
@@ -67,7 +67,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(PermissionStatus.REQUESTING, newState.audioPermissionState)
+        Assert.assertEquals(PermissionStatus.REQUESTING, newState.micPermissionState)
     }
 
     @Test
@@ -81,7 +81,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(PermissionStatus.GRANTED, newState.audioPermissionState)
+        Assert.assertEquals(PermissionStatus.GRANTED, newState.micPermissionState)
     }
 
     @Test

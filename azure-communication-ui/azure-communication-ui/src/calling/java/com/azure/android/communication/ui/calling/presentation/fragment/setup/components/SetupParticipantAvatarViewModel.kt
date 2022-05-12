@@ -32,7 +32,7 @@ internal class SetupParticipantAvatarViewModel {
     private fun shouldDisplayAvatarView(
         videoStreamID: String?,
         permissionState: PermissionState,
-    ) = (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
+    ) = (permissionState.micPermissionState != PermissionStatus.DENIED) &&
         (permissionState.cameraPermissionState != PermissionStatus.DENIED) &&
         videoStreamID.isNullOrEmpty()
 }

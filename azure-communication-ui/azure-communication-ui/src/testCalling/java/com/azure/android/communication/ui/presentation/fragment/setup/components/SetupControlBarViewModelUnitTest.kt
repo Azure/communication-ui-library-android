@@ -46,7 +46,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Act
         setupControlBarViewModel.init(
             PermissionState(
-                audioPermissionState = PermissionStatus.NOT_ASKED,
+                micPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
             CameraState(
@@ -83,7 +83,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Act
         setupControlBarViewModel.init(
             PermissionState(
-                audioPermissionState = PermissionStatus.DENIED,
+                micPermissionState = PermissionStatus.DENIED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
             CameraState(
@@ -118,7 +118,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Act
         setupControlBarViewModel.init(
             PermissionState(
-                audioPermissionState = PermissionStatus.NOT_ASKED,
+                micPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
             CameraState(
@@ -139,7 +139,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         setupControlBarViewModel.update(
             PermissionState(
-                audioPermissionState = PermissionStatus.DENIED,
+                micPermissionState = PermissionStatus.DENIED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
             CameraState(
@@ -168,7 +168,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Act
         setupControlBarViewModel.init(
             PermissionState(
-                audioPermissionState = PermissionStatus.NOT_ASKED,
+                micPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
             CameraState(
@@ -189,7 +189,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         setupControlBarViewModel.update(
             PermissionState(
-                audioPermissionState = PermissionStatus.GRANTED,
+                micPermissionState = PermissionStatus.GRANTED,
                 cameraPermissionState = PermissionStatus.GRANTED
             ),
             CameraState(
@@ -218,7 +218,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Act
         setupControlBarViewModel.init(
             PermissionState(
-                audioPermissionState = PermissionStatus.NOT_ASKED,
+                micPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
             CameraState(
@@ -239,7 +239,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         setupControlBarViewModel.update(
             PermissionState(
-                audioPermissionState = PermissionStatus.GRANTED,
+                micPermissionState = PermissionStatus.GRANTED,
                 cameraPermissionState = PermissionStatus.DENIED
             ),
             CameraState(
@@ -268,7 +268,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Act
         setupControlBarViewModel.init(
             PermissionState(
-                audioPermissionState = PermissionStatus.NOT_ASKED,
+                micPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
             CameraState(
@@ -291,7 +291,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         setupControlBarViewModel.update(
             PermissionState(
-                audioPermissionState = PermissionStatus.GRANTED,
+                micPermissionState = PermissionStatus.GRANTED,
                 cameraPermissionState = PermissionStatus.GRANTED
             ),
             CameraState(

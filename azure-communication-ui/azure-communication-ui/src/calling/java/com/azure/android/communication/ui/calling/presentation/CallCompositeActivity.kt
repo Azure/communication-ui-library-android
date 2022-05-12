@@ -102,7 +102,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
             permissionManager.start(
                 activity,
                 getAudioPermissionLauncher(),
-                getCameraPermissionLauncher()
+                getCameraPermissionLauncher(),
+                getPhonePermissionLauncher(),
             )
         }
 
@@ -197,6 +198,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             permissionManager.setAudioPermissionsState()
+        }
+    }
+
+    private fun getPhonePermissionLauncher(): ActivityResultLauncher<String> {
+        return registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) {
+            permissionManager.setPhonePermissionState()
         }
     }
 

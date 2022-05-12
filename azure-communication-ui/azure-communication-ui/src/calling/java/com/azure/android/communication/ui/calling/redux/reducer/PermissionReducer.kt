@@ -15,16 +15,16 @@ internal class PermissionStateReducerImpl :
     override fun reduce(state: PermissionState, action: Action): PermissionState {
         return when (action) {
             is PermissionAction.AudioPermissionIsSet -> {
-                PermissionState(action.permissionState, state.cameraPermissionState)
+                PermissionState(action.permissionState, state.cameraPermissionState, state.phonePermissionState)
             }
             is PermissionAction.CameraPermissionIsSet -> {
-                PermissionState(state.audioPermissionState, action.permissionState)
+                PermissionState(state.micPermissionState, action.permissionState, state.phonePermissionState)
             }
             is PermissionAction.AudioPermissionRequested -> {
-                PermissionState(PermissionStatus.REQUESTING, state.cameraPermissionState)
+                PermissionState(PermissionStatus.REQUESTING, state.cameraPermissionState, state.phonePermissionState)
             }
             is PermissionAction.CameraPermissionRequested -> {
-                PermissionState(state.audioPermissionState, PermissionStatus.REQUESTING)
+                PermissionState(state.micPermissionState, PermissionStatus.REQUESTING, state.phonePermissionState)
             }
             else -> state
         }

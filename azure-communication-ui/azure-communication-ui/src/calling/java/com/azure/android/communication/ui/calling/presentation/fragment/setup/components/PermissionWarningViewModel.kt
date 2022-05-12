@@ -24,12 +24,12 @@ internal class PermissionWarningViewModel(private val dispatch: (Action) -> Unit
 
     fun update(permissionState: PermissionState) {
         cameraPermissionStateFlow.value = permissionState.cameraPermissionState
-        audioPermissionStateFlow.value = permissionState.audioPermissionState
+        audioPermissionStateFlow.value = permissionState.micPermissionState
     }
 
     fun init(permissionState: PermissionState) {
         cameraPermissionStateFlow = MutableStateFlow(permissionState.cameraPermissionState)
-        audioPermissionStateFlow = MutableStateFlow(permissionState.audioPermissionState)
+        audioPermissionStateFlow = MutableStateFlow(permissionState.micPermissionState)
     }
 
     fun turnCameraOn() {

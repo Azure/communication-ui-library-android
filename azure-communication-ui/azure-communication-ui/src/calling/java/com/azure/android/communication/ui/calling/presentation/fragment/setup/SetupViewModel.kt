@@ -83,7 +83,7 @@ internal class SetupViewModel(
             state.permissionState,
         )
 
-        joinCallButtonHolderViewModel.init(state.permissionState.audioPermissionState)
+        joinCallButtonHolderViewModel.init(state.permissionState.micPermissionState)
 
         super.init(coroutineScope)
     }
@@ -112,7 +112,7 @@ internal class SetupViewModel(
             state.permissionState
         )
         joinCallButtonHolderViewModel.update(
-            state.permissionState.audioPermissionState,
+            state.permissionState.micPermissionState,
             state.callState
         )
     }
