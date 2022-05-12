@@ -84,7 +84,7 @@ public final class ParticipantViewData {
     }
 
     /**
-     * Create PersonaData.
+     * Create ParticipantViewData.
      *
      * @param renderedDisplayName      The {@link String};
      * @param avatarBitmap     The {@link Bitmap};
