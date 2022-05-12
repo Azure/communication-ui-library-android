@@ -24,7 +24,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             viewModel.init(
                 "",
                 "",
-                PermissionState(PermissionStatus.DENIED, PermissionStatus.DENIED)
+                PermissionState(PermissionStatus.DENIED, PermissionStatus.DENIED, PermissionStatus.DENIED)
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -37,7 +37,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             // act
             viewModel.update(
                 "",
-                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED, PermissionStatus.GRANTED)
             )
 
             // assert
@@ -63,7 +63,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             viewModel.init(
                 "",
                 "",
-                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED, PermissionStatus.GRANTED)
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -76,7 +76,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             // act
             viewModel.update(
                 "id",
-                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED, PermissionStatus.GRANTED)
             )
 
             // assert
@@ -102,7 +102,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             viewModel.init(
                 "",
                 "",
-                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED, PermissionStatus.GRANTED)
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -113,7 +113,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             }
 
             // act
-            viewModel.update("", PermissionState(PermissionStatus.GRANTED, PermissionStatus.DENIED))
+            viewModel.update("", PermissionState(PermissionStatus.GRANTED, PermissionStatus.DENIED, PermissionStatus.GRANTED))
 
             // assert
             Assert.assertEquals(
@@ -138,7 +138,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             viewModel.init(
                 "",
                 "",
-                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+                PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED, PermissionStatus.GRANTED)
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -149,7 +149,7 @@ internal class SetupParticipantAvatarViewModelUnitTest : ACSBaseTestCoroutine() 
             }
 
             // act
-            viewModel.update("", PermissionState(PermissionStatus.DENIED, PermissionStatus.GRANTED))
+            viewModel.update("", PermissionState(PermissionStatus.DENIED, PermissionStatus.GRANTED, PermissionStatus.GRANTED))
 
             // assert
             Assert.assertEquals(

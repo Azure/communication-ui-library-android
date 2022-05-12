@@ -18,7 +18,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionAudioPermissionChange_then_changeAudioPermissionState() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
+        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.AudioPermissionIsSet(PermissionStatus.GRANTED)
 
         // act
@@ -32,7 +32,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionCameraPermissionChange_then_changeCameraPermissionState() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
+        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.CameraPermissionIsSet(PermissionStatus.GRANTED)
 
         // act
@@ -46,7 +46,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionRequestAudioPermission_oldStateNotAsked_then_changeStateToRequested() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
+        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.AudioPermissionRequested()
 
         // act
@@ -60,7 +60,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionRequestAudioPermission_oldStateRequested_then_changeStateToRequested() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+        val oldState = PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.AudioPermissionRequested()
 
         // act
@@ -74,7 +74,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionRequestAudioPermission_oldStateRequested_then_changeStateToGranted() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.REQUESTING, PermissionStatus.GRANTED)
+        val oldState = PermissionState(PermissionStatus.REQUESTING, PermissionStatus.GRANTED, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.AudioPermissionIsSet(PermissionStatus.GRANTED)
 
         // act
@@ -102,7 +102,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionRequestCameraPermission_oldStateRequested_then_changeStateToRequested() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+        val oldState = PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.CameraPermissionRequested()
 
         // act
@@ -116,7 +116,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionRequestCameraPermission_oldStateRequested_then_changeStateToGranted() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.GRANTED, PermissionStatus.REQUESTING)
+        val oldState = PermissionState(PermissionStatus.GRANTED, PermissionStatus.REQUESTING, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.CameraPermissionIsSet(PermissionStatus.GRANTED)
 
         // act

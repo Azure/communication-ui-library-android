@@ -182,7 +182,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val appState = AppReduxState("")
         appState.permissionState = PermissionState(
             cameraPermissionState = PermissionStatus.NOT_ASKED,
-            micPermissionState = PermissionStatus.NOT_ASKED
+            micPermissionState = PermissionStatus.NOT_ASKED,
+            phonePermissionState = PermissionStatus.NOT_ASKED,
         )
 
         val mockCallingService: CallingService = mock {}
@@ -212,7 +213,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val appState = AppReduxState("")
         appState.permissionState = PermissionState(
             cameraPermissionState = PermissionStatus.GRANTED,
-            micPermissionState = PermissionStatus.NOT_ASKED
+            micPermissionState = PermissionStatus.NOT_ASKED,
+            phonePermissionState = PermissionStatus.NOT_ASKED,
         )
 
         val mockCallingService: CallingService = mock {}
@@ -273,7 +275,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         // arrange
         val appState = AppReduxState("")
         appState.permissionState =
-            PermissionState(PermissionStatus.GRANTED, PermissionStatus.NOT_ASKED)
+            PermissionState(PermissionStatus.GRANTED, PermissionStatus.NOT_ASKED, phonePermissionState = PermissionStatus.NOT_ASKED)
         appState.navigationState = NavigationState(
             NavigationStatus.SETUP
         )
@@ -306,7 +308,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         // arrange
         val appState = AppReduxState("")
         appState.permissionState =
-            PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.GRANTED)
+            PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.GRANTED, phonePermissionState = PermissionStatus.NOT_ASKED)
         appState.navigationState = NavigationState(
             NavigationStatus.SETUP
         )

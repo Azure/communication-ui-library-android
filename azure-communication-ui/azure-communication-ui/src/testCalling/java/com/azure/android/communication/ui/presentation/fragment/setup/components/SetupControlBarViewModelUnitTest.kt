@@ -47,7 +47,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.init(
             PermissionState(
                 micPermissionState = PermissionStatus.NOT_ASKED,
-                cameraPermissionState = PermissionStatus.NOT_ASKED
+                cameraPermissionState = PermissionStatus.NOT_ASKED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -84,7 +85,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.init(
             PermissionState(
                 micPermissionState = PermissionStatus.DENIED,
-                cameraPermissionState = PermissionStatus.NOT_ASKED
+                cameraPermissionState = PermissionStatus.NOT_ASKED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -119,7 +121,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.init(
             PermissionState(
                 micPermissionState = PermissionStatus.NOT_ASKED,
-                cameraPermissionState = PermissionStatus.NOT_ASKED
+                cameraPermissionState = PermissionStatus.NOT_ASKED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -140,7 +143,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.update(
             PermissionState(
                 micPermissionState = PermissionStatus.DENIED,
-                cameraPermissionState = PermissionStatus.NOT_ASKED
+                cameraPermissionState = PermissionStatus.NOT_ASKED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -169,7 +173,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.init(
             PermissionState(
                 micPermissionState = PermissionStatus.NOT_ASKED,
-                cameraPermissionState = PermissionStatus.NOT_ASKED
+                cameraPermissionState = PermissionStatus.NOT_ASKED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -190,7 +195,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.update(
             PermissionState(
                 micPermissionState = PermissionStatus.GRANTED,
-                cameraPermissionState = PermissionStatus.GRANTED
+                cameraPermissionState = PermissionStatus.GRANTED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -219,7 +225,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.init(
             PermissionState(
                 micPermissionState = PermissionStatus.NOT_ASKED,
-                cameraPermissionState = PermissionStatus.NOT_ASKED
+                cameraPermissionState = PermissionStatus.NOT_ASKED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -240,7 +247,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.update(
             PermissionState(
                 micPermissionState = PermissionStatus.GRANTED,
-                cameraPermissionState = PermissionStatus.DENIED
+                cameraPermissionState = PermissionStatus.DENIED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -269,7 +277,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.init(
             PermissionState(
                 micPermissionState = PermissionStatus.NOT_ASKED,
-                cameraPermissionState = PermissionStatus.NOT_ASKED
+                cameraPermissionState = PermissionStatus.NOT_ASKED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -292,7 +301,8 @@ internal class SetupControlBarViewModelUnitTest {
         setupControlBarViewModel.update(
             PermissionState(
                 micPermissionState = PermissionStatus.GRANTED,
-                cameraPermissionState = PermissionStatus.GRANTED
+                cameraPermissionState = PermissionStatus.GRANTED,
+                phonePermissionState = PermissionStatus.NOT_ASKED,
             ),
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -310,45 +320,5 @@ internal class SetupControlBarViewModelUnitTest {
         Assert.assertFalse(setupControlBarViewModel.getCameraIsEnabled().value)
         Assert.assertFalse(setupControlBarViewModel.getMicIsEnabled().value)
         Assert.assertFalse(setupControlBarViewModel.getDeviceIsEnabled().value)
-    }
-
-    private fun initViewModel(
-        setupControlBarViewModel: SetupControlBarViewModel,
-        callingStatus: CallingStatus = CallingStatus.NONE,
-    ) {
-        setupControlBarViewModel.init(
-            PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
-            CameraState(
-                CameraOperationalStatus.OFF,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            AudioState(
-                AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.SPEAKER_REQUESTED,
-                BluetoothState(available = false, deviceName = "bluetooth")
-            ),
-            CallingState(callingStatus),
-        ) { }
-    }
-
-    private fun updateViewModel(
-        setupControlBarViewModel: SetupControlBarViewModel,
-        callingStatus: CallingStatus = CallingStatus.NONE,
-    ) {
-        setupControlBarViewModel.update(
-            PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
-            CameraState(
-                CameraOperationalStatus.OFF,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            AudioState(
-                AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.SPEAKER_REQUESTED,
-                BluetoothState(available = false, deviceName = "bluetooth")
-            ),
-            CallingState(callingStatus)
-        )
     }
 }
