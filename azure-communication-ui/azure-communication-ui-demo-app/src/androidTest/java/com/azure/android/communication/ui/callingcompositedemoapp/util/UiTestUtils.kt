@@ -12,12 +12,14 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.matchers.withBottomCellViewHolder
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -123,7 +125,7 @@ object UiTestUtils {
     ) {
         onView(withRecyclerView(recyclerViewId).atPosition(position))
             .check(
-                ViewAssertions.matches(
+                matches(
                     allOf(
                         hasDescendant(withId(recyclerViewHolderViewIds.first)),
                         hasDescendant(withId(recyclerViewHolderViewIds.second)),
@@ -132,6 +134,16 @@ object UiTestUtils {
                     )
                 )
             )
+    }
+
+    fun checkRecyclerViewViewHolderText(
+        @IdRes recyclerViewId: Int,
+        position: Int,
+        @IdRes viewId: Int,
+        text: String
+    ) {
+        onView(withRecyclerView(recyclerViewId).atPositionOnView(position, viewId))
+            .check(matches(withText(text)))
     }
 
     private fun getTextFromViewAction(@IdRes viewId: Int, viewAction: ACSViewAction): String {

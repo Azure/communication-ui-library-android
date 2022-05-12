@@ -1,0 +1,37 @@
+<!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base theme. -->
+    <style name="AzureCommunicationUICalling.Theme.Calling" parent="Base.Theme.FluentUI">
+        <!-- Primary brand color
+
+        Current supported theming is the Primary Brand Color, which is represented by
+        fluent_ui's communication colors & tints
+
+        Not all values are currently used, however may be in the future. When supplying
+        ensure that appropriate tints/shades for your Primary Color are supplied
+        -->
+        <item name="fluentuiDrawerBackgroundColor">
+            @color/azure_communication_ui_calling_color_bottom_drawer_background
+        </item>
+        <item name="azure_communication_ui_calling_primary_color">
+            @color/fluentui_communication_blue
+        </item>
+        <item name="azure_communication_ui_calling_primary_color_tint10">#2B88D8</item>
+        <item name="azure_communication_ui_calling_primary_color_tint20">
+            @color/fluentui_communication_tint_20
+        </item>
+        <item name="azure_communication_ui_calling_primary_color_tint30">
+            @color/fluentui_communication_tint_30
+        </item>
+
+        <item name="android:colorControlHighlight">
+            @color/azure_communication_ui_calling_color_focus_highlight
+        </item>
+        <item name="titleTextColor">
+            @color/azure_communication_ui_calling_color_action_bar_text
+        </item>
+    </style>
+</resources>
