@@ -16,36 +16,34 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalSettings with {@link PersonaData}
- * LocalSettings settings =
- * new LocalSettings(new PersonaData&#40;...&#41);
+ * &#47;&#47; Build the LocalSettings with {@link ParticipantViewData}
+ * LocalSettings localSettings = new LocalSettings(new ParticipantViewData&#40;...&#41);
  *
  * &#47;&#47; Launch call
- * callComposite.launch&#40; .., .., dataOptions&#41
+ * callComposite.launch&#40; .., .., localSettings&#41
  * </pre>
  *
  * @see CallComposite
  */
 public final class LocalSettings {
-    private final PersonaData personaData;
+    private final ParticipantViewData participantViewData;
 
     /**
      * Create LocalSettings.
      *
-     * @param personaData The {@link PersonaData};
-     * @see PersonaData
+     * @param participantViewData The {@link ParticipantViewData};
+     * @see ParticipantViewData
      */
-    public LocalSettings(final PersonaData personaData) {
-        this.personaData = personaData;
+    public LocalSettings(final ParticipantViewData participantViewData) {
+        this.participantViewData = participantViewData;
     }
 
-
     /**
-     * Get current PersonaData
+     * Get ParticipantViewData
      *
-     * @return The {@link PersonaData};
+     * @return The {@link ParticipantViewData};
      */
-    public PersonaData getPersonaData() {
-        return personaData;
+    public ParticipantViewData getParticipantViewData() {
+        return participantViewData;
     }
 }

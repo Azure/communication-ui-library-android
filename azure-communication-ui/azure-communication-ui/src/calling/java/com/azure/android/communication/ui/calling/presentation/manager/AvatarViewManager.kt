@@ -4,11 +4,11 @@
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.models.LocalSettings
-import com.azure.android.communication.ui.calling.configuration.RemoteParticipantPersonaData
+import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.models.PersonaData
-import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
@@ -32,29 +32,29 @@ internal class AvatarViewManager(
         configuration.setHandler(this)
     }
 
-    private val remoteParticipantsPersonaCache = mutableMapOf<String, PersonaData>()
+    private val remoteParticipantsPersonaCache = mutableMapOf<String, ParticipantViewData>()
     private val remoteParticipantsPersonaSharedFlow =
-        MutableSharedFlow<Map<String, PersonaData>>()
+        MutableSharedFlow<Map<String, ParticipantViewData>>()
 
-    override fun onSetPersonaData(data: RemoteParticipantPersonaData): SetPersonaDataResult {
+    override fun onSetParticipantViewData(data: RemoteParticipantViewData): SetParticipantViewDataResult {
         val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
         if (!appStore.getCurrentState().remoteParticipantState.participantMap.keys.contains(id)) {
-            return SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL
+            return SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
         }
 
         if (remoteParticipantsPersonaCache.contains(id)) {
             remoteParticipantsPersonaCache.remove(id)
         }
-        remoteParticipantsPersonaCache[id] = data.personaData
+        remoteParticipantsPersonaCache[id] = data.participantViewData
 
         coroutineScope.launch {
             remoteParticipantsPersonaSharedFlow.emit(remoteParticipantsPersonaCache)
         }
 
-        return SetPersonaDataResult.SUCCESS
+        return SetParticipantViewDataResult.SUCCESS
     }
 
-    override fun onRemovePersonaData(identifier: String) {
+    override fun onRemoveParticipantViewData(identifier: String) {
         if (remoteParticipantsPersonaCache.contains(identifier)) {
             remoteParticipantsPersonaCache.remove(identifier)
             coroutineScope.launch {
@@ -63,13 +63,13 @@ internal class AvatarViewManager(
         }
     }
 
-    fun getRemoteParticipantPersonaData(identifier: String): PersonaData? {
+    fun getRemoteParticipantViewData(identifier: String): ParticipantViewData? {
         if (remoteParticipantsPersonaCache.contains(identifier)) {
             return remoteParticipantsPersonaCache[identifier]
         }
         return null
     }
 
-    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, PersonaData>> =
+    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, ParticipantViewData>> =
         remoteParticipantsPersonaSharedFlow
 }

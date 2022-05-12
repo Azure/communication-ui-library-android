@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
@@ -108,10 +108,7 @@ internal class ParticipantListView(
         participantListCellModelList: List<ParticipantListCellModel>,
     ) {
         if (this::bottomCellAdapter.isInitialized) {
-            val bottomCellItems =
-                generateBottomCellItems(
-                    participantListCellModelList
-                )
+            val bottomCellItems = generateBottomCellItems(participantListCellModelList)
             updateRemoteParticipantListContent(bottomCellItems.size)
             with(bottomCellAdapter) {
                 setBottomCellItems(bottomCellItems)
@@ -126,6 +123,7 @@ internal class ParticipantListView(
             val bottomCellItems = generateBottomCellItems(
                 viewModel.getRemoteParticipantListCellStateFlow().value
             )
+
             with(bottomCellAdapter) {
                 setBottomCellItems(bottomCellItems)
                 notifyDataSetChanged()
@@ -146,35 +144,27 @@ internal class ParticipantListView(
         val bottomCellItems = mutableListOf<BottomCellItem>()
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
-        val localParticipant =
-            viewModel.createLocalParticipantListCell(
-                resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
-            )
-        val localParticipantPersonaData =
-            avatarViewManager.localSettings?.personaData
+        val localParticipant = viewModel.createLocalParticipantListCell(
+            resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
+        )
+        val localParticipantViewData = avatarViewManager.localSettings?.participantViewData
         bottomCellItems
             .add(
                 generateBottomCellItem(
-                    getLocalParticipantNameToDisplay(
-                        localParticipantPersonaData,
-                        localParticipant.displayName
-                    ),
+                    getLocalParticipantNameToDisplay(localParticipantViewData, localParticipant.displayName),
                     localParticipant.isMuted,
-                    localParticipantPersonaData
+                    localParticipantViewData
                 )
             )
         for (remoteParticipant in remoteParticipantCellModels) {
-            val remoteParticipantPersonaData =
-                avatarViewManager.getRemoteParticipantPersonaData(remoteParticipant.userIdentifier)
-            val finalName = getNameToDisplay(
-                remoteParticipantPersonaData,
-                remoteParticipant.displayName
-            )
+            val remoteParticipantViewData =
+                avatarViewManager.getRemoteParticipantViewData(remoteParticipant.userIdentifier)
+            val finalName = getNameToDisplay(remoteParticipantViewData, remoteParticipant.displayName)
+
             bottomCellItems.add(
                 generateBottomCellItem(
                     finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },
-                    remoteParticipant.isMuted,
-                    remoteParticipantPersonaData
+                    remoteParticipant.isMuted, remoteParticipantViewData
                 )
             )
         }
@@ -183,10 +173,10 @@ internal class ParticipantListView(
     }
 
     private fun getLocalParticipantNameToDisplay(
-        personaData: PersonaData?,
+        participantViewData: ParticipantViewData?,
         displayName: String,
     ): String {
-        personaData?.renderedDisplayName?.let {
+        participantViewData?.renderedDisplayName?.let {
             if (it.trim().isNotEmpty()) {
                 return it + " " + resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
             }
@@ -197,7 +187,7 @@ internal class ParticipantListView(
     private fun generateBottomCellItem(
         displayName: String?,
         isMuted: Boolean,
-        personaData: PersonaData?,
+        participantViewData: ParticipantViewData?,
     ): BottomCellItem {
         val micIcon = ContextCompat.getDrawable(
             context,
@@ -218,7 +208,7 @@ internal class ParticipantListView(
             R.color.azure_communication_ui_calling_color_participant_list_mute_mic,
             micAccessibilityAnnouncement,
             isMuted,
-            personaData,
+            participantViewData,
         ) {
             if (accessibilityManager.isEnabled) {
                 participantListDrawer.dismiss()
@@ -227,9 +217,9 @@ internal class ParticipantListView(
     }
 
     private fun getNameToDisplay(
-        personaData: PersonaData?,
+        participantViewData: ParticipantViewData?,
         displayName: String,
     ): String {
-        return personaData?.renderedDisplayName ?: displayName
+        return participantViewData?.renderedDisplayName ?: displayName
     }
 }

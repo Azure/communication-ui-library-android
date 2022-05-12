@@ -8,7 +8,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY
@@ -29,17 +29,13 @@ class SettingsFeatures {
 
         @JvmStatic
         fun initialize(context: Context) {
-            sharedPrefs = context.getSharedPreferences(
-                SETTINGS_SHARED_PREFS,
-                Context.MODE_PRIVATE
-            )
+            sharedPrefs = context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
         }
 
         @JvmStatic
         fun language(): String? {
             return sharedPrefs.getString(
-                LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                DEFAULT_LANGUAGE_VALUE
+                LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE
             )
         }
 
@@ -50,8 +46,8 @@ class SettingsFeatures {
                     LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
                     DEFAULT_LANGUAGE_VALUE
                 )
-            return if (sharedPrefs.getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
-            ) LayoutDirection.RTL else LayoutDirection.LTR
+            return if (sharedPrefs.getBoolean(isRTLKey, DEFAULT_RTL_VALUE))
+                LayoutDirection.RTL else LayoutDirection.LTR
         }
 
         @JvmStatic
@@ -70,14 +66,11 @@ class SettingsFeatures {
 
         @JvmStatic
         fun getRemoteParticipantPersonaInjectionSelection(): Boolean {
-            return sharedPrefs.getBoolean(
-                DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
-                false
-            )
+            return sharedPrefs.getBoolean(DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY, false)
         }
 
         @JvmStatic
-        fun getPersonaData(context: Context): PersonaData? {
+        fun getParticipantViewData(context: Context): ParticipantViewData? {
             val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
             val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
             var avatarImageBitmap: Bitmap? = null
@@ -87,24 +80,10 @@ class SettingsFeatures {
                 }
             }
 
-            if (!displayName.isNullOrEmpty() && avatarImageBitmap != null) {
-                return PersonaData(
-                    displayName,
-                    avatarImageBitmap
-                )
-            }
-
-            if (avatarImageBitmap != null) {
-                return PersonaData(
-                    avatarImageBitmap
-                )
-            }
-
-            if (!displayName.isNullOrEmpty()) {
-                return PersonaData(
-                    displayName
-                )
-            }
+            if (!displayName.isNullOrEmpty() || avatarImageBitmap != null)
+                return ParticipantViewData()
+                    .setRenderedDisplayName(displayName)
+                    .setAvatarBitmap(avatarImageBitmap)
 
             return null
         }

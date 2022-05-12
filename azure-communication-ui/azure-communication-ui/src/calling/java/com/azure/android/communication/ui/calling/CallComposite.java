@@ -17,8 +17,8 @@ import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEve
 import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.GroupCallOptions;
 import com.azure.android.communication.ui.calling.models.TeamsMeetingOptions;
-import com.azure.android.communication.ui.calling.models.PersonaData;
-import com.azure.android.communication.ui.calling.models.SetPersonaDataResult;
+import com.azure.android.communication.ui.calling.models.ParticipantViewData;
+import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -95,7 +95,7 @@ public final class CallComposite {
      * final GroupCallOptions groupCallOptions =
      *                 new GroupCallOptions&#40;context, communicationTokenCredential, groupId, displayName&#41;;
      * final LocalSettings localSettings =
-     *                 new LocalSettings&#40;personaData&#41;;
+     *                 new LocalSettings&#40;participantViewData&#41;;
      * callComposite.launch&#40;groupCallOptions, localSettings&#41;;
      *
      * </pre>
@@ -162,7 +162,7 @@ public final class CallComposite {
      * final TeamsMeetingOptions teamsMeetingOptions =
      *                 new TeamsMeetingOptions&#40;context, communicationTokenCredential, meetingLink, displayName&#41;;
      * final LocalSettings localSettings =
-     *                 new LocalSettings&#40;personaData&#41;;
+     *                 new LocalSettings&#40;participantViewData&#41;;
      * callComposite.launch&#40;teamsMeetingOptions, localSettings&#41;;
      *
      * </pre>
@@ -183,8 +183,7 @@ public final class CallComposite {
                 null,
                 teamsMeetingOptions.getMeetingLink(),
                 CallType.TEAMS_MEETING,
-                localSettings
-        );
+                localSettings);
     }
 
     /**
@@ -235,15 +234,16 @@ public final class CallComposite {
     }
 
     /**
-     * Set {@link PersonaData}.
+     * Set {@link ParticipantViewData}.
      *
      * @param identifier  The {@link CommunicationIdentifier}.
-     * @param personaData The {@link PersonaData}.
-     * @return {@link SetPersonaDataResult}
+     * @param participantViewData The {@link ParticipantViewData}.
+     * @return {@link SetParticipantViewDataResult}
      */
-    public SetPersonaDataResult setRemoteParticipantPersonaData(final CommunicationIdentifier identifier,
-                                                                final PersonaData personaData) {
-        return configuration.getRemoteParticipantsConfiguration().setPersonaData(identifier, personaData);
+    public SetParticipantViewDataResult setRemoteParticipantViewData(
+            final CommunicationIdentifier identifier, final ParticipantViewData participantViewData) {
+        return configuration.getRemoteParticipantsConfiguration()
+                .setParticipantViewData(identifier, participantViewData);
     }
 
     private void launch(
@@ -259,8 +259,7 @@ public final class CallComposite {
                 displayName,
                 groupId,
                 meetingLink,
-                callType
-        ));
+                callType));
 
         CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
 
@@ -283,8 +282,7 @@ public final class CallComposite {
                 displayName,
                 groupId,
                 meetingLink,
-                callType
-        ));
+                callType));
 
         configuration.setLocalSettings(localSettings);
 

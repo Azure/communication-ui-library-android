@@ -32,7 +32,7 @@ object UiTestUtils {
         @IdRes recyclerViewId: Int,
         @DrawableRes expectedItemDrawable: Int,
         text: String,
-        isSelected: Boolean
+        isSelected: Boolean,
     ): ViewInteraction =
         onView(withId(recyclerViewId))
             .check(ViewAssertions.matches(isDisplayed()))
@@ -140,7 +140,7 @@ object UiTestUtils {
         @IdRes recyclerViewId: Int,
         position: Int,
         @IdRes viewId: Int,
-        text: String
+        text: String,
     ) {
         onView(withRecyclerView(recyclerViewId).atPositionOnView(position, viewId))
             .check(matches(withText(text)))
@@ -152,6 +152,9 @@ object UiTestUtils {
         onView(textViewMatcher).perform(viewAction)
         return viewAction.getText()
     }
+
+    fun getTextFromTextView(@IdRes viewId: Int) =
+        getTextFromViewAction(viewId, GetTextViewAction())
 
     fun getTextFromButtonView(@IdRes viewId: Int) =
         getTextFromViewAction(viewId, GetButtonTextAction())

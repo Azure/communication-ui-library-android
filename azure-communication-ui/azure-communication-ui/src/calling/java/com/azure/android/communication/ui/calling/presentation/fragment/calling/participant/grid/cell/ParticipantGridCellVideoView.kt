@@ -18,7 +18,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.StreamType
-import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
@@ -39,17 +39,17 @@ internal class ParticipantGridCellVideoView(
     private val getVideoStreamCallback: (String, String) -> View?,
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
-    private val getPersonaDataCallback: (participantID: String) -> PersonaData?,
+    private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
 ) {
     private var videoStream: View? = null
     private var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout? = null
-    private var lastPersonaData: PersonaData? = null
+    private var lastParticipantViewData: ParticipantViewData? = null
 
     init {
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
                 setDisplayName(it)
-                updatePersonaData()
+                updateParticipantViewData()
             }
         }
 
@@ -82,14 +82,14 @@ internal class ParticipantGridCellVideoView(
         }
     }
 
-    fun updatePersonaData() {
-        val personaData =
-            getPersonaDataCallback(participantViewModel.getParticipantUserIdentifier())
-        if (personaData == null) {
+    fun updateParticipantViewData() {
+        val participantViewData =
+            getParticipantViewDataCallback(participantViewModel.getParticipantUserIdentifier())
+        if (participantViewData == null) {
             setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
-        } else if (lastPersonaData != personaData) {
-            lastPersonaData = personaData
-            personaData.renderedDisplayName?.let { displayName ->
+        } else if (lastParticipantViewData != participantViewData) {
+            lastParticipantViewData = participantViewData
+            participantViewData.renderedDisplayName?.let { displayName ->
                 setDisplayName(displayName)
             }
         }
