@@ -22,6 +22,7 @@ internal class PermissionWarningViewModel(private val dispatch: (Action) -> Unit
         return audioPermissionStateFlow
     }
 
+
     fun update(permissionState: PermissionState) {
         cameraPermissionStateFlow.value = permissionState.cameraPermissionState
         audioPermissionStateFlow.value = permissionState.micPermissionState

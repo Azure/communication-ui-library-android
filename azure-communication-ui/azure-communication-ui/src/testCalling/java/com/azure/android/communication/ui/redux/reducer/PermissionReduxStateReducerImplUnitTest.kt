@@ -88,7 +88,7 @@ internal class PermissionReduxStateReducerImplUnitTest {
     fun permissionStateReducer_reduce_when_actionRequestCameraPermission_oldStateNotAsked_then_changeStateToRequested() {
         // arrange
         val reducer = PermissionStateReducerImpl()
-        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
+        val oldState = PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
         val action = PermissionAction.CameraPermissionRequested()
 
         // act

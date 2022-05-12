@@ -102,7 +102,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
     fun controlBarViewModel_update_then_audioStateFlowReflectsUpdate() {
         runScopedTest {
 
-            val permissionState = PermissionState(PermissionStatus.DENIED, PermissionStatus.DENIED)
+            val permissionState = PermissionState(PermissionStatus.DENIED, PermissionStatus.DENIED, PermissionStatus.DENIED)
             val cameraState = CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
@@ -170,12 +170,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val permissionState1 = PermissionState(
                 PermissionStatus.DENIED,
-                expectedCameraPermissionState1
+                expectedCameraPermissionState1,
+                PermissionStatus.DENIED,
             )
 
             val permissionState2 = PermissionState(
                 PermissionStatus.DENIED,
-                expectedCameraPermissionState2
+                expectedCameraPermissionState2,
+                PermissionStatus.DENIED,
             )
 
             val cameraState = CameraState(
@@ -191,7 +193,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val appStore = mock<AppStore<ReduxState>>()
             val callingViewModel = ControlBarViewModel(appStore::dispatch)
             val initialPermissionState = PermissionState(
-                PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
+                PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
             )
 
             callingViewModel.init(
@@ -240,6 +242,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val callingViewModel = ControlBarViewModel(appStore::dispatch)
 
             val permissionState = PermissionState(
+                PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED
             )

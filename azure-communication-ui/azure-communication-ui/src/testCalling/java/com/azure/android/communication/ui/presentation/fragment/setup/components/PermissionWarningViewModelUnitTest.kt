@@ -36,13 +36,14 @@ internal class PermissionWarningViewModelUnitTest : ACSBaseTestCoroutine() {
             val updatedExpectedCameraPermissionState = PermissionStatus.GRANTED
             val expectedPermissionState = PermissionState(
                 updatedExpectedAudioPermissionState,
-                updatedExpectedCameraPermissionState
+                updatedExpectedCameraPermissionState,
+                PermissionStatus.UNKNOWN,
             )
             val mockAppStore = mock<AppStore<ReduxState>>()
             val permissionsViewModel = PermissionWarningViewModel(mockAppStore::dispatch)
 
             val initialPermissionState = PermissionState(
-                PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
+                PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
             )
             permissionsViewModel.init(initialPermissionState)
 
