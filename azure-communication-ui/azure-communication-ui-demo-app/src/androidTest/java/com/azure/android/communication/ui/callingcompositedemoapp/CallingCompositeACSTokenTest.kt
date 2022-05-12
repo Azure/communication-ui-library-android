@@ -7,8 +7,8 @@ import android.util.Base64
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
+import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
-import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Assume
@@ -30,13 +30,13 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
         fun tokenTestSetup() {
             // When running tests on AppCenter, a valid ACS token will be passed into local.properties
             // and not from command line arguments. In that case, don't run any ACS Token test
-            Assume.assumeTrue(TestFixture.acsToken.isNotBlank())
+            Assume.assumeTrue(CallIdentifiersHelper.getACSToken().isNotBlank())
         }
     }
 
     @Test
     fun testAcsTokenIsValid() {
-        val jwtPayload = TestFixture.acsToken.split(".")?.getOrNull(1)
+        val jwtPayload = CallIdentifiersHelper.getACSToken().split(".").getOrNull(1)
 
         require(jwtPayload != null && jwtPayload.length > 200)
         val decodedToken = Base64.decode(jwtPayload.toByteArray(), Base64.DEFAULT)
@@ -61,14 +61,15 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
 
     @Test
     fun testExpiredAcsToken() {
-        val expiredAcsToken = UiTestUtils.getTextFromEdittextView(R.id.acsTokenText)
+        val expiredAcsToken = TestFixture.expiredToken
+
         Assert.assertTrue(
             "Invalid acs token: ${expiredAcsToken.length}",
             expiredAcsToken.length >= 700
         )
 
         val homeScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setAcsToken(expiredAcsToken)
 
         val setupScreen = homeScreen.clickLaunchButton()
@@ -83,7 +84,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
     @Test
     fun testEmptyAcsToken() {
         val homeScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setEmptyAcsToken()
 
         val setupScreen = homeScreen.clickLaunchButton()

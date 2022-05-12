@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.Espresso
@@ -74,6 +75,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     }
 
     fun verifyFirstParticipantName(userName: String): CallScreenRobot {
+
         UiTestUtils.checkRecyclerViewViewHolderText(
             R.id.bottom_drawer_table,
             0,

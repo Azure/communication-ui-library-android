@@ -35,7 +35,8 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     private fun verifyAudioDevice(deviceText: String) {
         waitUntilViewIdIsNotDisplayed(R.id.bottom_drawer_table)
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_audio_device_button)
-        val text = UiTestUtils.getTextFromButtonView(R.id.azure_communication_ui_setup_audio_device_button)
+        val text =
+            UiTestUtils.getTextFromButtonView(R.id.azure_communication_ui_setup_audio_device_button)
         assertTrue(text == deviceText)
     }
 
