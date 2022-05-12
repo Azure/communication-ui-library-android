@@ -137,6 +137,14 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
 
+    callingTelemetryApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
+    callingTelemetryImplementation "com.microsoft.device:dualscreen-layout:1.0.0-alpha01"
+    callingTelemetryImplementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    callingTelemetryImplementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"
+    callingTelemetryImplementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"
+    callingTelemetryImplementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
+    callingTelemetryImplementation "com.microsoft.fluentui:fluentui_transients:$microsoft_fluent_ui_version"
+
     callingApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
     callingImplementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
     callingImplementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"

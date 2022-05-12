@@ -36,6 +36,7 @@ class CallLauncherActivity : AppCompatActivity() {
             finish()
             return
         }
+        PerformanceDiagnosticsClient().init()
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(

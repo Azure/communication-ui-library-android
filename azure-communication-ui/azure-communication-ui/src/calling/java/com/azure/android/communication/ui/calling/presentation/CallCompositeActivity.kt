@@ -25,6 +25,7 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
+import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
