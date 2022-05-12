@@ -21,6 +21,26 @@ What kind of change does this Pull Request introduce?
 [ ] Documentation content changes
 [ ] Other... Please describe:
 ```
+## Pull Request CheckList
+
+<!-- Please check that applies to this PR using "x". -->
+```
+[ ] Public API changes
+  [ ] Verified for cross-platform
+  [ ] Synced with iOS, Web team
+  [ ] Internal review completed
+[ ] UI Changes
+  [ ] Screen captures included
+  [ ] Tested for Light/Dark mode
+  [ ] Tested for screen rotation
+  [ ] Tested on Tablet and small screen device (5")
+  [ ] Include localization changes
+[ ] Tests
+  [ ] Memory leak analysis performed
+  [ ] Tested on API 21, 26 and latest 
+  [ ] Unit Tests Included
+  [ ] UI Automated Tests Included
+```
 
 ## How to Test
 <!-- Add steps to run the tests suite and/or manually test -->
