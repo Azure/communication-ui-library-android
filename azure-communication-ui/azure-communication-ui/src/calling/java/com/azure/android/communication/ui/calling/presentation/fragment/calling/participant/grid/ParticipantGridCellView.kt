@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.PersonaData
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
 import com.microsoft.fluentui.persona.AvatarView
@@ -27,7 +27,7 @@ internal class ParticipantGridCellView(
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getVideoStreamCallback: (String, String) -> View?,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
-    private val getPersonaDataCallback: (participantID: String) -> PersonaData?,
+    private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
 ) : RelativeLayout(context) {
 
     private lateinit var avatarView: ParticipantGridCellAvatarView
@@ -42,12 +42,12 @@ internal class ParticipantGridCellView(
 
     fun getParticipantIdentifier() = participantViewModel.getParticipantUserIdentifier()
 
-    fun updatePersonaData() {
+    fun updateParticipantViewData() {
         if (::avatarView.isInitialized) {
-            avatarView.updatePersonaData()
+            avatarView.updateParticipantViewData()
         }
         if (::videoView.isInitialized) {
-            videoView.updatePersonaData()
+            videoView.updateParticipantViewData()
         }
     }
 
@@ -73,7 +73,7 @@ internal class ParticipantGridCellView(
             participantAvatarContainer,
             displayNameAudioTextView,
             micIndicatorAudioImageView,
-            getPersonaDataCallback,
+            getParticipantViewDataCallback,
             participantViewModel,
             context,
             lifecycleScope,
@@ -108,7 +108,7 @@ internal class ParticipantGridCellView(
             getVideoStreamCallback,
             showFloatingHeaderCallBack,
             getScreenShareVideoStreamRendererCallback,
-            getPersonaDataCallback,
+            getParticipantViewDataCallback,
         )
     }
 }

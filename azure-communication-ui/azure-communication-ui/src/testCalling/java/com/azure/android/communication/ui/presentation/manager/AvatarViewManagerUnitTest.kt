@@ -7,15 +7,15 @@ import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.calling.models.LocalSettings
-import com.azure.android.communication.ui.calling.configuration.RemoteParticipantPersonaData
+import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.helper.StandardTestContextProvider
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
-import com.azure.android.communication.ui.calling.models.PersonaData
-import com.azure.android.communication.ui.calling.models.SetPersonaDataResult
+import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -63,7 +63,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(PersonaData("test")),
+            LocalSettings(ParticipantViewData("test")),
             remoteParticipantsConfiguration
         )
 
@@ -73,11 +73,11 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             "test",
-            result?.personaData?.renderedDisplayName,
+            result?.participantViewData?.renderedDisplayName,
         )
         Assert.assertEquals(
             null,
-            result?.personaData?.avatarBitmap,
+            result?.participantViewData?.avatarBitmap,
         )
     }
 
@@ -90,7 +90,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(PersonaData(mockBitMap)),
+            LocalSettings(ParticipantViewData(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
@@ -100,11 +100,11 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             mockBitMap,
-            result?.personaData?.avatarBitmap,
+            result?.participantViewData?.avatarBitmap,
         )
         Assert.assertEquals(
             null,
-            result?.personaData?.renderedDisplayName,
+            result?.participantViewData?.renderedDisplayName,
         )
     }
 
@@ -117,7 +117,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(PersonaData(mockBitMap)),
+            LocalSettings(ParticipantViewData(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
@@ -127,7 +127,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             ImageView.ScaleType.FIT_XY,
-            result?.personaData?.scaleType,
+            result?.participantViewData?.scaleType,
         )
     }
 
@@ -140,7 +140,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(PersonaData(mockBitMap, ImageView.ScaleType.FIT_CENTER)),
+            LocalSettings(ParticipantViewData(mockBitMap, ImageView.ScaleType.FIT_CENTER)),
             remoteParticipantsConfiguration
         )
 
@@ -150,7 +150,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             ImageView.ScaleType.FIT_CENTER,
-            result?.personaData?.scaleType,
+            result?.participantViewData?.scaleType,
         )
     }
 
@@ -195,19 +195,19 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                 remoteParticipantsConfiguration
             )
 
-            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                PersonaData("test")
+                ParticipantViewData().setRenderedDisplayName("test")
             )
 
             // act
             val result =
-                avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
+                avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                SetPersonaDataResult.SUCCESS,
+                SetParticipantViewDataResult.SUCCESS,
                 result
             )
         }
@@ -254,19 +254,19 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                 remoteParticipantsConfiguration
             )
 
-            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test1"),
-                PersonaData("test")
+                ParticipantViewData("test")
             )
 
             // act
             val result =
-                avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
+                avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                SetPersonaDataResult.PARTICIPANT_NOT_IN_CALL,
+                SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL,
                 result
             )
         }
@@ -314,25 +314,25 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, PersonaData>>()
+                mutableListOf<Map<String, ParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
                     .toList(resultList)
             }
 
-            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                PersonaData("test")
+                ParticipantViewData("test")
             )
 
             // act
-            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData,
+                remoteParticipantPersonaData.participantViewData,
                 resultList[0]["test"]
             )
 
@@ -382,40 +382,40 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, PersonaData>>()
+                mutableListOf<Map<String, ParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
                     .toList(resultList)
             }
 
-            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                PersonaData("test")
+                ParticipantViewData("test")
             )
 
-            val remoteParticipantPersonaDataUpdated = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaDataUpdated = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                PersonaData("testUpdated")
+                ParticipantViewData("testUpdated")
             )
 
             // act
-            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData,
+                remoteParticipantPersonaData.participantViewData,
                 resultList[0]["test"]
             )
 
             // act
-            avatarViewManager.onSetPersonaData(remoteParticipantPersonaDataUpdated)
+            avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaDataUpdated)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                remoteParticipantPersonaDataUpdated.personaData,
+                remoteParticipantPersonaDataUpdated.participantViewData,
                 resultList[1]["test"]
             )
 
@@ -465,7 +465,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, PersonaData>>()
+                mutableListOf<Map<String, ParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -473,23 +473,23 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockBitmap = mock<Bitmap>()
-            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                PersonaData(mockBitmap)
+                ParticipantViewData(mockBitmap)
             )
 
             // act
-            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData.avatarBitmap,
+                remoteParticipantPersonaData.participantViewData.avatarBitmap,
                 resultList[0]["test"]?.avatarBitmap
             )
 
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData.scaleType,
+                remoteParticipantPersonaData.participantViewData.scaleType,
                 resultList[0]["test"]?.scaleType
             )
 
@@ -539,7 +539,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, PersonaData>>()
+                mutableListOf<Map<String, ParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -547,23 +547,23 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockBitmap = mock<Bitmap>()
-            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                PersonaData(mockBitmap)
+                ParticipantViewData(mockBitmap)
             )
 
             // act
-            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData.avatarBitmap,
+                remoteParticipantPersonaData.participantViewData.avatarBitmap,
                 resultList[0]["test"]?.avatarBitmap
             )
 
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData.scaleType,
+                remoteParticipantPersonaData.participantViewData.scaleType,
                 resultList[0]["test"]?.scaleType
             )
 
@@ -573,7 +573,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             // act
-            avatarViewManager.onRemovePersonaData("test")
+            avatarViewManager.onRemoveParticipantViewData("test")
             testScheduler.runCurrent()
 
             // assert
@@ -633,7 +633,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, PersonaData>>()
+                mutableListOf<Map<String, ParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -641,23 +641,23 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockBitmap = mock<Bitmap>()
-            val remoteParticipantPersonaData = RemoteParticipantPersonaData(
+            val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                PersonaData(mockBitmap)
+                ParticipantViewData(mockBitmap)
             )
 
             // act
-            avatarViewManager.onSetPersonaData(remoteParticipantPersonaData)
+            avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
             testScheduler.runCurrent()
 
             // assert
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData.avatarBitmap,
+                remoteParticipantPersonaData.participantViewData.avatarBitmap,
                 resultList[0]["test"]?.avatarBitmap
             )
 
             Assert.assertEquals(
-                remoteParticipantPersonaData.personaData.scaleType,
+                remoteParticipantPersonaData.participantViewData.scaleType,
                 resultList[0]["test"]?.scaleType
             )
 
@@ -667,7 +667,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             // act
-            avatarViewManager.onRemovePersonaData("test1")
+            avatarViewManager.onRemoveParticipantViewData("test1")
             testScheduler.runCurrent()
 
             // assert

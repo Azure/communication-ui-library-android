@@ -71,11 +71,7 @@ internal class ParticipantListViewModel {
     }
 
     private fun getRemoteParticipantListCellModel(it: ParticipantInfoModel): ParticipantListCellModel {
-        return ParticipantListCellModel(
-            it.displayName.trim(),
-            it.isMuted,
-            it.userIdentifier
-        )
+        return ParticipantListCellModel(it.displayName.trim(), it.isMuted, it.userIdentifier)
     }
 }
 

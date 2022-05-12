@@ -50,11 +50,11 @@ internal class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(it
             avatarView.visibility = View.VISIBLE
             avatarView.name = bottomCellItem.title ?: ""
             title.contentDescription = bottomCellItem.contentDescription
-            bottomCellItem.personaData?.let { personaData ->
-                personaData.avatarBitmap?.let {
+            bottomCellItem.participantViewData?.let { participantViewData ->
+                participantViewData.avatarBitmap?.let {
                     avatarView.avatarImageBitmap = it
                     avatarView.adjustViewBounds = true
-                    avatarView.scaleType = personaData.scaleType
+                    avatarView.scaleType = participantViewData.scaleType
                 }
             }
         } else {
