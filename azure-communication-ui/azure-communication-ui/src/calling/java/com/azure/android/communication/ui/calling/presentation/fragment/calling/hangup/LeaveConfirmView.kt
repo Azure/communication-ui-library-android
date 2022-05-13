@@ -91,14 +91,14 @@ internal class LeaveConfirmView(
                 BottomCellItem(
                     null,
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call),
-                    "Leave Confirm Menu",
+                    context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
                     null,
                     null,
                     null,
                     null,
                     null,
                     BottomCellItemType.BottomMenuTitle,
-                    { }
+                    null
                 ),
                 // Leave
                 BottomCellItem(
@@ -152,12 +152,12 @@ internal class LeaveConfirmView(
             super.onInitializeAccessibilityNodeInfoForItem(recycler, state, host, info)
             val itemInfo = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(max(info.collectionItemInfo.rowIndex - 1, 0), info.collectionItemInfo.rowSpan, info.collectionItemInfo.columnIndex, info.collectionItemInfo.columnSpan, info.collectionItemInfo.isHeading, info.collectionItemInfo.isSelected)
             if (info.collectionItemInfo.rowIndex == 0){
-                info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
-                info.isClickable = false
-                itemInfo.isHeading
+                info.setCollectionItemInfo(null)
+            }
+            else{
+                info.setCollectionItemInfo(itemInfo)
             }
 
-            info.setCollectionItemInfo(itemInfo)
         }
     }
 }
