@@ -4,7 +4,13 @@
 package com.azure.android.communication.ui.calling.diagnostics
 
 internal class PerformanceDiagnostics {
-    fun trackMetric(name: String, value: Double) {
-        // It is a stub. Do not add implementation here
+    companion object {
+        const val CALL_SCREEN_LOADING = "CALL_SCREEN_LOADING"
+
+        fun startTrackingMetric(name: String) {
+        }
+
+        fun finishTrackingMetric(name: String) {
+        }
     }
 }
