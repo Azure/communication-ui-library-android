@@ -58,6 +58,7 @@ private interface DetectPhoneCall {
 }
 
 // / Legacy Version for < 31
+@Suppress("DEPRECATION")
 private class DetectPhoneCallLegacy(private val telephonyManager: TelephonyManager, override val store: Store<ReduxState>) :
     PhoneStateListener(), DetectPhoneCall {
 
