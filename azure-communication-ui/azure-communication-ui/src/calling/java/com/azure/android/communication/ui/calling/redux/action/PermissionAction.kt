@@ -7,10 +7,10 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 
 internal sealed class PermissionAction :
     Action {
-    class AudioPermissionRequested : PermissionAction()
-    class CameraPermissionRequested : PermissionAction()
-    class PhonePermissionRequested : PermissionAction()
-    class AudioPermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
-    class CameraPermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
-    class PhonePermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
+    sealed class AudioPermissionRequested : PermissionAction()
+    sealed class CameraPermissionRequested : PermissionAction()
+    sealed class PhonePermissionRequested : PermissionAction()
+    sealed class AudioPermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
+    sealed class CameraPermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
+    sealed class PhonePermissionIsSet(val permissionState: PermissionStatus) : PermissionAction()
 }
