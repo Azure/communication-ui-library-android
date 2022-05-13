@@ -69,11 +69,11 @@ private class DetectPhoneCallLegacy(private val telephonyManager: TelephonyManag
     }
 
     override fun register() {
-        telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE)
+        telephonyManager.listen(this, LISTEN_CALL_STATE)
     }
 
     override fun unregister() {
-        telephonyManager.listen(this, PhoneStateListener.LISTEN_NONE)
+        telephonyManager.listen(this, LISTEN_NONE)
     }
 }
 
