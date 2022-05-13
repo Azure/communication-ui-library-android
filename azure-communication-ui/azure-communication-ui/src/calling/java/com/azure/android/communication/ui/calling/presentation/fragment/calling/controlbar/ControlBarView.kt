@@ -89,7 +89,7 @@ internal class ControlBarView : ConstraintLayout {
         ) {
             super.onInitializeAccessibilityNodeInfo(host, info)
             if (host in accessibilityNonSelectableViews()) {
-                // From an accessibility standpoint these views are never selected
+                // From an accessibility standpoint these views are never "selected"
                 info?.isSelected = false
             }
         }
@@ -120,10 +120,6 @@ internal class ControlBarView : ConstraintLayout {
         endCallButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label)
 
         callAudioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
-
-        cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_toggle_video_accessibility_label)
-
-        micToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_toggle_audio_accessibility_label)
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
@@ -133,10 +129,12 @@ internal class ControlBarView : ConstraintLayout {
             CameraOperationalStatus.ON -> {
                 cameraToggle.isSelected = true
                 cameraToggle.isEnabled = permissionIsNotDenied
+                cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_on)
             }
             CameraOperationalStatus.OFF -> {
                 cameraToggle.isSelected = false
                 cameraToggle.isEnabled = permissionIsNotDenied
+                cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)
             }
             else -> {
                 // disable button
@@ -150,10 +148,12 @@ internal class ControlBarView : ConstraintLayout {
             AudioOperationalStatus.ON -> {
                 // show un-mute icon
                 micToggle.isSelected = true
+                micToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_on)
             }
             AudioOperationalStatus.OFF -> {
                 // show mute icon
                 micToggle.isSelected = false
+                micToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off)
             }
         }
     }
