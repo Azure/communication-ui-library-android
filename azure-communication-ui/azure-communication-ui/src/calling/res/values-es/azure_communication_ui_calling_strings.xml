@@ -42,7 +42,6 @@
     <string name="azure_communication_ui_calling_view_leave_call">¿Quieres abandonar la llamada?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Salir</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancelar</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Pulsa dos veces para descartar el menú de confirmación de salida</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Abrir lista de participantes</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Pulsa dos veces para descartar la lista de participantes</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Silenciados</string>

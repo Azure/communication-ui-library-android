@@ -20,12 +20,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
     private val accessoryImageView: ImageView = itemView.findViewById(R.id.cell_check_mark)
-    private var onClickAction: Runnable? = null
-    init {
-        itemView.setOnClickListener {
-            onClickAction?.run()
-        }
-    }
 
     override fun setCellData(bottomCellItem: BottomCellItem) {
         super.setCellData(bottomCellItem)
@@ -77,7 +71,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         accessoryImageView.contentDescription = bottomCellItem.accessoryImageDescription
         accessoryImageView.visibility =
             if (isAccessoryImageViewable(bottomCellItem)) View.VISIBLE else View.INVISIBLE
-        onClickAction = bottomCellItem.onClickAction
     }
 
     private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {

@@ -12,6 +12,12 @@ internal open class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHold
     private val title: TextView = itemView.findViewById(R.id.cell_text)
     open fun setCellData(bottomCellItem: BottomCellItem) {
         title.text = bottomCellItem.title
-        title.contentDescription = bottomCellItem.contentDescription
+        itemView.contentDescription = bottomCellItem.contentDescription
+        if (bottomCellItem.contentDescription != null)
+            itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+        else
+            itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_AUTO
+        itemView.setOnClickListener(bottomCellItem.onClickAction)
+        itemView.isClickable = bottomCellItem.onClickAction != null
     }
 }

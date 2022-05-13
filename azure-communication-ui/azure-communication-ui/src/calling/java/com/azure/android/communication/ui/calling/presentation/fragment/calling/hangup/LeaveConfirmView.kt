@@ -55,7 +55,6 @@ internal class LeaveConfirmView(
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         leaveConfirmMenuTable.adapter = bottomCellAdapter
         leaveConfirmMenuTable.layoutManager = AccessibilityManipulatingLinearLayoutManager(context)
-        leaveConfirmMenuTable.contentDescription = "Leave Confirm Menu"
 
         initializeLeaveConfirmMenuDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -92,7 +91,7 @@ internal class LeaveConfirmView(
                 BottomCellItem(
                     null,
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call),
-                    null,
+                    context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
                     null,
                     null,
                     null,
@@ -152,7 +151,11 @@ internal class LeaveConfirmView(
         ) {
             super.onInitializeAccessibilityNodeInfoForItem(recycler, state, host, info)
             val itemInfo = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(max(info.collectionItemInfo.rowIndex - 1, 0), info.collectionItemInfo.rowSpan, info.collectionItemInfo.columnIndex, info.collectionItemInfo.columnSpan, info.collectionItemInfo.isHeading, info.collectionItemInfo.isSelected)
-            info.setCollectionItemInfo(itemInfo)
+            if (info.collectionItemInfo.rowIndex == 0) {
+                info.setCollectionItemInfo(null)
+            } else {
+                info.setCollectionItemInfo(itemInfo)
+            }
         }
     }
 }

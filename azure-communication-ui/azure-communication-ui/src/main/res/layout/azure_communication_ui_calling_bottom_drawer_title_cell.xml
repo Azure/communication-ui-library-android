@@ -7,7 +7,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusable="false"
     >
     <TextView
         android:id="@+id/cell_text"
@@ -23,6 +22,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:importantForAccessibility="no"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
