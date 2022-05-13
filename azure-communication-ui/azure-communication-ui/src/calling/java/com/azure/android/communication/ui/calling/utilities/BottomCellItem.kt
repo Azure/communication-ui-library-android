@@ -22,5 +22,5 @@ internal data class BottomCellItem(
     var enabled: Boolean?,
     var participantViewData: ParticipantViewData?,
     val itemType: BottomCellItemType = BottomCellItemType.BottomMenuAction,
-    var onClickAction: ((View)->Unit)?,
+    var onClickAction: ((View) -> Unit)?,
 )

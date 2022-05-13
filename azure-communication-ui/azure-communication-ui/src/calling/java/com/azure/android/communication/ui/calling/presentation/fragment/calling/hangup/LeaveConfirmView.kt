@@ -151,13 +151,11 @@ internal class LeaveConfirmView(
         ) {
             super.onInitializeAccessibilityNodeInfoForItem(recycler, state, host, info)
             val itemInfo = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(max(info.collectionItemInfo.rowIndex - 1, 0), info.collectionItemInfo.rowSpan, info.collectionItemInfo.columnIndex, info.collectionItemInfo.columnSpan, info.collectionItemInfo.isHeading, info.collectionItemInfo.isSelected)
-            if (info.collectionItemInfo.rowIndex == 0){
+            if (info.collectionItemInfo.rowIndex == 0) {
                 info.setCollectionItemInfo(null)
-            }
-            else{
+            } else {
                 info.setCollectionItemInfo(itemInfo)
             }
-
         }
     }
 }
