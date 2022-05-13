@@ -191,15 +191,15 @@ internal class ParticipantGridView : GridLayout {
     ) {
         when (displayedRemoteParticipantsView.size) {
             SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, EIGHT_PARTICIPANTS,
-            NINE_PARTICIPANTS, TEN_PARTICIPANTS, TWELVE_PARTICIPANTS -> {
+            NINE_PARTICIPANTS, TEN_PARTICIPANTS, ELEVEN_PARTICIPANTS, TWELVE_PARTICIPANTS -> {
                 displayedRemoteParticipantsView.forEach {
                     addParticipantToGrid(
                         participantGridCellView = it
                     )
                 }
             }
-            THREE_PARTICIPANTS, FIVE_PARTICIPANTS, SEVEN_PARTICIPANTS, ELEVEN_PARTICIPANTS -> {
-                // for 3, 5, 7, or 11 number of participants, first participant will take two cells
+            THREE_PARTICIPANTS, FIVE_PARTICIPANTS, SEVEN_PARTICIPANTS -> {
+                // for 3, 5, or 7 number of participants, first participant will take two cells
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     addParticipantToGrid(
                         columnSpan = 2,
@@ -261,9 +261,9 @@ internal class ParticipantGridView : GridLayout {
                 }
             } 11, 12 -> {
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    setGridRowsColumn(rows = 3, columns = 4)
-                } else {
                     setGridRowsColumn(rows = 4, columns = 3)
+                } else {
+                    setGridRowsColumn(rows = 3, columns = 4)
                 }
             }
         }
