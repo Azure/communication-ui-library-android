@@ -8,16 +8,25 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="360dp"
-    android:layout_marginEnd="360dp"
-    android:layout_marginTop="180dp"
-    android:layout_marginBottom="180dp"
     android:background="@color/azure_communication_ui_color_background"
     android:gravity="center_horizontal"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     tools:context="com.azure.android.communication.ui.presentation.fragment.setup.SetupFragment"
     >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="360dp"
+        android:layout_marginEnd="360dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginBottom="180dp"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_setup_video_layout"
@@ -280,5 +289,6 @@
         >
 
         <include layout="@layout/azure_communication_ui_listview" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
