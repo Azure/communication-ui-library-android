@@ -18,7 +18,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getLayoutDirection
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getPersonaData
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getRemoteParticipantPersonaInjectionSelection
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.initialize
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.language
@@ -37,26 +37,19 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)
-        val personaData = getPersonaData(callLauncherActivity.applicationContext)
+        val participantViewData = getParticipantViewData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
 
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
-                    .localization(
-                        LocalizationConfiguration(
-                            locale!!,
-                            getLayoutDirection()
-                        )
-                    ).build()
+                    .localization(LocalizationConfiguration(locale!!, getLayoutDirection()))
+                    .build()
             else
-                CallCompositeBuilder().localization(
-                    LocalizationConfiguration(
-                        locale!!,
-                        getLayoutDirection()
-                    )
-                ).build()
+                CallCompositeBuilder()
+                    .localization(LocalizationConfiguration(locale!!, getLayoutDirection()))
+                    .build()
 
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 
@@ -72,50 +65,24 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         if (groupId != null) {
-            val groupCallOptions = GroupCallOptions(
-                communicationTokenCredential,
-                groupId,
-                displayName,
-            )
+            val groupCallOptions =
+                GroupCallOptions(communicationTokenCredential, groupId, displayName)
 
-            if (personaData != null) {
-                val dataOptions =
-                    LocalSettings(
-                        personaData
-                    )
-                callComposite.launch(
-                    callLauncherActivity,
-                    groupCallOptions,
-                    dataOptions
-                )
+            if (participantViewData != null) {
+                val dataOptions = LocalSettings(participantViewData)
+                callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions)
             } else {
-                callComposite.launch(
-                    callLauncherActivity,
-                    groupCallOptions,
-                )
+                callComposite.launch(callLauncherActivity, groupCallOptions)
             }
         } else if (!meetingLink.isNullOrBlank()) {
-            val teamsMeetingOptions = TeamsMeetingOptions(
-                communicationTokenCredential,
-                meetingLink,
-                displayName,
-            )
+            val teamsMeetingOptions =
+                TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName)
 
-            if (personaData != null) {
-                val dataOptions =
-                    LocalSettings(
-                        personaData
-                    )
-                callComposite.launch(
-                    callLauncherActivity,
-                    teamsMeetingOptions,
-                    dataOptions
-                )
+            if (participantViewData != null) {
+                val dataOptions = LocalSettings(participantViewData)
+                callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions)
             } else {
-                callComposite.launch(
-                    callLauncherActivity,
-                    teamsMeetingOptions,
-                )
+                callComposite.launch(callLauncherActivity, teamsMeetingOptions)
             }
         }
     }
