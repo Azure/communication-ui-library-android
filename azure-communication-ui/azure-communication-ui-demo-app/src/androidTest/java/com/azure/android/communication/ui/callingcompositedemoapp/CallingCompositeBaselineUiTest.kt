@@ -40,6 +40,19 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
         joinGroupCall()
     }
 
+    @Test
+    fun testTeamsLobbyOverlay() {
+        val setupScreen = HomeScreenRobot()
+            .clickTeamsMeetingRadioButton()
+            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
+            .clickLaunchButton()
+        setupScreen.clickJoinCallButton()
+            .checkTeamsLobbyOverlay()
+            .clickEndCall()
+            .clickLeaveCall()
+    }
+
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
         val setupScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
