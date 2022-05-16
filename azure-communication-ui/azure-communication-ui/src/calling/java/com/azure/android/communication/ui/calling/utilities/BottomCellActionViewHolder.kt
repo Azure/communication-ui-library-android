@@ -61,7 +61,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellTitleViewH
             accessoryImageView.setImageDrawable(bottomCellItem.accessoryImage)
         }
 
-        if (bottomCellItem.accessoryColor != null) {
+        bottomCellItem.accessoryColor?.let {
             accessoryImageView.setColorFilter(
                 ContextCompat.getColor(
                     itemView.context,
