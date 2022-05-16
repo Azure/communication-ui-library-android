@@ -12,10 +12,10 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
-import com.azure.android.communication.ui.calling.utilities.BottomCellViewHolder
+import com.azure.android.communication.ui.calling.utilities.BottomCellTitleViewHolder
 import com.microsoft.fluentui.persona.AvatarView
 
-internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {
+internal class BottomCellActionViewHolder(itemView: View) : BottomCellTitleViewHolder(itemView) {
     private val imageView: ImageView = itemView.findViewById(R.id.cell_icon)
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
@@ -57,9 +57,10 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             imageView.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
         }
-        if (bottomCellItem.accessoryImage != null) {
+        bottomCellItem.accessoryImage?.let {
             accessoryImageView.setImageDrawable(bottomCellItem.accessoryImage)
         }
+
         if (bottomCellItem.accessoryColor != null) {
             accessoryImageView.setColorFilter(
                 ContextCompat.getColor(

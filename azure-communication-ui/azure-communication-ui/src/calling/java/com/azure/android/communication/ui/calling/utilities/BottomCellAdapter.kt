@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.utilities.BottomCellActionViewHolder
 
-internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() {
+internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellTitleViewHolder>() {
     private var bottomCellItems: List<BottomCellItem> = mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomCellViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomCellTitleViewHolder {
         val bottomCellType = BottomCellItemType.values()[viewType]
         val inflater = LayoutInflater.from(parent.context)
         return when (bottomCellType) {
@@ -22,12 +22,12 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
             }
             BottomCellItemType.BottomMenuTitle -> {
                 val view = inflater.inflate(R.layout.azure_communication_ui_calling_bottom_drawer_title_cell, parent, false)
-                BottomCellViewHolder(view)
+                BottomCellTitleViewHolder(view)
             }
         }
     }
 
-    override fun onBindViewHolder(holder: BottomCellViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BottomCellTitleViewHolder, position: Int) {
         val item: BottomCellItem = bottomCellItems[position]
         holder.setCellData(item)
     }

@@ -5,13 +5,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
@@ -20,7 +17,6 @@ import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlin.math.max
 
 @SuppressLint("ViewConstructor")
 internal class LeaveConfirmView(
@@ -54,7 +50,7 @@ internal class LeaveConfirmView(
         bottomCellAdapter = BottomCellAdapter()
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         leaveConfirmMenuTable.adapter = bottomCellAdapter
-        leaveConfirmMenuTable.layoutManager = AccessibilityManipulatingLinearLayoutManager(context)
+        leaveConfirmMenuTable.layoutManager = RowCountReducingLinearLayoutManager(context)
 
         initializeLeaveConfirmMenuDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -80,7 +76,7 @@ internal class LeaveConfirmView(
         }
     }
 
-    private fun cancelLeaveConfirm() {
+    private fun dismissLeaveConfirm() {
         leaveConfirmMenuDrawer.dismiss()
     }
 
@@ -91,7 +87,7 @@ internal class LeaveConfirmView(
                 BottomCellItem(
                     null,
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call),
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
+                    context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_title_description),
                     null,
                     null,
                     null,
@@ -130,32 +126,9 @@ internal class LeaveConfirmView(
                     null,
                     null
                 ) {
-                    cancelLeaveConfirm()
+                    dismissLeaveConfirm()
                 },
             )
             return bottomCellItems
         }
-    class AccessibilityManipulatingLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
-        override fun getRowCountForAccessibility(
-            recycler: RecyclerView.Recycler,
-            state: RecyclerView.State
-        ): Int {
-            return max(super.getRowCountForAccessibility(recycler, state) - 1, 0)
-        }
-
-        override fun onInitializeAccessibilityNodeInfoForItem(
-            recycler: RecyclerView.Recycler,
-            state: RecyclerView.State,
-            host: View,
-            info: AccessibilityNodeInfoCompat
-        ) {
-            super.onInitializeAccessibilityNodeInfoForItem(recycler, state, host, info)
-            val itemInfo = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(max(info.collectionItemInfo.rowIndex - 1, 0), info.collectionItemInfo.rowSpan, info.collectionItemInfo.columnIndex, info.collectionItemInfo.columnSpan, info.collectionItemInfo.isHeading, info.collectionItemInfo.isSelected)
-            if (info.collectionItemInfo.rowIndex == 0) {
-                info.setCollectionItemInfo(null)
-            } else {
-                info.setCollectionItemInfo(itemInfo)
-            }
-        }
-    }
 }
