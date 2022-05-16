@@ -16,5 +16,6 @@
     -->
     <dimen name="azure_communication_ui_calling_inner_frame_layout_padding">5dp</dimen>
     <dimen name="azure_communication_ui_calling_fab_margin">16dp</dimen>
+    <dimen name="azure_communication_ui_calling_bottom_menu_cell_margin">18dp</dimen>
 
 </resources>
