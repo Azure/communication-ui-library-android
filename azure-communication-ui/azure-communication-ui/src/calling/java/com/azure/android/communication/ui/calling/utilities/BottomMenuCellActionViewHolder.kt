@@ -11,11 +11,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
-import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
-import com.azure.android.communication.ui.calling.utilities.BottomCellTitleViewHolder
+import com.azure.android.communication.ui.calling.utilities.BottomMenuCellItemType
+import com.azure.android.communication.ui.calling.utilities.BottomMenuCellTitleViewHolder
 import com.microsoft.fluentui.persona.AvatarView
 
-internal class BottomCellActionViewHolder(itemView: View) : BottomCellTitleViewHolder(itemView) {
+internal class BottomMenuCellActionViewHolder(itemView: View) : BottomMenuCellTitleViewHolder(itemView) {
     private val imageView: ImageView = itemView.findViewById(R.id.cell_icon)
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
@@ -23,7 +23,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellTitleViewH
 
     override fun setCellData(bottomCellItem: BottomCellItem) {
         super.setCellData(bottomCellItem)
-        if (bottomCellItem.itemType == BottomCellItemType.BottomMenuTitle) {
+        if (bottomCellItem.itemType == BottomMenuCellItemType.BottomMenuTitle) {
             // Exit with early return because setting the title is the only thing we need to do
             return
         }

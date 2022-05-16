@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
+import com.azure.android.communication.ui.calling.utilities.BottomMenuCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
@@ -26,7 +26,7 @@ internal class AudioDeviceListView(
 
     private var deviceTable: RecyclerView
     private lateinit var audioDeviceDrawer: DrawerDialog
-    private lateinit var bottomCellAdapter: BottomCellAdapter
+    private lateinit var bottomCellAdapter: BottomMenuCellAdapter
 
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
@@ -53,7 +53,7 @@ internal class AudioDeviceListView(
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioStateFlow.collect {
                 // / rebind the list of items
-                bottomCellAdapter = BottomCellAdapter()
+                bottomCellAdapter = BottomMenuCellAdapter()
                 bottomCellAdapter.setBottomCellItems(bottomCellItems)
                 deviceTable.adapter = bottomCellAdapter
             }
@@ -81,7 +81,7 @@ internal class AudioDeviceListView(
             viewModel.closeAudioDeviceSelectionMenu()
         }
 
-        bottomCellAdapter = BottomCellAdapter()
+        bottomCellAdapter = BottomMenuCellAdapter()
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         deviceTable.adapter = bottomCellAdapter
         deviceTable.layoutManager = LinearLayoutManager(context)

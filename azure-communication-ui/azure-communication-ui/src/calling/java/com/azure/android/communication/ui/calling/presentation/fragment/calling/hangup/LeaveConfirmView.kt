@@ -11,9 +11,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
+import com.azure.android.communication.ui.calling.utilities.BottomMenuCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
-import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.BottomMenuCellItemType
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ internal class LeaveConfirmView(
 
     private var leaveConfirmMenuTable: RecyclerView
     private lateinit var leaveConfirmMenuDrawer: DrawerDialog
-    private lateinit var bottomCellAdapter: BottomCellAdapter
+    private lateinit var bottomCellAdapter: BottomMenuCellAdapter
 
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
@@ -47,7 +47,7 @@ internal class LeaveConfirmView(
     fun start(
         viewLifecycleOwner: LifecycleOwner
     ) {
-        bottomCellAdapter = BottomCellAdapter()
+        bottomCellAdapter = BottomMenuCellAdapter()
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         leaveConfirmMenuTable.adapter = bottomCellAdapter
         leaveConfirmMenuTable.layoutManager = RowCountReducingLinearLayoutManager(context)
@@ -93,7 +93,7 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     null,
-                    BottomCellItemType.BottomMenuTitle,
+                    BottomMenuCellItemType.BottomMenuTitle,
                     null
                 ),
                 // Leave

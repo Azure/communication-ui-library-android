@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
+import com.azure.android.communication.ui.calling.utilities.BottomMenuCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
@@ -28,7 +28,7 @@ internal class ParticipantListView(
     private var participantTable: RecyclerView
 
     private lateinit var participantListDrawer: DrawerDialog
-    private lateinit var bottomCellAdapter: BottomCellAdapter
+    private lateinit var bottomCellAdapter: BottomMenuCellAdapter
     private lateinit var accessibilityManager: AccessibilityManager
 
     init {
@@ -98,7 +98,7 @@ internal class ParticipantListView(
             viewModel.closeParticipantList()
         }
         participantListDrawer.setContentView(this)
-        bottomCellAdapter = BottomCellAdapter()
+        bottomCellAdapter = BottomMenuCellAdapter()
         participantTable.adapter = bottomCellAdapter
         updateRemoteParticipantListContent(0)
         participantTable.layoutManager = LinearLayoutManager(context)
