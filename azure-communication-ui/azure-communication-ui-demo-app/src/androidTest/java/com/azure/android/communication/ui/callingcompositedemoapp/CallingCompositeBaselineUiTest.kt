@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
+import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
 import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import org.junit.Rule
@@ -43,7 +44,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
         val setupScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            .setAcsToken(TestFixture.acsToken)
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
             .clickLaunchButton()
 
         if (videoEnabled) {
@@ -58,8 +59,8 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     private fun joinGroupCall(videoEnabled: Boolean = true) {
         val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            .setAcsToken(TestFixture.acsToken)
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
             .clickLaunchButton()
 
         if (videoEnabled) {
@@ -68,7 +69,6 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
         val callScreen = setupScreen.clickJoinCallButton()
         callScreen
             .showParticipantList()
-            .checkParticipantList()
             .dismissParticipantList()
             .clickEndCall()
             .clickLeaveCall()

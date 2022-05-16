@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled" app:azure_communication_ui_calling_state_setup_audio_device_receiver="false" app:azure_communication_ui_calling_state_setup_audio_device_bluetooth="false" />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled" app:azure_communication_ui_calling_state_setup_audio_device_speaker="false" app:azure_communication_ui_calling_state_setup_audio_device_receiver="true" app:azure_communication_ui_calling_state_setup_audio_device_bluetooth="false" />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular" app:azure_communication_ui_calling_state_setup_audio_device_speaker="false" app:azure_communication_ui_calling_state_setup_audio_device_receiver="false" app:azure_communication_ui_calling_state_setup_audio_device_bluetooth="true" />
+</selector>

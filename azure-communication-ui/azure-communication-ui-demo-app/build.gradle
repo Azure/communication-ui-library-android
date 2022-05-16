@@ -27,6 +27,7 @@ android {
         buildConfigField 'String', 'ACS_TOKEN', properties.getProperty('ACS_TOKEN', '""')
         buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
         buildConfigField 'String', 'REMOTE_PARTICIPANT_AVATAR_TEST_URL', properties.getProperty('REMOTE_PARTICIPANT_AVATAR_TEST_URL', '""')
+        buildConfigField 'String', 'ACS_TOKEN_EXPIRED', properties.getProperty('ACS_TOKEN_EXPIRED', '""')
     }
 
     signingConfigs {
@@ -87,12 +88,33 @@ android {
             }
         }
     }
-
-    flavorDimensions "distribute"
-    productFlavors {
-        appCenter {
-            dimension "distribute"
+    sourceSets {
+        calling {
+            java.srcDirs = ['src/main/java','src/calling/java']
+            res.srcDirs = ['src/main/res','src/calling/res']
+            manifest.srcFile 'src/calling/AndroidManifest.xml'
         }
+        chat {
+            java.srcDirs = ['src/main/java','src/chat/java']
+            res.srcDirs = ['src/main/res','src/chat/res']
+            manifest.srcFile 'src/chat/AndroidManifest.xml'
+        }
+    }
+
+    flavorDimensions "product"
+    productFlavors {
+
+        calling {
+            dimension "product"
+            matchingFallbacks = ["calling"]
+        }
+        chat {
+            dimension "product"
+            matchingFallbacks = ["chat"]
+        }
+    }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
     }
 }
 
@@ -116,7 +138,7 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
     implementation 'com.google.code.gson:gson:2.8.9'
-    appCenterImplementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     testImplementation "junit:junit:$junit"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')

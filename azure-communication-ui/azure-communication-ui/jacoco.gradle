@@ -4,7 +4,7 @@ jacoco {
     toolVersion = "$jacoco_version"
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testCallingDebugUnitTest']) {
     def coverageSourceDirs = [
             "src/main/java"
     ]

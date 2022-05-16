@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import android.content.res.Resources
@@ -10,7 +13,7 @@ import org.hamcrest.TypeSafeMatcher
 class RecyclerViewMatcher(private val recyclerViewId: Int) {
     fun atPosition(position: Int): Matcher<View> = atPositionOnView(position, -1)
 
-    private fun atPositionOnView(position: Int, targetViewId: Int): Matcher<View> {
+    fun atPositionOnView(position: Int, targetViewId: Int): Matcher<View> {
         return object : TypeSafeMatcher<View>() {
             var resources: Resources? = null
             var childView: View? = null
@@ -32,9 +35,7 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
             override fun matchesSafely(view: View): Boolean {
                 resources = view.resources
                 if (childView == null) {
-                    val recyclerView = view.rootView.findViewById(
-                        recyclerViewId
-                    ) as RecyclerView
+                    val recyclerView = view.rootView.findViewById(recyclerViewId) as RecyclerView
                     childView = if (recyclerView != null && recyclerView.id == recyclerViewId) {
                         recyclerView.findViewHolderForAdapterPosition(position)!!.itemView
                     } else {

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.filters.SdkSuppress
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.SetupScreenRobot
-import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
+import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -15,7 +15,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeAudioDeviceListTest : BaseUiTest() {
 
-    @SdkSuppress(minSdkVersion = 23, maxSdkVersion = 29)
     @Test
     fun selectDefaultAudioDevice() {
         joinGroupSetupScreen()
@@ -23,7 +22,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
             .verifyIsAndroidAudioDevice()
             .navigateUpFromSetupScreen()
     }
-    @SdkSuppress(minSdkVersion = 23, maxSdkVersion = 29)
+
     @Test
     fun selectSpeakerAudioDevice() {
         joinGroupSetupScreen()
@@ -34,8 +33,8 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
 
     private fun joinGroupSetupScreen(): SetupScreenRobot {
         val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            .setAcsToken(TestFixture.acsToken)
+            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
+            .setAcsToken(CallIdentifiersHelper.getACSToken())
             .clickLaunchButton()
 
         setupScreen
