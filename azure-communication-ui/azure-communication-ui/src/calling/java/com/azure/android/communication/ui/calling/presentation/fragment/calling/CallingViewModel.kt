@@ -86,8 +86,15 @@ internal class CallingViewModel(
         confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
-    fun requestHold() {
-        dispatchAction(CallingAction.HoldRequested())
+    fun requestToggleHold() {
+        if (store.getCurrentState().callState.callingStatus == CallingStatus.LOCAL_HOLD) {
+            dispatchAction(CallingAction.ResumeRequested())
+        } else if (store.getCurrentState().callState.callingStatus == CallingStatus.CONNECTED) {
+            dispatchAction(CallingAction.HoldRequested())
+        }
+
+
+
     }
 
     fun requestResume() {

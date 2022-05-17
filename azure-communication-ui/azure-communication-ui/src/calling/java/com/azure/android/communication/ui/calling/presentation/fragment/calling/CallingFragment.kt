@@ -189,9 +189,9 @@ internal class CallingFragment :
     }
 
     private fun requestHold() {
-        viewModel.requestHold()
+        viewModel.requestToggleHold()
     }
-    
+
     private fun requestResume() {
         viewModel.requestResume()
     }
