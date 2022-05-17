@@ -27,5 +27,5 @@ internal class LobbyOverlayViewModel {
     }
 
     private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
+        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
 }

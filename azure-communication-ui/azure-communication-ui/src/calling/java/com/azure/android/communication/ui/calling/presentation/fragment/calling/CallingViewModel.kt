@@ -92,9 +92,6 @@ internal class CallingViewModel(
         } else if (store.getCurrentState().callState.callingStatus == CallingStatus.CONNECTED) {
             dispatchAction(CallingAction.HoldRequested())
         }
-
-
-
     }
 
     fun requestResume() {
