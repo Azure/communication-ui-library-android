@@ -37,9 +37,6 @@ internal class ParticipantGridView : GridLayout {
         private const val SEVEN_PARTICIPANTS = 7
         private const val EIGHT_PARTICIPANTS = 8
         private const val NINE_PARTICIPANTS = 9
-        private const val TEN_PARTICIPANTS = 10
-        private const val ELEVEN_PARTICIPANTS = 11
-        private const val TWELVE_PARTICIPANTS = 12
     }
 
     private lateinit var showFloatingHeaderCallBack: () -> Unit
@@ -191,7 +188,7 @@ internal class ParticipantGridView : GridLayout {
     ) {
         when (displayedRemoteParticipantsView.size) {
             SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, EIGHT_PARTICIPANTS,
-            NINE_PARTICIPANTS, TEN_PARTICIPANTS, ELEVEN_PARTICIPANTS, TWELVE_PARTICIPANTS -> {
+            NINE_PARTICIPANTS, -> {
                 displayedRemoteParticipantsView.forEach {
                     addParticipantToGrid(
                         participantGridCellView = it
@@ -253,18 +250,6 @@ internal class ParticipantGridView : GridLayout {
             }
             9 -> {
                 setGridRowsColumn(rows = 3, columns = 3)
-            } 10 -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    setGridRowsColumn(rows = 5, columns = 2)
-                } else {
-                    setGridRowsColumn(rows = 2, columns = 5)
-                }
-            } 11, 12 -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    setGridRowsColumn(rows = 4, columns = 3)
-                } else {
-                    setGridRowsColumn(rows = 3, columns = 4)
-                }
             }
         }
     }
