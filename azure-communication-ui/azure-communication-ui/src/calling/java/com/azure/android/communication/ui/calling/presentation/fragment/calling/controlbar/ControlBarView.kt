@@ -4,7 +4,9 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
+import android.icu.text.UnicodeSetIterator
 import android.util.AttributeSet
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleOwner
@@ -26,7 +28,10 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
+    private lateinit var holdButton: Button
     private lateinit var requestCallEndCallback: () -> Unit
+    private lateinit var requestHoldCallback: () -> Unit
+
     private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
     override fun onFinishInflate() {
@@ -35,6 +40,7 @@ internal class ControlBarView : ConstraintLayout {
         cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
+        holdButton = findViewById(R.id.azure_communication_hold_button)
         subscribeClickListener()
     }
 
@@ -42,12 +48,14 @@ internal class ControlBarView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
         requestCallEnd: () -> Unit,
+        requestHold: () -> Unit,
         openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         this.viewModel = viewModel
         this.requestCallEndCallback = requestCallEnd
         this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
-
+        this.requestHoldCallback = requestHold
+        
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAudioOperationalStatusStateFlow().collect {
@@ -140,6 +148,10 @@ internal class ControlBarView : ConstraintLayout {
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
             requestCallEndCallback()
+        }
+
+        holdButton.setOnClickListener() {
+            requestHoldCallback()
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {

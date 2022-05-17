@@ -69,6 +69,7 @@ internal class CallingFragment :
             viewLifecycleOwner,
             viewModel.getControlBarViewModel(),
             this::requestCallEnd,
+            this::requestHold,
             this::openAudioDeviceSelectionMenu
         )
 
@@ -185,6 +186,10 @@ internal class CallingFragment :
 
     private fun requestCallEnd() {
         viewModel.requestCallEnd()
+    }
+
+    private fun requestHold() {
+        viewModel.requestCallHold()
     }
 
     private fun openAudioDeviceSelectionMenu() {

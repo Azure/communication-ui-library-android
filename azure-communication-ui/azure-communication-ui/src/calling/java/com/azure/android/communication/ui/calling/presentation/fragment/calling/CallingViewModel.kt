@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -83,6 +84,10 @@ internal class CallingViewModel(
 
     fun requestCallEnd() {
         confirmLeaveOverlayViewModel.requestExitConfirmation()
+    }
+
+    fun requestCallHold() {
+        dispatchAction(CallingAction.HoldRequested())
     }
 
     override fun init(coroutineScope: CoroutineScope) {
