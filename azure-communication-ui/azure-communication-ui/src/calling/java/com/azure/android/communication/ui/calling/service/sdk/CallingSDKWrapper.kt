@@ -47,6 +47,7 @@ internal class CallingSDKWrapper(
     private var deviceManagerCompletableFuture: CompletableFuture<DeviceManager>? = null
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
+    private var holdCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
 
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
@@ -81,6 +82,21 @@ internal class CallingSDKWrapper(
 
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> =
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
+
+    fun hold(): CompletableFuture<Void> {
+        val call: Call?
+
+        try {
+            call = this.call
+        } catch (e: Exception) {
+            // We can't access the call currently, return a no-op and exit
+            return CompletableFuture.runAsync { }
+        }
+
+        callingSDKEventHandler.onHoldCall()
+        holdCallCompletableFuture = call.hold()
+        return holdCallCompletableFuture!!
+    }
 
     fun endCall(): CompletableFuture<Void> {
         val call: Call?

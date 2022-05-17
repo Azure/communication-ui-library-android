@@ -7,11 +7,12 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 
 internal sealed class CallingAction :
     Action {
-    class SetupCall : CallingAction()
-    class CallStartRequested : CallingAction()
-    class CallEndRequested : CallingAction()
-    class StateUpdated(val callingState: CallingStatus) : CallingAction()
+    sealed class SetupCall : CallingAction()
+    sealed class CallStartRequested : CallingAction()
+    sealed class CallEndRequested : CallingAction()
+    sealed class HoldRequested : CallingAction()
+    sealed class StateUpdated(val callingState: CallingStatus) : CallingAction()
 
-    class IsRecordingUpdated(val isRecording: Boolean) : CallingAction()
-    class IsTranscribingUpdated(val isTranscribing: Boolean) : CallingAction()
+    sealed class IsRecordingUpdated(val isRecording: Boolean) : CallingAction()
+    sealed class IsTranscribingUpdated(val isTranscribing: Boolean) : CallingAction()
 }

@@ -59,6 +59,9 @@ internal class CallingMiddlewareImpl(
                 is LocalParticipantAction.MicOnTriggered -> {
                     callingMiddlewareActionHandler.turnMicOn(store)
                 }
+                is CallingAction.HoldRequested -> {
+                    callingMiddlewareActionHandler.hold(store)
+                }
                 is CallingAction.CallEndRequested -> {
                     callingMiddlewareActionHandler.endCall(store)
                 }

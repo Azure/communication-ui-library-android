@@ -84,6 +84,12 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
     }
 
+
+    fun onHoldCall() {
+        if (call == null) return
+        // Adding this hook, nothing to add here yet
+    }
+
     fun onEndCall() {
         if (call == null) return
         call?.removeOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
@@ -319,4 +325,5 @@ internal class CallingSDKEventHandler(
         callingStateWrapperSharedFlow = MutableSharedFlow()
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
     }
+
 }
