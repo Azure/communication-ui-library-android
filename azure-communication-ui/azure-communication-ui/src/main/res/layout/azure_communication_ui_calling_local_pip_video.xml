@@ -15,24 +15,23 @@
         android:id="@+id/azure_communication_ui_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8"
         />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/azure_communication_ui_corner_radius_rectangle_4dp_background"
+        android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_background"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintDimensionRatio="9:16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_min="68dp"
-        app:layout_constraintStart_toStartOf="@+id/azure_communication_ui_guideline"
+        app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_guideline"
         >
 
-        <include layout="@layout/azure_communication_ui_call_avatar_view_in_pip" />
+        <include layout="@layout/azure_communication_ui_calling_avatar_view_in_pip" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,20 +39,18 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintDimensionRatio="9:16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_min="68dp"
-        app:layout_constraintStart_toStartOf="@+id/azure_communication_ui_guideline"
+        app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_guideline"
         />
 
     <include
         android:id="@+id/azure_communication_ui_call_local_pip_switch_camera_button"
-        layout="@layout/azure_communication_ui_switch_camera_button"
+        layout="@layout/azure_communication_ui_calling_switch_camera_button"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_call_local_pip_video_holder"
+        app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_guideline"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
