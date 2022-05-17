@@ -6,9 +6,8 @@
 
 -keepattributes LineNumberTable,SourceFile,Signature,*Annotation*
 -renamesourcefileattribute SourceFile
--keep public class com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale {
+-keepclasseswithmembers public class com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale {
     public static <fields>;
-    public static java.util.Collection getSupportedLocales();
 }
 
 # skypert.jar
