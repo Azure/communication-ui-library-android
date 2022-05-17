@@ -128,6 +128,10 @@ internal class CallingService(
         return callingSDKWrapper.hold()
     }
 
+    fun resume(): CompletableFuture<Void> {
+        return callingSDKWrapper.resume()
+    }
+
     fun setupCall() {
         callingSDKWrapper.setupCall()
     }

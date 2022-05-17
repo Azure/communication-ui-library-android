@@ -85,7 +85,12 @@ internal class CallingSDKEventHandler(
     }
 
 
-    fun onHoldCall() {
+    fun onHold() {
+        if (call == null) return
+        // Adding this hook, nothing to add here yet
+    }
+
+    fun onResume() {
         if (call == null) return
         // Adding this hook, nothing to add here yet
     }
@@ -325,5 +330,7 @@ internal class CallingSDKEventHandler(
         callingStateWrapperSharedFlow = MutableSharedFlow()
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
     }
+
+
 
 }

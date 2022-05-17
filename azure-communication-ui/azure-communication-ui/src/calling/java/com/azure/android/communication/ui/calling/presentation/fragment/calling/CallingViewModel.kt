@@ -86,8 +86,12 @@ internal class CallingViewModel(
         confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
-    fun requestCallHold() {
+    fun requestHold() {
         dispatchAction(CallingAction.HoldRequested())
+    }
+
+    fun requestResume() {
+        dispatchAction(CallingAction.ResumeRequested())
     }
 
     override fun init(coroutineScope: CoroutineScope) {

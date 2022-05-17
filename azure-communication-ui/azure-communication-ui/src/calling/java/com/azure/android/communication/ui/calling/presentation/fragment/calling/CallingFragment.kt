@@ -189,7 +189,11 @@ internal class CallingFragment :
     }
 
     private fun requestHold() {
-        viewModel.requestCallHold()
+        viewModel.requestHold()
+    }
+    
+    private fun requestResume() {
+        viewModel.requestResume()
     }
 
     private fun openAudioDeviceSelectionMenu() {

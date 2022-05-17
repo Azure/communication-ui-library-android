@@ -62,6 +62,9 @@ internal class CallingMiddlewareImpl(
                 is CallingAction.HoldRequested -> {
                     callingMiddlewareActionHandler.hold(store)
                 }
+                is CallingAction.ResumeRequested -> {
+                    callingMiddlewareActionHandler.resume(store)
+                }
                 is CallingAction.CallEndRequested -> {
                     callingMiddlewareActionHandler.endCall(store)
                 }

@@ -33,6 +33,7 @@ internal interface CallingMiddlewareActionHandler {
     fun enterBackground(store: Store<ReduxState>)
     fun enterForeground(store: Store<ReduxState>)
     fun hold(store: Store<ReduxState>)
+    fun resume(store: Store<ReduxState>)
     fun endCall(store: Store<ReduxState>)
     fun requestCameraPreviewOn(store: Store<ReduxState>)
     fun turnCameraPreviewOn(store: Store<ReduxState>)
@@ -148,6 +149,20 @@ internal class CallingMiddlewareActionHandlerImpl(
                     store.dispatch(
                         ErrorAction.FatalErrorOccurred(
                             FatalError(error, CommunicationUIErrorCode.HOLD_FAILED)
+                        )
+                    )
+                }
+
+            }
+    }
+
+    override fun resume(store: Store<ReduxState>) {
+        callingService.resume()
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    store.dispatch(
+                        ErrorAction.FatalErrorOccurred(
+                            FatalError(error, CommunicationUIErrorCode.RESUME_FAILED)
                         )
                     )
                 }
