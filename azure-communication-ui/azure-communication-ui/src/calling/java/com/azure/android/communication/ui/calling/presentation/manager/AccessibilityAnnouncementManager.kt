@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
@@ -100,8 +101,21 @@ internal class MeetingJoinedHook : AccessibilityHook() {
         context.getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected)
 }
 
+internal class CameraStatusHook: AccessibilityHook() {
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
+        (lastState.localParticipantState.cameraState.device != newState.localParticipantState.cameraState.device)
+
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+        return when (newState.localParticipantState.cameraState.device) {
+            CameraDeviceSelectionStatus.FRONT-> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_back)
+            CameraDeviceSelectionStatus.BACK -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_front)
+            else -> ""
+        }
+    }
+}
 // List of all hooks
 internal val accessibilityHooks = listOf(
     MeetingJoinedHook(),
+    CameraStatusHook(),
     ParticipantAddedOrRemovedHook(),
 )
