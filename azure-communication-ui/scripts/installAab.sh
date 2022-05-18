@@ -2,7 +2,7 @@
 # usage:  ./installAab.sh {release|debug}
 cd ..
 set -e
-./gradlew clean :azure-communication-ui-demo-app:bundle$1
+./gradlew clean :azure-communication-ui-demo-app:bundleCalling$1
 
 DEVICE=($(adb devices | grep "device$" | sed -e "s|device||g"))
 OUTPUT_DIR=./azure-communication-ui-demo-app/build/outputs
