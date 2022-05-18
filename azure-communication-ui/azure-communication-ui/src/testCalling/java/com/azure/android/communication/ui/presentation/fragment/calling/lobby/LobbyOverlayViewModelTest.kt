@@ -3,9 +3,10 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.lobby
 
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.HoldOverlayViewModel
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert

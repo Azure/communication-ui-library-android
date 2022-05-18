@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.HoldOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
@@ -41,9 +42,14 @@ internal class CallingViewModel(
         callingViewModelProvider.provideParticipantListViewModel()
     private val bannerViewModel = callingViewModelProvider.provideBannerViewModel()
     private val lobbyOverlayViewModel = callingViewModelProvider.provideLobbyOverlayViewModel()
+    private val holdOverlayViewModel = callingViewModelProvider.provideHoldOverlayViewModel()
 
     fun getLobbyOverlayViewModel(): LobbyOverlayViewModel {
         return lobbyOverlayViewModel
+    }
+
+    fun getHoldOverlayViewModel(): HoldOverlayViewModel {
+        return holdOverlayViewModel
     }
 
     fun getParticipantGridViewModel(): ParticipantGridViewModel {
@@ -133,6 +139,7 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.init(state.callState.callingStatus)
+        holdOverlayViewModel.init(state.callState.callingStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
 
@@ -167,6 +174,7 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.update(state.callState.callingStatus)
+        holdOverlayViewModel.update(state.callState.callingStatus)
 
         participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)
 
