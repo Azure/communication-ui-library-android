@@ -42,7 +42,6 @@
     <string name="azure_communication_ui_calling_view_leave_call">離開通話</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">離開</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">點兩下以關閉離開確認功能表</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">開啟參與者清單</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">點兩下以關閉 [參與者清單]</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已靜音</string>

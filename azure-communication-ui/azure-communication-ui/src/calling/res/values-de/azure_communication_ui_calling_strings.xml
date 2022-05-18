@@ -42,7 +42,6 @@
     <string name="azure_communication_ui_calling_view_leave_call">Anruf verlassen?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlassen</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Abbrechen</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Doppeltippen Sie, um das Bestätigungsmenü zum Verlassen zu schließen.</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Teilnehmerliste öffnen</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Doppeltippen Sie, um die Teilnehmerliste zu schließen.</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Stummgeschaltet</string>
