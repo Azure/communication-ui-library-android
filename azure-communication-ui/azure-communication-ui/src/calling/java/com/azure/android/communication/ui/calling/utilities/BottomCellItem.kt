@@ -4,7 +4,13 @@
 package com.azure.android.communication.ui.calling.utilities
 
 import android.graphics.drawable.Drawable
+import android.view.View
 import com.azure.android.communication.ui.calling.models.ParticipantViewData
+
+internal enum class BottomCellItemType {
+    BottomMenuAction,
+    BottomMenuTitle
+}
 
 internal data class BottomCellItem(
     var icon: Drawable?,
@@ -15,5 +21,6 @@ internal data class BottomCellItem(
     var accessoryImageDescription: String?,
     var enabled: Boolean?,
     var participantViewData: ParticipantViewData?,
-    var onClickAction: Runnable,
+    val itemType: BottomCellItemType = BottomCellItemType.BottomMenuAction,
+    var onClickAction: ((View) -> Unit)?,
 )
