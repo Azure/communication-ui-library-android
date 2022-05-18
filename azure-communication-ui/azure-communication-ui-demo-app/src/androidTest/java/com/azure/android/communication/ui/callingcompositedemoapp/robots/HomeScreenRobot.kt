@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.action.ViewActions
@@ -44,7 +45,7 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
     }
 
     fun clickTeamsMeetingRadioButton(): HomeScreenRobot {
-        waitUntilViewAndTextIsDisplayed(R.id.teamsMeetingRadioButton, R.string.teamsMeetingLabel)
+        waitUntilTextOnViewIsDisplayed(R.id.teamsMeetingRadioButton, R.string.teams_meeting_label)
         UiTestUtils.clickViewWithId(R.id.teamsMeetingRadioButton)
         return this
     }
@@ -56,7 +57,7 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
     }
 
     fun clickAlertDialogOkButton() {
-        waitUntilViewIdIsDisplayed(android.R.id.button1)
+        waitUntilTextOnViewIsDisplayed(android.R.id.button1, "OK")
         UiTestUtils.clickViewWithIdAndText(android.R.id.button1, "OK")
     }
 }

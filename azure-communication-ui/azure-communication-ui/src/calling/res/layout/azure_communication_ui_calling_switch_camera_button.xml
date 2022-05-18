@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="36dp"
+    android:layout_height="36dp"
+    android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
+    android:clickable="true"
+    android:focusable="true"
+    >
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/azure_communication_ui_calling_corner_bottom_left_top_right_radius_rectangle_4dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_color_button_switch_camera"
+        android:contentDescription="@string/azure_communication_ui_calling_switch_camera_button_back"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_camera_switch_24_regular_composite_button_enabled"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

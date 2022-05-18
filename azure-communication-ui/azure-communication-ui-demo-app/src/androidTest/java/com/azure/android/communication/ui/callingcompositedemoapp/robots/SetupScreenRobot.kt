@@ -13,7 +13,7 @@ import junit.framework.Assert.assertTrue
 class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
     fun tapSpeakerIcon(): SetupScreenRobot {
-        val speakerButton = waitUntilViewAndTextIsDisplayed(
+        val speakerButton = waitUntilTextOnViewIsDisplayed(
             R.id.azure_communication_ui_setup_audio_device_button,
             "Android"
         )
@@ -35,13 +35,14 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     private fun verifyAudioDevice(deviceText: String) {
         waitUntilViewIdIsNotDisplayed(R.id.bottom_drawer_table)
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_audio_device_button)
-        val text = UiTestUtils.getTextFromButtonView(R.id.azure_communication_ui_setup_audio_device_button)
+        val text =
+            UiTestUtils.getTextFromButtonView(R.id.azure_communication_ui_setup_audio_device_button)
         assertTrue(text == deviceText)
     }
 
     fun selectAndroidAudioDevice(isSelected: Boolean): SetupScreenRobot {
         selectAudioDevice(
-            R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_regular_composite_button_filled,
+            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled,
             "Android",
             isSelected
         )
@@ -50,7 +51,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
     fun selectSpeakerAudioDevice(isSelected: Boolean = false): SetupScreenRobot {
         selectAudioDevice(
-            R.drawable.azure_communication_ui_ic_fluent_speaker_2_24_filled_composite_button_enabled,
+            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled,
             "Speaker",
             false
         )
