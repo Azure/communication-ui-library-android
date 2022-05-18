@@ -15,6 +15,7 @@ internal enum class CallingStatus {
     IN_LOBBY,
     REMOTE_HOLD,
     CALL_EVICTED,
+    CALL_DECLINED
 }
 
 internal data class CallingState(
