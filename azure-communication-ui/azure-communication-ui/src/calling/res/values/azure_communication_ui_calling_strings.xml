@@ -33,6 +33,9 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Waiting for host</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Someone in the meeting will let you in soon</string>
 
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
+
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Waiting for others to join</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Call with 1 person</string>

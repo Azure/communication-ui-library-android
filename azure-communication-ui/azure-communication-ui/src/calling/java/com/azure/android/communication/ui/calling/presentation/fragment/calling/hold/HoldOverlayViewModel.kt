@@ -14,6 +14,7 @@ internal class HoldOverlayViewModel {
 
     fun init(
         callingState: CallingStatus,
+
     ) {
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         displayLobbyOverlayFlow = MutableStateFlow(displayLobbyOverlay)
@@ -28,4 +29,9 @@ internal class HoldOverlayViewModel {
 
     private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
         callingStatus == CallingStatus.LOCAL_HOLD
+
+    fun resumeCall() {
+
+
+    }
 }

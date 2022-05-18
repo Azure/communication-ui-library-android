@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -24,7 +25,7 @@ internal class HoldOverlayView : LinearLayout {
 
     private lateinit var waitingIcon: ImageView
     private lateinit var overlayTitle: TextView
-    private lateinit var overlayInfo: TextView
+    private lateinit var resumeButton: AppCompatButton
     private lateinit var viewModel: HoldOverlayViewModel
 
     override fun onFinishInflate() {
@@ -32,7 +33,7 @@ internal class HoldOverlayView : LinearLayout {
         waitingIcon =
             findViewById(R.id.azure_communication_ui_call_hold_overlay_wait_for_host_image)
         overlayTitle = findViewById(R.id.azure_communication_ui_call_hold_overlay_title)
-        overlayInfo = findViewById(R.id.azure_communication_ui_call_hold_overlay_info)
+        resumeButton = findViewById(R.id.azure_communication_ui_call_hold_resume_button)
     }
 
     fun start(
@@ -61,10 +62,11 @@ internal class HoldOverlayView : LinearLayout {
     }
 
     private fun setupUi() {
-        waitingIcon.contentDescription = "Hold"
+        waitingIcon.contentDescription = context.getString(R.string.azure_communication_ui_calling_hold_view_text)
 
-        overlayTitle.text = "Hold"
-
-        overlayInfo.text = "Hold"
+        overlayTitle.text = context.getString(R.string.azure_communication_ui_calling_hold_view_text)
+        resumeButton.setOnClickListener {
+            viewModel.resumeCall()
+        }
     }
 }
