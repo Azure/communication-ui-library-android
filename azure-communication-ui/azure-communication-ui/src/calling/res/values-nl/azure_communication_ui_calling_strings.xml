@@ -42,7 +42,6 @@
     <string name="azure_communication_ui_calling_view_leave_call">Gesprek verlaten?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlaten</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Annuleren</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Dubbeltikken om het menu Verlaten bevestigen te sluiten</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Lijst van deelnemers openen</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Dubbeltikken om deelnemerslijst te sluiten</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Gedempt</string>
