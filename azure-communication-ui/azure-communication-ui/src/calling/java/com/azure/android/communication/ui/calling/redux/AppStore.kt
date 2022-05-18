@@ -14,6 +14,7 @@ internal class AppStore<S>(
     private val reducer: Reducer<S>,
     middlewares: MutableList<Middleware<S>>,
     private val storeHandlerThread: StoreHandlerThread,
+    private val maxRemoteParticipantLimit: Int,
 ) : Store<S> {
 
     private val stateFlow = MutableStateFlow(initialState)
@@ -45,6 +46,8 @@ internal class AppStore<S>(
         return stateFlow.value
     }
 
+    override fun getMaxRemoteParticipantLimit(): Int = maxRemoteParticipantLimit
+
     private fun reduce(action: Action) {
         stateFlow.value = reducer.reduce(stateFlow.value, action)
     }
@@ -52,8 +55,7 @@ internal class AppStore<S>(
     private fun compose(functions: List<(Dispatch) -> Dispatch>): (Dispatch) -> Dispatch =
         { dispatch ->
             functions.foldRight(
-                dispatch,
-                { nextDispatch, composed -> nextDispatch(composed) }
-            )
+                dispatch
+            ) { nextDispatch, composed -> nextDispatch(composed) }
         }
 }

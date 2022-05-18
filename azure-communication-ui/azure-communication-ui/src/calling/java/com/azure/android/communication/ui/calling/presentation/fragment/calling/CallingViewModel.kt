@@ -121,7 +121,7 @@ internal class CallingViewModel(
 
         lobbyOverlayViewModel.init(state.callState.callingStatus)
 
-        participantGridViewModel.init(state.callState.callingStatus)
+        participantGridViewModel.init(state.callState.callingStatus, store.getMaxRemoteParticipantLimit())
 
         super.init(coroutineScope)
     }

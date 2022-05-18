@@ -11,4 +11,5 @@ internal interface Store<S> {
     fun getStateFlow(): MutableStateFlow<S>
     fun getCurrentState(): S
     fun end()
+    fun getMaxRemoteParticipantLimit(): Int
 }
