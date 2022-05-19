@@ -99,7 +99,6 @@ internal class CallingViewModelFactory(
         return lobbyOverlayViewModel
     }
 
-
     fun provideHoldOverlayViewModel(): HoldOverlayViewModel {
         return holdOverlayViewModel
     }

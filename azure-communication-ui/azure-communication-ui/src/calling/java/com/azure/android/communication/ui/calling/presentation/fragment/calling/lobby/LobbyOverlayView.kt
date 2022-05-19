@@ -15,7 +15,6 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.HoldOverlayViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 

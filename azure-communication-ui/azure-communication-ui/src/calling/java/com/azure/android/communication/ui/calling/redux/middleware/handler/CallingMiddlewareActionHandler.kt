@@ -152,7 +152,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     )
                 }
-
             }
     }
 
@@ -166,7 +165,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     )
                 }
-
             }
     }
 

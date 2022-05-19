@@ -99,8 +99,6 @@ internal class CallingSDKWrapper(
         return holdCompletableFuture!!
     }
 
-
-
     fun resume(): CompletableFuture<Void> {
         val call: Call?
 
@@ -115,8 +113,6 @@ internal class CallingSDKWrapper(
         resumeCompletableFuture = call.resume()
         return resumeCompletableFuture!!
     }
-
-
 
     fun endCall(): CompletableFuture<Void> {
         val call: Call?

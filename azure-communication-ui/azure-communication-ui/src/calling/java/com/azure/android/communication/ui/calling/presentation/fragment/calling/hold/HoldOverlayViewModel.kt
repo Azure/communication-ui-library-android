@@ -31,7 +31,5 @@ internal class HoldOverlayViewModel {
         callingStatus == CallingStatus.LOCAL_HOLD
 
     fun resumeCall() {
-
-
     }
 }
