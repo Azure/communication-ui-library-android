@@ -42,7 +42,6 @@
     <string name="azure_communication_ui_calling_view_leave_call">통화를 종료하시겠어요?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">나가기</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">취소</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">확인 메뉴 나가기를 해제하려면 두 번 탭하세요.</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">참가자 목록 열기</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">참가자 목록을 해제하려면 두 번 탭하세요.</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">음소거</string>
