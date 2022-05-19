@@ -3,7 +3,7 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <public name="AzureCommunicationUICalling.Theme.Calling" type="style" />
+    <public name="AzureCommunicationUICalling.Theme" type="style" />
     <public name="azure_communication_ui_calling_primary_color" type="attr"  />
     <public name="azure_communication_ui_calling_primary_color_tint10" type="attr" />
     <public name="azure_communication_ui_calling_primary_color_tint20" type="attr" />
