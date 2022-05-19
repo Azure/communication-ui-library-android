@@ -60,7 +60,7 @@ internal class CallingViewModelFactory(
     }
 
     private val holdOverlayViewModel by lazy {
-        HoldOverlayViewModel()
+        HoldOverlayViewModel { store.dispatch(it) }
     }
 
     fun provideParticipantGridViewModel(): ParticipantGridViewModel {

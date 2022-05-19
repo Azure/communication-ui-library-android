@@ -44,7 +44,7 @@ internal class HoldOverlayView : LinearLayout {
 
         setupUi()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDisplayLobbyOverlayFlow().collect {
+            viewModel.getDisplayHoldOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
             }
         }

@@ -3,33 +3,35 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.hold
 
+import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class HoldOverlayViewModel {
-    private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
+internal class HoldOverlayViewModel (private val dispatch: (Action) -> Unit){
+    private lateinit var displayHoldOverlayFlow: MutableStateFlow<Boolean>
 
-    fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
+    fun getDisplayHoldOverlayFlow(): StateFlow<Boolean> = displayHoldOverlayFlow
 
     fun init(
         callingState: CallingStatus,
-
     ) {
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
-        displayLobbyOverlayFlow = MutableStateFlow(displayLobbyOverlay)
+        val displayLobbyOverlay = shouldDisplayHoldOverlay(callingState)
+        displayHoldOverlayFlow = MutableStateFlow(displayLobbyOverlay)
     }
 
     fun update(
         callingState: CallingStatus,
     ) {
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
-        displayLobbyOverlayFlow.value = displayLobbyOverlay
+        val displayHoldOverlay = shouldDisplayHoldOverlay(callingState)
+        displayHoldOverlayFlow.value = displayHoldOverlay
     }
 
-    private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
+    private fun shouldDisplayHoldOverlay(callingStatus: CallingStatus) =
         callingStatus == CallingStatus.LOCAL_HOLD
 
     fun resumeCall() {
+        dispatch(CallingAction.ResumeRequested())
     }
 }
