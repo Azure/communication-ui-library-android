@@ -42,7 +42,6 @@
         android:id="@+id/azure_communication_ui_call_hold_resume_button"
         style="@style/Widget.FluentUI.Button"
         android:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
