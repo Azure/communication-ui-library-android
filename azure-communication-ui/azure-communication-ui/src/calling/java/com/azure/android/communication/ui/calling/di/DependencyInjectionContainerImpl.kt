@@ -19,6 +19,8 @@ import com.azure.android.communication.ui.calling.presentation.manager.AvatarVie
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
+import com.azure.android.communication.ui.calling.redux.middleware.AudioFocusMiddleware
+import com.azure.android.communication.ui.calling.redux.middleware.AudioFocusMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
@@ -128,7 +130,12 @@ internal class DependencyInjectionContainerImpl(
     private val navigationReducer get() = NavigationReducerImpl()
 
     // Middleware
-    private val appMiddleware get() = mutableListOf(callingMiddleware)
+    private val appMiddleware get() = mutableListOf(audioFocusMiddleware, callingMiddleware)
+
+    private val audioFocusMiddleware : Middleware<ReduxState> by lazy {
+        AudioFocusMiddlewareImpl(applicationContext) { appStore.dispatch(it) }
+    }
+
     private val callingMiddleware: Middleware<ReduxState> by lazy {
         CallingMiddlewareImpl(
             callingMiddlewareActionHandler,
