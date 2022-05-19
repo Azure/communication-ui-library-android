@@ -103,6 +103,7 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {
+        val previousState = micButton.isON
         when (audioOperationalStatus) {
             AudioOperationalStatus.ON -> {
                 micButton.isON = true

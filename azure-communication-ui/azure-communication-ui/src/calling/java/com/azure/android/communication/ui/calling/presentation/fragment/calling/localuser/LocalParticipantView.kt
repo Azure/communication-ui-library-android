@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -40,6 +41,7 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var displayNameText: TextView
     private lateinit var micImage: ImageView
     private lateinit var dragTouchListener: DragTouchListener
+    private lateinit var accessibilityManager: AccessibilityManager
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -180,7 +182,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getNumberOfRemoteParticipantsFlow().collect {
-                if (it >= 1) {
+                if (!accessibilityManager.isEnabled && it >= 1) {
                     dragTouchListener.setView(localPipWrapper)
                     localPipWrapper.setOnTouchListener(dragTouchListener)
                 } else {
@@ -191,6 +193,8 @@ internal class LocalParticipantView : ConstraintLayout {
     }
 
     private fun setupAccessibility() {
+        accessibilityManager =
+            context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         switchCameraButton.contentDescription =
             context.getString(R.string.azure_communication_ui_calling_button_switch_camera_accessibility_label)
     }
