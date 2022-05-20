@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">Alternar Para a Câmera Frontal</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Alternar Para a Câmera Traseira</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Selecionar o Dispositivo de Áudio %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s dispositivo de áudio, selecionado</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Ingressando na chamada…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vídeo desativado</string>
@@ -71,6 +71,9 @@ dando consentimento para que esta reunião seja transcrita.
         agora só está transcrevendo esta reunião. <u>Política de privacidade</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>A transcrição foi interrompida.
     </b> Você agora só está gravando esta reunião. <u>Política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
+        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->

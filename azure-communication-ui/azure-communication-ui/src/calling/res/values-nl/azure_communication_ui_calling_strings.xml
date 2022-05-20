@@ -9,9 +9,9 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Overschakelen naar camera aan voorzijde</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Overschakelen naar de camera aan achterzijde</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Overschakelen naar camera aan achterzijde</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audioapparaat %1$s selecteren</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s-audioapparaat, geselecteerd</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Deelnemen aan gesprek…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video uit</string>
@@ -71,6 +71,9 @@
         maakt nu alleen een transcriptie van deze vergadering. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcriptie is gestopt.
         </b>U maakt nu alleen een opname van deze vergadering. <u>Privacybeleid</u></string>
+    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
+        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
     <string name="azure_communication_ui_calling_view_link">Koppeling</string>
 
     <!--    PopUp warning-->

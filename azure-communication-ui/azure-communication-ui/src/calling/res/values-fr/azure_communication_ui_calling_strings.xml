@@ -10,10 +10,10 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Casque</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Basculer vers la caméra avant</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Basculer vers la caméra arrière</string>
-    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Sélectionner un %1$s de périphérique audio</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Sélectionner le périphérique audio %1$s</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">Périphérique audio %1$s, sélectionné</string>
     <!--    Setup View-->
-    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours… Merci de patienter.</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vidéo désactivée</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Vidéo activée</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microphone désactivé</string>
@@ -71,6 +71,9 @@
         transcrivez uniquement cette réunion à présent. <u>Politique de confidentialité</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La transcription s’est arrêtée.
      </b> Vous        enregistrez cette réunion uniquement à présent. <u>Politique de confidentialité</u></string>
+    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
+        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
     <string name="azure_communication_ui_calling_view_link">Lien</string>
 
     <!--    PopUp warning-->

@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">전면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">후면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">오디오 장치 %1$s 선택</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">오디오 장치 %1$s 선택됨</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">통화에 참가하는 중…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">비디오 끄기</string>
@@ -71,6 +71,9 @@
         전사만 합니다. <u>개인 정보 취급 방침</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>대화 내용 기록이 중지되었습니다.</b>이제 이 모임에서
         녹음만 합니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
+        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
     <string name="azure_communication_ui_calling_view_link">링크</string>
 
     <!--    PopUp warning-->
