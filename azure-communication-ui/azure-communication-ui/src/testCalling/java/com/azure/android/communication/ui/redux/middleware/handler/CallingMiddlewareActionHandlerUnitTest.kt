@@ -36,8 +36,8 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.CALL_DECLINED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.CALL_EVICTED
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_DECLINED
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi

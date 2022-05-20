@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
@@ -30,6 +31,7 @@ internal class ErrorHandler(
     }
 
     private fun onStateChanged(state: ReduxState) {
+        val fireEmergencyExit = isEmergencyExit(state.errorState)
 
         checkIfFatalErrorIsNewAndNotify(
             state.errorState.fatalError,
@@ -51,7 +53,9 @@ internal class ErrorHandler(
             lastCallStateError,
         ) { lastCallStateError = it }
 
-        if (isEmergencyExit(state.errorState)) { store.dispatch(ErrorAction.EmergencyExit()) }
+        if (fireEmergencyExit) {
+            store.dispatch(ErrorAction.EmergencyExit())
+        }
     }
 
     private fun isEmergencyExit(errorState: ErrorState) =

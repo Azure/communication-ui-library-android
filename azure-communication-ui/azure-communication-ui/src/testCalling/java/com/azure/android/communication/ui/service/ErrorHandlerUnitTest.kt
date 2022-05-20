@@ -24,8 +24,8 @@ import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.CALL_DECLINED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.CALL_EVICTED
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_DECLINED
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_EVICTED
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -245,11 +245,11 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn stateFlow
-                on { dispatch(any()) } doAnswer { }
+
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnErrorHandler(mock { on { handle(any()) } doAnswer { } })
+            configuration.callCompositeEventsHandler.setOnErrorHandler(mock())
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
@@ -289,11 +289,10 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn stateFlow
-                on { dispatch(any()) } doAnswer { }
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnErrorHandler(mock { on { handle(any()) } doAnswer { } })
+            configuration.callCompositeEventsHandler.setOnErrorHandler(mock())
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
