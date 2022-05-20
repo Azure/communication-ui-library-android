@@ -71,9 +71,6 @@
 现在仅在誊写此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>听录已停止。
 </b>你现在仅在录制此会议。<u>隐私策略</u></string>
-    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
-        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
-    </string>
     <string name="azure_communication_ui_calling_view_link">链接</string>
 
     <!--    PopUp warning-->

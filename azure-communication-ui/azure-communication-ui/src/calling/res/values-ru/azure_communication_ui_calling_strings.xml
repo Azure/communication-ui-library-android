@@ -71,9 +71,6 @@
         только транскрибируете это собрание. <u>Политика конфиденциальности</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Транскрибирование остановлено.
     </b> Теперь вы только записываете это собрание. <u>Политика конфиденциальности</u></string>
-    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
-        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
-    </string>
     <string name="azure_communication_ui_calling_view_link">Ссылка</string>
 
     <!--    PopUp warning-->
