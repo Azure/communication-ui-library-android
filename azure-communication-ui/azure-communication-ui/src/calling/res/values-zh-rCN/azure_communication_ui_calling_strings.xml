@@ -11,11 +11,11 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">切换到前置摄像头</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">切换到后置摄像头</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">选择音频设备 %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">已选择 %1$s 音频设备</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">正在加入通话…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_video_off">视频关闭</string>
-    <string name="azure_communication_ui_calling_setup_view_button_video_on">视频开启</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_off">关闭视频</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_on">打开视频</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">关闭麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">打开麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">加入通话</string>
@@ -31,7 +31,10 @@
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">正在等待主持人</string>
-    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">会议中的人将很快允许你加入</string>
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">会议中的某人将很快允许你加入</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
@@ -81,7 +84,7 @@
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">正在通话中</string>
-    <string name="azure_communication_ui_calling_service_notification_message">点击此处以返回到通话</string>
+    <string name="azure_communication_ui_calling_service_notification_message">点击返回到通话</string>
 
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s 已加入会议</string>
