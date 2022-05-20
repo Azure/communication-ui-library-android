@@ -23,7 +23,7 @@ internal interface AudioFocusMiddleware
 
 // Handle Audio Focus for different platforms
 // Provides ability to listen to the changes
-internal abstract class AudioFocusHandler(context: Context) : AudioManager.OnAudioFocusChangeListener {
+internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListener {
     companion object {
         fun getForPlatform(context: Context) : AudioFocusHandler {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -33,8 +33,6 @@ internal abstract class AudioFocusHandler(context: Context) : AudioManager.OnAud
             }
         }
     }
-
-    internal val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     var onFocusChange: ((Int) -> Unit)? = null
         set(handler) {
@@ -51,7 +49,8 @@ internal abstract class AudioFocusHandler(context: Context) : AudioManager.OnAud
 
 // Newer API Version of AudioFocusHandler
 @RequiresApi(Build.VERSION_CODES.O)
-internal class AudioFocusHandler26(context: Context) : AudioFocusHandler(context) {
+internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
+    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     private val audioFocusRequest26 = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
         .setOnAudioFocusChangeListener(this).build()
@@ -66,7 +65,9 @@ internal class AudioFocusHandler26(context: Context) : AudioFocusHandler(context
 
 // Legacy AudioFocus API
 @Suppress("DEPRECATION")
-internal class AudioFocusHandlerLegacy(context: Context) : AudioFocusHandler(context) {
+internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler() {
+    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
     override fun getAudioFocus() = audioManager.requestAudioFocus(this,
         AudioManager.STREAM_VOICE_CALL, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)  == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 
