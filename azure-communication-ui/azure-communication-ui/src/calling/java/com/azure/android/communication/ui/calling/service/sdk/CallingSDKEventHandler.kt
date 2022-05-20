@@ -84,16 +84,6 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
     }
 
-    fun onHold() {
-        if (call == null) return
-        // Adding this hook, nothing to add here yet
-    }
-
-    fun onResume() {
-        if (call == null) return
-        // Adding this hook, nothing to add here yet
-    }
-
     fun onEndCall() {
         if (call == null) return
         call?.removeOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)

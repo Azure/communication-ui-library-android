@@ -93,8 +93,7 @@ internal class CallingSDKWrapper(
             // We can't access the call currently, return a no-op and exit
             return CompletableFuture.runAsync { }
         }
-
-        callingSDKEventHandler.onHold()
+        
         holdCompletableFuture = call.hold()
         return holdCompletableFuture!!
     }
@@ -109,7 +108,6 @@ internal class CallingSDKWrapper(
             return CompletableFuture.runAsync { }
         }
 
-        callingSDKEventHandler.onResume()
         resumeCompletableFuture = call.resume()
         return resumeCompletableFuture!!
     }
