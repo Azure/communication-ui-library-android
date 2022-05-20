@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">전면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">후면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">오디오 장치 %1$s 선택</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">오디오 장치 %1$s 선택됨</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">통화에 참가하는 중…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">비디오 끄기</string>
@@ -32,6 +32,9 @@
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">호스트 대기 중</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">모임에 참가한 사용자가 곧 참가할 수 있습니다.</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">다른 사용자의 참여를 기다리는 중</string>

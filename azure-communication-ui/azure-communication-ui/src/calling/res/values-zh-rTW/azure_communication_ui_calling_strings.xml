@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">切換到前置相機</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">切換到後置相機</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">選取音訊裝置 %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s 音訊裝置，已選取</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">正在加入通話…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">視訊關閉</string>
@@ -32,6 +32,9 @@
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">等待主持人中</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">會議中有人很快會讓您加入</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
@@ -75,9 +78,9 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">關閉</string>
-    <string name="azure_communication_ui_calling_alert_title">提醒</string>
+    <string name="azure_communication_ui_calling_alert_title">警示</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">因為發生錯誤，您已從通話中移除。</string>
-    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">因為發生錯誤，所以無法加入通話。</string>
+    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">發生錯誤，因此無法加入通話。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已從通話中移除您。</string>
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">通話進行中</string>

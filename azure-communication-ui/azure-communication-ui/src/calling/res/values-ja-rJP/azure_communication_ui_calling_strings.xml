@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">フロント カメラに切り替える</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">バック カメラに切り替える</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">オーディオ デバイス %1$s の選択</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s オーディオ デバイス、選択済み</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">参加中…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">ビデオ オフ</string>
@@ -32,6 +32,9 @@
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">ホストを待機しています</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">会議の参加者がまもなくあなたを招待します</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">他のユーザーの参加を待っています</string>
