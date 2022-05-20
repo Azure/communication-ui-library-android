@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 internal class CallingService(
     private val callingSDKWrapper: CallingSDKWrapper,
     coroutineContextProvider: CoroutineContextProvider,
-    private val logger: Logger? = null,
+    private val logger: Logger? = DefaultLogger(),
 ) {
     companion object {
         private const val LOCAL_VIDEO_STREAM_ID = "BuiltInCameraVideoStream"

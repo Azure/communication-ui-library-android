@@ -61,7 +61,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // so it can initialize it's container holding the dependencies
         try {
             diContainerHolder.instanceId = instanceId
-            diContainerHolder.callingViewModel.getBannerViewModel()
         } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return

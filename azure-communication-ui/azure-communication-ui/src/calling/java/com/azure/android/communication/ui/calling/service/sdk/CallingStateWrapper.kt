@@ -13,13 +13,13 @@ internal data class CallingStateWrapper(
 ) {
     fun isDeclined() =
         callState == CallState.DISCONNECTED &&
-        callEndReason == CallingService.CALL_END_REASON_SUCCESS &&
-        callEndReasonSubCode == CallingService.CALL_END_REASON_SUB_CODE_DECLINED
+            callEndReason == CallingService.CALL_END_REASON_SUCCESS &&
+            callEndReasonSubCode == CallingService.CALL_END_REASON_SUB_CODE_DECLINED
 
     fun isEvicted() =
         callState == CallState.DISCONNECTED &&
-        callEndReason == CallingService.CALL_END_REASON_SUCCESS && (
+            callEndReason == CallingService.CALL_END_REASON_SUCCESS && (
             callEndReasonSubCode == CallingService.CALL_END_REASON_EVICTED ||
-            callEndReasonSubCode == CallingService.CALL_END_REASON_TEAMS_EVICTED
-        )
+                callEndReasonSubCode == CallingService.CALL_END_REASON_TEAMS_EVICTED
+            )
 }
