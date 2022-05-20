@@ -22,7 +22,6 @@ import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.middleware.AudioFocusHandler
-import com.azure.android.communication.ui.calling.redux.middleware.AudioFocusMiddleware
 import com.azure.android.communication.ui.calling.redux.middleware.AudioFocusMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
@@ -135,15 +134,17 @@ internal class DependencyInjectionContainerImpl(
     // Middleware
     private val appMiddleware get() = mutableListOf(audioFocusMiddleware, callingMiddleware)
 
-    private val audioFocusMiddleware : Middleware<ReduxState> by lazy {
-        AudioFocusMiddlewareImpl(AudioFocusHandler.getForPlatform(applicationContext),
+    private val audioFocusMiddleware: Middleware<ReduxState> by lazy {
+        AudioFocusMiddlewareImpl(
+            AudioFocusHandler.getForPlatform(applicationContext),
             onFocusFailed = {
                 Toast.makeText(applicationContext, "Failure to get focus", Toast.LENGTH_SHORT).show()
             },
 
             onFocusLost = {
                 appStore.dispatch(CallingAction.HoldRequested())
-            })
+            }
+        )
     }
 
     private val callingMiddleware: Middleware<ReduxState> by lazy {

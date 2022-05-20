@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class HoldOverlayViewModel (private val dispatch: (Action) -> Unit){
+internal class HoldOverlayViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var displayHoldOverlayFlow: MutableStateFlow<Boolean>
 
     fun getDisplayHoldOverlayFlow(): StateFlow<Boolean> = displayHoldOverlayFlow
