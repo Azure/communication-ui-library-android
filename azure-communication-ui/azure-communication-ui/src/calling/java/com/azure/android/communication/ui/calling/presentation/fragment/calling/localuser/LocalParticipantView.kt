@@ -156,8 +156,8 @@ internal class LocalParticipantView : ConstraintLayout {
                 listOf(switchCameraButton, pipSwitchCameraButton).forEach {
                     it.contentDescription = context.getString(
                         when (cameraDeviceSelectionStatus) {
-                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_calling_switch_camera_button_back
-                            else -> R.string.azure_communication_ui_calling_switch_camera_button_front
+                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_calling_switch_camera_button_front
+                            else -> R.string.azure_communication_ui_calling_switch_camera_button_back
                         }
                     )
                 }

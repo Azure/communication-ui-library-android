@@ -103,14 +103,14 @@ internal class MeetingJoinedHook : AccessibilityHook() {
         context.getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected)
 }
 
-internal class PipCameraStatusHook : AccessibilityHook() {
+internal class SwitchCameraStatusHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
         (lastState.localParticipantState.cameraState.device != newState.localParticipantState.cameraState.device)
 
     override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
         return when (newState.localParticipantState.cameraState.device) {
-            CameraDeviceSelectionStatus.FRONT -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_back)
-            CameraDeviceSelectionStatus.BACK -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_front)
+            CameraDeviceSelectionStatus.FRONT -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_front)
+            CameraDeviceSelectionStatus.BACK -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_back)
             else -> ""
         }
     }
@@ -148,5 +148,5 @@ internal val accessibilityHooks = listOf(
     CameraStatusHook(),
     ParticipantAddedOrRemovedHook(),
     MicStatusHook(),
-    PipCameraStatusHook(),
+    SwitchCameraStatusHook(),
 )
