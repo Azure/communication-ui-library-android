@@ -11,14 +11,14 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">Переключиться на переднюю камеру</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Переключиться на заднюю камеру</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Выбрать звуковое устройство %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">Выбрано аудиоустройство %1$s</string>
     <!--    Setup View-->
-    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Подключение к звонку…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Присоединение к вызову…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Видео отключено</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Видео включено</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Микрофон выключен</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Микрофон включен</string>
-    <string name="azure_communication_ui_calling_setup_view_button_join_call">Присоединиться к звонку</string>
+    <string name="azure_communication_ui_calling_setup_view_button_join_call">Присоединиться к вызову</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать
         этот звонок, включите звук.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры",
@@ -78,13 +78,13 @@
     <string name="azure_communication_ui_calling_alert_title">Оповещение</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">Вы были удалены из звонка из-за ошибки.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
-    <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из звонка.</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из вызова.</string>
     <!--    Notification-->
-    <string name="azure_communication_ui_calling_service_notification_title">Текущий звонок</string>
-    <string name="azure_communication_ui_calling_service_notification_message">Коснитесь, чтобы вернуться к звонку</string>
+    <string name="azure_communication_ui_calling_service_notification_title">Текущий вызов</string>
+    <string name="azure_communication_ui_calling_service_notification_message">Коснитесь, чтобы вернуться к вызову</string>
 
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s присоединяется к собранию</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s покидает собрание</string>
-    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Вы присоединились к звонку</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Вы присоединились к вызову</string>
 </resources>
