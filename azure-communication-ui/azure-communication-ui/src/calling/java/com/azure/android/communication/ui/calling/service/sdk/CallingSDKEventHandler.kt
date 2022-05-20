@@ -3,16 +3,7 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-import com.azure.android.communication.calling.Call
-import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.calling.MediaStreamType
-import com.azure.android.communication.calling.ParticipantsUpdatedEvent
-import com.azure.android.communication.calling.ParticipantsUpdatedListener
-import com.azure.android.communication.calling.PropertyChangedListener
-import com.azure.android.communication.calling.RecordingCallFeature
-import com.azure.android.communication.calling.RemoteParticipant
-import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
-import com.azure.android.communication.calling.TranscriptionCallFeature
+import com.azure.android.communication.calling.*
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
@@ -78,6 +69,8 @@ internal class CallingSDKEventHandler(
         call.addOnStateChangedListener(onCallStateChanged)
         call.addOnIsMutedChangedListener(onIsMutedChanged)
         call.addOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
+
+
         recordingFeature = call.feature { RecordingCallFeature::class.java }
         recordingFeature.addOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
@@ -209,6 +202,7 @@ internal class CallingSDKEventHandler(
             ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
             participant.isMuted,
             participant.isSpeaking && !participant.isMuted,
+            participant.state == ParticipantState.HOLD,
             createVideoStreamModel(participant, MediaStreamType.SCREEN_SHARING),
             createVideoStreamModel(participant, MediaStreamType.VIDEO),
             currentTimestamp,

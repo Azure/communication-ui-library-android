@@ -16,6 +16,7 @@ internal class ParticipantGridCellViewModelFactory {
             participantInfoModel.cameraVideoStreamModel,
             participantInfoModel.screenShareVideoStreamModel,
             participantInfoModel.isMuted,
+            participantInfoModel.isOnHold,
             participantInfoModel.isSpeaking,
             participantInfoModel.modifiedTimestamp,
         )

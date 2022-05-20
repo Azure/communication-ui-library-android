@@ -29,6 +29,8 @@ internal class ParticipantListViewModel {
     fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
         (localParticipantListCellStateFlow.value.displayName.trim() + " " + suffix).trim(),
         localParticipantListCellStateFlow.value.isMuted,
+        localParticipantListCellStateFlow.value.isOnHold,
+
         ""
     )
 
@@ -65,18 +67,21 @@ internal class ParticipantListViewModel {
         val localUserDisplayName = localUserState.displayName
         return ParticipantListCellModel(
             localUserDisplayName ?: "",
+            false,
             localUserState.audioState.operation == AudioOperationalStatus.OFF,
             ""
         )
     }
 
     private fun getRemoteParticipantListCellModel(it: ParticipantInfoModel): ParticipantListCellModel {
-        return ParticipantListCellModel(it.displayName.trim(), it.isMuted, it.userIdentifier)
+        return ParticipantListCellModel(it.displayName.trim(), it.isMuted, it.isOnHold, it.userIdentifier)
     }
 }
 
 internal data class ParticipantListCellModel(
+
     val displayName: String,
+    val isOnHold: Boolean,
     val isMuted: Boolean,
     val userIdentifier: String,
 )

@@ -25,6 +25,7 @@ internal class ParticipantGridCellAvatarView(
     private val participantAvatarSpeakingFrameLayout: FrameLayout,
     private val participantContainer: ConstraintLayout,
     private val displayNameAudioTextView: TextView,
+    private val onHoldIndicator: TextView,
     private val micIndicatorAudioImageView: ImageView,
     private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
     private val participantViewModel: ParticipantGridCellViewModel,
@@ -46,11 +47,19 @@ internal class ParticipantGridCellAvatarView(
                 setMicButtonVisibility(it)
             }
         }
+
+        lifecycleScope.launch {
+            participantViewModel.getIsOnHoldStateFlow().collect {
+                setHoldIndicatorVisibility(it)
+            }
+        }
+
         lifecycleScope.launch {
             participantViewModel.getIsSpeakingStateFlow().collect {
                 setSpeakingIndicator(it)
             }
         }
+
 
         lifecycleScope.launch {
             participantViewModel.getVideoViewModelStateFlow().collect {
@@ -114,5 +123,10 @@ internal class ParticipantGridCellAvatarView(
         } else {
             micIndicatorAudioImageView.visibility = VISIBLE
         }
+    }
+
+
+    private fun setHoldIndicatorVisibility(isOnHold: Boolean) {
+        onHoldIndicator.visibility = if (isOnHold) VISIBLE else GONE
     }
 }

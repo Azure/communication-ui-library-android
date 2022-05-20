@@ -84,6 +84,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -162,6 +163,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -181,6 +183,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user two",
                                 userIdentifier = "test2",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -269,6 +272,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -288,6 +292,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user two",
                                 userIdentifier = "test2",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -380,6 +385,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -399,6 +405,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user two",
                                 userIdentifier = "test2",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -418,6 +425,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user two",
                                 userIdentifier = "testNew",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -469,6 +477,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -488,6 +497,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user two",
                                 userIdentifier = "test2",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -578,6 +588,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 displayName = "user two",
                                 userIdentifier = "test2",
                                 isMuted = true,
+                                isOnHold = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",

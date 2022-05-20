@@ -67,11 +67,13 @@ internal class ParticipantGridCellView(
         val micIndicatorAudioImageView: ImageView =
             findViewById(R.id.azure_communication_ui_participant_audio_view_mic_indicator)
 
+        val onHoldIndicatorTextView: TextView = findViewById(R.id.azure_communication_ui_participant_on_hold_indicator)
         avatarView = ParticipantGridCellAvatarView(
             avatarControl,
             participantAvatarSpeakingIndicator,
             participantAvatarContainer,
             displayNameAudioTextView,
+            onHoldIndicatorTextView,
             micIndicatorAudioImageView,
             getParticipantViewDataCallback,
             participantViewModel,
