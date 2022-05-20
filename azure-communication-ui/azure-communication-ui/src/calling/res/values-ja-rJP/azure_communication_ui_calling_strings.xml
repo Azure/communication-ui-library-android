@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">フロント カメラに切り替える</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">バック カメラに切り替える</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">オーディオ デバイス %1$s の選択</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s オーディオ デバイス、選択済み</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">参加中…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">ビデオ オフ</string>
@@ -71,6 +71,9 @@
         この会議の文字起こしのみが行われるようになります。<u>プライバシー ポリシー</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>文字起こしが停止しました。</b>
         この会議のレコーディングのみが行われるようになります。<u>プライバシー ポリシー</u></string>
+    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
+        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
+    </string>
     <string name="azure_communication_ui_calling_view_link">リンク</string>
 
     <!--    PopUp warning-->
