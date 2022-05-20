@@ -71,9 +71,6 @@
         現在只能轉譯此會議。<u>隱私權原則</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>轉錄已停止。</b> 您
         現在只能錄製此會議。<u>隱私權原則</u></string>
-    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
-        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
-    </string>
     <string name="azure_communication_ui_calling_view_link">連結</string>
 
     <!--    PopUp warning-->

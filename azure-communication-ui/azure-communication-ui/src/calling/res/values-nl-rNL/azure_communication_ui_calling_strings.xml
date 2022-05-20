@@ -71,9 +71,6 @@
         maakt nu alleen een transcriptie van deze vergadering. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcriptie is gestopt.
         </b>U maakt nu alleen een opname van deze vergadering. <u>Privacybeleid</u></string>
-    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
-        https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
-    </string>
     <string name="azure_communication_ui_calling_view_link">Koppeling</string>
 
     <!--    PopUp warning-->
