@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCod
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.error.CallStateError
-import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_DECLINED
@@ -33,7 +32,7 @@ import kotlinx.coroutines.launch
 internal class CallingService(
     private val callingSDKWrapper: CallingSDKWrapper,
     coroutineContextProvider: CoroutineContextProvider,
-    private val logger: Logger? = DefaultLogger(),
+    private val logger: Logger? = null,
 ) {
     companion object {
         private const val LOCAL_VIDEO_STREAM_ID = "BuiltInCameraVideoStream"

@@ -245,7 +245,6 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn stateFlow
-
             }
 
             val configuration = CallCompositeConfiguration()
