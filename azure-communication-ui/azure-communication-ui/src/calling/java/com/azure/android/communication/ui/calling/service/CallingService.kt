@@ -7,7 +7,7 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_JOIN_FAILED
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_END_FAILED
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.CALL_EVICTED
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
