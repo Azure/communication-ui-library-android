@@ -9,9 +9,9 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Overschakelen naar camera aan voorzijde</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Overschakelen naar de camera aan achterzijde</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Overschakelen naar camera aan achterzijde</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audioapparaat %1$s selecteren</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s-audioapparaat, geselecteerd</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Deelnemen aan gesprek…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video uit</string>
@@ -32,6 +32,9 @@
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Wachten op host</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Iemand in de vergadering laat u binnenkort binnen</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Wachten tot anderen deelnemen</string>
