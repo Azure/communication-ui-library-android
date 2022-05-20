@@ -7,6 +7,7 @@ import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
+import android.telecom.Call
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
@@ -112,6 +113,10 @@ internal class AudioFocusMiddlewareImpl(
                     onFocusFailed()
                 }
             } else {
+                /// Release Audio Focus on Call End
+                if (action is CallingAction.CallEndRequested) {
+                    audioFocusHandler.releaseAudioFocus()
+                }
                 next(action)
             }
         }
