@@ -15,19 +15,46 @@
     tools:context="com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment"
     >
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8"
+        />
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="200dp"
-        android:layout_marginEnd="200dp"
-        android:layout_marginTop="280dp"
-        android:layout_marginBottom="280dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clickable="true"
         android:focusableInTouchMode="true"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="@id/azure_communication_ui_guideline_bottom"
+        app:layout_constraintEnd_toEndOf="@id/azure_communication_ui_guideline_right"
+        app:layout_constraintStart_toStartOf="@id/azure_communication_ui_guideline_left"
+        app:layout_constraintTop_toTopOf="@id/azure_communication_ui_guideline_top">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
