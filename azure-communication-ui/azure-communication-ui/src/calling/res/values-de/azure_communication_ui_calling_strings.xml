@@ -10,10 +10,10 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Zur Frontkamera wechseln</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Zur Rückkamera wechseln</string>
-    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audiogerät auswählen %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audiogerät %1$s auswählen</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s Audiogerät, ausgewählt</string>
     <!--    Setup View-->
-    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Teilnehmen am Anruf…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Anruf wird beigetreten…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video aus</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Video ein</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon aus</string>
@@ -23,7 +23,7 @@
  Audio aktivieren, um diesen Anruf zu starten.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Ihre Kamera ist deaktiviert. Wechseln Sie zum Aktivieren zu „Einstellungen“
 ,         um den Zugriff zuzulassen.</string>
-    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Erforderliche Berechtigungen</string>
+    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Berechtigungen erforderlich</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Ausgewählt</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Schaltfläche „Kamera wechseln“</string>
@@ -81,7 +81,7 @@
     <string name="azure_communication_ui_calling_call_state_evicted">Sie wurden aus dem Anruf entfernt.</string>
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Laufender Anruf</string>
-    <string name="azure_communication_ui_calling_service_notification_message">Tippen Sie, um zum Anruf zurückzukehren.</string>
+    <string name="azure_communication_ui_calling_service_notification_message">Tippen Sie, um zum Anruf zurückzukehren</string>
 
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s ist der Besprechung beigetreten</string>
