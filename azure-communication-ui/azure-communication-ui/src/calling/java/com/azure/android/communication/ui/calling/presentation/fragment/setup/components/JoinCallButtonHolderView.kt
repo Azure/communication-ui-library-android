@@ -73,6 +73,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             setupJoinCallButtonText.visibility = GONE
             progressBar.visibility = VISIBLE
             joiningCallText.visibility = VISIBLE
+            joiningCallText.accessibilityLiveRegion = ACCESSIBILITY_LIVE_REGION_POLITE
         } else {
             setupJoinCallButton.visibility = VISIBLE
             setupJoinCallButtonText.visibility = VISIBLE
