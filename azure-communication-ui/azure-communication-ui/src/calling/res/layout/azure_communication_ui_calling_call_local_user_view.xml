@@ -7,6 +7,8 @@
     android:id="@+id/azure_communication_ui_call_local_user_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:accessibilityTraversalAfter="@id/azure_communication_ui_call_floating_header"
     android:padding="4dp"
     >
 
@@ -20,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <include layout="@layout/azure_communication_ui_calling_call_local_pip_video" />
+    <include layout="@layout/azure_communication_ui_calling_call_local_pip_video"/>
 
     <ImageView
         android:id="@+id/azure_communication_ui_call_switch_camera_button"
@@ -29,7 +31,8 @@
         android:layout_margin="4dp"
         android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
         android:backgroundTint="@color/azure_communication_ui_calling_color_button_switch_camera"
-        android:contentDescription="@string/azure_communication_ui_calling_button_switch_camera_accessibility_label"
+        android:contentDescription="Switch Camera"
+        android:accessibilityTraversalAfter="@id/azure_communication_ui_call_floating_header"
         android:padding="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
