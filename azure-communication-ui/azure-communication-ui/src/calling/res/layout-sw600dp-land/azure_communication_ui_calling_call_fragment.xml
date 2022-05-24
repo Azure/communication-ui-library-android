@@ -17,7 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/azure_communication_ui_calling_color_background"
-        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_control_bar_view_lands_wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
         layout="@layout/azure_communication_ui_calling_call_lobby_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_control_bar_view_lands_wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -56,7 +56,7 @@
         layout="@layout/azure_communication_ui_calling_call_hold_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_control_bar_view_lands_wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +64,7 @@
 
 
     <LinearLayout
-        android:id="@+id/azure_communication_ui_control_bar_view_lands_wrapper"
+        android:id="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/azure_communication_ui_calling_color_background"
