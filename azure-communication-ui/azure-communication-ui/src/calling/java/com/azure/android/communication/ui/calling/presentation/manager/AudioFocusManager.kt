@@ -60,6 +60,7 @@ internal class AudioFocusManager(
     private val applicationContext: Context,
 ) {
     private var audioFocusHandler: AudioFocusHandler? = null
+    private var isAudioFocused = false
 
     init {
         audioFocusHandler = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -83,13 +84,17 @@ internal class AudioFocusManager(
     suspend fun start() {
         store.getStateFlow().collect {
             if ( it.callState.callingStatus == CallingStatus.CONNECTED) {
-                val result = audioFocusHandler?.getAudioFocus()
-                if (result == false) {
-                    Toast.makeText(applicationContext, "Failure to get focus", Toast.LENGTH_SHORT)
-                        .show()
+                if (!isAudioFocused) {
+                    isAudioFocused = audioFocusHandler?.getAudioFocus() == true
+                    if (!isAudioFocused) {
+                        Toast.makeText(applicationContext, "Failure to get focus", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             } else if (it.callState.callingStatus == CallingStatus.DISCONNECTED) {
-                audioFocusHandler?.releaseAudioFocus()
+                if (isAudioFocused) {
+                    isAudioFocused = audioFocusHandler?.releaseAudioFocus() == false
+                }
             }
         }
     }
