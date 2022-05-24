@@ -39,6 +39,7 @@ internal interface DependencyInjectionContainer {
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
+
     // UI
     val videoViewManager: VideoViewManager
 }
