@@ -186,8 +186,6 @@ internal class CallingService(
         }
 
     private fun getCallingState(callingState: CallingStateWrapper): CallingStatus {
-        if (callingState.isEvicted()) return CallingStatus.CALL_EVICTED
-        if (callingState.isDeclined()) return CallingStatus.CALL_DECLINED
         return when (callingState.callState) {
             CallState.CONNECTED -> CallingStatus.CONNECTED
             CallState.CONNECTING -> CallingStatus.CONNECTING
