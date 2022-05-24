@@ -4,25 +4,21 @@
 package com.azure.android.communication.ui.calling.di
 
 import android.content.Context
-import android.widget.Toast
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
-
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
-
+import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
+import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
-import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
-import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.middleware.AudioFocusHandler
-import com.azure.android.communication.ui.calling.redux.middleware.AudioFocusMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
@@ -82,6 +78,13 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
+    override val audioFocusManager by lazy {
+        AudioFocusManager(
+            appStore,
+            applicationContext,
+        )
+    }
+
     override val avatarViewManager by lazy {
         AvatarViewManager(
             coroutineContextProvider,
@@ -132,20 +135,7 @@ internal class DependencyInjectionContainerImpl(
     private val navigationReducer get() = NavigationReducerImpl()
 
     // Middleware
-    private val appMiddleware get() = mutableListOf(audioFocusMiddleware, callingMiddleware)
-
-    private val audioFocusMiddleware: Middleware<ReduxState> by lazy {
-        AudioFocusMiddlewareImpl(
-            AudioFocusHandler.getForPlatform(applicationContext),
-            onFocusFailed = {
-                Toast.makeText(applicationContext, "Failure to get focus", Toast.LENGTH_SHORT).show()
-            },
-
-            onFocusLost = {
-                appStore.dispatch(CallingAction.HoldRequested())
-            }
-        )
-    }
+    private val appMiddleware get() = mutableListOf(callingMiddleware)
 
     private val callingMiddleware: Middleware<ReduxState> by lazy {
         CallingMiddlewareImpl(

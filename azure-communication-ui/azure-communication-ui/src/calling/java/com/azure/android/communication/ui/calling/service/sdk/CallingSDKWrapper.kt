@@ -47,8 +47,6 @@ internal class CallingSDKWrapper(
     private var deviceManagerCompletableFuture: CompletableFuture<DeviceManager>? = null
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
-    private var holdCompletableFuture: CompletableFuture<Void>? = null
-    private var resumeCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
 
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
@@ -94,8 +92,7 @@ internal class CallingSDKWrapper(
             return CompletableFuture.runAsync { }
         }
 
-        holdCompletableFuture = call.hold()
-        return holdCompletableFuture!!
+        return call.hold()
     }
 
     fun resume(): CompletableFuture<Void> {
@@ -108,8 +105,7 @@ internal class CallingSDKWrapper(
             return CompletableFuture.runAsync { }
         }
 
-        resumeCompletableFuture = call.resume()
-        return resumeCompletableFuture!!
+        return call.resume()
     }
 
     fun endCall(): CompletableFuture<Void> {

@@ -1,42 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.redux.middleware
+package com.azure.android.communication.ui.calling.presentation.manager
 
 import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.redux.Dispatch
-import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import kotlinx.coroutines.flow.collect
 
-// / Audio Focus Middleware
-// / Handles AudioFocus by requesting/releasing before the appropriate actions
-// / Rejects actions such as Start/Resume when Focus can't be retrieved
-internal interface AudioFocusMiddleware
-
-// Handle Audio Focus for different platforms
-// Provides ability to listen to the changes
 internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListener {
-    companion object {
-        fun getForPlatform(context: Context): AudioFocusHandler {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                AudioFocusHandler26(context)
-            } else {
-                AudioFocusHandlerLegacy(context)
-            }
-        }
-    }
-
     var onFocusChange: ((Int) -> Unit)? = null
-        set(handler) {
-            field = handler
-        }
 
     override fun onAudioFocusChange(focusChange: Int) {
         onFocusChange?.let { it(focusChange) }
@@ -75,49 +55,53 @@ internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler
         audioManager.abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 }
 
-// Track Manage AudioFocus with Middleware
-internal class AudioFocusMiddlewareImpl(
-    private val audioFocusHandler: AudioFocusHandler,
-    private val onFocusFailed: () -> Unit,
-    private val onFocusLost: () -> Unit
-) :
-    Middleware<ReduxState>,
-    AudioFocusMiddleware {
-
-    private var currentFocus = AudioManager.AUDIOFOCUS_NONE
+internal class AudioFocusManager(
+    private val store: Store<ReduxState>,
+    private val applicationContext: Context,
+) {
+    private var audioFocusHandler: AudioFocusHandler? = null
+    private var hasAudioFocus = false
 
     init {
-        audioFocusHandler.onFocusChange = {
-            this.currentFocus = it
+        audioFocusHandler = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioFocusHandler26(applicationContext)
+        } else {
+            AudioFocusHandlerLegacy(applicationContext)
+        }
+
+        audioFocusHandler?.onFocusChange = {
             // Todo: AudioFocus can be resumed as well (e.g. transient is temporary, we will get back.
             // I.e. like how spotify can continue playing after a call is done.
             if (it == AudioManager.AUDIOFOCUS_LOSS ||
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
-                onFocusLost()
+                store.dispatch(CallingAction.HoldRequested())
             }
         }
     }
 
-    override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
-        { action: Action ->
-            if (action is CallingAction.CallStartRequested || action is CallingAction.ResumeRequested) {
-                var result = audioFocusHandler.getAudioFocus()
+    suspend fun start() {
+        store.getStateFlow().collect {
+            if (it.callState.callingStatus == CallingStatus.CONNECTING || it.callState.callingStatus == CallingStatus.CONNECTED) {
+                if(hasAudioFocus) {
 
-                if (result) {
-                    // Could fetch AudioFocus
-                    next(action)
-                } else {
-                    // Error fetching AudioFocus
-                    onFocusFailed()
+                    val result = audioFocusHandler?.getAudioFocus()
+                    if (result == true) {
+                        hasAudioFocus = true
+                    } else {
+                        // Error fetching AudioFocus
+                        hasAudioFocus = false
+                        Toast.makeText(applicationContext, "Failure to get focus", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
-            } else {
-                // / Release Audio Focus on Call End
-                if (action is CallingAction.CallEndRequested) {
-                    audioFocusHandler.releaseAudioFocus()
+
+            } else if (it.callState.callingStatus == CallingStatus.DISCONNECTING || it.callState.callingStatus == CallingStatus.DISCONNECTED) {
+                if(hasAudioFocus) {
+                    hasAudioFocus = false
+                    audioFocusHandler?.releaseAudioFocus()
                 }
-                next(action)
             }
         }
     }
