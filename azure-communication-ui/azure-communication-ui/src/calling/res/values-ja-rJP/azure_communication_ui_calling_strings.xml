@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">ミュート解除</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">切断</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">[閉じる] ボタン</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">ビデオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">オーディオの切り替え</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">デバイス オプション</string>
