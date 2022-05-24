@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">Cambiar a cámara frontal</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Cambiar a cámara trasera</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Seleccionar dispositivo de audio %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">Dispositivo de audio %1$s, seleccionado</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Uniéndose a la llamada…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vídeo desactivado</string>
@@ -78,13 +78,13 @@
     <string name="azure_communication_ui_calling_alert_title">Alerta</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">Se le ha quitado de la llamada debido a un error.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">No se puede unir a la llamada debido a un error.</string>
-    <string name="azure_communication_ui_calling_call_state_evicted">Le han eliminado de la llamada.</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">Te han quitado de la llamada.</string>
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Llamada en curso</string>
-    <string name="azure_communication_ui_calling_service_notification_message">Pulse para volver a la llamada</string>
+    <string name="azure_communication_ui_calling_service_notification_message">Pulsar para volver a la llamada</string>
 
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s se ha unido a la reunión</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s ha abandonado la reunión</string>
-    <string name="azure_communication_ui_calling_accessibility_meeting_connected">No se ha unido a la llamada.</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Te has unido a la llamada.</string>
 </resources>
