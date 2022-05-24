@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Sesi açıldı</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Kapat</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Kapat Düğmesi</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Görüntüyü Aç/Kapat</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Sesi Aç/Kapat</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Cihaz Seçenekleri</string>

@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Audio reactivado</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Colgar</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Botón Cerrar</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Activar/desactivar vídeo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Activar/desactivar audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opciones de dispositivo</string>
