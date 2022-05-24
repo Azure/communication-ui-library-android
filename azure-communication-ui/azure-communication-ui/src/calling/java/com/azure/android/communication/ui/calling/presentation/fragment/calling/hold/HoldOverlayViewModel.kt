@@ -28,10 +28,10 @@ internal class HoldOverlayViewModel(private val dispatch: (Action) -> Unit) {
         displayHoldOverlayFlow.value = displayHoldOverlay
     }
 
-    private fun shouldDisplayHoldOverlay(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.LOCAL_HOLD
-
     fun resumeCall() {
         dispatch(CallingAction.ResumeRequested())
     }
+
+    private fun shouldDisplayHoldOverlay(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.LOCAL_HOLD
 }
