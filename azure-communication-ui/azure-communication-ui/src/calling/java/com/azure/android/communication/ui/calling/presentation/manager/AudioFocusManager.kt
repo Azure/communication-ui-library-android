@@ -83,7 +83,7 @@ internal class AudioFocusManager(
 
     suspend fun start() {
         store.getStateFlow().collect {
-            if ( it.callState.callingStatus == CallingStatus.CONNECTED) {
+            if (it.callState.callingStatus == CallingStatus.CONNECTED) {
                 if (!isAudioFocused) {
                     isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                     if (!isAudioFocused) {
