@@ -26,7 +26,7 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Permisos necesarios</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Seleccionado</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Configuración de degradado</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Botón para cambiar de cámara</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Cambiar de cámara</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configurar</string>
 
     <!--    Lobby View-->

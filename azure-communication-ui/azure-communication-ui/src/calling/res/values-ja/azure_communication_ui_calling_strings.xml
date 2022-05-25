@@ -26,7 +26,7 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">アクセス許可が必要です</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">選択済み</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">グラデーションの設定</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">カメラの切り替えボタン</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">カメラの切り替え</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">セットアップ</string>
 
     <!--    Lobby View-->
