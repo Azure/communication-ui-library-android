@@ -4,8 +4,10 @@
 package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -232,6 +234,21 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     cameraState = localUserState.cameraState.copy(
                         transmission = CameraTransmissionStatus.LOCAL
                     )
+                )
+            }
+            is LocalParticipantAction.AudioFocusRequesting -> {
+                localUserState.copy(
+                    audioFocusStatus = AudioFocusStatus.REQUESTING
+                )
+            }
+            is CallingAction.ResumeRequested -> {
+                localUserState.copy(
+                    audioFocusStatus = AudioFocusStatus.APPROVED
+                )
+            }
+            is LocalParticipantAction.AudioFocusRejected -> {
+                localUserState.copy(
+                    audioFocusStatus = AudioFocusStatus.REJECTED
                 )
             }
             else -> localUserState

@@ -27,7 +27,8 @@ internal class AppReduxState(displayName: String?) : ReduxState {
                 )
             ),
             videoStreamID = null,
-            displayName = displayName
+            displayName = displayName,
+            audioFocusStatus = null
         )
 
     override var permissionState: PermissionState =

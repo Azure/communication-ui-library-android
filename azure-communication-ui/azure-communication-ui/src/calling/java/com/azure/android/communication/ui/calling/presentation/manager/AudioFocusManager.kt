@@ -7,10 +7,11 @@ import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
@@ -61,6 +62,8 @@ internal class AudioFocusManager(
 ) {
     private var audioFocusHandler: AudioFocusHandler? = null
     private var isAudioFocused = false
+    private var previousCallState:CallingStatus? = null
+    private var previousAudioFocusStatus: AudioFocusStatus? = null
 
     init {
         audioFocusHandler = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -83,13 +86,15 @@ internal class AudioFocusManager(
 
     suspend fun start() {
         store.getStateFlow().collect {
-            if (it.callState.callingStatus == CallingStatus.CONNECTED) {
+            if (( previousCallState != it.callState.callingStatus && it.callState.callingStatus == CallingStatus.CONNECTED) ||
+                (previousAudioFocusStatus != it.localParticipantState.audioFocusStatus && it.localParticipantState.audioFocusStatus == AudioFocusStatus.REQUESTING)) {
+                previousCallState = it.callState.callingStatus
+                previousAudioFocusStatus = it.localParticipantState.audioFocusStatus
+                isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                 if (!isAudioFocused) {
-                    isAudioFocused = audioFocusHandler?.getAudioFocus() == true
-                    if (!isAudioFocused) {
-                        Toast.makeText(applicationContext, "Failure to get focus", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                    store.dispatch(LocalParticipantAction.AudioFocusRejected())
+                } else {
+                    store.dispatch(CallingAction.ResumeRequested())
                 }
             } else if (it.callState.callingStatus == CallingStatus.DISCONNECTED) {
                 if (isAudioFocused) {
