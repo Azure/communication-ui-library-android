@@ -26,7 +26,7 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Autorizzazioni necessarie</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Selezionato</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Imposta sfumatura</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Pulsante Gira fotocamera</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Gira fotocamera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configura</string>
 
     <!--    Lobby View-->
