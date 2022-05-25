@@ -5,9 +5,11 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.state.*
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -19,6 +21,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
     private lateinit var shouldEnableMicButtonStateFlow: MutableStateFlow<Boolean>
+    private lateinit var onHoldCallStatusStateFlow: MutableStateFlow<Boolean>
 
     fun init(
         permissionState: PermissionState,
@@ -31,17 +34,20 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
         shouldEnableMicButtonStateFlow =
             MutableStateFlow(shouldEnableMicButton(audioState))
+        onHoldCallStatusStateFlow = MutableStateFlow(false)
     }
 
     fun update(
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
+        callingStatus: CallingStatus,
     ) {
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState.device
         shouldEnableMicButtonStateFlow.value = shouldEnableMicButton(audioState)
+        onHoldCallStatusStateFlow.value = callingStatus == CallingStatus.LOCAL_HOLD
     }
 
     fun getAudioOperationalStatusStateFlow(): StateFlow<AudioOperationalStatus> {
@@ -58,6 +64,10 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
 
     fun getShouldEnableMicButtonStateFlow(): StateFlow<Boolean> {
         return shouldEnableMicButtonStateFlow
+    }
+
+    fun getOnHoldCallStatusStateFlowStateFlow(): StateFlow<Boolean> {
+        return onHoldCallStatusStateFlow
     }
 
     fun turnMicOff() {

@@ -144,12 +144,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState1
+                audioState1,
+                state.callState.callingStatus
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState2
+                audioState2,
+                state.callState.callingStatus
             )
 
             // assert
@@ -209,12 +211,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.update(
                 permissionState1,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth")),
+                state.callState.callingStatus
             )
             callingViewModel.update(
                 permissionState2,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth")),
+                state.callState.callingStatus
             )
 
             // assert
@@ -283,12 +287,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.update(
                 permissionState,
                 cameraState1,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth")),
+                state.callState.callingStatus
             )
             callingViewModel.update(
                 permissionState,
                 cameraState2,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth")),
+                state.callState.callingStatus
             )
 
             // assert

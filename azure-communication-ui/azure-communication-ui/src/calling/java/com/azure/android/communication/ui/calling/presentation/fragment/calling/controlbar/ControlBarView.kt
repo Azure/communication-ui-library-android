@@ -78,6 +78,20 @@ internal class ControlBarView : ConstraintLayout {
                 micToggle.isEnabled = it
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getOnHoldCallStatusStateFlowStateFlow().collect {
+                if(it) {
+                    cameraToggle.isEnabled = false
+                    micToggle.isEnabled = false
+                    callAudioDeviceButton.isEnabled = false
+                } else {
+                    updateCamera(viewModel.getCameraStateFlow().value)
+                    micToggle.isEnabled =  viewModel.getShouldEnableMicButtonStateFlow().value
+                    callAudioDeviceButton.isEnabled = true
+                }
+            }
+        }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)

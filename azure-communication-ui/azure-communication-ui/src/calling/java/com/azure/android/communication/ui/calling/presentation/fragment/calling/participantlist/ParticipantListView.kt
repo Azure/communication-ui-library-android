@@ -67,6 +67,10 @@ internal class ParticipantListView(
             viewModel.getDisplayParticipantListStateFlow().collect {
                 if (it) {
                     showParticipantList()
+                } else {
+                    if (participantListDrawer.isShowing) {
+                        participantListDrawer.hide()
+                    }
                 }
             }
         }

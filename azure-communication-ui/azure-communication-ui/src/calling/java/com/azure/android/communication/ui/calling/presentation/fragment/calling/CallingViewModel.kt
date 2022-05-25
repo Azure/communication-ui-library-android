@@ -149,7 +149,8 @@ internal class CallingViewModel(
         controlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState
+            state.localParticipantState.audioState,
+            state.callState.callingStatus
         )
 
         localParticipantViewModel.update(
@@ -169,6 +170,23 @@ internal class CallingViewModel(
         holdOverlayViewModel.update(state.callState.callingStatus, state.localParticipantState.audioFocusStatus)
 
         participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)
+
+        if (state.callState.callingStatus == CallingStatus.LOCAL_HOLD) {
+            participantGridViewModel.update(
+                System.currentTimeMillis(),
+                mapOf(),
+            )
+            floatingHeaderViewModel.dismiss()
+            participantListViewModel.closeParticipantList()
+            localParticipantViewModel.update(
+                state.localParticipantState.displayName,
+                state.localParticipantState.audioState.operation,
+                state.localParticipantState.videoStreamID,
+                0,
+                state.callState.callingStatus,
+                state.localParticipantState.cameraState.device,
+            )
+        }
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
