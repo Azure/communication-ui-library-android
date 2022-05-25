@@ -4,8 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.hold
 
 import com.azure.android.communication.ui.calling.redux.action.Action
-import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +36,7 @@ internal class HoldOverlayViewModel(private val dispatch: (Action) -> Unit) {
     }
 
     fun resumeCall() {
-        dispatch(LocalParticipantAction.AudioFocusRequesting())
+        dispatch(AudioSessionAction.AudioFocusRequesting())
     }
 
     private fun shouldDisplayHoldOverlay(callingStatus: CallingStatus) =

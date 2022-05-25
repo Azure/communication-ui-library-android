@@ -9,6 +9,7 @@ import android.media.AudioManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
@@ -79,7 +80,7 @@ internal class AudioFocusManager(
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
-                store.dispatch(CallingAction.HoldRequested())
+                store.dispatch(AudioSessionAction.AudioFocusInterrupted())
             }
         }
     }
@@ -87,14 +88,14 @@ internal class AudioFocusManager(
     suspend fun start() {
         store.getStateFlow().collect {
             if (( previousCallState != it.callState.callingStatus && it.callState.callingStatus == CallingStatus.CONNECTED) ||
-                (previousAudioFocusStatus != it.localParticipantState.audioFocusStatus && it.localParticipantState.audioFocusStatus == AudioFocusStatus.REQUESTING)) {
+                (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus && it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING)) {
                 previousCallState = it.callState.callingStatus
-                previousAudioFocusStatus = it.localParticipantState.audioFocusStatus
+                previousAudioFocusStatus = it.audioSessionState.audioFocusStatus
                 isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                 if (!isAudioFocused) {
-                    store.dispatch(LocalParticipantAction.AudioFocusRejected())
+                    store.dispatch(AudioSessionAction.AudioFocusRejected())
                 } else {
-                    store.dispatch(CallingAction.ResumeRequested())
+                    store.dispatch(AudioSessionAction.AudioFocusApproved())
                 }
             } else if (it.callState.callingStatus == CallingStatus.DISCONNECTED) {
                 if (isAudioFocused) {

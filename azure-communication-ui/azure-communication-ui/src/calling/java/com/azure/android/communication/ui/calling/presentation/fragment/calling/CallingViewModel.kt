@@ -131,7 +131,7 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.init(state.callState.callingStatus)
-        holdOverlayViewModel.init(state.callState.callingStatus, state.localParticipantState.audioFocusStatus)
+        holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
 
@@ -167,7 +167,7 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.update(state.callState.callingStatus)
-        holdOverlayViewModel.update(state.callState.callingStatus, state.localParticipantState.audioFocusStatus)
+        holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)
 

@@ -38,12 +38,6 @@ internal enum class AudioDeviceSelectionStatus {
     BLUETOOTH_SCO_REQUESTED,
 }
 
-internal enum class AudioFocusStatus {
-    REQUESTING,
-    APPROVED,
-    REJECTED,
-}
-
 internal data class CameraState(
     val operation: CameraOperationalStatus,
     val device: CameraDeviceSelectionStatus,
@@ -69,5 +63,4 @@ internal data class LocalUserState(
     val audioState: AudioState,
     val videoStreamID: String?,
     val displayName: String?,
-    val audioFocusStatus: AudioFocusStatus?,
 )
