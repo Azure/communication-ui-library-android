@@ -154,7 +154,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(CallingStatus.NONE, emitResultFromFlow[0].callingStatus)
             Assert.assertEquals(CallingStatus.CONNECTED, emitResultFromFlow[1].callingStatus)
-            Assert.assertEquals(CallingStatus.CALL_EVICTED, emitResultFromFlow[2].callingStatus)
+            Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
                 CommunicationUIEventCode.CALL_EVICTED,
                 emitResultFromFlow[2].callStateError!!.communicationUIEventCode
@@ -198,7 +198,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(CallingStatus.NONE, emitResultFromFlow[0].callingStatus)
             Assert.assertEquals(CallingStatus.CONNECTED, emitResultFromFlow[1].callingStatus)
-            Assert.assertEquals(CallingStatus.CALL_DECLINED, emitResultFromFlow[2].callingStatus)
+            Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
                 CommunicationUIEventCode.CALL_DECLINED,
                 emitResultFromFlow[2].callStateError!!.communicationUIEventCode

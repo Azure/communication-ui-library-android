@@ -1401,7 +1401,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.CALL_DECLINED,
+                CallingStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_DECLINED)
             )
 
@@ -1414,7 +1414,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.CALL_DECLINED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
@@ -1465,7 +1465,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.CALL_DECLINED,
+                CallingStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_DECLINED)
             )
 
@@ -1478,7 +1478,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.CALL_DECLINED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
@@ -1524,7 +1524,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.CALL_EVICTED,
+                CallingStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_EVICTED)
             )
 
@@ -1537,7 +1537,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.CALL_EVICTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
@@ -1589,7 +1589,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.CALL_EVICTED,
+                CallingStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_EVICTED)
             )
 
@@ -1602,7 +1602,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.CALL_EVICTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(

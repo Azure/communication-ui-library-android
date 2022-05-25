@@ -3,13 +3,12 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.isDisconnected
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -36,11 +35,9 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
     fun update(
         audioPermissionState: PermissionStatus,
         callingState: CallingState,
-        errorState: ErrorState
     ) {
-
         joinCallButtonEnabledFlow.value = audioPermissionState == PermissionStatus.GRANTED
-        if (errorState.callStateError?.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED) {
+        if (callingState.isDisconnected()) {
             disableJoinCallButtonFlow.value = false
         } else {
             disableJoinCallButtonFlow.value =
