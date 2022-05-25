@@ -26,7 +26,7 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Machtigingen vereist</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Geselecteerd</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Knop Camera wisselen</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Camera wisselen</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configuratie</string>
 
     <!--    Lobby View-->
