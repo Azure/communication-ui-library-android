@@ -224,7 +224,7 @@ internal class CallingSDKEventHandler(
     }
 
     private fun getParticipantStatus(state: ParticipantState?): ParticipantStatus? {
-        return when(state) {
+        return when (state) {
             ParticipantState.IDLE -> ParticipantStatus.IDLE
             ParticipantState.EARLY_MEDIA -> ParticipantStatus.EARLY_MEDIA
             ParticipantState.CONNECTING -> ParticipantStatus.CONNECTING

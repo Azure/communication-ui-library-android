@@ -4,7 +4,9 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell
 
 import android.content.Context
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.View.INVISIBLE
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView

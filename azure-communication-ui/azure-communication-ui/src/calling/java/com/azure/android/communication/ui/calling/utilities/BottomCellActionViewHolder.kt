@@ -82,9 +82,11 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         val unMutedDescription = itemView.rootView.context
             .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
-        return ( !bottomCellItem.isOnHold && (
-            bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
-                bottomCellItem.accessoryImageDescription == unMutedDescription
-            ))
+        return (
+            !bottomCellItem.isOnHold && (
+                bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
+                    bottomCellItem.accessoryImageDescription == unMutedDescription
+                )
+            )
     }
 }

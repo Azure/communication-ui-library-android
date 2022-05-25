@@ -81,13 +81,13 @@ internal class ControlBarView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getOnHoldCallStatusStateFlowStateFlow().collect {
-                if(it) {
+                if (it) {
                     cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
                 } else {
                     updateCamera(viewModel.getCameraStateFlow().value)
-                    micToggle.isEnabled =  viewModel.getShouldEnableMicButtonStateFlow().value
+                    micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
                 }
             }

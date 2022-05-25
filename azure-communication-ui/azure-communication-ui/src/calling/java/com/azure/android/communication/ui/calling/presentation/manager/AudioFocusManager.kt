@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.manager
 import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.media.AudioManager.MODE_NORMAL
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Store
@@ -24,6 +25,7 @@ internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListe
 
     abstract fun getAudioFocus(): Boolean
     abstract fun releaseAudioFocus(): Boolean
+    abstract fun getMode(): Int
 }
 
 // Newer API Version of AudioFocusHandler
@@ -36,6 +38,8 @@ internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
 
     override fun getAudioFocus() =
         audioManager.requestAudioFocus(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+
+    override fun getMode() = audioManager.mode
 
     override fun releaseAudioFocus() =
         audioManager.abandonAudioFocusRequest(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
@@ -51,6 +55,8 @@ internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler
         AudioManager.STREAM_VOICE_CALL, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
     ) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 
+    override fun getMode() = audioManager.mode
+
     override fun releaseAudioFocus(): Boolean =
         audioManager.abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 }
@@ -61,7 +67,7 @@ internal class AudioFocusManager(
 ) {
     private var audioFocusHandler: AudioFocusHandler? = null
     private var isAudioFocused = false
-    private var previousCallState:CallingStatus? = null
+    private var previousCallState: CallingStatus? = null
     private var previousAudioFocusStatus: AudioFocusStatus? = null
 
     init {
@@ -79,7 +85,7 @@ internal class AudioFocusManager(
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
-            } else if(it == AudioManager.AUDIOFOCUS_GAIN) {
+            } else if (it == AudioManager.AUDIOFOCUS_GAIN) {
                 store.dispatch(AudioSessionAction.AudioFocusApproved())
             }
         }
@@ -87,20 +93,35 @@ internal class AudioFocusManager(
 
     suspend fun start() {
         store.getStateFlow().collect {
-            if (( previousCallState != it.callState.callingStatus && it.callState.callingStatus == CallingStatus.CONNECTED) ||
-                (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus
-                    && it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING)) {
-                previousCallState = it.callState.callingStatus
+            if (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus) {
                 previousAudioFocusStatus = it.audioSessionState.audioFocusStatus
-                isAudioFocused = audioFocusHandler?.getAudioFocus() == true
-                if (!isAudioFocused) {
-                    store.dispatch(AudioSessionAction.AudioFocusRejected())
-                } else {
-                    store.dispatch(AudioSessionAction.AudioFocusApproved())
+                if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+                    val mode = audioFocusHandler?.getMode()
+                    if (mode != MODE_NORMAL && it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+                        store.dispatch(AudioSessionAction.AudioFocusRejected())
+                    } else {
+                        isAudioFocused = audioFocusHandler?.getAudioFocus() == true
+                        if (!isAudioFocused) {
+                            store.dispatch(AudioSessionAction.AudioFocusRejected())
+                        } else {
+                            store.dispatch(AudioSessionAction.AudioFocusApproved())
+                        }
+                    }
                 }
-            } else if (it.callState.callingStatus == CallingStatus.DISCONNECTED) {
-                if (isAudioFocused) {
-                    isAudioFocused = audioFocusHandler?.releaseAudioFocus() == false
+            } else if (previousCallState != it.callState.callingStatus) {
+                previousCallState = it.callState.callingStatus
+
+                if (it.callState.callingStatus == CallingStatus.CONNECTED) {
+                    isAudioFocused = audioFocusHandler?.getAudioFocus() == true
+                    if (!isAudioFocused) {
+                        store.dispatch(AudioSessionAction.AudioFocusRejected())
+                    } else {
+                        store.dispatch(AudioSessionAction.AudioFocusApproved())
+                    }
+                } else if (it.callState.callingStatus == CallingStatus.DISCONNECTED) {
+                    if (isAudioFocused) {
+                        isAudioFocused = audioFocusHandler?.releaseAudioFocus() == false
+                    }
                 }
             }
         }

@@ -6,15 +6,11 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
@@ -23,9 +19,6 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.error.CallStateError
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.microsoft.fluentui.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
@@ -67,7 +60,10 @@ internal class HoldOverlayView : LinearLayout {
         ViewCompat.setAccessibilityDelegate(
             this,
             object : AccessibilityDelegateCompat() {
-                override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                override fun onInitializeAccessibilityNodeInfo(
+                    host: View,
+                    info: AccessibilityNodeInfoCompat,
+                ) {
                     super.onInitializeAccessibilityNodeInfo(host, info)
                     info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
                     info.isClickable = false
@@ -85,7 +81,6 @@ internal class HoldOverlayView : LinearLayout {
                 }
             }
         }
-
     }
 
     fun stop() {
@@ -120,8 +115,9 @@ internal class HoldOverlayView : LinearLayout {
             Snackbar.Style.REGULAR
         ).apply {
             animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
-            setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {}
-           anchorView =
+            setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {
+            }
+            anchorView =
                 rootView.findViewById(R.id.azure_communication_ui_call_call_buttons)
             view.background.colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(
@@ -152,9 +148,11 @@ internal class HoldOverlayView : LinearLayout {
     }
 
     private fun setupUi() {
-        waitingIcon.contentDescription = context.getString(R.string.azure_communication_ui_calling_hold_view_text)
+        waitingIcon.contentDescription =
+            context.getString(R.string.azure_communication_ui_calling_hold_view_text)
 
-        overlayTitle.text = context.getString(R.string.azure_communication_ui_calling_hold_view_text)
+        overlayTitle.text =
+            context.getString(R.string.azure_communication_ui_calling_hold_view_text)
         resumeButton.setOnClickListener {
             viewModel.resumeCall()
         }

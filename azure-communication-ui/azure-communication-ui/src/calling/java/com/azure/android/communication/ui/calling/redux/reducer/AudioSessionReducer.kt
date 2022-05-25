@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
 internal interface AudioSessionReducer : Reducer<AudioSessionState>
 
 internal class AudioSessionStateReducerImpl :
-AudioSessionReducer {
+    AudioSessionReducer {
     override fun reduce(state: AudioSessionState, action: Action): AudioSessionState {
         return when (action) {
             is AudioSessionAction.AudioFocusApproved -> {
