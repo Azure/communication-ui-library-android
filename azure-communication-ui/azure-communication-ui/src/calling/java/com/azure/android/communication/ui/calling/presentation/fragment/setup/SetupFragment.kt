@@ -45,7 +45,6 @@ internal class SetupFragment :
     private val avatarViewManager get() = holder.container.avatarViewManager
     private val viewModel get() = holder.setupViewModel
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
