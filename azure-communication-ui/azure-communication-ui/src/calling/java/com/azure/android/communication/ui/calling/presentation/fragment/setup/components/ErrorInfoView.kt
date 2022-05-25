@@ -29,7 +29,6 @@ internal class ErrorInfoView(private val rootView: View) {
     private lateinit var snackBar: Snackbar
     private lateinit var snackBarTextView: TextView
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun start(viewLifecycleOwner: LifecycleOwner, snackBarViewModel: ErrorInfoViewModel) {
         initSnackBar()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -52,7 +51,6 @@ internal class ErrorInfoView(private val rootView: View) {
         snackBar.anchorView = null
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     private fun displaySnackBar(it: CallStateError) {
         val errorMessage = getErrorMessage(it)
 
@@ -124,13 +122,14 @@ internal class ErrorInfoView(private val rootView: View) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     private fun View.accessibilityFocus(): View {
         post {
             performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
             sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
-            accessibilityTraversalAfter = R.id.azure_communication_ui_setup_audio_device_button
-            accessibilityTraversalBefore = R.id.azure_communication_ui_setup_join_call_holder
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                accessibilityTraversalAfter = R.id.azure_communication_ui_setup_audio_device_button
+                accessibilityTraversalBefore = R.id.azure_communication_ui_setup_join_call_holder
+            }
         }
         return this
     }
