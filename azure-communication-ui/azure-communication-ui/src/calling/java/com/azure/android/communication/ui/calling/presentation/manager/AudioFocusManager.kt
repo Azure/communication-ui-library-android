@@ -10,8 +10,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
-import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -59,7 +57,7 @@ internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler
 
 internal class AudioFocusManager(
     private val store: Store<ReduxState>,
-    private val applicationContext: Context,
+    applicationContext: Context,
 ) {
     private var audioFocusHandler: AudioFocusHandler? = null
     private var isAudioFocused = false
@@ -81,6 +79,8 @@ internal class AudioFocusManager(
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
+            } else if(it == AudioManager.AUDIOFOCUS_GAIN) {
+                store.dispatch(AudioSessionAction.AudioFocusApproved())
             }
         }
     }
@@ -88,7 +88,8 @@ internal class AudioFocusManager(
     suspend fun start() {
         store.getStateFlow().collect {
             if (( previousCallState != it.callState.callingStatus && it.callState.callingStatus == CallingStatus.CONNECTED) ||
-                (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus && it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING)) {
+                (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus
+                    && it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING)) {
                 previousCallState = it.callState.callingStatus
                 previousAudioFocusStatus = it.audioSessionState.audioFocusStatus
                 isAudioFocused = audioFocusHandler?.getAudioFocus() == true
