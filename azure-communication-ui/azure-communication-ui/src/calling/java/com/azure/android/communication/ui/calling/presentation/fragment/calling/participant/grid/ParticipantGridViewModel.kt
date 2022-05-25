@@ -21,7 +21,7 @@ internal class ParticipantGridViewModel(
 
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
-    // Default is 6 on phones
+    // Default is 6 on phones, 9 on tablets
     private var maxRemoteParticipantSize = 6
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
