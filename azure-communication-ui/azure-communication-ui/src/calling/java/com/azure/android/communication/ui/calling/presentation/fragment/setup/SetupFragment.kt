@@ -3,13 +3,11 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
