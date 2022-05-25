@@ -353,7 +353,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                 callInfoModel.callStateError?.let {
                     val action = ErrorAction.CallStateErrorOccurred(it)
                     store.dispatch(action)
-                    if (it.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED) {
+                    if (it.communicationUIEventCode == CommunicationUIEventCode.CALL_EVICTED ||
+                        it.communicationUIEventCode == CommunicationUIEventCode.CALL_DECLINED
+                    ) {
                         store.dispatch(NavigationAction.SetupLaunched())
                     } else if (it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_END_FAILED ||
                         it.communicationUIErrorCode == CommunicationUIErrorCode.CALL_JOIN_FAILED

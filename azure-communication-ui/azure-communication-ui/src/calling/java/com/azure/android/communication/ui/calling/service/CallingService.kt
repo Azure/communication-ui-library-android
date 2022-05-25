@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.models.CommunicationUIEventCod
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -51,13 +52,7 @@ internal class CallingService(
         internal const val CALL_END_REASON_DECLINED = 603
         internal const val CALL_END_REASON_TEAMS_EVICTED = 5300
         internal const val CALL_END_REASON_EVICTED = 5000
-
-        private fun isEvicted(callingState: CallingStateWrapper) =
-            callingState.callState == CallState.DISCONNECTED &&
-                callingState.callEndReason == CALL_END_REASON_SUCCESS && (
-                callingState.callEndReasonSubCode == CALL_END_REASON_EVICTED ||
-                    callingState.callEndReasonSubCode == CALL_END_REASON_TEAMS_EVICTED
-                )
+        internal const val CALL_END_REASON_SUB_CODE_DECLINED = 5854
     }
 
     private val participantsInfoModelSharedFlow =
@@ -181,7 +176,8 @@ internal class CallingService(
         callingState.run {
             logger?.debug(callingState.toString())
             when {
-                isEvicted(callingState) -> CallStateError(CALL_END_FAILED, CALL_EVICTED)
+                callingState.isEvicted() -> CallStateError(CALL_END_FAILED, CALL_EVICTED)
+                callingState.isDeclined() -> CallStateError(CALL_END_FAILED, CALL_DECLINED)
                 callEndReason == CALL_END_REASON_SUCCESS ||
                     callEndReason == CALL_END_REASON_CANCELED ||
                     callEndReason == CALL_END_REASON_DECLINED -> null
@@ -198,7 +194,6 @@ internal class CallingService(
         }
 
     private fun getCallingState(callingState: CallingStateWrapper): CallingStatus {
-        if (isEvicted(callingState)) return CallingStatus.CALL_EVICTED
         return when (callingState.callState) {
             CallState.CONNECTED -> CallingStatus.CONNECTED
             CallState.CONNECTING -> CallingStatus.CONNECTING
