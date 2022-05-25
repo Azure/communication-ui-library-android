@@ -26,7 +26,7 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Требуются разрешения</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Выбрано</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Настройка градиента</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Кнопка переключения камеры</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Переключение на другую камеру</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Настройка</string>
 
     <!--    Lobby View-->
