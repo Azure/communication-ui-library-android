@@ -36,6 +36,7 @@
     <!-- Hold Overlay -->
     <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
     <string name="azure_communication_ui_calling_resume">Resume</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Waiting for others to join</string>

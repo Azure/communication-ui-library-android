@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.utilities
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
@@ -20,6 +21,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
     private val accessoryImageView: ImageView = itemView.findViewById(R.id.cell_check_mark)
+    private val additionalText: TextView = itemView.findViewById(R.id.cell_additional_text)
 
     override fun setCellData(bottomCellItem: BottomCellItem) {
         super.setCellData(bottomCellItem)
@@ -71,6 +73,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         accessoryImageView.contentDescription = bottomCellItem.accessoryImageDescription
         accessoryImageView.visibility =
             if (isAccessoryImageViewable(bottomCellItem)) View.VISIBLE else View.INVISIBLE
+        additionalText.visibility = if (bottomCellItem.isOnHold) View.VISIBLE else View.INVISIBLE
     }
 
     private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
@@ -79,9 +82,9 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         val unMutedDescription = itemView.rootView.context
             .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
-        return (
+        return ( !bottomCellItem.isOnHold && (
             bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
                 bottomCellItem.accessoryImageDescription == unMutedDescription
-            )
+            ))
     }
 }
