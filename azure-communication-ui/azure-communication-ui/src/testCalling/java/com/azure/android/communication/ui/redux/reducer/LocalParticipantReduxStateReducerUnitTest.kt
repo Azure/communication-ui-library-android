@@ -620,7 +620,10 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             displayName = null
         )
         val error =
-            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_ON_FAILED, Throwable("MicOn failed"))
+            CallCompositeError(
+                CommunicationUIErrorCode.TURN_MIC_ON_FAILED,
+                Throwable("MicOn failed")
+            )
         val action = LocalParticipantAction.MicOnFailed(error)
 
         // act
@@ -679,7 +682,10 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             displayName = null
         )
         val error =
-            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF_FAILED, Throwable("Mic OFF failed"))
+            CallCompositeError(
+                CommunicationUIErrorCode.TURN_MIC_OFF_FAILED,
+                Throwable("Mic OFF failed")
+            )
         val action = LocalParticipantAction.MicOffFailed(error)
 
         // act

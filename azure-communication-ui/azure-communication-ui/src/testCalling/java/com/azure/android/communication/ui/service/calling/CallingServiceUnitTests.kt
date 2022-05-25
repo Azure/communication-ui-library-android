@@ -7,11 +7,7 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.azure.android.communication.ui.helper.MockitoHelper.any
-import com.azure.android.communication.ui.calling.models.CallInfoModel
-import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -25,6 +21,12 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
+
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -50,7 +52,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     private val contextProvider = UnconfinedTestContextProvider()
 
     private fun provideCallingService(
-        callState: CallState = CallState.NONE
+        callState: CallState = CallState.NONE,
     ): Pair<CallingService, MutableStateFlow<CallingStateWrapper>> {
         val remoteParticipantsInfoModelSharedFlow =
             MutableSharedFlow<Map<String, ParticipantInfoModel>>()
@@ -75,7 +77,10 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             any(), any()
         )
 
-        return Pair(CallingService(mockCallingGateway, contextProvider), callingStateWrapperStateFlow)
+        return Pair(
+            CallingService(mockCallingGateway, contextProvider),
+            callingStateWrapperStateFlow
+        )
     }
 
     @ExperimentalCoroutinesApi
@@ -252,7 +257,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
 
             remoteParticipantsInfoModelMap["id3"] = ParticipantInfoModel(
@@ -262,7 +268,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
 
             remoteParticipantsInfoModelMap["0"] = ParticipantInfoModel(
@@ -272,7 +279,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
 
             remoteParticipantsInfoModelMap["id2"] = ParticipantInfoModel(
@@ -282,7 +290,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
 
             remoteParticipantsInfoModelMap["id9"] = ParticipantInfoModel(
@@ -292,7 +301,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
 
             remoteParticipantsInfoModelMap["10"] = ParticipantInfoModel(
@@ -302,7 +312,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
 
             val emitResultFromFlow = mutableListOf<Map<String, ParticipantInfoModel>>()

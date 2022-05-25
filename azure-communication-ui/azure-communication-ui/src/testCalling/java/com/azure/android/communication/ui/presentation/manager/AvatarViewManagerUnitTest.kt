@@ -14,11 +14,14 @@ import com.azure.android.communication.ui.helper.StandardTestContextProvider
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
+
 import com.azure.android.communication.ui.calling.models.ParticipantViewData
 import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.flow.toList
@@ -178,7 +181,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -237,7 +241,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -296,7 +301,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -364,7 +370,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -447,7 +454,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -521,7 +529,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -615,7 +624,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
