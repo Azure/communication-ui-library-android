@@ -32,10 +32,7 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
         disableJoinCallButtonFlow.value = false
     }
 
-    fun update(
-        audioPermissionState: PermissionStatus,
-        callingState: CallingState,
-    ) {
+    fun update(audioPermissionState: PermissionStatus, callingState: CallingState) {
         joinCallButtonEnabledFlow.value = audioPermissionState == PermissionStatus.GRANTED
         if (callingState.isDisconnected()) {
             disableJoinCallButtonFlow.value = false
