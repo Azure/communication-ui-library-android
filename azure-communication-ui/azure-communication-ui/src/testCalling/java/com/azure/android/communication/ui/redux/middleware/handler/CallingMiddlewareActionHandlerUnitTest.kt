@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.redux.middleware.handler
 
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -38,7 +37,6 @@ import com.azure.android.communication.ui.calling.models.CommunicationUIEventCod
 import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 
