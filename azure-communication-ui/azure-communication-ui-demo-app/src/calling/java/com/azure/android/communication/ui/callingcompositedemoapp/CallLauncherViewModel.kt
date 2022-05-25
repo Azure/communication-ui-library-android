@@ -23,7 +23,7 @@ class CallLauncherViewModel : ViewModel() {
     private fun launcher(tokenUrl: String): CallingCompositeLauncher {
         val tokenFunction = when (isTokenFunctionOptionSelected) {
             true -> UrlTokenFetcher(tokenUrl)
-            false -> UrlTokenFetcher(tokenUrl)
+            false -> CachedTokenFetcher(token ?: "")
         }
 
         return if (isKotlinLauncher) CallingCompositeKotlinLauncher(tokenFunction)
