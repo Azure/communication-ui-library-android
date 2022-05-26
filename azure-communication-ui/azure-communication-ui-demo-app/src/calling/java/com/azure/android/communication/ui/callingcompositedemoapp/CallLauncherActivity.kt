@@ -32,8 +32,8 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!isTaskRoot) {
-            // new Activity instance was brought to front,
-            // Thus finishing this will get us to the last viewed activity
+            // new Activity instance was brought to top of stack,
+            // so finishing this will get us to the last viewed screen
             finish()
             return
         }
@@ -157,10 +157,6 @@ class CallLauncherActivity : AppCompatActivity() {
         callLauncherViewModel.fetchResult.observe(this) {
             processResult(it)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onDestroy() {
