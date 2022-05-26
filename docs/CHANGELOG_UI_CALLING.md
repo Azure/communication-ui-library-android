@@ -1,6 +1,6 @@
 # Release History
 
-## Calling 1.0.0-beta.1 (2022-04-18)
+## Calling 1.0.0-beta.1 (2022-05-18)
 
 This is the initial release of Azure Communication UI Calling Library. For more information, please see the [README][read_me] and [QuickStart][documentation].
 
