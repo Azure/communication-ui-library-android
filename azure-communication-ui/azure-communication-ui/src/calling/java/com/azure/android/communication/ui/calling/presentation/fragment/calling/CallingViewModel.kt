@@ -92,10 +92,6 @@ internal class CallingViewModel(
         confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
-    fun requestResume() {
-        dispatchAction(CallingAction.ResumeRequested())
-    }
-
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
 
