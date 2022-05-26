@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -85,10 +86,12 @@ internal class ControlBarView : ConstraintLayout {
                     cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
+                    callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic))
                 } else {
                     updateCamera(viewModel.getCameraStateFlow().value)
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
+                    callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
                 }
             }
         }
