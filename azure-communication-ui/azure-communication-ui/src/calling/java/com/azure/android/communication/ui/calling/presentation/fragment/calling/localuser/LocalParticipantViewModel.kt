@@ -28,6 +28,7 @@ internal class LocalParticipantViewModel(
     private lateinit var enableCameraSwitchFlow: MutableStateFlow<Boolean>
     private lateinit var cameraDeviceSelectionFlow: MutableStateFlow<CameraDeviceSelectionStatus>
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var numberOfRemoteParticipantsFlow: MutableStateFlow<Int>
 
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
@@ -64,6 +65,7 @@ internal class LocalParticipantViewModel(
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
+        numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
     }
 
     fun clear() {
@@ -99,11 +101,14 @@ internal class LocalParticipantViewModel(
         )
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState))
+        numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())
 
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
+
+    fun getNumberOfRemoteParticipantsFlow(): StateFlow<Int> = numberOfRemoteParticipantsFlow
 
     fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
         isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)

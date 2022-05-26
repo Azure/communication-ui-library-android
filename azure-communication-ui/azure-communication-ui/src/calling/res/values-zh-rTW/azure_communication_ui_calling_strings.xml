@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">切換到前置相機</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">切換到後置相機</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">選取音訊裝置 %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s 音訊裝置，已選取</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">正在加入通話…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">視訊關閉</string>
@@ -26,7 +26,7 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要權限</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已選取</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">設定漸層</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">[切換相機] 按鈕</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切換相機</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">設定</string>
 
     <!--    Lobby View-->
@@ -42,13 +42,13 @@
     <string name="azure_communication_ui_calling_view_leave_call">離開通話</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">離開</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">點兩下以關閉離開確認功能表</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">開啟參與者清單</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">點兩下以關閉 [參與者清單]</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已靜音</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消靜音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">掛斷</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">[關閉] 按鈕</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切換視訊</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切換音訊</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">裝置選項</string>
@@ -76,9 +76,9 @@
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">關閉</string>
-    <string name="azure_communication_ui_calling_alert_title">提醒</string>
+    <string name="azure_communication_ui_calling_alert_title">警示</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">因為發生錯誤，您已從通話中移除。</string>
-    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">因為發生錯誤，所以無法加入通話。</string>
+    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">發生錯誤，因此無法加入通話。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已從通話中移除您。</string>
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">通話進行中</string>

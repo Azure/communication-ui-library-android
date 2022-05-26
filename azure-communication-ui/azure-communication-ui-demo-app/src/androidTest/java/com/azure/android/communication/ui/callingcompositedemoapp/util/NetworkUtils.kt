@@ -9,7 +9,7 @@ import android.net.NetworkCapabilities
 import androidx.test.platform.app.InstrumentationRegistry
 
 object NetworkUtils {
-    private val TIMED_OUT_VALUE = 30000L
+    private val TIMED_OUT_VALUE = 300L
 
     fun disableNetwork() {
         InstrumentationRegistry.getInstrumentation().uiAutomation.run {
@@ -39,6 +39,7 @@ object NetworkUtils {
                     onNetworkAvailable()
                     break@timeout
                 }
+                Thread.sleep(100)
                 timeOut++
             }
         }

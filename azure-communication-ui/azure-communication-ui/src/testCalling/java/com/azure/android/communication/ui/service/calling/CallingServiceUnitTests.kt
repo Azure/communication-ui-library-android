@@ -154,9 +154,53 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(CallingStatus.NONE, emitResultFromFlow[0].callingStatus)
             Assert.assertEquals(CallingStatus.CONNECTED, emitResultFromFlow[1].callingStatus)
-            Assert.assertEquals(CallingStatus.CALL_EVICTED, emitResultFromFlow[2].callingStatus)
+            Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
                 CommunicationUIEventCode.CALL_EVICTED,
+                emitResultFromFlow[2].callStateError!!.communicationUIEventCode
+            )
+
+            job.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingService_getCallInfoModelEventSharedFlow_when_declined() =
+        runScopedTest {
+
+            // arrange
+            val (callingService, callingStateWrapperStateFlow) = provideCallingService()
+            val emitResultFromFlow = mutableListOf<CallInfoModel>()
+            val job = launch {
+                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+            }
+
+            // act
+            callingService.startCall(
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL,
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
+            )
+            callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.CONNECTED, 0)
+            callingStateWrapperStateFlow.value = CallingStateWrapper(
+                CallState.DISCONNECTED,
+                0,
+                CallingService.CALL_END_REASON_SUB_CODE_DECLINED
+            )
+
+            // assert
+            Assert.assertEquals(CallingStatus.NONE, emitResultFromFlow[0].callingStatus)
+            Assert.assertEquals(CallingStatus.CONNECTED, emitResultFromFlow[1].callingStatus)
+            Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
+            Assert.assertEquals(
+                CommunicationUIEventCode.CALL_DECLINED,
                 emitResultFromFlow[2].callStateError!!.communicationUIEventCode
             )
 

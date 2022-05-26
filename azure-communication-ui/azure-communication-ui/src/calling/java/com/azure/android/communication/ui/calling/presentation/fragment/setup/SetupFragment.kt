@@ -52,7 +52,7 @@ internal class SetupFragment :
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.getSetupGradientViewViewModel())
 
-        setupJoinCallButtonHolderView = view.findViewById(R.id.azure_communication_ui_setup_holder)
+        setupJoinCallButtonHolderView = view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
             viewModel.getJoinCallButtonHolderViewModel(),
