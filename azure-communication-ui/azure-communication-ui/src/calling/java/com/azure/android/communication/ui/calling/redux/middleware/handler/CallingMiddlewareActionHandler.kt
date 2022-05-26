@@ -64,7 +64,9 @@ internal class CallingMiddlewareActionHandlerImpl(
         if (state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF &&
             state.localParticipantState.cameraState.operation != CameraOperationalStatus.PAUSED
         ) {
-            if (state.callState.callingStatus != CallingStatus.NONE) {
+            if (state.callState.callingStatus != CallingStatus.NONE &&
+                state.callState.callingStatus != CallingStatus.LOCAL_HOLD
+            ) {
                 callingService.turnCameraOff().whenComplete { _, error ->
                     if (error != null) {
                         store.dispatch(

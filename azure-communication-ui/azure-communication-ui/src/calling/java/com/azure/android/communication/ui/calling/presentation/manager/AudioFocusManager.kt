@@ -118,7 +118,7 @@ internal class AudioFocusManager(
                     } else {
                         store.dispatch(AudioSessionAction.AudioFocusApproved())
                     }
-                } else if (it.callState.callingStatus == CallingStatus.DISCONNECTED) {
+                } else if (it.callState.callingStatus == CallingStatus.DISCONNECTING) {
                     if (isAudioFocused) {
                         isAudioFocused = audioFocusHandler?.releaseAudioFocus() == false
                     }
