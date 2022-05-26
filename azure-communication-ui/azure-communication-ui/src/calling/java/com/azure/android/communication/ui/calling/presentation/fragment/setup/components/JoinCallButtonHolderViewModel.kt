@@ -23,7 +23,7 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
 
     fun launchCallScreen() {
         dispatch(CallingAction.CallStartRequested())
-        // disableJoinCallButtonFlow.value = true
+        disableJoinCallButtonFlow.value = true
     }
 
     fun init(audioPermissionState: PermissionStatus) {
