@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothHeadset
@@ -13,7 +12,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import android.media.AudioManager
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.redux.Store
@@ -25,8 +23,6 @@ import kotlinx.coroutines.flow.collect
 import android.media.AudioDeviceInfo
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.core.app.ActivityCompat
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
@@ -69,7 +65,6 @@ internal class AudioSessionManager(
         val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         return manager.adapter
     }
-
 
     fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
@@ -140,7 +135,7 @@ internal class AudioSessionManager(
     }
 
     private fun openProfileProxy() {
-        if(!isProfileProxyOpened && btAdapter?.state == BluetoothAdapter.STATE_ON) {
+        if (!isProfileProxyOpened && btAdapter?.state == BluetoothAdapter.STATE_ON) {
             btAdapter?.run {
                 getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
                 isProfileProxyOpened = true
