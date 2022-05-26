@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.hold
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
@@ -117,8 +118,10 @@ internal class HoldOverlayView : LinearLayout {
             animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
             setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {
             }
-            anchorView =
-                rootView.findViewById(R.id.azure_communication_ui_call_call_buttons)
+            if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                anchorView =
+                    rootView.findViewById(R.id.azure_communication_ui_call_call_buttons)
+            }
             view.background.colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(
                     rootView.context,
