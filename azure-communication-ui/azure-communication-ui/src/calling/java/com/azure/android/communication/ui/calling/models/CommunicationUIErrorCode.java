@@ -14,10 +14,6 @@ public final class CommunicationUIErrorCode extends ExpandableStringEnum<Communi
 
     public static final CommunicationUIErrorCode CALL_JOIN_FAILED = fromString("callJoinFailed");
 
-    public static final CommunicationUIErrorCode HOLD_FAILED = fromString("holdFailed");
-    
-    public static final CommunicationUIErrorCode RESUME_FAILED = fromString("resumeFailed");
-
     public static final CommunicationUIErrorCode CALL_END_FAILED = fromString("callEndFailed");
 
     public static final CommunicationUIErrorCode TOKEN_EXPIRED = fromString("tokenExpired");

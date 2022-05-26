@@ -146,11 +146,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.hold()
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    store.dispatch(
-                        ErrorAction.FatalErrorOccurred(
-                            FatalError(error, CommunicationUIErrorCode.HOLD_FAILED)
-                        )
-                    )
                 }
             }
     }
@@ -159,11 +154,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.resume()
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    store.dispatch(
-                        ErrorAction.FatalErrorOccurred(
-                            FatalError(error, CommunicationUIErrorCode.RESUME_FAILED)
-                        )
-                    )
                 }
             }
     }
