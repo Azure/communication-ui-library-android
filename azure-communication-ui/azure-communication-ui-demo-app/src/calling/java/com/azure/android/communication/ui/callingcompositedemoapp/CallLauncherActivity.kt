@@ -31,7 +31,12 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (!isTaskRoot) {
+            // new Activity instance was brought to front,
+            // Thus finishing this will get us to the last viewed activity
+            finish()
+            return
+        }
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
