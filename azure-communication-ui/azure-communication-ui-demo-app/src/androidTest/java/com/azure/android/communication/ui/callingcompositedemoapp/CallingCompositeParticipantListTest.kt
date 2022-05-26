@@ -9,12 +9,20 @@ import com.azure.android.communication.ui.callingcompositedemoapp.robots.CallScr
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeParticipantListTest : BaseUiTest() {
+
+    @Test
+    fun testLocalUserName() {
+        val userName = UiTestUtils.getTextFromEdittextView(R.id.userNameText)
+        Assert.assertTrue("Invalid user: ${BuildConfig.USER_NAME}", BuildConfig.USER_NAME == "Test User")
+        Assert.assertTrue("Invalid user: $userName", BuildConfig.USER_NAME == userName)
+    }
 
     @Test
     fun testGroupCallParticipantName() {
