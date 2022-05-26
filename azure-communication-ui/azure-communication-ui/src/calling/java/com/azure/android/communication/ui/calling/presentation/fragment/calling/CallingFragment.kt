@@ -193,10 +193,6 @@ internal class CallingFragment :
         viewModel.requestCallEnd()
     }
 
-    private fun requestResume() {
-        viewModel.requestResume()
-    }
-
     private fun openAudioDeviceSelectionMenu() {
         viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenu()
     }
