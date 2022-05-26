@@ -7,8 +7,11 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -43,6 +46,10 @@ internal class HoldOverlayView : LinearLayout {
             findViewById(R.id.azure_communication_ui_call_hold_overlay_wait_for_host_image)
         overlayTitle = findViewById(R.id.azure_communication_ui_call_hold_overlay_title)
         resumeButton = findViewById(R.id.azure_communication_ui_call_hold_resume_button)
+        resumeButton.background = ContextCompat.getDrawable(
+            context,
+            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_primary_background
+        )
     }
 
     fun start(
@@ -105,6 +112,7 @@ internal class HoldOverlayView : LinearLayout {
 
             view.contentDescription =
                 "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: $errorMessage"
+            view.accessibilityFocus()
         }
     }
 
@@ -159,5 +167,17 @@ internal class HoldOverlayView : LinearLayout {
         resumeButton.setOnClickListener {
             viewModel.resumeCall()
         }
+    }
+
+    private fun View.accessibilityFocus(): View {
+        post {
+            performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
+            sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                accessibilityTraversalAfter = R.id.azure_communication_ui_setup_audio_device_button
+                accessibilityTraversalBefore = R.id.azure_communication_ui_setup_join_call_holder
+            }
+        }
+        return this
     }
 }

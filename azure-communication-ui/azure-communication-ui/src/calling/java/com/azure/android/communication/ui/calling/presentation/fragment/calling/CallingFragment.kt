@@ -89,6 +89,7 @@ internal class CallingFragment :
 
         holdOverlay = view.findViewById(R.id.azure_communication_ui_call_hold_overlay)
         holdOverlay.start(viewLifecycleOwner, viewModel.getHoldOverlayViewModel())
+
         localParticipantView = view.findViewById(R.id.azure_communication_ui_call_local_user_view)
         localParticipantView.start(
             viewLifecycleOwner,
@@ -156,6 +157,7 @@ internal class CallingFragment :
         if (this::participantListView.isInitialized) participantListView.stop()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
+        if (this::holdOverlay.isInitialized) holdOverlay.stop()
 
         if (this::wakeLock.isInitialized) {
             if (wakeLock.isHeld) {
