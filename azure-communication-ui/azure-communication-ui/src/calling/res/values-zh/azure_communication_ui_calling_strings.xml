@@ -26,15 +26,18 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要权限</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已选择</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">设置渐变</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切换摄像头按钮</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切换摄像头</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">安装</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">正在等待主持人</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">会议中的某人将很快允许你加入</string>
 
-  <!-- Hold Overlay -->
+    <!-- Hold Overlay -->
     <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
+    <string name="azure_communication_ui_calling_resume">Resume</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
+    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
@@ -50,8 +53,8 @@
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已静音</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消静音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">挂断</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">“关闭”按钮</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">关闭</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">“关闭”按钮</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切换视频</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切换音频</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">设备选项</string>

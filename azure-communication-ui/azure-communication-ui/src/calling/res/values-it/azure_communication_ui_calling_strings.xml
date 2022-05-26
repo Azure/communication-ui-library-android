@@ -35,6 +35,9 @@
 
     <!-- Hold Overlay -->
     <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
+    <string name="azure_communication_ui_calling_resume">Resume</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
+    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">In attesa di altri partecipanti</string>
@@ -51,7 +54,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Microfono riattivato</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Disconnetti</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Pulsante Chiudi</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Pulsante Chiudi</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Attiva/disattiva video</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Attiva/Disattiva audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opzioni dispositivo</string>
