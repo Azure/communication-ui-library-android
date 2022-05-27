@@ -140,28 +140,26 @@ internal class ParticipantGridCellVideoView(
         detachFromParentView(rendererView)
 
         if (streamType == StreamType.SCREEN_SHARING) {
-            if (FeatureFlags.ScreenShareZoom.active) {
-                removeScreenShareZoomView()
-                val screenShareFactory = ScreenShareViewManager(
-                    context,
-                    videoContainer,
-                    getScreenShareVideoStreamRendererCallback,
-                    showFloatingHeaderCallBack
-                )
-                screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
-                videoContainer.addView(screenShareZoomFrameLayout, 0)
-                // scaled transformed view round corners are not visible when scroll is not at end
-                // to avoid content outside speaking rectangle removing round corners
-                videoContainer.background = ContextCompat.getDrawable(
-                    context,
-                    R.color.azure_communication_ui_calling_color_surface
-                )
-                participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator_no_corner
-                )
-                return
-            }
+            removeScreenShareZoomView()
+            val screenShareFactory = ScreenShareViewManager(
+                context,
+                videoContainer,
+                getScreenShareVideoStreamRendererCallback,
+                showFloatingHeaderCallBack
+            )
+            screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
+            videoContainer.addView(screenShareZoomFrameLayout, 0)
+            // scaled transformed view round corners are not visible when scroll is not at end
+            // to avoid content outside speaking rectangle removing round corners
+            videoContainer.background = ContextCompat.getDrawable(
+                context,
+                R.color.azure_communication_ui_calling_color_surface
+            )
+            participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
+                context,
+                R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator_no_corner
+            )
+            return
         }
 
         rendererView.background = ContextCompat.getDrawable(

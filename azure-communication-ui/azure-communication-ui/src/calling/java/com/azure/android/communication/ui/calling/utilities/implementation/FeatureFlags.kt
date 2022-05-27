@@ -28,6 +28,7 @@ There is 2 parts to this system.
   This is recommended over "values()" which will only access the Enum values.
 
  */
+
 enum class FeatureFlags(
     // Label to display on screen
     override val enabledByDefault: Boolean,
@@ -36,14 +37,14 @@ enum class FeatureFlags(
 ) : FeatureFlag {
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
-    BluetoothAudio(
-        true,
-        "Bluetooth Audio"
-    ),
-    ScreenShareZoom(
-        true,
-        "Screen Share Zoom"
+
+    // Empty Entry, will be ignored from values()
+    // Added since all other entries are removed at the moment.
+    NOOP(
+        false,
+        ""
     );
+
     // ---------------------------- End Global Features ---------------------------------------------
 
     // Stubs for onStart/onEnd as we don't need it for the enum ones.
@@ -71,7 +72,7 @@ enum class FeatureFlags(
         }
 
         // List of all features
-        val features: List<FeatureFlag> get() = values().toList() + additionalEntries
+        val features: List<FeatureFlag> get() = values().filter { it != NOOP }.toList() + additionalEntries
 
         // The delegate to use for getting/setting, default in-memory
         var flagStoreDelegate: FeatureFlagStore = DefaultFeatureFlagStore()
