@@ -31,9 +31,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!isTaskRoot) {
-            // new Activity instance was brought to top of stack,
-            // so finishing this will get us to the last viewed screen
+        if (shouldFinish()) {
             finish()
             return
         }
@@ -168,6 +166,9 @@ class CallLauncherActivity : AppCompatActivity() {
         saveState(outState)
         super.onSaveInstanceState(outState)
     }
+    // check whether new Activity instance was brought to top of stack,
+    // so that finishing this will get us to the last viewed screen
+    private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
     fun showAlert(message: String) {
         runOnUiThread {

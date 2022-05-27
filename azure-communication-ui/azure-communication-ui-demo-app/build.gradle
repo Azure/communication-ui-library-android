@@ -28,6 +28,11 @@ android {
         buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
         buildConfigField 'String', 'REMOTE_PARTICIPANT_AVATAR_TEST_URL', properties.getProperty('REMOTE_PARTICIPANT_AVATAR_TEST_URL', '""')
         buildConfigField 'String', 'ACS_TOKEN_EXPIRED', properties.getProperty('ACS_TOKEN_EXPIRED', '""')
+        if (shouldNotCheckTaskRoot()) {
+            buildConfigField 'boolean', 'CHECK_TASK_ROOT', "false"
+        } else {
+            buildConfigField 'boolean', 'CHECK_TASK_ROOT', "true"
+        }
     }
 
     signingConfigs {
