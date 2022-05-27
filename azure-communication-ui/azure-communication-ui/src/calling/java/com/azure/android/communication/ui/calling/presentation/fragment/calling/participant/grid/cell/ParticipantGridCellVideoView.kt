@@ -23,7 +23,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareZoomFrameLayout
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
