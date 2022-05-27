@@ -25,6 +25,7 @@ class FeatureFlagsTest {
     fun testAdditionalFeature() {
         //  Fake an entry
         var started = false
+        val oldLength = FeatureFlags.features.size
         val entry = FeatureFlagEntry(
             start = {
                 started = true
@@ -49,7 +50,7 @@ class FeatureFlagsTest {
         assert(!entry.active) { "Should be disabled" }
         assert(!started) { "Should have been stopped" }
         // / Check if the features list is 1 more than the Enum list size
-        assert(FeatureFlags.features.size == FeatureFlags.values().size + 1)
+        assert(oldLength + 1  == FeatureFlags.features.size)
     }
 
     @Test
