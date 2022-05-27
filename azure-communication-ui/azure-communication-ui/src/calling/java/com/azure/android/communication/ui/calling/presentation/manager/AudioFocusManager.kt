@@ -108,7 +108,6 @@ internal class AudioFocusManager(
                 }
             } else if (previousCallState != it.callState.callingStatus) {
                 previousCallState = it.callState.callingStatus
-
                 if (it.callState.callingStatus == CallingStatus.CONNECTED) {
                     isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                     if (!isAudioFocused) {
