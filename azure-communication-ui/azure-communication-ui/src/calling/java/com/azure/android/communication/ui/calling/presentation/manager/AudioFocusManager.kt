@@ -85,8 +85,6 @@ internal class AudioFocusManager(
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
-            } else if (it == AudioManager.AUDIOFOCUS_GAIN) {
-                store.dispatch(AudioSessionAction.AudioFocusApproved())
             }
         }
     }
