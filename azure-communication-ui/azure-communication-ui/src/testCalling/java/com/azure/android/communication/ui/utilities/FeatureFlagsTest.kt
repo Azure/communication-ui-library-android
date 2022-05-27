@@ -17,8 +17,8 @@ class FeatureFlagsTest {
 
     @Test
     fun testEnumFlag() {
-        FeatureFlags.BluetoothAudio.toggle()
-        assert(!FeatureFlags.BluetoothAudio.active) { "Bluetooth should be disabled now" }
+        FeatureFlags.NOOP.toggle()
+        assert(!FeatureFlags.NOOP.active) { "Bluetooth should be disabled now" }
     }
 
     @Test
