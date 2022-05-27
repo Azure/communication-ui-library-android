@@ -9,9 +9,9 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Overschakelen naar camera aan voorzijde</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Overschakelen naar de camera aan achterzijde</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Overschakelen naar camera aan achterzijde</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audioapparaat %1$s selecteren</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s-audioapparaat, geselecteerd</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Deelnemen aan gesprek…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video uit</string>
@@ -26,7 +26,7 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Machtigingen vereist</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Geselecteerd</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Knop Camera wisselen</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Camera wisselen</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configuratie</string>
 
     <!--    Lobby View-->
@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Dempen opgeheven</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Ophangen</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Knop Sluiten</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Video in-/uitschakelen</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Audio in-/uitschakelen</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Apparaatopties</string>

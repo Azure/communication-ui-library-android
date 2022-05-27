@@ -6,7 +6,7 @@
 
 
     <!-- Custom Theme for Composite-->
-    <style name="MyCompany.Theme.Calling" parent="AzureCommunicationUICalling.Theme.Calling">
+    <style name="MyCompany.Theme.Calling" parent="AzureCommunicationUICalling.Theme">
         <!--
             This custom theme is derived from the FluentUI colors, by swapping Red & Green Components
             When supplying your own theme, choose your primary and also associated tints/shades
