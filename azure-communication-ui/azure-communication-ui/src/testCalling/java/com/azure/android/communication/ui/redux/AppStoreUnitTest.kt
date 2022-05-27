@@ -42,6 +42,8 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
     @Mock
     private lateinit var mockHandler: Handler
 
+    private var maxRemoteParticipants: Int = 6
+
     @Test
     fun appStore_dispatch_when_invoked_then_updateStoreState() =
         runScopedTest {
@@ -61,7 +63,8 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread
+                mockStoreHandlerThread,
+                maxRemoteParticipants
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(stateTest)
@@ -90,7 +93,8 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(middleware1Spy, middleware2Spy),
-                mockStoreHandlerThread
+                mockStoreHandlerThread,
+                maxRemoteParticipants
             )
 
             // act
@@ -115,7 +119,8 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread
+                mockStoreHandlerThread,
+                maxRemoteParticipants
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action))
@@ -141,7 +146,8 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread
+                mockStoreHandlerThread,
+                maxRemoteParticipants
             )
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(testState)
             Mockito.`when`(mockAppStateReducer.reduce(testState, action)).thenReturn(mockAppState)
