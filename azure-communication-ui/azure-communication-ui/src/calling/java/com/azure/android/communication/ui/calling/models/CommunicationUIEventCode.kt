@@ -10,6 +10,7 @@ import com.azure.android.core.util.ExpandableStringEnum
 internal class CommunicationUIEventCode : ExpandableStringEnum<CommunicationUIEventCode?>() {
     companion object {
         val CALL_EVICTED = fromString("callEvicted", CommunicationUIEventCode::class.java)
+        val CALL_DECLINED = fromString("callDeclined", CommunicationUIEventCode::class.java)
     }
 
     /**

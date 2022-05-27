@@ -5,10 +5,11 @@ package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
+import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
@@ -29,15 +30,12 @@ internal class ErrorHandler(
     }
 
     private fun onStateChanged(state: ReduxState) {
-
-        val fireEmergencyExit = isEmergencyExit(state)
+        val fireEmergencyExit = isEmergencyExit(state.errorState)
 
         checkIfFatalErrorIsNewAndNotify(
             state.errorState.fatalError,
             lastFatalError,
-        ) {
-            lastFatalError = it
-        }
+        ) { lastFatalError = it }
 
         checkIfCallingCompositeExceptionIsNewAndNotify(
             state.localParticipantState.cameraState.error,
@@ -59,16 +57,13 @@ internal class ErrorHandler(
         }
     }
 
-    private fun isEmergencyExit(state: ReduxState) =
-        (
-            state.errorState.fatalError != null &&
-                state.errorState.fatalError != lastFatalError
-            ) ||
-            (
-                state.errorState.callStateError != null &&
-                    state.errorState.callStateError != lastCallStateError &&
-                    state.errorState.callStateError?.communicationUIErrorCode == CommunicationUIErrorCode.TOKEN_EXPIRED
-                )
+    private fun isEmergencyExit(errorState: ErrorState) =
+        errorState.run {
+            callStateError != null &&
+                callStateError != lastCallStateError &&
+                callStateError.communicationUIErrorCode == TOKEN_EXPIRED ||
+                (fatalError != null && fatalError != lastFatalError)
+        }
 
     private fun checkIfCallingCompositeExceptionIsNewAndNotify(
         newError: CallCompositeError?,
@@ -96,12 +91,16 @@ internal class ErrorHandler(
         function: (CallStateError) -> Unit,
     ) {
         if (newCallStateError != null && newCallStateError != lastCallStateError) {
-            if (newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_EVICTED) {
+            if (shouldNotifyError(newCallStateError)) {
                 function(newCallStateError)
                 callStateErrorCallback(newCallStateError)
             }
         }
     }
+
+    private fun shouldNotifyError(newCallStateError: CallStateError) =
+        newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_EVICTED &&
+            newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_DECLINED
 
     private fun callStateErrorCallback(callStateError: CallStateError) {
         try {
