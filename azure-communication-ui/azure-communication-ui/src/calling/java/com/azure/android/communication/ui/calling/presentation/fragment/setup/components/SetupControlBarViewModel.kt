@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+import com.azure.android.communication.ui.calling.redux.state.isDisconnected
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
@@ -14,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -135,6 +137,8 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
     }
 
     private fun isControlsDisabled(callingState: CallingState): Boolean {
+        if (callingState.isDisconnected())
+            return false
         return callingState.joinCallIsRequested || callingState.callingStatus != CallingStatus.NONE
     }
 }

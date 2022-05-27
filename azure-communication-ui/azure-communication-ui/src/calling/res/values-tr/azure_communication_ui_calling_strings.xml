@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">Ön Kameraya Geç</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Arka Kameraya Geç</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">%1$s Ses Cihazını Seç</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s ses cihazı, seçildi</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Aramaya katılıyorsunuz…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Görüntü kapalı</string>
@@ -23,10 +23,10 @@
     Bu aramayı başlatmak için sesi etkinleştirmeniz gerekiyor.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kameranız devre dışı. Etkinleştirmek için Ayarlar seçeneğine giderek
       erişime izin verin.</string>
-    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">İzin gerekiyor</string>
+    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">İzinler gerekli</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Seçili</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Gradyan Kur</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamera değiştirme düğmesi</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamera Değiştirme Düğmesi</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Kurulum</string>
 
     <!--    Lobby View-->
@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Sesi açıldı</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Kapat</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Kapat Düğmesi</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Görüntüyü Aç/Kapat</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Sesi Aç/Kapat</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Cihaz Seçenekleri</string>
@@ -74,7 +75,7 @@
     <string name="azure_communication_ui_calling_view_link">Bağlantı</string>
 
     <!--    PopUp warning-->
-    <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Yoksay</string>
+    <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Kapat</string>
     <string name="azure_communication_ui_calling_alert_title">Uyarı</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">Bir hata nedeniyle aramadan çıkarıldınız.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Bir hata nedeniyle aramaya katılınamıyor.</string>

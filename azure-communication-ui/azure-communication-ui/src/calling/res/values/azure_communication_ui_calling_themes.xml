@@ -4,7 +4,7 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base theme. -->
-    <style name="AzureCommunicationUICalling.Theme.Calling" parent="Base.Theme.FluentUI">
+    <style name="AzureCommunicationUICalling.Theme" parent="Base.Theme.FluentUI">
         <!-- Primary brand color
 
         Current supported theming is the Primary Brand Color, which is represented by

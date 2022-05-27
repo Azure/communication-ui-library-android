@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">전면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">후면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">오디오 장치 %1$s 선택</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">오디오 장치 %1$s 선택됨</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">통화에 참가하는 중…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">비디오 끄기</string>
@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">음소거 해제됨</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">끊기</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">닫기 단추</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">비디오 설정/해제</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">오디오 설정/해제</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">디바이스 옵션</string>
