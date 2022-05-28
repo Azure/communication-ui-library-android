@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDis
 
 class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
 
-    fun clickSettings(): SettingsScreenRobot{
+    fun clickSettings(): SettingsScreenRobot {
         val viewDisplayResource = ViewIsDisplayedResource()
         val settings = waitUntilTextOnViewIsDisplayed(
             R.id.azure_composite_show_settings,

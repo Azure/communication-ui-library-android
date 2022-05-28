@@ -3,17 +3,18 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
-import com.azure.android.communication.ui.callingcompositedemoapp.util.*
+import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
+import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
+import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
+import java.util.Locale
 
 class CallingCompositeLocalizationTest : BaseUiTest() {
 
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
-
 
     private fun setLanguage(language: String) {
         val context = getInstrumentation().targetContext
@@ -58,7 +59,8 @@ class CallingCompositeLocalizationTest : BaseUiTest() {
 private enum class Localize(
     val language: String,
     val videoOffText: String,
-    val micText: String) {
+    val micText: String
+) {
 
     French(Locale.FRENCH.displayName, "Video désactivé", "Microphone désactivé"),
     German(Locale.GERMAN.displayName, "Video aus", "Mikrofon aus"),

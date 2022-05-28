@@ -5,7 +5,6 @@ import androidx.test.espresso.action.ViewActions.click
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 
-
 class SettingsScreenRobot : ScreenRobot<SettingsScreenRobot>() {
 
     fun selectLanguageDropDown(language: String) {
@@ -18,8 +17,4 @@ class SettingsScreenRobot : ScreenRobot<SettingsScreenRobot>() {
 
         pressBack()
     }
-
-
 }
-
-
