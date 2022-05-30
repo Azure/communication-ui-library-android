@@ -50,7 +50,7 @@
         android:text="@string/azure_communication_ui_calling_resume"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/azure_communication_ui_calling_toggle_selector"
+        android:textColor="@color/azure_communication_ui_calling_color_on_primary"
         app:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
         />
 
