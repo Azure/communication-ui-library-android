@@ -129,7 +129,6 @@ dependencies {
 
     implementation "com.azure.android:azure-core:$azure_core_version"
     callingApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
-    callingImplementation "com.microsoft.device:dualscreen-layout:$microsoft_dualscreen_layout_version"
     callingImplementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
     callingImplementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"
     callingImplementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"
