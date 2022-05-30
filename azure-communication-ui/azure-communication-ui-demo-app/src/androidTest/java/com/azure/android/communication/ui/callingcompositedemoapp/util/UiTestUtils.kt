@@ -168,6 +168,7 @@ object UiTestUtils {
         val upButton = onView(
             allOf(
                 instanceOf(AppCompatImageButton::class.java),
+                withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description),
                 withParent(withId(R.id.action_bar)),
                 isDisplayed()
             )
