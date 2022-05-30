@@ -68,7 +68,7 @@ class CallingCompositeLocalizationTest : BaseUiTest() {
     }
 }
 
-private enum class Localize(
+enum class Localize(
     val language: String,
     val videoOffText: String,
     val micText: String
