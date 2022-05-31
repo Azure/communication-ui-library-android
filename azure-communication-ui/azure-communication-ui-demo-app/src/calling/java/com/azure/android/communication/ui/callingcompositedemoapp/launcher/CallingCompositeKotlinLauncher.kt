@@ -7,8 +7,8 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
+import com.azure.android.communication.ui.calling.models.CallCompositeClientOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
@@ -68,7 +68,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 CallCompositeGroupCallOptions(communicationTokenCredential, groupId, displayName)
 
             if (participantViewData != null) {
-                val dataOptions = CallCompositeLocalOptions(participantViewData)
+                val dataOptions = CallCompositeClientOptions(participantViewData)
                 callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions)
             } else {
                 callComposite.launch(callLauncherActivity, groupCallOptions)
@@ -78,7 +78,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                 CallCompositeTeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName)
 
             if (participantViewData != null) {
-                val dataOptions = CallCompositeLocalOptions(participantViewData)
+                val dataOptions = CallCompositeClientOptions(participantViewData)
                 callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions)
             } else {
                 callComposite.launch(callLauncherActivity, teamsMeetingOptions)

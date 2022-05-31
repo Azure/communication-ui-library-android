@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.presentation.manager
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeClientOptions
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
@@ -46,7 +46,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         )
 
         // act
-        val result = avatarViewManager.callCompositeLocalOptions
+        val result = avatarViewManager.callCompositeClientOptions
 
         // assert
         Assert.assertEquals(
@@ -63,12 +63,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
+            CallCompositeClientOptions(CallCompositeParticipantViewData().setDisplayName("test")),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.callCompositeLocalOptions
+        val result = avatarViewManager.callCompositeClientOptions
 
         // assert
         Assert.assertEquals(
@@ -90,12 +90,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+            CallCompositeClientOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.callCompositeLocalOptions
+        val result = avatarViewManager.callCompositeClientOptions
 
         // assert
         Assert.assertEquals(
@@ -117,12 +117,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+            CallCompositeClientOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.callCompositeLocalOptions
+        val result = avatarViewManager.callCompositeClientOptions
 
         // assert
         Assert.assertEquals(
@@ -140,7 +140,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(
+            CallCompositeClientOptions(
                 CallCompositeParticipantViewData()
                     .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER)
             ),
@@ -148,7 +148,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         )
 
         // act
-        val result = avatarViewManager.callCompositeLocalOptions
+        val result = avatarViewManager.callCompositeClientOptions
 
         // assert
         Assert.assertEquals(

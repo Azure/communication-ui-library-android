@@ -62,7 +62,7 @@ internal class SetupFragment :
         participantAvatarView.start(
             viewLifecycleOwner,
             viewModel.getParticipantAvatarViewModel(),
-            avatarViewManager.callCompositeLocalOptions?.participantViewData,
+            avatarViewManager.callCompositeClientOptions?.participantViewData,
         )
 
         warningsView = view.findViewById(R.id.azure_communication_ui_setup_permission_info)

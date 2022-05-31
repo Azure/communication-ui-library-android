@@ -18,14 +18,14 @@ import android.widget.ImageView;
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
  * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
- * CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(
+ * CallCompositeClientOptions clientOptions = new CallCompositeClientOptions(
  *     new CallCompositeParticipantViewData&#40;...&#41);
  *
- * callComposite.launch(..., ..., localOptions);
+ * callComposite.launch(..., ..., clientOptions);
  *
  * </pre>
  *
- * @see CallCompositeLocalOptions
+ * @see CallCompositeClientOptions
  */
 public final class CallCompositeParticipantViewData {
     private Bitmap avatarBitmap;

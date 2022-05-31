@@ -147,7 +147,7 @@ internal class ParticipantListView(
         val localParticipant = viewModel.createLocalParticipantListCell(
             resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
         )
-        val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
+        val localParticipantViewData = avatarViewManager.callCompositeClientOptions?.participantViewData
         bottomCellItems
             .add(
                 generateBottomCellItem(
