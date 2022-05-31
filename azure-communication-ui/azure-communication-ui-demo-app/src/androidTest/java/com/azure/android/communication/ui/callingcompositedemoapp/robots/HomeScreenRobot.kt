@@ -4,10 +4,23 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
+import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 
 class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
+
+    fun clickSettings(): SettingsScreenRobot {
+        val viewDisplayResource = ViewIsDisplayedResource()
+        val settings = waitUntilTextOnViewIsDisplayed(
+            R.id.azure_composite_show_settings,
+            "Settings"
+        )
+        settings.perform(click())
+        return SettingsScreenRobot()
+    }
+
     fun setEmptyTeamsUrl(): HomeScreenRobot {
         waitUntilViewIdIsDisplayed(R.id.groupIdOrTeamsMeetingLinkText).run {
             perform(ViewActions.replaceText(""))
