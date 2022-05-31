@@ -18,16 +18,6 @@ public final class CommunicationUIErrorCode extends ExpandableStringEnum<Communi
 
     public static final CommunicationUIErrorCode TOKEN_EXPIRED = fromString("tokenExpired");
 
-    public static final CommunicationUIErrorCode SWITCH_CAMERA_FAILED = fromString("switchCameraFailed");
-
-    public static final CommunicationUIErrorCode TURN_CAMERA_ON_FAILED = fromString("turnCameraOnFailed");
-
-    public static final CommunicationUIErrorCode TURN_CAMERA_OFF_FAILED = fromString("turnCameraOffFailed");
-
-    public static final CommunicationUIErrorCode TURN_MIC_ON_FAILED = fromString("turnMicOnFailed");
-
-    public static final CommunicationUIErrorCode TURN_MIC_OFF_FAILED = fromString("turnMicOffFailed");
-
     /**
      * Creates or finds a CallCompositeErrorCode from its string representation.
      *
@@ -45,4 +35,3 @@ public final class CommunicationUIErrorCode extends ExpandableStringEnum<Communi
         return values(CommunicationUIErrorCode.class);
     }
 }
-

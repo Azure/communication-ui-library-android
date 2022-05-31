@@ -4,9 +4,10 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
 import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.EventCode
+import com.azure.android.communication.ui.calling.models.internal.ErrorCode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
@@ -61,7 +62,7 @@ internal class ErrorHandler(
         errorState.run {
             callStateError != null &&
                 callStateError != lastCallStateError &&
-                callStateError.communicationUIErrorCode == TOKEN_EXPIRED ||
+                callStateError.errorCode == ErrorCode.TOKEN_EXPIRED ||
                 (fatalError != null && fatalError != lastFatalError)
         }
 
@@ -72,16 +73,6 @@ internal class ErrorHandler(
     ) {
         if (newError != null && newError != oldError) {
             function(newError)
-            try {
-                val eventArgs =
-                    CommunicationUIErrorEvent(
-                        newError.communicationUIErrorCode,
-                        newError.cause,
-                    )
-                configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
-            } catch (error: Throwable) {
-                // suppress any possible application errors
-            }
         }
     }
 
@@ -99,20 +90,40 @@ internal class ErrorHandler(
     }
 
     private fun shouldNotifyError(newCallStateError: CallStateError) =
-        newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_EVICTED &&
-            newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_DECLINED
+        newCallStateError.eventCode != EventCode.CALL_EVICTED &&
+            newCallStateError.eventCode != EventCode.CALL_DECLINED
 
     private fun callStateErrorCallback(callStateError: CallStateError) {
         try {
-            val eventArgs =
-                CommunicationUIErrorEvent(
-                    callStateError.communicationUIErrorCode,
-                    null,
-                )
-            configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
+            getCommunicationUIErrorCode(callStateError.errorCode)?.let {
+                val eventArgs =
+                    CommunicationUIErrorEvent(
+                        it,
+                        null,
+                    )
+                configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
+            }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
+    }
+
+    private fun getCommunicationUIErrorCode(errorCode: ErrorCode?): CommunicationUIErrorCode? {
+        errorCode?.let {
+            when (it) {
+                ErrorCode.TOKEN_EXPIRED -> {
+                    return CommunicationUIErrorCode.TOKEN_EXPIRED
+                }
+                ErrorCode.CALL_JOIN_FAILED -> {
+                    return CommunicationUIErrorCode.CALL_JOIN_FAILED
+                }
+                ErrorCode.CALL_END_FAILED -> {
+                    return CommunicationUIErrorCode.CALL_END_FAILED
+                }
+                else -> return null
+            }
+        }
+        return null
     }
 
     private fun checkIfFatalErrorIsNewAndNotify(
@@ -127,11 +138,10 @@ internal class ErrorHandler(
     }
 
     private fun callErrorCallback(error: FatalError) {
-
         try {
             val eventArgs =
                 CommunicationUIErrorEvent(
-                    error.codeCallComposite,
+                    getCommunicationUIErrorCode(error.errorCode),
                     error.fatalError,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
