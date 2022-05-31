@@ -73,6 +73,22 @@
                     app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_filled"
                     />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/azure_communication_ui_calling_participant_audio_view_on_hold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:layout_marginStart="2dp"
+                android:visibility="invisible"
+                android:singleLine="true"
+                android:layout_marginTop="10dp"
+                android:text="@string/azure_communication_ui_calling_remote_participant_on_hold"
+                android:textSize="15sp"
+                android:textColor="@color/azure_communication_ui_calling_color_on_background"
+                />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

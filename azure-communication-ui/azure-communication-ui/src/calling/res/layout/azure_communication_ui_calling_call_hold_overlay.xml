@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/azure_communication_ui_call_hold_overlay"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_row="2"
+    android:layout_column="0"
+    android:background="@color/azure_communication_ui_calling_color_call_lobby_overlay"
+    android:clickable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+
+    <ImageView
+        android:id="@+id/azure_communication_ui_call_hold_overlay_wait_for_host_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/azure_communication_ui_calling_lobby_view_text_waiting_for_host"
+        android:importantForAccessibility="no"
+        android:src="@drawable/azure_communication_ui_calling_ic_fluent_clock_24_filled"
+        />
+
+    <TextView
+        android:id="@+id/azure_communication_ui_call_hold_overlay_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/azure_communication_ui_calling_lobby_view_text_waiting_for_host"
+        android:textColor="@color/azure_communication_ui_calling_color_on_background"
+        android:textSize="20sp"
+        />
+
+    <com.microsoft.fluentui.widget.Button
+        android:id="@+id/azure_communication_ui_call_hold_resume_button"
+        style="@style/Widget.FluentUI.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="14dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/azure_communication_ui_calling_resume"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/azure_communication_ui_calling_color_on_primary"
+        app:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
+        />
+
+</com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView>

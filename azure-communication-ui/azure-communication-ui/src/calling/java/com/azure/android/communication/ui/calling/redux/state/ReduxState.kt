@@ -11,4 +11,5 @@ internal interface ReduxState {
     var lifecycleState: LifecycleState
     var errorState: ErrorState
     var navigationState: NavigationState
+    var audioSessionState: AudioSessionState
 }
