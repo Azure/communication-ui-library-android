@@ -18,5 +18,6 @@ internal class ParticipantGridCellViewModelFactory {
             participantInfoModel.isMuted,
             participantInfoModel.isSpeaking,
             participantInfoModel.modifiedTimestamp,
+            participantInfoModel.participantStatus,
         )
 }

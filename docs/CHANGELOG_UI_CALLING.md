@@ -6,6 +6,7 @@ CommunicationUIEventCode is removed
 ## 1.0.0-beta.2 (FUTURE)
 
 ### New Features
+- Call on hold
 
 ### Breaking Changes
 - CommunicationUIEventCode class is removed
