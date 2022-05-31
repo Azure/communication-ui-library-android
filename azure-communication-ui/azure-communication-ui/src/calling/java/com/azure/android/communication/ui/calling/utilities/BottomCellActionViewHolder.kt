@@ -45,7 +45,13 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             )
             imageView.visibility = View.GONE
             avatarView.visibility = View.VISIBLE
-            avatarView.name = bottomCellItem.title ?: ""
+
+            if (bottomCellItem.title == itemView.context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)) {
+                avatarView.name = ""
+            } else {
+                avatarView.name = bottomCellItem.title ?: ""
+            }
+
             bottomCellItem.participantViewData?.let { participantViewData ->
                 participantViewData.avatarBitmap?.let {
                     avatarView.avatarImageBitmap = it
