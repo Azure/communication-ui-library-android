@@ -3,9 +3,7 @@
 
 package com.azure.android.communication.ui.calling.error
 
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
-
 internal class FatalError(
     val fatalError: Throwable?,
-    val codeCallComposite: CallCompositeErrorCode?,
+    val errorCode: ErrorCode?,
 )

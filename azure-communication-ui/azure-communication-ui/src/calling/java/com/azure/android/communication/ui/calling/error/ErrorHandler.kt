@@ -4,8 +4,11 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -17,10 +20,7 @@ internal class ErrorHandler(
     private val configuration: CallCompositeConfiguration,
     private val store: Store<ReduxState>,
 ) {
-
     private var lastFatalError: FatalError? = null
-    private var lastCameraError: CallCompositeError? = null
-    private var lastMicError: CallCompositeError? = null
     private var lastCallStateError: CallStateError? = null
 
     suspend fun start() {
@@ -37,16 +37,6 @@ internal class ErrorHandler(
             lastFatalError,
         ) { lastFatalError = it }
 
-        checkIfCallingCompositeExceptionIsNewAndNotify(
-            state.localParticipantState.cameraState.error,
-            lastCameraError,
-        ) { lastCameraError = it }
-
-        checkIfCallingCompositeExceptionIsNewAndNotify(
-            state.localParticipantState.audioState.error,
-            lastMicError,
-        ) { lastMicError = it }
-
         checkIfCallStateErrorIsNewAndNotify(
             state.errorState.callStateError,
             lastCallStateError,
@@ -61,29 +51,9 @@ internal class ErrorHandler(
         errorState.run {
             callStateError != null &&
                 callStateError != lastCallStateError &&
-                callStateError.callCompositeErrorCode == TOKEN_EXPIRED ||
+                callStateError.errorCode == TOKEN_EXPIRED ||
                 (fatalError != null && fatalError != lastFatalError)
         }
-
-    private fun checkIfCallingCompositeExceptionIsNewAndNotify(
-        newError: CallCompositeError?,
-        oldError: CallCompositeError?,
-        function: (CallCompositeError) -> Unit,
-    ) {
-        if (newError != null && newError != oldError) {
-            function(newError)
-            try {
-                val eventArgs =
-                    CallCompositeErrorEvent(
-                        newError.callCompositeErrorCode,
-                        newError.cause,
-                    )
-                configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
-            } catch (error: Throwable) {
-                // suppress any possible application errors
-            }
-        }
-    }
 
     private fun checkIfCallStateErrorIsNewAndNotify(
         newCallStateError: CallStateError?,
@@ -106,7 +76,7 @@ internal class ErrorHandler(
         try {
             val eventArgs =
                 CallCompositeErrorEvent(
-                    callStateError.callCompositeErrorCode,
+                    getCallCompositeErrorCode(callStateError.errorCode),
                     null,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
@@ -127,16 +97,36 @@ internal class ErrorHandler(
     }
 
     private fun callErrorCallback(error: FatalError) {
-
         try {
             val eventArgs =
                 CallCompositeErrorEvent(
-                    error.codeCallComposite,
+                    getCallCompositeErrorCode(error.errorCode),
                     error.fatalError,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
+    }
+
+    private fun getCallCompositeErrorCode(errorCode: ErrorCode?): CallCompositeErrorCode? {
+        errorCode?.let {
+            when (it) {
+                TOKEN_EXPIRED -> {
+                    return CallCompositeErrorCode.TOKEN_EXPIRED
+                }
+                CALL_JOIN_FAILED -> {
+                    return CallCompositeErrorCode.CALL_JOIN_FAILED
+                }
+                CALL_END_FAILED -> {
+                    return CallCompositeErrorCode.CALL_END_FAILED
+                }
+                else -> {
+                    return null
+                }
+            }
+        }
+
+        return null
     }
 }

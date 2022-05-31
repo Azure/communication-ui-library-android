@@ -4,11 +4,11 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode.CALL_JOIN_FAILED
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.error.CallStateError
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED

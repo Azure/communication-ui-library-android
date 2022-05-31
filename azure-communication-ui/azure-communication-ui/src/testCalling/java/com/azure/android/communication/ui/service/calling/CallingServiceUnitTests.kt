@@ -7,7 +7,7 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.calling.models.CallInfoModel
@@ -498,8 +498,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                CallCompositeErrorCode.TOKEN_EXPIRED,
-                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
+                ErrorCode.TOKEN_EXPIRED,
+                emitResultFromFlow[1].callStateError!!.errorCode
             )
 
             job.cancel()
@@ -572,8 +572,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                CallCompositeErrorCode.CALL_END_FAILED,
-                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
+                ErrorCode.CALL_END_FAILED,
+                emitResultFromFlow[1].callStateError!!.errorCode
             )
 
             job.cancel()
@@ -609,8 +609,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                CallCompositeErrorCode.CALL_JOIN_FAILED,
-                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
+                ErrorCode.CALL_JOIN_FAILED,
+                emitResultFromFlow[1].callStateError!!.errorCode
             )
 
             job.cancel()

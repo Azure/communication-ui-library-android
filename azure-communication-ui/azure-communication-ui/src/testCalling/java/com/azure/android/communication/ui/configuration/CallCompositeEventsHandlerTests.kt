@@ -5,10 +5,10 @@ package com.azure.android.communication.ui.configuration
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
