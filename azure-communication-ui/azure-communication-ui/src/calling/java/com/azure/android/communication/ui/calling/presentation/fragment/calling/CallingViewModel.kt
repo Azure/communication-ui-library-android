@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.HoldOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
@@ -47,7 +47,7 @@ internal class CallingViewModel(
         return lobbyOverlayViewModel
     }
 
-    fun getHoldOverlayViewModel(): HoldOverlayViewModel {
+    fun getHoldOverlayViewModel(): OnHoldOverlayViewModel {
         return holdOverlayViewModel
     }
 
