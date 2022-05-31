@@ -22,7 +22,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.HoldOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
@@ -50,7 +50,7 @@ internal class CallingFragment :
     private lateinit var participantListView: ParticipantListView
     private lateinit var bannerView: BannerView
     private lateinit var lobbyOverlay: LobbyOverlayView
-    private lateinit var holdOverlay: HoldOverlayView
+    private lateinit var holdOverlay: OnHoldOverlayView
     private lateinit var sensorManager: SensorManager
     private lateinit var powerManager: PowerManager
     private lateinit var accessibilityManager: AccessibilityManager
