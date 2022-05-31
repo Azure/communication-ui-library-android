@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.utilities.implementation
+package com.azure.android.communication.ui.callingcompositedemoapp.features
 
 /* Feature Flag Management
 

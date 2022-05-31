@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.utilities
+package com.azure.android.communication.ui.callingcompositedemoapp.features
 
-import com.azure.android.communication.ui.calling.utilities.implementation.DefaultFeatureFlagStore
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlagEntry
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlags
 import org.junit.Before
 import org.junit.Test
 
@@ -18,7 +15,7 @@ class FeatureFlagsTest {
     @Test
     fun testEnumFlag() {
         FeatureFlags.NOOP.toggle()
-        assert(!FeatureFlags.NOOP.active) { "Bluetooth should be disabled now" }
+        assert(!FeatureFlags.NOOP.active) { "Noop should be disabled now" }
     }
 
     @Test

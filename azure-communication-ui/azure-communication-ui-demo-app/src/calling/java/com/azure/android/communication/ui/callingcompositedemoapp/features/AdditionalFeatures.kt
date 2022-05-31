@@ -8,8 +8,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlagEntry
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlags
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.diagnostics.MagnifierViewer
 
