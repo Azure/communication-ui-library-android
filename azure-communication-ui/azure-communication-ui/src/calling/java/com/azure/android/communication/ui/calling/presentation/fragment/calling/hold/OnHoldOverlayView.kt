@@ -28,14 +28,14 @@ import com.microsoft.fluentui.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class HoldOverlayView : LinearLayout {
+internal class OnHoldOverlayView : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var waitingIcon: ImageView
     private lateinit var overlayTitle: TextView
     private lateinit var resumeButton: AppCompatButton
-    private lateinit var viewModel: HoldOverlayViewModel
+    private lateinit var viewModel: OnHoldOverlayViewModel
 
     private lateinit var snackBar: Snackbar
     private lateinit var snackBarTextView: TextView
@@ -54,7 +54,7 @@ internal class HoldOverlayView : LinearLayout {
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        viewModel: HoldOverlayViewModel,
+        viewModel: OnHoldOverlayViewModel,
     ) {
         this.viewModel = viewModel
 
