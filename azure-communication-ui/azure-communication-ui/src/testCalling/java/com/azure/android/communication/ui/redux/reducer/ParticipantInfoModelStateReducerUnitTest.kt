@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.redux.reducer
 
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
@@ -27,7 +28,8 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
         val reducer = ParticipantStateReducerImpl()
         val oldState = RemoteParticipantsState(HashMap(), 0)
@@ -53,7 +55,8 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0
+                speakingTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
             )
         val reducer = ParticipantStateReducerImpl()
         val oldState = RemoteParticipantsState(HashMap(), 0)

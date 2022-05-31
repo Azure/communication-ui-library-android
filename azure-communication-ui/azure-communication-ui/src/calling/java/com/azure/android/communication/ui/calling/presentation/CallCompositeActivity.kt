@@ -45,6 +45,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
+    private val audioFocusManager get() = container.audioFocusManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -70,8 +71,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        configureActionBar()
         configureLocalization()
+        configureActionBar()
         setStatusBarColor()
         setActionBarVisibility()
 
@@ -102,6 +103,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             navigationRouter.start()
+        }
+
+        lifecycleScope.launch {
+            audioFocusManager.start()
         }
 
         notificationService.start(lifecycleScope)

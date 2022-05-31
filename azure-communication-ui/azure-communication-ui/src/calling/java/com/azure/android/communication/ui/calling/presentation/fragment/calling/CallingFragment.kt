@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
@@ -49,6 +50,7 @@ internal class CallingFragment :
     private lateinit var participantListView: ParticipantListView
     private lateinit var bannerView: BannerView
     private lateinit var lobbyOverlay: LobbyOverlayView
+    private lateinit var holdOverlay: OnHoldOverlayView
     private lateinit var sensorManager: SensorManager
     private lateinit var powerManager: PowerManager
     private lateinit var accessibilityManager: AccessibilityManager
@@ -84,6 +86,9 @@ internal class CallingFragment :
 
         lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
         lobbyOverlay.start(viewLifecycleOwner, viewModel.getLobbyOverlayViewModel())
+
+        holdOverlay = view.findViewById(R.id.azure_communication_ui_call_hold_overlay)
+        holdOverlay.start(viewLifecycleOwner, viewModel.getHoldOverlayViewModel())
 
         localParticipantView = view.findViewById(R.id.azure_communication_ui_call_local_user_view)
         localParticipantView.start(
@@ -152,6 +157,7 @@ internal class CallingFragment :
         if (this::participantListView.isInitialized) participantListView.stop()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
+        if (this::holdOverlay.isInitialized) holdOverlay.stop()
 
         if (this::wakeLock.isInitialized) {
             if (wakeLock.isHeld) {
