@@ -7,7 +7,15 @@ buildscript {
     ext {
         kotlin_version = '1.6.10'
         jacoco_version = '0.8.7'
-        calling_sdk_version = '2.2.0-pre-validation'
+        if (project.rootProject.file('private_drop.properties').canRead()) {
+            Properties privateDropProps = new Properties()
+            privateDropProps.load(project.rootProject.file('private_drop.properties').newDataInputStream())
+            calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
+        }
+        else {
+            calling_sdk_version = '2.1.0-beta.1'
+        }
+
         azure_core_version = '1.0.0-beta.9'
         appcompat_version = '1.3.1'
         androidx_core_version = '1.6.0'
