@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.redux.middleware.handler
 
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
@@ -35,7 +35,7 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
@@ -135,7 +135,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         // assert
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
-                action is LocalParticipantAction.CameraOffFailed && action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_CAMERA_OFF_FAILED
+                action is LocalParticipantAction.CameraOffFailed && action.error.cause == error && action.error.errorCode == ErrorCode.TURN_CAMERA_OFF_FAILED
             }
         )
     }
@@ -531,7 +531,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                        action.error.fatalError == exception && action.error.codeCallComposite == CallCompositeErrorCode.CALL_JOIN_FAILED
+                        action.error.fatalError == exception && action.error.errorCode == ErrorCode.CALL_JOIN_FAILED
                 }
             )
         }
@@ -1168,7 +1168,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.CameraOnFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_CAMERA_ON_FAILED
+                    action.error.cause == error && action.error.errorCode == ErrorCode.TURN_CAMERA_ON_FAILED
             }
         )
     }
@@ -1263,7 +1263,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOffFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_MIC_OFF_FAILED
+                    action.error.cause == error && action.error.errorCode == ErrorCode.TURN_MIC_OFF_FAILED
             }
         )
         verify(mockCallingService, times(1)).turnMicOff()
@@ -1313,7 +1313,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOnFailed &&
-                    action.error.cause == error && action.error.callCompositeErrorCode == CallCompositeErrorCode.TURN_MIC_ON_FAILED
+                    action.error.cause == error && action.error.errorCode == ErrorCode.TURN_MIC_ON_FAILED
             }
         )
         verify(mockCallingService, times(1)).turnMicOn()
@@ -1357,7 +1357,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             callInfoModelStateFlow.value = CallInfoModel(
                 CallingStatus.DISCONNECTED,
                 CallStateError(
-                    CallCompositeErrorCode.TOKEN_EXPIRED
+                    ErrorCode.TOKEN_EXPIRED
                 )
             )
 
@@ -1365,7 +1365,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CallCompositeErrorCode.TOKEN_EXPIRED
+                        action.callStateError.errorCode == ErrorCode.TOKEN_EXPIRED
                 }
             )
         }
@@ -1429,7 +1429,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
         }
@@ -1484,7 +1484,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CALL_END_FAILED &&
+                        action.callStateError.errorCode == CALL_END_FAILED &&
                         action.callStateError.callCompositeEventCode == CALL_DECLINED
                 }
             )
@@ -1552,7 +1552,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
         }
@@ -1608,7 +1608,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CALL_END_FAILED &&
+                        action.callStateError.errorCode == CALL_END_FAILED &&
                         action.callStateError.callCompositeEventCode == CALL_EVICTED
                 }
             )
@@ -1677,7 +1677,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
 
@@ -1736,7 +1736,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
 
@@ -1800,7 +1800,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 CallInfoModel(
                     CallingStatus.DISCONNECTED,
                     CallStateError(
-                        CallCompositeErrorCode.TURN_CAMERA_OFF_FAILED
+                        ErrorCode.TURN_CAMERA_OFF_FAILED
                     )
                 )
             )
@@ -1809,7 +1809,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                        action.callStateError.callCompositeErrorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
 

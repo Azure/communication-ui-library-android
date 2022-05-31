@@ -18,16 +18,6 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
 
     public static final CallCompositeErrorCode TOKEN_EXPIRED = fromString("tokenExpired");
 
-    public static final CallCompositeErrorCode SWITCH_CAMERA_FAILED = fromString("switchCameraFailed");
-
-    public static final CallCompositeErrorCode TURN_CAMERA_ON_FAILED = fromString("turnCameraOnFailed");
-
-    public static final CallCompositeErrorCode TURN_CAMERA_OFF_FAILED = fromString("turnCameraOffFailed");
-
-    public static final CallCompositeErrorCode TURN_MIC_ON_FAILED = fromString("turnMicOnFailed");
-
-    public static final CallCompositeErrorCode TURN_MIC_OFF_FAILED = fromString("turnMicOffFailed");
-
     /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
      *
