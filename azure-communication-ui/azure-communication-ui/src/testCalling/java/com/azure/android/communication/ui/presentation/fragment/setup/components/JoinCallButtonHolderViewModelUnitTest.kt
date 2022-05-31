@@ -108,14 +108,14 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(false, emitResult[0])
-            Assert.assertEquals(true, emitResult[1])
 
             // act
             viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.CONNECTING))
 
             // assert
-            // no more emits yet
+            // Should have disabled during connecting
             Assert.assertEquals(2, emitResult.count())
+            Assert.assertEquals(true, emitResult[1])
 
             // act
             viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.NONE))

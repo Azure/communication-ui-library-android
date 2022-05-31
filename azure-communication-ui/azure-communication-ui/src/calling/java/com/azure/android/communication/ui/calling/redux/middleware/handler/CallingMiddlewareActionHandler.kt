@@ -32,6 +32,8 @@ import kotlinx.coroutines.launch
 internal interface CallingMiddlewareActionHandler {
     fun enterBackground(store: Store<ReduxState>)
     fun enterForeground(store: Store<ReduxState>)
+    fun hold(store: Store<ReduxState>)
+    fun resume(store: Store<ReduxState>)
     fun endCall(store: Store<ReduxState>)
     fun requestCameraPreviewOn(store: Store<ReduxState>)
     fun turnCameraPreviewOn(store: Store<ReduxState>)
@@ -62,7 +64,9 @@ internal class CallingMiddlewareActionHandlerImpl(
         if (state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF &&
             state.localParticipantState.cameraState.operation != CameraOperationalStatus.PAUSED
         ) {
-            if (state.callState.callingStatus != CallingStatus.NONE) {
+            if (state.callState.callingStatus != CallingStatus.NONE &&
+                state.callState.callingStatus != CallingStatus.LOCAL_HOLD
+            ) {
                 callingService.turnCameraOff().whenComplete { _, error ->
                     if (error != null) {
                         store.dispatch(
@@ -136,6 +140,22 @@ internal class CallingMiddlewareActionHandlerImpl(
                             FatalError(error, CommunicationUIErrorCode.CALL_END_FAILED)
                         )
                     )
+                }
+            }
+    }
+
+    override fun hold(store: Store<ReduxState>) {
+        callingService.hold()
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                }
+            }
+    }
+
+    override fun resume(store: Store<ReduxState>) {
+        callingService.resume()
+            .handle { _, error: Throwable? ->
+                if (error != null) {
                 }
             }
     }

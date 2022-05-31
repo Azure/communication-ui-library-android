@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
@@ -32,6 +31,8 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.HoldOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -64,7 +65,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -83,6 +84,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
 
+            val mockHoldOverlayViewModel = mock<HoldOverlayViewModel>()
+
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
@@ -93,6 +96,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
+                on { provideHoldOverlayViewModel() } doAnswer { mockHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -112,7 +116,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any())
-            verify(mockControlBarViewModel, times(1)).update(any(), any(), any())
+            verify(mockControlBarViewModel, times(1)).update(
+                any(),
+                any(),
+                any(),
+                any()
+            )
             verify(mockLocalParticipantViewModel, times(1)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -138,7 +147,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -157,6 +166,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
 
+            val mockHoldOverlayViewModel = mock<HoldOverlayViewModel>()
+
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
                 on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
@@ -167,6 +178,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
+                on { provideHoldOverlayViewModel() } doAnswer { mockHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -186,7 +198,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(
+                any(),
+                any(),
+                any(),
+                any()
+            )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -213,7 +230,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -230,6 +247,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockBannerViewModel = mock<BannerViewModel>()
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
+            val mockHoldOverlayViewModel = mock<HoldOverlayViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
@@ -241,6 +259,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
+                on { provideHoldOverlayViewModel() } doAnswer { mockHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -268,7 +287,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
             verify(mockParticipantListViewModel, times(1)).update(any(), any())
             verify(mockBannerViewModel, times(1)).update(any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(
+                any(),
+                any(),
+                any(),
+                any()
+            )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
@@ -294,7 +318,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -311,6 +335,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockBannerViewModel = mock<BannerViewModel>()
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
+            val mockHoldOverlayViewModel = mock<HoldOverlayViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
@@ -322,6 +347,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
+                on { provideHoldOverlayViewModel() } doAnswer { mockHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -344,7 +370,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockFloatingHeaderViewModel, times(0)).update(any())
             verify(mockParticipantListViewModel, times(0)).update(any(), any())
             verify(mockBannerViewModel, times(0)).update(any())
-            verify(mockControlBarViewModel, times(2)).update(any(), any(), any())
+            verify(mockControlBarViewModel, times(2)).update(
+                any(),
+                any(),
+                any(),
+                any()
+            )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any()
             )
