@@ -71,8 +71,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        configureActionBar()
         configureLocalization()
+        configureActionBar()
         setStatusBarColor()
         setActionBarVisibility()
 
