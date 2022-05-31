@@ -27,7 +27,7 @@ internal class AppReduxState(displayName: String?) : ReduxState {
                 )
             ),
             videoStreamID = null,
-            displayName = displayName
+            displayName = displayName,
         )
 
     override var permissionState: PermissionState =
@@ -38,4 +38,6 @@ internal class AppReduxState(displayName: String?) : ReduxState {
     override var errorState: ErrorState = ErrorState(fatalError = null, callStateError = null)
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.SETUP)
+
+    override var audioSessionState: AudioSessionState = AudioSessionState(audioFocusStatus = null)
 }

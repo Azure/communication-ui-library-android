@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import kotlinx.coroutines.flow.first
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -52,7 +53,17 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             val stateTest = AppReduxState("")
             var participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
-                ParticipantInfoModel("user", "id", false, false, null, null, 0, 0)
+                ParticipantInfoModel(
+                    "user",
+                    "id",
+                    false,
+                    false,
+                    ParticipantStatus.HOLD,
+                    null,
+                    null,
+                    0,
+                    0
+                )
             stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0)
 
             Mockito.`when`(mockHandler.post(any())).thenAnswer(HandlerAnswerStub())

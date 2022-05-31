@@ -25,7 +25,8 @@ internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
     fun snackBarViewModel_onUpdate_then_notifyCallStateErrorFlow() =
         runScopedTest {
             // arrange
-            val expectedPermissionState = CallStateError(CommunicationUIErrorCode.CALL_END_FAILED, null)
+            val expectedPermissionState =
+                CallStateError(CommunicationUIErrorCode.CALL_END_FAILED, null)
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, expectedPermissionState)
 
