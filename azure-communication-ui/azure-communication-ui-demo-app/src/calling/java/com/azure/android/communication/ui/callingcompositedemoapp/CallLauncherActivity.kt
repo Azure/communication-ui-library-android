@@ -242,7 +242,7 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.launcher_activity_action_bar, menu)
         return super.onCreateOptionsMenu(menu)
     }
