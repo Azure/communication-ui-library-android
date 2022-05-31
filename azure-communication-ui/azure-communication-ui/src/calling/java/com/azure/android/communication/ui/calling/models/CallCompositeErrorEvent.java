@@ -6,17 +6,17 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * Event with error type and caused throwable.
  */
-public final class CommunicationUIErrorEvent {
+public final class CallCompositeErrorEvent {
     private final Throwable cause;
-    private final CommunicationUIErrorCode code;
+    private final CallCompositeErrorCode code;
 
     /**
-     * Create {@link CommunicationUIErrorEvent} with error code and caused throwable.
+     * Create {@link CallCompositeErrorEvent} with error code and caused throwable.
      *
-     * @param code  error code
-     * @param cause throwable that caused an exception
+     * @param code  Error code {@link CallCompositeErrorCode}.
+     * @param cause Throwable that caused an exception.
      */
-    public CommunicationUIErrorEvent(final CommunicationUIErrorCode code, final Throwable cause) {
+    public CallCompositeErrorEvent(final CallCompositeErrorCode code, final Throwable cause) {
         this.cause = cause;
         this.code = code;
     }
@@ -36,9 +36,9 @@ public final class CommunicationUIErrorEvent {
     /**
      * Returns the event source.
      *
-     * @return the call error code {@code T} instance
+     * @return the call error code {@link CallCompositeErrorCode} instance.
      */
-    public CommunicationUIErrorCode getErrorCode() {
+    public CallCompositeErrorCode getErrorCode() {
         return code;
     }
 }

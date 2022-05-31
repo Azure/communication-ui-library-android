@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
@@ -147,7 +147,7 @@ internal class ParticipantListView(
         val localParticipant = viewModel.createLocalParticipantListCell(
             resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
         )
-        val localParticipantViewData = avatarViewManager.localSettings?.participantViewData
+        val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
         bottomCellItems
             .add(
                 generateBottomCellItem(
@@ -173,10 +173,10 @@ internal class ParticipantListView(
     }
 
     private fun getLocalParticipantNameToDisplay(
-        participantViewData: ParticipantViewData?,
+        participantViewData: CallCompositeParticipantViewData?,
         displayName: String,
     ): String {
-        participantViewData?.renderedDisplayName?.let {
+        participantViewData?.displayName?.let {
             if (it.trim().isNotEmpty()) {
                 return it + " " + resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
             }
@@ -187,7 +187,7 @@ internal class ParticipantListView(
     private fun generateBottomCellItem(
         displayName: String?,
         isMuted: Boolean,
-        participantViewData: ParticipantViewData?,
+        participantViewData: CallCompositeParticipantViewData?,
     ): BottomCellItem {
         val micIcon = ContextCompat.getDrawable(
             context,
@@ -217,9 +217,9 @@ internal class ParticipantListView(
     }
 
     private fun getNameToDisplay(
-        participantViewData: ParticipantViewData?,
+        participantViewData: CallCompositeParticipantViewData?,
         displayName: String,
     ): String {
-        return participantViewData?.renderedDisplayName ?: displayName
+        return participantViewData?.displayName ?: displayName
     }
 }

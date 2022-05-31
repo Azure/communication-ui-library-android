@@ -7,8 +7,8 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.helper.MockitoHelper.any
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
@@ -156,8 +156,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             Assert.assertEquals(CallingStatus.CONNECTED, emitResultFromFlow[1].callingStatus)
             Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
-                CommunicationUIEventCode.CALL_EVICTED,
-                emitResultFromFlow[2].callStateError!!.communicationUIEventCode
+                CallCompositeEventCode.CALL_EVICTED,
+                emitResultFromFlow[2].callStateError!!.callCompositeEventCode
             )
 
             job.cancel()
@@ -200,8 +200,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             Assert.assertEquals(CallingStatus.CONNECTED, emitResultFromFlow[1].callingStatus)
             Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
-                CommunicationUIEventCode.CALL_DECLINED,
-                emitResultFromFlow[2].callStateError!!.communicationUIEventCode
+                CallCompositeEventCode.CALL_DECLINED,
+                emitResultFromFlow[2].callStateError!!.callCompositeEventCode
             )
 
             job.cancel()
@@ -498,8 +498,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorCode.TOKEN_EXPIRED,
-                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
+                CallCompositeErrorCode.TOKEN_EXPIRED,
+                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
             )
 
             job.cancel()
@@ -572,8 +572,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorCode.CALL_END_FAILED,
-                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
+                CallCompositeErrorCode.CALL_END_FAILED,
+                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
             )
 
             job.cancel()
@@ -609,8 +609,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                CommunicationUIErrorCode.CALL_JOIN_FAILED,
-                emitResultFromFlow[1].callStateError!!.communicationUIErrorCode
+                CallCompositeErrorCode.CALL_JOIN_FAILED,
+                emitResultFromFlow[1].callStateError!!.callCompositeErrorCode
             )
 
             job.cancel()

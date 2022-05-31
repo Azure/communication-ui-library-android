@@ -9,33 +9,33 @@ import com.azure.android.communication.ui.calling.CallComposite;
 /**
  * Options to start Teams meeting call experience using {@link CallComposite}.
  */
-public final class TeamsMeetingOptions {
+public final class CallCompositeTeamsMeetingOptions {
     private final CommunicationTokenCredential credential;
     private final String displayName;
     private final String meetingLink;
 
     /**
-     * Create {@link TeamsMeetingOptions}.
+     * Create {@link CallCompositeTeamsMeetingOptions}.
      *
      * @param credential {@link CommunicationTokenCredential}
      * @param meetingLink                  Teams meeting link, more information can check Quickstart Doc
      */
-    public TeamsMeetingOptions(
+    public CallCompositeTeamsMeetingOptions(
             final CommunicationTokenCredential credential,
             final String meetingLink) {
         this(credential, meetingLink, "");
     }
 
     /**
-     * Create {@link TeamsMeetingOptions}.
+     * Create {@link CallCompositeTeamsMeetingOptions}.
      *
      * @param credential {@link CommunicationTokenCredential}
-     * @param meetingLink                  Teams meeting link, more information can check Quickstart Doc
-     * @param displayName                  user display name other call participants will see
+     * @param meetingLink                  Teams meeting link, more information can check Quickstart Doc.
+     * @param displayName                  User display name other call participants will see.
      */
-    public TeamsMeetingOptions(final CommunicationTokenCredential credential,
-                               final String meetingLink,
-                               final String displayName) {
+    public CallCompositeTeamsMeetingOptions(final CommunicationTokenCredential credential,
+                                            final String meetingLink,
+                                            final String displayName) {
         this.credential = credential;
         this.displayName = displayName;
         this.meetingLink = meetingLink;

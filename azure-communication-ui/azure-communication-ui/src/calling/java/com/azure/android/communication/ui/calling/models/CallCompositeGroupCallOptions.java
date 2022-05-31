@@ -11,33 +11,33 @@ import java.util.UUID;
 /**
  * Options to start group call experience using {@link CallComposite}.
  */
-public final class GroupCallOptions {
+public final class CallCompositeGroupCallOptions {
     private final CommunicationTokenCredential credential;
     private final String displayName;
     private final UUID groupId;
 
     /**
-     * Create {@link GroupCallOptions}.
+     * Create {@link CallCompositeGroupCallOptions}.
      *
-     * @param credential {@link CommunicationTokenCredential}
-     * @param groupId                      group call identifier
+     * @param credential {@link CommunicationTokenCredential}.
+     * @param groupId                      Group call identifier.
      */
-    public GroupCallOptions(
+    public CallCompositeGroupCallOptions(
             final CommunicationTokenCredential credential,
             final UUID groupId) {
         this(credential, groupId, "");
     }
 
     /**
-     * Create {@link GroupCallOptions}.
+     * Create {@link CallCompositeGroupCallOptions}.
      *
      * @param credential {@link CommunicationTokenCredential}
-     * @param groupId                      group call identifier
-     * @param displayName                  user display name other call participants will see
+     * @param groupId                      Group call identifier.
+     * @param displayName                  User display name other call participants will see.
      */
-    public GroupCallOptions(final CommunicationTokenCredential credential,
-                            final UUID groupId,
-                            final String displayName) {
+    public CallCompositeGroupCallOptions(final CommunicationTokenCredential credential,
+                                         final UUID groupId,
+                                         final String displayName) {
 
         this.credential = credential;
         this.displayName = displayName;
@@ -47,7 +47,7 @@ public final class GroupCallOptions {
     /**
      * Get {@link CommunicationTokenCredential}.
      *
-     * @return {@link String}
+     * @return {@link String}.
      */
     public CommunicationTokenCredential getCredential() {
         return credential;
@@ -56,7 +56,7 @@ public final class GroupCallOptions {
     /**
      * Get user display name.
      *
-     * @return {@link String}
+     * @return {@link String}.
      */
     public String getDisplayName() {
         return displayName;
@@ -65,7 +65,7 @@ public final class GroupCallOptions {
     /**
      * Get group call id.
      *
-     * @return {@link UUID}
+     * @return {@link UUID}.
      */
     public UUID getGroupId() {
         return groupId;

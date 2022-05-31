@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode.TOKEN_EXPIRED
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
@@ -61,7 +61,7 @@ internal class ErrorHandler(
         errorState.run {
             callStateError != null &&
                 callStateError != lastCallStateError &&
-                callStateError.communicationUIErrorCode == TOKEN_EXPIRED ||
+                callStateError.callCompositeErrorCode == TOKEN_EXPIRED ||
                 (fatalError != null && fatalError != lastFatalError)
         }
 
@@ -74,8 +74,8 @@ internal class ErrorHandler(
             function(newError)
             try {
                 val eventArgs =
-                    CommunicationUIErrorEvent(
-                        newError.communicationUIErrorCode,
+                    CallCompositeErrorEvent(
+                        newError.callCompositeErrorCode,
                         newError.cause,
                     )
                 configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
@@ -99,14 +99,14 @@ internal class ErrorHandler(
     }
 
     private fun shouldNotifyError(newCallStateError: CallStateError) =
-        newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_EVICTED &&
-            newCallStateError.communicationUIEventCode != CommunicationUIEventCode.CALL_DECLINED
+        newCallStateError.callCompositeEventCode != CallCompositeEventCode.CALL_EVICTED &&
+            newCallStateError.callCompositeEventCode != CallCompositeEventCode.CALL_DECLINED
 
     private fun callStateErrorCallback(callStateError: CallStateError) {
         try {
             val eventArgs =
-                CommunicationUIErrorEvent(
-                    callStateError.communicationUIErrorCode,
+                CallCompositeErrorEvent(
+                    callStateError.callCompositeErrorCode,
                     null,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandler()?.handle(eventArgs)
@@ -130,7 +130,7 @@ internal class ErrorHandler(
 
         try {
             val eventArgs =
-                CommunicationUIErrorEvent(
+                CallCompositeErrorEvent(
                     error.codeCallComposite,
                     error.fatalError,
                 )

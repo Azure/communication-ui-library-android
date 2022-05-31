@@ -6,7 +6,7 @@
 
 -keepattributes LineNumberTable,SourceFile,Signature,*Annotation*
 -renamesourcefileattribute SourceFile
--keepclasseswithmembers public class com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale {
+-keepclasseswithmembers public class com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale {
     public static <fields>;
 }
 

@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.calling.error
 
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 
 internal class CallCompositeError(
-    var communicationUIErrorCode: CommunicationUIErrorCode,
+    var callCompositeErrorCode: CallCompositeErrorCode,
     var cause: Throwable,
 )

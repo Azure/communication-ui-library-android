@@ -23,7 +23,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
@@ -75,10 +75,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         setStatusBarColor()
         setActionBarVisibility()
 
-        if (configuration.themeConfig?.theme != null) {
-            theme.applyStyle(
-                configuration.themeConfig?.theme!!, true
-            )
+        configuration.themeConfig?.let {
+            theme.applyStyle(it, true)
         }
 
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
@@ -305,7 +303,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun supportedOSLocale(): Locale {
         val languageCode = Locale.getDefault().language
         val countryCode = Locale.getDefault().country
-        for (language in CommunicationUISupportedLocale.getSupportedLocales()) {
+        for (language in CallCompositeSupportedLocale.getSupportedLocales()) {
             if (language.language == "$languageCode-$countryCode") {
                 return Locale(languageCode, countryCode)
             }

@@ -3,8 +3,7 @@
 
 package com.azure.android.communication.ui.calling;
 
-import com.azure.android.communication.ui.calling.models.LocalizationConfiguration;
-import com.azure.android.communication.ui.calling.models.ThemeConfiguration;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 
 /**
@@ -12,27 +11,27 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
  */
 public final class CallCompositeBuilder {
 
-    private ThemeConfiguration themeConfig = null;
-    private LocalizationConfiguration localizationConfig = null;
+    private Integer themeConfig = null;
+    private CallCompositeLocalizationOptions localizationConfig = null;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
-     * @param theme {@link ThemeConfiguration}.
+     * @param themeId Theme ID.
      * @return {@link CallCompositeBuilder}
      */
-    public CallCompositeBuilder theme(final ThemeConfiguration theme) {
-        this.themeConfig = theme;
+    public CallCompositeBuilder theme(final int themeId) {
+        this.themeConfig = themeId;
         return this;
     }
 
     /**
      * Sets an optional localization for call-composite to use by {@link CallComposite}.
      *
-     * @param localization {@link LocalizationConfiguration}.
+     * @param localization {@link CallCompositeLocalizationOptions}.
      * @return {@link CallCompositeBuilder}
      */
-    public CallCompositeBuilder localization(final LocalizationConfiguration localization) {
+    public CallCompositeBuilder localization(final CallCompositeLocalizationOptions localization) {
         this.localizationConfig = localization;
         return this;
     }

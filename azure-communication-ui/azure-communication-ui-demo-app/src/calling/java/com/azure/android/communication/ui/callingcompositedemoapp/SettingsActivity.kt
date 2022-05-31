@@ -13,7 +13,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
@@ -44,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = CommunicationUISupportedLocale.getSupportedLocales().map {
+        supportedLanguages = CallCompositeSupportedLocale.getSupportedLocales().map {
             SettingsFeatures.displayLanguageName(it)
         }
         for (locale in supportedLanguages) Log.d("Mohtasim", "locale is " + locale)
