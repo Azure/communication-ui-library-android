@@ -5,12 +5,23 @@ package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.annotation.DrawableRes
 import androidx.test.espresso.action.ViewActions.click
+import com.azure.android.communication.ui.callingcompositedemoapp.Localize
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 import junit.framework.Assert.assertTrue
 
 class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
+
+    fun tapMicButton(micText: String = Localize.English.micText): SetupScreenRobot {
+        val micButton = waitUntilTextOnViewIsDisplayed(
+            R.id.azure_communication_ui_setup_audio_button,
+            micText
+        )
+
+        micButton.perform(click())
+        return this
+    }
 
     fun tapSpeakerIcon(): SetupScreenRobot {
         val speakerButton = waitUntilTextOnViewIsDisplayed(
@@ -63,7 +74,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text, isSelected)
     }
 
-    fun turnCameraOn(): SetupScreenRobot {
+    fun turnCameraOn(videoOffText: String = Localize.English.videoOffText): SetupScreenRobot {
         UiTestUtils.run {
             val viewDisplayResource = ViewIsDisplayedResource()
             waitUntilViewIdIsDisplayed(
@@ -81,10 +92,10 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
             val cameraButtonText =
                 getTextFromButtonView(R.id.azure_communication_ui_setup_camera_button)
-            if (cameraButtonText == "Video off") {
+            if (cameraButtonText == videoOffText) {
                 clickViewWithIdAndText(
                     R.id.azure_communication_ui_setup_camera_button,
-                    "Video off"
+                    videoOffText
                 )
             }
 
