@@ -63,7 +63,8 @@ internal class LocalParticipantViewModel(
         displayPipSwitchCameraButtonFlow.value =
             displayVideo && viewMode == LocalParticipantViewMode.PIP
         enableCameraSwitchFlow.value =
-            cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
+            cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING &&
+            callingState != CallingStatus.LOCAL_HOLD
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
         numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
     }

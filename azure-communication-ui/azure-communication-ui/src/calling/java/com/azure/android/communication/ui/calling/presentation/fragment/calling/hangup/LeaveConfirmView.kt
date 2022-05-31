@@ -97,6 +97,7 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     null,
+                    false,
                     BottomCellItemType.BottomMenuTitle,
                     null
                 ),
@@ -112,7 +113,8 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    false,
                 ) {
                     viewModel.confirm()
                 },
@@ -128,7 +130,8 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    false,
                 ) {
                     cancelLeaveConfirm()
                 },

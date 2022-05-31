@@ -13,7 +13,9 @@ import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
+import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +48,7 @@ internal class CallingSDKEventHandler(
         mutableMapOf<String, RemoteVideoStreamsUpdatedListener>()
     private val mutedChangedListenersMap = mutableMapOf<String, PropertyChangedListener>()
     private val isSpeakingChangedListenerMap = mutableMapOf<String, PropertyChangedListener>()
+    private val isStateChangedListenerMap = mutableMapOf<String, PropertyChangedListener>()
 
     private val remoteParticipantsCacheMap = mutableMapOf<String, RemoteParticipant>()
     private var call: Call? = null
@@ -91,11 +94,13 @@ internal class CallingSDKEventHandler(
             remoteParticipant.removeOnVideoStreamsUpdatedListener(videoStreamsUpdatedListenersMap[id])
             remoteParticipant.removeOnIsMutedChangedListener(mutedChangedListenersMap[id])
             remoteParticipant.removeOnIsSpeakingChangedListener(isSpeakingChangedListenerMap[id])
+            remoteParticipant.removeOnStateChangedListener(isStateChangedListenerMap[id])
         }
         remoteParticipantsCacheMap.clear()
         videoStreamsUpdatedListenersMap.clear()
         mutedChangedListenersMap.clear()
         isSpeakingChangedListenerMap.clear()
+        isStateChangedListenerMap.clear()
         recordingFeature.removeOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature.removeOnIsTranscriptionActiveChangedListener(
             onTranscriptionChanged
@@ -204,16 +209,31 @@ internal class CallingSDKEventHandler(
 
     private fun getInfoModelFromRemoteParticipant(participant: RemoteParticipant): ParticipantInfoModel {
         val currentTimestamp = System.currentTimeMillis()
+
         return ParticipantInfoModel(
-            participant.displayName,
-            ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
-            participant.isMuted,
-            participant.isSpeaking && !participant.isMuted,
-            createVideoStreamModel(participant, MediaStreamType.SCREEN_SHARING),
-            createVideoStreamModel(participant, MediaStreamType.VIDEO),
-            currentTimestamp,
-            if (participant.isSpeaking) currentTimestamp else 0
+            displayName = participant.displayName,
+            userIdentifier = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
+            isMuted = participant.isMuted,
+            isSpeaking = participant.isSpeaking && !participant.isMuted,
+            screenShareVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.SCREEN_SHARING),
+            cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
+            modifiedTimestamp = currentTimestamp,
+            speakingTimestamp = if (participant.isSpeaking) currentTimestamp else 0,
+            participantStatus = getParticipantStatus(participant.state)
         )
+    }
+
+    private fun getParticipantStatus(state: ParticipantState?): ParticipantStatus? {
+        return when (state) {
+            ParticipantState.IDLE -> ParticipantStatus.IDLE
+            ParticipantState.EARLY_MEDIA -> ParticipantStatus.EARLY_MEDIA
+            ParticipantState.CONNECTING -> ParticipantStatus.CONNECTING
+            ParticipantState.HOLD -> ParticipantStatus.HOLD
+            ParticipantState.DISCONNECTED -> ParticipantStatus.DISCONNECTED
+            ParticipantState.IN_LOBBY -> ParticipantStatus.IN_LOBBY
+            ParticipantState.RINGING -> ParticipantStatus.RINGING
+            else -> null
+        }
     }
 
     private fun createVideoStreamModel(
@@ -242,11 +262,14 @@ internal class CallingSDKEventHandler(
                 )
                 removedParticipant.removeOnIsMutedChangedListener(mutedChangedListenersMap[id])
                 removedParticipant.removeOnIsSpeakingChangedListener(isSpeakingChangedListenerMap[id])
+                removedParticipant.removeOnStateChangedListener(isStateChangedListenerMap[id])
+
                 videoStreamsUpdatedListenersMap.remove(id)
                 mutedChangedListenersMap.remove(id)
                 isSpeakingChangedListenerMap.remove(id)
                 remoteParticipantsInfoModelMap.remove(id)
                 remoteParticipantsCacheMap.remove(id)
+                isStateChangedListenerMap.remove(id)
             }
         }
 
@@ -291,6 +314,14 @@ internal class CallingSDKEventHandler(
 
         mutedChangedListenersMap[id] = addOnIsMutedChangedEvent
         addedParticipant.addOnIsMutedChangedListener(mutedChangedListenersMap[id])
+
+        val addOnIsStateChangedEvent =
+            PropertyChangedListener {
+                remoteParticipantsInfoModelMap[id]?.participantStatus = getParticipantStatus(remoteParticipantsCacheMap[id]!!.state)
+                onRemoteParticipantPropertyChange(id)
+            }
+        isStateChangedListenerMap[id] = addOnIsStateChangedEvent
+        addedParticipant.addOnStateChangedListener(isStateChangedListenerMap[id])
 
         val addOnIsSpeakingChangedEvent =
             PropertyChangedListener {

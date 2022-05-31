@@ -94,7 +94,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -172,7 +173,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -191,7 +193,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -279,7 +282,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -298,7 +302,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -390,7 +395,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -409,7 +415,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -428,7 +435,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -479,7 +487,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -498,7 +507,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -588,7 +598,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                     ),
@@ -604,7 +615,10 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(any())
-            verify(mockRemoteParticipantsConfigurationHandler, times(1)).onRemoveParticipantViewData(
+            verify(
+                mockRemoteParticipantsConfigurationHandler,
+                times(1)
+            ).onRemoveParticipantViewData(
                 argThat { identifier ->
                     identifier == "test"
                 }
