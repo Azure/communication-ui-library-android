@@ -41,7 +41,7 @@ internal class AudioSessionManager(
 
     private val isBluetoothScoAvailable
         get() = try {
-            (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+            (bluetoothAudioProxy?.connectedDevices?.size ?: 0) > 0
         } catch (exception: SecurityException) {
             false
         }
@@ -69,7 +69,11 @@ internal class AudioSessionManager(
             initializeAudioDeviceState()
 
             // Listeners we need to rebind with Activity (Bluetooth, Headset, State Updates)
-            openProfileProxy()
+            //openProfileProxy()
+            if(btAdapter!!.isEnabled)btAdapter?.run {
+                getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+                isProfileProxyOpened = true
+            }
 
             val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
             filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
@@ -126,7 +130,9 @@ internal class AudioSessionManager(
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.apply {
             when (action) {
-                BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED -> openProfileProxy()
+                //
+                    // BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED -> openProfileProxy()
+                BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED -> updateHeadphoneStatus()
                 AudioManager.ACTION_HEADSET_PLUG -> updateHeadphoneStatus()
             }
         }
@@ -134,10 +140,7 @@ internal class AudioSessionManager(
 
     private fun openProfileProxy() {
         if (!isProfileProxyOpened && btAdapter?.state == BluetoothAdapter.STATE_ON) {
-            btAdapter?.run {
-                getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
-                isProfileProxyOpened = true
-            }
+
         } else updateBluetoothStatus()
     }
 
