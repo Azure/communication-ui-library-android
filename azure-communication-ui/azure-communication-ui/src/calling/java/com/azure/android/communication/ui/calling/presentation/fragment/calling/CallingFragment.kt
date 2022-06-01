@@ -63,7 +63,8 @@ internal class CallingFragment :
 
         confirmLeaveOverlayView =
             LeaveConfirmView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
-        confirmLeaveOverlayView.layoutDirection = activity?.window?.decorView?.layoutDirection?: LayoutDirection.LOCALE
+        confirmLeaveOverlayView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         confirmLeaveOverlayView.start(
             viewLifecycleOwner
         )
@@ -112,7 +113,8 @@ internal class CallingFragment :
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
-        audioDeviceListView.layoutDirection = activity?.window?.decorView?.layoutDirection?: LayoutDirection.LOCALE
+        audioDeviceListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         participantListView = ParticipantListView(
@@ -120,7 +122,8 @@ internal class CallingFragment :
             this.requireContext(),
             avatarViewManager,
         )
-        participantListView.layoutDirection = activity?.window?.decorView?.layoutDirection?: LayoutDirection.LOCALE
+        participantListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         participantListView.start(viewLifecycleOwner)
 
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)

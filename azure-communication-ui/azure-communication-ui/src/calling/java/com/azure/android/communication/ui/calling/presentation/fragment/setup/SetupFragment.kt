@@ -53,7 +53,8 @@ internal class SetupFragment :
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.getSetupGradientViewViewModel())
 
-        setupJoinCallButtonHolderView = view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
+        setupJoinCallButtonHolderView =
+            view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
             viewModel.getJoinCallButtonHolderViewModel(),
@@ -82,7 +83,8 @@ internal class SetupFragment :
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
-        audioDeviceListView.layoutDirection = activity?.window?.decorView?.layoutDirection?: LayoutDirection.LOCALE
+        audioDeviceListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)
