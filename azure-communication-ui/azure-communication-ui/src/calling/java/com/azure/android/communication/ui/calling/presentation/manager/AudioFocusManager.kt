@@ -48,17 +48,17 @@ internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
 // Legacy AudioFocus API
 @Suppress("DEPRECATION")
 internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler() {
-    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private fun audioManager() = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
-    override fun getAudioFocus() = audioManager.requestAudioFocus(
+    override fun getAudioFocus() = audioManager().requestAudioFocus(
         this,
         AudioManager.STREAM_VOICE_CALL, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
     ) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 
-    override fun getMode() = audioManager.mode
+    override fun getMode() = audioManager().mode
 
     override fun releaseAudioFocus(): Boolean =
-        audioManager.abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+        audioManager().abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 }
 
 internal class AudioFocusManager(
