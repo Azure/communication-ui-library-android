@@ -5,20 +5,19 @@
 <com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_call_floating_header"
-    android:importantForAccessibility="yes"
-    android:layout_height="wrap_content"
     android:layout_width="380dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     android:alpha="0.8"
     android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_6dp_floating_header"
+    android:importantForAccessibility="yes"
     android:visibility="gone"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner"
-    >
+    app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner">
 
     <TextView
         android:id="@+id/azure_communication_ui_call_participant_number_text"
@@ -31,8 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/azure_communication_ui_call_bottom_drawer_button"
@@ -44,7 +42,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_people_24_regular"
-        />
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_people_24_regular" />
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView>
 

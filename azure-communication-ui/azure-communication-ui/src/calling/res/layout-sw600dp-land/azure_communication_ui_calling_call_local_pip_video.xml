@@ -7,10 +7,9 @@
     android:id="@+id/azure_communication_ui_call_local_pip"
     android:layout_width="152dp"
     android:layout_height="115dp"
-    android:layout_marginEnd="4dp"
-    android:layout_marginBottom="4dp"
     android:layout_gravity="bottom|end"
-    >
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="4dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -21,8 +20,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="9:16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.microsoft.fluentui.persona.AvatarView
             android:id="@+id/azure_communication_ui_call_local_pip_avatar"
@@ -33,8 +31,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 
@@ -45,8 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="9:16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/azure_communication_ui_call_local_pip_switch_camera_button"
@@ -54,7 +50,6 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
