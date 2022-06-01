@@ -24,7 +24,19 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
-        <include layout="@layout/azure_communication_ui_calling_avatar_view_in_pip" />
+        <com.microsoft.fluentui.persona.AvatarView
+            android:id="@+id/azure_communication_ui_call_local_pip_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:fluentui_avatarSize="xxlarge"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            />
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
