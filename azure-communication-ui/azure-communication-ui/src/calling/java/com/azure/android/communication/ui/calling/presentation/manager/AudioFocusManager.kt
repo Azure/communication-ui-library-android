@@ -76,7 +76,9 @@ internal class AudioFocusManager(
         } else {
             AudioFocusHandlerLegacy(applicationContext)
         }
+    }
 
+    suspend fun start() {
         audioFocusHandler?.onFocusChange = {
             // Todo: AudioFocus can be resumed as well (e.g. transient is temporary, we will get back.
             // I.e. like how spotify can continue playing after a call is done.
@@ -87,9 +89,6 @@ internal class AudioFocusManager(
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
             }
         }
-    }
-
-    suspend fun start() {
         store.getStateFlow().collect {
             if (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus) {
                 previousAudioFocusStatus = it.audioSessionState.audioFocusStatus
@@ -122,5 +121,8 @@ internal class AudioFocusManager(
                 }
             }
         }
+    }
+    fun stop() {
+        audioFocusHandler?.onFocusChange = null
     }
 }

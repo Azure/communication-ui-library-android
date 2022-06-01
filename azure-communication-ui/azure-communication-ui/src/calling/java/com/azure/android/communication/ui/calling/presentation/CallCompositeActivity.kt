@@ -123,7 +123,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         if (!isChangingConfigurations) {
-            lifecycleScope.launch { lifecycleManager.pause() }
+            lifecycleScope.launch {
+                lifecycleManager.pause()
+                audioFocusManager.stop()
+            }
         }
     }
 
