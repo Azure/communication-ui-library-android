@@ -52,7 +52,8 @@ internal class AppStore<S>(
     private fun compose(functions: List<(Dispatch) -> Dispatch>): (Dispatch) -> Dispatch =
         { dispatch ->
             functions.foldRight(
-                dispatch
-            ) { nextDispatch, composed -> nextDispatch(composed) }
+                dispatch,
+             { nextDispatch, composed -> nextDispatch(composed) }
+            )
         }
 }
