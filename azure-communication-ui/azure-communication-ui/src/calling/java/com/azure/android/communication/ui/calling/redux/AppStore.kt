@@ -53,7 +53,7 @@ internal class AppStore<S>(
         { dispatch ->
             functions.foldRight(
                 dispatch,
-             { nextDispatch, composed -> nextDispatch(composed) }
+                { nextDispatch, composed -> nextDispatch(composed) }
             )
         }
 }
