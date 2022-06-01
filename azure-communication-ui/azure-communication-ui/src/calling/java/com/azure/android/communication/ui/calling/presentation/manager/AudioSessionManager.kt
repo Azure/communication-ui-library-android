@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.collect
 import android.media.AudioDeviceInfo
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
@@ -288,7 +287,7 @@ internal class AudioSessionManager(
     }
 
     private fun openProfileProxy() {
-        if(btAdapter!!.isEnabled)btAdapter?.run {
+        if (btAdapter!!.isEnabled)btAdapter?.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
         }
     }
@@ -298,7 +297,5 @@ internal class AudioSessionManager(
         updateBluetoothStatus()
     }
 
-    override fun onServiceDisconnected(profile: Int) {
-
-    }
+    override fun onServiceDisconnected(profile: Int) { }
 }
