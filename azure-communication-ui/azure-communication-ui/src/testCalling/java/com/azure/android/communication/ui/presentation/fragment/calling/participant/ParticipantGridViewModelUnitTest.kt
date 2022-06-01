@@ -660,6 +660,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
 
     private fun getParticipantGridViewModel() = ParticipantGridViewModel(
         ParticipantGridCellViewModelFactory(),
+        6
     )
 
     private fun getParticipantInfoModel(
