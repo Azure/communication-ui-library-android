@@ -72,7 +72,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread,
+                mockStoreHandlerThread
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(stateTest)
@@ -101,7 +101,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(middleware1Spy, middleware2Spy),
-                mockStoreHandlerThread,
+                mockStoreHandlerThread
             )
 
             // act
@@ -126,7 +126,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread,
+                mockStoreHandlerThread
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action))
@@ -152,7 +152,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread,
+                mockStoreHandlerThread
             )
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(testState)
             Mockito.`when`(mockAppStateReducer.reduce(testState, action)).thenReturn(mockAppState)
