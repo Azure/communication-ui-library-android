@@ -131,7 +131,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.activity:activity-ktx:$androidx_activity_ktx_version"
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation(name: "magnifier-0.0.17", ext: 'aar')
@@ -151,4 +151,5 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.1-alpha06'
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"
+    androidTestImplementation "com.squareup.leakcanary:leakcanary-android-instrumentation:2.9.1"
 }
