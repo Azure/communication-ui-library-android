@@ -38,10 +38,10 @@ android {
             keyPassword "android"
         }
         release {
-            storeFile file(String.valueOf(System.getenv("KEYSTORE_FILEPATH")))
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storeFile file('debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
         }
     }
 
@@ -151,4 +151,5 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.1-alpha06'
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"
+    androidTestImplementation "com.squareup.leakcanary:leakcanary-android-instrumentation:2.9.1"
 }
