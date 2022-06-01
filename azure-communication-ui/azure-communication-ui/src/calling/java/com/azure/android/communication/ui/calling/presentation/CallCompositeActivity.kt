@@ -123,7 +123,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         if (!isChangingConfigurations) {
-            lifecycleScope.launch { lifecycleManager.pause() }
+            lifecycleScope.launch {
+                lifecycleManager.pause()
+            }
         }
     }
 
@@ -132,6 +134,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
+            audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
