@@ -19,52 +19,64 @@
         app:layout_constraintGuide_percent="0.8"
         />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_background"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:id="@+id/azure_communication_ui_call_local_pip_wrapper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="16:9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_min="68dp"
         app:layout_constraintStart_toStartOf="@+id/azure_communication_ui_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
         >
 
-        <com.microsoft.fluentui.persona.AvatarView
-            android:id="@+id/azure_communication_ui_call_local_pip_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:fluentui_avatarSize="xlarge"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_background"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_min="68dp"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <com.microsoft.fluentui.persona.AvatarView
+                    android:id="@+id/azure_communication_ui_call_local_pip_avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:fluentui_avatarSize="xlarge"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/azure_communication_ui_call_local_pip_video_holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_min="68dp"
             />
 
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/azure_communication_ui_call_local_pip_video_holder"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="16:9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_min="68dp"
-        app:layout_constraintStart_toStartOf="@+id/azure_communication_ui_guideline"
-        />
-
-    <include
-        android:id="@+id/azure_communication_ui_call_local_pip_switch_camera_button"
-        layout="@layout/azure_communication_ui_calling_switch_camera_button"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_call_local_pip_video_holder"
-        />
-
+        <include
+            android:id="@+id/azure_communication_ui_call_local_pip_switch_camera_button"
+            layout="@layout/azure_communication_ui_calling_switch_camera_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_call_local_pip_video_holder"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
