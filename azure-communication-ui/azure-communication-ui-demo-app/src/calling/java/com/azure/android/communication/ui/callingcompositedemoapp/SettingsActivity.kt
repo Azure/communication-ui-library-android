@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -47,7 +46,6 @@ class SettingsActivity : AppCompatActivity() {
         supportedLanguages = CallCompositeSupportedLocale.getSupportedLocales().map {
             SettingsFeatures.displayLanguageName(it)
         }
-        for (locale in supportedLanguages) Log.d("Mohtasim", "locale is " + locale)
         setLanguageInSharedPrefForFirstTime()
         updateRenderedDisplayNameText()
     }
@@ -186,7 +184,6 @@ const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
 // Shared pref default values for language & rtl settings
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_RTL_VALUE = false
-const val DEFAULT_LOCALE_CODE = "en"
 
 // Shared pref default values for persona data
 const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"

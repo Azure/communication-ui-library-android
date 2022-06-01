@@ -45,6 +45,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
+    private val audioFocusManager get() = container.audioFocusManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -70,8 +71,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        configureActionBar()
         configureLocalization()
+        configureActionBar()
         setStatusBarColor()
         setActionBarVisibility()
 
@@ -102,6 +103,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
             navigationRouter.start()
         }
 
+        lifecycleScope.launch {
+            audioFocusManager.start()
+        }
+
         notificationService.start(lifecycleScope)
     }
 
@@ -116,7 +121,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         if (!isChangingConfigurations) {
-            lifecycleScope.launch { lifecycleManager.pause() }
+            lifecycleScope.launch {
+                lifecycleManager.pause()
+            }
         }
     }
 
@@ -125,6 +132,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
+            audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())

@@ -67,6 +67,10 @@ internal class ParticipantListView(
             viewModel.getDisplayParticipantListStateFlow().collect {
                 if (it) {
                     showParticipantList()
+                } else {
+                    if (participantListDrawer.isShowing) {
+                        participantListDrawer.hide()
+                    }
                 }
             }
         }
@@ -153,7 +157,8 @@ internal class ParticipantListView(
                 generateBottomCellItem(
                     getLocalParticipantNameToDisplay(localParticipantViewData, localParticipant.displayName),
                     localParticipant.isMuted,
-                    localParticipantViewData
+                    localParticipantViewData,
+                    localParticipant.isOnHold
                 )
             )
         for (remoteParticipant in remoteParticipantCellModels) {
@@ -164,7 +169,7 @@ internal class ParticipantListView(
             bottomCellItems.add(
                 generateBottomCellItem(
                     finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },
-                    remoteParticipant.isMuted, remoteParticipantViewData
+                    remoteParticipant.isMuted, remoteParticipantViewData, remoteParticipant.isOnHold
                 )
             )
         }
@@ -188,6 +193,7 @@ internal class ParticipantListView(
         displayName: String?,
         isMuted: Boolean,
         participantViewData: CallCompositeParticipantViewData?,
+        isOnHold: Boolean,
     ): BottomCellItem {
         val micIcon = ContextCompat.getDrawable(
             context,
@@ -209,6 +215,7 @@ internal class ParticipantListView(
             micAccessibilityAnnouncement,
             isMuted,
             participantViewData,
+            isOnHold,
         ) {
             if (accessibilityManager.isEnabled) {
                 participantListDrawer.dismiss()

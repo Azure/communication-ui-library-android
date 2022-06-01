@@ -21,6 +21,7 @@ internal data class BottomCellItem(
     var accessoryImageDescription: String?,
     var enabled: Boolean?,
     var participantViewData: CallCompositeParticipantViewData?,
+    var isOnHold: Boolean,
     val itemType: BottomCellItemType = BottomCellItemType.BottomMenuAction,
     var onClickAction: ((View) -> Unit)?,
 )

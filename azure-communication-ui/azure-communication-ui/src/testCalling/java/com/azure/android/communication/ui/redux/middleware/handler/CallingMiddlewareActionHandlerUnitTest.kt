@@ -5,8 +5,6 @@ package com.azure.android.communication.ui.redux.middleware.handler
 
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallStateError
-import com.azure.android.communication.ui.calling.models.CallInfoModel
-import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -39,6 +37,11 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
+
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -374,7 +377,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     screenShareVideoStreamModel = null,
                     cameraVideoStreamModel = null,
                     modifiedTimestamp = 0,
-                    speakingTimestamp = 0
+                    speakingTimestamp = 0,
+                    participantStatus = ParticipantStatus.HOLD,
                 )
 
             val mockCallingService: CallingService = mock {

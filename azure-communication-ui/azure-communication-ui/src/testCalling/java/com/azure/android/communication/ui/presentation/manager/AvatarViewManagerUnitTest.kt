@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -181,7 +182,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -240,7 +242,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -299,7 +302,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -367,7 +371,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -450,7 +455,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -524,7 +530,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
@@ -618,7 +625,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),

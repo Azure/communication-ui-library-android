@@ -33,6 +33,12 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">等待主持人中</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">會議中有人很快會讓您加入</string>
 
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
+    <string name="azure_communication_ui_calling_resume">Resume</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
+    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
+
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">與 1 個人通話</string>
@@ -48,7 +54,7 @@
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消靜音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">掛斷</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">[關閉] 按鈕</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">[關閉] 按鈕</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切換視訊</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切換音訊</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">裝置選項</string>

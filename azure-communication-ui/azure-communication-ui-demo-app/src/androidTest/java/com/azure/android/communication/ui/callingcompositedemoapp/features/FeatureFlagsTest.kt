@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.utilities
+package com.azure.android.communication.ui.callingcompositedemoapp.features
 
-import com.azure.android.communication.ui.calling.utilities.implementation.DefaultFeatureFlagStore
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlagEntry
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlags
 import org.junit.Before
 import org.junit.Test
 
@@ -17,14 +14,15 @@ class FeatureFlagsTest {
 
     @Test
     fun testEnumFlag() {
-        FeatureFlags.BluetoothAudio.toggle()
-        assert(!FeatureFlags.BluetoothAudio.active) { "Bluetooth should be disabled now" }
+        FeatureFlags.NOOP.toggle()
+        assert(!FeatureFlags.NOOP.active) { "Noop should be disabled now" }
     }
 
     @Test
     fun testAdditionalFeature() {
         //  Fake an entry
         var started = false
+        val oldLength = FeatureFlags.features.size
         val entry = FeatureFlagEntry(
             start = {
                 started = true
@@ -49,7 +47,7 @@ class FeatureFlagsTest {
         assert(!entry.active) { "Should be disabled" }
         assert(!started) { "Should have been stopped" }
         // / Check if the features list is 1 more than the Enum list size
-        assert(FeatureFlags.features.size == FeatureFlags.values().size + 1)
+        assert(oldLength + 1 == FeatureFlags.features.size)
     }
 
     @Test

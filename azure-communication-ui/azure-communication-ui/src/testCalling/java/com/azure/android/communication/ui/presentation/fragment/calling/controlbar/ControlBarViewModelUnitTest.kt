@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.presentation.fragment.calling.control
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -18,9 +20,8 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -79,7 +80,11 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(AudioOperationalStatus.PENDING, AudioDeviceSelectionStatus.SPEAKER_SELECTED, BluetoothState(available = false, deviceName = "bluetooth")),
+            AudioState(
+                AudioOperationalStatus.PENDING,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
             videoStreamID = null,
             displayName = "username"
         )
@@ -144,12 +149,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState1
+                audioState1,
+                CallingStatus.CONNECTED
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
-                audioState2
+                audioState2,
+                CallingStatus.CONNECTED
             )
 
             // assert
@@ -197,7 +204,11 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.init(
                 initialPermissionState,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             )
 
             val flowJob = launch {
@@ -209,12 +220,22 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.update(
                 permissionState1,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingStatus.CONNECTED
             )
             callingViewModel.update(
                 permissionState2,
                 cameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingStatus.CONNECTED
             )
 
             // assert
@@ -271,7 +292,11 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.init(
                 permissionState,
                 initialCameraState,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
@@ -283,12 +308,22 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             callingViewModel.update(
                 permissionState,
                 cameraState1,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingStatus.CONNECTED
             )
             callingViewModel.update(
                 permissionState,
                 cameraState2,
-                AudioState(AudioOperationalStatus.OFF, audioDeviceState, BluetoothState(available = false, deviceName = "bluetooth"))
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingStatus.CONNECTED
             )
 
             // assert

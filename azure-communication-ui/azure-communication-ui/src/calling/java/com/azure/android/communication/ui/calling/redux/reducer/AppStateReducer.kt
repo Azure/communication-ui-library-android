@@ -14,6 +14,7 @@ internal class AppStateReducer(
     private val lifecycleReducer: LifecycleReducer,
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
+    private val audioSessionReducer: AudioSessionReducer,
 ) :
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
@@ -39,7 +40,7 @@ internal class AppStateReducer(
         appState.lifecycleState = lifecycleReducer.reduce(state.lifecycleState, action)
         appState.errorState = errorReducer.reduce(state.errorState, action)
         appState.navigationState = navigationReducer.reduce(state.navigationState, action)
-
+        appState.audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action)
         return appState
     }
 }

@@ -125,30 +125,31 @@ repositories {
 }
 
 dependencies {
-    def appCenterSdkVersion = '4.1.0'
+    def app_center_sdk_version = '4.1.0'
     implementation project(path: ':azure-communication-ui')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:$androidx_core_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "androidx.activity:activity-ktx:$activity_ktx_version"
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
+    implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.activity:activity-ktx:$androidx_activity_ktx_version"
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation(name: "magnifier-0.0.17", ext: 'aar')
-    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
-    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-analytics:$app_center_sdk_version"
+    implementation "com.microsoft.appcenter:appcenter-crashes:$app_center_sdk_version"
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-distribute:$app_center_sdk_version"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
-    testImplementation "junit:junit:$junit"
+    testImplementation "junit:junit:$junit_version"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'net.java.dev.jna:jna:5.10.0'
-    androidTestImplementation('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-native-mt') {
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$jetbrains_kotlinx_coroutines_test_version") {
         exclude group: "net.java.dev.jna", module: "jna"
     }
-    androidTestImplementation "androidx.test.ext:junit:$androidx_junit"
-    androidTestImplementation 'androidx.test:rules:1.4.1-alpha03'
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_contrib"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
+    androidTestImplementation 'androidx.test:rules:1.4.1-alpha06'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"
+    androidTestImplementation "com.squareup.leakcanary:leakcanary-android-instrumentation:2.9.1"
 }
