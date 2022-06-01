@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.di
 
 import android.content.Context
-import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
@@ -107,14 +106,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val appStore by lazy {
-        val maxRemoteParticipantLimit = applicationContext.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants)
-
         AppStore(
             initialState,
             appReduxStateReducer,
             appMiddleware,
-            storeHandlerThread,
-            maxRemoteParticipantLimit
+            storeHandlerThread
         )
     }
 
