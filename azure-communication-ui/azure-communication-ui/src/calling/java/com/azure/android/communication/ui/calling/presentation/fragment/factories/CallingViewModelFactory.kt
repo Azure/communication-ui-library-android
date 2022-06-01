@@ -19,10 +19,11 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
+    private val maxRemoteParticipants: Int,
 ) {
 
     private val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory)
+        ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)
     }
 
     private val controlBarViewModel by lazy {
