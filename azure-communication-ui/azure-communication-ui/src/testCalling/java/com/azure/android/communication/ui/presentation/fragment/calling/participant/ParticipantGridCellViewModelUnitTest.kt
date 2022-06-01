@@ -186,6 +186,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
 
     private fun getParticipantGridViewModel() = ParticipantGridViewModel(
         ParticipantGridCellViewModelFactory(),
+        6
     )
 
     @ExperimentalCoroutinesApi

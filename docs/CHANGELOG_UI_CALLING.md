@@ -7,6 +7,7 @@ CommunicationUIEventCode is removed
 
 ### New Features
 - Call on hold
+- UI support for tablets
 
 ### Breaking Changes
 - CommunicationUIEventCode class is removed

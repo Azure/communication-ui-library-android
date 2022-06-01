@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azure_communication_ui_calling_color_background"
+    android:gravity="center_horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    tools:context="com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment"
+    >
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/azure_communication_ui_guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toBottomOf="@id/azure_communication_ui_guideline_bottom"
+        app:layout_constraintEnd_toEndOf="@id/azure_communication_ui_guideline_right"
+        app:layout_constraintStart_toStartOf="@id/azure_communication_ui_guideline_left"
+        app:layout_constraintTop_toTopOf="@id/azure_communication_ui_guideline_top"
+        >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/azure_communication_ui_setup_video_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
+            android:backgroundTint="@color/azure_communication_ui_calling_color_surface"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_join_call_holder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaView
+                android:id="@+id/azure_communication_ui_setup_local_video_holder"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarView
+                android:id="@+id/azure_communication_ui_setup_default_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:fluentui_avatarSize="xxlarge"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientView
+                android:id="@+id/azure_communication_ui_setup_gradient"
+                android:layout_width="0dp"
+                android:layout_height="140dp"
+                android:alpha="0.6"
+                android:background="@drawable/azure_communication_ui_calling_background_gradient"
+                android:contentDescription="@string/azure_communication_ui_calling_setup_view_background_gradient_accessibility_label"
+                android:importantForAccessibility="no"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningView
+                android:id="@+id/azure_communication_ui_setup_permission_info"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/azure_communication_ui_calling_color_surface"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <ImageView
+                    android:id="@+id/azure_communication_ui_setup_missing_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="24dp"
+                    android:contentDescription="@string/azure_communication_ui_calling_setup_view_warning_missing_text"
+                    app:tint="@color/azure_communication_ui_calling_color_on_surface"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/azure_communication_ui_setup_missing_text"
+                    style="@style/AzureCommunicationUICalling.ButtonText"
+                    android:layout_width="219dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="8sp"
+                    android:text="@string/azure_communication_ui_calling_setup_view_warning_missing_text"
+                    android:textColor="@color/azure_communication_ui_calling_color_on_surface"
+                    />
+            </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningView>
+
+            <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView
+                android:id="@+id/azure_communication_ui_setup_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/azure_communication_ui_setup_video_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+                <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupButton
+                    android:id="@+id/azure_communication_ui_setup_camera_button"
+                    style="@style/Widget.FluentUI.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/azure_communication_ui_calling_toggle_selector_camera_for_setup"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/azure_communication_ui_calling_toggle_selector"
+                    android:ellipsize="end"
+                    android:gravity="center|top"
+                    android:maxLines="2"
+                    android:text="@string/azure_communication_ui_calling_setup_view_button_video_off"
+                    android:textAllCaps="false"
+                    android:textColor="@color/azure_communication_ui_calling_toggle_selector"
+                    android:textSize="13sp"
+                    />
+
+                <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupButton
+                    android:id="@+id/azure_communication_ui_setup_audio_button"
+                    style="@style/Widget.FluentUI.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/azure_communication_ui_calling_toggle_selector_mic_for_setup"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/azure_communication_ui_calling_toggle_selector"
+                    android:ellipsize="end"
+                    android:gravity="center|top"
+                    android:maxLines="2"
+                    android:text="@string/azure_communication_ui_calling_setup_view_button_mic_off"
+                    android:textAllCaps="false"
+                    android:textColor="@color/azure_communication_ui_calling_toggle_selector"
+                    android:textSize="13sp"
+                    />
+
+                <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.AudioDeviceSetupButton
+                    android:id="@+id/azure_communication_ui_setup_audio_device_button"
+                    style="@style/Widget.FluentUI.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/azure_communication_ui_calling_toggle_selector_device_for_setup"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/azure_communication_ui_calling_toggle_selector"
+                    android:ellipsize="end"
+                    android:gravity="center|top"
+                    android:maxLines="2"
+                    android:text="@string/azure_communication_ui_calling_audio_device_drawer_speaker"
+                    android:textAllCaps="false"
+                    android:textColor="@color/azure_communication_ui_calling_toggle_selector"
+                    />
+            </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView
+            android:id="@+id/azure_communication_ui_setup_join_call_holder"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <com.microsoft.fluentui.widget.Button
+                android:id="@+id/azure_communication_ui_setup_join_call_button"
+                style="@style/Widget.FluentUI.Button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="true"
+                android:text="@string/azure_communication_ui_calling_setup_view_button_join_call"
+                android:textSize="0sp"
+                app:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/azure_communication_ui_setup_start_call_button_text"
+                style="@style/AzureCommunicationUICalling.ButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:enabled="true"
+                android:gravity="center"
+                android:importantForAccessibility="no"
+                android:stateListAnimator="@null"
+                android:text="@string/azure_communication_ui_calling_setup_view_button_join_call"
+                android:textColor="@color/azure_communication_ui_calling_on_primary_enabled_disabled_selector"
+                app:drawableStartCompat="@drawable/azure_communication_ui_calling_ic_fluent_meet_now_24_regular_composite_button_enabled"
+                app:drawableTint="@color/azure_communication_ui_calling_on_primary_enabled_disabled_selector"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <ProgressBar
+                    android:id="@+id/azure_communication_ui_setup_start_call_progress_bar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="24dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:indeterminateTint="@color/azure_communication_ui_calling_color_primary"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_joining_text"
+                    app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_setup_start_call_joining_text"
+                    app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_setup_start_call_joining_text"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/azure_communication_ui_setup_start_call_joining_text"
+                    style="@style/AzureCommunicationUICalling.ButtonText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:drawablePadding="4dp"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:stateListAnimator="@null"
+                    android:text="@string/azure_communication_ui_calling_setup_view_button_connecting_call"
+                    android:textColor="@color/azure_communication_ui_calling_color_text_primary"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <include layout="@layout/azure_communication_ui_calling_listview" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
