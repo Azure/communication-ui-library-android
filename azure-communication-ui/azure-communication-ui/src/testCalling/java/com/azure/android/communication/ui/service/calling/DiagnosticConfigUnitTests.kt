@@ -6,7 +6,7 @@ import org.junit.Test
 
 internal class DiagnosticConfigUnitTests {
     private val expectedPrefix = "aca110/"
-    private val expectedVersion = "${expectedPrefix}1.0.0-beta.1"
+    private val expectedVersion = "${expectedPrefix}1.0.0.0"
 
     @Test
     fun test_Expected_Tag() {
@@ -20,7 +20,7 @@ internal class DiagnosticConfigUnitTests {
     @Test
     fun test_Tag_Is_Valid_Format() {
         val validationRegExPattern =
-            "$expectedPrefix[0-9][0-9]?.[0-9][0-9]?.[0-9][0-9]?(-(alpha|beta)(.[0-9][0-9]?)?)?"
+            "$expectedPrefix[0-9][0-9]?.[0-9][0-9]?.[0-9][0-9]?((-(alpha|beta))?(.[0-9][0-9]?)?)?"
         val appIdTagFormatCheck = Regex(validationRegExPattern)
         val diagnosticConfig = DiagnosticConfig()
         val tags = diagnosticConfig.tags
