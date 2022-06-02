@@ -51,6 +51,20 @@
 -dontwarn org.slf4j.impl.StaticMDCBinder
 -dontwarn org.slf4j.impl.StaticMarkerBinder
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+-dontwarn com.microsoft.media.NetworkPal
+-dontwarn com.skype.android.video.hw.codec.encoder.camera.gl.SurfaceTextureRenderer
+-keep class java9.util.** { *; }
+-dontnote  java9.util.**
+-dontnote kotlin.internal.**
+-dontnote  javax.xml.bind.**
+
+-dontwarn com.azure.android.communication.chat.signaling.CommunicationListener
+-dontwarn com.azure.android.communication.chat.signaling.CommunicationSignalingClient
+-dontwarn com.azure.android.communication.chat.signaling.CommunicationSignalingClient.**
+-dontwarn com.ctc.wstx.osgi.WstxBundleActivator
+-dontwarn com.ctc.wstx.shaded.msv_core.driver.textui.ReportErrorHandler
+-dontwarn com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector
+
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard

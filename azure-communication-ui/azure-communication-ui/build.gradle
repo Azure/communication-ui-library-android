@@ -128,6 +128,20 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
 
     callingApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
+    implementation ('com.azure.android:azure-communication-chat:1.0.0-beta.8') {
+        exclude group: 'com.microsoft', module: 'trouter-client-android'
+    }
+    /*implementation ('com.azure.android:azure-communication-chat:1.0.0-beta.8') {
+        exclude group: 'com.microsoft', module: 'trouter-client-android'
+        exclude group: 'com.azure.android', module: 'azure-core-http-okhttp'
+        exclude group: 'com.azure.android', module: 'azure-core'
+        exclude group: 'com.azure.android', module: 'azure-core-credential'
+        exclude group: 'com.azure.android', module: 'azure-core-http'
+        exclude group: 'com.azure.android', module: 'azure-core-logging'
+        exclude group: 'com.azure.android', module: 'azure-core-rest'
+        exclude group: 'net.sourceforge.streamsupport', module: 'android-retrofuture'
+        exclude group: 'com.azure.android', module: 'azure-communication-common'
+    }*/
     callingImplementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
     callingImplementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"
     callingImplementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"

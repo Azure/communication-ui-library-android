@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id  'com.guardsquare.proguard'
     id 'kotlin-android'
 }
 
@@ -51,8 +52,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
             signingConfig signingConfigs.release
         }
@@ -71,7 +72,7 @@ android {
         pickFirst 'META-INF/AL2.0'
         pickFirst 'META-INF/LGPL2.1'
         pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
-        doNotStrip '**/*.so'
+
     }
 
     testOptions {
@@ -117,7 +118,14 @@ android {
         resources.excludes.add("META-INF/*")
     }
 }
-
+proguard {
+    configurations {
+        release {
+            defaultConfiguration 'proguard-android-optimize.txt'
+            configuration 'acs-ui-library.pro'
+        }
+    }
+}
 repositories {
     flatDir{
         dirs "lib"
