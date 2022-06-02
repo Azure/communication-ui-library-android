@@ -52,7 +52,6 @@ internal class CallingSDKWrapper(
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
 
-    
     private val callConfig: CallConfiguration
         get() {
             if (configuration.callConfig == null)
