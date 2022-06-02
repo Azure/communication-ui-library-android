@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.PowerManager
+import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.fragment.app.Fragment
@@ -62,6 +63,8 @@ internal class CallingFragment :
 
         confirmLeaveOverlayView =
             LeaveConfirmView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
+        confirmLeaveOverlayView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         confirmLeaveOverlayView.start(
             viewLifecycleOwner
         )
@@ -110,6 +113,8 @@ internal class CallingFragment :
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
+        audioDeviceListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         participantListView = ParticipantListView(
@@ -117,6 +122,8 @@ internal class CallingFragment :
             this.requireContext(),
             avatarViewManager,
         )
+        participantListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         participantListView.start(viewLifecycleOwner)
 
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
