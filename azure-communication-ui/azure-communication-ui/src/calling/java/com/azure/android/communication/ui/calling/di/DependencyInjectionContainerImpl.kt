@@ -90,7 +90,7 @@ internal class DependencyInjectionContainerImpl(
         AvatarViewManager(
             coroutineContextProvider,
             appStore,
-            configuration.callCompositeClientOptions,
+            configuration.callCompositeLocalOptions,
             configuration.remoteParticipantsConfiguration
         )
     }

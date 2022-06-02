@@ -4,44 +4,39 @@
 package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
-import com.azure.android.communication.ui.calling.CallComposite;
 
-import java.util.UUID;
-
-/**
- * Options to start group call experience using {@link CallComposite}.
- */
-public final class CallCompositeGroupCallOptions {
+public class CallCompositeRemoteOptions {
     private final CommunicationTokenCredential credential;
     private final String displayName;
-    private final UUID groupId;
+    private final CallCompositeJoinMeetingLocator locator;
 
     /**
-     * Create {@link CallCompositeGroupCallOptions}.
+     * Create {@link CallCompositeRemoteOptions}.
      *
+     * @param locator {@link CallCompositeJoinMeetingLocator}
      * @param credential {@link CommunicationTokenCredential}.
-     * @param groupId                      Group call identifier.
      */
-    public CallCompositeGroupCallOptions(
-            final CommunicationTokenCredential credential,
-            final UUID groupId) {
-        this(credential, groupId, "");
+    public CallCompositeRemoteOptions(
+            final CallCompositeJoinMeetingLocator locator,
+            final CommunicationTokenCredential credential) {
+        this(locator, credential, "");
     }
 
     /**
-     * Create {@link CallCompositeGroupCallOptions}.
+     * Create {@link CallCompositeRemoteOptions}.
      *
+     * @param locator {@link CallCompositeJoinMeetingLocator}
      * @param credential {@link CommunicationTokenCredential}
-     * @param groupId                      Group call identifier.
      * @param displayName                  User display name other call participants will see.
      */
-    public CallCompositeGroupCallOptions(final CommunicationTokenCredential credential,
-                                         final UUID groupId,
-                                         final String displayName) {
+    public CallCompositeRemoteOptions(
+            final CallCompositeJoinMeetingLocator locator,
+            final CommunicationTokenCredential credential,
+            final String displayName) {
 
         this.credential = credential;
         this.displayName = displayName;
-        this.groupId = groupId;
+        this.locator = locator;
     }
 
     /**
@@ -63,11 +58,11 @@ public final class CallCompositeGroupCallOptions {
     }
 
     /**
-     * Get group call id.
+     * Get call locator.
      *
-     * @return {@link UUID}.
+     * @return {@link CallCompositeJoinMeetingLocator}.
      */
-    public UUID getGroupId() {
-        return groupId;
+    public CallCompositeJoinMeetingLocator getLocator() {
+        return locator;
     }
 }

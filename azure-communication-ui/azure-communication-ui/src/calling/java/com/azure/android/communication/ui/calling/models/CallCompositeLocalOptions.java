@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
- * CallCompositeClientOptions for CallComposite.launch.
+ * CallCompositeLocalOptions for CallComposite.launch.
  *
  * <pre>
  *
@@ -17,16 +17,16 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
  * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
- * CallCompositeClientOptions clientOptions = new CallCompositeClientOptions(
+ * CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(
  *     new CallCompositeParticipantViewData&#40;...&#41);
  *
  * &#47;&#47; Launch call
- * callComposite.launch&#40; .., .., clientOptions&#41
+ * callComposite.launch&#40; .., .., localOptions&#41
  * </pre>
  *
  * @see CallComposite
  */
-public final class CallCompositeClientOptions {
+public final class CallCompositeLocalOptions {
     private final CallCompositeParticipantViewData participantViewData;
 
     /**
@@ -35,7 +35,7 @@ public final class CallCompositeClientOptions {
      * @param participantViewData The {@link CallCompositeParticipantViewData};
      * @see CallCompositeParticipantViewData
      */
-    public CallCompositeClientOptions(final CallCompositeParticipantViewData participantViewData) {
+    public CallCompositeLocalOptions(final CallCompositeParticipantViewData participantViewData) {
         this.participantViewData = participantViewData;
     }
 

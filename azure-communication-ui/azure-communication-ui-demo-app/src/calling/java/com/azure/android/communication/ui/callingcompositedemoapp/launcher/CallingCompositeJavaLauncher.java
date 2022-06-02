@@ -3,21 +3,21 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.text.TextUtils;
-
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
 import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeJoinMeetingLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
-import com.azure.android.communication.ui.calling.models.CallCompositeClientOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 
@@ -72,26 +72,18 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-        if (groupId != null) {
-            final CallCompositeGroupCallOptions groupCallOptions =
-                    new CallCompositeGroupCallOptions(communicationTokenCredential, groupId, displayName);
-            if (participantViewData != null) {
-                final CallCompositeClientOptions dataOptions =
-                        new CallCompositeClientOptions(participantViewData);
-                callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions);
-            } else {
-                callComposite.launch(callLauncherActivity, groupCallOptions);
-            }
-        } else if (!TextUtils.isEmpty(meetingLink)) {
-            final CallCompositeTeamsMeetingOptions teamsMeetingOptions =
-                    new CallCompositeTeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
-            if (participantViewData != null) {
-                final CallCompositeClientOptions dataOptions =
-                        new CallCompositeClientOptions(participantViewData);
-                callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions);
-            } else {
-                callComposite.launch(callLauncherActivity, teamsMeetingOptions);
-            }
+        final CallCompositeJoinMeetingLocator locator = groupId != null
+                ? new CallCompositeGroupCallLocator(groupId)
+                : new CallCompositeTeamsMeetingLinkLocator(meetingLink);
+
+        final CallCompositeRemoteOptions remoteOptions =
+                new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
+
+        if (participantViewData != null) {
+            final CallCompositeLocalOptions dataOptions = new CallCompositeLocalOptions(participantViewData);
+            callComposite.launch(callLauncherActivity, remoteOptions, dataOptions);
+        } else {
+            callComposite.launch(callLauncherActivity, remoteOptions);
         }
     }
 }

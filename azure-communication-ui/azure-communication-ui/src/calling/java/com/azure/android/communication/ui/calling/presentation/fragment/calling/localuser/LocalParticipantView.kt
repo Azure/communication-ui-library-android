@@ -107,7 +107,7 @@ internal class LocalParticipantView : ConstraintLayout {
                     avatar.name = it
                     pipAvatar.name = it
                     displayNameText.text = it
-                    avatarViewManager.callCompositeClientOptions?.participantViewData?.let { participantViewData ->
+                    avatarViewManager.callCompositeLocalOptions?.participantViewData?.let { participantViewData ->
                         participantViewData.avatarBitmap?.let { image ->
                             avatar.avatarImageBitmap = image
                             avatar.adjustViewBounds = true
