@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl
@@ -62,7 +63,7 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     val callingViewModel by lazy {
         CallingViewModel(
             container.appStore,
-            CallingViewModelFactory(container.appStore, ParticipantGridCellViewModelFactory())
+            CallingViewModelFactory(container.appStore, ParticipantGridCellViewModelFactory(), application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants))
         )
     }
 }
