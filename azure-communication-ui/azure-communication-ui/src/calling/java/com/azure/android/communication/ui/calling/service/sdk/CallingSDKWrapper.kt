@@ -10,9 +10,9 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
+import com.azure.android.communication.calling.CallDiagnosticsOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
-import com.azure.android.communication.calling.DiagnosticOptions
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
@@ -52,6 +52,7 @@ internal class CallingSDKWrapper(
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
 
+    
     private val callConfig: CallConfiguration
         get() {
             if (configuration.callConfig == null)
@@ -437,9 +438,9 @@ internal class CallingSDKWrapper(
         return CallClient(callClientOptions)
     }
 
-    private fun getOrCreateDiagnosticOptions(callClientOptions: CallClientOptions): DiagnosticOptions {
+    private fun getOrCreateDiagnosticOptions(callClientOptions: CallClientOptions): CallDiagnosticsOptions {
         if (callClientOptions.diagnostics == null) {
-            callClientOptions.diagnostics = DiagnosticOptions()
+            callClientOptions.diagnostics = CallDiagnosticsOptions()
         }
 
         return callClientOptions.diagnostics
