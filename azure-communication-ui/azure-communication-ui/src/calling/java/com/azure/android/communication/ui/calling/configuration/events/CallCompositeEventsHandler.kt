@@ -3,24 +3,24 @@
 
 package com.azure.android.communication.ui.calling.configuration.events
 
-import com.azure.android.communication.ui.calling.CallingEventHandler
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
-import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 
 internal class CallCompositeEventsHandler {
-    private var errorHandlers: CallingEventHandler<CommunicationUIErrorEvent>? = null
-    private var remoteParticipantJoinedHandler: CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>? =
+    private var errorHandlers: CallCompositeEventHandler<CallCompositeErrorEvent>? = null
+    private var remoteParticipantJoinedHandler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>? =
         null
 
     fun getOnErrorHandler() = errorHandlers
 
-    fun setOnErrorHandler(errorHandler: CallingEventHandler<CommunicationUIErrorEvent>?) {
+    fun setOnErrorHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>?) {
         errorHandlers = errorHandler
     }
 
     fun getOnRemoteParticipantJoinedHandler() = remoteParticipantJoinedHandler
 
-    fun setOnRemoteParticipantJoinedHandler(handler: CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>?) {
+    fun setOnRemoteParticipantJoinedHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>?) {
         remoteParticipantJoinedHandler = handler
     }
 }

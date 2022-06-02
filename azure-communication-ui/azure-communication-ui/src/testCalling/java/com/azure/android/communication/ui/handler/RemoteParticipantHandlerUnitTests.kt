@@ -6,10 +6,10 @@ package com.azure.android.communication.ui.handler
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.CallingEventHandler
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
@@ -43,7 +43,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection>()
 
@@ -106,7 +106,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifier = CommunicationUserIdentifier("test")
 
@@ -205,7 +205,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -314,7 +314,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -519,7 +519,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")

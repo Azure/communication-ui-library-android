@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
@@ -26,13 +26,13 @@ internal class ParticipantGridCellAvatarView(
     private val participantContainer: ConstraintLayout,
     private val displayNameAudioTextView: TextView,
     private val micIndicatorAudioImageView: ImageView,
-    private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
+    private val getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?,
     private val participantViewModel: ParticipantGridCellViewModel,
     private val onHoldTextView: TextView,
     private val context: Context,
     lifecycleScope: LifecycleCoroutineScope,
 ) {
-    private var lastParticipantViewData: ParticipantViewData? = null
+    private var lastParticipantViewData: CallCompositeParticipantViewData? = null
 
     init {
         lifecycleScope.launch {
@@ -94,7 +94,7 @@ internal class ParticipantGridCellAvatarView(
             participantViewData.scaleType?.let { scaleType ->
                 avatarView.scaleType = scaleType
             }
-            participantViewData.renderedDisplayName?.let { displayName ->
+            participantViewData.displayName?.let { displayName ->
                 setDisplayName(displayName)
             }
         }

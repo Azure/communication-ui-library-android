@@ -11,15 +11,15 @@ import java.util.Collections;
 /**
  * Remote participants joined event with communication identifiers.
  */
-public final class CommunicationUIRemoteParticipantJoinedEvent {
+public final class CallCompositeRemoteParticipantJoinedEvent {
     private final Collection<CommunicationIdentifier> identifiers;
 
     /**
-     * Create {@link CommunicationUIRemoteParticipantJoinedEvent} with user identifiers.
+     * Create {@link CallCompositeRemoteParticipantJoinedEvent} with user identifiers.
      *
      * @param identifiers {@link CommunicationIdentifier};
      */
-    public CommunicationUIRemoteParticipantJoinedEvent(final Collection<CommunicationIdentifier> identifiers) {
+    public CallCompositeRemoteParticipantJoinedEvent(final Collection<CommunicationIdentifier> identifiers) {
         this.identifiers = identifiers;
     }
 

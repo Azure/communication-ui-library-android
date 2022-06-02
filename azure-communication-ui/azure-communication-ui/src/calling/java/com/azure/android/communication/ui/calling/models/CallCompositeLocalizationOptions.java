@@ -10,16 +10,16 @@ import com.azure.android.communication.ui.calling.CallComposite;
 import java.util.Locale;
 
 /**
- * Localization configuration to provide for CallComposite.
+ * Localization configuration to provide for {@link CallComposite}.
  *
  * <pre>
  *
  * &#47;&#47; Initialize the call composite builder with different parameters
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE&#41;&#41;;
+ *     .localization&#40;new CallCompositeLocalizationOptions&#40;Locale.CHINESE&#41;&#41;;
  *
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE, LayoutDirection.RTL&#41;&#41;;
+ *     .localization&#40;new CallCompositeLocalizationOptions&#40;Locale.CHINESE, LayoutDirection.RTL&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
@@ -28,26 +28,26 @@ import java.util.Locale;
  *
  * @see CallComposite
  */
-public final class LocalizationConfiguration {
+public final class CallCompositeLocalizationOptions {
     private Integer layoutDirection;
     private final Locale locale;
 
     /**
      * Create Localization configuration.
      *
-     * @param locale The {@link Locale}; eg,. Locale.US
+     * @param locale The {@link Locale}; eg,. {@code Locale.US}
      */
-    public LocalizationConfiguration(@NonNull final Locale locale) {
+    public CallCompositeLocalizationOptions(@NonNull final Locale locale) {
         this.locale = locale;
     }
 
     /**
      * Create Localization configuration.
      *
-     * @param locale          The {@link Locale}; eg,. Locale.US
-     * @param layoutDirection layout direction int; eg,. LayoutDirection.RTL
+     * @param locale          The {@link Locale}; eg,. {@code Locale.US}
+     * @param layoutDirection layout direction int; eg,. {@code LayoutDirection.RTL}
      */
-    public LocalizationConfiguration(@NonNull final Locale locale, final int layoutDirection) {
+    public CallCompositeLocalizationOptions(@NonNull final Locale locale, final int layoutDirection) {
         this.locale = locale;
         this.layoutDirection = layoutDirection;
     }
@@ -55,7 +55,7 @@ public final class LocalizationConfiguration {
     /**
      * Get current {@link Locale}.
      *
-     * @return The {@link Locale}
+     * @return The {@link Locale}.
      */
     public Locale getLocale() {
         return locale;
@@ -64,7 +64,7 @@ public final class LocalizationConfiguration {
     /**
      * Get layoutDirection {@link Integer}.
      *
-     * @return layoutDirection {@link Integer}
+     * @return layoutDirection {@link Integer}.
      */
     public Integer getLayoutDirection() {
         return layoutDirection;

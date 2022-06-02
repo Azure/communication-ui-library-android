@@ -7,11 +7,12 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.models.GroupCallOptions
-import com.azure.android.communication.ui.calling.models.LocalSettings
-import com.azure.android.communication.ui.calling.models.LocalizationConfiguration
-import com.azure.android.communication.ui.calling.models.TeamsMeetingOptions
-import com.azure.android.communication.ui.calling.models.ThemeConfiguration
+import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeJoinMeetingLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
@@ -43,12 +44,12 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
-                CallCompositeBuilder().theme(ThemeConfiguration(R.style.MyCompany_Theme_Calling))
-                    .localization(LocalizationConfiguration(locale!!, getLayoutDirection()))
+                CallCompositeBuilder().theme(R.style.MyCompany_Theme_Calling)
+                    .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
                     .build()
             else
                 CallCompositeBuilder()
-                    .localization(LocalizationConfiguration(locale!!, getLayoutDirection()))
+                    .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
                     .build()
 
         callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
@@ -64,26 +65,17 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        if (groupId != null) {
-            val groupCallOptions =
-                GroupCallOptions(communicationTokenCredential, groupId, displayName)
+        val locator: CallCompositeJoinMeetingLocator =
+            if (groupId != null) CallCompositeGroupCallLocator(groupId)
+            else CallCompositeTeamsMeetingLinkLocator(meetingLink)
 
-            if (participantViewData != null) {
-                val dataOptions = LocalSettings(participantViewData)
-                callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions)
-            } else {
-                callComposite.launch(callLauncherActivity, groupCallOptions)
-            }
-        } else if (!meetingLink.isNullOrBlank()) {
-            val teamsMeetingOptions =
-                TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName)
+        val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
-            if (participantViewData != null) {
-                val dataOptions = LocalSettings(participantViewData)
-                callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions)
-            } else {
-                callComposite.launch(callLauncherActivity, teamsMeetingOptions)
-            }
+        if (participantViewData != null) {
+            val dataOptions = CallCompositeLocalOptions(participantViewData)
+            callComposite.launch(callLauncherActivity, remoteOptions, dataOptions)
+        } else {
+            callComposite.launch(callLauncherActivity, remoteOptions)
         }
     }
 }

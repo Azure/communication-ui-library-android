@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.presentation.manager
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.ui.calling.models.LocalSettings
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
@@ -14,14 +14,12 @@ import com.azure.android.communication.ui.helper.StandardTestContextProvider
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
-
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
-import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.flow.toList
@@ -49,7 +47,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         )
 
         // act
-        val result = avatarViewManager.localSettings
+        val result = avatarViewManager.callCompositeLocalOptions
 
         // assert
         Assert.assertEquals(
@@ -66,17 +64,17 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(ParticipantViewData("test")),
+            CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localSettings
+        val result = avatarViewManager.callCompositeLocalOptions
 
         // assert
         Assert.assertEquals(
             "test",
-            result?.participantViewData?.renderedDisplayName,
+            result?.participantViewData?.displayName,
         )
         Assert.assertEquals(
             null,
@@ -93,12 +91,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(ParticipantViewData(mockBitMap)),
+            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localSettings
+        val result = avatarViewManager.callCompositeLocalOptions
 
         // assert
         Assert.assertEquals(
@@ -107,7 +105,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         )
         Assert.assertEquals(
             null,
-            result?.participantViewData?.renderedDisplayName,
+            result?.participantViewData?.displayName,
         )
     }
 
@@ -120,12 +118,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(ParticipantViewData(mockBitMap)),
+            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localSettings
+        val result = avatarViewManager.callCompositeLocalOptions
 
         // assert
         Assert.assertEquals(
@@ -143,12 +141,15 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            LocalSettings(ParticipantViewData(mockBitMap, ImageView.ScaleType.FIT_CENTER)),
+            CallCompositeLocalOptions(
+                CallCompositeParticipantViewData()
+                    .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER)
+            ),
             remoteParticipantsConfiguration
         )
 
         // act
-        val result = avatarViewManager.localSettings
+        val result = avatarViewManager.callCompositeLocalOptions
 
         // assert
         Assert.assertEquals(
@@ -201,7 +202,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
 
             val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                ParticipantViewData().setRenderedDisplayName("test")
+                CallCompositeParticipantViewData().setDisplayName("test")
             )
 
             // act
@@ -211,7 +212,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                SetParticipantViewDataResult.SUCCESS,
+                CallCompositeSetParticipantViewDataResult.SUCCESS,
                 result
             )
         }
@@ -261,7 +262,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
 
             val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test1"),
-                ParticipantViewData("test")
+                CallCompositeParticipantViewData().setDisplayName("test")
             )
 
             // act
@@ -271,7 +272,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL,
+                CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL,
                 result
             )
         }
@@ -320,7 +321,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, ParticipantViewData>>()
+                mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -329,7 +330,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
 
             val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                ParticipantViewData("test")
+                CallCompositeParticipantViewData().setDisplayName("test")
             )
 
             // act
@@ -389,7 +390,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, ParticipantViewData>>()
+                mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -398,12 +399,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
 
             val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                ParticipantViewData("test")
+                CallCompositeParticipantViewData().setDisplayName("test")
             )
 
             val remoteParticipantPersonaDataUpdated = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                ParticipantViewData("testUpdated")
+                CallCompositeParticipantViewData().setDisplayName("testUpdated")
             )
 
             // act
@@ -473,7 +474,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, ParticipantViewData>>()
+                mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -483,7 +484,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             val mockBitmap = mock<Bitmap>()
             val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                ParticipantViewData(mockBitmap)
+                CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap)
             )
 
             // act
@@ -548,7 +549,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, ParticipantViewData>>()
+                mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -558,7 +559,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             val mockBitmap = mock<Bitmap>()
             val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                ParticipantViewData(mockBitmap)
+                CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap)
             )
 
             // act
@@ -643,7 +644,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultList =
-                mutableListOf<Map<String, ParticipantViewData>>()
+                mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
             val flowJob = launch {
                 avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
@@ -653,7 +654,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             val mockBitmap = mock<Bitmap>()
             val remoteParticipantPersonaData = RemoteParticipantViewData(
                 CommunicationUserIdentifier("test"),
-                ParticipantViewData(mockBitmap)
+                CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap)
             )
 
             // act

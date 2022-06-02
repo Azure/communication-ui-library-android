@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.calling;
 
 /**
- * {@link CallingEventHandler}&lt;T&gt;
+ * {@link CallCompositeEventHandler}&lt;T&gt;
  */
-public interface CallingEventHandler<T> {
+public interface CallCompositeEventHandler<T> {
     /**
      * A callback method to process error event
      *
