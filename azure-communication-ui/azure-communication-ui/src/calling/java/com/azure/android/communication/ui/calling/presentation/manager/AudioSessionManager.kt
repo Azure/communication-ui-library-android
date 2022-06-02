@@ -287,7 +287,7 @@ internal class AudioSessionManager(
     }
 
     private fun openProfileProxy() {
-        if (btAdapter!!.isEnabled)btAdapter?.run {
+        if (btAdapter?.isEnabled == true)btAdapter?.run {
             getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
         }
     }
