@@ -18,7 +18,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.StreamType
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
@@ -38,11 +38,11 @@ internal class ParticipantGridCellVideoView(
     private val getVideoStreamCallback: (String, String) -> View?,
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
-    private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
+    private val getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?,
 ) {
     private var videoStream: View? = null
     private var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout? = null
-    private var lastParticipantViewData: ParticipantViewData? = null
+    private var lastParticipantViewData: CallCompositeParticipantViewData? = null
 
     init {
         lifecycleScope.launch {
@@ -88,7 +88,7 @@ internal class ParticipantGridCellVideoView(
             setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
         } else if (lastParticipantViewData != participantViewData) {
             lastParticipantViewData = participantViewData
-            participantViewData.renderedDisplayName?.let { displayName ->
+            participantViewData.displayName?.let { displayName ->
                 setDisplayName(displayName)
             }
         }

@@ -3,24 +3,23 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
-import android.text.TextUtils;
-
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
 import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
-import com.azure.android.communication.ui.calling.models.GroupCallOptions;
-import com.azure.android.communication.ui.calling.models.TeamsMeetingOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeJoinMeetingLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
-import com.azure.android.communication.ui.calling.models.LocalSettings;
-import com.azure.android.communication.ui.calling.models.LocalizationConfiguration;
-import com.azure.android.communication.ui.calling.models.ThemeConfiguration;
-import com.azure.android.communication.ui.calling.models.ParticipantViewData;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -47,17 +46,17 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
         SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
 
-        final ParticipantViewData participantViewData =
+        final CallCompositeParticipantViewData participantViewData =
                 SettingsFeatures.getParticipantViewData(callLauncherActivity.getApplicationContext());
 
         final String selectedLanguage = SettingsFeatures.language();
         final Locale locale = SettingsFeatures.locale(selectedLanguage);
 
-        builder.localization(new LocalizationConfiguration(locale,
+        builder.localization(new CallCompositeLocalizationOptions(locale,
                 SettingsFeatures.getLayoutDirection()));
 
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
-            builder.theme(new ThemeConfiguration(R.style.MyCompany_Theme_Calling));
+            builder.theme(R.style.MyCompany_Theme_Calling);
         }
 
         final CallComposite callComposite = builder.build();
@@ -73,26 +72,18 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-        if (groupId != null) {
-            final GroupCallOptions groupCallOptions =
-                    new GroupCallOptions(communicationTokenCredential, groupId, displayName);
-            if (participantViewData != null) {
-                final LocalSettings dataOptions =
-                        new LocalSettings(participantViewData);
-                callComposite.launch(callLauncherActivity, groupCallOptions, dataOptions);
-            } else {
-                callComposite.launch(callLauncherActivity, groupCallOptions);
-            }
-        } else if (!TextUtils.isEmpty(meetingLink)) {
-            final TeamsMeetingOptions teamsMeetingOptions =
-                    new TeamsMeetingOptions(communicationTokenCredential, meetingLink, displayName);
-            if (participantViewData != null) {
-                final LocalSettings dataOptions =
-                        new LocalSettings(participantViewData);
-                callComposite.launch(callLauncherActivity, teamsMeetingOptions, dataOptions);
-            } else {
-                callComposite.launch(callLauncherActivity, teamsMeetingOptions);
-            }
+        final CallCompositeJoinMeetingLocator locator = groupId != null
+                ? new CallCompositeGroupCallLocator(groupId)
+                : new CallCompositeTeamsMeetingLinkLocator(meetingLink);
+
+        final CallCompositeRemoteOptions remoteOptions =
+                new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
+
+        if (participantViewData != null) {
+            final CallCompositeLocalOptions dataOptions = new CallCompositeLocalOptions(participantViewData);
+            callComposite.launch(callLauncherActivity, remoteOptions, dataOptions);
+        } else {
+            callComposite.launch(callLauncherActivity, remoteOptions);
         }
     }
 }

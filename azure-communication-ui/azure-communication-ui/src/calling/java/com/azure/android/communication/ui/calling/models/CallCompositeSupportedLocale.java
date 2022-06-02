@@ -15,9 +15,9 @@ import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
 
 /**
- * Defines locale for each supported language
+ * Defines locale for each supported language.
  */
-public final class CommunicationUISupportedLocale {
+public final class CallCompositeSupportedLocale {
 
     public static final Locale EN = new Locale("en");
     public static final Locale EN_US = new Locale("en", "US");
@@ -47,13 +47,13 @@ public final class CommunicationUISupportedLocale {
     public static final Locale TR_TR = new Locale("tr", "TR");
 
     /**
-     * Gets the collection of supported languages as {@link Locale}
+     * Gets the collection of supported languages as {@link Locale}.
      *
-     * @return collection of all supported Locale
+     * @return collection of all supported Locale.
      */
     public static Collection<Locale> getSupportedLocales() {
         final List<Field> fields = CollectionsKt.filter(
-                Arrays.asList(CommunicationUISupportedLocale.class.getDeclaredFields()),
+                Arrays.asList(CallCompositeSupportedLocale.class.getDeclaredFields()),
                 new Function1<Member, Boolean>() {
                     @Override
                     public Boolean invoke(final Member member) {

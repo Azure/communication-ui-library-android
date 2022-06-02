@@ -8,18 +8,19 @@ import static org.junit.Assert.assertThrows;
 
 import android.util.LayoutDirection;
 
-import com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale;
-import com.azure.android.communication.ui.calling.models.LocalizationConfiguration;
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 
 import org.junit.Test;
 
 import java.util.Locale;
 
-public class LocalizationConfigurationUnitTest {
+public class CallCompositeLocalizationOptionsUnitTest {
     @Test
     public void localizationLocaleApiTest() {
-        final LocalizationConfiguration localizationConfiguration = new LocalizationConfiguration(
-                CommunicationUISupportedLocale.EN_UK
+        final CallCompositeLocalizationOptions localizationConfiguration =
+                new CallCompositeLocalizationOptions(
+                CallCompositeSupportedLocale.EN_UK
         );
         assertEquals("en", localizationConfiguration.getLocale().getLanguage());
         assertEquals("GB", localizationConfiguration.getLocale().getCountry());
@@ -27,8 +28,9 @@ public class LocalizationConfigurationUnitTest {
 
     @Test
     public void localizationLayoutDirectionAPITest() {
-        final LocalizationConfiguration localizationConfiguration = new LocalizationConfiguration(
-                CommunicationUISupportedLocale.EN_UK, LayoutDirection.LTR
+        final CallCompositeLocalizationOptions localizationConfiguration =
+                new CallCompositeLocalizationOptions(
+                CallCompositeSupportedLocale.EN_UK, LayoutDirection.LTR
         );
         assertEquals("en", localizationConfiguration.getLocale().getLanguage());
         assertEquals("GB", localizationConfiguration.getLocale().getCountry());
@@ -37,7 +39,8 @@ public class LocalizationConfigurationUnitTest {
 
     @Test
     public void localizationOnlyLanguageLocaleAPITest() {
-        final LocalizationConfiguration localizationConfiguration = new LocalizationConfiguration(
+        final CallCompositeLocalizationOptions localizationConfiguration =
+                new CallCompositeLocalizationOptions(
                 Locale.ENGLISH
         );
         assertEquals("en", localizationConfiguration.getLocale().getLanguage());
@@ -46,6 +49,6 @@ public class LocalizationConfigurationUnitTest {
 
     @Test(expected = AssertionError.class)
     public void localizationAPINullParamsTest() {
-        assertThrows(IllegalArgumentException.class, () -> new LocalizationConfiguration(null));
+        assertThrows(IllegalArgumentException.class, () -> new CallCompositeLocalizationOptions(null));
     }
 }

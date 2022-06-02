@@ -16,9 +16,9 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallStateError
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.microsoft.fluentui.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
@@ -68,12 +68,12 @@ internal class ErrorInfoView(private val rootView: View) {
     }
 
     private fun getErrorMessage(it: CallStateError): CharSequence {
-        if (CommunicationUIEventCode.CALL_EVICTED == it.communicationUIEventCode) {
+        if (CallCompositeEventCode.CALL_EVICTED == it.callCompositeEventCode) {
             return rootView.context.getText(R.string.azure_communication_ui_calling_call_state_evicted)
         }
-        return when (it.communicationUIErrorCode) {
-            CommunicationUIErrorCode.CALL_END_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_call_state_error_call_end)
-            CommunicationUIErrorCode.CALL_JOIN_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_text_error_call_join)
+        return when (it.errorCode) {
+            ErrorCode.CALL_END_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_call_state_error_call_end)
+            ErrorCode.CALL_JOIN_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_text_error_call_join)
             else -> ""
         }
     }

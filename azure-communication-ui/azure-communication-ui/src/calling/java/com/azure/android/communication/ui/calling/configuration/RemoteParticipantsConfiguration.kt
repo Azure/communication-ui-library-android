@@ -4,16 +4,16 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
-import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
 
 internal data class RemoteParticipantViewData(
     val identifier: CommunicationIdentifier,
-    val participantViewData: ParticipantViewData,
+    val participantViewData: CallCompositeParticipantViewData,
 )
 
 internal interface RemoteParticipantsConfigurationHandler {
-    fun onSetParticipantViewData(data: RemoteParticipantViewData): SetParticipantViewDataResult
+    fun onSetParticipantViewData(data: RemoteParticipantViewData): CallCompositeSetParticipantViewDataResult
     fun onRemoveParticipantViewData(identifier: String)
 }
 
@@ -26,14 +26,14 @@ internal class RemoteParticipantsConfiguration {
 
     fun setParticipantViewData(
         identifier: CommunicationIdentifier,
-        participantViewData: ParticipantViewData,
-    ): SetParticipantViewDataResult {
+        participantViewData: CallCompositeParticipantViewData,
+    ): CallCompositeSetParticipantViewDataResult {
         handler?.let {
             return@setParticipantViewData it.onSetParticipantViewData(
                 RemoteParticipantViewData(identifier, participantViewData)
             )
         }
-        return SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
+        return CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
     }
 
     fun removeParticipantViewData(identifier: String) {
