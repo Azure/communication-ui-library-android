@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
@@ -18,10 +19,11 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
+    private val maxRemoteParticipants: Int,
 ) {
 
     private val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory)
+        ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)
     }
 
     private val controlBarViewModel by lazy {
@@ -58,6 +60,10 @@ internal class CallingViewModelFactory(
         LobbyOverlayViewModel()
     }
 
+    private val onHoldOverlayViewModel by lazy {
+        OnHoldOverlayViewModel { store.dispatch(it) }
+    }
+
     fun provideParticipantGridViewModel(): ParticipantGridViewModel {
         return participantGridViewModel
     }
@@ -92,5 +98,9 @@ internal class CallingViewModelFactory(
 
     fun provideLobbyOverlayViewModel(): LobbyOverlayViewModel {
         return lobbyOverlayViewModel
+    }
+
+    fun provideHoldOverlayViewModel(): OnHoldOverlayViewModel {
+        return onHoldOverlayViewModel
     }
 }

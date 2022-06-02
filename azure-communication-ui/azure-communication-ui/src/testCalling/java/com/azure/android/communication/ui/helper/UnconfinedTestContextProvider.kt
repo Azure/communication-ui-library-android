@@ -11,7 +11,8 @@ import kotlin.coroutines.CoroutineContext
 internal class UnconfinedTestContextProvider :
     BaseTestContextProvider(UnconfinedTestDispatcher(name = "UnconfinedTestContextProvider"))
 
-internal open class BaseTestContextProvider(testCoroutineDispatcher: TestDispatcher) : CoroutineContextProvider() {
+internal open class BaseTestContextProvider(testCoroutineDispatcher: TestDispatcher) :
+    CoroutineContextProvider() {
     override val Main: CoroutineContext = testCoroutineDispatcher
     override val IO: CoroutineContext = testCoroutineDispatcher
     override val Default: CoroutineContext = testCoroutineDispatcher

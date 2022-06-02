@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
 import android.media.AudioDeviceInfo
 import android.os.Build
@@ -41,8 +40,7 @@ internal class AudioSessionManager(
 
     private val isBluetoothScoAvailable
         get() = try {
-            FeatureFlags.BluetoothAudio.active &&
-                (bluetoothAudioProxy?.connectedDevices?.size ?: 0 > 0)
+            (bluetoothAudioProxy?.connectedDevices?.size ?: 0) > 0
         } catch (exception: SecurityException) {
             false
         }
@@ -70,12 +68,11 @@ internal class AudioSessionManager(
             initializeAudioDeviceState()
 
             // Listeners we need to rebind with Activity (Bluetooth, Headset, State Updates)
-            btAdapter?.run {
-                getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
-            }
+            openProfileProxy()
 
             val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
             filter.addAction(AudioManager.ACTION_HEADSET_PLUG)
+            filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
             context.registerReceiver(this@AudioSessionManager, filter)
         }
     }
@@ -113,13 +110,14 @@ internal class AudioSessionManager(
             btAdapter?.run {
                 closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             }
-            context.unregisterReceiver(this)
 
             if (audioManager.isBluetoothScoOn) {
                 audioManager.stopBluetoothSco()
             }
             audioManager.isBluetoothScoOn = false
             audioManager.isSpeakerphoneOn = false
+            bluetoothAudioProxy = null
+            context.unregisterReceiver(this@AudioSessionManager)
         }
     }
 
@@ -288,12 +286,16 @@ internal class AudioSessionManager(
         }
     }
 
+    private fun openProfileProxy() {
+        if (btAdapter?.isEnabled == true)btAdapter?.run {
+            getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+        }
+    }
+
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
         bluetoothAudioProxy = proxy as BluetoothHeadset
         updateBluetoothStatus()
     }
 
-    override fun onServiceDisconnected(profile: Int) {
-        bluetoothAudioProxy = null
-    }
+    override fun onServiceDisconnected(profile: Int) { }
 }

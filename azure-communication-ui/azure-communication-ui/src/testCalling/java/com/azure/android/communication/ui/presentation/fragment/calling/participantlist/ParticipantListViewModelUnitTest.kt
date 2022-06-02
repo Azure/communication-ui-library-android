@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -49,7 +50,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it.displayName,
                         it.isMuted,
-                        it.userIdentifier
+                        it.userIdentifier,
+                        false,
                     )
                 }
 
@@ -78,7 +80,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it.displayName,
                         it.isMuted,
-                        it.userIdentifier
+                        it.userIdentifier,
+                        false,
                     )
                 }
 
@@ -160,7 +163,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it,
                         initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF,
-                        ""
+                        "",
+                        false,
                     )
                 }
 
@@ -184,7 +188,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it,
                         initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON,
-                        ""
+                        "",
+                        false,
                     )
                 }
 
@@ -296,6 +301,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
         userIdentifier,
         isMuted,
         isSpeaking,
+        ParticipantStatus.CONNECTED,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,
         modifiedTimestamp,

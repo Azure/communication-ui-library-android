@@ -4,14 +4,14 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_JOIN_FAILED
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.TOKEN_EXPIRED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_EVICTED
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.error.CallStateError
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_DECLINED
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -117,6 +117,14 @@ internal class CallingService(
 
     fun endCall(): CompletableFuture<Void> {
         return callingSDKWrapper.endCall()
+    }
+
+    fun hold(): CompletableFuture<Void> {
+        return callingSDKWrapper.hold()
+    }
+
+    fun resume(): CompletableFuture<Void> {
+        return callingSDKWrapper.resume()
     }
 
     fun setupCall() {

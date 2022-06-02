@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.service
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorHandler
@@ -23,9 +23,10 @@ import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_DECLINED
-import com.azure.android.communication.ui.calling.models.CommunicationUIEventCode.Companion.CALL_EVICTED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -84,7 +85,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
         }
 
     @Test
-    fun errorHandler_onStateChange_withCameraError_callsOnException() =
+    fun errorHandler_onStateChange_withCameraError_doNotCallException() =
         runScopedTest {
             // arrange
             val appState = AppReduxState("")
@@ -94,7 +95,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.REMOTE,
-                    CallCompositeError(CommunicationUIErrorCode.TURN_CAMERA_OFF_FAILED, error),
+                    CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -111,7 +112,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnErrorHandler(mock { on { handle(any()) } doAnswer { } })
+            configuration.callCompositeEventsHandler.setOnErrorHandler(mock { })
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
@@ -127,9 +128,9 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 }
             )
 
-            verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
+            verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(0)).handle(
                 argThat { exception ->
-                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_CAMERA_OFF_FAILED
+                    exception is Any
                 }
             )
 
@@ -137,7 +138,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
         }
 
     @Test
-    fun errorHandler_onStateChange_withMicError_callsOnException() =
+    fun errorHandler_onStateChange_withMicError_doNotCallException() =
         runScopedTest {
             // arrange
             val appState = AppReduxState("")
@@ -152,7 +153,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth"),
-                    CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF_FAILED, error),
+                    CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
                 ),
                 videoStreamID = null,
                 displayName = "name"
@@ -164,7 +165,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnErrorHandler(mock { on { handle(any()) } doAnswer { } })
+            configuration.callCompositeEventsHandler.setOnErrorHandler(mock {})
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
@@ -181,12 +182,11 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 }
             )
 
-            verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
+            verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(0)).handle(
                 argThat { exception ->
-                    exception.cause == error && exception.errorCode == CommunicationUIErrorCode.TURN_MIC_OFF_FAILED
+                    exception is Any
                 }
             )
-
             job.cancel()
         }
 
@@ -196,7 +196,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val appState = AppReduxState("")
             appState.errorState =
-                ErrorState(null, CallStateError(CommunicationUIErrorCode.TOKEN_EXPIRED, null))
+                ErrorState(null, CallStateError(ErrorCode.TOKEN_EXPIRED, null))
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -224,7 +224,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandler()!!, times(1)).handle(
                 argThat { exception ->
-                    exception.errorCode == CommunicationUIErrorCode.TOKEN_EXPIRED
+                    exception.errorCode == CallCompositeErrorCode.TOKEN_EXPIRED
                 }
             )
 

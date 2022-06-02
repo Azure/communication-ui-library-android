@@ -68,6 +68,14 @@ internal class InfoHeaderViewModel {
         )
     }
 
+    fun dismiss() {
+        if (displayFloatingHeaderFlow.value) {
+            displayFloatingHeaderFlow.value = false
+            timer.cancel()
+            return
+        }
+    }
+
     private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
         callingStatus == CallingStatus.IN_LOBBY
 }
