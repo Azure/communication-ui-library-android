@@ -128,9 +128,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
 
     callingApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
-    implementation ('com.azure.android:azure-communication-chat:1.0.0-beta.8') {
-        exclude group: 'com.microsoft', module: 'trouter-client-android'
-    }
+
     /*implementation ('com.azure.android:azure-communication-chat:1.0.0-beta.8') {
         exclude group: 'com.microsoft', module: 'trouter-client-android'
         exclude group: 'com.azure.android', module: 'azure-core-http-okhttp'

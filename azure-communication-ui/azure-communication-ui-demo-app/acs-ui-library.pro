@@ -60,7 +60,7 @@
 
 -dontwarn com.azure.android.communication.chat.signaling.CommunicationListener
 -dontwarn com.azure.android.communication.chat.signaling.CommunicationSignalingClient
--dontwarn com.azure.android.communication.chat.signaling.CommunicationSignalingClient.**
+-dontwarn com.azure.android.communication.chat.signaling.**
 -dontwarn com.ctc.wstx.osgi.WstxBundleActivator
 -dontwarn com.ctc.wstx.shaded.msv_core.driver.textui.ReportErrorHandler
 -dontwarn com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector
