@@ -31,6 +31,11 @@ internal class ParticipantListView(
     private lateinit var bottomCellAdapter: BottomCellAdapter
     private lateinit var accessibilityManager: AccessibilityManager
 
+    // during screen rotation, destroy, the drawer should be displayed if open
+    // to remove memory leak, on activity destroy dialog is dismissed
+    // this boolean helps to not call view model state change during orientation
+    private var isDestroyInProgress = false
+
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         participantTable = findViewById(R.id.bottom_drawer_table)
@@ -38,6 +43,7 @@ internal class ParticipantListView(
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
+        isDestroyInProgress = false
         initializeParticipantListDrawer()
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -69,7 +75,7 @@ internal class ParticipantListView(
                     showParticipantList()
                 } else {
                     if (participantListDrawer.isShowing) {
-                        participantListDrawer.hide()
+                        participantListDrawer.dismissDialog()
                     }
                 }
             }
@@ -77,11 +83,11 @@ internal class ParticipantListView(
     }
 
     fun stop() {
+        isDestroyInProgress = true
         bottomCellAdapter.setBottomCellItems(mutableListOf())
         participantTable.layoutManager = null
         if (participantListDrawer.isShowing) {
             participantListDrawer.dismissDialog()
-            viewModel.displayParticipantList()
         }
         this.removeAllViews()
     }
@@ -99,7 +105,9 @@ internal class ParticipantListView(
             context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         participantListDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         participantListDrawer.setOnDismissListener {
-            viewModel.closeParticipantList()
+            if (!isDestroyInProgress) {
+                viewModel.closeParticipantList()
+            }
         }
         participantListDrawer.setContentView(this)
         bottomCellAdapter = BottomCellAdapter()
@@ -151,11 +159,15 @@ internal class ParticipantListView(
         val localParticipant = viewModel.createLocalParticipantListCell(
             resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
         )
-        val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
+        val localParticipantViewData =
+            avatarViewManager.callCompositeLocalOptions?.participantViewData
         bottomCellItems
             .add(
                 generateBottomCellItem(
-                    getLocalParticipantNameToDisplay(localParticipantViewData, localParticipant.displayName),
+                    getLocalParticipantNameToDisplay(
+                        localParticipantViewData,
+                        localParticipant.displayName
+                    ),
                     localParticipant.isMuted,
                     localParticipantViewData,
                     localParticipant.isOnHold
@@ -164,7 +176,8 @@ internal class ParticipantListView(
         for (remoteParticipant in remoteParticipantCellModels) {
             val remoteParticipantViewData =
                 avatarViewManager.getRemoteParticipantViewData(remoteParticipant.userIdentifier)
-            val finalName = getNameToDisplay(remoteParticipantViewData, remoteParticipant.displayName)
+            val finalName =
+                getNameToDisplay(remoteParticipantViewData, remoteParticipant.displayName)
 
             bottomCellItems.add(
                 generateBottomCellItem(
