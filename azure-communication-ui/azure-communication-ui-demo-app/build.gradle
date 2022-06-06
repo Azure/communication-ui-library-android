@@ -67,13 +67,6 @@ android {
         jvmTarget = '1.8'
     }
 
-    packagingOptions {
-        pickFirst 'META-INF/AL2.0'
-        pickFirst 'META-INF/LGPL2.1'
-        pickFirst 'META-INF/azure-communication-ui_debug.kotlin_module'
-        doNotStrip '**/*.so'
-    }
-
     testOptions {
         animationsDisabled = true
         packagingOptions {
@@ -88,6 +81,7 @@ android {
             }
         }
     }
+
     sourceSets {
         calling {
             java.srcDirs = ['src/main/java','src/calling/java']
