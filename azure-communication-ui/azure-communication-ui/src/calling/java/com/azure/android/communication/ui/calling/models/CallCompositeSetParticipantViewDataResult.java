@@ -4,12 +4,14 @@
 package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
+import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
 /**
- * Result values for {@link com.azure.android.communication.ui.calling.CallComposite#setRemoteParticipantViewData(CommunicationIdentifier, CallCompositeParticipantViewData)}.
+ * Result values for
+ * {@link CallComposite#setRemoteParticipantViewData(CommunicationIdentifier, CallCompositeParticipantViewData)}.
  */
 public final class CallCompositeSetParticipantViewDataResult
         extends ExpandableStringEnum<CallCompositeSetParticipantViewDataResult> {

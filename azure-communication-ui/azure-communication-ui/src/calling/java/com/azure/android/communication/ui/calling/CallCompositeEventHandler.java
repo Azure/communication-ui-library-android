@@ -8,7 +8,8 @@ package com.azure.android.communication.ui.calling;
  *
  * <p>A generic handler for call composite events.</p>
  * <p> - {@link CallComposite#setOnErrorHandler(CallCompositeEventHandler)} for Error Handling</p>
- * <p> - {@link CallComposite#setOnRemoteParticipantJoinedHandler(CallCompositeEventHandler)} for Remote Participant Join Notifications</p>
+ * <p> - {@link CallComposite#setOnRemoteParticipantJoinedHandler(CallCompositeEventHandler)}
+ * for Remote Participant Join Notifications</p>
  *
  * @param <T> The callback event Type.
  */
