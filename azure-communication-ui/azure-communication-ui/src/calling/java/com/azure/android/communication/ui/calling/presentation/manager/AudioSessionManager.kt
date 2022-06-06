@@ -289,7 +289,7 @@ internal class AudioSessionManager(
                 audioManager.isBluetoothScoOn = true
                 audioManager.isSpeakerphoneOn = false
             }
-        } catch (exception : Exception) {
+        } catch (exception: Exception) {
             revertToPreviousAudioDevice()
         }
     }
