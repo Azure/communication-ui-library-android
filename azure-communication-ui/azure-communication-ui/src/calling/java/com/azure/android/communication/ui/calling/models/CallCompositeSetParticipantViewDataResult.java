@@ -3,16 +3,25 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
 /**
- * Defines values for CallCompositeSetParticipantViewDataResult.
+ * Result values for {@link com.azure.android.communication.ui.calling.CallComposite#setRemoteParticipantViewData(CommunicationIdentifier, CallCompositeParticipantViewData)}.
  */
 public final class CallCompositeSetParticipantViewDataResult
         extends ExpandableStringEnum<CallCompositeSetParticipantViewDataResult> {
+
+    /**
+     * The Remote Participant View Data was Successfully set.
+     */
     public static final CallCompositeSetParticipantViewDataResult SUCCESS = fromString("success");
+
+    /**
+     * The Remote Participant was not in the call.
+     */
     public static final CallCompositeSetParticipantViewDataResult PARTICIPANT_NOT_IN_CALL
             = fromString("participantNotInCall");
 
