@@ -148,14 +148,7 @@ internal class AudioSessionManager(
             audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
         ) {
             // Request the Previous Device
-            store.dispatch(
-                LocalParticipantAction.AudioDeviceChangeRequested(
-                    when (priorToBluetoothAudioSelectionStatus) {
-                        AudioDeviceSelectionStatus.RECEIVER_SELECTED -> AudioDeviceSelectionStatus.RECEIVER_REQUESTED
-                        else -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
-                    }
-                )
-            )
+            revertToPreviousAudioDevice()
         }
 
         // Auto-Connect to Bluetooth if it wasn't available but now is
@@ -181,6 +174,17 @@ internal class AudioSessionManager(
             LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
                 isBluetoothScoAvailable,
                 bluetoothDeviceName
+            )
+        )
+    }
+
+    private fun revertToPreviousAudioDevice() {
+        store.dispatch(
+            LocalParticipantAction.AudioDeviceChangeRequested(
+                when (priorToBluetoothAudioSelectionStatus) {
+                    AudioDeviceSelectionStatus.RECEIVER_SELECTED -> AudioDeviceSelectionStatus.RECEIVER_REQUESTED
+                    else -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+                }
             )
         )
     }
@@ -279,10 +283,14 @@ internal class AudioSessionManager(
     }
 
     private fun enableBluetooth() {
-        if (!audioManager.isBluetoothScoOn) {
-            audioManager.startBluetoothSco()
-            audioManager.isBluetoothScoOn = true
-            audioManager.isSpeakerphoneOn = false
+        try {
+            if (!audioManager.isBluetoothScoOn) {
+                audioManager.startBluetoothSco()
+                audioManager.isBluetoothScoOn = true
+                audioManager.isSpeakerphoneOn = false
+            }
+        } catch (exception : Exception) {
+            revertToPreviousAudioDevice()
         }
     }
 
