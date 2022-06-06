@@ -143,10 +143,10 @@ internal class CallingSDKEventHandler(
                 onRemoteParticipantUpdated()
             }
             CallState.NONE, CallState.DISCONNECTED -> {
-                callEndStatus = call?.let {
-                    it.removeOnStateChangedListener(onCallStateChanged)
-                    Pair(it.callEndReason.code, it.callEndReason.subcode)
+                callEndStatus = call?.callEndReason?.let { callEndReason ->
+                    Pair(callEndReason.code, callEndReason.subcode)
                 } ?: Pair(0, 0)
+                call?.removeOnStateChangedListener(onCallStateChanged)
             }
             else -> {}
         }
