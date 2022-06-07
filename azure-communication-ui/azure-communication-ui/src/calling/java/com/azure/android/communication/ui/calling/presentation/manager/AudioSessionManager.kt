@@ -83,7 +83,6 @@ internal class AudioSessionManager(
         }
         (activity as LifecycleOwner).lifecycle.coroutineScope.launch {
             // On first launch we need to init the redux-state, check Bluetooth and Headset status
-
             store.getStateFlow().collect {
                 if (previousAudioDeviceSelectionStatus == null ||
                     previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
@@ -124,6 +123,7 @@ internal class AudioSessionManager(
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.apply {
             when (action) {
+                BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED -> openProfileProxy()
                 BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED -> updateBluetoothStatus()
                 AudioManager.ACTION_HEADSET_PLUG -> updateHeadphoneStatus()
             }
@@ -287,8 +287,17 @@ internal class AudioSessionManager(
     }
 
     private fun openProfileProxy() {
-        if (btAdapter?.isEnabled == true)btAdapter?.run {
-            getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+        if(btAdapter?.isEnabled == true && bluetoothAudioProxy == null) {
+            btAdapter?.run {
+                getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+            }
+        }
+    }
+
+    private fun closeProfileProxy() {
+        btAdapter?.run {
+            closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
+            bluetoothAudioProxy = null
         }
     }
 
@@ -297,5 +306,7 @@ internal class AudioSessionManager(
         updateBluetoothStatus()
     }
 
-    override fun onServiceDisconnected(profile: Int) { }
+    override fun onServiceDisconnected(profile: Int) {
+        closeProfileProxy()
+    }
 }
