@@ -4,16 +4,30 @@
 package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
+import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
- * Remote options for the calling composite
+ * CallCompositeRemoteOptions for CallComposite.launch.
  *
- * <p> Options for dealing with the remote meeting. </p>
- * <p> {@link CommunicationTokenCredential} is required to access the Azure Resources</p>
- * <p> {@link CallCompositeJoinMeetingLocator} is required to locate the teams or group call you'd like to join</p>
- * <p> Additionally you can provide a displayName which is sent to the Server and shared with other clients</p>
+ * <pre>
+ *
+ * &#47;&#47; Initialize the call composite builder
+ * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;;
+ *
+ * &#47;&#47; Build the call composite
+ * CallComposite callComposite = builder.build&#40;&#41;;
+ *
+ * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
+ * CallCompositeRemoteOptions remoteOptions = new CallCompositeRemoteOptions&#40;
+ *     locator, communicationTokenCredential, displayName&#41;
+ *
+ * &#47;&#47; Launch call
+ * callComposite.launch&#40;.., remoteOptions&#41
+ * </pre>
+ *
+ * @see CallComposite
  */
-public class CallCompositeRemoteOptions {
+public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
     private final CallCompositeJoinMeetingLocator locator;
