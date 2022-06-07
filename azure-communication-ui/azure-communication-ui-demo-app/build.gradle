@@ -62,6 +62,7 @@ android {
         }
 
         debug {
+            applicationIdSuffix = ".debug"
             manifestPlaceholders = [
                     appIcon: "@mipmap/ic_launcher_debug",
                     appIconRound: "@mipmap/ic_launcher_debug_round"
