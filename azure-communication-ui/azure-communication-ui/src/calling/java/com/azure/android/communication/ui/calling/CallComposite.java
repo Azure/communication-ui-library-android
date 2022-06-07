@@ -139,6 +139,8 @@ public final class CallComposite {
     /**
      * Set {@link CallCompositeEventHandler}.
      *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
      * <pre>
      *
      * &#47;&#47; set error handler
@@ -185,6 +187,15 @@ public final class CallComposite {
 
     /**
      * Set {@link CallCompositeParticipantViewData}.
+     *
+     * <p>
+     *     Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
+     * </p>
+     * <p>
+     *     This should be called from {@link #setOnRemoteParticipantJoinedHandler(CallCompositeEventHandler)}
+     *     to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
+     *     Participants view data.
+     * </p>
      *
      * @param identifier  The {@link CommunicationIdentifier}.
      * @param participantViewData The {@link CallCompositeParticipantViewData}.
