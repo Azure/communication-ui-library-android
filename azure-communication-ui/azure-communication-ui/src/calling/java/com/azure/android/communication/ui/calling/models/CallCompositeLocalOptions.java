@@ -25,7 +25,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
  *     new CallCompositeParticipantViewData&#40;...&#41);
  *
  * &#47;&#47; Launch call
- * callComposite.launch&#40; .., .., localOptions&#41
+ * callComposite.launch&#40;.., .., localOptions&#41
  * </pre>
  *
  * @see CallComposite
