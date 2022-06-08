@@ -69,7 +69,7 @@ internal class ParticipantListView(
                     showParticipantList()
                 } else {
                     if (participantListDrawer.isShowing) {
-                        participantListDrawer.hide()
+                        participantListDrawer.dismissDialog()
                     }
                 }
             }
@@ -77,11 +77,14 @@ internal class ParticipantListView(
     }
 
     fun stop() {
+        // during screen rotation, destroy, the drawer should be displayed if open
+        // to remove memory leak, on activity destroy dialog is dismissed
+        // this setOnDismissListener(null) helps to not call view model state change during orientation
+        participantListDrawer.setOnDismissListener(null)
         bottomCellAdapter.setBottomCellItems(mutableListOf())
         participantTable.layoutManager = null
         if (participantListDrawer.isShowing) {
             participantListDrawer.dismissDialog()
-            viewModel.displayParticipantList()
         }
         this.removeAllViews()
     }
@@ -151,11 +154,15 @@ internal class ParticipantListView(
         val localParticipant = viewModel.createLocalParticipantListCell(
             resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
         )
-        val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
+        val localParticipantViewData =
+            avatarViewManager.callCompositeLocalOptions?.participantViewData
         bottomCellItems
             .add(
                 generateBottomCellItem(
-                    getLocalParticipantNameToDisplay(localParticipantViewData, localParticipant.displayName),
+                    getLocalParticipantNameToDisplay(
+                        localParticipantViewData,
+                        localParticipant.displayName
+                    ),
                     localParticipant.isMuted,
                     localParticipantViewData,
                     localParticipant.isOnHold
@@ -164,7 +171,8 @@ internal class ParticipantListView(
         for (remoteParticipant in remoteParticipantCellModels) {
             val remoteParticipantViewData =
                 avatarViewManager.getRemoteParticipantViewData(remoteParticipant.userIdentifier)
-            val finalName = getNameToDisplay(remoteParticipantViewData, remoteParticipant.displayName)
+            val finalName =
+                getNameToDisplay(remoteParticipantViewData, remoteParticipant.displayName)
 
             bottomCellItems.add(
                 generateBottomCellItem(

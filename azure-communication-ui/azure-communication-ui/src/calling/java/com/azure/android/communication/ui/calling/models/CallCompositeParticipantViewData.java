@@ -35,6 +35,8 @@ public final class CallCompositeParticipantViewData {
     /**
      * Set scaleType.
      *
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
+     *
      * @return The {@link CallCompositeParticipantViewData};
      */
     public CallCompositeParticipantViewData setScaleType(final ImageView.ScaleType scaleType) {
@@ -44,6 +46,8 @@ public final class CallCompositeParticipantViewData {
 
     /**
      * Get scaleType.
+     *
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
      *
      * @return The {@link ImageView.ScaleType};
      */
@@ -81,6 +85,8 @@ public final class CallCompositeParticipantViewData {
 
     /**
      * Set avatar Bitmap.
+     *
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
      *
      * @return The {@link CallCompositeParticipantViewData};
      */

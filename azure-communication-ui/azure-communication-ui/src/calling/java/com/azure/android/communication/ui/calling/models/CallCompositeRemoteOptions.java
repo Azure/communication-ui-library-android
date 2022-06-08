@@ -4,11 +4,36 @@
 package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
+import com.azure.android.communication.ui.calling.CallComposite;
 
-public class CallCompositeRemoteOptions {
+/**
+ * CallCompositeRemoteOptions for CallComposite.launch.
+ *
+ * <pre>
+ *
+ * &#47;&#47; Initialize the call composite builder
+ * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;;
+ *
+ * &#47;&#47; Build the call composite
+ * CallComposite callComposite = builder.build&#40;&#41;;
+ *
+ * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
+ * CallCompositeRemoteOptions remoteOptions = new CallCompositeRemoteOptions&#40;
+ *     locator, communicationTokenCredential, displayName&#41;
+ *
+ * &#47;&#47; Launch call
+ * callComposite.launch&#40;.., remoteOptions&#41
+ * </pre>
+ *
+ * @see CallComposite
+ */
+public final class CallCompositeRemoteOptions {
+    // Mandatory
     private final CommunicationTokenCredential credential;
-    private final String displayName;
     private final CallCompositeJoinMeetingLocator locator;
+
+    // Optional
+    private final String displayName;
 
     /**
      * Create {@link CallCompositeRemoteOptions}.

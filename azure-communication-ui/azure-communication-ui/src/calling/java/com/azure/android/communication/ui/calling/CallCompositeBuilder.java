@@ -8,6 +8,9 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 
 /**
  * Builder for creating {@link CallComposite}.
+ *
+ * <p>Used to build a {@link CallComposite} which is then used to start a call.</p>
+ * <p>This class can be used to specify a Custom theme or locale to be used by the Call Composite</p>
  */
 public final class CallCompositeBuilder {
 
@@ -18,7 +21,7 @@ public final class CallCompositeBuilder {
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
      * @param themeId Theme ID.
-     * @return {@link CallCompositeBuilder}
+     * @return {@link CallCompositeBuilder} for chaining options
      */
     public CallCompositeBuilder theme(final int themeId) {
         this.themeConfig = themeId;
@@ -29,7 +32,7 @@ public final class CallCompositeBuilder {
      * Sets an optional localization for call-composite to use by {@link CallComposite}.
      *
      * @param localization {@link CallCompositeLocalizationOptions}.
-     * @return {@link CallCompositeBuilder}
+     * @return {@link CallCompositeBuilder} for chaining options
      */
     public CallCompositeBuilder localization(final CallCompositeLocalizationOptions localization) {
         this.localizationConfig = localization;
@@ -37,7 +40,7 @@ public final class CallCompositeBuilder {
     }
 
     /**
-     * Creates {@link CallComposite}.
+     * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
      */
@@ -45,7 +48,6 @@ public final class CallCompositeBuilder {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
         config.setLocalizationConfig(localizationConfig);
-
         return new CallComposite(config);
     }
 }

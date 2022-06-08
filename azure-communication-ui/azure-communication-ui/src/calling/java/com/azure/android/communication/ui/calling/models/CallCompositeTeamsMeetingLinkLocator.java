@@ -15,7 +15,7 @@ public final class CallCompositeTeamsMeetingLinkLocator extends CallCompositeJoi
     /**
      * Creates {@link CallCompositeTeamsMeetingLinkLocator}
      *
-     * @param meetingLink Teams meeting link, for more information please check Quickstart Doc
+     * @param meetingLink Teams meeting link, for more information please check Quickstart Doc.
      */
     public CallCompositeTeamsMeetingLinkLocator(final String meetingLink) {
         this.meetingLink = meetingLink;

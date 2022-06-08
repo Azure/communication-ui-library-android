@@ -12,10 +12,19 @@ import java.util.Collection;
  */
 public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompositeErrorCode> {
 
+    /**
+     * Dispatched when there is a failure to join a call
+     */
     public static final CallCompositeErrorCode CALL_JOIN_FAILED = fromString("callJoinFailed");
 
+    /**
+     * Dispatched when there is a failure to end a call
+     */
     public static final CallCompositeErrorCode CALL_END_FAILED = fromString("callEndFailed");
 
+    /**
+     * Dispatched when the ACS Token supplied is no longer valid (expired)
+     */
     public static final CallCompositeErrorCode TOKEN_EXPIRED = fromString("tokenExpired");
 
     /**
