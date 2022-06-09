@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
-import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
+import com.azure.android.communication.ui.calling.presentation.manager.BluetoothDetectionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
@@ -72,10 +72,10 @@ internal class DependencyInjectionContainerImpl(
         PermissionManager(appStore)
     }
 
-    override val audioSessionManager by lazy {
-        AudioSessionManager(
-            appStore,
+    override val bluetoothDetectionManager by lazy {
+        BluetoothDetectionManager(
             applicationContext,
+            appStore,
         )
     }
 

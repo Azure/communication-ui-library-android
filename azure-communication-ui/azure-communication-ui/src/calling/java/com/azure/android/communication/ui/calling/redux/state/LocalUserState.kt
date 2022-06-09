@@ -31,11 +31,8 @@ internal enum class AudioOperationalStatus {
 
 internal enum class AudioDeviceSelectionStatus {
     SPEAKER_SELECTED,
-    SPEAKER_REQUESTED,
     RECEIVER_SELECTED,
-    RECEIVER_REQUESTED,
     BLUETOOTH_SCO_SELECTED,
-    BLUETOOTH_SCO_REQUESTED,
 }
 
 internal data class CameraState(

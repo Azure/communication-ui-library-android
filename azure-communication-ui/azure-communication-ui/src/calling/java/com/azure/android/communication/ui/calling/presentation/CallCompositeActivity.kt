@@ -44,7 +44,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
-    private val audioSessionManager get() = container.audioSessionManager
+    private val bluetoothDetectionManager get() = container.bluetoothDetectionManager
     private val audioFocusManager get() = container.audioFocusManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
@@ -91,7 +91,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-        audioSessionManager.onCreate(savedInstanceState)
+        bluetoothDetectionManager.onCreate(savedInstanceState)
 
         lifecycleScope.launch { container.accessibilityManager.start(activity) }
 
@@ -112,7 +112,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        audioSessionManager.onStart(this)
+        //audioSessionManager.onStart(this)
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()
@@ -133,7 +133,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // If no configs are detected we can just exit without cleanup.
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
             audioFocusManager.stop()
-            audioSessionManager.onDestroy(this)
+            bluetoothDetectionManager.onDestroy(this)
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
                 CallCompositeConfiguration.putConfig(instanceId, null)

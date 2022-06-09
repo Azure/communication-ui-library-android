@@ -1,0 +1,60 @@
+Design
+
+Requirements
+  isBluetoothAvailable
+  isHeadsetAvailable
+
+IOnHeadsetAvailabilityChanged {
+    void onChanged(Boolean enabled)
+}
+
+IOnBlueoothAvailabilityChanged {
+    void onChanged(Boolean enabled, String? deviceName)
+}
+
+// Interface for different API levels to implement
+ICallCompositeAudioInterface
+  bool enableBluetooth()
+  bool enableWiredHeadset()
+  bool enableSpeaker()
+  bool enableReceiver()
+  addOnHeadsetAvailabilityChanged(f(Boolean enabled))
+  removeOnHeadsetAvailabilityChanged(f(Boolean enabled))
+  static getInstance()  //Implementations for different API levels, Factory
+  void onCreate(Context context)
+  void onDestroy(Context context)
+
+// Interface for Bluetooth
+ICallCompositeBluetoothAudioDetector
+  addOnBluetoothAvailabilityChanged(f(Boolean enabled, String? deviceName)
+  void onCreate(Context context)
+  void onDestroy(Context context)
+
+// Interface for Wired Headset
+ICallCompositeWiredHeadsetDetector
+  addOnWiredHeadsetAvailabilityChanged(f(Boolean enabled))
+
+AudioSelectionMiddleware(ICallCompositeAudioInterface)
+  - Call Start (Choose selected device)
+  - Call End (Stop using devices)
+  - AudioDeviceSelected (Bluetooth, WiredHeadset, Speaker, Receiver)
+
+AudioFocusMiddleware
+  - Call Start (retrieve focus or block)
+  - Call End (release focus)
+
+AudioFocusManager
+  - On focus Lost (Put on hold)
+
+BluetoothManager
+ - On Bluetooth Detected/Lost, Dispatch Availability
+
+WiredHeadsetManager
+ - On wired headset plugged/released, Dispatch Availability
+
+Plan
+1) Delete Unnecessary State
+2) Clear out AudioSessionManager
+3) Rename to BluetoothManager
+4) Clear out Manager -> Rename to BluetoothManager, AudioFocusManager, WiredHeadsetManager
+5) Implement newest API versions of ICallCompositeBluetoothAudioInterface and ICallCompositeAudioInterface
