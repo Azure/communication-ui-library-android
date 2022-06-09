@@ -1,9 +1,6 @@
 # Release History
 
-CommunicationUIEventCode is removed
-
-
-## 1.0.0-beta.2 (FUTURE)
+## 1.0.0-beta.2 (2022-06-13)
 
 ### New Features
 - Call on hold
@@ -11,7 +8,7 @@ CommunicationUIEventCode is removed
 
 ### Breaking Changes
 - CommunicationUIEventCode class is removed
-
+- Added "CallComposite" as a prefix to public classes
 
 ### Bug Fixes
  
