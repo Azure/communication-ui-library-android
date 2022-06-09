@@ -61,16 +61,12 @@ class BluetoothDetectorImpl(
 
 
     private var headsetProxy: BluetoothHeadset? = null
-    private var started = false
 
 
-    override fun start() {
-        started = true
-        openProfileProxy()
-    }
+
+    override fun start() = openProfileProxy()
 
     override fun stop() {
-        started = false
         btAdapter?.run {
             headsetProxy?.run {
                 closeProfileProxy(BluetoothProfile.HEADSET, this)

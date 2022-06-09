@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.calling.redux.reducer
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.*
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -194,7 +196,9 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
                         device = action.requestedAudioDevice,
-                        previousDevice = localUserState.audioState.device,
+                        previousDevice = if (action.requestedAudioDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
+                            localUserState.audioState.device
+                        else null,
                         error = null
                     )
                 )
