@@ -1,5 +1,6 @@
 package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothProfile
@@ -9,14 +10,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 
-abstract class BluetoothDetector(val context: Context, val isActiveCallback: (Boolean) -> Unit) {
+abstract class BluetoothDetector(val context: Context, val isActiveCallback: (Boolean, String) -> Unit) {
     abstract fun start()
     abstract fun stop()
 }
 
 class BluetoothDetectorImpl(
     context: Context,
-    isActiveCallback: (Boolean) -> Unit
+    isActiveCallback: (Boolean, String) -> Unit
 ) : BluetoothDetector(context, isActiveCallback) {
 
     private val btManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -35,7 +36,7 @@ class BluetoothDetectorImpl(
 
     private val changeStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            isActiveCallback(isBluetoothScoAvailable)
+            isActiveCallback(isBluetoothScoAvailable, bluetoothDeviceName)
         }
     }
 
@@ -45,6 +46,18 @@ class BluetoothDetectorImpl(
         } catch (exception: SecurityException) {
             false
         }
+
+
+    private val bluetoothDeviceName
+        @SuppressLint("MissingPermission")
+        get() =
+            try {
+                (headsetProxy?.connectedDevices?.first()?.name) ?: ""
+            } catch (exception: Exception) {
+                ""
+            }
+
+
 
 
     private var headsetProxy: BluetoothHeadset? = null

@@ -50,7 +50,6 @@ internal class AudioSwitchingMiddleware(
                                     AudioDeviceSelectionStatus.SPEAKER_SELECTED
                                 )
                             )
-
                     }
                     next(action)
 
