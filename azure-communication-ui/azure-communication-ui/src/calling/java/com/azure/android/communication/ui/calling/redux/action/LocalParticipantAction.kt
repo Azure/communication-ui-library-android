@@ -53,6 +53,8 @@ internal sealed class LocalParticipantAction : Action {
     class AudioDeviceChangeRequested(val requestedAudioDevice: AudioDeviceSelectionStatus) :
         LocalParticipantAction()
 
+    class AudioDeviceRevertToLast() : LocalParticipantAction()
+
     class AudioDeviceChangeSucceeded(val selectedAudioDevice: AudioDeviceSelectionStatus) :
         LocalParticipantAction()
 

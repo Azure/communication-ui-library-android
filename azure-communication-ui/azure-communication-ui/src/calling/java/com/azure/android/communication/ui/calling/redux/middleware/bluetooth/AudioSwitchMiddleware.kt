@@ -43,13 +43,13 @@ internal class AudioSwitchingMiddleware(
                                     )
                             )
                     } else if (!action.available && store.getCurrentState().localParticipantState.audioState.bluetoothState.available) {
-                        store
-                            .dispatch(
-                                LocalParticipantAction.AudioDeviceChangeRequested(
-                                    // Should previous device in store
-                                    AudioDeviceSelectionStatus.SPEAKER_SELECTED
+                        store.getCurrentState().localParticipantState.audioState.previousDevice?.apply {
+                            store
+                                .dispatch(
+                                    LocalParticipantAction.AudioDeviceChangeRequested(this)
                                 )
-                            )
+
+                        }
                     }
                     next(action)
 

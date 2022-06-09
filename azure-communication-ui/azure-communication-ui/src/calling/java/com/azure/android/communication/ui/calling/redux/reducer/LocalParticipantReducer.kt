@@ -189,11 +189,12 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     )
                 )
             }
-            is LocalParticipantAction.AudioDeviceChangeRequested -> {
 
+            is LocalParticipantAction.AudioDeviceChangeRequested -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
                         device = action.requestedAudioDevice,
+                        previousDevice = localUserState.audioState.device,
                         error = null
                     )
                 )
@@ -207,6 +208,7 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     )
                 )
             }
+
             is LocalParticipantAction.AudioDeviceChangeFailed -> {
                 localUserState.copy(
                     audioState = localUserState.audioState.copy(
