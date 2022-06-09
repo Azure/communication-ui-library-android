@@ -25,6 +25,7 @@ class BluetoothDetectorImpl(
     private val serviceListener = object : BluetoothProfile.ServiceListener {
         override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
             headsetProxy = proxy as BluetoothHeadset
+            isActiveCallback(isBluetoothScoAvailable, bluetoothDeviceName)
             registerReceiver()
         }
 
