@@ -34,10 +34,10 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Ein Teilnehmer der Besprechung wird Sie in Kürze einlassen</string>
 
     <!-- Hold Overlay -->
-    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
-    <string name="azure_communication_ui_calling_resume">Resume</string>
-    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
-    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
+    <string name="azure_communication_ui_calling_hold_view_text">Von Gesprächspartner gehalten</string>
+    <string name="azure_communication_ui_calling_resume">Fortsetzen</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">Gehalten</string>
+    <string name="azure_communication_ui_calling_mic_used">Der Anruf kann nicht fortgesetzt werden,\nIhr Mikrofon wird von einer anderen App verwendet.</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Warten auf andere Teilnehmer</string>
@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_leave_call">Anruf verlassen?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlassen</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Abbrechen</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Teilnehmerliste öffnen</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Doppeltippen Sie, um die Teilnehmerliste zu schließen.</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Stummgeschaltet</string>
