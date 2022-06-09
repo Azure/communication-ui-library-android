@@ -64,7 +64,7 @@ Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group 
 val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ "<USER_ACCESS_TOKEN>" }, true)
 val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-val locator: CallCompositeJoinMeetingLocator = CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"))
+val locator: CallCompositeCallLocator = CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"))
 val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, "<DISPLAY_NAME>")
         
 val callComposite: CallComposite = CallCompositeBuilder().build()
@@ -80,7 +80,7 @@ CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
 CommunicationTokenCredential communicationTokenCredential = 
         new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-final CallCompositeJoinMeetingLocator locator =  new CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"));
+final CallCompositeCallLocator locator =  new CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"));
 final CallCompositeRemoteOptions remoteOptions =
                 new CallCompositeRemoteOptions(locator, communicationTokenCredential, "<DISPLAY_NAME>");
 
