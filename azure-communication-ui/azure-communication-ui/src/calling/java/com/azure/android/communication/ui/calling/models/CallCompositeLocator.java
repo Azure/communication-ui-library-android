@@ -6,5 +6,5 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * Call Locator.
  */
-public abstract class CallCompositeCallLocator {
+public abstract class CallCompositeLocator {
 }

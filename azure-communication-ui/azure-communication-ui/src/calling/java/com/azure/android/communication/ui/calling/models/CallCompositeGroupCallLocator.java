@@ -10,7 +10,7 @@ import java.util.UUID;
 /**
  * Group Call locator to start group call experience using {@link CallComposite}.
  */
-public final class CallCompositeGroupCallLocator extends CallCompositeCallLocator {
+public final class CallCompositeGroupCallLocator extends CallCompositeLocator {
 
     private final UUID groupId;
 

@@ -8,7 +8,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
 import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
@@ -72,7 +72,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-        final CallCompositeCallLocator locator = groupId != null
+        final CallCompositeLocator locator = groupId != null
                 ? new CallCompositeGroupCallLocator(groupId)
                 : new CallCompositeTeamsMeetingLinkLocator(meetingLink);
 
