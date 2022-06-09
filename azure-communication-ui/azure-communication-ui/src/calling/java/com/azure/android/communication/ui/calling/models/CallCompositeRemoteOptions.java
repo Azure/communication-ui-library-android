@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
+ * &#47;&#47; Build the CallCompositeRemoteOptions with {@link CommunicationTokenCredential} {@link CallCompositeJoinMeetingLocator}
  * CallCompositeRemoteOptions remoteOptions = new CallCompositeRemoteOptions&#40;
  *     locator, communicationTokenCredential, displayName&#41;
  *
