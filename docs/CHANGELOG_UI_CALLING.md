@@ -9,6 +9,7 @@
 ### Breaking Changes
 - CommunicationUIEventCode class is removed
 - Added "CallComposite" as a prefix to public classes
+- CallComposite.launch funcions are refactored. Argument classes GroupCallOptions, TeamsMeetingOptions are removed. New argument classes are added: CallCompositeRemoteOptions, CallCompositeLocalOptions
 
 ### Bug Fixes
  
