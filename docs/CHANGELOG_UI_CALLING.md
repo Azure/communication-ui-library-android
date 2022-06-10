@@ -1,17 +1,15 @@
 # Release History
 
-CommunicationUIEventCode is removed
-
-
-## 1.0.0-beta.2 (FUTURE)
+## 1.0.0-beta.2 (2022-06-13)
 
 ### New Features
 - Call on hold
 - UI support for tablets
 
 ### Breaking Changes
-- CommunicationUIEventCode class is removed
-
+- `CommunicationUIEventCode` class is removed
+- Added "CallComposite" as a prefix to public classes
+- `CallComposite.launch` functions are refactored. Argument classes `GroupCallOptions`, `TeamsMeetingOptions` are removed. New argument classes are added: `CallCompositeRemoteOptions`, `CallCompositeLocalOptions`
 
 ### Bug Fixes
  

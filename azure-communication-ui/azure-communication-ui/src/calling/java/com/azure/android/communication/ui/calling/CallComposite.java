@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinMeetingLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
@@ -45,7 +45,7 @@ import java.util.UUID;
  */
 public final class CallComposite {
 
-    // Each time we launch, an InstanceID will be assigned and incremented.
+    // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
@@ -63,9 +63,13 @@ public final class CallComposite {
      *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
      * final CommunicationTokenCredential credential =
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
-     * final CallCompositeGroupCallOptions groupCallOptions =
-     *                 new CallCompositeGroupCallOptions&#40;context, credential, groupId, displayName&#41;;
-     * callComposite.launch&#40;groupCallOptions&#41;;
+     * final CallCompositeLocator locator =
+     *                 new CallCompositeGroupCallLocator&#40;UUID&#41;;
+     * final CallCompositeLocator locator =
+     *                 new CallCompositeTeamsMeetingLinkLocator&#40;URL&#41;;
+     * final CallCompositeRemoteOptions remoteOptions =
+     *                 new CallCompositeRemoteOptions&#40;locator, credential, displayName&#41;;
+     * callComposite.launch&#40;context, groupCallOptions&#41;;
      *
      * </pre>
      *
@@ -86,11 +90,16 @@ public final class CallComposite {
      *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
      * final CommunicationTokenCredential credential =
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
-     * final CallCompositeGroupCallOptions groupCallOptions =
-     *                 new CallCompositeGroupCallOptions&#40;context, credential, groupId, displayName&#41;;
+     * final CallCompositeLocator locator =
+     *                 new CallCompositeGroupCallLocator&#40;UUID&#41;;
+     * final CallCompositeLocator locator =
+     *                 new CallCompositeTeamsMeetingLinkLocator&#40;URL&#41;;
+     * final CallCompositeRemoteOptions remoteOptions =
+     *                 new CallCompositeRemoteOptions&#40;locator, credential, displayName&#41;;
+     * callComposite.launch&#40;context, groupCallOptions&#41;;
      * final CallCompositeLocalOptions localOptions =
      *                 new CallCompositeLocalOptions&#40;participantViewData&#41;;
-     * callComposite.launch&#40;groupCallOptions, localOptions&#41;;
+     * callComposite.launch&#40;context, groupCallOptions, localOptions&#41;;
      *
      * </pre>
      *
@@ -108,7 +117,7 @@ public final class CallComposite {
         String meetingLink = null;
         final CallType callType;
 
-        final CallCompositeJoinMeetingLocator locator = remoteOptions.getLocator();
+        final CallCompositeLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
