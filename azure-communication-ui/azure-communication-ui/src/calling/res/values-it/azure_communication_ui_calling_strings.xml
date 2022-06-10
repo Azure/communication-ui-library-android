@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_leave_call">Abbandona la chiamata?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Abbandona</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Annulla</string>
-    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Leave confirm menu</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Esci dal menu Conferma</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Apri elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Tocca due volte per chiudere l\'elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Notifiche disattivate</string>
