@@ -112,7 +112,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //audioSessionManager.onStart(this)
+        // audioSessionManager.onStart(this)
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()

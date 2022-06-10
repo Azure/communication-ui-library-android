@@ -18,7 +18,7 @@ internal class BluetoothDetectionManager(
     context: Context,
     store: Store<ReduxState>
 ) {
-    private val detector = BluetoothDetectorImpl(context){ available: Boolean, name: String ->
+    private val detector = BluetoothDetectorImpl(context) { available: Boolean, name: String ->
         store.dispatch(
             LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
                 available,
@@ -34,7 +34,6 @@ internal class BluetoothDetectionManager(
             detector.start()
         }
     }
-
 
     // Call when the Activity is finishing (i.e. call is done)
     fun onDestroy(activity: Activity) {

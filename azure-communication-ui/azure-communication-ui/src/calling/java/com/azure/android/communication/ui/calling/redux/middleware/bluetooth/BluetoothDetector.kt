@@ -48,7 +48,6 @@ class BluetoothDetectorImpl(
             false
         }
 
-
     private val bluetoothDeviceName
         @SuppressLint("MissingPermission")
         get() =
@@ -58,12 +57,7 @@ class BluetoothDetectorImpl(
                 ""
             }
 
-
-
-
     private var headsetProxy: BluetoothHeadset? = null
-
-
 
     override fun start() = openProfileProxy()
 
@@ -88,4 +82,3 @@ class BluetoothDetectorImpl(
         context.registerReceiver(changeStateReceiver, filter)
     }
 }
-

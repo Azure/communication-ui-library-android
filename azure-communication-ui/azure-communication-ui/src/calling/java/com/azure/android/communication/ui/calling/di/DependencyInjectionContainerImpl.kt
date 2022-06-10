@@ -147,7 +147,6 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-
     private val audioSwitchMiddleware: Middleware<ReduxState> by lazy {
         AudioSwitchingMiddleware(applicationContext)
     }

@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
 
-
-
 import android.content.Context
 import android.media.AudioManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
@@ -17,9 +15,9 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
-/// This class tracks actions for AudioRequests and
-/// enables the appropriate device.
-/// It'll also detect New connections and dispatch auto-switch
+// / This class tracks actions for AudioRequests and
+// / enables the appropriate device.
+// / It'll also detect New connections and dispatch auto-switch
 internal class AudioSwitchingMiddleware(
     context: Context,
 ) :
@@ -38,14 +36,14 @@ internal class AudioSwitchingMiddleware(
                         next(action)
                     }
                 is CallingAction.StateUpdated -> {
-                    if (store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED
-                        && action.callingState == CallingStatus.CONNECTED) {
+                    if (store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
+                        action.callingState == CallingStatus.CONNECTED
+                    ) {
                         switchToDevice(store.getCurrentState().localParticipantState.audioState.device)
-                    } else if (store.getCurrentState().callState.callingStatus == CallingStatus.CONNECTED
-                            && action.callingState != CallingStatus.CONNECTED) {
+                    } else if (store.getCurrentState().callState.callingStatus == CallingStatus.CONNECTED &&
+                        action.callingState != CallingStatus.CONNECTED
+                    ) {
                         disconnectAudio()
-
-
                     }
                     next(action)
                 }
@@ -66,15 +64,12 @@ internal class AudioSwitchingMiddleware(
                                 .dispatch(
                                     LocalParticipantAction.AudioDeviceChangeRequested(this)
                                 )
-
                         }
                     }
                     next(action)
-
                 }
                 else -> next(action)
             }
-
         }
     }
 
@@ -84,7 +79,7 @@ internal class AudioSwitchingMiddleware(
         audioManager.isSpeakerphoneOn = false
     }
 
-    private fun switchToDevice(requestedAudioDevice : AudioDeviceSelectionStatus): Boolean {
+    private fun switchToDevice(requestedAudioDevice: AudioDeviceSelectionStatus): Boolean {
         when (requestedAudioDevice) {
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> enableBluetooth()
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> enableSpeakerPhone()
@@ -93,27 +88,27 @@ internal class AudioSwitchingMiddleware(
         return true
     }
 
-    private fun enableSpeakerPhone() : Boolean{
+    private fun enableSpeakerPhone(): Boolean {
         audioManager.stopBluetoothSco()
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = true
         return true
     }
 
-    private fun enableEarpiece() : Boolean {
+    private fun enableEarpiece(): Boolean {
         audioManager.stopBluetoothSco()
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = false
         return true
     }
 
-    private fun enableBluetooth() : Boolean {
+    private fun enableBluetooth(): Boolean {
 
         if (!audioManager.isBluetoothScoOn) {
             audioManager.startBluetoothSco()
             audioManager.isBluetoothScoOn = true
             audioManager.isSpeakerphoneOn = false
-          return true
+            return true
         }
         return false
     }
