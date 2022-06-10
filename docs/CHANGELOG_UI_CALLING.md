@@ -7,9 +7,9 @@
 - UI support for tablets
 
 ### Breaking Changes
-- CommunicationUIEventCode class is removed
+- `CommunicationUIEventCode` class is removed
 - Added "CallComposite" as a prefix to public classes
-- CallComposite.launch functions are refactored. Argument classes GroupCallOptions, TeamsMeetingOptions are removed. New argument classes are added: CallCompositeRemoteOptions, CallCompositeLocalOptions
+- `CallComposite.launch` functions are refactored. Argument classes `GroupCallOptions`, `TeamsMeetingOptions` are removed. New argument classes are added: `CallCompositeRemoteOptions`, `CallCompositeLocalOptions`
 
 ### Bug Fixes
  
