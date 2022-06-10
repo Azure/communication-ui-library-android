@@ -18,7 +18,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
  * &#47;&#47; Build the CallCompositeRemoteOptions with {@link CommunicationTokenCredential}
- * {@link CallCompositeLocator}
+ * {@link CallCompositeJoinLocator}
  * CallCompositeRemoteOptions remoteOptions = new CallCompositeRemoteOptions&#40;
  *     locator, communicationTokenCredential, displayName&#41;
  *
@@ -31,7 +31,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
-    private final CallCompositeLocator locator;
+    private final CallCompositeJoinLocator locator;
 
     // Optional
     private final String displayName;
@@ -39,11 +39,11 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param locator {@link CallCompositeLocator}
+     * @param locator {@link CallCompositeJoinLocator}
      * @param credential {@link CommunicationTokenCredential}.
      */
     public CallCompositeRemoteOptions(
-            final CallCompositeLocator locator,
+            final CallCompositeJoinLocator locator,
             final CommunicationTokenCredential credential) {
         this(locator, credential, "");
     }
@@ -51,12 +51,12 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param locator {@link CallCompositeLocator}
+     * @param locator {@link CallCompositeJoinLocator}
      * @param credential {@link CommunicationTokenCredential}
      * @param displayName                  User display name other call participants will see.
      */
     public CallCompositeRemoteOptions(
-            final CallCompositeLocator locator,
+            final CallCompositeJoinLocator locator,
             final CommunicationTokenCredential credential,
             final String displayName) {
 
@@ -86,9 +86,9 @@ public final class CallCompositeRemoteOptions {
     /**
      * Get call locator.
      *
-     * @return {@link CallCompositeLocator}.
+     * @return {@link CallCompositeJoinLocator}.
      */
-    public CallCompositeLocator getLocator() {
+    public CallCompositeJoinLocator getLocator() {
         return locator;
     }
 }
