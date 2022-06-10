@@ -17,7 +17,7 @@ import android.widget.ImageView;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
+ * &#47;&#47; Build the CallCompositeLocalOptions with {@link CallCompositeParticipantViewData}
  * CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(
  *     new CallCompositeParticipantViewData&#40;...&#41);
  *

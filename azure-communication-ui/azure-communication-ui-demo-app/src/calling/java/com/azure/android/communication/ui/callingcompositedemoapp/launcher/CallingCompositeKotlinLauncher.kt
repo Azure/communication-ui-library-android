@@ -8,9 +8,9 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinMeetingLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
@@ -65,15 +65,15 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val locator: CallCompositeJoinMeetingLocator =
+        val locator: CallCompositeLocator =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else CallCompositeTeamsMeetingLinkLocator(meetingLink)
 
         val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
         if (participantViewData != null) {
-            val dataOptions = CallCompositeLocalOptions(participantViewData)
-            callComposite.launch(callLauncherActivity, remoteOptions, dataOptions)
+            val localOptions = CallCompositeLocalOptions(participantViewData)
+            callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
         } else {
             callComposite.launch(callLauncherActivity, remoteOptions)
         }
