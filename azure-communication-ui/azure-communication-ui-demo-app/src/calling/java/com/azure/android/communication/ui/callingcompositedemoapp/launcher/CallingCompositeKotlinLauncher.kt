@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
@@ -65,7 +65,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val locator: CallCompositeLocator =
+        val locator: CallCompositeJoinLocator =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else CallCompositeTeamsMeetingLinkLocator(meetingLink)
 

@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 /**
  * Teams meeting locator to start group call experience using {@link CallComposite}.
  */
-public final class CallCompositeTeamsMeetingLinkLocator extends CallCompositeLocator {
+public final class CallCompositeTeamsMeetingLinkLocator extends CallCompositeJoinLocator {
 
     private final String meetingLink;
 
