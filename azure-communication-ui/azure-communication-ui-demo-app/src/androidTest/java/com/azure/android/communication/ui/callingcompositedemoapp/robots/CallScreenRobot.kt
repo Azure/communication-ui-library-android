@@ -13,6 +13,30 @@ import org.hamcrest.Matchers
 
 class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
 
+    fun checkTeamsLobbyOverlay(): CallScreenRobot {
+        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_lobby_overlay)
+        UiTestUtils.run {
+            checkViewIdIsDisplayed(
+                R.id.azure_communication_ui_call_call_lobby_overlay_wait_for_host_image
+            )
+            checkViewIdAndTextIsDisplayed(
+                R.id.azure_communication_ui_call_lobby_overlay_info,
+                R.string.azure_communication_ui_calling_lobby_view_text_waiting_details
+            )
+            checkViewIdAndTextIsDisplayed(
+                R.id.azure_communication_ui_call_lobby_overlay_title,
+                R.string.azure_communication_ui_calling_lobby_view_text_waiting_for_host
+            )
+            checkViewIdIsNotDisplayed(
+                R.id.azure_communication_ui_call_local_avatarHolder
+            )
+            checkViewIdIsNotDisplayed(
+                R.id.azure_communication_ui_call_local_pip_switch_camera_button
+            )
+        }
+        return this
+    }
+
     fun checkWaitForTeamsMeetingMessage(): CallScreenRobot {
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_lobby_overlay)
 
@@ -68,10 +92,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
         idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewWithTextIsDisplayed("Leave call?")
         }
-        UiTestUtils.clickViewWithIdAndText(
-            R.id.cell_text,
-            "Leave"
-        )
+        UiTestUtils.clickViewWithIdAndText(R.id.cell_text, "Leave")
     }
 
     fun verifyFirstParticipantName(userName: String): CallScreenRobot {

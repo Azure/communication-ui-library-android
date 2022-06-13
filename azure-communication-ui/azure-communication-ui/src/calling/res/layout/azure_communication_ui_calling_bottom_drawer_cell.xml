@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/cell_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginEnd="40dp"
@@ -42,7 +42,6 @@
         android:text="@string/azure_communication_ui_calling_audio_device_drawer_android"
         android:textColor="@color/azure_communication_ui_calling_toggle_selector"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -60,6 +59,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/azure_communication_ui_calling_toggle_selector"
+        />
+
+    <TextView
+        android:id="@+id/cell_additional_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:visibility="gone"
+        android:singleLine="true"
+        android:text="@string/azure_communication_ui_calling_remote_participant_on_hold"
+        android:textColor="@color/azure_communication_ui_calling_color_participant_list_mute_mic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <ImageView

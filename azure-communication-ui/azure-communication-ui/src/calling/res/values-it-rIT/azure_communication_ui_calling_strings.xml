@@ -11,7 +11,7 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">Passa alla fotocamera anteriore</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Passa alla videocamera posteriore</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Seleziona dispositivo audio %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s dispositivo audio, selezionato</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Partecipazione alla chiamata…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video disattivato</string>
@@ -26,12 +26,18 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Autorizzazioni necessarie</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Selezionato</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Imposta sfumatura</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Pulsante Gira fotocamera</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Gira fotocamera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configura</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">In attesa dell\'organizzatore</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">A breve qualcuno nella riunione ti farà partecipare</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
+    <string name="azure_communication_ui_calling_resume">Resume</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
+    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">In attesa di altri partecipanti</string>
@@ -42,13 +48,13 @@
     <string name="azure_communication_ui_calling_view_leave_call">Abbandona la chiamata?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Abbandona</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Annulla</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">Tocca due volte per chiudere il menu Conferma uscita</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Apri elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Tocca due volte per chiudere l\'elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Notifiche disattivate</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Microfono riattivato</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Disconnetti</string>
     <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Pulsante Chiudi</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Pulsante Chiudi</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Attiva/disattiva video</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Attiva/Disattiva audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opzioni dispositivo</string>
@@ -85,7 +91,7 @@
     <string name="azure_communication_ui_calling_service_notification_message">Tocca per tornare alla chiamata</string>
 
     <!--    Accessibility Hooks -->
-    <string name="azure_communication_ui_calling_accessibility_user_added">%1$s ha partecipato alla riunione</string>
+    <string name="azure_communication_ui_calling_accessibility_user_added">%1$s partecipa alla riunione</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s ha abbandonato la riunione</string>
-    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Hai partecipato alla chiamata</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Partecipi alla chiamata</string>
 </resources>

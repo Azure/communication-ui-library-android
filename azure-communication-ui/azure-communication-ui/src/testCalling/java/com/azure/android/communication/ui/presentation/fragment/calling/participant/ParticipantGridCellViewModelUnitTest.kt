@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -185,6 +186,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
 
     private fun getParticipantGridViewModel() = ParticipantGridViewModel(
         ParticipantGridCellViewModelFactory(),
+        6
     )
 
     @ExperimentalCoroutinesApi
@@ -206,6 +208,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
                 modifiedTimestamp = 456,
+                participantStatus = null,
             )
 
             val flowJobDisplayName = launch {
@@ -259,6 +262,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
                 modifiedTimestamp = 456,
+                participantStatus = null,
             )
 
             val flowJobDisplayName = launch {
@@ -306,6 +310,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
                 modifiedTimestamp = 456,
+                participantStatus = null,
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -381,6 +386,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 456,
+                participantStatus = null,
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -464,6 +470,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
                 modifiedTimestamp = 456,
+                participantStatus = null,
             )
 
             val flowJobDisplayName = launch {
@@ -527,6 +534,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
         userIdentifier,
         isMuted,
         isSpeaking,
+        ParticipantStatus.CONNECTED,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,
         modifiedTimestamp,

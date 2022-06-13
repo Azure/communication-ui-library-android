@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist
 
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +30,8 @@ internal class ParticipantListViewModel {
     fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
         (localParticipantListCellStateFlow.value.displayName.trim() + " " + suffix).trim(),
         localParticipantListCellStateFlow.value.isMuted,
-        ""
+        "",
+        false
     )
 
     fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
@@ -66,12 +68,13 @@ internal class ParticipantListViewModel {
         return ParticipantListCellModel(
             localUserDisplayName ?: "",
             localUserState.audioState.operation == AudioOperationalStatus.OFF,
-            ""
+            "",
+            false
         )
     }
 
     private fun getRemoteParticipantListCellModel(it: ParticipantInfoModel): ParticipantListCellModel {
-        return ParticipantListCellModel(it.displayName.trim(), it.isMuted, it.userIdentifier)
+        return ParticipantListCellModel(it.displayName.trim(), it.isMuted, it.userIdentifier, it.participantStatus == ParticipantStatus.HOLD)
     }
 }
 
@@ -79,4 +82,5 @@ internal data class ParticipantListCellModel(
     val displayName: String,
     val isMuted: Boolean,
     val userIdentifier: String,
+    val isOnHold: Boolean,
 )

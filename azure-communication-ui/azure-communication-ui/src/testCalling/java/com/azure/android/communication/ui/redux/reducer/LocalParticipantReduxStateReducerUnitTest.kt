@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.redux.reducer
 
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorCode
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducerImpl
@@ -128,7 +128,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         )
         val error =
             CallCompositeError(
-                CommunicationUIErrorCode.TURN_CAMERA_ON_FAILED,
+                ErrorCode.TURN_CAMERA_ON_FAILED,
                 Throwable("CameraOn has failed")
             )
         val action = LocalParticipantAction.CameraOnFailed(error)
@@ -220,7 +220,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             null
         )
         val error = CallCompositeError(
-            CommunicationUIErrorCode.TURN_CAMERA_OFF_FAILED,
+            ErrorCode.TURN_CAMERA_OFF_FAILED,
             Throwable("CameraOff failed")
         )
         val action = LocalParticipantAction.CameraOffFailed(error)
@@ -342,7 +342,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         )
         val error =
             CallCompositeError(
-                CommunicationUIErrorCode.TURN_CAMERA_ON_FAILED,
+                ErrorCode.TURN_CAMERA_ON_FAILED,
                 Throwable("CameraOn has failed")
             )
         val action = LocalParticipantAction.CameraPreviewOnFailed(error)
@@ -527,7 +527,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         )
 
         val error = CallCompositeError(
-            CommunicationUIErrorCode.SWITCH_CAMERA_FAILED,
+            ErrorCode.SWITCH_CAMERA_FAILED,
             Throwable("CameraSwitch failed")
         )
         val previousCameraState = CameraDeviceSelectionStatus.FRONT
@@ -620,7 +620,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             displayName = null
         )
         val error =
-            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_ON_FAILED, Throwable("MicOn failed"))
+            CallCompositeError(ErrorCode.TURN_MIC_ON_FAILED, Throwable("MicOn failed"))
         val action = LocalParticipantAction.MicOnFailed(error)
 
         // act
@@ -679,7 +679,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             displayName = null
         )
         val error =
-            CallCompositeError(CommunicationUIErrorCode.TURN_MIC_OFF_FAILED, Throwable("Mic OFF failed"))
+            CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, Throwable("Mic OFF failed"))
         val action = LocalParticipantAction.MicOffFailed(error)
 
         // act

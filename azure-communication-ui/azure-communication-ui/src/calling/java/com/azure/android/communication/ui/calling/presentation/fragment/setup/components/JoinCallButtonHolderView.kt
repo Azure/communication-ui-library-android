@@ -54,11 +54,8 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getJoinCallButtonEnabledFlow().collect {
-                setupJoinCallButton.isEnabled = it
-                setupJoinCallButtonText.isEnabled = it
+                onJoinCallEnabledChanged(it)
             }
-
-            viewModel.getJoinCallButtonEnabledFlow().collect { onJoinCallEnabledChanged(it) }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisableJoinCallButtonFlow().collect { onDisableJoinCallButtonChanged(it) }

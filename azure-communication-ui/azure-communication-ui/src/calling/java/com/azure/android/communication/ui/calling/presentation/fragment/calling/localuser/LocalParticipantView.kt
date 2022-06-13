@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +31,7 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var videoViewManager: VideoViewManager
     private lateinit var localParticipantFullCameraHolder: ConstraintLayout
     private lateinit var localParticipantPip: ConstraintLayout
+    private lateinit var localPipWrapper: ConstraintLayout
     private lateinit var localParticipantPipCameraHolder: ConstraintLayout
     private lateinit var switchCameraButton: ImageView
     private lateinit var pipSwitchCameraButton: ConstraintLayout
@@ -38,6 +40,8 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var pipAvatar: AvatarView
     private lateinit var displayNameText: TextView
     private lateinit var micImage: ImageView
+    private lateinit var dragTouchListener: DragTouchListener
+    private lateinit var accessibilityManager: AccessibilityManager
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -45,6 +49,7 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_full_video_holder)
         localParticipantPip =
             findViewById(R.id.azure_communication_ui_call_local_pip)
+        localPipWrapper = findViewById(R.id.azure_communication_ui_call_local_pip_wrapper)
         localParticipantPipCameraHolder =
             findViewById(R.id.azure_communication_ui_call_local_pip_video_holder)
         switchCameraButton =
@@ -65,6 +70,7 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_mic_indicator)
         switchCameraButton.setOnClickListener { viewModel.switchCamera() }
         pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
+        dragTouchListener = DragTouchListener()
     }
 
     fun stop() {
@@ -101,7 +107,7 @@ internal class LocalParticipantView : ConstraintLayout {
                     avatar.name = it
                     pipAvatar.name = it
                     displayNameText.text = it
-                    avatarViewManager.localSettings?.participantViewData?.let { participantViewData ->
+                    avatarViewManager.callCompositeLocalOptions?.participantViewData?.let { participantViewData ->
                         participantViewData.avatarBitmap?.let { image ->
                             avatar.avatarImageBitmap = image
                             avatar.adjustViewBounds = true
@@ -110,7 +116,7 @@ internal class LocalParticipantView : ConstraintLayout {
                             pipAvatar.adjustViewBounds = true
                             pipAvatar.scaleType = participantViewData.scaleType
                         }
-                        participantViewData.renderedDisplayName?.let { name ->
+                        participantViewData.displayName?.let { name ->
                             avatar.name = name
                             pipAvatar.name = name
                             displayNameText.text = name
@@ -150,8 +156,8 @@ internal class LocalParticipantView : ConstraintLayout {
                 listOf(switchCameraButton, pipSwitchCameraButton).forEach {
                     it.contentDescription = context.getString(
                         when (cameraDeviceSelectionStatus) {
-                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_calling_switch_camera_button_back
-                            else -> R.string.azure_communication_ui_calling_switch_camera_button_front
+                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_calling_switch_camera_button_front
+                            else -> R.string.azure_communication_ui_calling_switch_camera_button_back
                         }
                     )
                 }
@@ -173,9 +179,22 @@ internal class LocalParticipantView : ConstraintLayout {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getNumberOfRemoteParticipantsFlow().collect {
+                if (!accessibilityManager.isEnabled && it >= 1) {
+                    dragTouchListener.setView(localPipWrapper)
+                    localPipWrapper.setOnTouchListener(dragTouchListener)
+                } else {
+                    localPipWrapper.setOnTouchListener(null)
+                }
+            }
+        }
     }
 
     private fun setupAccessibility() {
+        accessibilityManager =
+            context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         switchCameraButton.contentDescription =
             context.getString(R.string.azure_communication_ui_calling_button_switch_camera_accessibility_label)
     }

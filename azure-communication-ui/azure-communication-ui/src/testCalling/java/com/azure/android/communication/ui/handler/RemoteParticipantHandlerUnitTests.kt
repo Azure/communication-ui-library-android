@@ -6,10 +6,10 @@ package com.azure.android.communication.ui.handler
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.CallingEventHandler
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
@@ -43,7 +43,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection>()
 
@@ -94,7 +94,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -105,7 +106,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifier = CommunicationUserIdentifier("test")
 
@@ -172,7 +173,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -191,7 +193,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -202,7 +205,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -279,7 +282,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -298,7 +302,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -309,7 +314,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -390,7 +395,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -409,7 +415,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -428,7 +435,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -479,7 +487,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                         Pair(
@@ -498,7 +507,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         )
                     ),
@@ -509,7 +519,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -588,7 +598,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567
+                                speakingTimestamp = 567,
+                                participantStatus = null,
                             )
                         ),
                     ),
@@ -604,7 +615,10 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(any())
-            verify(mockRemoteParticipantsConfigurationHandler, times(1)).onRemoveParticipantViewData(
+            verify(
+                mockRemoteParticipantsConfigurationHandler,
+                times(1)
+            ).onRemoveParticipantViewData(
                 argThat { identifier ->
                     identifier == "test"
                 }

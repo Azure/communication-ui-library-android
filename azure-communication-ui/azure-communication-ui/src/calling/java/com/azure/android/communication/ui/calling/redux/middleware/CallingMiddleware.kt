@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
@@ -56,8 +57,20 @@ internal class CallingMiddlewareImpl(
                 is LocalParticipantAction.MicOffTriggered -> {
                     callingMiddlewareActionHandler.turnMicOff(store)
                 }
+                is AudioSessionAction.AudioFocusApproved -> {
+                    store.dispatch(CallingAction.ResumeRequested())
+                }
+                is AudioSessionAction.AudioFocusInterrupted -> {
+                    store.dispatch(CallingAction.HoldRequested())
+                }
                 is LocalParticipantAction.MicOnTriggered -> {
                     callingMiddlewareActionHandler.turnMicOn(store)
+                }
+                is CallingAction.HoldRequested -> {
+                    callingMiddlewareActionHandler.hold(store)
+                }
+                is CallingAction.ResumeRequested -> {
+                    callingMiddlewareActionHandler.resume(store)
                 }
                 is CallingAction.CallEndRequested -> {
                     callingMiddlewareActionHandler.endCall(store)

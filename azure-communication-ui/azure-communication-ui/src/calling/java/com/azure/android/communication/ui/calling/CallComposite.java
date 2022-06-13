@@ -8,17 +8,18 @@ import android.content.Intent;
 
 
 import com.azure.android.communication.common.CommunicationIdentifier;
-import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
-import com.azure.android.communication.ui.calling.models.LocalSettings;
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent;
-import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent;
-import com.azure.android.communication.ui.calling.models.GroupCallOptions;
-import com.azure.android.communication.ui.calling.models.TeamsMeetingOptions;
-import com.azure.android.communication.ui.calling.models.ParticipantViewData;
-import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult;
+import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
+import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 
 import java.util.UUID;
@@ -32,7 +33,7 @@ import java.util.UUID;
  *
  * &#47;&#47; Initialize the call composite builder
  * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
- *     .theme&#40;new ThemeConfiguration&#40;themeId&#41;&#41;
+ *     .theme&#40;themeId&#41;
  *     .localization&#40;new LocalizationConfiguration&#40;Locale.CHINESE, LayoutDirection.RTL&#41;&#41;;
  *
  * &#47;&#47; Build the call composite
@@ -44,7 +45,7 @@ import java.util.UUID;
  */
 public final class CallComposite {
 
-    // Each time we launch, an InstanceID will be assigned and incremented.
+    // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
@@ -60,27 +61,24 @@ public final class CallComposite {
      *
      * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
      *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
-     * final CommunicationTokenCredential communicationTokenCredential =
+     * final CommunicationTokenCredential credential =
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
-     * final GroupCallOptions groupCallOptions =
-     *                 new GroupCallOptions&#40;context, communicationTokenCredential, groupId, displayName&#41;;
-     * callComposite.launch&#40;groupCallOptions&#41;;
+     * final CallCompositeJoinLocator locator =
+     *                 new CallCompositeGroupCallLocator&#40;UUID&#41;;
+     * final CallCompositeJoinLocator locator =
+     *                 new CallCompositeTeamsMeetingLinkLocator&#40;URL&#41;;
+     * final CallCompositeRemoteOptions remoteOptions =
+     *                 new CallCompositeRemoteOptions&#40;locator, credential, displayName&#41;;
+     * callComposite.launch&#40;context, groupCallOptions&#41;;
      *
      * </pre>
      *
      * @param context          The android context used to start the Composite.
-     * @param groupCallOptions The {@link GroupCallOptions} has parameters to
-     *                         launch group call experience.
+     * @param remoteOptions    The {@link CallCompositeRemoteOptions} has remote parameters to
+     *                         launch call experience.
      */
-    public void launch(final Context context, final GroupCallOptions groupCallOptions) {
-        launch(
-                context,
-                groupCallOptions.getCredential(),
-                groupCallOptions.getDisplayName(),
-                groupCallOptions.getGroupId(),
-                null,
-                CallType.GROUP_CALL
-        );
+    public void launch(final Context context, final CallCompositeRemoteOptions remoteOptions) {
+        launch(context, remoteOptions, null);
     }
 
     /**
@@ -90,112 +88,75 @@ public final class CallComposite {
      *
      * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
      *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
-     * final CommunicationTokenCredential communicationTokenCredential =
+     * final CommunicationTokenCredential credential =
      *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
-     * final GroupCallOptions groupCallOptions =
-     *                 new GroupCallOptions&#40;context, communicationTokenCredential, groupId, displayName&#41;;
-     * final LocalSettings localSettings =
-     *                 new LocalSettings&#40;participantViewData&#41;;
-     * callComposite.launch&#40;groupCallOptions, localSettings&#41;;
+     * final CallCompositeJoinLocator locator =
+     *                 new CallCompositeGroupCallLocator&#40;UUID&#41;;
+     * final CallCompositeJoinLocator locator =
+     *                 new CallCompositeTeamsMeetingLinkLocator&#40;URL&#41;;
+     * final CallCompositeRemoteOptions remoteOptions =
+     *                 new CallCompositeRemoteOptions&#40;locator, credential, displayName&#41;;
+     * callComposite.launch&#40;context, groupCallOptions&#41;;
+     * final CallCompositeLocalOptions localOptions =
+     *                 new CallCompositeLocalOptions&#40;participantViewData&#41;;
+     * callComposite.launch&#40;context, groupCallOptions, localOptions&#41;;
      *
      * </pre>
      *
-     * @param context                         The android context used to start the Composite.
-     * @param groupCallOptions                The {@link GroupCallOptions} has parameters to
-     *                                        launch group call experience.
-     * @param localSettings The {@link LocalSettings} has parameters to
-     *                                        launch group call experience.
+     * @param context           The android context used to start the Composite.
+     * @param remoteOptions     The {@link CallCompositeRemoteOptions} has remote parameters to
+     *                              launch group call experience.
+     * @param localOptions      The {@link CallCompositeLocalOptions} has local parameters to
+     *                              launch group call experience.
      */
     public void launch(final Context context,
-                       final GroupCallOptions groupCallOptions,
-                       final LocalSettings localSettings) {
-        launch(
-                context,
-                groupCallOptions.getCredential(),
-                groupCallOptions.getDisplayName(),
-                groupCallOptions.getGroupId(),
-                null,
-                CallType.GROUP_CALL,
-                localSettings
-        );
+                       final CallCompositeRemoteOptions remoteOptions,
+                       final CallCompositeLocalOptions localOptions) {
+
+        UUID groupId = null;
+        String meetingLink = null;
+        final CallType callType;
+
+        final CallCompositeJoinLocator locator = remoteOptions.getLocator();
+        if (locator instanceof CallCompositeGroupCallLocator) {
+            callType = CallType.GROUP_CALL;
+            groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+        } else {
+            callType = CallType.TEAMS_MEETING;
+            meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+        }
+
+        configuration.setCallConfig(new CallConfiguration(
+                remoteOptions.getCredential(),
+                remoteOptions.getDisplayName(),
+                groupId,
+                meetingLink,
+                callType));
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+        }
+
+        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
+
+        final Intent intent = new Intent(context, CallCompositeActivity.class);
+        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
+        context.startActivity(intent);
+
     }
 
     /**
-     * Launch Teams meeting call composite.
+     * Set {@link CallCompositeEventHandler}.
      *
-     * <pre>
-     *
-     * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
-     *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
-     * final CommunicationTokenCredential communicationTokenCredential =
-     *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
-     * final TeamsMeetingOptions teamsMeetingOptions =
-     *                 new TeamsMeetingOptions&#40;context, communicationTokenCredential, meetingLink, displayName&#41;;
-     * callComposite.launch&#40;teamsMeetingOptions&#41;;
-     *
-     * </pre>
-     *
-     * @param context             The android context used to start the Composite.
-     * @param teamsMeetingOptions The {@link TeamsMeetingOptions} has parameters to
-     *                            launch Teams meeting experience.
-     */
-    public void launch(final Context context, final TeamsMeetingOptions teamsMeetingOptions) {
-        launch(
-                context,
-                teamsMeetingOptions.getCredential(),
-                teamsMeetingOptions.getDisplayName(),
-                null,
-                teamsMeetingOptions.getMeetingLink(),
-                CallType.TEAMS_MEETING
-        );
-    }
-
-    /**
-     * Launch Teams meeting call composite.
-     *
-     * <pre>
-     *
-     * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
-     *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
-     * final CommunicationTokenCredential communicationTokenCredential =
-     *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
-     * final TeamsMeetingOptions teamsMeetingOptions =
-     *                 new TeamsMeetingOptions&#40;context, communicationTokenCredential, meetingLink, displayName&#41;;
-     * final LocalSettings localSettings =
-     *                 new LocalSettings&#40;participantViewData&#41;;
-     * callComposite.launch&#40;teamsMeetingOptions, localSettings&#41;;
-     *
-     * </pre>
-     *
-     * @param context                         The android context used to start the Composite.
-     * @param teamsMeetingOptions             The {@link TeamsMeetingOptions} has parameters to
-     *                                        launch Teams meeting experience.
-     * @param localSettings The {@link LocalSettings} has parameters to
-     *                                        launch group call experience.
-     */
-    public void launch(final Context context,
-                       final TeamsMeetingOptions teamsMeetingOptions,
-                       final LocalSettings localSettings) {
-        launch(
-                context,
-                teamsMeetingOptions.getCredential(),
-                teamsMeetingOptions.getDisplayName(),
-                null,
-                teamsMeetingOptions.getMeetingLink(),
-                CallType.TEAMS_MEETING,
-                localSettings);
-    }
-
-    /**
-     * Set {@link CallingEventHandler}.
-     *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
      * <pre>
      *
      * &#47;&#47; set error handler
-     * callComposite.setOnErrorHandler&#40;eventHandler -> {
+     * callComposite.setOnErrorHandler&#40;event -> {
      *     &#47;&#47; Process error event
-     *     System.out.println&#40;eventHandler.getCause&#40;&#41;&#41;;
-     *     System.out.println&#40;eventHandler.getErrorCode&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
      * }&#41;;
      *
      *
@@ -204,19 +165,19 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param errorHandler The {@link CallingEventHandler}.
+     * @param errorHandler The {@link CallCompositeEventHandler}.
      */
-    public void setOnErrorHandler(final CallingEventHandler<CommunicationUIErrorEvent> errorHandler) {
+    public void setOnErrorHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
         configuration.getCallCompositeEventsHandler().setOnErrorHandler(errorHandler);
     }
 
     /**
-     * Set {@link CallingEventHandler}.
+     * Set {@link CallCompositeEventHandler}.
      *
      * <pre>
      *
      * &#47;&#47; set remote participant joined handler
-     * callComposite.setOnRemoteParticipantJoinedHandler&#40;eventHandler -> {
+     * callComposite.setOnRemoteParticipantJoinedHandler&#40;event -> {
      *     &#47;&#47; Use call composite to set configurations for remote participant
      * }&#41;;
      *
@@ -226,70 +187,32 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param eventHandler The {@link CallingEventHandler}.
+     * @param eventHandler The {@link CallCompositeEventHandler}.
      */
     public void setOnRemoteParticipantJoinedHandler(
-            final CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent> eventHandler) {
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().setOnRemoteParticipantJoinedHandler(eventHandler);
     }
 
     /**
-     * Set {@link ParticipantViewData}.
+     * Set {@link CallCompositeParticipantViewData}.
+     *
+     * <p>
+     *     Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
+     * </p>
+     * <p>
+     *     This should be called from {@link #setOnRemoteParticipantJoinedHandler(CallCompositeEventHandler)}
+     *     to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
+     *     Participants view data.
+     * </p>
      *
      * @param identifier  The {@link CommunicationIdentifier}.
-     * @param participantViewData The {@link ParticipantViewData}.
-     * @return {@link SetParticipantViewDataResult}
+     * @param participantViewData The {@link CallCompositeParticipantViewData}.
+     * @return {@link CallCompositeSetParticipantViewDataResult}.
      */
-    public SetParticipantViewDataResult setRemoteParticipantViewData(
-            final CommunicationIdentifier identifier, final ParticipantViewData participantViewData) {
+    public CallCompositeSetParticipantViewDataResult setRemoteParticipantViewData(
+            final CommunicationIdentifier identifier, final CallCompositeParticipantViewData participantViewData) {
         return configuration.getRemoteParticipantsConfiguration()
                 .setParticipantViewData(identifier, participantViewData);
-    }
-
-    private void launch(
-            final Context context,
-            final CommunicationTokenCredential communicationTokenCredential,
-            final String displayName,
-            final UUID groupId,
-            final String meetingLink,
-            final CallType callType
-    ) {
-        configuration.setCallConfig(new CallConfiguration(
-                communicationTokenCredential,
-                displayName,
-                groupId,
-                meetingLink,
-                callType));
-
-        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
-
-        final Intent intent = new Intent(context, CallCompositeActivity.class);
-        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
-        context.startActivity(intent);
-    }
-
-    private void launch(
-            final Context context,
-            final CommunicationTokenCredential communicationTokenCredential,
-            final String displayName,
-            final UUID groupId,
-            final String meetingLink,
-            final CallType callType,
-            final LocalSettings localSettings
-    ) {
-        configuration.setCallConfig(new CallConfiguration(
-                communicationTokenCredential,
-                displayName,
-                groupId,
-                meetingLink,
-                callType));
-
-        configuration.setLocalSettings(localSettings);
-
-        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
-
-        final Intent intent = new Intent(context, CallCompositeActivity.class);
-        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
-        context.startActivity(intent);
     }
 }

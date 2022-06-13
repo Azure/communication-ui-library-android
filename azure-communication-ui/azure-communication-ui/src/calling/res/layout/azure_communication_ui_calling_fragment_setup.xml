@@ -24,7 +24,7 @@
         android:backgroundTint="@color/azure_communication_ui_calling_color_surface"
         android:clickable="true"
         android:focusableInTouchMode="true"
-        app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_holder"
+        app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_join_call_holder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -114,6 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             >
+
             <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupButton
                 android:id="@+id/azure_communication_ui_setup_camera_button"
                 style="@style/Widget.FluentUI.Button.Borderless"
@@ -125,8 +126,8 @@
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/azure_communication_ui_calling_toggle_selector"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:gravity="center|top"
+                android:maxLines="2"
                 android:text="@string/azure_communication_ui_calling_setup_view_button_video_off"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_calling_toggle_selector"
@@ -144,8 +145,8 @@
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/azure_communication_ui_calling_toggle_selector"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:gravity="center|top"
+                android:maxLines="2"
                 android:text="@string/azure_communication_ui_calling_setup_view_button_mic_off"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_calling_toggle_selector"
@@ -163,8 +164,8 @@
                 android:drawablePadding="5dp"
                 android:drawableTint="@color/azure_communication_ui_calling_toggle_selector"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:gravity="center|top"
+                android:maxLines="2"
                 android:text="@string/azure_communication_ui_calling_audio_device_drawer_speaker"
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_calling_toggle_selector"
@@ -174,7 +175,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView
-        android:id="@+id/azure_communication_ui_setup_holder"
+        android:id="@+id/azure_communication_ui_setup_join_call_holder"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginBottom="13dp"
@@ -221,7 +222,6 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -254,8 +254,11 @@
                 android:gravity="center"
                 android:stateListAnimator="@null"
                 android:text="@string/azure_communication_ui_calling_setup_view_button_connecting_call"
+                android:contentDescription="@string/azure_communication_ui_calling_setup_view_button_connecting_call"
                 android:textColor="@color/azure_communication_ui_calling_color_text_primary"
                 android:visibility="gone"
+                android:importantForAccessibility="yes"
+                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
