@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_leave_call">Aramadan ayrıl?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Ayrıl</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">İptal</string>
-    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Leave confirm menu</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Onayla menüsünden ayrıl</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Katılımcı Listesini Aç</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Katılımcı listesini kapatmak için iki kez dokunun</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Sessize alınmış</string>
