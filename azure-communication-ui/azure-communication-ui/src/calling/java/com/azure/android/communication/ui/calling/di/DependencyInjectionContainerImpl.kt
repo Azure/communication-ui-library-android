@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.Lifecycle
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
-import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
+import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddleware
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.*
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
@@ -141,10 +141,10 @@ internal class DependencyInjectionContainerImpl(
     private val audioSessionReducer get() = AudioSessionReducer()
 
     private val callingMiddleware: Middleware<ReduxState> by lazy {
-        CallingMiddlewareImpl(
+        CallingMiddleware(
             callingMiddlewareActionHandler,
             logger
-        )
+        ).middleware
     }
 
     private val appReduxStateReducer: Reducer<ReduxState> by lazy {
