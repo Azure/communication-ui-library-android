@@ -81,14 +81,10 @@ internal class AudioSessionManager(
         if (activity !is LifecycleOwner) {
             throw IllegalArgumentException("Activity must be a LifecycleOwner)")
         }
-        (activity as LifecycleOwner).lifecycle.coroutineScope.launch {
-            // On first launch we need to init the redux-state, check Bluetooth and Headset status
-
-            store.subscribe {
-                onStateChanged()
-            }
+        store.subscribe {
             onStateChanged()
         }
+        onStateChanged()
     }
 
     private fun onStateChanged() {
@@ -183,12 +179,14 @@ internal class AudioSessionManager(
         }
 
         // Update the Bluetooth Status in the store
-        store.dispatch(
-            LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
-                isBluetoothScoAvailable,
-                bluetoothDeviceName
+        if (store.state.localParticipantState.audioState.bluetoothState.available != isBluetoothScoAvailable) {
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+                    isBluetoothScoAvailable,
+                    bluetoothDeviceName
+                )
             )
-        )
+        }
     }
 
     private fun isHeadsetActive(): Boolean {

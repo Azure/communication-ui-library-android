@@ -23,7 +23,7 @@ internal class CallingMiddleware(
     private val logger: Logger,
 ) {
 
-    val middleware = middleware<ReduxState>{ store, next, action -> {
+    val middleware = middleware<ReduxState>{ store, next, action ->
                  logger.info(action.toString())
             when (action) {
                 is LifecycleAction.EnterBackgroundTriggered -> {
@@ -85,6 +85,6 @@ internal class CallingMiddleware(
                 }
             }
             next(action)
-        }
+
     }
 }
