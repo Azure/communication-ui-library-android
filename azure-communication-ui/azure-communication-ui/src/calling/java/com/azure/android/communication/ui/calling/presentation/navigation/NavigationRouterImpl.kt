@@ -18,8 +18,14 @@ internal class NavigationRouterImpl(private val store: Store<ReduxState>) : Navi
 
     override fun start() {
         unsubscribe = store.subscribe {
-            navigationFlow.value = store.state.navigationState.navigationState
+            updateNavState()
         }
+        updateNavState()
+
+    }
+
+    private fun updateNavState() {
+        navigationFlow.value = store.state.navigationState.navigationState
     }
 
     override fun getNavigationStateFlow(): StateFlow<NavigationStatus> {
