@@ -26,7 +26,7 @@ internal class PermissionManager(
 
     private val audioPermission by lazy { getPermissionsList() }
 
-    suspend fun start(
+    fun start(
         activity: Activity,
         audioPermissionLauncher: ActivityResultLauncher<Array<String>>,
         cameraPermissionLauncher: ActivityResultLauncher<String>,
@@ -35,12 +35,17 @@ internal class PermissionManager(
         this.audioPermissionLauncher = audioPermissionLauncher
         this.cameraPermissionLauncher = cameraPermissionLauncher
         store.subscribe {
-            val it = store.state
-            if (previousPermissionState == null || previousPermissionState != it.permissionState) {
-                onPermissionStateChange(it.permissionState)
-            }
-            previousPermissionState = it.permissionState
+            onStateChanged()
         }
+        onStateChanged()
+    }
+
+    private fun onStateChanged() {
+        val it = store.state
+        if (previousPermissionState == null || previousPermissionState != it.permissionState) {
+            onPermissionStateChange(it.permissionState)
+        }
+        previousPermissionState = it.permissionState
     }
 
     private fun createAudioPermissionRequest() {

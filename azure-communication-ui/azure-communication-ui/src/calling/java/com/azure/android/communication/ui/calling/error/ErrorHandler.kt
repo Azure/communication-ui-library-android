@@ -23,10 +23,11 @@ internal class ErrorHandler(
     private var lastFatalError: FatalError? = null
     private var lastCallStateError: CallStateError? = null
 
-    suspend fun start() {
+    fun start() {
         store.subscribe {
             onStateChanged(store.state)
         }
+        onStateChanged(store.state)
     }
 
     private fun onStateChanged(state: ReduxState) {

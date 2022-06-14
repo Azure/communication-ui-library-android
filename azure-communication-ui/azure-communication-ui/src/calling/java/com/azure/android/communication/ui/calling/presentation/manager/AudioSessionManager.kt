@@ -85,24 +85,29 @@ internal class AudioSessionManager(
             // On first launch we need to init the redux-state, check Bluetooth and Headset status
 
             store.subscribe {
-                val it = store.state
-                if (previousAudioDeviceSelectionStatus == null ||
-                    previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
-                ) {
-                    onAudioDeviceStateChange(it.localParticipantState.audioState.device)
-                }
-
-                // After permission is granted, double check bluetooth status
-                if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
-                    previousPermissionState != PermissionStatus.GRANTED
-                ) {
-                    updateBluetoothStatus()
-                }
-
-                previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
-                previousPermissionState = it.permissionState.audioPermissionState
+                onStateChanged()
             }
+            onStateChanged()
         }
+    }
+
+    private fun onStateChanged() {
+        val it = store.state
+        if (previousAudioDeviceSelectionStatus == null ||
+            previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
+        ) {
+            onAudioDeviceStateChange(it.localParticipantState.audioState.device)
+        }
+
+        // After permission is granted, double check bluetooth status
+        if (it.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
+            previousPermissionState != PermissionStatus.GRANTED
+        ) {
+            updateBluetoothStatus()
+        }
+
+        previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
+        previousPermissionState = it.permissionState.audioPermissionState
     }
 
     // Call when the Activity is finishing (i.e. call is done)

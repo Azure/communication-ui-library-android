@@ -21,7 +21,11 @@ internal class NavigationRouterImpl(private val store: Store<ReduxState>) : Navi
             updateNavState()
         }
         updateNavState()
+    }
 
+    override fun stop() {
+        unsubscribe?.invoke()
+        unsubscribe = null
     }
 
     private fun updateNavState() {

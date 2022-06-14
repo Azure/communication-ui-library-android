@@ -22,6 +22,7 @@ internal class RemoteParticipantHandler(
         store.subscribe {
             onStateChanged(store.state.remoteParticipantState)
         }
+        onStateChanged(store.state.remoteParticipantState)
     }
 
     private fun onStateChanged(remoteParticipantsState: RemoteParticipantsState) {

@@ -18,6 +18,7 @@ internal abstract class BaseViewModel constructor(
         store.subscribe {
             onStateChange(store.state)
         }
+        onStateChange(store.state)
     }
 
     protected abstract fun onStateChange(state: ReduxState)

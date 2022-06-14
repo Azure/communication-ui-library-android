@@ -25,19 +25,24 @@ internal class AccessibilityAnnouncementManager(
 
     private lateinit var lastState: ReduxState
 
-    suspend fun start(activity: Activity) {
+    fun start(activity: Activity) {
         lastState = store.state
         store.subscribe {
-            accessibilityHooks.forEach {
-                if (it.shouldTrigger(lastState, store.state)) {
-                    val message = it.message(lastState, store.state, activity)
-                    if (message.isNotBlank()) {
-                        announce(activity, message)
-                    }
+            onStateChanged(activity)
+        }
+        onStateChanged(activity)
+    }
+
+    private fun onStateChanged(activity: Activity) {
+        accessibilityHooks.forEach {
+            if (it.shouldTrigger(lastState, store.state)) {
+                val message = it.message(lastState, store.state, activity)
+                if (message.isNotBlank()) {
+                    announce(activity, message)
                 }
             }
-            lastState = store.state
         }
+        lastState = store.state
     }
 
     private fun announce(activity: Activity, message: String) {

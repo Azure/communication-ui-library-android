@@ -90,34 +90,39 @@ internal class AudioFocusManager(
             }
         }
         store.subscribe {
-            if (previousAudioFocusStatus != store.state.audioSessionState.audioFocusStatus) {
-                previousAudioFocusStatus = store.state.audioSessionState.audioFocusStatus
-                if (store.state.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
-                    val mode = audioFocusHandler?.getMode()
-                    if (mode != MODE_NORMAL && store.state.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
-                        store.dispatch(AudioSessionAction.AudioFocusRejected())
-                    } else {
-                        isAudioFocused = audioFocusHandler?.getAudioFocus() == true
-                        if (!isAudioFocused) {
-                            store.dispatch(AudioSessionAction.AudioFocusRejected())
-                        } else {
-                            store.dispatch(AudioSessionAction.AudioFocusApproved())
-                        }
-                    }
-                }
-            } else if (previousCallState != store.state.callState.callingStatus) {
-                previousCallState = store.state.callState.callingStatus
-                if (store.state.callState.callingStatus == CallingStatus.CONNECTED) {
+            onStateChanged()
+        }
+        onStateChanged()
+    }
+
+    private fun onStateChanged() {
+        if (previousAudioFocusStatus != store.state.audioSessionState.audioFocusStatus) {
+            previousAudioFocusStatus = store.state.audioSessionState.audioFocusStatus
+            if (store.state.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+                val mode = audioFocusHandler?.getMode()
+                if (mode != MODE_NORMAL && store.state.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+                    store.dispatch(AudioSessionAction.AudioFocusRejected())
+                } else {
                     isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                     if (!isAudioFocused) {
                         store.dispatch(AudioSessionAction.AudioFocusRejected())
                     } else {
                         store.dispatch(AudioSessionAction.AudioFocusApproved())
                     }
-                } else if (store.state.callState.callingStatus == CallingStatus.DISCONNECTING) {
-                    if (isAudioFocused) {
-                        isAudioFocused = audioFocusHandler?.releaseAudioFocus() == false
-                    }
+                }
+            }
+        } else if (previousCallState != store.state.callState.callingStatus) {
+            previousCallState = store.state.callState.callingStatus
+            if (store.state.callState.callingStatus == CallingStatus.CONNECTED) {
+                isAudioFocused = audioFocusHandler?.getAudioFocus() == true
+                if (!isAudioFocused) {
+                    store.dispatch(AudioSessionAction.AudioFocusRejected())
+                } else {
+                    store.dispatch(AudioSessionAction.AudioFocusApproved())
+                }
+            } else if (store.state.callState.callingStatus == CallingStatus.DISCONNECTING) {
+                if (isAudioFocused) {
+                    isAudioFocused = audioFocusHandler?.releaseAudioFocus() == false
                 }
             }
         }

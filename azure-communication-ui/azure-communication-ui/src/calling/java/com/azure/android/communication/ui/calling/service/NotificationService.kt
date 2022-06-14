@@ -23,8 +23,9 @@ internal class NotificationService(
     fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
             store.subscribe {
-                callingStatus.value = store.state.callState.callingStatus
+                onStateChanged()
             }
+            onStateChanged()
         }
         lifecycleScope.launch {
             callingStatus.collect {
@@ -34,6 +35,10 @@ internal class NotificationService(
                     displayNotification()
             }
         }
+    }
+
+    private fun onStateChanged() {
+        callingStatus.value = store.state.callState.callingStatus
     }
 
     private fun displayNotification() {
