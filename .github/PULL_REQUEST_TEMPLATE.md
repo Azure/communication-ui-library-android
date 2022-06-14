@@ -4,27 +4,25 @@
 
 ## Does this introduce a breaking change?
 <!-- Mark one with an "x". -->
-```
+
 - [ ] Yes
 - [ ] No
-```
 
 ## Pull Request Type
 What kind of change does this Pull Request introduce?
 
 <!-- Please check the one that applies to this PR using "x". -->
-```
 - [ ] Bugfix
 - [ ] Feature
 - [ ] Code style update (formatting, local variables)
 - [ ] Refactoring (no functional changes, no api changes)
 - [ ] Documentation content changes
 - [ ] Other... Please describe:
-```
+
 ## Pull Request Checklist
 
 <!-- Please check that applies to this PR using "x". -->
-```
+
 - [ ] Public API changes
 - [ ] Verified for cross-platform
 - [ ] Synced with iOS, Web team
@@ -41,7 +39,6 @@ What kind of change does this Pull Request introduce?
 - [ ] Tested for background mode
 - [ ] Unit Tests Included
 - [ ] UI Automated Tests Included
-```
 
 ## How to Test
 <!-- Add steps to run the tests suite and/or manually test -->
