@@ -7,6 +7,6 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import kotlinx.coroutines.flow.StateFlow
 
 internal interface NavigationRouter {
-    suspend fun start()
+    fun start()
     fun getNavigationStateFlow(): StateFlow<NavigationStatus>
 }

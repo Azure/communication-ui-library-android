@@ -8,13 +8,16 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.reduxkotlin.Store
+import org.reduxkotlin.StoreSubscription
 
 internal class NavigationRouterImpl(private val store: Store<ReduxState>) : NavigationRouter {
 
+    private var unsubscribe: StoreSubscription? = null
+
     private val navigationFlow = MutableStateFlow(NavigationStatus.NONE)
 
-    override suspend fun start() {
-        store.subscribe {
+    override fun start() {
+        unsubscribe = store.subscribe {
             navigationFlow.value = store.state.navigationState.navigationState
         }
     }
