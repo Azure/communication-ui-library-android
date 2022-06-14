@@ -13,8 +13,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import org.reduxkotlin.Store
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
@@ -27,7 +27,7 @@ internal class CallingViewModelFactory(
     }
 
     private val controlBarViewModel by lazy {
-        ControlBarViewModel(store::dispatch)
+        ControlBarViewModel(store.dispatch)
     }
 
     private val floatingHeaderViewModel by lazy {
@@ -35,16 +35,16 @@ internal class CallingViewModelFactory(
     }
 
     private val audioDeviceListViewModel by lazy {
-        AudioDeviceListViewModel(store::dispatch)
+        AudioDeviceListViewModel(store.dispatch)
     }
 
     private val confirmLeaveOverlayViewModel by lazy {
-        LeaveConfirmViewModel(store::dispatch)
+        LeaveConfirmViewModel(store.dispatch)
     }
 
     private val localParticipantViewModel by lazy {
         LocalParticipantViewModel(
-            store::dispatch,
+            store.dispatch,
         )
     }
 

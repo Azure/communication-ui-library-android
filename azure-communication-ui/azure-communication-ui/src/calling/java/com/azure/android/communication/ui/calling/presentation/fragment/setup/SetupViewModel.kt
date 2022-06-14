@@ -5,11 +5,11 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
+import org.reduxkotlin.Store
 
 internal class SetupViewModel(
     store: Store<ReduxState>,
@@ -46,7 +46,7 @@ internal class SetupViewModel(
     fun getSetupControlsViewModel() = setupControlsViewModel
 
     val displayName: String?
-        get() = store.getCurrentState().localParticipantState.displayName
+        get() = store.state.localParticipantState.displayName
 
     fun setupCall() {
         dispatchAction(action = CallingAction.SetupCall())
@@ -58,7 +58,7 @@ internal class SetupViewModel(
     }
 
     override fun init(coroutineScope: CoroutineScope) {
-        val state = store.getCurrentState()
+        val state = store.state
         warningsViewModel.init(state.permissionState)
         localParticipantRendererViewModel.init(
             state.localParticipantState.videoStreamID,
@@ -88,7 +88,7 @@ internal class SetupViewModel(
         super.init(coroutineScope)
     }
 
-    override suspend fun onStateChange(state: ReduxState) {
+    override fun onStateChange(state: ReduxState) {
         setupControlsViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,

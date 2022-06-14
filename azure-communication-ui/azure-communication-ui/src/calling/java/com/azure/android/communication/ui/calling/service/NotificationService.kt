@@ -6,12 +6,12 @@ package com.azure.android.communication.ui.calling.service
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.reduxkotlin.Store
 
 internal class NotificationService(
     private val context: Context,
@@ -22,8 +22,8 @@ internal class NotificationService(
 
     fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
-            store.getStateFlow().collect {
-                callingStatus.value = it.callState.callingStatus
+            store.subscribe {
+                callingStatus.value = store.state.callState.callingStatus
             }
         }
         lifecycleScope.launch {

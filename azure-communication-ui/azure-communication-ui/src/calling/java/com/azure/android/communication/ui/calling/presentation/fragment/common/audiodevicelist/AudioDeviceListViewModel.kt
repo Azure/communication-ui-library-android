@@ -9,8 +9,9 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Dispatcher
 
-internal class AudioDeviceListViewModel(private val dispatch: (Action) -> Unit) {
+internal class AudioDeviceListViewModel(private val dispatch: Dispatcher) {
 
     private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
 

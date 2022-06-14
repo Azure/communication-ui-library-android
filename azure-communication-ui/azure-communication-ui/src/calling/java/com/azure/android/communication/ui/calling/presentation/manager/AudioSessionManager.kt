@@ -14,7 +14,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -28,6 +27,7 @@ import androidx.lifecycle.coroutineScope
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import org.reduxkotlin.Store
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
@@ -84,7 +84,8 @@ internal class AudioSessionManager(
         (activity as LifecycleOwner).lifecycle.coroutineScope.launch {
             // On first launch we need to init the redux-state, check Bluetooth and Headset status
 
-            store.getStateFlow().collect {
+            store.subscribe {
+                val it = store.state
                 if (previousAudioDeviceSelectionStatus == null ||
                     previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
                 ) {
@@ -139,7 +140,7 @@ internal class AudioSessionManager(
     // When disconnected revert to "Speaker"
     // When disconnected (and not selected), just update availability
     private fun updateBluetoothStatus() {
-        val audioState = store.getCurrentState().localParticipantState.audioState
+        val audioState = store.state.localParticipantState.audioState
 
         // Bluetooth is no longer available
         // Fallback to previous device selection
@@ -168,7 +169,7 @@ internal class AudioSessionManager(
                 )
             )
 
-            priorToBluetoothAudioSelectionStatus = store.getCurrentState().localParticipantState.audioState.device
+            priorToBluetoothAudioSelectionStatus = store.state.localParticipantState.audioState.device
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeRequested(
                     AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED

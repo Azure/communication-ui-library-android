@@ -11,26 +11,26 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarViewModel
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import org.reduxkotlin.Store
 
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
 ) {
     private val audioDeviceListViewModel by lazy {
-        AudioDeviceListViewModel(store::dispatch)
+        AudioDeviceListViewModel(store.dispatch)
     }
 
     private val previewAreaViewModel by lazy {
-        PreviewAreaViewModel(store::dispatch)
+        PreviewAreaViewModel(store.dispatch)
     }
 
     private val setupControlsViewModel by lazy {
-        SetupControlBarViewModel(store::dispatch)
+        SetupControlBarViewModel(store.dispatch)
     }
 
     private val warningsViewModel by lazy {
-        PermissionWarningViewModel(store::dispatch)
+        PermissionWarningViewModel(store.dispatch)
     }
 
     private val snackBarViewModel by lazy {
@@ -46,7 +46,7 @@ internal class SetupViewModelFactory(
     }
 
     private val joinCallButtonHolderViewModel by lazy {
-        JoinCallButtonHolderViewModel(store::dispatch)
+        JoinCallButtonHolderViewModel(store.dispatch)
     }
 
     fun providePreviewAreaViewModel() = previewAreaViewModel

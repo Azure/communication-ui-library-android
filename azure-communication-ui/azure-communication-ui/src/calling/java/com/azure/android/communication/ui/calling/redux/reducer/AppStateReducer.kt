@@ -3,11 +3,14 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
+import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.CallingState
+import org.reduxkotlin.Reducer
 
 internal class AppStateReducer(
-    private val callStateReducer: CallStateReducer,
+    private val callStateReducer: Reducer<CallingState>,
     private val participantStateReducer: ParticipantStateReducer,
     private val deviceStateReducer: LocalParticipantStateReducer,
     private val permissionStateReducer: PermissionStateReducer,
@@ -17,30 +20,31 @@ internal class AppStateReducer(
     private val audioSessionReducer: AudioSessionReducer,
 ) :
     Reducer<AppReduxState> {
-    override fun reduce(state: AppReduxState, action: Action): AppReduxState {
+    override fun invoke(state: AppReduxState, action: Any): AppReduxState {
 
         val appState = AppReduxState(state.localParticipantState.displayName)
 
-        appState.callState = callStateReducer.reduce(
+        appState.callState = callStateReducer.invoke(
             state.callState,
             action
         )
 
-        appState.remoteParticipantState = participantStateReducer.reduce(
+        appState.remoteParticipantState = participantStateReducer.invoke(
             state.remoteParticipantState,
             action
         )
 
-        appState.localParticipantState = deviceStateReducer.reduce(
+        appState.localParticipantState = deviceStateReducer.invoke(
             state.localParticipantState,
             action
         )
 
-        appState.permissionState = permissionStateReducer.reduce(state.permissionState, action)
-        appState.lifecycleState = lifecycleReducer.reduce(state.lifecycleState, action)
-        appState.errorState = errorReducer.reduce(state.errorState, action)
-        appState.navigationState = navigationReducer.reduce(state.navigationState, action)
-        appState.audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action)
+        appState.permissionState = permissionStateReducer.invoke(state.permissionState, action)
+        appState.lifecycleState = lifecycleReducer.invoke(state.lifecycleState, action)
+        appState.errorState = errorReducer.invoke(state.errorState, action)
+        appState.navigationState = navigationReducer.invoke(state.navigationState, action)
+        appState.audioSessionState = audioSessionReducer.invoke(state.audioSessionState, action)
         return appState
     }
+
 }

@@ -10,11 +10,11 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKE
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
+import org.reduxkotlin.Store
 
 internal class ErrorHandler(
     private val configuration: CallCompositeConfiguration,
@@ -24,8 +24,8 @@ internal class ErrorHandler(
     private var lastCallStateError: CallStateError? = null
 
     suspend fun start() {
-        store.getStateFlow().collect {
-            onStateChanged(it)
+        store.subscribe {
+            onStateChanged(store.state)
         }
     }
 

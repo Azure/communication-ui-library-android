@@ -18,8 +18,9 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Dispatcher
 
-internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) {
+internal class SetupControlBarViewModel(private val dispatch: Dispatcher) {
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var micIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var deviceIsEnabledStateFlow: MutableStateFlow<Boolean>

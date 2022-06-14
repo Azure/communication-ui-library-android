@@ -3,13 +3,13 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser
 
-import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Dispatcher
 
 internal enum class LocalParticipantViewMode {
     FULL_SCREEN,
@@ -17,7 +17,7 @@ internal enum class LocalParticipantViewMode {
 }
 
 internal class LocalParticipantViewModel(
-    private val dispatch: (Action) -> Unit,
+    private val dispatch: Dispatcher,
 ) {
     private lateinit var videoStatusFlow: MutableStateFlow<VideoModel>
     private lateinit var displayFullScreenAvatarFlow: MutableStateFlow<Boolean>

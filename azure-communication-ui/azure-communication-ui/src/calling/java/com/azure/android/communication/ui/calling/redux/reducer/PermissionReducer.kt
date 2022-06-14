@@ -3,16 +3,14 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
-import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import org.reduxkotlin.Reducer
 
-internal interface PermissionStateReducer : Reducer<PermissionState>
 
-internal class PermissionStateReducerImpl :
-    PermissionStateReducer {
-    override fun reduce(state: PermissionState, action: Action): PermissionState {
+internal class PermissionStateReducer : Reducer<PermissionState> {
+    override fun invoke(state: PermissionState, action: Any): PermissionState {
         return when (action) {
             is PermissionAction.AudioPermissionIsSet -> {
                 PermissionState(action.permissionState, state.cameraPermissionState)

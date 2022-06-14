@@ -6,11 +6,10 @@ package com.azure.android.communication.ui.calling.handlers
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKRemoteParticipantsCollection
-import kotlinx.coroutines.flow.collect
+import org.reduxkotlin.Store
 
 internal class RemoteParticipantHandler(
     private val configuration: CallCompositeConfiguration,
@@ -19,9 +18,9 @@ internal class RemoteParticipantHandler(
 ) {
     private var lastRemoteParticipantsState: RemoteParticipantsState? = null
 
-    suspend fun start() {
-        store.getStateFlow().collect {
-            onStateChanged(it.remoteParticipantState)
+    fun start() {
+        store.subscribe {
+            onStateChanged(store.state.remoteParticipantState)
         }
     }
 

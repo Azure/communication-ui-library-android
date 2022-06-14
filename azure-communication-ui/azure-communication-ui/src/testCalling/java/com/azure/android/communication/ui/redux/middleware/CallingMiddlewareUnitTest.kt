@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.redux.middleware
 
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction

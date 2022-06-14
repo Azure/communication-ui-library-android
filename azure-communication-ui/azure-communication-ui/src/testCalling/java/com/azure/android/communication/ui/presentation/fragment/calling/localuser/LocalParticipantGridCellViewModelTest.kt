@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.presentation.fragment.calling.localus
 
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewMode
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus

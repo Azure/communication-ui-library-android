@@ -17,20 +17,14 @@ import com.azure.android.communication.ui.calling.presentation.manager.Lifecycle
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
-import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.*
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
-import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.Reducer
+import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducer
+import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducer
+import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducer
+import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
@@ -39,6 +33,7 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHan
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
+import org.reduxkotlin.*
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
@@ -106,12 +101,21 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val appStore by lazy {
-        AppStore(
+        createThreadSafeStore(
+            appReduxStateReducer,
+            initialState,
+            applyMiddleware(
+                callingMiddleware,
+            )
+        )
+
+        /*
+        Store<ReduxState>(
             initialState,
             appReduxStateReducer,
             appMiddleware,
-            storeHandlerThread
-        )
+            storeHandlerThread*/
+
     }
 
     override val notificationService by lazy {
@@ -127,17 +131,14 @@ internal class DependencyInjectionContainerImpl(
     private val initialState by lazy { AppReduxState(configuration.callConfig!!.displayName) }
 
     // Reducers
-    private val callStateReducer get() = CallStateReducerImpl()
-    private val participantStateReducer = ParticipantStateReducerImpl()
-    private val localParticipantStateReducer get() = LocalParticipantStateReducerImpl()
-    private val permissionStateReducer get() = PermissionStateReducerImpl()
-    private val lifecycleReducer get() = LifecycleReducerImpl()
-    private val errorReducer get() = ErrorReducerImpl()
-    private val navigationReducer get() = NavigationReducerImpl()
-    private val audioSessionReducer get() = AudioSessionStateReducerImpl()
-
-    // Middleware
-    private val appMiddleware get() = mutableListOf(callingMiddleware)
+    private val callStateReducer get() = CallStateReducer()
+    private val participantStateReducer = ParticipantStateReducer()
+    private val localParticipantStateReducer get() = LocalParticipantStateReducer()
+    private val permissionStateReducer get() = PermissionStateReducer()
+    private val lifecycleReducer get() = LifecycleReducer()
+    private val errorReducer get() = ErrorReducer()
+    private val navigationReducer get() = NavigationReducer()
+    private val audioSessionReducer get() = AudioSessionReducer()
 
     private val callingMiddleware: Middleware<ReduxState> by lazy {
         CallingMiddlewareImpl(
@@ -185,6 +186,5 @@ internal class DependencyInjectionContainerImpl(
 
     //region Threading
     private val coroutineContextProvider by lazy { CoroutineContextProvider() }
-    private val storeHandlerThread by lazy { StoreHandlerThread() }
     //endregion
 }

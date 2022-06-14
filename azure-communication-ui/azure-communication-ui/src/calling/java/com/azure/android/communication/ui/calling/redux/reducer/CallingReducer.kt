@@ -6,25 +6,26 @@ package com.azure.android.communication.ui.calling.redux.reducer
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
+import org.reduxkotlin.Reducer
 
-internal interface CallStateReducer : Reducer<CallingState>
 
-internal class CallStateReducerImpl : CallStateReducer {
-    override fun reduce(callingState: CallingState, action: Action): CallingState {
+internal class CallStateReducer : Reducer<CallingState> {
+    override fun invoke(state: CallingState, action: Any): CallingState {
         return when (action) {
             is CallingAction.StateUpdated -> {
-                callingState.copy(callingStatus = action.callingState, joinCallIsRequested = false)
+                state.copy(callingStatus = action.callingState, joinCallIsRequested = false)
             }
             is CallingAction.IsRecordingUpdated -> {
-                callingState.copy(isRecording = action.isRecording)
+                state.copy(isRecording = action.isRecording)
             }
             is CallingAction.IsTranscribingUpdated -> {
-                callingState.copy(isTranscribing = action.isTranscribing)
+                state.copy(isTranscribing = action.isTranscribing)
             }
             is CallingAction.CallStartRequested -> {
-                callingState.copy(joinCallIsRequested = true)
+                state.copy(joinCallIsRequested = true)
             }
-            else -> callingState
+            else -> state
         }
     }
+
 }

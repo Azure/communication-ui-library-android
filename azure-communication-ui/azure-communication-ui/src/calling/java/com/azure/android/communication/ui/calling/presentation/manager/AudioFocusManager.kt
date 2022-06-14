@@ -9,12 +9,12 @@ import android.media.AudioManager
 import android.media.AudioManager.MODE_NORMAL
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
+import org.reduxkotlin.Store
 
 internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListener {
     var onFocusChange: ((Int) -> Unit)? = null
@@ -89,12 +89,12 @@ internal class AudioFocusManager(
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
             }
         }
-        store.getStateFlow().collect {
-            if (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus) {
-                previousAudioFocusStatus = it.audioSessionState.audioFocusStatus
-                if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+        store.subscribe {
+            if (previousAudioFocusStatus != store.state.audioSessionState.audioFocusStatus) {
+                previousAudioFocusStatus = store.state.audioSessionState.audioFocusStatus
+                if (store.state.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
                     val mode = audioFocusHandler?.getMode()
-                    if (mode != MODE_NORMAL && it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+                    if (mode != MODE_NORMAL && store.state.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
                         store.dispatch(AudioSessionAction.AudioFocusRejected())
                     } else {
                         isAudioFocused = audioFocusHandler?.getAudioFocus() == true
@@ -105,16 +105,16 @@ internal class AudioFocusManager(
                         }
                     }
                 }
-            } else if (previousCallState != it.callState.callingStatus) {
-                previousCallState = it.callState.callingStatus
-                if (it.callState.callingStatus == CallingStatus.CONNECTED) {
+            } else if (previousCallState != store.state.callState.callingStatus) {
+                previousCallState = store.state.callState.callingStatus
+                if (store.state.callState.callingStatus == CallingStatus.CONNECTED) {
                     isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                     if (!isAudioFocused) {
                         store.dispatch(AudioSessionAction.AudioFocusRejected())
                     } else {
                         store.dispatch(AudioSessionAction.AudioFocusApproved())
                     }
-                } else if (it.callState.callingStatus == CallingStatus.DISCONNECTING) {
+                } else if (store.state.callState.callingStatus == CallingStatus.DISCONNECTING) {
                     if (isAudioFocused) {
                         isAudioFocused = audioFocusHandler?.releaseAudioFocus() == false
                     }

@@ -7,9 +7,10 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Dispatcher
 
 internal class PreviewAreaViewModel(
-    private val dispatch: (Action) -> Unit,
+    private val dispatch: Dispatcher,
 ) {
     private lateinit var videoStreamIDStateFlow: MutableStateFlow<String?>
 

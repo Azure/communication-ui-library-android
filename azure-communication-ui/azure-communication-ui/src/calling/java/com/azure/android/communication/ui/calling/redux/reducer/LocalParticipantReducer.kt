@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
-import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -11,12 +10,11 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
+import org.reduxkotlin.Reducer
 
-internal interface LocalParticipantStateReducer : Reducer<LocalUserState>
+internal class LocalParticipantStateReducer : Reducer<LocalUserState> {
 
-internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
-
-    override fun reduce(localUserState: LocalUserState, action: Action): LocalUserState {
+    override fun invoke(localUserState: LocalUserState, action: Any): LocalUserState {
         return when (action) {
             is LocalParticipantAction.CameraOnRequested -> {
                 localUserState.copy(

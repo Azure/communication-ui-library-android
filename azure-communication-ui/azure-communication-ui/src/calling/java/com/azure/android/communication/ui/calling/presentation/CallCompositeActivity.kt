@@ -183,7 +183,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun setActionBarVisibility() {
-        if (store.getCurrentState().navigationState.navigationState != NavigationStatus.SETUP) {
+        if (store.state.navigationState.navigationState != NavigationStatus.SETUP) {
             supportActionBar?.hide()
         } else {
             supportActionBar?.show()
@@ -220,7 +220,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         when (navigationState) {
             NavigationStatus.EXIT -> {
                 notificationService.removeNotification()
-                store.end()
+                //store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
                 finish()

@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.controlbar
 
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine

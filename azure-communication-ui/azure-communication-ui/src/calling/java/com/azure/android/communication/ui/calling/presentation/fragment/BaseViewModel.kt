@@ -3,26 +3,24 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment
 
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.reduxkotlin.Store
 
 internal abstract class BaseViewModel constructor(
     protected val store: Store<ReduxState>,
 ) {
 
     open fun init(coroutineScope: CoroutineScope) {
-        coroutineScope.launch {
-            store.getStateFlow().collect {
-                onStateChange(it)
-            }
+        store.subscribe {
+            onStateChange(store.state)
         }
     }
 
-    protected abstract suspend fun onStateChange(state: ReduxState)
+    protected abstract fun onStateChange(state: ReduxState)
 
     protected fun dispatchAction(action: Action) {
         store.dispatch(action)

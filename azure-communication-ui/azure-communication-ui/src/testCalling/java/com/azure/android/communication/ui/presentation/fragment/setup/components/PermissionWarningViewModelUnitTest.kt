@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningViewModel
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus

@@ -7,8 +7,9 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Dispatcher
 
-internal class LeaveConfirmViewModel(private val dispatch: (Action) -> Unit) {
+internal class LeaveConfirmViewModel(private val dispatch: Dispatcher) {
     private val shouldDisplayLeaveConfirmMutableStateFlow = MutableStateFlow(false)
     var shouldDisplayLeaveConfirmStateFlow = shouldDisplayLeaveConfirmMutableStateFlow as StateFlow<Boolean>
 

@@ -3,20 +3,19 @@
 
 package com.azure.android.communication.ui.calling.presentation.navigation
 
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Store
 
 internal class NavigationRouterImpl(private val store: Store<ReduxState>) : NavigationRouter {
 
     private val navigationFlow = MutableStateFlow(NavigationStatus.NONE)
 
     override suspend fun start() {
-        store.getStateFlow().collect {
-            navigationFlow.value = it.navigationState.navigationState
+        store.subscribe {
+            navigationFlow.value = store.state.navigationState.navigationState
         }
     }
 

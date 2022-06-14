@@ -8,13 +8,13 @@ import android.content.Context
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
+import org.reduxkotlin.Store
 
 // Manager to hook into accessibility and provide announcements
 // To add a Hook, extend AccessibilityHook and add to the "Hooks" list at the bottom of this file
@@ -26,17 +26,17 @@ internal class AccessibilityAnnouncementManager(
     private lateinit var lastState: ReduxState
 
     suspend fun start(activity: Activity) {
-        lastState = store.getCurrentState()
-        store.getStateFlow().collect { newState ->
+        lastState = store.state
+        store.subscribe {
             accessibilityHooks.forEach {
-                if (it.shouldTrigger(lastState, newState)) {
-                    val message = it.message(lastState, newState, activity)
+                if (it.shouldTrigger(lastState, store.state)) {
+                    val message = it.message(lastState, store.state, activity)
                     if (message.isNotBlank()) {
                         announce(activity, message)
                     }
                 }
             }
-            lastState = newState
+            lastState = store.state
         }
     }
 

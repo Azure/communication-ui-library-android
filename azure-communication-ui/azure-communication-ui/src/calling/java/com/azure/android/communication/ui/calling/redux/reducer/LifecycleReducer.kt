@@ -3,15 +3,14 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
-import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.state.LifecycleState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
+import org.reduxkotlin.Reducer
 
-internal interface LifecycleReducer : Reducer<LifecycleState>
 
-internal class LifecycleReducerImpl : LifecycleReducer {
-    override fun reduce(state: LifecycleState, action: Action): LifecycleState {
+internal class LifecycleReducer : Reducer<LifecycleState> {
+    override fun invoke(state: LifecycleState, action: Any): LifecycleState {
         return when (action) {
             is LifecycleAction.EnterBackgroundSucceeded -> {
                 LifecycleState(LifecycleStatus.BACKGROUND)

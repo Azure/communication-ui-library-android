@@ -14,8 +14,9 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Dispatcher
 
-internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
+internal class ControlBarViewModel(private val dispatcher: Dispatcher) {
     private lateinit var cameraStateFlow: MutableStateFlow<CameraModel>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
@@ -90,7 +91,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     }
 
     private fun dispatchAction(action: Action) {
-        dispatch(action)
+        dispatcher.invoke(action)
     }
 
     internal data class CameraModel(

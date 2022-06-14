@@ -7,12 +7,10 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
+import org.reduxkotlin.Reducer
 
-internal interface AudioSessionReducer : Reducer<AudioSessionState>
-
-internal class AudioSessionStateReducerImpl :
-    AudioSessionReducer {
-    override fun reduce(state: AudioSessionState, action: Action): AudioSessionState {
+internal class AudioSessionReducer : Reducer<AudioSessionState> {
+    override fun invoke(state: AudioSessionState, action: Any): AudioSessionState {
         return when (action) {
             is AudioSessionAction.AudioFocusApproved -> {
                 AudioSessionState(AudioFocusStatus.APPROVED)

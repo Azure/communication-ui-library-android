@@ -9,12 +9,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
+import org.reduxkotlin.Store
 
 internal class PermissionManager(
     private val store: Store<ReduxState>,
@@ -34,7 +34,8 @@ internal class PermissionManager(
         this.activity = activity
         this.audioPermissionLauncher = audioPermissionLauncher
         this.cameraPermissionLauncher = cameraPermissionLauncher
-        store.getStateFlow().collect {
+        store.subscribe {
+            val it = store.state
             if (previousPermissionState == null || previousPermissionState != it.permissionState) {
                 onPermissionStateChange(it.permissionState)
             }

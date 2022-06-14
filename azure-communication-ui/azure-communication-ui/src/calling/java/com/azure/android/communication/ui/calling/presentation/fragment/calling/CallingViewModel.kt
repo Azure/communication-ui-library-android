@@ -15,11 +15,11 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
+import org.reduxkotlin.Store
 
 internal class CallingViewModel(
     store: Store<ReduxState>,
@@ -92,7 +92,7 @@ internal class CallingViewModel(
     }
 
     override fun init(coroutineScope: CoroutineScope) {
-        val state = store.getCurrentState()
+        val state = store.state
 
         controlBarViewModel.init(
             state.permissionState,
@@ -133,7 +133,7 @@ internal class CallingViewModel(
         super.init(coroutineScope)
     }
 
-    override suspend fun onStateChange(state: ReduxState) {
+    override fun onStateChange(state: ReduxState) {
 
         if (state.lifecycleState.state == LifecycleStatus.BACKGROUND) {
             participantGridViewModel.clear()

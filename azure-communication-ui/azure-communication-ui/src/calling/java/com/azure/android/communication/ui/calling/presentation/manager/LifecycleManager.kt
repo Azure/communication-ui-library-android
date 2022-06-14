@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import org.reduxkotlin.Store
 
 internal interface LifecycleManager {
     fun pause()
@@ -18,10 +18,10 @@ internal class LifecycleManagerImpl(
     LifecycleManager {
 
     override fun pause() {
-        store.dispatch(action = LifecycleAction.EnterBackgroundTriggered())
+        store.dispatch(LifecycleAction.EnterBackgroundTriggered())
     }
 
     override fun resume() {
-        store.dispatch(action = LifecycleAction.EnterForegroundTriggered())
+        store.dispatch(LifecycleAction.EnterForegroundTriggered())
     }
 }

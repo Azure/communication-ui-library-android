@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Assert

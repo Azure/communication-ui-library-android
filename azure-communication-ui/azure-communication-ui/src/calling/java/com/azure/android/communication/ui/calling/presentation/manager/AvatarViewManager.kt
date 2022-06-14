@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.calling.configuration.RemoteParticipan
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
@@ -17,10 +16,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
+import org.reduxkotlin.Store
 
 internal class AvatarViewManager(
     coroutineContextProvider: CoroutineContextProvider,
-    private val appStore: AppStore<ReduxState>,
+    private val appStore: Store<ReduxState>,
     val callCompositeLocalOptions: CallCompositeLocalOptions?,
     configuration: RemoteParticipantsConfiguration,
 ) :
@@ -38,7 +38,7 @@ internal class AvatarViewManager(
 
     override fun onSetParticipantViewData(data: RemoteParticipantViewData): CallCompositeSetParticipantViewDataResult {
         val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
-        if (!appStore.getCurrentState().remoteParticipantState.participantMap.keys.contains(id)) {
+        if (!appStore.state.remoteParticipantState.participantMap.keys.contains(id)) {
             return CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
         }
 

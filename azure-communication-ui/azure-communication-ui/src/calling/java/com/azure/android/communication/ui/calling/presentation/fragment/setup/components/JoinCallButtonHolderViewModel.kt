@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -11,8 +10,9 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.isDisconnected
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.reduxkotlin.Dispatcher
 
-internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> Unit) {
+internal class JoinCallButtonHolderViewModel(private val dispatch: Dispatcher) {
 
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
     private var disableJoinCallButtonFlow = MutableStateFlow(false)
