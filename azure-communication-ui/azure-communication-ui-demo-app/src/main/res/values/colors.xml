@@ -16,4 +16,5 @@
     <color name="Teams_light">#FF6264A7</color>
     <color name="Teams_dark">#FF7A7FEA</color>
     <color name="transparent">#00000000</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
