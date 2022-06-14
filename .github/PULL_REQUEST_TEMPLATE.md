@@ -8,7 +8,6 @@
 - [ ] Yes
 - [ ] No
 
-
 ## Pull Request Type
 What kind of change does this Pull Request introduce?
 
@@ -40,7 +39,6 @@ What kind of change does this Pull Request introduce?
 - [ ] Tested for background mode
 - [ ] Unit Tests Included
 - [ ] UI Automated Tests Included
-
 
 ## How to Test
 <!-- Add steps to run the tests suite and/or manually test -->

@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.models;
 
 /**
- * Call Locator.
+ * Join Call Locator.
  */
-public abstract class CallCompositeLocator {
+public abstract class CallCompositeJoinLocator {
 }
