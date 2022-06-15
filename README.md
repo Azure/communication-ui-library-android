@@ -64,14 +64,11 @@ Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group 
 val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ "<USER_ACCESS_TOKEN>" }, true)
 val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-val options = GroupCallOptions(
-    communicationTokenCredential,
-    UUID.fromString("<GROUP_CALL_ID>"),
-    "<DISPLAY_NAME>",
-)
-
+val locator: CallCompositeJoinLocator = CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"))
+val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, "<DISPLAY_NAME>")
+        
 val callComposite: CallComposite = CallCompositeBuilder().build()
-callComposite.launch(context, options)
+callComposite.launch(context, remoteOptions)
 ```
 
 #### [Java](#tab/java)
@@ -83,14 +80,12 @@ CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
 CommunicationTokenCredential communicationTokenCredential = 
         new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-GroupCallOptions options = new GroupCallOptions(
-        communicationTokenCredential,
-        UUID.fromString("<GROUP_CALL_ID>"),
-        "<DISPLAY_NAME>"
-    );
+final CallCompositeJoinLocator locator =  new CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"));
+final CallCompositeRemoteOptions remoteOptions =
+                new CallCompositeRemoteOptions(locator, communicationTokenCredential, "<DISPLAY_NAME>");
 
 CallComposite callComposite = new CallCompositeBuilder().build();
-callComposite.launch(context, options);
+callComposite.launch(context, remoteOptions);
 ```
 
 For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-mobileui/index.html).

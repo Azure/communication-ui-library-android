@@ -1,22 +1,26 @@
-# Release History
-
-CommunicationUIEventCode is removed
+# Calling library Release History
 
 
-## 1.0.0-beta.2 (FUTURE)
+## 1.0.0.0 (Unreleased)
+
+### Breaking Changes
+- `CallComposite.setOnErrorHandler` is replaced with `CallComposite.addOnErrorEventHandler`
+- `CallComposite.setOnRemoteParticipantJoinedHandler` is replaced with `CallComposite.addOnRemoteParticipantJoinedEventHandler`
+ 
+
+## 1.0.0-beta.2 (2022-06-13)
 
 ### New Features
 - Call on hold
 - UI support for tablets
 
 ### Breaking Changes
-- CommunicationUIEventCode class is removed
-
-
-### Bug Fixes
+- `CommunicationUIEventCode` class is removed
+- Added "CallComposite" as a prefix to public classes
+- `CallComposite.launch` functions are refactored. Argument classes `GroupCallOptions`, `TeamsMeetingOptions` are removed. New argument classes are added: `CallCompositeRemoteOptions`, `CallCompositeLocalOptions`
  
 
-## Calling 1.0.0-beta.1 (2022-05-18)
+## 1.0.0-beta.1 (2022-05-18)
 
 This is the initial release of Azure Communication UI Calling Library. For more information, please see the [README][read_me] and [QuickStart][documentation].
 

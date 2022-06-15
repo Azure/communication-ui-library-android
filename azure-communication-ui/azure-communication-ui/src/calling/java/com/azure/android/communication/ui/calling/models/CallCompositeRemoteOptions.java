@@ -17,7 +17,8 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
+ * &#47;&#47; Build the CallCompositeRemoteOptions with {@link CommunicationTokenCredential}
+ * {@link CallCompositeJoinLocator}
  * CallCompositeRemoteOptions remoteOptions = new CallCompositeRemoteOptions&#40;
  *     locator, communicationTokenCredential, displayName&#41;
  *
@@ -30,7 +31,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
-    private final CallCompositeJoinMeetingLocator locator;
+    private final CallCompositeJoinLocator locator;
 
     // Optional
     private final String displayName;
@@ -38,11 +39,11 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param locator {@link CallCompositeJoinMeetingLocator}
+     * @param locator {@link CallCompositeJoinLocator}
      * @param credential {@link CommunicationTokenCredential}.
      */
     public CallCompositeRemoteOptions(
-            final CallCompositeJoinMeetingLocator locator,
+            final CallCompositeJoinLocator locator,
             final CommunicationTokenCredential credential) {
         this(locator, credential, "");
     }
@@ -50,12 +51,12 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param locator {@link CallCompositeJoinMeetingLocator}
+     * @param locator {@link CallCompositeJoinLocator}
      * @param credential {@link CommunicationTokenCredential}
      * @param displayName                  User display name other call participants will see.
      */
     public CallCompositeRemoteOptions(
-            final CallCompositeJoinMeetingLocator locator,
+            final CallCompositeJoinLocator locator,
             final CommunicationTokenCredential credential,
             final String displayName) {
 
@@ -85,9 +86,9 @@ public final class CallCompositeRemoteOptions {
     /**
      * Get call locator.
      *
-     * @return {@link CallCompositeJoinMeetingLocator}.
+     * @return {@link CallCompositeJoinLocator}.
      */
-    public CallCompositeJoinMeetingLocator getLocator() {
+    public CallCompositeJoinLocator getLocator() {
         return locator;
     }
 }
