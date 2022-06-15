@@ -28,17 +28,17 @@ What kind of change does this Pull Request introduce?
 - [ ] Synced with iOS, Web team
 - [ ] Internal review completed
 - [ ] UI Changes
-- [ ] Screen captures included
-- [ ] Tested for Light/Dark mode
-- [ ] Tested for screen rotation
-- [ ] Tested on Tablet and small screen device (5")
-- [ ] Include localization changes
+  - [ ] Screen captures included
+  - [ ] Tested for Light/Dark mode
+  - [ ] Tested for screen rotation
+  - [ ] Tested on Tablet and small screen device (5")
+  - [ ] Include localization changes
 - [ ] Tests
-- [ ] Memory leak analysis performed
-- [ ] Tested on API 21, 26 and latest 
-- [ ] Tested for background mode
-- [ ] Unit Tests Included
-- [ ] UI Automated Tests Included
+  - [ ] Memory leak analysis performed
+  - [ ] Tested on API 21, 26 and latest 
+  - [ ] Tested for background mode
+  - [ ] Unit Tests Included
+  - [ ] UI Automated Tests Included
 
 ## How to Test
 <!-- Add steps to run the tests suite and/or manually test -->

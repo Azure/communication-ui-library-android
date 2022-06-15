@@ -146,52 +146,66 @@ public final class CallComposite {
     }
 
     /**
-     * Set {@link CallCompositeEventHandler}.
+     * Add {@link CallCompositeEventHandler}.
      *
      * <p> A callback for Call Composite Error Events.
      * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
      * <pre>
      *
-     * &#47;&#47; set error handler
-     * callComposite.setOnErrorHandler&#40;event -> {
+     * &#47;&#47; add error handler
+     * callComposite.addOnErrorEventHandler&#40;event -> {
      *     &#47;&#47; Process error event
      *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
      *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
      * }&#41;;
      *
-     *
-     * &#47;&#47; remove error handler
-     * callComposite.setOnErrorHandler&#40;null&#41;;
-     *
      * </pre>
      *
      * @param errorHandler The {@link CallCompositeEventHandler}.
      */
-    public void setOnErrorHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
-        configuration.getCallCompositeEventsHandler().setOnErrorHandler(errorHandler);
+    public void addOnErrorEventHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
+        configuration.getCallCompositeEventsHandler().addOnErrorEventHandler(errorHandler);
     }
 
     /**
-     * Set {@link CallCompositeEventHandler}.
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent} for values.</p>
+     *
+     * @param errorHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnErrorEventHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
      *
      * <pre>
      *
-     * &#47;&#47; set remote participant joined handler
-     * callComposite.setOnRemoteParticipantJoinedHandler&#40;event -> {
+     * &#47;&#47; add remote participant joined handler
+     * callComposite.addOnRemoteParticipantJoinedEventHandler&#40;event -> {
      *     &#47;&#47; Use call composite to set configurations for remote participant
      * }&#41;;
-     *
-     *
-     * &#47;&#47; remove remote participant joined handler
-     * callComposite.setOnRemoteParticipantJoinedHandler&#40;null&#41;;
      *
      * </pre>
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void setOnRemoteParticipantJoinedHandler(
+    public void addOnRemoteParticipantJoinedEventHandler(
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().setOnRemoteParticipantJoinedHandler(eventHandler);
+        configuration.getCallCompositeEventsHandler().addOnRemoteParticipantJoinedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnRemoteParticipantJoinedEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
 
     /**
@@ -201,7 +215,7 @@ public final class CallComposite {
      *     Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
      * </p>
      * <p>
-     *     This should be called from {@link #setOnRemoteParticipantJoinedHandler(CallCompositeEventHandler)}
+     *     This should be called from {@link #addOnRemoteParticipantJoinedEventHandler(CallCompositeEventHandler)}
      *     to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
      *     Participants view data.
      * </p>
