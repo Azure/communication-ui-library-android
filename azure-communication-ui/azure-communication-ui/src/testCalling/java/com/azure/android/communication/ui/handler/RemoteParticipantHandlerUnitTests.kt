@@ -149,60 +149,59 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
         }
     }
 
-
     @Test
     fun remoteParticipantHandler_start_add_remove_handler_then_eventIsNotFired() {
         runScopedTest {
             // arrange
             val reduxState = AppReduxState("")
             reduxState.remoteParticipantState =
-                    RemoteParticipantsState(
-                            mapOf(
-                                    Pair(
-                                            "test",
-                                            ParticipantInfoModel(
-                                                    displayName = "user one",
-                                                    userIdentifier = "test",
-                                                    isMuted = true,
-                                                    isSpeaking = true,
-                                                    cameraVideoStreamModel = VideoStreamModel(
-                                                            videoStreamID = "video",
-                                                            StreamType.VIDEO
-                                                    ),
-                                                    screenShareVideoStreamModel = VideoStreamModel(
-                                                            videoStreamID = "video",
-                                                            StreamType.SCREEN_SHARING
-                                                    ),
-                                                    modifiedTimestamp = 456,
-                                                    speakingTimestamp = 567,
-                                                    participantStatus = null,
-                                            )
-                                    )
-                            ),
-                            123
-                    )
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567,
+                                participantStatus = null,
+                            )
+                        )
+                    ),
+                    123
+                )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                    mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> { }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedHandler(
-                    mockParticipantJoinedHandler
+                mockParticipantJoinedHandler
             )
 
             configuration.callCompositeEventsHandler.removeOnRemoteParticipantJoinedHandler(
-                    mockParticipantJoinedHandler
+                mockParticipantJoinedHandler
             )
 
             val handler = RemoteParticipantHandler(
-                    configuration,
-                    mockAppStore,
-                    mockRemoteParticipantsCollection
+                configuration,
+                mockAppStore,
+                mockRemoteParticipantsCollection
             )
 
             // act
@@ -213,9 +212,9 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantJoinedHandler, times(0)).handle(
-                    argThat { event ->
-                        event is Any
-                    }
+                argThat { event ->
+                    event is Any
+                }
             )
 
             job.cancel()

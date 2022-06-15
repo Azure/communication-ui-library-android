@@ -230,9 +230,9 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().elementAt(1), times(1)).handle(
-                    argThat { exception ->
-                        exception.errorCode == CallCompositeErrorCode.TOKEN_EXPIRED
-                    }
+                argThat { exception ->
+                    exception.errorCode == CallCompositeErrorCode.TOKEN_EXPIRED
+                }
             )
 
             job.cancel()
