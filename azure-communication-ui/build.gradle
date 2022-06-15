@@ -5,8 +5,6 @@ buildscript {
     }
 
     ext {
-        kotlin_version = '1.6.10'
-        jacoco_version = '0.8.7'
         ui_library_version_name = '1.0.0.0'
         ui_library_version_code = getVersionCode()
 
