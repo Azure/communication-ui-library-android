@@ -29,23 +29,23 @@ internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
         val handler2 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
 
         val configuration = CallCompositeConfiguration()
-        configuration.callCompositeEventsHandler.addOnErrorHandler(handler1)
+        configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler1)
         Assert.assertSame(
             handler1,
             configuration.callCompositeEventsHandler.getOnErrorHandlers().first()
         )
         Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
 
-        configuration.callCompositeEventsHandler.addOnErrorHandler(handler2)
+        configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler2)
         Assert.assertTrue(
             configuration.callCompositeEventsHandler.getOnErrorHandlers().contains(handler2)
         )
 
-        configuration.callCompositeEventsHandler.removeOnErrorHandler(handler1)
+        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
         Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
-        configuration.callCompositeEventsHandler.removeOnErrorHandler(handler1)
+        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
         Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
-        configuration.callCompositeEventsHandler.removeOnErrorHandler(handler2)
+        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler2)
         Assert.assertEquals(0, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
     }
 }

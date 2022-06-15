@@ -57,7 +57,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnErrorHandler(mock { })
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { })
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
@@ -112,7 +112,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnErrorHandler(mock { })
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { })
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
@@ -165,7 +165,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnErrorHandler(mock {})
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock {})
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
@@ -205,8 +205,8 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnErrorHandler(mock { on { handle(any()) } doAnswer { } })
-            configuration.callCompositeEventsHandler.addOnErrorHandler(mock { on { handle(any()) } doAnswer { } })
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { on { handle(any()) } doAnswer { } })
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { on { handle(any()) } doAnswer { } })
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
@@ -255,7 +255,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnErrorHandler(mock())
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock())
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
@@ -298,7 +298,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnErrorHandler(mock())
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock())
 
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 

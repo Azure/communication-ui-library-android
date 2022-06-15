@@ -153,7 +153,7 @@ public final class CallComposite {
      * <pre>
      *
      * &#47;&#47; add error handler
-     * callComposite.addOnErrorHandler&#40;event -> {
+     * callComposite.addOnErrorEventHandler&#40;event -> {
      *     &#47;&#47; Process error event
      *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
      *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
@@ -163,8 +163,8 @@ public final class CallComposite {
      *
      * @param errorHandler The {@link CallCompositeEventHandler}.
      */
-    public void addOnErrorHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
-        configuration.getCallCompositeEventsHandler().addOnErrorHandler(errorHandler);
+    public void addOnErrorEventHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
+        configuration.getCallCompositeEventsHandler().addOnErrorEventHandler(errorHandler);
     }
 
     /**
@@ -175,8 +175,8 @@ public final class CallComposite {
      *
      * @param errorHandler The {@link CallCompositeEventHandler}.
      */
-    public void removeOnErrorHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
-        configuration.getCallCompositeEventsHandler().removeOnErrorHandler(errorHandler);
+    public void removeOnErrorEventHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
     }
 
     /**
