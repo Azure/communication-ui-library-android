@@ -185,7 +185,7 @@ public final class CallComposite {
      * <pre>
      *
      * &#47;&#47; add remote participant joined handler
-     * callComposite.addOnRemoteParticipantJoinedHandler&#40;event -> {
+     * callComposite.addOnRemoteParticipantJoinedEventHandler&#40;event -> {
      *     &#47;&#47; Use call composite to set configurations for remote participant
      * }&#41;;
      *
@@ -193,9 +193,9 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void addOnRemoteParticipantJoinedHandler(
+    public void addOnRemoteParticipantJoinedEventHandler(
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().addOnRemoteParticipantJoinedHandler(eventHandler);
+        configuration.getCallCompositeEventsHandler().addOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
 
     /**
@@ -203,9 +203,9 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void removeOnRemoteParticipantJoinedHandler(
+    public void removeOnRemoteParticipantJoinedEventHandler(
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedHandler(eventHandler);
+        configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
 
     /**
@@ -215,7 +215,7 @@ public final class CallComposite {
      *     Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
      * </p>
      * <p>
-     *     This should be called from {@link #addOnRemoteParticipantJoinedHandler(CallCompositeEventHandler)}
+     *     This should be called from {@link #addOnRemoteParticipantJoinedEventHandler(CallCompositeEventHandler)}
      *     to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
      *     Participants view data.
      * </p>

@@ -22,9 +22,9 @@ internal class CallCompositeEventsHandler {
 
     fun getOnRemoteParticipantJoinedHandlers() = remoteParticipantJoinedHandler.asIterable()
 
-    fun addOnRemoteParticipantJoinedHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
+    fun addOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
         remoteParticipantJoinedHandler.add(handler)
 
-    fun removeOnRemoteParticipantJoinedHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
+    fun removeOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
         remoteParticipantJoinedHandler.remove(handler)
 }

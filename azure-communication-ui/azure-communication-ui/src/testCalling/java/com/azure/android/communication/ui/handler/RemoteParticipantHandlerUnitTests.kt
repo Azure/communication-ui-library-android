@@ -48,7 +48,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection>()
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -123,7 +123,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -190,11 +190,11 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> { }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
 
-            configuration.callCompositeEventsHandler.removeOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.removeOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
 
@@ -302,7 +302,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -419,7 +419,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -622,7 +622,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             configuration.remoteParticipantsConfiguration.setHandler(
                 mockRemoteParticipantsConfigurationHandler
             )
-            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
