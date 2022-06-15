@@ -19,8 +19,8 @@ import org.mockito.kotlin.mock
 internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
 
     @Test
-    fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() =
-        runScopedTest {
+    fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() = runScopedTest {
+
             // arrange
             val appState = AppReduxState("")
             appState.errorState = ErrorState(null, null)
@@ -29,19 +29,23 @@ internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
             val handler2 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnErrorHandler(handler1)
+            configuration.callCompositeEventsHandler.addOnErrorHandler(handler1)
             Assert.assertSame(
                 handler1,
-                configuration.callCompositeEventsHandler.getOnErrorHandler()
+                configuration.callCompositeEventsHandler.getOnErrorHandlers().first()
+            )
+            Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+
+            configuration.callCompositeEventsHandler.addOnErrorHandler(handler2)
+            Assert.assertTrue(
+                configuration.callCompositeEventsHandler.getOnErrorHandlers().contains(handler2)
             )
 
-            configuration.callCompositeEventsHandler.setOnErrorHandler(handler2)
-            Assert.assertSame(
-                handler2,
-                configuration.callCompositeEventsHandler.getOnErrorHandler()
-            )
-
-            configuration.callCompositeEventsHandler.setOnErrorHandler(null)
-            Assert.assertNull(configuration.callCompositeEventsHandler.getOnErrorHandler())
+            configuration.callCompositeEventsHandler.removeOnErrorHandler(handler1)
+            Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+            configuration.callCompositeEventsHandler.removeOnErrorHandler(handler1)
+            Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+            configuration.callCompositeEventsHandler.removeOnErrorHandler(handler2)
+            Assert.assertEquals(0, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
         }
 }

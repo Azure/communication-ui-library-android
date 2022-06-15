@@ -1,6 +1,14 @@
-# Release History
+# Calling library Release History
 
-## 1.0.0-beta.2 (2022-06-13)
+
+## Calling 1.0.0.0 (FUTURE)
+
+### Breaking Changes
+- `CallComposite.setOnErrorHandler` is replaced with `CallComposite.addOnErrorHandler`
+- `CallComposite.setOnRemoteParticipantJoinedHandler` is replaced with `CallComposite.addOnRemoteParticipantJoinedHandler`
+ 
+
+## Calling 1.0.0-beta.2 (2022-06-13)
 
 ### New Features
 - Call on hold
@@ -10,8 +18,6 @@
 - `CommunicationUIEventCode` class is removed
 - Added "CallComposite" as a prefix to public classes
 - `CallComposite.launch` functions are refactored. Argument classes `GroupCallOptions`, `TeamsMeetingOptions` are removed. New argument classes are added: `CallCompositeRemoteOptions`, `CallCompositeLocalOptions`
-
-### Bug Fixes
  
 
 ## Calling 1.0.0-beta.1 (2022-05-18)
