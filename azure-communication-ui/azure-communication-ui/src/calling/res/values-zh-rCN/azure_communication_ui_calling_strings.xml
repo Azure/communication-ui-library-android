@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">离开</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
-    <string name="azure_communication_ui_calling_view_leave_confirm_menu">保留确认菜单</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">离开确认菜单</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">打开参与者列表</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">双击以关闭参与者列表</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已静音</string>
