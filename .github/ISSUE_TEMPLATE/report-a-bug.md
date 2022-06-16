@@ -31,5 +31,8 @@ If applicable, add screenshots to help explain your problem.
  - Device: [e.g. Samsung Galaxy]
  - API: [e.g. API29]
 
+**Call Logs**
+Collect and attach call logs [Enable and access call logs](https://docs.microsoft.com/en-us/azure/communication-services/concepts/troubleshooting-info?tabs=csharp%2Candroid%2Cdotnet)
+
 **Additional context**
 Add any other context about the problem here.
