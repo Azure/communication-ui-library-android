@@ -1,7 +1,7 @@
 # Calling library Release History
 
 
-## 1.0.0.0 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Breaking Changes
 - `CallComposite.setOnErrorHandler` is replaced with `CallComposite.addOnErrorEventHandler`
