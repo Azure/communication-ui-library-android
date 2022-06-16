@@ -1,4 +1,4 @@
-# Calling library Release History
+# Azure Communication UI Calling Release History
 
 
 ## 1.0.0 (Unreleased)
