@@ -10,9 +10,9 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
+import com.azure.android.communication.calling.CallDiagnosticsOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
-import com.azure.android.communication.calling.CallDiagnosticsOptions
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
