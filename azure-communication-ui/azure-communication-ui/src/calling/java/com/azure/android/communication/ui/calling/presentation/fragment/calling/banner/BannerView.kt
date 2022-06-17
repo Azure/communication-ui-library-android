@@ -146,7 +146,7 @@ internal class BannerView : ConstraintLayout {
     }
 
     private fun getBannerTitle(bannerText: CharSequence): CharSequence {
-        return bannerText.substring(0, bannerText.indexOf("."))
+        return bannerText
     }
 
     override fun onFinishInflate() {
