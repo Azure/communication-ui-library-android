@@ -1,4 +1,7 @@
-# Calling library Release History
+# Azure Communication UI Calling Release History
+
+## 1.0.0 (2022-06-20)
+
 
 ## 1.0.0-beta.3 (2022-06-15)
 
