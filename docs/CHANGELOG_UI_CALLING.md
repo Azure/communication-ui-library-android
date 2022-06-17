@@ -1,7 +1,9 @@
 # Azure Communication UI Calling Release History
 
+## 1.0.0 (2022-06-20)
 
-## 1.0.0 (Unreleased)
+
+## 1.0.0-beta.3 (2022-06-15)
 
 ### Breaking Changes
 - `CallComposite.setOnErrorHandler` is replaced with `CallComposite.addOnErrorEventHandler`
