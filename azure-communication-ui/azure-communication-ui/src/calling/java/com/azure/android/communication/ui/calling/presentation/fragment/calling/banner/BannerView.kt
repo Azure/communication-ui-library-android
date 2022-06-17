@@ -146,7 +146,13 @@ internal class BannerView : ConstraintLayout {
     }
 
     private fun getBannerTitle(bannerText: CharSequence): CharSequence {
-        return bannerText.substring(0, bannerText.indexOf("."))
+        val periodIndex = bannerText.indexOf(".")
+        return if (periodIndex == -1) {
+            bannerText
+        } else {
+            bannerText.substring(0, periodIndex)
+        }
+
     }
 
     override fun onFinishInflate() {
