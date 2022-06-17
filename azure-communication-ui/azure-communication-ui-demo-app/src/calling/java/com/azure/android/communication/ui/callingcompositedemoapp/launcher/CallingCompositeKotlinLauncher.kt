@@ -52,10 +52,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
                     .build()
 
-        callComposite.setOnErrorHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
+        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
 
         if (getRemoteParticipantPersonaInjectionSelection()) {
-            callComposite.setOnRemoteParticipantJoinedHandler(
+            callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, callLauncherActivity)
             )
         }
