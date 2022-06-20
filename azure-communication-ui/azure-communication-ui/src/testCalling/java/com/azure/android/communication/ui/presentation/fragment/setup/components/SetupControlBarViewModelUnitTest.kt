@@ -325,7 +325,7 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.SPEAKER_REQUESTED,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(callingStatus),
@@ -345,7 +345,7 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.SPEAKER_REQUESTED,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(callingStatus)

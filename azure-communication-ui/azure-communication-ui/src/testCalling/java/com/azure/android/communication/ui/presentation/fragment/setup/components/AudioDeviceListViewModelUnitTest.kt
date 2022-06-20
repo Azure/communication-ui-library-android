@@ -36,7 +36,8 @@ internal class AudioDeviceListViewModelUnitTest : ACSBaseTestCoroutine() {
             on { dispatch(any()) } doAnswer { }
         }
         val audioDeviceListViewModel = AudioDeviceListViewModel(mockAppStore::dispatch)
-        val requestedAudioDevice = AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+        val requestedAudioDevice = AudioDeviceSelectionStatus.SPEAKER_SELECTED
+
 
         // Act
         audioDeviceListViewModel.switchAudioDevice(requestedAudioDevice)
