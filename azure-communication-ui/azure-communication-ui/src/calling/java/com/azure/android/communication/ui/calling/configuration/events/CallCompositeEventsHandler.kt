@@ -8,19 +8,23 @@ import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 
 internal class CallCompositeEventsHandler {
-    private var errorHandlers: CallCompositeEventHandler<CallCompositeErrorEvent>? = null
-    private var remoteParticipantJoinedHandler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>? =
-        null
+    private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
+    private val remoteParticipantJoinedHandler =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-    fun getOnErrorHandler() = errorHandlers
+    fun getOnErrorHandlers() = errorHandlers.asIterable()
 
-    fun setOnErrorHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>?) {
-        errorHandlers = errorHandler
-    }
+    fun addOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
+        errorHandlers.add(errorHandler)
 
-    fun getOnRemoteParticipantJoinedHandler() = remoteParticipantJoinedHandler
+    fun removeOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
+        errorHandlers.remove(errorHandler)
 
-    fun setOnRemoteParticipantJoinedHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>?) {
-        remoteParticipantJoinedHandler = handler
-    }
+    fun getOnRemoteParticipantJoinedHandlers() = remoteParticipantJoinedHandler.asIterable()
+
+    fun addOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
+        remoteParticipantJoinedHandler.add(handler)
+
+    fun removeOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
+        remoteParticipantJoinedHandler.remove(handler)
 }

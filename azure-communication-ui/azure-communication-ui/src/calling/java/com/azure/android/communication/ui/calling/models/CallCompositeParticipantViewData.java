@@ -17,7 +17,7 @@ import android.widget.ImageView;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
+ * &#47;&#47; Build the CallCompositeLocalOptions with {@link CallCompositeParticipantViewData}
  * CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(
  *     new CallCompositeParticipantViewData&#40;...&#41);
  *
@@ -35,6 +35,8 @@ public final class CallCompositeParticipantViewData {
     /**
      * Set scaleType.
      *
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
+     *
      * @return The {@link CallCompositeParticipantViewData};
      */
     public CallCompositeParticipantViewData setScaleType(final ImageView.ScaleType scaleType) {
@@ -44,6 +46,8 @@ public final class CallCompositeParticipantViewData {
 
     /**
      * Get scaleType.
+     *
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
      *
      * @return The {@link ImageView.ScaleType};
      */
@@ -81,6 +85,8 @@ public final class CallCompositeParticipantViewData {
 
     /**
      * Set avatar Bitmap.
+     *
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
      *
      * @return The {@link CallCompositeParticipantViewData};
      */
