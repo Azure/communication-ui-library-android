@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service
 
-import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
@@ -140,7 +139,7 @@ internal class CallingService(
         coroutineScope.launch {
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
                 val callStateError = getCallStateError(it)
-                callingStatus = getCallingState(it)
+                callingStatus = it.toCallingStatus()
                 callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
         }
@@ -192,19 +191,4 @@ internal class CallingService(
                 }
             }
         }
-
-    private fun getCallingState(callingState: CallingStateWrapper): CallingStatus {
-        return when (callingState.callState) {
-            CallState.CONNECTED -> CallingStatus.CONNECTED
-            CallState.CONNECTING -> CallingStatus.CONNECTING
-            CallState.DISCONNECTED -> CallingStatus.DISCONNECTED
-            CallState.DISCONNECTING -> CallingStatus.DISCONNECTING
-            CallState.EARLY_MEDIA -> CallingStatus.EARLY_MEDIA
-            CallState.RINGING -> CallingStatus.RINGING
-            CallState.LOCAL_HOLD -> CallingStatus.LOCAL_HOLD
-            CallState.IN_LOBBY -> CallingStatus.IN_LOBBY
-            CallState.REMOTE_HOLD -> CallingStatus.REMOTE_HOLD
-            else -> CallingStatus.NONE
-        }
-    }
 }
