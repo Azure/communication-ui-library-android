@@ -34,10 +34,10 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">会议中的某人将很快允许你加入</string>
 
     <!-- Hold Overlay -->
-    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
-    <string name="azure_communication_ui_calling_resume">Resume</string>
-    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
-    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
+    <string name="azure_communication_ui_calling_hold_view_text">你的通话处于保留状态</string>
+    <string name="azure_communication_ui_calling_resume">恢复</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">保留</string>
+    <string name="azure_communication_ui_calling_mic_used">无法恢复正由另一个应用使用的呼叫\n你的麦克风。</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">离开</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">离开确认菜单</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">打开参与者列表</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">双击以关闭参与者列表</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已静音</string>
