@@ -5,12 +5,17 @@ import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.SetupScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
+import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositePermissionsTest : BaseUiPermissionTest() {
+
+    @get:Rule
+    val screenLockRule = RunWhenScreenOffOrLockedRule()
 
     /*
     *
@@ -29,6 +34,16 @@ class CallingCompositePermissionsTest : BaseUiPermissionTest() {
             .permissionDialogAction(true)
             .verifyIsJoinCallButtonDisabled()
             .isAudioPermissionErrorMessageShown()
+    }
+
+    @Test
+    fun rejectVideoPermission() {
+        joinGroupSetupScreen()
+            .permissionDialogAction(false)
+            .clickCameraButton()
+            .permissionDialogAction(true)
+            .verifyIsJoinCallButtonEnabled()
+            .isVideoPermissionErrorMessageShown()
     }
 
     private fun joinGroupSetupScreen(): SetupScreenRobot {

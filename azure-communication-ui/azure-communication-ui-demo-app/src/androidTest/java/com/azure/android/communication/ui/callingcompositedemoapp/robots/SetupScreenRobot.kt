@@ -14,7 +14,8 @@ import androidx.test.uiautomator.UiSelector
 import com.azure.android.communication.ui.callingcompositedemoapp.Localize
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
-import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils.checkViewIdAndIsNotEnabled
+import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils.checkViewIdAndTextIsEnabled
+import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils.checkViewIdAndTextIsNotEnabled
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 import junit.framework.Assert.assertTrue
 
@@ -51,12 +52,22 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     }
 
     fun verifyIsJoinCallButtonDisabled(): SetupScreenRobot {
-        checkViewIdAndIsNotEnabled(R.id.azure_communication_ui_setup_join_call_button, "Join call")
+        checkViewIdAndTextIsNotEnabled(R.id.azure_communication_ui_setup_join_call_button, "Join call")
+        return this
+    }
+
+    fun verifyIsJoinCallButtonEnabled(): SetupScreenRobot {
+        checkViewIdAndTextIsEnabled(R.id.azure_communication_ui_setup_join_call_button, "Join call")
         return this
     }
 
     fun isAudioPermissionErrorMessageShown(): SetupScreenRobot {
         verifyErrorMessage("Your audio is disabled")
+        return this
+    }
+
+    fun isVideoPermissionErrorMessageShown(): SetupScreenRobot {
+        verifyErrorMessage("Your camera is disabled")
         return this
     }
 
@@ -99,7 +110,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     }
 
     fun permissionDialogAction(deny: Boolean): SetupScreenRobot {
-        Thread.sleep(3000)
+        Thread.sleep(1000)
         val actionButtonIndex = if (deny) 2 else 1
 
         try {
@@ -172,6 +183,12 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         }
 
         return CallScreenRobot()
+    }
+
+    fun clickCameraButton(): SetupScreenRobot {
+        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_camera_button)
+        UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_setup_camera_button, Localize.English.videoOffText)
+        return this
     }
 
     fun dismissNetworkLossBanner(): SetupScreenRobot {

@@ -16,6 +16,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.isNotEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -95,13 +96,22 @@ object UiTestUtils {
         ).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
-    fun checkViewIdAndIsNotEnabled(@IdRes viewId: Int, text: String): ViewInteraction =
+    fun checkViewIdAndTextIsNotEnabled(@IdRes viewId: Int, text: String): ViewInteraction =
         onView(
             allOf(
                 withId(viewId),
                 withText(text)
             )
         ).check(ViewAssertions.matches(isNotEnabled()))
+
+    @Throws(NoMatchingViewException::class)
+    fun checkViewIdAndTextIsEnabled(@IdRes viewId: Int, text: String): ViewInteraction =
+        onView(
+            allOf(
+                withId(viewId),
+                withText(text)
+            )
+        ).check(ViewAssertions.matches(isEnabled()))
 
     @Throws(NoMatchingViewException::class)
     fun clickViewWithId(@IdRes viewId: Int): ViewInteraction =
