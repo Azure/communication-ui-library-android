@@ -21,8 +21,8 @@ import kotlinx.coroutines.flow.collect
 // These hooks make announcements based on Redux State changes
 internal class AccessibilityAnnouncementManager(
     private val store: Store<ReduxState>,
+    private val accessibilityHooks: List<AccessibilityHook>
 ) {
-
     private lateinit var lastState: ReduxState
 
     suspend fun start(activity: Activity) {
@@ -52,7 +52,6 @@ internal class AccessibilityAnnouncementManager(
 }
 
 // Accessibility Hook
-//
 // shouldTrigger -> detect if we should announce something
 // message -> get the text tp read
 internal abstract class AccessibilityHook {
@@ -60,9 +59,8 @@ internal abstract class AccessibilityHook {
     abstract fun message(lastState: ReduxState, newState: ReduxState, context: Context): String
 }
 
-// Hook to announce when participants join/leave a meeting
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
-    var callJoinTime = System.currentTimeMillis()
+    private var callJoinTime = System.currentTimeMillis()
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
         if (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED) {
             callJoinTime = System.currentTimeMillis()
@@ -94,7 +92,6 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     }
 }
 
-// Hook to announce the meeting was successfully joined
 internal class MeetingJoinedHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
         (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
@@ -141,12 +138,3 @@ internal class CameraStatusHook : AccessibilityHook() {
         }
     }
 }
-
-// List of all hooks
-internal val accessibilityHooks = listOf(
-    MeetingJoinedHook(),
-    CameraStatusHook(),
-    ParticipantAddedOrRemovedHook(),
-    MicStatusHook(),
-    SwitchCameraStatusHook(),
-)

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.utilities
+package com.azure.android.communication.ui.calling.utilities
 
 import android.view.View
 import android.widget.ImageView
@@ -11,9 +11,6 @@ import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.utilities.BottomCellItem
-import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
-import com.azure.android.communication.ui.calling.utilities.BottomCellViewHolder
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {

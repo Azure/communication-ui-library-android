@@ -6,10 +6,10 @@ package com.azure.android.communication.ui.handler
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.CallingEventHandler
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
@@ -43,12 +43,12 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection>()
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -106,7 +106,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifier = CommunicationUserIdentifier("test")
 
@@ -123,7 +123,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -142,6 +142,78 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 1 && event.identifiers.toList()[0] == communicationIdentifier
+                }
+            )
+
+            job.cancel()
+        }
+    }
+
+    @Test
+    fun remoteParticipantHandler_start_add_remove_handler_then_eventIsNotFired() {
+        runScopedTest {
+            // arrange
+            val reduxState = AppReduxState("")
+            reduxState.remoteParticipantState =
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                speakingTimestamp = 567,
+                                participantStatus = null,
+                            )
+                        )
+                    ),
+                    123
+                )
+            val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doReturn storeStateFlow
+            }
+            val mockParticipantJoinedHandler =
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
+
+            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> { }
+
+            val configuration = CallCompositeConfiguration()
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
+                mockParticipantJoinedHandler
+            )
+
+            configuration.callCompositeEventsHandler.removeOnRemoteParticipantJoinedEventHandler(
+                mockParticipantJoinedHandler
+            )
+
+            val handler = RemoteParticipantHandler(
+                configuration,
+                mockAppStore,
+                mockRemoteParticipantsCollection
+            )
+
+            // act
+            val job = launch {
+                handler.start()
+            }
+            testScheduler.runCurrent()
+
+            // assert
+            verify(mockParticipantJoinedHandler, times(0)).handle(
+                argThat { event ->
+                    event is Any
                 }
             )
 
@@ -205,7 +277,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -230,7 +302,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -314,7 +386,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -347,7 +419,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             }
 
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(
@@ -519,7 +591,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockParticipantJoinedHandler =
-                mock<CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
@@ -550,7 +622,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             configuration.remoteParticipantsConfiguration.setHandler(
                 mockRemoteParticipantsConfigurationHandler
             )
-            configuration.callCompositeEventsHandler.setOnRemoteParticipantJoinedHandler(
+            configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
                 mockParticipantJoinedHandler
             )
             val handler = RemoteParticipantHandler(

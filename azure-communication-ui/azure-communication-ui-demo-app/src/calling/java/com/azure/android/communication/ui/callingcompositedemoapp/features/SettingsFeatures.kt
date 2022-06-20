@@ -8,7 +8,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY
@@ -70,7 +70,7 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun getParticipantViewData(context: Context): ParticipantViewData? {
+        fun getParticipantViewData(context: Context): CallCompositeParticipantViewData? {
             val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
             val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
             var avatarImageBitmap: Bitmap? = null
@@ -81,8 +81,8 @@ class SettingsFeatures {
             }
 
             if (!displayName.isNullOrEmpty() || avatarImageBitmap != null)
-                return ParticipantViewData()
-                    .setRenderedDisplayName(displayName)
+                return CallCompositeParticipantViewData()
+                    .setDisplayName(displayName)
                     .setAvatarBitmap(avatarImageBitmap)
 
             return null

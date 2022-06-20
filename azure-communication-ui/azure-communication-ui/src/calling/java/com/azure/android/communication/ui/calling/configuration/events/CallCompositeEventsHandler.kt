@@ -3,24 +3,28 @@
 
 package com.azure.android.communication.ui.calling.configuration.events
 
-import com.azure.android.communication.ui.calling.CallingEventHandler
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
-import com.azure.android.communication.ui.calling.models.CommunicationUIRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 
 internal class CallCompositeEventsHandler {
-    private var errorHandlers: CallingEventHandler<CommunicationUIErrorEvent>? = null
-    private var remoteParticipantJoinedHandler: CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>? =
-        null
+    private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
+    private val remoteParticipantJoinedHandler =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-    fun getOnErrorHandler() = errorHandlers
+    fun getOnErrorHandlers() = errorHandlers.asIterable()
 
-    fun setOnErrorHandler(errorHandler: CallingEventHandler<CommunicationUIErrorEvent>?) {
-        errorHandlers = errorHandler
-    }
+    fun addOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
+        errorHandlers.add(errorHandler)
 
-    fun getOnRemoteParticipantJoinedHandler() = remoteParticipantJoinedHandler
+    fun removeOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
+        errorHandlers.remove(errorHandler)
 
-    fun setOnRemoteParticipantJoinedHandler(handler: CallingEventHandler<CommunicationUIRemoteParticipantJoinedEvent>?) {
-        remoteParticipantJoinedHandler = handler
-    }
+    fun getOnRemoteParticipantJoinedHandlers() = remoteParticipantJoinedHandler.asIterable()
+
+    fun addOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
+        remoteParticipantJoinedHandler.add(handler)
+
+    fun removeOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
+        remoteParticipantJoinedHandler.remove(handler)
 }

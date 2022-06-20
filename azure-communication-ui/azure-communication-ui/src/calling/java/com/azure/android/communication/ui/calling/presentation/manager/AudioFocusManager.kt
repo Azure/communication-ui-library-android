@@ -125,6 +125,5 @@ internal class AudioFocusManager(
 
     fun stop() {
         audioFocusHandler?.onFocusChange = null
-        audioFocusHandler?.releaseAudioFocus()
     }
 }

@@ -3,42 +3,44 @@
 
 package com.azure.android.communication.ui.calling;
 
-import com.azure.android.communication.ui.calling.models.LocalizationConfiguration;
-import com.azure.android.communication.ui.calling.models.ThemeConfiguration;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 
 /**
  * Builder for creating {@link CallComposite}.
+ *
+ * <p>Used to build a {@link CallComposite} which is then used to start a call.</p>
+ * <p>This class can be used to specify a Custom theme or locale to be used by the Call Composite</p>
  */
 public final class CallCompositeBuilder {
 
-    private ThemeConfiguration themeConfig = null;
-    private LocalizationConfiguration localizationConfig = null;
+    private Integer themeConfig = null;
+    private CallCompositeLocalizationOptions localizationConfig = null;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
-     * @param theme {@link ThemeConfiguration}.
-     * @return {@link CallCompositeBuilder}
+     * @param themeId Theme ID.
+     * @return {@link CallCompositeBuilder} for chaining options
      */
-    public CallCompositeBuilder theme(final ThemeConfiguration theme) {
-        this.themeConfig = theme;
+    public CallCompositeBuilder theme(final int themeId) {
+        this.themeConfig = themeId;
         return this;
     }
 
     /**
      * Sets an optional localization for call-composite to use by {@link CallComposite}.
      *
-     * @param localization {@link LocalizationConfiguration}.
-     * @return {@link CallCompositeBuilder}
+     * @param localization {@link CallCompositeLocalizationOptions}.
+     * @return {@link CallCompositeBuilder} for chaining options
      */
-    public CallCompositeBuilder localization(final LocalizationConfiguration localization) {
+    public CallCompositeBuilder localization(final CallCompositeLocalizationOptions localization) {
         this.localizationConfig = localization;
         return this;
     }
 
     /**
-     * Creates {@link CallComposite}.
+     * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
      */
@@ -46,7 +48,6 @@ public final class CallCompositeBuilder {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
         config.setLocalizationConfig(localizationConfig);
-
         return new CallComposite(config);
     }
 }

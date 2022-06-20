@@ -7,7 +7,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: SetupParticipantAvatarViewModel,
-        participantViewData: ParticipantViewData?,
+        participantViewData: CallCompositeParticipantViewData?,
     ) {
         name = viewModel.getDisplayName()
         participantViewData?.let {
@@ -27,7 +27,7 @@ internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet?
                 adjustViewBounds = true
                 scaleType = it.scaleType
             }
-            it.renderedDisplayName?.let { displayName ->
+            it.displayName?.let { displayName ->
                 name = displayName
             }
         }
