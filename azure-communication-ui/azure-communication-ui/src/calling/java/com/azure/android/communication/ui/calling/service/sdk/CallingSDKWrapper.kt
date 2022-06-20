@@ -10,7 +10,6 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
-import com.azure.android.communication.calling.CallDiagnosticsOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
@@ -31,6 +30,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 
@@ -130,7 +130,10 @@ internal class CallingSDKWrapper(
 
     fun setupCall() {
         if (callClient == null) {
-            callClient = getCallClient()
+            val callClientOptions = CallClientOptions().also {
+                it.setTags(configuration.callConfig?.diagnosticConfig?.tags, logger)
+            }
+            callClient = CallClient(callClientOptions)
         }
         createDeviceManager()
     }
@@ -420,28 +423,5 @@ internal class CallingSDKWrapper(
         camerasInitializedCompletableFuture = null
         deviceManagerCompletableFuture = null
         endCallCompletableFuture?.complete(null)
-    }
-
-    private fun getCallClient(): CallClient {
-        val callClientOptions = CallClientOptions().apply {
-            configuration.callConfig?.diagnosticConfig?.tags?.let { telemetryTags ->
-                val diagnosticOptions = getOrCreateDiagnosticOptions(this)
-                diagnostics.tags = diagnosticOptions.tags + telemetryTags
-            }
-        }
-        logger?.let { logger ->
-            callClientOptions.diagnostics.tags.forEach {
-                logger.debug("diagnostic tag element: $it")
-            }
-        }
-        return CallClient(callClientOptions)
-    }
-
-    private fun getOrCreateDiagnosticOptions(callClientOptions: CallClientOptions): CallDiagnosticsOptions {
-        if (callClientOptions.diagnostics == null) {
-            callClientOptions.diagnostics = CallDiagnosticsOptions()
-        }
-
-        return callClientOptions.diagnostics
     }
 }
