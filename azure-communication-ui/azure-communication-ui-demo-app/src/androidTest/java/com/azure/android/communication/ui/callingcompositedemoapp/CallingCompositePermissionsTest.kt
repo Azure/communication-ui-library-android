@@ -17,17 +17,6 @@ class CallingCompositePermissionsTest : BaseUiPermissionTest() {
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
-    /*
-    *
-    * Test cases to cover:
-    *
-    * Reject audio permission (expect error message & join call button disabled)
-    * Reject video permission (error message & join call button enabled)
-    * Join call with no video permissions, on call screen reject permissions (video button disabled)
-    * Join call with no video permissions, on call screen accept permissions (video should be on)
-    *
-    * */
-
     @Test
     fun rejectAudioPermission() {
         joinGroupSetupScreen()
@@ -44,6 +33,20 @@ class CallingCompositePermissionsTest : BaseUiPermissionTest() {
             .permissionDialogAction(true)
             .verifyIsJoinCallButtonEnabled()
             .isVideoPermissionErrorMessageShown()
+    }
+
+    @Test
+    fun joinCallWithVideoPermissionRejection() {
+        joinGroupSetupScreen()
+            .permissionDialogAction(false)
+            .clickCameraButton()
+            .permissionDialogAction(true)
+            .clickJoinCallButton()
+            .showParticipantList()
+            .dismissParticipantList()
+            .verifyIsCameraButtonDisabled()
+            .clickEndCall()
+            .clickLeaveCall()
     }
 
     private fun joinGroupSetupScreen(): SetupScreenRobot {

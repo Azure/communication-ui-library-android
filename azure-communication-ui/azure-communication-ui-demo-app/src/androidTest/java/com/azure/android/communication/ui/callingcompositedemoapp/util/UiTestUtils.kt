@@ -63,6 +63,10 @@ object UiTestUtils {
         onView(withId(viewId)).check(ViewAssertions.matches(not(isDisplayed())))
 
     @Throws(NoMatchingViewException::class)
+    fun checkViewIdIsNotEnabled(@IdRes viewId: Int): ViewInteraction =
+        onView(withId(viewId)).check(ViewAssertions.matches(isNotEnabled()))
+
+    @Throws(NoMatchingViewException::class)
     fun checkViewIdWithContentDescriptionIsDisplayed(
         @IdRes viewId: Int,
         contentDescription: String,
