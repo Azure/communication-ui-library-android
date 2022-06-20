@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.*
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
