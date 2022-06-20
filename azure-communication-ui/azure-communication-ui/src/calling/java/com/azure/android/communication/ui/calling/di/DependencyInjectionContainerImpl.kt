@@ -14,8 +14,13 @@ import com.azure.android.communication.ui.calling.presentation.manager.Accessibi
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
+import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
+import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
+import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
 
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
@@ -98,7 +103,14 @@ internal class DependencyInjectionContainerImpl(
 
     override val accessibilityManager by lazy {
         AccessibilityAnnouncementManager(
-            appStore
+            appStore,
+            listOf(
+                MeetingJoinedHook(),
+                CameraStatusHook(),
+                ParticipantAddedOrRemovedHook(),
+                MicStatusHook(),
+                SwitchCameraStatusHook(),
+            )
         )
     }
 
