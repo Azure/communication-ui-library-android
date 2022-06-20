@@ -3,7 +3,7 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <string name="app_name">Communication UI Demo</string>
+    <string name="app_name">Azure Communication Demo</string>
     <string name="token_url_hint">Token function URL</string>
     <string name="name_hint">Your Name</string>
     <string name="group_call_label">Group call</string>

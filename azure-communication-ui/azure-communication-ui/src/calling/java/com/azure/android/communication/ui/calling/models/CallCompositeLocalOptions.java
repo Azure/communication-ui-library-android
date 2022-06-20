@@ -8,6 +8,10 @@ import com.azure.android.communication.ui.calling.CallComposite;
 /**
  * CallCompositeLocalOptions for CallComposite.launch.
  *
+ * <p>
+ *     Local Options for the Call Composite. These options are not shared with the server and impact local views only.
+ *     E.g. The Local Participant Name if it differs from the display name you'd like to share with the server.
+ * </p>
  * <pre>
  *
  * &#47;&#47; Initialize the call composite builder
@@ -16,12 +20,12 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * &#47;&#47; Build the call composite
  * CallComposite callComposite = builder.build&#40;&#41;;
  *
- * &#47;&#47; Build the LocalSettings with {@link CallCompositeParticipantViewData}
+ * &#47;&#47; Build the CallCompositeLocalOptions with {@link CallCompositeParticipantViewData}
  * CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(
  *     new CallCompositeParticipantViewData&#40;...&#41);
  *
  * &#47;&#47; Launch call
- * callComposite.launch&#40; .., .., localOptions&#41
+ * callComposite.launch&#40;.., .., localOptions&#41
  * </pre>
  *
  * @see CallComposite
