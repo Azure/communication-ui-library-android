@@ -229,6 +229,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                videoViewManager.prepare()
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {

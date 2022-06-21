@@ -91,7 +91,9 @@ internal class LocalParticipantView : ConstraintLayout {
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getVideoStatusFlow().collect {
-                setLocalParticipantVideo(it)
+                if (!videoViewManager.isDestroyed()) {
+                    setLocalParticipantVideo(it)
+                }
             }
         }
 

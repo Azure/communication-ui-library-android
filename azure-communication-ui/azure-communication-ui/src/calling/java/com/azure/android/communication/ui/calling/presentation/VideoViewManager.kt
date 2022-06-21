@@ -22,7 +22,7 @@ internal class VideoViewManager(
 ) {
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
-
+    private var isDestroyed = false
     private class VideoRenderer(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
@@ -48,7 +48,14 @@ internal class VideoViewManager(
         }
         remoteParticipantVideoRendererMap.clear()
         localParticipantVideoRendererMap.clear()
+        isDestroyed = true
     }
+
+    fun prepare() {
+        isDestroyed = false
+    }
+
+    fun isDestroyed() = isDestroyed
 
     fun removeRemoteParticipantVideoRenderer(
         userVideoStreams: List<Pair<String, String>>,
