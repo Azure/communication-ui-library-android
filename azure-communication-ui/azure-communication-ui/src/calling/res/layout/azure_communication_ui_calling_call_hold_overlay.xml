@@ -9,7 +9,7 @@
     android:layout_height="0dp"
     android:layout_row="2"
     android:layout_column="0"
-    android:background="@color/azure_communication_ui_calling_color_call_lobby_overlay"
+    android:background="@color/azure_communication_ui_calling_color_status_bar"
     android:clickable="true"
     android:gravity="center"
     android:orientation="vertical"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/azure_communication_ui_calling_lobby_view_text_waiting_for_host"
-        android:textColor="@color/azure_communication_ui_calling_color_on_background"
+        android:textColor="@color/azure_communication_ui_calling_color_call_on_hold_overlay_text"
         android:textSize="20sp"
         />
 
