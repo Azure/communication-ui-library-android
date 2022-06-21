@@ -6,7 +6,8 @@ jacoco {
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testCallingDebugUnitTest']) {
     def coverageSourceDirs = [
-            "src/main/java"
+            "src/main/java",
+            "src/calling/java"
     ]
     def fileFilter = [
             '**/R.class',
@@ -17,17 +18,17 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testCallingDebugUnitTest'
             '**/Manifest*.*'
     ]
     def javaClasses = fileTree(
-            dir: "$buildDir/intermediates/classes/debug",
+            dir: "$buildDir/intermediates/javac/callingDebug",
             excludes: fileFilter
     )
     def kotlinClasses = fileTree(
-            dir: "$buildDir/tmp/kotlin-classes/debug",
+            dir: "$buildDir/tmp/kotlin-classes/callingDebug",
             excludes: fileFilter
     )
     classDirectories.setFrom(files([javaClasses], [kotlinClasses]))
     sourceDirectories.setFrom(files(coverageSourceDirs))
     executionData(fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec"
+            "jacoco/testCallingDebugUnitTest.exec"
     ]))
     reports {
         xml.required = true
