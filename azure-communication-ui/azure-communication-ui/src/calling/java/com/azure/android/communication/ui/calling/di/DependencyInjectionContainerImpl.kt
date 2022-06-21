@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.calling.presentation.navigation.Naviga
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
+import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AndroidAudioSwitchAdapter
 import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AudioSwitchingMiddleware
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
@@ -148,7 +149,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val audioSwitchMiddleware: Middleware<ReduxState> by lazy {
-        AudioSwitchingMiddleware(applicationContext)
+        AudioSwitchingMiddleware(AndroidAudioSwitchAdapter(applicationContext))
     }
 
     private val appReduxStateReducer: Reducer<ReduxState> by lazy {

@@ -19,11 +19,11 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 // / enables the appropriate device.
 // / It'll also detect New connections and dispatch auto-switch
 internal class AudioSwitchingMiddleware(
-    context: Context,
+    private val audioSwitchingAdapter: AudioSwitchingAdapter,
 ) :
     Middleware<ReduxState> {
 
-    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
             when (action) {
@@ -43,7 +43,7 @@ internal class AudioSwitchingMiddleware(
                     } else if (store.getCurrentState().callState.callingStatus == CallingStatus.CONNECTED &&
                         action.callingState != CallingStatus.CONNECTED
                     ) {
-                        disconnectAudio()
+                        audioSwitchingAdapter.disconnectAudio()
                     }
                     next(action)
                 }
@@ -73,43 +73,16 @@ internal class AudioSwitchingMiddleware(
         }
     }
 
-    private fun disconnectAudio() {
-        audioManager.stopBluetoothSco()
-        audioManager.isBluetoothScoOn = false
-        audioManager.isSpeakerphoneOn = false
-    }
+
 
     private fun switchToDevice(requestedAudioDevice: AudioDeviceSelectionStatus): Boolean {
         when (requestedAudioDevice) {
-            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> enableBluetooth()
-            AudioDeviceSelectionStatus.SPEAKER_SELECTED -> enableSpeakerPhone()
-            AudioDeviceSelectionStatus.RECEIVER_SELECTED -> enableEarpiece()
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> audioSwitchingAdapter.enableBluetooth()
+            AudioDeviceSelectionStatus.SPEAKER_SELECTED -> audioSwitchingAdapter.enableSpeakerPhone()
+            AudioDeviceSelectionStatus.RECEIVER_SELECTED -> audioSwitchingAdapter.enableEarpiece()
         }
         return true
     }
 
-    private fun enableSpeakerPhone(): Boolean {
-        audioManager.stopBluetoothSco()
-        audioManager.isBluetoothScoOn = false
-        audioManager.isSpeakerphoneOn = true
-        return true
-    }
 
-    private fun enableEarpiece(): Boolean {
-        audioManager.stopBluetoothSco()
-        audioManager.isBluetoothScoOn = false
-        audioManager.isSpeakerphoneOn = false
-        return true
-    }
-
-    private fun enableBluetooth(): Boolean {
-
-        if (!audioManager.isBluetoothScoOn) {
-            audioManager.startBluetoothSco()
-            audioManager.isBluetoothScoOn = true
-            audioManager.isSpeakerphoneOn = false
-            return true
-        }
-        return false
-    }
 }
