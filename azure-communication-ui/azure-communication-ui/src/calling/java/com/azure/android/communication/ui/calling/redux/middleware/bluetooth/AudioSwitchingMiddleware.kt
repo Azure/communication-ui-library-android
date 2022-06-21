@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
 
-import android.content.Context
-import android.media.AudioManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
