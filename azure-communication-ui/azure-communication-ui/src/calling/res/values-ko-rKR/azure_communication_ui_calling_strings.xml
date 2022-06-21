@@ -34,10 +34,10 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">모임에 참가한 사용자가 곧 참가할 수 있습니다.</string>
 
     <!-- Hold Overlay -->
-    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
-    <string name="azure_communication_ui_calling_resume">Resume</string>
-    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
-    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
+    <string name="azure_communication_ui_calling_hold_view_text">대기 중입니다.</string>
+    <string name="azure_communication_ui_calling_resume">계속</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">대기 중</string>
+    <string name="azure_communication_ui_calling_mic_used">다른 앱에서 마이크를 사용하고\n통화를 다시 시작할 수 없습니다.</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">다른 사용자의 참여를 기다리는 중</string>
@@ -48,6 +48,7 @@
     <string name="azure_communication_ui_calling_view_leave_call">통화를 종료하시겠어요?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">나가기</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">취소</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">확인 메뉴 나가기</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">참가자 목록 열기</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">참가자 목록을 해제하려면 두 번 탭하세요.</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">음소거</string>
