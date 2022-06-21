@@ -1,3 +1,4 @@
 include ':azure-communication-ui'
 include ':azure-communication-ui-demo-app'
 
+include ':azure-communication-ui-arch'
