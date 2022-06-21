@@ -4,10 +4,9 @@ import java.lang.reflect.Type
 
 /// Generic State Object
 ///
-/// This state object justs holds/replaces types data
+/// This state object just holds/replaces types data
 /// There should be 1 type to 1 state class
 /// RebuildWith will generate a new GenericState
-
 data class GenericState(val data:Map<Type, Any>) {
     init {
         // Validate
@@ -21,15 +20,19 @@ data class GenericState(val data:Map<Type, Any>) {
     inline fun<reified T> getSubState() = data[T::class.java] as T?;
 
     /// Rebuilds this GenericState with a patch of new data
-    fun rebuildWith(patch:Map<Type, Any>): GenericState {
+    fun rebuildWith(patch:Map<Type, Any?>): GenericState {
         val newData:HashMap<Type,Any> = HashMap()
         newData.putAll(this.data)
-        newData.putAll(patch)
-        newData.keys.forEach() {
-            if (newData[it] == null) {
+
+        patch.keys.forEach {
+            val value = patch[it]
+            if (value != null) {
+                newData[it] = value
+            } else {
                 newData.remove(it)
             }
         }
+
         return GenericState(newData)
     }
 }
