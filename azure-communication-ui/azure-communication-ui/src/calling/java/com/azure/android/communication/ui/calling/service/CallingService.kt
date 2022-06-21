@@ -16,7 +16,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import java9.util.concurrent.CompletableFuture
@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class CallingService(
-    private val callingSDKWrapper: CallingSDKWrapper,
+    private val callingSDKWrapper: CallingSDK,
     coroutineContextProvider: CoroutineContextProvider,
     private val logger: Logger? = null,
 ) {

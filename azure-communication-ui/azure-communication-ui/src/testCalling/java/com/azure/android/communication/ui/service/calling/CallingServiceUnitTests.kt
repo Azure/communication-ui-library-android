@@ -19,13 +19,13 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,7 +45,7 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
     @Mock
-    private lateinit var mockCallingGateway: CallingSDKWrapper
+    private lateinit var mockCallingGateway: CallingSDK
 
     @Mock
     private lateinit var mockLocalVideoStream: LocalVideoStream
