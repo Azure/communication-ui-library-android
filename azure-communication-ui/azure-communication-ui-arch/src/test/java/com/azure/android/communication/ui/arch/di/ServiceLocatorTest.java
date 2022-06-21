@@ -14,8 +14,14 @@ public class ServiceLocatorTest {
         final String data = "hello";
     }
 
-    class BasicObjectWorld {
+    class BasicObjectWorld implements ServiceLocator.Disposable {
         final String data = "world";
+        boolean disposed = false;
+        @Override
+        public void dispose() {
+            disposed = true;
+
+        }
     }
 
     class BasicObjectHelloWorld {
@@ -40,6 +46,18 @@ public class ServiceLocatorTest {
         final BasicObjectWorld basicObjectWorld = locator.locate(BasicObjectWorld.class);
         assertEquals(basicObjectHello.data, "hello");
         assertEquals(basicObjectWorld.data, "world");
+    }
+
+    @Test
+    public void disposeTest() {
+        final ServiceLocator locator = new ServiceLocator();
+        locator.addTypedBuilder(BasicObjectWorld.class, (ServiceLocator inlineLocator) -> new BasicObjectWorld());
+
+
+        final BasicObjectWorld basicObjectWorld = locator.locate(BasicObjectWorld.class);
+        assertEquals(basicObjectWorld.disposed, false);
+        locator.clear();
+        assertEquals(basicObjectWorld.disposed, true);
     }
 
 

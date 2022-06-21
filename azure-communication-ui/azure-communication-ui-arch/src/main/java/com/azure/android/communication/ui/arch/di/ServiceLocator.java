@@ -27,7 +27,16 @@ Use locate<T>(Class<T> clazz) to get/build the instance
     final BasicObjectHelloWorld basicObjectHello = locator.locate(BasicObjectHelloWorld.class);
  */
 
+
 public class ServiceLocator {
+
+    /// Global Instance
+    static final ServiceLocator INSTANCE = new ServiceLocator();
+
+    interface Disposable {
+        void dispose();
+    }
+
     interface TypedBuilder<T> {
         // Builds a type
         T build(ServiceLocator locator);
@@ -42,6 +51,12 @@ public class ServiceLocator {
 
     /// Clear the implementation map
     void clear() {
+        for (final Object implementation : implementations.values()) {
+            if (implementation instanceof Disposable) {
+                ((Disposable) implementation).dispose();
+            }
+        }
+        builders.clear();
         implementations.clear();
     }
 
@@ -58,7 +73,4 @@ public class ServiceLocator {
             return (T) instance;
         }
     }
-
-    /// Global Instance
-    static final ServiceLocator instance = new ServiceLocator();
 }
