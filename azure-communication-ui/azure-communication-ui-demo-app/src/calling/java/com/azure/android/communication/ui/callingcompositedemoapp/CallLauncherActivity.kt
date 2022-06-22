@@ -31,7 +31,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        PerformanceDiagnosticsClient().init()
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
