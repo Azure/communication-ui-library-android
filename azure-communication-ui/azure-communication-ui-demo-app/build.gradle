@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.firebase.firebase-perf'
 }
 
 Properties properties = new Properties()
@@ -12,7 +13,7 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
-        applicationId "com.azure.android.communication.ui.callingCompositeDemoApp"
+        applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode ui_library_version_code
@@ -155,6 +156,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation "com.microsoft.appcenter:appcenter-distribute:$app_center_sdk_version"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+
+    callingTelemetryImplementation platform('com.google.firebase:firebase-bom:30.1.0')
+    callingTelemetryImplementation 'com.google.firebase:firebase-analytics'
+    callingTelemetryImplementation 'com.google.firebase:firebase-perf'
+
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
@@ -168,3 +174,4 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"
     androidTestImplementation "com.squareup.leakcanary:leakcanary-android-instrumentation:2.9.1"
 }
+apply plugin: 'com.google.gms.google-services'

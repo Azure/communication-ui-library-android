@@ -15,16 +15,20 @@ class PerformanceDiagnostics {
         fun startTrackingMetric(name: String) {
             val start = System.currentTimeMillis()
             timingsStorage[name] = start
+            callback?.startTrace(name)
         }
 
         fun finishTrackingMetric(name: String) {
             timingsStorage[name]?.let {
                 callback?.trackMetric(name, System.currentTimeMillis() - it)
             }
+            callback?.stopTrace()
         }
     }
 }
 
 interface TrackMetricHandler {
     fun trackMetric(name: String, value: Long)
+    fun startTrace(name: String)
+    fun stopTrace()
 }
