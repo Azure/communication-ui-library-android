@@ -73,14 +73,15 @@ internal class PermissionManager(
     }
 
     private fun getAudioPermissionState(activity: Activity): PermissionStatus {
-
         val audioAccess = isPermissionGranted(Manifest.permission.RECORD_AUDIO)
-        var isAudioPermissionPreviouslyDenied = false
-        if (!audioAccess && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        var isAudioPermissionPreviouslyDenied = previousPermissionState?.audioPermissionState == PermissionStatus.REQUESTING ||
+            previousPermissionState?.audioPermissionState == PermissionStatus.DENIED
+        if (!audioAccess && !isAudioPermissionPreviouslyDenied && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             isAudioPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
                 Manifest.permission.RECORD_AUDIO
             )
         }
+
         return when {
             audioAccess -> PermissionStatus.GRANTED
             isAudioPermissionPreviouslyDenied -> PermissionStatus.DENIED

@@ -11,11 +11,11 @@
     <string name="azure_communication_ui_calling_switch_camera_button_front">切换到前置摄像头</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">切换到后置摄像头</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">选择音频设备 %1$s</string>
-    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">已选择 %1$s 音频设备</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">正在加入通话…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_video_off">视频关闭</string>
-    <string name="azure_communication_ui_calling_setup_view_button_video_on">视频开启</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_off">关闭视频</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_on">打开视频</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">关闭麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">打开麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">加入通话</string>
@@ -26,12 +26,18 @@
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要权限</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已选择</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">设置渐变</string>
-    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切换摄像头按钮</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切换摄像头</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">安装</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">正在等待主持人</string>
-    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">会议中的人将很快允许你加入</string>
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">会议中的某人将很快允许你加入</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">你的通话处于保留状态</string>
+    <string name="azure_communication_ui_calling_resume">恢复</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">保留</string>
+    <string name="azure_communication_ui_calling_mic_used">无法恢复正由另一个应用使用的呼叫\n你的麦克风。</string>
 
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
@@ -42,13 +48,14 @@
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">离开</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
-    <string name="azure_communication_ui_calling_view_leave_call_dismiss">双击以关闭“退出确认”菜单</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">离开确认菜单</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">打开参与者列表</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">双击以关闭参与者列表</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已静音</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消静音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">挂断</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">“关闭”按钮</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">关闭</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">“关闭”按钮</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切换视频</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切换音频</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">设备选项</string>
@@ -82,7 +89,7 @@
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">正在通话中</string>
-    <string name="azure_communication_ui_calling_service_notification_message">点击此处以返回到通话</string>
+    <string name="azure_communication_ui_calling_service_notification_message">点击返回到通话</string>
 
     <!--    Accessibility Hooks -->
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s 已加入会议</string>

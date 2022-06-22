@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
 <resources>
     <declare-styleable name="azure_communication_ui_calling">
         <attr name="azure_communication_ui_calling_state_setup_camera_on" format="boolean" />

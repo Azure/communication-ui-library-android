@@ -3,12 +3,12 @@
 
 package com.azure.android.communication.ui.configuration
 
-import com.azure.android.communication.ui.calling.CallingEventHandler
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CommunicationUIErrorEvent
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,29 +19,33 @@ import org.mockito.kotlin.mock
 internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
 
     @Test
-    fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() =
-        runScopedTest {
-            // arrange
-            val appState = AppReduxState("")
-            appState.errorState = ErrorState(null, null)
+    fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() = runScopedTest {
 
-            val handler1 = mock<CallingEventHandler<CommunicationUIErrorEvent>> { }
-            val handler2 = mock<CallingEventHandler<CommunicationUIErrorEvent>> { }
+        // arrange
+        val appState = AppReduxState("")
+        appState.errorState = ErrorState(null, null)
 
-            val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.setOnErrorHandler(handler1)
-            Assert.assertSame(
-                handler1,
-                configuration.callCompositeEventsHandler.getOnErrorHandler()
-            )
+        val handler1 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
+        val handler2 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
 
-            configuration.callCompositeEventsHandler.setOnErrorHandler(handler2)
-            Assert.assertSame(
-                handler2,
-                configuration.callCompositeEventsHandler.getOnErrorHandler()
-            )
+        val configuration = CallCompositeConfiguration()
+        configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler1)
+        Assert.assertSame(
+            handler1,
+            configuration.callCompositeEventsHandler.getOnErrorHandlers().first()
+        )
+        Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
 
-            configuration.callCompositeEventsHandler.setOnErrorHandler(null)
-            Assert.assertNull(configuration.callCompositeEventsHandler.getOnErrorHandler())
-        }
+        configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler2)
+        Assert.assertTrue(
+            configuration.callCompositeEventsHandler.getOnErrorHandlers().contains(handler2)
+        )
+
+        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
+        Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
+        Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler2)
+        Assert.assertEquals(0, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+    }
 }

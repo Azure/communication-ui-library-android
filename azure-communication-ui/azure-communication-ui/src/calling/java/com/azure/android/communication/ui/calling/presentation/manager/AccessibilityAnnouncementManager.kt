@@ -9,7 +9,10 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
@@ -18,8 +21,8 @@ import kotlinx.coroutines.flow.collect
 // These hooks make announcements based on Redux State changes
 internal class AccessibilityAnnouncementManager(
     private val store: Store<ReduxState>,
+    private val accessibilityHooks: List<AccessibilityHook>
 ) {
-
     private lateinit var lastState: ReduxState
 
     suspend fun start(activity: Activity) {
@@ -49,7 +52,6 @@ internal class AccessibilityAnnouncementManager(
 }
 
 // Accessibility Hook
-//
 // shouldTrigger -> detect if we should announce something
 // message -> get the text tp read
 internal abstract class AccessibilityHook {
@@ -57,9 +59,8 @@ internal abstract class AccessibilityHook {
     abstract fun message(lastState: ReduxState, newState: ReduxState, context: Context): String
 }
 
-// Hook to announce when participants join/leave a meeting
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
-    var callJoinTime = System.currentTimeMillis()
+    private var callJoinTime = System.currentTimeMillis()
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
         if (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED) {
             callJoinTime = System.currentTimeMillis()
@@ -91,7 +92,6 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     }
 }
 
-// Hook to announce the meeting was successfully joined
 internal class MeetingJoinedHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
         (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
@@ -100,8 +100,41 @@ internal class MeetingJoinedHook : AccessibilityHook() {
         context.getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected)
 }
 
-// List of all hooks
-internal val accessibilityHooks = listOf(
-    MeetingJoinedHook(),
-    ParticipantAddedOrRemovedHook(),
-)
+internal class SwitchCameraStatusHook : AccessibilityHook() {
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
+        (lastState.localParticipantState.cameraState.device != newState.localParticipantState.cameraState.device)
+
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+        return when (newState.localParticipantState.cameraState.device) {
+            CameraDeviceSelectionStatus.FRONT -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_front)
+            CameraDeviceSelectionStatus.BACK -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_back)
+            else -> ""
+        }
+    }
+}
+
+internal class MicStatusHook : AccessibilityHook() {
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
+        (lastState.localParticipantState.audioState.operation != newState.localParticipantState.audioState.operation)
+
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+        return when (newState.localParticipantState.audioState.operation) {
+            AudioOperationalStatus.ON -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_on)
+            AudioOperationalStatus.OFF -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off)
+            AudioOperationalStatus.PENDING -> ""
+        }
+    }
+}
+
+internal class CameraStatusHook : AccessibilityHook() {
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
+        (lastState.localParticipantState.cameraState.operation != newState.localParticipantState.cameraState.operation)
+
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+        return when (newState.localParticipantState.cameraState.operation) {
+            CameraOperationalStatus.ON -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_on)
+            CameraOperationalStatus.OFF -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)
+            else -> ""
+        }
+    }
+}

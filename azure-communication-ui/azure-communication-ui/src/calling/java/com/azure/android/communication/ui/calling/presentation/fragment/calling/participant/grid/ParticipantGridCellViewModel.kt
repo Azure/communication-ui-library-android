@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid
 
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,9 @@ internal class ParticipantGridCellViewModel(
     isMuted: Boolean,
     isSpeaking: Boolean,
     modifiedTimestamp: Number,
+    participantStatus: ParticipantStatus?,
 ) {
+    private var isOnHoldStateFlow = MutableStateFlow(isOnHold(participantStatus))
     private var displayNameStateFlow = MutableStateFlow(displayName)
     private var isMutedStateFlow = MutableStateFlow(isMuted)
     private var isSpeakingStateFlow = MutableStateFlow(isSpeaking && !isMuted)
@@ -24,9 +27,11 @@ internal class ParticipantGridCellViewModel(
     private var videoViewModelStateFlow = MutableStateFlow(
         getVideoStreamModel(
             createVideoViewModel(cameraVideoStreamModel),
-            createVideoViewModel(screenShareVideoStreamModel)
+            createVideoViewModel(screenShareVideoStreamModel),
+            isOnHoldStateFlow.value
         )
     )
+
     private var participantModifiedTimestamp = modifiedTimestamp
     private var participantUserIdentifier = userIdentifier
 
@@ -58,19 +63,25 @@ internal class ParticipantGridCellViewModel(
         return participantModifiedTimestamp
     }
 
+    fun getIsOnHoldStateFlow(): StateFlow<Boolean> {
+        return isOnHoldStateFlow
+    }
+
     fun update(
         participant: ParticipantInfoModel,
     ) {
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
+        this.isOnHoldStateFlow.value = isOnHold(participant.participantStatus)
 
         this.isNameIndicatorVisibleStateFlow.value =
             !(participant.displayName.isBlank() && !participant.isMuted)
 
         this.videoViewModelStateFlow.value = getVideoStreamModel(
             createVideoViewModel(participant.cameraVideoStreamModel),
-            createVideoViewModel(participant.screenShareVideoStreamModel)
+            createVideoViewModel(participant.screenShareVideoStreamModel),
+            this.isOnHoldStateFlow.value
         )
 
         this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
@@ -87,9 +98,14 @@ internal class ParticipantGridCellViewModel(
     private fun getVideoStreamModel(
         cameraVideoStreamModel: VideoViewModel?,
         screenShareVideoStreamModel: VideoViewModel?,
+        isOnHold: Boolean,
     ): VideoViewModel? {
+        if (isOnHold) return null
         if (screenShareVideoStreamModel != null) return screenShareVideoStreamModel
         if (cameraVideoStreamModel != null) return cameraVideoStreamModel
         return null
     }
+
+    private fun isOnHold(participantStatus: ParticipantStatus?) =
+        participantStatus == ParticipantStatus.HOLD
 }

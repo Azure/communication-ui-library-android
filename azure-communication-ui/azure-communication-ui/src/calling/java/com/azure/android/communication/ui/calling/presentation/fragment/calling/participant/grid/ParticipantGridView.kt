@@ -17,7 +17,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import kotlinx.coroutines.flow.collect
@@ -34,6 +34,9 @@ internal class ParticipantGridView : GridLayout {
         private const val FOUR_PARTICIPANTS = 4
         private const val FIVE_PARTICIPANTS = 5
         private const val SIX_PARTICIPANTS = 6
+        private const val SEVEN_PARTICIPANTS = 7
+        private const val EIGHT_PARTICIPANTS = 8
+        private const val NINE_PARTICIPANTS = 9
     }
 
     private lateinit var showFloatingHeaderCallBack: () -> Unit
@@ -45,7 +48,7 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var gridView: ParticipantGridView
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var displayedRemoteParticipantsView: MutableList<ParticipantGridCellView>
-    private lateinit var getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?
+    private lateinit var getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -184,15 +187,16 @@ internal class ParticipantGridView : GridLayout {
         displayedRemoteParticipantsView: List<ParticipantGridCellView>,
     ) {
         when (displayedRemoteParticipantsView.size) {
-            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS -> {
+            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, EIGHT_PARTICIPANTS,
+            NINE_PARTICIPANTS, -> {
                 displayedRemoteParticipantsView.forEach {
                     addParticipantToGrid(
                         participantGridCellView = it
                     )
                 }
             }
-            THREE_PARTICIPANTS, FIVE_PARTICIPANTS -> {
-                // for 3 or 5 number of participants, first participant will take two cells
+            THREE_PARTICIPANTS, FIVE_PARTICIPANTS, SEVEN_PARTICIPANTS -> {
+                // for 3, 5, or 7 number of participants, first participant will take two cells
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     addParticipantToGrid(
                         columnSpan = 2,
@@ -237,6 +241,15 @@ internal class ParticipantGridView : GridLayout {
                 } else {
                     setGridRowsColumn(rows = 2, columns = 3)
                 }
+            } 7, 8 -> {
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setGridRowsColumn(rows = 4, columns = 2)
+                } else {
+                    setGridRowsColumn(rows = 2, columns = 4)
+                }
+            }
+            9 -> {
+                setGridRowsColumn(rows = 3, columns = 3)
             }
         }
     }

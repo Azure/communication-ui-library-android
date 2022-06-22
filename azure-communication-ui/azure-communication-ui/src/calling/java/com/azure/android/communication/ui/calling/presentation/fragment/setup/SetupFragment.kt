@@ -3,13 +3,12 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.LayoutDirection
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -45,7 +44,6 @@ internal class SetupFragment :
     private val avatarViewManager get() = holder.container.avatarViewManager
     private val viewModel get() = holder.setupViewModel
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
@@ -55,7 +53,8 @@ internal class SetupFragment :
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.getSetupGradientViewViewModel())
 
-        setupJoinCallButtonHolderView = view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
+        setupJoinCallButtonHolderView =
+            view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
             viewModel.getJoinCallButtonHolderViewModel(),
@@ -65,7 +64,7 @@ internal class SetupFragment :
         participantAvatarView.start(
             viewLifecycleOwner,
             viewModel.getParticipantAvatarViewModel(),
-            avatarViewManager.localSettings?.participantViewData,
+            avatarViewManager.callCompositeLocalOptions?.participantViewData,
         )
 
         warningsView = view.findViewById(R.id.azure_communication_ui_setup_permission_info)
@@ -84,6 +83,8 @@ internal class SetupFragment :
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
+        audioDeviceListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)

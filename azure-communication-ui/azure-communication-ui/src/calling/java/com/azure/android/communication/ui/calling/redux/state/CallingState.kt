@@ -14,7 +14,6 @@ internal enum class CallingStatus {
     DISCONNECTED,
     IN_LOBBY,
     REMOTE_HOLD,
-    CALL_EVICTED,
 }
 
 internal data class CallingState(
@@ -25,3 +24,6 @@ internal data class CallingState(
     val isRecording: Boolean = false,
     val isTranscribing: Boolean = false,
 )
+
+internal fun CallingState.isDisconnected() =
+    !joinCallIsRequested && CallingStatus.DISCONNECTED == callingStatus

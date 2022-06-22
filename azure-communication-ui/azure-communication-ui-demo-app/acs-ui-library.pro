@@ -6,6 +6,10 @@
 
 -keepattributes LineNumberTable,SourceFile,Signature,*Annotation*
 -renamesourcefileattribute SourceFile
+-keepclasseswithmembers public class com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale {
+    public static <fields>;
+}
+
 # skypert.jar
 -keep class com.skype.rt.** { *; }
 # VideoHost.jar
@@ -40,6 +44,13 @@
 }
 -keep class com.fasterxml.jackson.databind.deser.** { *; }
 
+-dontwarn com.microsoft.device.display.DisplayMask
+-dontwarn java.beans.ConstructorProperties
+-dontwarn java.beans.Transient
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+-dontwarn org.slf4j.impl.StaticMDCBinder
+-dontwarn org.slf4j.impl.StaticMarkerBinder
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard

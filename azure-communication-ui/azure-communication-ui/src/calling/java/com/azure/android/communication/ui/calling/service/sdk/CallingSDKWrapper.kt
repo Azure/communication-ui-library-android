@@ -10,9 +10,9 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
+import com.azure.android.communication.calling.CallDiagnosticsOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
-import com.azure.android.communication.calling.DiagnosticOptions
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
@@ -81,6 +81,32 @@ internal class CallingSDKWrapper(
 
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> =
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
+
+    fun hold(): CompletableFuture<Void> {
+        val call: Call?
+
+        try {
+            call = this.call
+        } catch (e: Exception) {
+            // We can't access the call currently, return a no-op and exit
+            return CompletableFuture.runAsync { }
+        }
+
+        return call.hold()
+    }
+
+    fun resume(): CompletableFuture<Void> {
+        val call: Call?
+
+        try {
+            call = this.call
+        } catch (e: Exception) {
+            // We can't access the call currently, return a no-op and exit
+            return CompletableFuture.runAsync { }
+        }
+
+        return call.resume()
+    }
 
     fun endCall(): CompletableFuture<Void> {
         val call: Call?
@@ -411,9 +437,9 @@ internal class CallingSDKWrapper(
         return CallClient(callClientOptions)
     }
 
-    private fun getOrCreateDiagnosticOptions(callClientOptions: CallClientOptions): DiagnosticOptions {
+    private fun getOrCreateDiagnosticOptions(callClientOptions: CallClientOptions): CallDiagnosticsOptions {
         if (callClientOptions.diagnostics == null) {
-            callClientOptions.diagnostics = DiagnosticOptions()
+            callClientOptions.diagnostics = CallDiagnosticsOptions()
         }
 
         return callClientOptions.diagnostics

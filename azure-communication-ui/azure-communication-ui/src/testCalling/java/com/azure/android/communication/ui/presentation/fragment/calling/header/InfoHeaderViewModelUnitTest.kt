@@ -51,7 +51,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             )
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
-            floatingHeaderViewModel.init(appState.callState.callingStatus, expectedParticipantMap.count())
+            floatingHeaderViewModel.init(
+                appState.callState.callingStatus,
+                expectedParticipantMap.count()
+            )
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()

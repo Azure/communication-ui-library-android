@@ -64,7 +64,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
         val expiredAcsToken = TestFixture.expiredToken
 
         Assert.assertTrue(
-            "Invalid acs token: ${expiredAcsToken.length}",
+            "Invalid acs token length: ${expiredAcsToken.length}",
             expiredAcsToken.length >= 700
         )
 
@@ -75,7 +75,6 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
         val setupScreen = homeScreen.clickLaunchButton()
 
         setupScreen
-            .turnCameraOn()
             .clickJoinCallButton()
 
         homeScreen.clickAlertDialogOkButton()

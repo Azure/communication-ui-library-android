@@ -24,7 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
-import com.azure.android.communication.ui.calling.models.CommunicationUISupportedLocale
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
@@ -46,6 +46,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
+    private val audioFocusManager get() = container.audioFocusManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -71,15 +72,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        configureActionBar()
         configureLocalization()
+        configureActionBar()
         setStatusBarColor()
         setActionBarVisibility()
 
-        if (configuration.themeConfig?.theme != null) {
-            theme.applyStyle(
-                configuration.themeConfig?.theme!!, true
-            )
+        configuration.themeConfig?.let {
+            theme.applyStyle(it, true)
         }
 
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
@@ -105,6 +104,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
             navigationRouter.start()
         }
 
+        lifecycleScope.launch {
+            audioFocusManager.start()
+        }
+
         notificationService.start(lifecycleScope)
     }
 
@@ -119,7 +122,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         if (!isChangingConfigurations) {
-            lifecycleScope.launch { lifecycleManager.pause() }
+            lifecycleScope.launch {
+                lifecycleManager.pause()
+            }
         }
     }
 
@@ -128,6 +133,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
+            audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
@@ -308,7 +314,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun supportedOSLocale(): Locale {
         val languageCode = Locale.getDefault().language
         val countryCode = Locale.getDefault().country
-        for (language in CommunicationUISupportedLocale.getSupportedLocales()) {
+        for (language in CallCompositeSupportedLocale.getSupportedLocales()) {
             if (language.language == "$languageCode-$countryCode") {
                 return Locale(languageCode, countryCode)
             }
