@@ -262,7 +262,7 @@ internal class CallingSDKWrapper(
         return call.mute(context)
     }
 
-    private fun isCallIsNotSetup() = callClient == null && deviceManagerCompletableFuture == null
+    private fun callIsNotSetup() = callClient == null && deviceManagerCompletableFuture == null
 
     fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
         val result = CompletableFuture<LocalVideoStream>()
@@ -272,7 +272,7 @@ internal class CallingSDKWrapper(
         if (localVideoStreamCompletableFuture.isDone) {
             result.complete(localVideoStreamCompletableFuture.get())
         } else {
-            if (isCallIsNotSetup()) {
+            if (callIsNotSetup()) {
                 result.complete(null)
             } else {
                 initializeCameras().whenComplete { _, error ->
