@@ -340,4 +340,85 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob.cancel()
         }
     }
+
+    @Test
+    fun controlBarViewModel_update_then_callingStatusFlowReflectsUpdate() {
+        runScopedTest {
+            // arrange
+            val appStore = mock<AppStore<ReduxState>>()
+            val callingViewModel = ControlBarViewModel(appStore::dispatch)
+
+            val permissionState = PermissionState(
+                PermissionStatus.GRANTED,
+                PermissionStatus.GRANTED
+            )
+
+            val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
+            val cameraDeviceSelectionStatus = CameraDeviceSelectionStatus.FRONT
+            val cameraTransmissionStatus = CameraTransmissionStatus.REMOTE
+
+            val expectedCameraState = CameraOperationalStatus.ON
+
+            val cameraState = CameraState(
+                expectedCameraState,
+                cameraDeviceSelectionStatus,
+                cameraTransmissionStatus
+            )
+
+            val initialCameraState = CameraState(
+                CameraOperationalStatus.OFF,
+                cameraDeviceSelectionStatus,
+                cameraTransmissionStatus
+            )
+            callingViewModel.init(
+                permissionState,
+                initialCameraState,
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                )
+            )
+
+            val resultListFromOnHoldCallStatusStateFlow = mutableListOf<Boolean>()
+            val flowJob = launch {
+                callingViewModel.getOnHoldCallStatusStateFlowStateFlow().toList(resultListFromOnHoldCallStatusStateFlow)
+            }
+
+            // act
+            callingViewModel.update(
+                permissionState,
+                cameraState,
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingStatus.CONNECTED
+            )
+            callingViewModel.update(
+                permissionState,
+                cameraState,
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    audioDeviceState,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingStatus.LOCAL_HOLD
+            )
+
+            // assert
+            Assert.assertEquals(
+                false,
+                resultListFromOnHoldCallStatusStateFlow[0]
+            )
+
+            Assert.assertEquals(
+                true,
+                resultListFromOnHoldCallStatusStateFlow[1]
+            )
+
+            flowJob.cancel()
+        }
+    }
 }
