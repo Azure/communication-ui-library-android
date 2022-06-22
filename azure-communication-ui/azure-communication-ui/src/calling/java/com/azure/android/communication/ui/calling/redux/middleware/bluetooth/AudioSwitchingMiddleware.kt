@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
-
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
@@ -18,8 +17,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 // / It'll also detect New connections and dispatch auto-switch
 internal class AudioSwitchingMiddleware(
     private val audioSwitchingAdapter: AudioSwitchingAdapter,
-) :
-    Middleware<ReduxState> {
+) : Middleware<ReduxState> {
 
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
