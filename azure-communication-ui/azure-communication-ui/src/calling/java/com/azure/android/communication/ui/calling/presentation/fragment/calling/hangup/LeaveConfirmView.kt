@@ -41,6 +41,7 @@ internal class LeaveConfirmView(
     fun stop() {
         bottomCellAdapter.setBottomCellItems(mutableListOf())
         leaveConfirmMenuTable.layoutManager = null
+        leaveConfirmMenuDrawer.dismiss()
         leaveConfirmMenuDrawer.dismissDialog()
 
         removeAllViews()

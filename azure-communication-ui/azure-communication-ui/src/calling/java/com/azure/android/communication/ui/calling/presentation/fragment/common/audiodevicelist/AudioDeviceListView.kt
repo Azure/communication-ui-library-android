@@ -63,6 +63,7 @@ internal class AudioDeviceListView(
     fun stop() {
         bottomCellAdapter.setBottomCellItems(mutableListOf())
         deviceTable.layoutManager = null
+        audioDeviceDrawer.dismiss()
         audioDeviceDrawer.dismissDialog()
         this.removeAllViews()
     }
