@@ -34,11 +34,9 @@ import com.azure.android.communication.ui.calling.presentation.navigation.BackNa
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
     companion object {
-        private const val TAG = "CallingFragment"
-        private const val LEAVE_CONFIRM_VIEW_KEY = "$TAG.LeaveConfirmView"
-        private const val AUDIO_DEVICE_LIST_VIEW_KEY = "$TAG.AudioDeviceListView"
-        private const val PARTICIPANT_LIST_VIEW_KEY = "$TAG.ParticipantListView"
-
+        private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
+        private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
+        private const val PARTICIPANT_LIST_VIEW_KEY = "ParticipantListView"
     }
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
@@ -208,9 +206,7 @@ internal class CallingFragment :
             LEAVE_CONFIRM_VIEW_KEY to viewModel.getConfirmLeaveOverlayViewModel().getShouldDisplayLeaveConfirmFlow(),
             AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenuStateFlow,
             PARTICIPANT_LIST_VIEW_KEY to viewModel.getParticipantListViewModel().getDisplayParticipantListStateFlow()
-        ).forEach { (key, element) ->
-            outState.putBoolean(key, element.value)
-        }
+        ).forEach { (key, element) -> outState.putBoolean(key, element.value) }
         super.onSaveInstanceState(outState)
     }
 
@@ -222,11 +218,7 @@ internal class CallingFragment :
                 LEAVE_CONFIRM_VIEW_KEY to viewModel.getConfirmLeaveOverlayViewModel()::requestExitConfirmation,
                 AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.getAudioDeviceListViewModel()::displayAudioDeviceSelectionMenu,
                 PARTICIPANT_LIST_VIEW_KEY to viewModel.getParticipantListViewModel()::displayParticipantList
-            ).forEach { (key, element) ->
-               if (it.getBoolean(key)) {
-                   element()
-               }
-            }
+            ).forEach { (key, showDialog) -> if (it.getBoolean(key)) showDialog() }
         }
     }
 
