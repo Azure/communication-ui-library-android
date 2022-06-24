@@ -7,7 +7,7 @@ internal class DiagnosticConfig {
     val tags: Array<String> by lazy { arrayOf(getApplicationId()) }
 
     private fun getApplicationId(): String {
-        val callingCompositeVersionName = "1.0.0-beta.3"
+        val callingCompositeVersionName = "1.0.0"
         return "aca110/$callingCompositeVersionName"
     }
 }
