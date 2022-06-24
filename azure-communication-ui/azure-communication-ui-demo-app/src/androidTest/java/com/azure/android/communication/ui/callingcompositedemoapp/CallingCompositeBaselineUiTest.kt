@@ -86,4 +86,11 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
             .clickEndCall()
             .clickLeaveCall()
     }
+
+    @Test
+    fun testJoinAndLeaveMultipleTimes() {
+        for (i in 0..5) {
+            joinGroupCall()
+        }
+    }
 }
