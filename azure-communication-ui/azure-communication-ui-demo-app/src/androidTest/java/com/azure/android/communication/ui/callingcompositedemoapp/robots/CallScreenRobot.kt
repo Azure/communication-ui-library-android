@@ -4,8 +4,11 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
@@ -92,6 +95,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
         idlingResource.waitUntilViewIsDisplayed {
             UiTestUtils.checkViewWithTextIsDisplayed("Leave call?")
         }
+        onView(withId(R.id.bottom_drawer_table)).perform(swipeUp())
         UiTestUtils.clickViewWithIdAndText(R.id.cell_text, "Leave")
     }
 
