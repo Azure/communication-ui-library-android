@@ -112,7 +112,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     }
 
     @Throws(RuntimeException::class)
-    fun clickJoinCallButton(): CallScreenRobot {
+    fun clickJoinCallButton(waitForProgress: Boolean = true): CallScreenRobot {
         val idlingResource = ViewIsDisplayedResource()
         UiTestUtils.run {
             idlingResource.waitUntilViewIsDisplayed {
@@ -123,7 +123,12 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
             }
             clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
         }
-
+        if (waitForProgress) {
+            waitUntilViewIdDoesNotExist(
+                R.id.azure_communication_ui_setup_start_call_progress_bar,
+                idlingResource
+            )
+        }
         return CallScreenRobot()
     }
 
