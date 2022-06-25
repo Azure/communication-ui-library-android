@@ -14,6 +14,16 @@ import java.lang.IllegalStateException
 
 abstract class ScreenRobot<T : ScreenRobot<T>> {
 
+    fun waitUntilViewIdDoesNotExist(
+        @IdRes viewId: Int,
+        idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
+    ): ViewInteraction {
+        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
+            UiTestUtils.checkViewIdDoesNotExist(viewId)
+        }
+        return viewInteraction
+    }
+
     fun waitUntilViewIdIsNotDisplayed(
         @IdRes viewId: Int,
         idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
