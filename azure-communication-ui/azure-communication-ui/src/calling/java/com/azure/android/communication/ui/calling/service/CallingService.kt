@@ -3,21 +3,14 @@
 
 package com.azure.android.communication.ui.calling.service
 
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
-import com.azure.android.communication.ui.calling.error.CallStateError
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
-import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
@@ -35,23 +28,6 @@ internal class CallingService(
 ) {
     companion object {
         private const val LOCAL_VIDEO_STREAM_ID = "BuiltInCameraVideoStream"
-        internal const val CALL_END_REASON_TOKEN_EXPIRED = 401
-        internal const val CALL_END_REASON_SUCCESS = 0
-
-        /*
-        * Call canceled, locally declined, ended due to an endpoint mismatch issue, or failed to generate media offer.
-        * Expected behavior.
-        * */
-        internal const val CALL_END_REASON_CANCELED = 487
-
-        /*
-        * Call globally declined by remote Communication Services participant.
-        * Expected behavior.
-        * */
-        internal const val CALL_END_REASON_DECLINED = 603
-        internal const val CALL_END_REASON_TEAMS_EVICTED = 5300
-        internal const val CALL_END_REASON_EVICTED = 5000
-        internal const val CALL_END_REASON_SUB_CODE_DECLINED = 5854
     }
 
     private val participantsInfoModelSharedFlow =
@@ -138,7 +114,8 @@ internal class CallingService(
     fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
         coroutineScope.launch {
             callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
-                val callStateError = getCallStateError(it)
+                logger?.debug(it.toString())
+                val callStateError = it.asCallStateError(currentStatus = callingStatus)
                 callingStatus = it.toCallingStatus()
                 callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
@@ -170,25 +147,4 @@ internal class CallingService(
 
         return callingSDKWrapper.startCall(cameraState, audioState)
     }
-
-    private fun getCallStateError(callingState: CallingStateWrapper): CallStateError? =
-        callingState.run {
-            logger?.debug(callingState.toString())
-            when {
-                callingState.isEvicted() -> CallStateError(CALL_END_FAILED, CALL_EVICTED)
-                callingState.isDeclined() -> CallStateError(CALL_END_FAILED, CALL_DECLINED)
-                callEndReason == CALL_END_REASON_SUCCESS ||
-                    callEndReason == CALL_END_REASON_CANCELED ||
-                    callEndReason == CALL_END_REASON_DECLINED -> null
-                callEndReason == CALL_END_REASON_TOKEN_EXPIRED ->
-                    CallStateError(TOKEN_EXPIRED, null)
-                else -> {
-                    if (callingStatus == CallingStatus.CONNECTED) {
-                        CallStateError(CALL_END_FAILED, null)
-                    } else {
-                        CallStateError(CALL_JOIN_FAILED, null)
-                    }
-                }
-            }
-        }
 }

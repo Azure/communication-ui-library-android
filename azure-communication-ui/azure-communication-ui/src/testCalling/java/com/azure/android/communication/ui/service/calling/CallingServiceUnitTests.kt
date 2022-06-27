@@ -26,6 +26,8 @@ import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_EVICTED
+import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_SUB_CODE_DECLINED
 
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -153,7 +155,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             callingStateWrapperStateFlow.value = CallingStateWrapper(
                 CallState.DISCONNECTED,
                 0,
-                CallingService.CALL_END_REASON_EVICTED
+                CALL_END_REASON_EVICTED
             )
 
             // assert
@@ -197,7 +199,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             callingStateWrapperStateFlow.value = CallingStateWrapper(
                 CallState.DISCONNECTED,
                 0,
-                CallingService.CALL_END_REASON_SUB_CODE_DECLINED
+                CALL_END_REASON_SUB_CODE_DECLINED
             )
 
             // assert
