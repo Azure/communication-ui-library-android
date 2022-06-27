@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class CallingService(
-    private val callingSDKWrapper: CallingSDK,
+    private val callingSdk: CallingSDK,
     coroutineContextProvider: CoroutineContextProvider,
     private val logger: Logger? = null,
 ) {
@@ -40,29 +40,29 @@ internal class CallingService(
     private var callingStatus: CallingStatus = CallingStatus.NONE
 
     fun turnCameraOn(): CompletableFuture<String> {
-        return callingSDKWrapper.turnOnVideoAsync().thenApply { stream ->
+        return callingSdk.turnOnVideoAsync().thenApply { stream ->
             stream?.source?.id
         }
     }
 
     fun turnCameraOff(): CompletableFuture<Void> {
-        return callingSDKWrapper.turnOffVideoAsync()
+        return callingSdk.turnOffVideoAsync()
     }
 
     fun switchCamera(): CompletableFuture<CameraDeviceSelectionStatus> {
-        return callingSDKWrapper.switchCameraAsync()
+        return callingSdk.switchCameraAsync()
     }
 
     fun turnMicOff(): CompletableFuture<Void> {
-        return callingSDKWrapper.turnOffMicAsync()
+        return callingSdk.turnOffMicAsync()
     }
 
     fun turnMicOn(): CompletableFuture<Void> {
-        return callingSDKWrapper.turnOnMicAsync()
+        return callingSdk.turnOnMicAsync()
     }
 
     fun turnLocalCameraOn(): CompletableFuture<String> {
-        return callingSDKWrapper.getLocalVideoStream().thenApply {
+        return callingSdk.getLocalVideoStream().thenApply {
             /**
              * On switch camera video stream ID is changed
              * We do not sync local video stream ID to store on camera switch
@@ -91,29 +91,29 @@ internal class CallingService(
     }
 
     fun endCall(): CompletableFuture<Void> {
-        return callingSDKWrapper.endCall()
+        return callingSdk.endCall()
     }
 
     fun hold(): CompletableFuture<Void> {
-        return callingSDKWrapper.hold()
+        return callingSdk.hold()
     }
 
     fun resume(): CompletableFuture<Void> {
-        return callingSDKWrapper.resume()
+        return callingSdk.resume()
     }
 
     fun setupCall() {
-        callingSDKWrapper.setupCall()
+        callingSdk.setupCall()
     }
 
     fun dispose() {
         coroutineScope.cancel()
-        callingSDKWrapper.dispose()
+        callingSdk.dispose()
     }
 
     fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
         coroutineScope.launch {
-            callingSDKWrapper.getCallingStateWrapperSharedFlow().collect {
+            callingSdk.getCallingStateWrapperSharedFlow().collect {
                 logger?.debug(it.toString())
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
                 callingStatus = it.toCallingStatus()
@@ -122,29 +122,29 @@ internal class CallingService(
         }
 
         coroutineScope.launch {
-            callingSDKWrapper.getIsMutedSharedFlow().collect {
+            callingSdk.getIsMutedSharedFlow().collect {
                 isMutedSharedFlow.emit(it)
             }
         }
 
         coroutineScope.launch {
-            callingSDKWrapper.getRemoteParticipantInfoModelSharedFlow().collect {
+            callingSdk.getRemoteParticipantInfoModelSharedFlow().collect {
                 participantsInfoModelSharedFlow.emit(it)
             }
         }
 
         coroutineScope.launch {
-            callingSDKWrapper.getIsRecordingSharedFlow().collect {
+            callingSdk.getIsRecordingSharedFlow().collect {
                 isRecordingSharedFlow.emit(it)
             }
         }
 
         coroutineScope.launch {
-            callingSDKWrapper.getIsTranscribingSharedFlow().collect {
+            callingSdk.getIsTranscribingSharedFlow().collect {
                 isTranscribingSharedFlow.emit(it)
             }
         }
 
-        return callingSDKWrapper.startCall(cameraState, audioState)
+        return callingSdk.startCall(cameraState, audioState)
     }
 }
