@@ -63,6 +63,7 @@ android {
 
         debug {
             applicationIdSuffix = ".debug"
+            testCoverageEnabled = true
             manifestPlaceholders = [
                     appIcon: "@mipmap/ic_launcher_debug",
                     appIconRound: "@mipmap/ic_launcher_debug_round"

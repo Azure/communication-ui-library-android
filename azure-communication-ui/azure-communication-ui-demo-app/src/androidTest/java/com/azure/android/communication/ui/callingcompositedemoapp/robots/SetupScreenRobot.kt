@@ -5,11 +5,12 @@ package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
 import androidx.annotation.DrawableRes
 import androidx.test.espresso.action.ViewActions.click
-import com.azure.android.communication.ui.callingcompositedemoapp.Localize
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
+import java.util.Locale
+
 
 class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
 
@@ -150,3 +151,16 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         UiTestUtils.navigateUp()
     }
 }
+
+enum class Localize(
+    val language: String,
+    val videoOffText: String,
+    val micText: String
+) {
+
+    French(Locale.FRENCH.displayName, "Video désactivé", "Microphone désactivé"),
+    German(Locale.GERMAN.displayName, "Video aus", "Mikrofon aus"),
+    Italian(Locale.ITALIAN.displayName, "Video disattivato", "Microfono disattivato"),
+    English(Locale.ENGLISH.displayName, "Video off", "Mic off")
+}
+
