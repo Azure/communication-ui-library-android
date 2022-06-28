@@ -96,7 +96,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     }
 
     fun verifyIsCameraButtonDisabled(): CallScreenRobot {
-        Thread.sleep(3000)
+        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_cameraToggle)
         UiTestUtils.checkViewIdIsNotEnabled(R.id.azure_communication_ui_call_cameraToggle)
         return this
     }
