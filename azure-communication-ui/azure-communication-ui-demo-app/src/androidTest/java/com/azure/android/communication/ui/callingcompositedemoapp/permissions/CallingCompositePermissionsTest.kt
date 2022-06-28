@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.callingcompositedemoapp
+package com.azure.android.communication.ui.callingcompositedemoapp.permissions
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -42,8 +42,6 @@ class CallingCompositePermissionsTest : BaseUiPermissionTest() {
             .clickCameraButton()
             .permissionDialogAction(true)
             .clickJoinCallButton()
-            .showParticipantList()
-            .dismissParticipantList()
             .verifyIsCameraButtonDisabled()
             .clickEndCall()
             .clickLeaveCall()

@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.callingcompositedemoapp
+package com.azure.android.communication.ui.callingcompositedemoapp.permissions
 
 import android.os.Build
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
+import com.azure.android.communication.ui.callingcompositedemoapp.append
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
 import leakcanary.DetectLeaksAfterTestSuccess
