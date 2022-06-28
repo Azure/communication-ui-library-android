@@ -18,7 +18,7 @@ import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKRemoteParticipantsCollection
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.junit.Test
@@ -45,7 +45,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection>()
+            val mockRemoteParticipantsCollection = mock<CallingSDK>()
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
@@ -113,7 +113,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockRemoteParticipant = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifier
             }
-            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> {
+            val mockRemoteParticipantsCollection = mock<CallingSDK> {
                 on { getRemoteParticipantsMap() } doReturn mapOf(
                     Pair(
                         "test",
@@ -187,7 +187,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> { }
+            val mockRemoteParticipantsCollection = mock<CallingSDK> { }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
@@ -288,7 +288,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockRemoteParticipantSecond = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierSecond
             }
-            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> {
+            val mockRemoteParticipantsCollection = mock<CallingSDK> {
                 on { getRemoteParticipantsMap() } doReturn mapOf(
                     Pair(
                         "test",
@@ -401,7 +401,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockRemoteParticipantNew = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierNew
             }
-            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> {
+            val mockRemoteParticipantsCollection = mock<CallingSDK> {
                 on { getRemoteParticipantsMap() } doReturn mapOf(
                     Pair(
                         "test",
@@ -603,7 +603,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { identifier } doReturn communicationIdentifierSecond
             }
 
-            val mockRemoteParticipantsCollection = mock<CallingSDKRemoteParticipantsCollection> {
+            val mockRemoteParticipantsCollection = mock<CallingSDK> {
                 on { getRemoteParticipantsMap() } doReturn mapOf(
                     Pair(
                         "test",
