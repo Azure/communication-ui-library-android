@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import com.azure.android.communication.calling.MediaStreamType
-import com.azure.android.communication.calling.RemoteVideoStream
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 
@@ -23,11 +22,8 @@ internal object VideoStreamModelFactory {
         return null
     }
 
-    private fun getStreamType(mediaStreamTye: MediaStreamType): StreamType {
-        return if (mediaStreamTye == MediaStreamType.SCREEN_SHARING) {
-            StreamType.SCREEN_SHARING
-        } else {
-            StreamType.VIDEO
-        }
+    private fun getStreamType(mediaStreamTye: MediaStreamType) = when (mediaStreamTye) {
+        MediaStreamType.SCREEN_SHARING -> StreamType.SCREEN_SHARING
+        else -> StreamType.VIDEO
     }
 }

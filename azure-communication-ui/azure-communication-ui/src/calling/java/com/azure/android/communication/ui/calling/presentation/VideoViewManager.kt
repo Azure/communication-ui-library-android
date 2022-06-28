@@ -6,14 +6,14 @@ package com.azure.android.communication.ui.calling.presentation
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import com.azure.android.communication.calling.RemoteVideoStream
-import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.calling.VideoStreamRendererView
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 
 internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDK,
@@ -26,7 +26,6 @@ internal class VideoViewManager(
     private class VideoRenderer(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
-        var videoStreamID: String,
         var isScreenShareView: Boolean,
     )
 
@@ -68,7 +67,7 @@ internal class VideoViewManager(
                     )
                 val rendererView = videoStreamRenderer.createView()
                 localParticipantVideoRendererMap[videoStreamID] =
-                    VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
+                    VideoRenderer(rendererView, videoStreamRenderer, false)
             }
         }
     }
@@ -119,15 +118,12 @@ internal class VideoViewManager(
                 remoteParticipants[userID]?.videoStreams != null &&
                 remoteParticipants[userID]?.videoStreams?.size!! > 0
             ) {
-                var stream: RemoteVideoStream? = null
-                remoteParticipants[userID]?.videoStreams?.forEach { videoStream ->
-                    if (videoStream.id.toString() == videoStreamID) {
-                        stream = videoStream
-                    }
+                val stream = remoteParticipants[userID]?.videoStreams?.find { videoStream ->
+                    videoStream.id.toString() == videoStreamID
                 }
 
                 if (stream != null) {
-                    val isScreenShare = stream!!.mediaStreamType == MediaStreamType.SCREEN_SHARING
+                    val isScreenShare = stream.mediaStreamType == MediaStreamType.SCREEN_SHARING
                     val videoStreamRenderer =
                         videoStreamRendererFactory.getRemoteParticipantVideoStreamRenderer(
                             stream,
@@ -145,7 +141,6 @@ internal class VideoViewManager(
                         VideoRenderer(
                             rendererView,
                             videoStreamRenderer,
-                            videoStreamID,
                             isScreenShare
                         )
                     return true
@@ -211,12 +206,12 @@ internal class VideoViewManager(
 
 internal class VideoStreamRendererFactory {
     fun getRemoteParticipantVideoStreamRenderer(
-        stream: RemoteVideoStream?,
+        stream: RemoteVideoStream,
         context: Context,
-    ) = VideoStreamRenderer(stream, context)
+    ) = VideoStreamRenderer(stream.native as com.azure.android.communication.calling.RemoteVideoStream, context)
 
     fun getLocalParticipantVideoStreamRenderer(
-        stream: LocalVideoStream?,
+        stream: LocalVideoStream,
         context: Context,
-    ) = VideoStreamRenderer(stream, context)
+    ) = VideoStreamRenderer(stream.native as com.azure.android.communication.calling.LocalVideoStream, context)
 }

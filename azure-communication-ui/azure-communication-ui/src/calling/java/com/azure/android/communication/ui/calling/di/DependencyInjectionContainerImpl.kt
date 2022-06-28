@@ -178,6 +178,7 @@ internal class DependencyInjectionContainerImpl(
     private val applicationContext get() = parentContext.applicationContext
 
     private val logger by lazy { DefaultLogger() }
+
     private val callingSDKWrapper: CallingSDK by lazy {
         CallingSDKWrapper(
             instanceId,

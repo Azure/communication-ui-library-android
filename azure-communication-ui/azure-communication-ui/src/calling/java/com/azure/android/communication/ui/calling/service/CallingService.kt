@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.service
 
+import com.azure.android.communication.calling.LocalVideoStream
+import com.azure.android.communication.calling.RemoteVideoStream
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel

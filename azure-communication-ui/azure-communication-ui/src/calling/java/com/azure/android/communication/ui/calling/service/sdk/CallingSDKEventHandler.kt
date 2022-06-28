@@ -10,13 +10,13 @@ import com.azure.android.communication.calling.ParticipantsUpdatedEvent
 import com.azure.android.communication.calling.ParticipantsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RecordingCallFeature
-import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
+import com.azure.android.communication.ui.calling.service.sdk.ext.id
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -139,7 +139,7 @@ internal class CallingSDKEventHandler(
 
         when (callState) {
             CallState.CONNECTED -> {
-                addParticipants(call!!.remoteParticipants)
+                addParticipants(call!!.remoteParticipants.map { it.into() })
                 onRemoteParticipantUpdated()
             }
             CallState.NONE, CallState.DISCONNECTED -> {
@@ -186,7 +186,7 @@ internal class CallingSDKEventHandler(
 
     private fun addParticipants(remoteParticipantValue: List<RemoteParticipant>) {
         remoteParticipantValue.forEach { addedParticipant ->
-            val id = ParticipantIdentifierHelper.getRemoteParticipantId(addedParticipant.identifier)
+            val id = addedParticipant.identifier.id
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
             }
@@ -212,7 +212,7 @@ internal class CallingSDKEventHandler(
 
         return ParticipantInfoModel(
             displayName = participant.displayName,
-            userIdentifier = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
+            userIdentifier = participant.identifier.id,
             isMuted = participant.isMuted,
             isSpeaking = participant.isSpeaking && !participant.isMuted,
             screenShareVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.SCREEN_SHARING),
@@ -247,9 +247,9 @@ internal class CallingSDKEventHandler(
 
     private fun onParticipantsUpdated(participantsUpdatedEvent: ParticipantsUpdatedEvent) {
         participantsUpdatedEvent.addedParticipants.forEach { addedParticipant ->
-            val id = ParticipantIdentifierHelper.getRemoteParticipantId(addedParticipant.identifier)
+            val id = addedParticipant.identifier.id()
             if (!remoteParticipantsCacheMap.containsKey(id)) {
-                onParticipantAdded(id, addedParticipant)
+                onParticipantAdded(id, addedParticipant.into())
             }
         }
 

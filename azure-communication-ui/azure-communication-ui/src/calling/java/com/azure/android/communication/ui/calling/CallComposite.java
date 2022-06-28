@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
+import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.util.UUID;
 
@@ -227,6 +228,6 @@ public final class CallComposite {
     public CallCompositeSetParticipantViewDataResult setRemoteParticipantViewData(
             final CommunicationIdentifier identifier, final CallCompositeParticipantViewData participantViewData) {
         return configuration.getRemoteParticipantsConfiguration()
-                .setParticipantViewData(identifier, participantViewData);
+                .setParticipantViewData(into(identifier), participantViewData);
     }
 }

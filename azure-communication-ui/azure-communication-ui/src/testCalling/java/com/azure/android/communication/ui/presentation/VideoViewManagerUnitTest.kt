@@ -4,15 +4,15 @@
 package com.azure.android.communication.ui.presentation
 
 import android.content.Context
-import com.azure.android.communication.calling.LocalVideoStream
-import com.azure.android.communication.calling.RemoteParticipant
-import com.azure.android.communication.calling.RemoteVideoStream
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.calling.VideoStreamRendererView
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
+import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 import java9.util.concurrent.CompletableFuture
 import org.junit.Assert
 import org.junit.Test
