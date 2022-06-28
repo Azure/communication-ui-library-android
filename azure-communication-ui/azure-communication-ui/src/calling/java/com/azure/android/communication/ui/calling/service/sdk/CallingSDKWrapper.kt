@@ -12,7 +12,6 @@ import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
-import com.azure.android.communication.calling.DiagnosticOptions
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
@@ -31,6 +30,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 
@@ -39,7 +39,7 @@ internal class CallingSDKWrapper(
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val logger: Logger? = null,
-) : CallingSDKRemoteParticipantsCollection {
+) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
 
@@ -70,19 +70,19 @@ internal class CallingSDKWrapper(
 
     override fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
 
-    fun getCallingStateWrapperSharedFlow() =
+    override fun getCallingStateWrapperSharedFlow() =
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()
 
-    fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
+    override fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
-    fun getIsRecordingSharedFlow() = callingSDKEventHandler.getIsRecordingSharedFlow()
+    override fun getIsRecordingSharedFlow() = callingSDKEventHandler.getIsRecordingSharedFlow()
 
-    fun getIsTranscribingSharedFlow() = callingSDKEventHandler.getIsTranscribingSharedFlow()
+    override fun getIsTranscribingSharedFlow() = callingSDKEventHandler.getIsTranscribingSharedFlow()
 
-    fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> =
+    override fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> =
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
 
-    fun hold(): CompletableFuture<Void> {
+    override fun hold(): CompletableFuture<Void> {
         val call: Call?
 
         try {
@@ -95,7 +95,7 @@ internal class CallingSDKWrapper(
         return call.hold()
     }
 
-    fun resume(): CompletableFuture<Void> {
+    override fun resume(): CompletableFuture<Void> {
         val call: Call?
 
         try {
@@ -108,7 +108,7 @@ internal class CallingSDKWrapper(
         return call.resume()
     }
 
-    fun endCall(): CompletableFuture<Void> {
+    override fun endCall(): CompletableFuture<Void> {
         val call: Call?
 
         try {
@@ -123,19 +123,22 @@ internal class CallingSDKWrapper(
         return endCallCompletableFuture!!
     }
 
-    fun dispose() {
+    override fun dispose() {
         callingSDKEventHandler.dispose()
         cleanupResources()
     }
 
-    fun setupCall() {
+    override fun setupCall() {
         if (callClient == null) {
-            callClient = getCallClient()
+            val callClientOptions = CallClientOptions().also {
+                it.setTags(configuration.callConfig?.diagnosticConfig?.tags, logger)
+            }
+            callClient = CallClient(callClientOptions)
         }
         createDeviceManager()
     }
 
-    fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
+    override fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
         val startCallCompletableFuture = CompletableFuture<Void>()
         createCallAgent().thenAccept { agent: CallAgent ->
             val audioOptions = AudioOptions()
@@ -163,7 +166,7 @@ internal class CallingSDKWrapper(
         return startCallCompletableFuture
     }
 
-    fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream> {
+    override fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream> {
         val result = CompletableFuture<LocalVideoStream>()
         this.getLocalVideoStream()
             .thenCompose { videoStream: LocalVideoStream ->
@@ -183,7 +186,7 @@ internal class CallingSDKWrapper(
         return result
     }
 
-    fun turnOffVideoAsync(): CompletableFuture<Void> {
+    override fun turnOffVideoAsync(): CompletableFuture<Void> {
         val result = CompletableFuture<Void>()
         this.getLocalVideoStream()
             .thenAccept { videoStream: LocalVideoStream ->
@@ -203,7 +206,7 @@ internal class CallingSDKWrapper(
         return result
     }
 
-    fun switchCameraAsync(): CompletableFuture<CameraDeviceSelectionStatus> {
+    override fun switchCameraAsync(): CompletableFuture<CameraDeviceSelectionStatus> {
         val result = CompletableFuture<CameraDeviceSelectionStatus>()
         this.getLocalVideoStream()
             .thenAccept { videoStream: LocalVideoStream ->
@@ -254,15 +257,15 @@ internal class CallingSDKWrapper(
         return result
     }
 
-    fun turnOnMicAsync(): CompletableFuture<Void> {
+    override fun turnOnMicAsync(): CompletableFuture<Void> {
         return call.unmute(context)
     }
 
-    fun turnOffMicAsync(): CompletableFuture<Void> {
+    override fun turnOffMicAsync(): CompletableFuture<Void> {
         return call.mute(context)
     }
 
-    fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
+    override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
         val result = CompletableFuture<LocalVideoStream>()
 
         val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
@@ -420,28 +423,5 @@ internal class CallingSDKWrapper(
         camerasInitializedCompletableFuture = null
         deviceManagerCompletableFuture = null
         endCallCompletableFuture?.complete(null)
-    }
-
-    private fun getCallClient(): CallClient {
-        val callClientOptions = CallClientOptions().apply {
-            configuration.callConfig?.diagnosticConfig?.tags?.let { telemetryTags ->
-                val diagnosticOptions = getOrCreateDiagnosticOptions(this)
-                diagnostics.tags = diagnosticOptions.tags + telemetryTags
-            }
-        }
-        logger?.let { logger ->
-            callClientOptions.diagnostics.tags.forEach {
-                logger.debug("diagnostic tag element: $it")
-            }
-        }
-        return CallClient(callClientOptions)
-    }
-
-    private fun getOrCreateDiagnosticOptions(callClientOptions: CallClientOptions): DiagnosticOptions {
-        if (callClientOptions.diagnostics == null) {
-            callClientOptions.diagnostics = DiagnosticOptions()
-        }
-
-        return callClientOptions.diagnostics
     }
 }

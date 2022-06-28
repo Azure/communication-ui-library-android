@@ -8,13 +8,19 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
+import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.BluetoothDetectionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
+import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
+import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
+import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
 
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
@@ -37,6 +43,7 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
@@ -67,7 +74,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val videoViewManager by lazy {
-        VideoViewManager(callingSDKWrapper, applicationContext)
+        VideoViewManager(callingSDKWrapper, applicationContext, VideoStreamRendererFactory())
     }
 
     override val permissionManager by lazy {
@@ -99,7 +106,14 @@ internal class DependencyInjectionContainerImpl(
 
     override val accessibilityManager by lazy {
         AccessibilityAnnouncementManager(
-            appStore
+            appStore,
+            listOf(
+                MeetingJoinedHook(),
+                CameraStatusHook(),
+                ParticipantAddedOrRemovedHook(),
+                MicStatusHook(),
+                SwitchCameraStatusHook(),
+            )
         )
     }
 
@@ -170,7 +184,7 @@ internal class DependencyInjectionContainerImpl(
     private val applicationContext get() = parentContext.applicationContext
 
     private val logger by lazy { DefaultLogger() }
-    private val callingSDKWrapper by lazy {
+    private val callingSDKWrapper: CallingSDK by lazy {
         CallingSDKWrapper(
             instanceId,
             applicationContext,

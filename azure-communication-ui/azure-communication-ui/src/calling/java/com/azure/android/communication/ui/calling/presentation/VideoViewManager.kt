@@ -7,16 +7,18 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.azure.android.communication.calling.RemoteVideoStream
+import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.calling.VideoStreamRendererView
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.CreateViewOptions
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 internal class VideoViewManager(
-    private val callingSDKWrapper: CallingSDKWrapper,
+    private val callingSDKWrapper: CallingSDK,
     private val context: Context,
+    private val videoStreamRendererFactory: VideoStreamRendererFactory,
 ) {
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
@@ -60,7 +62,10 @@ internal class VideoViewManager(
             if (!localParticipantVideoRendererMap.containsKey(videoStreamID)) {
                 val videoStream = callingSDKWrapper.getLocalVideoStream().get()
                 val videoStreamRenderer =
-                    VideoStreamRenderer(videoStream, context)
+                    videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
+                        videoStream,
+                        context
+                    )
                 val rendererView = videoStreamRenderer.createView()
                 localParticipantVideoRendererMap[videoStreamID] =
                     VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
@@ -123,14 +128,19 @@ internal class VideoViewManager(
 
                 if (stream != null) {
                     val isScreenShare = stream!!.mediaStreamType == MediaStreamType.SCREEN_SHARING
-                    val videoStreamRenderer = VideoStreamRenderer(stream, context)
-
-                    val viewOption =
-                        if (isScreenShare) CreateViewOptions(ScalingMode.FIT) else CreateViewOptions(
-                            ScalingMode.CROP
+                    val videoStreamRenderer =
+                        videoStreamRendererFactory.getRemoteParticipantVideoStreamRenderer(
+                            stream,
+                            context
                         )
 
-                    val rendererView = videoStreamRenderer.createView(viewOption)
+                    val rendererView =
+                        if (isScreenShare) videoStreamRenderer.createView(
+                            CreateViewOptions(
+                                ScalingMode.FIT
+                            )
+                        ) else videoStreamRenderer.createView()
+
                     remoteParticipantVideoRendererMap[uniqueID] =
                         VideoRenderer(
                             rendererView,
@@ -197,4 +207,16 @@ internal class VideoViewManager(
             (view.parent as ViewGroup).removeView(view)
         }
     }
+}
+
+internal class VideoStreamRendererFactory {
+    fun getRemoteParticipantVideoStreamRenderer(
+        stream: RemoteVideoStream?,
+        context: Context,
+    ) = VideoStreamRenderer(stream, context)
+
+    fun getLocalParticipantVideoStreamRenderer(
+        stream: LocalVideoStream?,
+        context: Context,
+    ) = VideoStreamRenderer(stream, context)
 }

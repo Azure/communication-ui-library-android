@@ -20,8 +20,9 @@
     <color name="azure_communication_ui_calling_color_on_success">#FFFFFF</color>
     <color name="azure_communication_ui_calling_color_call_leave_overlay">#CC000000</color>
     <color name="azure_communication_ui_calling_color_call_lobby_overlay">#CCFFFFFF</color>
+    <color name="azure_communication_ui_calling_color_call_on_hold_overlay_text">#212121</color>
     <color name="azure_communication_ui_calling_color_participant_list_mute_mic">#919191</color>
-    <color name="azure_communication_ui_calling_color_status_bar">#ffffff</color>
+    <color name="azure_communication_ui_calling_color_status_bar">#FFFFFF</color>
     <color name="azure_communication_ui_calling_color_text_primary">#212121</color>
     <color name="azure_communication_ui_calling_color_action_bar_text">#000000</color>
     <color name="azure_communication_ui_calling_color_focus_highlight">#808080</color>
