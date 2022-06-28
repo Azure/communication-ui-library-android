@@ -41,6 +41,7 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
@@ -177,7 +178,7 @@ internal class DependencyInjectionContainerImpl(
     private val applicationContext get() = parentContext.applicationContext
 
     private val logger by lazy { DefaultLogger() }
-    private val callingSDKWrapper by lazy {
+    private val callingSDKWrapper: CallingSDK by lazy {
         CallingSDKWrapper(
             instanceId,
             applicationContext,

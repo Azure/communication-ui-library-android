@@ -9,13 +9,13 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRemotePart
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKRemoteParticipantsCollection
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import kotlinx.coroutines.flow.collect
 
 internal class RemoteParticipantHandler(
     private val configuration: CallCompositeConfiguration,
     private val store: Store<ReduxState>,
-    private val remoteParticipantsCollection: CallingSDKRemoteParticipantsCollection,
+    private val remoteParticipantsCollection: CallingSDK,
 ) {
     private var lastRemoteParticipantsState: RemoteParticipantsState? = null
 
