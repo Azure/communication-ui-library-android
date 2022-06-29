@@ -235,10 +235,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 PerformanceDiagnostics.finishTrackingMetric(PerformanceDiagnostics.CALL_SCREEN_LOADING)
             }
             NavigationStatus.SETUP -> {
+                //PerformanceDiagnostics.startTrackingMetric(PerformanceDiagnostics.SETUP_FRAGMENT_LOADING)
                 notificationService.removeNotification()
                 supportActionBar?.show()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 launchFragment(SetupFragment::class.java.name)
+                //PerformanceDiagnostics.finishTrackingMetric(PerformanceDiagnostics.SETUP_FRAGMENT_LOADING)
             }
         }
     }

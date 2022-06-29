@@ -18,6 +18,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
@@ -30,6 +31,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
+import com.azure.android.communication.ui.calling.utilities.DrawListener
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
@@ -56,6 +58,11 @@ internal class CallingFragment :
     private lateinit var powerManager: PowerManager
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        PerformanceDiagnostics.startTrackingMetric(PerformanceDiagnostics.CALLING_FRAGMENT_LOADING)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -147,6 +154,15 @@ internal class CallingFragment :
         participantGridView.setOnClickListener {
             switchFloatingHeader()
         }
+
+        DrawListener.registerDrawListener(participantGridView, object : DrawListener.OnDrawCallback{
+            override fun onDrawingStart() { }
+
+            override fun onDrawingFinish() {
+                PerformanceDiagnostics.finishTrackingMetric(PerformanceDiagnostics.CALLING_FRAGMENT_LOADING)
+            }
+
+        })
     }
 
     override fun onDestroy() {

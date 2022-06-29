@@ -3,17 +3,20 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
@@ -24,6 +27,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
+import com.azure.android.communication.ui.calling.utilities.DrawListener
 
 internal class SetupFragment :
     Fragment(R.layout.azure_communication_ui_calling_fragment_setup), BackNavigation {
@@ -43,6 +47,12 @@ internal class SetupFragment :
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
     private val viewModel get() = holder.setupViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("Mohtasim", "Fragment attached")
+        PerformanceDiagnostics.startTrackingMetric(PerformanceDiagnostics.SETUP_FRAGMENT_LOADING)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,6 +107,16 @@ internal class SetupFragment :
         errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
 
         viewModel.setupCall()
+
+        DrawListener.registerDrawListener(setupGradientView, object : DrawListener.OnDrawCallback{
+            override fun onDrawingStart() {
+            }
+
+            override fun onDrawingFinish() {
+                PerformanceDiagnostics.finishTrackingMetric(PerformanceDiagnostics.SETUP_FRAGMENT_LOADING)
+            }
+
+        })
     }
 
     override fun onDestroy() {
