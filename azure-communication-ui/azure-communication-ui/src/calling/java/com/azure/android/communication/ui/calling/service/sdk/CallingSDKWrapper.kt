@@ -270,6 +270,8 @@ internal class CallingSDKWrapper(
         if (localVideoStreamCompletableFuture.isDone) {
             result.complete(localVideoStreamCompletableFuture.get())
         } else {
+            // cleanUpResources() could have been called before this, so we need to check if it's still
+            // alright to call initializeCameras()
             if (canCreateLocalVideostream()) {
                 initializeCameras().whenComplete { _, error ->
                     if (error != null) {
