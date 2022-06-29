@@ -15,8 +15,6 @@ internal class PerformanceDiagnosticsClient {
     fun init() {
         PerformanceDiagnostics.callback = object : TrackMetricHandler {
             override fun trackMetric(name: String, value: Long) {
-                Log.d("PerformanceDiagnostics", "$name: $value")
-
                 var properties: EventProperties = EventProperties().set(name, value)
                 Analytics.trackEvent(name, properties)
             }

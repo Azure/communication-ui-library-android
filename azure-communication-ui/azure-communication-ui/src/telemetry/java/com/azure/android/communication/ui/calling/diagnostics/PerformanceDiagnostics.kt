@@ -7,6 +7,8 @@ class PerformanceDiagnostics {
 
     companion object {
         const val CALL_SCREEN_LOADING = "CALL_SCREEN_LOADING"
+        const val SETUP_FRAGMENT_LOADING = "SETUP_FRAGMENT_LOADING"
+        const val CALLING_FRAGMENT_LOADING = "CALLING_FRAGMENT_LOADING"
 
         private val timingsStorage = mutableMapOf<String, Long>()
 
