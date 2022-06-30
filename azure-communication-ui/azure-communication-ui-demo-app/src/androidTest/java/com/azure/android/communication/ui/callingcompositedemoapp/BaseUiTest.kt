@@ -8,6 +8,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
+import leakcanary.DetectLeaksAfterTestSuccess
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -23,6 +24,9 @@ open class BaseUiTest {
     @Rule
     @JvmField
     var grantPermissionRule: GrantPermissionRule
+
+    @get:Rule
+    val rule = DetectLeaksAfterTestSuccess()
 
     private val basePermissionList = arrayOf(
         "android.permission.ACCESS_NETWORK_STATE",

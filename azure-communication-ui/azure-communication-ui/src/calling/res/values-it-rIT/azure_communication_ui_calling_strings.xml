@@ -33,6 +33,12 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">In attesa dell\'organizzatore</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">A breve qualcuno nella riunione ti farà partecipare</string>
 
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">In attesa</string>
+    <string name="azure_communication_ui_calling_resume">Riprendi</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">In attesa</string>
+    <string name="azure_communication_ui_calling_mic_used">Non è possibile riprendere la chiamata\nIl microfono è in uso da un\'altra app.</string>
+
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">In attesa di altri partecipanti</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Chiamata con 1 persona</string>
@@ -42,13 +48,14 @@
     <string name="azure_communication_ui_calling_view_leave_call">Abbandona la chiamata?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Abbandona</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Annulla</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Esci dal menu Conferma</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Apri elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Tocca due volte per chiudere l\'elenco partecipanti</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Notifiche disattivate</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Microfono riattivato</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Disconnetti</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Pulsante Chiudi</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Chiudi</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Pulsante Chiudi</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Attiva/disattiva video</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Attiva/Disattiva audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opzioni dispositivo</string>

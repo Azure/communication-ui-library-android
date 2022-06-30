@@ -41,10 +41,9 @@ internal class LeaveConfirmView(
     fun stop() {
         bottomCellAdapter.setBottomCellItems(mutableListOf())
         leaveConfirmMenuTable.layoutManager = null
-        if (leaveConfirmMenuDrawer.isShowing) {
-            leaveConfirmMenuDrawer.dismissDialog()
-            viewModel.requestExitConfirmation()
-        }
+        leaveConfirmMenuDrawer.dismiss()
+        leaveConfirmMenuDrawer.dismissDialog()
+
         removeAllViews()
     }
 
@@ -97,6 +96,7 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     null,
+                    false,
                     BottomCellItemType.BottomMenuTitle,
                     null
                 ),
@@ -112,7 +112,8 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    false,
                 ) {
                     viewModel.confirm()
                 },
@@ -128,7 +129,8 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    false,
                 ) {
                     cancelLeaveConfirm()
                 },

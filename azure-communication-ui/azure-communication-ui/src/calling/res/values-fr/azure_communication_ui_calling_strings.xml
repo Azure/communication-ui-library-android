@@ -13,7 +13,7 @@
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Sélectionner le périphérique audio %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Périphérique audio %1$s, sélectionné</string>
     <!--    Setup View-->
-    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours… Merci de patienter.</string>
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vidéo désactivée</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Vidéo activée</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microphone désactivé</string>
@@ -33,6 +33,12 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">En attente de l’hôte</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Une personne participant à la réunion vous permettra d’y participer prochainement</string>
 
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">Vous êtes en attente.</string>
+    <string name="azure_communication_ui_calling_resume">Reprendre</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">En attente</string>
+    <string name="azure_communication_ui_calling_mic_used">Impossible de reprendre l’appel\nVotre micro est utilisé par une autre application.</string>
+
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">En attente des autres participants</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Appel avec 1 personne</string>
@@ -42,13 +48,14 @@
     <string name="azure_communication_ui_calling_view_leave_call">Quitter l’appel ?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Quitter</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Annuler</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Laisser le menu Confirmer</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Ouvrir la liste des participants</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Appuyez deux fois pour fermer la liste des participants</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Son désactivé</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Son réactivé</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Raccrocher</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Bouton Fermer</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Fermer</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Bouton Fermer</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Activer/désactiver la vidéo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Activer/désactiver l’audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Options du périphérique</string>

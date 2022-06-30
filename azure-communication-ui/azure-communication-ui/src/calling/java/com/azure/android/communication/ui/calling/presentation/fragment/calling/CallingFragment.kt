@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.PowerManager
+import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
@@ -31,6 +33,11 @@ import com.azure.android.communication.ui.calling.presentation.navigation.BackNa
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
+    companion object {
+        private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
+        private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
+        private const val PARTICIPANT_LIST_VIEW_KEY = "ParticipantListView"
+    }
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
@@ -49,6 +56,7 @@ internal class CallingFragment :
     private lateinit var participantListView: ParticipantListView
     private lateinit var bannerView: BannerView
     private lateinit var lobbyOverlay: LobbyOverlayView
+    private lateinit var holdOverlay: OnHoldOverlayView
     private lateinit var sensorManager: SensorManager
     private lateinit var powerManager: PowerManager
     private lateinit var accessibilityManager: AccessibilityManager
@@ -60,6 +68,8 @@ internal class CallingFragment :
 
         confirmLeaveOverlayView =
             LeaveConfirmView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
+        confirmLeaveOverlayView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         confirmLeaveOverlayView.start(
             viewLifecycleOwner
         )
@@ -85,6 +95,9 @@ internal class CallingFragment :
         lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
         lobbyOverlay.start(viewLifecycleOwner, viewModel.getLobbyOverlayViewModel())
 
+        holdOverlay = view.findViewById(R.id.azure_communication_ui_call_hold_overlay)
+        holdOverlay.start(viewLifecycleOwner, viewModel.getHoldOverlayViewModel())
+
         localParticipantView = view.findViewById(R.id.azure_communication_ui_call_local_user_view)
         localParticipantView.start(
             viewLifecycleOwner,
@@ -105,6 +118,8 @@ internal class CallingFragment :
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
+        audioDeviceListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         participantListView = ParticipantListView(
@@ -112,6 +127,8 @@ internal class CallingFragment :
             this.requireContext(),
             avatarViewManager,
         )
+        participantListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         participantListView.start(viewLifecycleOwner)
 
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
@@ -152,6 +169,7 @@ internal class CallingFragment :
         if (this::participantListView.isInitialized) participantListView.stop()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
+        if (this::holdOverlay.isInitialized) holdOverlay.stop()
 
         if (this::wakeLock.isInitialized) {
             if (wakeLock.isHeld) {
@@ -181,6 +199,27 @@ internal class CallingFragment :
 
     override fun onBackPressed() {
         requestCallEnd()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        mapOf(
+            LEAVE_CONFIRM_VIEW_KEY to viewModel.getConfirmLeaveOverlayViewModel().getShouldDisplayLeaveConfirmFlow(),
+            AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenuStateFlow,
+            PARTICIPANT_LIST_VIEW_KEY to viewModel.getParticipantListViewModel().getDisplayParticipantListStateFlow()
+        ).forEach { (key, element) -> outState.putBoolean(key, element.value) }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+        savedInstanceState?.let {
+            mapOf(
+                LEAVE_CONFIRM_VIEW_KEY to viewModel.getConfirmLeaveOverlayViewModel()::requestExitConfirmation,
+                AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.getAudioDeviceListViewModel()::displayAudioDeviceSelectionMenu,
+                PARTICIPANT_LIST_VIEW_KEY to viewModel.getParticipantListViewModel()::displayParticipantList
+            ).forEach { (key, showDialog) -> if (it.getBoolean(key)) showDialog() }
+        }
     }
 
     private fun requestCallEnd() {

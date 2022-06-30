@@ -12,12 +12,14 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.matchers.withBottomCellViewHolder
@@ -58,6 +60,9 @@ object UiTestUtils {
     @Throws(NoMatchingViewException::class)
     fun checkViewIdIsNotDisplayed(@IdRes viewId: Int): ViewInteraction =
         onView(withId(viewId)).check(ViewAssertions.matches(not(isDisplayed())))
+
+    fun checkViewIdDoesNotExist(@IdRes viewId: Int): ViewInteraction =
+        onView(withId(viewId)).check(doesNotExist())
 
     @Throws(NoMatchingViewException::class)
     fun checkViewIdWithContentDescriptionIsDisplayed(
@@ -168,6 +173,7 @@ object UiTestUtils {
             allOf(
                 instanceOf(AppCompatImageButton::class.java),
                 withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description),
+                withParent(withId(R.id.action_bar)),
                 isDisplayed()
             )
         )

@@ -33,6 +33,12 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">等待主持人中</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">會議中有人很快會讓您加入</string>
 
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">您的通話已保留</string>
+    <string name="azure_communication_ui_calling_resume">繼續</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">電話保留</string>
+    <string name="azure_communication_ui_calling_mic_used">無法恢復通話\n另一個應用程式正在使用您的麥克風。</string>
+
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">與 1 個人通話</string>
@@ -42,13 +48,14 @@
     <string name="azure_communication_ui_calling_view_leave_call">離開通話</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">離開</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">取消</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">離開確認功能表</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">開啟參與者清單</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">點兩下以關閉 [參與者清單]</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">已靜音</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">已取消靜音</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">掛斷</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">[關閉] 按鈕</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">關閉</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">[關閉] 按鈕</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切換視訊</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切換音訊</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">裝置選項</string>

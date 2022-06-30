@@ -18,12 +18,11 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.StreamType
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareZoomFrameLayout
-import com.azure.android.communication.ui.calling.utilities.implementation.FeatureFlags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -39,11 +38,11 @@ internal class ParticipantGridCellVideoView(
     private val getVideoStreamCallback: (String, String) -> View?,
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
-    private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
+    private val getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?,
 ) {
     private var videoStream: View? = null
     private var screenShareZoomFrameLayout: ScreenShareZoomFrameLayout? = null
-    private var lastParticipantViewData: ParticipantViewData? = null
+    private var lastParticipantViewData: CallCompositeParticipantViewData? = null
 
     init {
         lifecycleScope.launch {
@@ -89,7 +88,7 @@ internal class ParticipantGridCellVideoView(
             setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
         } else if (lastParticipantViewData != participantViewData) {
             lastParticipantViewData = participantViewData
-            participantViewData.renderedDisplayName?.let { displayName ->
+            participantViewData.displayName?.let { displayName ->
                 setDisplayName(displayName)
             }
         }
@@ -140,28 +139,26 @@ internal class ParticipantGridCellVideoView(
         detachFromParentView(rendererView)
 
         if (streamType == StreamType.SCREEN_SHARING) {
-            if (FeatureFlags.ScreenShareZoom.active) {
-                removeScreenShareZoomView()
-                val screenShareFactory = ScreenShareViewManager(
-                    context,
-                    videoContainer,
-                    getScreenShareVideoStreamRendererCallback,
-                    showFloatingHeaderCallBack
-                )
-                screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
-                videoContainer.addView(screenShareZoomFrameLayout, 0)
-                // scaled transformed view round corners are not visible when scroll is not at end
-                // to avoid content outside speaking rectangle removing round corners
-                videoContainer.background = ContextCompat.getDrawable(
-                    context,
-                    R.color.azure_communication_ui_calling_color_surface
-                )
-                participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator_no_corner
-                )
-                return
-            }
+            removeScreenShareZoomView()
+            val screenShareFactory = ScreenShareViewManager(
+                context,
+                videoContainer,
+                getScreenShareVideoStreamRendererCallback,
+                showFloatingHeaderCallBack
+            )
+            screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
+            videoContainer.addView(screenShareZoomFrameLayout, 0)
+            // scaled transformed view round corners are not visible when scroll is not at end
+            // to avoid content outside speaking rectangle removing round corners
+            videoContainer.background = ContextCompat.getDrawable(
+                context,
+                R.color.azure_communication_ui_calling_color_surface
+            )
+            participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
+                context,
+                R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator_no_corner
+            )
+            return
         }
 
         rendererView.background = ContextCompat.getDrawable(

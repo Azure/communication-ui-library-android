@@ -30,21 +30,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_start_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="cell_icon, azure_communication_ui_participant_list_avatar"
+        />
 
     <TextView
         android:id="@+id/cell_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginEnd="40dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/azure_communication_ui_calling_audio_device_drawer_android"
         android:textColor="@color/azure_communication_ui_calling_toggle_selector"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/barrier_start_icon"
+        app:layout_constraintEnd_toStartOf="@id/barrier_end_icon"
         />
 
     <ImageView
@@ -60,6 +67,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/azure_communication_ui_calling_toggle_selector"
+        />
+
+    <TextView
+        android:id="@+id/cell_additional_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:visibility="gone"
+        android:singleLine="true"
+        android:text="@string/azure_communication_ui_calling_remote_participant_on_hold"
+        android:textColor="@color/azure_communication_ui_calling_color_participant_list_mute_mic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_end_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="cell_check_mark, cell_additional_text"
         />
 
     <ImageView

@@ -107,7 +107,7 @@ internal class LocalParticipantView : ConstraintLayout {
                     avatar.name = it
                     pipAvatar.name = it
                     displayNameText.text = it
-                    avatarViewManager.localSettings?.participantViewData?.let { participantViewData ->
+                    avatarViewManager.callCompositeLocalOptions?.participantViewData?.let { participantViewData ->
                         participantViewData.avatarBitmap?.let { image ->
                             avatar.avatarImageBitmap = image
                             avatar.adjustViewBounds = true
@@ -116,7 +116,7 @@ internal class LocalParticipantView : ConstraintLayout {
                             pipAvatar.adjustViewBounds = true
                             pipAvatar.scaleType = participantViewData.scaleType
                         }
-                        participantViewData.renderedDisplayName?.let { name ->
+                        participantViewData.displayName?.let { name ->
                             avatar.name = name
                             pipAvatar.name = name
                             displayNameText.text = name
@@ -218,13 +218,14 @@ internal class LocalParticipantView : ConstraintLayout {
     }
 
     private fun addVideoView(videoStreamID: String, videoHolder: ConstraintLayout) {
-        val view = videoViewManager.getLocalVideoRenderer(videoStreamID)
-        view?.background = this.context.let {
-            ContextCompat.getDrawable(
-                it,
-                R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
-            )
+        videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
+            view.background = this.context.let {
+                ContextCompat.getDrawable(
+                    it,
+                    R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
+                )
+            }
+            videoHolder.addView(view, 0)
         }
-        videoHolder.addView(view, 0)
     }
 }

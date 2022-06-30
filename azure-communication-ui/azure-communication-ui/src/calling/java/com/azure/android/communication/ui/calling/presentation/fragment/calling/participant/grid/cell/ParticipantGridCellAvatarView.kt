@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.view.View.GONE
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.view.View.INVISIBLE
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
@@ -26,12 +26,13 @@ internal class ParticipantGridCellAvatarView(
     private val participantContainer: ConstraintLayout,
     private val displayNameAudioTextView: TextView,
     private val micIndicatorAudioImageView: ImageView,
-    private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
+    private val getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?,
     private val participantViewModel: ParticipantGridCellViewModel,
+    private val onHoldTextView: TextView,
     private val context: Context,
     lifecycleScope: LifecycleCoroutineScope,
 ) {
-    private var lastParticipantViewData: ParticipantViewData? = null
+    private var lastParticipantViewData: CallCompositeParticipantViewData? = null
 
     init {
         lifecycleScope.launch {
@@ -46,6 +47,21 @@ internal class ParticipantGridCellAvatarView(
                 setMicButtonVisibility(it)
             }
         }
+
+        lifecycleScope.launch {
+            participantViewModel.getIsOnHoldStateFlow().collect {
+                if (it) {
+                    onHoldTextView.visibility = VISIBLE
+                    micIndicatorAudioImageView.visibility = GONE
+                    displayNameAudioTextView.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic))
+                } else {
+                    onHoldTextView.visibility = INVISIBLE
+                    setMicButtonVisibility(participantViewModel.getIsMutedStateFlow().value)
+                    displayNameAudioTextView.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
+                }
+            }
+        }
+
         lifecycleScope.launch {
             participantViewModel.getIsSpeakingStateFlow().collect {
                 setSpeakingIndicator(it)
@@ -78,7 +94,7 @@ internal class ParticipantGridCellAvatarView(
             participantViewData.scaleType?.let { scaleType ->
                 avatarView.scaleType = scaleType
             }
-            participantViewData.renderedDisplayName?.let { displayName ->
+            participantViewData.displayName?.let { displayName ->
                 setDisplayName(displayName)
             }
         }

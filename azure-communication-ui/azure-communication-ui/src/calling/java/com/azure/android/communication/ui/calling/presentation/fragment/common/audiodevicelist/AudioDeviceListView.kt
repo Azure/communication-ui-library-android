@@ -63,10 +63,8 @@ internal class AudioDeviceListView(
     fun stop() {
         bottomCellAdapter.setBottomCellItems(mutableListOf())
         deviceTable.layoutManager = null
-        if (audioDeviceDrawer.isShowing) {
-            audioDeviceDrawer.dismissDialog()
-            viewModel.displayAudioDeviceSelectionMenu()
-        }
+        audioDeviceDrawer.dismiss()
+        audioDeviceDrawer.dismissDialog()
         this.removeAllViews()
     }
 
@@ -109,7 +107,8 @@ internal class AudioDeviceListView(
                     null,
                     context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    null
+                    null,
+                    false,
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
                     audioDeviceDrawer.dismiss()
@@ -129,7 +128,8 @@ internal class AudioDeviceListView(
                     null,
                     context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                     enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    null
+                    null,
+                    false,
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                     audioDeviceDrawer.dismiss()
@@ -155,7 +155,8 @@ internal class AudioDeviceListView(
                         null,
                         context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                         enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
-                        null
+                        null,
+                        false,
                     ) {
                         viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
                         audioDeviceDrawer.dismiss()

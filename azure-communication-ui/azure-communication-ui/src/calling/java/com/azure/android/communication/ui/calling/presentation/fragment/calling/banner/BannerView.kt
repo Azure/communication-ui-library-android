@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -70,6 +71,8 @@ internal class BannerView : ConstraintLayout {
 
             val textToAnnounce = "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_full_accessibility_label)}, ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
             announceForAccessibility(textToAnnounce)
+
+            bannerCloseButton.contentDescription = "${getBannerTitle(bannerText.text)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_accessibility_label)}"
         }
         // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
         // and screen is rotated, blank banner is displayed.
@@ -80,6 +83,8 @@ internal class BannerView : ConstraintLayout {
 
             val textToAnnounce = "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_full_accessibility_label)}, ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
             announceForAccessibility(textToAnnounce)
+
+            bannerCloseButton.contentDescription = "${getBannerTitle(bannerText.text)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_accessibility_label)}"
         }
     }
 
@@ -138,6 +143,10 @@ internal class BannerView : ConstraintLayout {
                 context.getText(R.string.azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped)
             else -> ""
         }
+    }
+
+    private fun getBannerTitle(bannerText: CharSequence): CharSequence {
+        return bannerText
     }
 
     override fun onFinishInflate() {

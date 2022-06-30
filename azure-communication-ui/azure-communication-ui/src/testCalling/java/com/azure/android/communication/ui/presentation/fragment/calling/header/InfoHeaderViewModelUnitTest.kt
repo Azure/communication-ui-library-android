@@ -51,7 +51,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             )
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
-            floatingHeaderViewModel.init(appState.callState.callingStatus, expectedParticipantMap.count())
+            floatingHeaderViewModel.init(
+                appState.callState.callingStatus,
+                expectedParticipantMap.count()
+            )
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
@@ -68,6 +71,67 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(
                 expectedParticipantMap.size,
                 resultListFromNumberOfParticipantsFlow[0]
+            )
+
+            flowJob.cancel()
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_updateIsLobbyOverlayDisplayed_then_isLobbyOverlayDisplayedFlowReflectsUpdate() {
+        runScopedTest {
+
+            val appState = AppReduxState("")
+
+            val participantInfoModel1 = mock<ParticipantInfoModel> {}
+            val participantInfoModel2 = mock<ParticipantInfoModel> {}
+            val participantInfoModel3 = mock<ParticipantInfoModel> {}
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+
+            val floatingHeaderViewModel = InfoHeaderViewModel()
+            floatingHeaderViewModel.init(
+                appState.callState.callingStatus,
+                expectedParticipantMap.count()
+            )
+
+            val resultListFromIsLobbyOverlayDisplayedFlow =
+                mutableListOf<Boolean>()
+
+            val flowJob = launch {
+                floatingHeaderViewModel.getIsLobbyOverlayDisplayedFlow()
+                    .toList(resultListFromIsLobbyOverlayDisplayedFlow)
+            }
+
+            // act
+            floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(CallingStatus.CONNECTED)
+            floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(CallingStatus.IN_LOBBY)
+
+            // assert
+            Assert.assertEquals(
+                false,
+                resultListFromIsLobbyOverlayDisplayedFlow[0]
+            )
+
+            Assert.assertEquals(
+                true,
+                resultListFromIsLobbyOverlayDisplayedFlow[1]
             )
 
             flowJob.cancel()

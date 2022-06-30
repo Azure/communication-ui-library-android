@@ -75,7 +75,6 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
         val setupScreen = homeScreen.clickLaunchButton()
 
         setupScreen
-            .turnCameraOn()
             .clickJoinCallButton()
 
         homeScreen.clickAlertDialogOkButton()

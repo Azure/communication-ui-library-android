@@ -33,6 +33,12 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Esperando pelo anfitrião</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Alguém na reunião permitirá que você entre em breve</string>
 
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">Você está em espera</string>
+    <string name="azure_communication_ui_calling_resume">Retomar</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">Em espera</string>
+    <string name="azure_communication_ui_calling_mic_used">Não é possível retomar a chamada\nseu microfone está sendo usado por outro aplicativo.</string>
+
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Aguardando o ingresso de outros participantes</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Chamada com 1 pessoa</string>
@@ -42,13 +48,14 @@
     <string name="azure_communication_ui_calling_view_leave_call">Sair da chamada?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Sair</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancelar</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Sair do menu confirmar</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Abrir Lista de Participantes</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Toque duplo para ignorar a lista de Participantes</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Mudo Ativado</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Mudo Desativado</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Desligar</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Botão Fechar</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Fechar</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Botão Fechar</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Ativar/Desativar Vídeo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Ativar/Desativar Áudio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opções do Dispositivo</string>

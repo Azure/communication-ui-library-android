@@ -33,6 +33,12 @@
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Waiting for host</string>
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Someone in the meeting will let you in soon</string>
 
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">You\'re on hold</string>
+    <string name="azure_communication_ui_calling_resume">Resume</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">On hold</string>
+    <string name="azure_communication_ui_calling_mic_used">Unable to resume call\nYour mic is in use by another app.</string>
+
     <!--    Calling View-->
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Waiting for others to join</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Call with 1 person</string>
@@ -42,12 +48,13 @@
     <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>
     <string name="azure_communication_ui_calling_view_leave_call_cancel">Cancel</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Leave confirm menu</string>
     <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Open Participant List</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Double tap to dismiss Participant list</string>
     <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Muted</string>
     <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Unmuted</string>
     <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Hang Up</string>
-    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close Button</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Close</string>
     <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Close Button</string>
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Toggle Video</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Toggle Audio</string>

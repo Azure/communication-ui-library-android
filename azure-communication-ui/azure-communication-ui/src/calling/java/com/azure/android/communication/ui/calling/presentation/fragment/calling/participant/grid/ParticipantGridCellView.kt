@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
 import com.microsoft.fluentui.persona.AvatarView
@@ -27,7 +27,7 @@ internal class ParticipantGridCellView(
     private val showFloatingHeaderCallBack: () -> Unit,
     private val getVideoStreamCallback: (String, String) -> View?,
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
-    private val getParticipantViewDataCallback: (participantID: String) -> ParticipantViewData?,
+    private val getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?,
 ) : RelativeLayout(context) {
 
     private lateinit var avatarView: ParticipantGridCellAvatarView
@@ -67,6 +67,9 @@ internal class ParticipantGridCellView(
         val micIndicatorAudioImageView: ImageView =
             findViewById(R.id.azure_communication_ui_participant_audio_view_mic_indicator)
 
+        val onHoldTextView: TextView =
+            findViewById(R.id.azure_communication_ui_calling_participant_audio_view_on_hold)
+
         avatarView = ParticipantGridCellAvatarView(
             avatarControl,
             participantAvatarSpeakingIndicator,
@@ -75,6 +78,7 @@ internal class ParticipantGridCellView(
             micIndicatorAudioImageView,
             getParticipantViewDataCallback,
             participantViewModel,
+            onHoldTextView,
             context,
             lifecycleScope,
         )

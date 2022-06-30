@@ -3,12 +3,12 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-import com.azure.android.communication.ui.calling.models.LocalSettings
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.models.ParticipantViewData
-import com.azure.android.communication.ui.calling.models.SetParticipantViewDataResult
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 internal class AvatarViewManager(
     coroutineContextProvider: CoroutineContextProvider,
     private val appStore: AppStore<ReduxState>,
-    val localSettings: LocalSettings?,
+    val callCompositeLocalOptions: CallCompositeLocalOptions?,
     configuration: RemoteParticipantsConfiguration,
 ) :
     RemoteParticipantsConfigurationHandler {
@@ -32,14 +32,14 @@ internal class AvatarViewManager(
         configuration.setHandler(this)
     }
 
-    private val remoteParticipantsPersonaCache = mutableMapOf<String, ParticipantViewData>()
+    private val remoteParticipantsPersonaCache = mutableMapOf<String, CallCompositeParticipantViewData>()
     private val remoteParticipantsPersonaSharedFlow =
-        MutableSharedFlow<Map<String, ParticipantViewData>>()
+        MutableSharedFlow<Map<String, CallCompositeParticipantViewData>>()
 
-    override fun onSetParticipantViewData(data: RemoteParticipantViewData): SetParticipantViewDataResult {
+    override fun onSetParticipantViewData(data: RemoteParticipantViewData): CallCompositeSetParticipantViewDataResult {
         val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
         if (!appStore.getCurrentState().remoteParticipantState.participantMap.keys.contains(id)) {
-            return SetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
+            return CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
         }
 
         if (remoteParticipantsPersonaCache.contains(id)) {
@@ -51,7 +51,7 @@ internal class AvatarViewManager(
             remoteParticipantsPersonaSharedFlow.emit(remoteParticipantsPersonaCache)
         }
 
-        return SetParticipantViewDataResult.SUCCESS
+        return CallCompositeSetParticipantViewDataResult.SUCCESS
     }
 
     override fun onRemoveParticipantViewData(identifier: String) {
@@ -63,13 +63,13 @@ internal class AvatarViewManager(
         }
     }
 
-    fun getRemoteParticipantViewData(identifier: String): ParticipantViewData? {
+    fun getRemoteParticipantViewData(identifier: String): CallCompositeParticipantViewData? {
         if (remoteParticipantsPersonaCache.contains(identifier)) {
             return remoteParticipantsPersonaCache[identifier]
         }
         return null
     }
 
-    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, ParticipantViewData>> =
+    fun getRemoteParticipantsPersonaSharedFlow(): SharedFlow<Map<String, CallCompositeParticipantViewData>> =
         remoteParticipantsPersonaSharedFlow
 }

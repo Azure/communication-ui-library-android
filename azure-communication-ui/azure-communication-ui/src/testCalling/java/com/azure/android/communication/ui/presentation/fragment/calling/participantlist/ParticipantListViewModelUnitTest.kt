@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -49,7 +50,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it.displayName,
                         it.isMuted,
-                        it.userIdentifier
+                        it.userIdentifier,
+                        false,
                     )
                 }
 
@@ -78,7 +80,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it.displayName,
                         it.isMuted,
-                        it.userIdentifier
+                        it.userIdentifier,
+                        false,
                     )
                 }
 
@@ -160,7 +163,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it,
                         initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.OFF,
-                        ""
+                        "",
+                        false,
                     )
                 }
 
@@ -184,7 +188,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     ParticipantListCellModel(
                         it,
                         initialExpectedLocalUserState.audioState.operation == AudioOperationalStatus.ON,
-                        ""
+                        "",
+                        false,
                     )
                 }
 
@@ -274,6 +279,65 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
+                true,
+                resultListFromDisplayParticipantListStateFlow[1]
+            )
+
+            flowJob.cancel()
+        }
+    }
+
+    @Test
+    fun participantListViewModel_closeParticipantList_then_displayParticipantListStateFlowReflectsUpdate() {
+        runScopedTest {
+
+            // arrange
+            val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
+                mutableMapOf()
+            initialRemoteParticipantsMap["user1"] = getParticipantInfoModel(
+                "user one",
+                "user1",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                modifiedTimestamp = 456,
+                speakingTimestamp = 567
+            )
+
+            val initialExpectedLocalUserState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                "video_stream_id",
+                "local_user"
+            )
+
+            val participantListViewModel = ParticipantListViewModel()
+            participantListViewModel.init(
+                initialRemoteParticipantsMap,
+                initialExpectedLocalUserState
+            )
+
+            val resultListFromDisplayParticipantListStateFlow =
+                mutableListOf<Boolean>()
+
+            val flowJob = launch {
+                participantListViewModel.getDisplayParticipantListStateFlow()
+                    .toList(resultListFromDisplayParticipantListStateFlow)
+            }
+
+            // act
+            participantListViewModel.closeParticipantList()
+
+            // assert
+            Assert.assertEquals(
                 false,
                 resultListFromDisplayParticipantListStateFlow[0]
             )
@@ -296,6 +360,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
         userIdentifier,
         isMuted,
         isSpeaking,
+        ParticipantStatus.CONNECTED,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,
         modifiedTimestamp,
