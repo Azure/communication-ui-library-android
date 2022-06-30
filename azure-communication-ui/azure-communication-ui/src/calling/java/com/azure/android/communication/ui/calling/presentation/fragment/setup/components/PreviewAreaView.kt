@@ -45,24 +45,19 @@ internal class PreviewAreaView : ConstraintLayout {
     }
 
     private fun createLocalParticipantView(videoStreamID: String?) {
-        videoViewManager.updateLocalVideoRenderer(
-            videoStreamID
-        )
+        videoViewManager.updateLocalVideoRenderer(videoStreamID)
 
         if (!videoStreamID.isNullOrEmpty()) {
             localParticipantCameraHolder.removeAllViews()
-            val view = videoViewManager.getLocalVideoRenderer(
-                videoStreamID
-            )
-            view?.background = this.context.let {
-                ContextCompat.getDrawable(
-                    it,
-                    R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
-                )
+            videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
+                view.background = this.context.let {
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
+                    )
+                }
+                localParticipantCameraHolder.addView(view, 0)
             }
-            localParticipantCameraHolder.addView(
-                view, 0
-            )
         } else {
             localParticipantCameraHolder.removeAllViews()
         }
