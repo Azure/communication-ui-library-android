@@ -1,22 +1,19 @@
-package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
+package com.azure.android.communication.ui.calling.redux.middleware.audio
 
 import android.os.Handler
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.Middleware
-import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.*
 import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
+import com.azure.android.communication.ui.calling.utilities.audio.AudioSwitchingAdapter
 import com.azure.android.communication.ui.helper.HandlerAnswerStub
-import com.azure.android.communication.ui.redux.AppStoreUnitTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
-import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
 class AudioSwitchingMiddlewareTest {

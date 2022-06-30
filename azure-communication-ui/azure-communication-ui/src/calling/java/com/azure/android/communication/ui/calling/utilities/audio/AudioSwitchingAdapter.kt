@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
+package com.azure.android.communication.ui.calling.utilities.audio
 
 import android.content.Context
 import android.media.AudioManager
@@ -10,7 +10,7 @@ interface AudioSwitchingAdapter {
     fun enableBluetooth(): Boolean
 }
 
-class AndroidAudioSwitchAdapter(context: Context) : AudioSwitchingAdapter{
+class AndroidAudioSwitchAdapter(context: Context) : AudioSwitchingAdapter {
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     override fun disconnectAudio() {
@@ -18,7 +18,6 @@ class AndroidAudioSwitchAdapter(context: Context) : AudioSwitchingAdapter{
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = false
     }
-
 
     override fun enableSpeakerPhone(): Boolean {
         audioManager.stopBluetoothSco()
@@ -35,7 +34,6 @@ class AndroidAudioSwitchAdapter(context: Context) : AudioSwitchingAdapter{
     }
 
     override fun enableBluetooth(): Boolean {
-
         if (!audioManager.isBluetoothScoOn) {
             audioManager.startBluetoothSco()
             audioManager.isBluetoothScoOn = true

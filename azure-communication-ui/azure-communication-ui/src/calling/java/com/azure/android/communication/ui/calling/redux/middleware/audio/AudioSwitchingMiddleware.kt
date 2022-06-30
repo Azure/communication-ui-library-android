@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
+package com.azure.android.communication.ui.calling.redux.middleware.audio
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.utilities.audio.AudioSwitchingAdapter
 
 // This class tracks actions for AudioRequests and
 // enables the appropriate device.

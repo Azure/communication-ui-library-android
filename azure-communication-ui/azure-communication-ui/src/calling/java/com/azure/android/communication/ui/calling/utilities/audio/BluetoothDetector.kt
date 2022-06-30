@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.calling.redux.middleware.bluetooth
+package com.azure.android.communication.ui.calling.utilities.audio
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter

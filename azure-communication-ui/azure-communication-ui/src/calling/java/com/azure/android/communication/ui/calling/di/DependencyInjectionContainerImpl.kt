@@ -27,10 +27,10 @@ import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
-import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AndroidAudioSwitchAdapter
-import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AudioSwitchingMiddleware
-import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.BluetoothDetectorImpl
-import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.HeadsetDetectorImpl
+import com.azure.android.communication.ui.calling.utilities.audio.AndroidAudioSwitchAdapter
+import com.azure.android.communication.ui.calling.redux.middleware.audio.AudioSwitchingMiddleware
+import com.azure.android.communication.ui.calling.utilities.audio.BluetoothDetectorImpl
+import com.azure.android.communication.ui.calling.utilities.audio.HeadsetDetectorImpl
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
