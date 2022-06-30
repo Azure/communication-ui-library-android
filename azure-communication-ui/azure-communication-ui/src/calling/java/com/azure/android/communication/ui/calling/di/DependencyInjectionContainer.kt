@@ -14,7 +14,9 @@ import com.azure.android.communication.ui.calling.presentation.manager.Bluetooth
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
+import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AudioSwitchingMiddleware
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -41,7 +43,9 @@ internal interface DependencyInjectionContainer {
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager
+    val audioSwitchMiddleware: AudioSwitchingMiddleware
 
     // UI
     val videoViewManager: VideoViewManager
+
 }

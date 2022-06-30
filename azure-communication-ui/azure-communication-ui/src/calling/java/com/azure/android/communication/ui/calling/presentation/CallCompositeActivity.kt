@@ -46,6 +46,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val permissionManager get() = container.permissionManager
     private val bluetoothDetectionManager get() = container.bluetoothDetectionManager
     private val audioFocusManager get() = container.audioFocusManager
+
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -133,7 +134,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // If no configs are detected we can just exit without cleanup.
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
             audioFocusManager.stop()
+
             bluetoothDetectionManager.onDestroy(this)
+            container.audioSwitchMiddleware.dispose()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
                 CallCompositeConfiguration.putConfig(instanceId, null)
