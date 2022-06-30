@@ -32,6 +32,10 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PerformanceDiagnosticsClient().init()
+        if (shouldFinish()) {
+            finish()
+            return
+        }
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
@@ -154,10 +158,6 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onDestroy() {
         callLauncherViewModel.destroy()
         super.onDestroy()
@@ -167,6 +167,9 @@ class CallLauncherActivity : AppCompatActivity() {
         saveState(outState)
         super.onSaveInstanceState(outState)
     }
+    // check whether new Activity instance was brought to top of stack,
+    // so that finishing this will get us to the last viewed screen
+    private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
     fun showAlert(message: String) {
         runOnUiThread {
