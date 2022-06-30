@@ -10,11 +10,10 @@ import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.BluetoothDetectionManager
+import com.azure.android.communication.ui.calling.presentation.manager.DeviceDetectionManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
-import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AudioSwitchingMiddleware
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
@@ -37,7 +36,7 @@ internal interface DependencyInjectionContainer {
     // System
     val permissionManager: PermissionManager
     val avatarViewManager: AvatarViewManager
-    val bluetoothDetectionManager: BluetoothDetectionManager
+    val audioDeviceDetectionManager: DeviceDetectionManager
     val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter

@@ -44,7 +44,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
-    private val bluetoothDetectionManager get() = container.bluetoothDetectionManager
+    private val bluetoothDetectionManager get() = container.audioDeviceDetectionManager
     private val audioFocusManager get() = container.audioFocusManager
 
     private val lifecycleManager get() = container.lifecycleManager

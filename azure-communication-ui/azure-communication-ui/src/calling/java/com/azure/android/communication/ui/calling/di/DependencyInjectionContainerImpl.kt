@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.presentation.VideoStreamRender
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
-import com.azure.android.communication.ui.calling.presentation.manager.BluetoothDetectionManager
+import com.azure.android.communication.ui.calling.presentation.manager.DeviceDetectionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
@@ -25,9 +25,12 @@ import com.azure.android.communication.ui.calling.presentation.manager.SwitchCam
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AndroidAudioSwitchAdapter
 import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.AudioSwitchingMiddleware
+import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.BluetoothDetectorImpl
+import com.azure.android.communication.ui.calling.redux.middleware.bluetooth.HeadsetDetectorImpl
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
@@ -81,10 +84,21 @@ internal class DependencyInjectionContainerImpl(
         PermissionManager(appStore)
     }
 
-    override val bluetoothDetectionManager by lazy {
-        BluetoothDetectionManager(
-            applicationContext,
-            appStore,
+    override val audioDeviceDetectionManager by lazy {
+        DeviceDetectionManager(
+            // Bluetooth Detector will dispatch AudioDeviceBluetoothSCOAvailable action
+            BluetoothDetectorImpl(applicationContext) { available: Boolean, name: String ->
+                appStore.dispatch(
+                    LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+                        available,
+                        name
+                    )
+                )
+            },
+            // Headset Detector will dispatch AudioDeviceHeadsetAvailable action
+            HeadsetDetectorImpl(applicationContext) { available: Boolean ->
+                appStore.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(available = available))
+            }
         )
     }
 
