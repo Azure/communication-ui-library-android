@@ -41,6 +41,9 @@ buildscript {
         mockito_inline_version = '4.3.1'
         mockito_kotlin_version = '4.0.0'
 
+        shouldNotCheckTaskRoot = {
+            return rootProject.hasProperty("disableTaskRootCheck") && rootProject.getProperty("disableTaskRootCheck")
+        }
     }
 
     repositories {
