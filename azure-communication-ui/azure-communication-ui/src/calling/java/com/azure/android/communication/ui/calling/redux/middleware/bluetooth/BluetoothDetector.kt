@@ -26,7 +26,9 @@ class BluetoothDetectorImpl(
         override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
             headsetProxy = proxy as BluetoothHeadset
             isActiveCallback(isBluetoothScoAvailable, bluetoothDeviceName)
-            registerReceiver()
+            val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
+            filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
+            this@BluetoothDetectorImpl.context.registerReceiver(changeStateReceiver, filter)
         }
 
         override fun onServiceDisconnected(profile: Int) {
@@ -59,7 +61,13 @@ class BluetoothDetectorImpl(
 
     private var headsetProxy: BluetoothHeadset? = null
 
-    override fun start() = openProfileProxy()
+    override fun start() {
+        if (btAdapter?.isEnabled == true) {
+            btAdapter.run {
+                getProfileProxy(context, serviceListener, BluetoothProfile.HEADSET)
+            }
+        }
+    }
 
     override fun stop() {
         btAdapter?.run {
@@ -68,17 +76,5 @@ class BluetoothDetectorImpl(
             }
             headsetProxy = null
         }
-    }
-
-    private fun openProfileProxy() {
-        if (btAdapter?.isEnabled == true) btAdapter.run {
-            getProfileProxy(context, serviceListener, BluetoothProfile.HEADSET)
-        }
-    }
-
-    private fun registerReceiver() {
-        val filter = IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
-        filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
-        context.registerReceiver(changeStateReceiver, filter)
     }
 }
