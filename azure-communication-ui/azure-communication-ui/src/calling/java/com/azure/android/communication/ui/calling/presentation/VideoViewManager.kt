@@ -60,15 +60,16 @@ internal class VideoViewManager(
         removeLocalParticipantRenderer(videoStreamID)
         if (videoStreamID != null) {
             if (!localParticipantVideoRendererMap.containsKey(videoStreamID)) {
-                val videoStream = callingSDKWrapper.getLocalVideoStream().get()
-                val videoStreamRenderer =
-                    videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
-                        videoStream,
-                        context
-                    )
-                val rendererView = videoStreamRenderer.createView()
-                localParticipantVideoRendererMap[videoStreamID] =
-                    VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
+                callingSDKWrapper.getLocalVideoStream().get()?.let { videoStream ->
+                    val videoStreamRenderer =
+                        videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
+                            videoStream,
+                            context
+                        )
+                    val rendererView = videoStreamRenderer.createView()
+                    localParticipantVideoRendererMap[videoStreamID] =
+                        VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
+                }
             }
         }
     }
