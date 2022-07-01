@@ -13,6 +13,9 @@ import android.content.IntentFilter
 abstract class BluetoothDetector(val context: Context, val isActiveCallback: (Boolean, String) -> Unit) {
     abstract fun start()
     abstract fun stop()
+
+    // Manually trigger a check, will invoke the callback
+    abstract fun trigger()
 }
 
 class BluetoothDetectorImpl(
@@ -42,6 +45,8 @@ class BluetoothDetectorImpl(
             isActiveCallback(isBluetoothScoAvailable, bluetoothDeviceName)
         }
     }
+
+
 
     private val isBluetoothScoAvailable
         get() = try {
@@ -77,4 +82,6 @@ class BluetoothDetectorImpl(
             headsetProxy = null
         }
     }
+
+    override fun trigger() = isActiveCallback(isBluetoothScoAvailable, bluetoothDeviceName)
 }
