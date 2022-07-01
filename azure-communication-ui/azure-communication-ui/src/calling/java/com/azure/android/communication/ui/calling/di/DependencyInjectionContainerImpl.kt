@@ -43,6 +43,7 @@ import com.azure.android.communication.ui.calling.redux.reducer.ParticipantState
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -81,7 +82,13 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val permissionManager by lazy {
-        PermissionManager(appStore)
+        PermissionManager(appStore) { old, new ->
+            if (new.audioPermissionState == PermissionStatus.GRANTED
+                && (old == null || old.audioPermissionState != new.audioPermissionState)) {
+                // Audio Permission Granted
+                audioDeviceDetectionManager.manuallyDetectBluetooth()
+            }
+        }
     }
 
     override val audioDeviceDetectionManager by lazy {

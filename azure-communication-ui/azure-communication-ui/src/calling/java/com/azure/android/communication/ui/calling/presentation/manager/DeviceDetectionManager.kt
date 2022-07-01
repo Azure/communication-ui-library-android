@@ -33,4 +33,6 @@ internal class DeviceDetectionManager(
             headsetDetector.stop()
         }
     }
+
+    fun manuallyDetectBluetooth() = bluetoothDetector.trigger()
 }
