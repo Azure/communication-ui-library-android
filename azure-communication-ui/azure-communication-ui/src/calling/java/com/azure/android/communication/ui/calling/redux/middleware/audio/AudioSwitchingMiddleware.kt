@@ -118,6 +118,7 @@ internal class AudioSwitchingMiddleware(
             // It is time to switch to bluetooth.
             // We will dispatch a request for bluetooth
 
+            next(action)
             store
                 .dispatch(
                     LocalParticipantAction
@@ -131,6 +132,7 @@ internal class AudioSwitchingMiddleware(
             // We need to disconnect
             //
             // Revert to the previous selected device
+            next(action)
             audioState.previousDevice?.apply {
                 store
                     .dispatch(
@@ -138,7 +140,7 @@ internal class AudioSwitchingMiddleware(
                     )
             }
         }
-        next(action)
+
     }
 
 

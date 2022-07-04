@@ -166,7 +166,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             mock {},
             AudioState(
                 AudioOperationalStatus.ON,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                 BluetoothState(true, "")
             ),
             "",
@@ -192,7 +192,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             mock {},
             AudioState(
                 AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                 BluetoothState(true, "")
             ),
             "",
@@ -216,7 +216,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             mock {},
             AudioState(
                 AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                 BluetoothState(true, "")
             ),
             "",
@@ -239,7 +239,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             mock {},
             AudioState(
                 AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                 BluetoothState(true, "")
             ),
             "",
@@ -262,7 +262,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             mock {},
             AudioState(
                 AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                 BluetoothState(true, "")
             ),
             "",
