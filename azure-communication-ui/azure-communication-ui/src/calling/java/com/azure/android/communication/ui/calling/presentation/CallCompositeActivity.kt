@@ -44,7 +44,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
-    private val bluetoothDetectionManager get() = container.audioDeviceDetectionManager
     private val audioFocusManager get() = container.audioFocusManager
 
     private val lifecycleManager get() = container.lifecycleManager
@@ -92,7 +91,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-        bluetoothDetectionManager.onCreate(savedInstanceState)
 
         lifecycleScope.launch { container.accessibilityManager.start(activity) }
 
@@ -109,6 +107,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
 
         notificationService.start(lifecycleScope)
+
+        container.bluetoothDetector.start()
+        container.headsetDetector.start()
+
     }
 
     override fun onStart() {
@@ -135,7 +137,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
         if (CallCompositeConfiguration.hasConfig(instanceId)) {
             audioFocusManager.stop()
 
-            bluetoothDetectionManager.onDestroy(this)
+            container.bluetoothDetector.stop()
+            container.headsetDetector.stop()
+
             container.audioSwitchMiddleware.dispose()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())

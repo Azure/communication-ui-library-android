@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.DeviceDetectionManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
@@ -19,6 +18,8 @@ import com.azure.android.communication.ui.calling.redux.middleware.audio.AudioSw
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.NotificationService
+import com.azure.android.communication.ui.calling.utilities.audio.BluetoothDetector
+import com.azure.android.communication.ui.calling.utilities.audio.HeadsetDetector
 
 // Dependency Container for the Call Composite Activity
 // For implementation
@@ -36,7 +37,8 @@ internal interface DependencyInjectionContainer {
     // System
     val permissionManager: PermissionManager
     val avatarViewManager: AvatarViewManager
-    val audioDeviceDetectionManager: DeviceDetectionManager
+    val bluetoothDetector: BluetoothDetector
+    val headsetDetector: HeadsetDetector
     val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
     val navigationRouter: NavigationRouter
