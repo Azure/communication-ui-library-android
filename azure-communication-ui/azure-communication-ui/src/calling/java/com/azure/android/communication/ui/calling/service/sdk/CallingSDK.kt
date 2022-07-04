@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.SharedFlow
 /**
  * An interface that describes our interactions with the underlying calling SDK.
  */
-internal interface CallingSDK {
+internal interface CallingSDK : java.io.Serializable {
     // Internal helpers. Refactor these out further.
     fun setupCall()
     fun dispose()

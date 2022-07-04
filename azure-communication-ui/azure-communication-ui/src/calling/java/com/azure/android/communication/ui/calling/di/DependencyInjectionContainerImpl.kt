@@ -50,6 +50,7 @@ import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
     private val instanceId: Int,
+    private val customCallingSDK: CallingSDK?
 ) : DependencyInjectionContainer {
 
     //region Overrides
@@ -180,11 +181,12 @@ internal class DependencyInjectionContainerImpl(
     private val logger by lazy { DefaultLogger() }
 
     private val callingSDKWrapper: CallingSDK by lazy {
-        CallingSDKWrapper(
-            instanceId,
-            applicationContext,
-            callingSDKEventHandler,
-        )
+        customCallingSDK
+            ?: CallingSDKWrapper(
+                instanceId,
+                applicationContext,
+                callingSDKEventHandler,
+            )
     }
 
     private val callingSDKEventHandler by lazy {

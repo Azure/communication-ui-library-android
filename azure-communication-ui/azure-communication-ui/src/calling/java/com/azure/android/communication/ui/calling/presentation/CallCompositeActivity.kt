@@ -29,6 +29,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.Se
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -37,7 +38,10 @@ import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
 
-    private val diContainerHolder: DependencyInjectionContainerHolder by viewModels()
+    private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
+        val customCallingSDK = intent.getSerializableExtra(KEY_CUSTOM_CALLING_SDK) as CallingSDK?
+        DependencyInjectionContainerHolderFactory(this@CallCompositeActivity.application, customCallingSDK)
+    }
     private val container by lazy { diContainerHolder.container }
 
     private val navigationRouter get() = container.navigationRouter
@@ -321,5 +325,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_INSTANCE_ID = "InstanceID"
+        const val KEY_CUSTOM_CALLING_SDK = "CustomCallingSDK"
     }
 }

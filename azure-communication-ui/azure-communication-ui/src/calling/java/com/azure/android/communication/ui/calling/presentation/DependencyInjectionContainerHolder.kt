@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 import java.lang.IllegalArgumentException
 import java.lang.RuntimeException
@@ -27,8 +28,10 @@ import java.lang.RuntimeException
  *
  * Afterwards you can reference container, which holds the services.
  */
-internal class DependencyInjectionContainerHolder(application: Application) :
-    AndroidViewModel(application) {
+internal class DependencyInjectionContainerHolder(
+    application: Application,
+    private val customCallingSDK: CallingSDK?
+) : AndroidViewModel(application) {
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
         set(value) {
@@ -50,7 +53,7 @@ internal class DependencyInjectionContainerHolder(application: Application) :
         }
 
         // Generate a new instance
-        DependencyInjectionContainerImpl(application, instanceId)
+        DependencyInjectionContainerImpl(application, instanceId, customCallingSDK)
     }
 
     val setupViewModel by lazy {
