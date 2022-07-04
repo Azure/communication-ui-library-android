@@ -15,8 +15,6 @@ internal class DeviceDetectionManager(
     private val bluetoothDetector: BluetoothDetector,
     private val headsetDetector: HeadsetDetector,
     ) {
-
-
     // Hook for onCreate
     // Starts detecting devices
     fun onCreate(savedInstanceState: Bundle?) {
