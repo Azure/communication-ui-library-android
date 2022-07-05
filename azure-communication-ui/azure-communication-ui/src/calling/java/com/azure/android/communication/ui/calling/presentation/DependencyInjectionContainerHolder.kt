@@ -30,7 +30,8 @@ import java.lang.RuntimeException
  */
 internal class DependencyInjectionContainerHolder(
     application: Application,
-    private val customCallingSDK: CallingSDK?
+    private val customCallingSDK: CallingSDK?,
+    private val customVideoViewManager: VideoViewManager?,
 ) : AndroidViewModel(application) {
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
@@ -53,7 +54,12 @@ internal class DependencyInjectionContainerHolder(
         }
 
         // Generate a new instance
-        DependencyInjectionContainerImpl(application, instanceId, customCallingSDK)
+        DependencyInjectionContainerImpl(
+            application,
+            instanceId,
+            customCallingSDK,
+            customVideoViewManager
+        )
     }
 
     val setupViewModel by lazy {
@@ -66,7 +72,11 @@ internal class DependencyInjectionContainerHolder(
     val callingViewModel by lazy {
         CallingViewModel(
             container.appStore,
-            CallingViewModelFactory(container.appStore, ParticipantGridCellViewModelFactory(), application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants))
+            CallingViewModelFactory(
+                container.appStore,
+                ParticipantGridCellViewModelFactory(),
+                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants)
+            )
         )
     }
 }

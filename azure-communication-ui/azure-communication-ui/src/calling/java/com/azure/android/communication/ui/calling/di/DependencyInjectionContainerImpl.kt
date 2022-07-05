@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHand
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
+import com.azure.android.communication.ui.calling.presentation.VideoViewManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
@@ -50,7 +51,8 @@ import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
     private val instanceId: Int,
-    private val customCallingSDK: CallingSDK?
+    private val customCallingSDK: CallingSDK?,
+    private val customVideoViewManager: VideoViewManager?,
 ) : DependencyInjectionContainer {
 
     //region Overrides
@@ -73,7 +75,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val videoViewManager by lazy {
-        VideoViewManager(callingSDKWrapper, applicationContext, VideoStreamRendererFactory())
+        customVideoViewManager ?: VideoViewManagerImpl(
+            callingSDKWrapper,
+            applicationContext,
+            VideoStreamRendererFactory()
+        )
     }
 
     override val permissionManager by lazy {

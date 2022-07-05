@@ -7,7 +7,6 @@ import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
 import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
-import com.azure.android.communication.calling.RemoteVideoStream as NativeRemoteVideoStream
 
 internal fun com.azure.android.communication.calling.RemoteParticipant.into(): RemoteParticipant {
     return RemoteParticipantWrapper(this)

@@ -7,9 +7,10 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 internal class DependencyInjectionContainerHolderFactory(
     private val application: Application,
-    private val callingSDK: CallingSDK?
+    private val callingSDK: CallingSDK?,
+    private val videoViewManager: VideoViewManager?,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DependencyInjectionContainerHolder(application, callingSDK) as T
+        return DependencyInjectionContainerHolder(application, callingSDK, videoViewManager) as T
     }
 }

@@ -87,5 +87,5 @@ internal data class VideoDeviceInfo(
     val id: String,
     val name: String,
     val cameraFacing: CameraFacing,
-    val deviceType: VideoDeviceType
+    val deviceType: VideoDeviceType,
 )

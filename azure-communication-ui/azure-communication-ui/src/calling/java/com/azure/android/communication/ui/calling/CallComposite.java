@@ -21,6 +21,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
+import com.azure.android.communication.ui.calling.presentation.VideoViewManager;
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK;
+
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.util.UUID;
@@ -229,5 +232,46 @@ public final class CallComposite {
             final CommunicationIdentifier identifier, final CallCompositeParticipantViewData participantViewData) {
         return configuration.getRemoteParticipantsConfiguration()
                 .setParticipantViewData(into(identifier), participantViewData);
+    }
+
+    void launchTest(final Context context,
+                       final CallCompositeRemoteOptions remoteOptions,
+                       final CallCompositeLocalOptions localOptions,
+                       final CallingSDK callingSDK,
+                       final VideoViewManager videoViewManager) {
+
+        UUID groupId = null;
+        String meetingLink = null;
+        final CallType callType;
+
+        final CallCompositeJoinLocator locator = remoteOptions.getLocator();
+        if (locator instanceof CallCompositeGroupCallLocator) {
+            callType = CallType.GROUP_CALL;
+            groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+        } else {
+            callType = CallType.TEAMS_MEETING;
+            meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+        }
+
+        configuration.setCallConfig(new CallConfiguration(
+                remoteOptions.getCredential(),
+                remoteOptions.getDisplayName(),
+                groupId,
+                meetingLink,
+                callType));
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+        }
+
+        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
+
+        final Intent intent = new Intent(context, CallCompositeActivity.class);
+        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
+        intent.putExtra(CallCompositeActivity.KEY_CUSTOM_CALLING_SDK, callingSDK);
+        intent.putExtra(CallCompositeActivity.KEY_CUSTOM_VIDEO_VIEW_MANAGER, videoViewManager);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+
     }
 }

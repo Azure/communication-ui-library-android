@@ -15,11 +15,26 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 
-internal class VideoViewManager(
+internal interface VideoViewManager : java.io.Serializable {
+    fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer?
+    fun destroy()
+    fun removeRemoteParticipantVideoRenderer(
+        userVideoStreams: List<Pair<String, String>>,
+    )
+
+    fun updateLocalVideoRenderer(videoStreamID: String?)
+    fun getLocalVideoRenderer(videoStreamID: String): View?
+    fun getRemoteVideoStreamRenderer(
+        participantID: String,
+        videoStreamId: String,
+    ): View?
+}
+
+internal class VideoViewManagerImpl(
     private val callingSDKWrapper: CallingSDK,
     private val context: Context,
     private val videoStreamRendererFactory: VideoStreamRendererFactory,
-) {
+) : VideoViewManager {
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
 
@@ -29,7 +44,7 @@ internal class VideoViewManager(
         var isScreenShareView: Boolean,
     )
 
-    fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
+    override fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
         remoteParticipantVideoRendererMap.values.forEach {
             if (it.isScreenShareView) {
                 return it.videoStreamRenderer
@@ -38,7 +53,7 @@ internal class VideoViewManager(
         return null
     }
 
-    fun destroy() {
+    override fun destroy() {
         localParticipantVideoRendererMap.values.map { videoRenderer ->
             destroyVideoRenderer(videoRenderer)
         }
@@ -49,13 +64,13 @@ internal class VideoViewManager(
         localParticipantVideoRendererMap.clear()
     }
 
-    fun removeRemoteParticipantVideoRenderer(
+    override fun removeRemoteParticipantVideoRenderer(
         userVideoStreams: List<Pair<String, String>>,
     ) {
         removeRemoteParticipantRenderer(userVideoStreams)
     }
 
-    fun updateLocalVideoRenderer(videoStreamID: String?) {
+    override fun updateLocalVideoRenderer(videoStreamID: String?) {
         removeLocalParticipantRenderer(videoStreamID)
         if (videoStreamID != null) {
             if (!localParticipantVideoRendererMap.containsKey(videoStreamID)) {
@@ -72,7 +87,7 @@ internal class VideoViewManager(
         }
     }
 
-    fun getLocalVideoRenderer(videoStreamID: String): View? {
+    override fun getLocalVideoRenderer(videoStreamID: String): View? {
         var rendererView: VideoStreamRendererView? = null
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
@@ -81,7 +96,7 @@ internal class VideoViewManager(
         return rendererView
     }
 
-    fun getRemoteVideoStreamRenderer(
+    override fun getRemoteVideoStreamRenderer(
         participantID: String,
         videoStreamId: String,
     ): View? {
@@ -208,10 +223,18 @@ internal class VideoStreamRendererFactory {
     fun getRemoteParticipantVideoStreamRenderer(
         stream: RemoteVideoStream,
         context: Context,
-    ) = VideoStreamRenderer(stream.native as com.azure.android.communication.calling.RemoteVideoStream, context)
+    ) =
+        VideoStreamRenderer(
+            stream.native as com.azure.android.communication.calling.RemoteVideoStream,
+            context
+        )
 
     fun getLocalParticipantVideoStreamRenderer(
         stream: LocalVideoStream,
         context: Context,
-    ) = VideoStreamRenderer(stream.native as com.azure.android.communication.calling.LocalVideoStream, context)
+    ) =
+        VideoStreamRenderer(
+            stream.native as com.azure.android.communication.calling.LocalVideoStream,
+            context
+        )
 }

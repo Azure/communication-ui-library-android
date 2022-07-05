@@ -40,7 +40,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         val customCallingSDK = intent.getSerializableExtra(KEY_CUSTOM_CALLING_SDK) as CallingSDK?
-        DependencyInjectionContainerHolderFactory(this@CallCompositeActivity.application, customCallingSDK)
+        val customVideoViewManager =
+            intent.getSerializableExtra(KEY_CUSTOM_VIDEO_VIEW_MANAGER) as VideoViewManager?
+        DependencyInjectionContainerHolderFactory(
+            this@CallCompositeActivity.application,
+            customCallingSDK,
+            customVideoViewManager
+        )
     }
     private val container by lazy { diContainerHolder.container }
 
@@ -326,5 +332,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     companion object {
         const val KEY_INSTANCE_ID = "InstanceID"
         const val KEY_CUSTOM_CALLING_SDK = "CustomCallingSDK"
+        const val KEY_CUSTOM_VIDEO_VIEW_MANAGER = "CustomVideoViewManager"
     }
 }
