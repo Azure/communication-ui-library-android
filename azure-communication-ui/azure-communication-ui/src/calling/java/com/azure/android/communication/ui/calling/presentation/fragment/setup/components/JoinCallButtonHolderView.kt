@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
@@ -73,6 +74,8 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             setupJoinCallButtonText.visibility = GONE
             progressBar.visibility = VISIBLE
             joiningCallText.visibility = VISIBLE
+
+            joiningCallText.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         } else {
             setupJoinCallButton.visibility = VISIBLE
             setupJoinCallButtonText.visibility = VISIBLE
