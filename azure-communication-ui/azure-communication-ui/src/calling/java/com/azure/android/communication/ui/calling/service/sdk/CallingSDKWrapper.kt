@@ -279,25 +279,23 @@ internal class CallingSDKWrapper(
 
         if (localVideoStreamCompletableFuture.isDone) {
             result.complete(localVideoStreamCompletableFuture.get())
-        } else {
+        } else if (!canCreateLocalVideostream()) {
             // cleanUpResources() could have been called before this, so we need to check if it's still
             // alright to call initializeCameras()
-            if (canCreateLocalVideostream()) {
-                initializeCameras().whenComplete { _, error ->
-                    if (error != null) {
-                        localVideoStreamCompletableFuture.completeExceptionally(error)
-                        result.completeExceptionally(error)
-                    } else {
-                        val desiredCamera = getCamera(CameraFacing.FRONT)
+            result.complete(null)
+        } else {
+            initializeCameras().whenComplete { _, error ->
+                if (error != null) {
+                    localVideoStreamCompletableFuture.completeExceptionally(error)
+                    result.completeExceptionally(error)
+                } else {
+                    val desiredCamera = getCamera(CameraFacing.FRONT)
 
-                        localVideoStreamCompletableFuture.complete(
-                            LocalVideoStreamWrapper(NativeLocalVideoStream(desiredCamera, context))
-                        )
-                        result.complete(localVideoStreamCompletableFuture.get())
-                    }
+                    localVideoStreamCompletableFuture.complete(
+                        LocalVideoStreamWrapper(NativeLocalVideoStream(desiredCamera, context))
+                    )
+                    result.complete(localVideoStreamCompletableFuture.get())
                 }
-            } else {
-                result.complete(null)
             }
         }
 
