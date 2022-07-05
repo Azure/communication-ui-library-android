@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.Se
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -39,13 +39,10 @@ import java.util.Locale
 internal class CallCompositeActivity : AppCompatActivity() {
 
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
-        val customCallingSDK = intent.getSerializableExtra(KEY_CUSTOM_CALLING_SDK) as CallingSDK?
-        val customVideoViewManager =
-            intent.getSerializableExtra(KEY_CUSTOM_VIDEO_VIEW_MANAGER) as VideoViewManager?
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
-            customCallingSDK,
-            customVideoViewManager
+            TestHelper.customCallingSDK,
+            TestHelper.videoViewManager
         )
     }
     private val container by lazy { diContainerHolder.container }

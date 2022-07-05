@@ -142,4 +142,5 @@ dependencies {
 
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+    androidTestImplementation 'androidx.test:rules:1.4.1-alpha06'
 }
