@@ -53,4 +53,19 @@ internal class LeaveConfirmViewModelUnitTest {
             leaveConfirmViewModel.getShouldDisplayLeaveConfirmFlow().value
         )
     }
+
+    @Test
+    fun leaveConfirmViewModel_requestExitConfirmation_then_isLeaveConfirmDisplayed_updated() {
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore::dispatch)
+
+        leaveConfirmViewModel.requestExitConfirmation()
+
+        Assert.assertEquals(
+            true,
+            leaveConfirmViewModel.getShouldDisplayLeaveConfirmFlow().value
+        )
+    }
 }

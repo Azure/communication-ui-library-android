@@ -83,9 +83,8 @@ internal class ParticipantListView(
         participantListDrawer.setOnDismissListener(null)
         bottomCellAdapter.setBottomCellItems(mutableListOf())
         participantTable.layoutManager = null
-        if (participantListDrawer.isShowing) {
-            participantListDrawer.dismissDialog()
-        }
+        participantListDrawer.dismiss()
+        participantListDrawer.dismissDialog()
         this.removeAllViews()
     }
 

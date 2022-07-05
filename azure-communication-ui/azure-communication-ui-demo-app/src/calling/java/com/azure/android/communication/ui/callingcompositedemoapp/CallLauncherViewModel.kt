@@ -10,28 +10,21 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeJavaLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeKotlinLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
-import com.github.kittinunf.fuel.httpGet
-import org.json.JSONObject
-import java.io.IOException
+import java.util.concurrent.Callable
 
 class CallLauncherViewModel : ViewModel() {
     private var token: String? = null
+    private val fetchResultInternal = MutableLiveData<Result<CallingCompositeLauncher?>>()
 
+    val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
 
-    private fun launcher(tokenUrl: String): CallingCompositeLauncher {
-        val tokenFunction = when (isTokenFunctionOptionSelected) {
-            true -> UrlTokenFetcher(tokenUrl)
-            false -> CachedTokenFetcher(token ?: "")
-        }
-
-        return if (isKotlinLauncher) CallingCompositeKotlinLauncher(tokenFunction)
-        else CallingCompositeJavaLauncher(tokenFunction)
+    private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
+        CallingCompositeKotlinLauncher(tokenRefresher)
+    } else {
+        CallingCompositeJavaLauncher(tokenRefresher)
     }
-
-    private val fetchResultInternal = MutableLiveData<Result<CallingCompositeLauncher?>>()
-    val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
 
     fun destroy() {
         fetchResultInternal.value = Result.success(null)
@@ -55,50 +48,25 @@ class CallLauncherViewModel : ViewModel() {
 
     fun doLaunch(tokenFunctionURL: String, acsToken: String) {
         when {
-            isTokenFunctionOptionSelected -> {
+            isTokenFunctionOptionSelected && urlIsValid(tokenFunctionURL) -> {
                 token = null
-                fetchToken(tokenFunctionURL)
+                fetchResultInternal.postValue(
+                    Result.success(launcher(UrlTokenFetcher(tokenFunctionURL)))
+                )
             }
             acsToken.isNotBlank() -> {
                 token = acsToken
-                fetchResultInternal.value = Result.success(launcher(tokenFunctionURL))
+                fetchResultInternal.postValue(
+                    Result.success(launcher(CachedTokenFetcher(acsToken)))
+                )
             }
-            else -> fetchResultInternal.value = Result.failure(
-                IllegalStateException("Invalid Token function or acs Token")
-            )
+            else -> {
+                fetchResultInternal.postValue(
+                    Result.failure(IllegalStateException("Invalid Token function URL or acs Token"))
+                )
+            }
         }
     }
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
-
-    // Initial Token Fetch to Launch Composite
-    private fun fetchToken(tokenFunctionURL: String) {
-
-        if (urlIsValid(tokenFunctionURL)) {
-            tokenFunctionURL
-                .httpGet()
-                .responseString { result ->
-                    val response = result.component1()
-                    val cause = result.component2()
-                    if (cause != null || response == null) {
-                        fetchResultInternal.postValue(
-                            Result.failure(
-                                IOException(
-                                    "Unable to fetch token: ",
-                                    cause
-                                )
-                            )
-                        )
-                    } else {
-                        token = JSONObject(response).getString("token")
-                        fetchResultInternal.postValue(Result.success(launcher(tokenFunctionURL)))
-                    }
-                }
-        } else {
-            fetchResultInternal.value =
-                Result.failure(IllegalStateException("Token function URL error"))
-        }
-    }
-
-    private fun getToken() = token!!
 }

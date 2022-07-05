@@ -13,10 +13,10 @@ import com.azure.android.communication.calling.VideoStreamRendererView
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.CreateViewOptions
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 internal class VideoViewManager(
-    private val callingSDKWrapper: CallingSDKWrapper,
+    private val callingSDKWrapper: CallingSDK,
     private val context: Context,
     private val videoStreamRendererFactory: VideoStreamRendererFactory,
 ) {
@@ -60,15 +60,16 @@ internal class VideoViewManager(
         removeLocalParticipantRenderer(videoStreamID)
         if (videoStreamID != null) {
             if (!localParticipantVideoRendererMap.containsKey(videoStreamID)) {
-                val videoStream = callingSDKWrapper.getLocalVideoStream().get()
-                val videoStreamRenderer =
-                    videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
-                        videoStream,
-                        context
-                    )
-                val rendererView = videoStreamRenderer.createView()
-                localParticipantVideoRendererMap[videoStreamID] =
-                    VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
+                callingSDKWrapper.getLocalVideoStream().get()?.let { videoStream ->
+                    val videoStreamRenderer =
+                        videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
+                            videoStream,
+                            context
+                        )
+                    val rendererView = videoStreamRenderer.createView()
+                    localParticipantVideoRendererMap[videoStreamID] =
+                        VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
+                }
             }
         }
     }

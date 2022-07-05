@@ -45,7 +45,7 @@ class CallingCompositeNetworkTest : BaseUiTest() {
         try {
             setupScreen
                 .turnCameraOn()
-                .clickJoinCallButton()
+                .clickJoinCallButton(false)
 
             setupScreen.dismissNetworkLossBanner()
             setupScreen.navigateUpFromSetupScreen()
