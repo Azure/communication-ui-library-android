@@ -48,7 +48,11 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHan
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
-import com.azure.android.communication.ui.calling.utilities.audio.*
+import com.azure.android.communication.ui.calling.utilities.audio.BluetoothDetector
+import com.azure.android.communication.ui.calling.utilities.audio.BluetoothDetectorImpl
+import com.azure.android.communication.ui.calling.utilities.audio.HeadsetDetector
+import com.azure.android.communication.ui.calling.utilities.audio.HeadsetDetectorImpl
+import com.azure.android.communication.ui.calling.utilities.audio.AndroidAudioSwitchAdapter
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
@@ -80,8 +84,8 @@ internal class DependencyInjectionContainerImpl(
 
     override val permissionManager by lazy {
         PermissionManager(appStore) { old, new ->
-            if (new.audioPermissionState == PermissionStatus.GRANTED
-                && (old == null || old.audioPermissionState != new.audioPermissionState)
+            if (new.audioPermissionState == PermissionStatus.GRANTED &&
+                (old == null || old.audioPermissionState != new.audioPermissionState)
             ) {
                 // Audio Permission Granted
                 bluetoothDetector.trigger()

@@ -91,7 +91,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         }
 
-
         lifecycleScope.launch { container.accessibilityManager.start(activity) }
 
         lifecycleScope.launchWhenStarted {
@@ -110,7 +109,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         container.bluetoothDetector.start()
         container.headsetDetector.start()
-
     }
 
     override fun onStart() {

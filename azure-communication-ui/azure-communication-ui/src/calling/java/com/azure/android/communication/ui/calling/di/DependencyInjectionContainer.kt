@@ -48,5 +48,4 @@ internal interface DependencyInjectionContainer {
 
     // UI
     val videoViewManager: VideoViewManager
-
 }

@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collect
 
 internal class PermissionManager(
     private val store: Store<ReduxState>,
-    private val onPermissionChanged: (new : PermissionState?, old : PermissionState) -> Unit
+    private val onPermissionChanged: (new: PermissionState?, old: PermissionState) -> Unit
 ) {
     private lateinit var activity: Activity
     private lateinit var audioPermissionLauncher: ActivityResultLauncher<Array<String>>
@@ -106,7 +106,7 @@ internal class PermissionManager(
         }
     }
 
-     fun setAudioPermissionsState() {
+    fun setAudioPermissionsState() {
         store.dispatch(PermissionAction.AudioPermissionIsSet(getAudioPermissionState(activity)))
     }
 

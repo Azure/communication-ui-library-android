@@ -32,17 +32,20 @@ internal class AudioSwitchingMiddleware(
                 is LocalParticipantAction.AudioDeviceBluetoothSCOAvailable -> onBluetoothDetectionChange(
                     action,
                     store,
-                    next)
+                    next
+                )
 
                 is LifecycleAction.EnterForegroundSucceeded -> onForegroundTransition(
                     action,
                     store,
-                    next)
+                    next
+                )
 
                 is LifecycleAction.EnterBackgroundSucceeded -> onBackgroundTransition(
                     action,
                     store,
-                    next)
+                    next
+                )
 
                 else -> next(action)
             }
@@ -55,7 +58,6 @@ internal class AudioSwitchingMiddleware(
         audioSwitchingAdapter.disconnectAudio()
     }
 
-
     // Called when the App enters from foreground to background
     // Generally this means activating the currently selected device
     private fun onForegroundTransition(
@@ -67,7 +69,6 @@ internal class AudioSwitchingMiddleware(
         // So we can just return early and pass the action through
         if (store.getCurrentState().callState.callingStatus == CallingStatus.CONNECTED) {
             next(action)
-
         } else {
             // Otherwise, we are coming back to the setup screen (and not currently connected)
             // So we need to switch to the correct device
@@ -99,7 +100,6 @@ internal class AudioSwitchingMiddleware(
         next(action)
     }
 
-
     // Handle Bluetooth Detection
     // Switches to and away  bluetooth when connection changes
     private fun onBluetoothDetectionChange(
@@ -111,9 +111,9 @@ internal class AudioSwitchingMiddleware(
         val audioState = store.getCurrentState().localParticipantState.audioState
         val btState = audioState.bluetoothState
 
-        if (action.available
-            &&
-            !btState.available) {
+        if (action.available &&
+            !btState.available
+        ) {
             // If this action is saying it's available, but it isn't available yet in the store
             // It is time to switch to bluetooth.
             // We will dispatch a request for bluetooth
@@ -140,10 +140,7 @@ internal class AudioSwitchingMiddleware(
                     )
             }
         }
-
     }
-
-
 
     // Switch to the Device requested by the Action
     private fun handleAudioDeviceChangeRequested(
@@ -157,5 +154,4 @@ internal class AudioSwitchingMiddleware(
         }
         next(action)
     }
-
 }

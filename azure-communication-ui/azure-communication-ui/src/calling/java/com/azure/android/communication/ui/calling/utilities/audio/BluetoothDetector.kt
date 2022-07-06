@@ -46,8 +46,6 @@ class BluetoothDetectorImpl(
         }
     }
 
-
-
     private val isBluetoothScoAvailable
         get() = try {
             (headsetProxy?.connectedDevices?.size ?: 0) > 0
