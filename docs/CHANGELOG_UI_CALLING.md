@@ -1,5 +1,9 @@
 # Azure Communication UI Calling Release History
 
+
+### Bug Fixes
+- Fix display name not getting truncated in participant list when they are too long (https://github.com/Azure/communication-ui-library-android/pull/370)
+
 ## 1.0.0 (2022-06-20)
 
 
