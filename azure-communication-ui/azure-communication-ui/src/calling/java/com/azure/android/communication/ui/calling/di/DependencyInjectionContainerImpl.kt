@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
+import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
@@ -50,6 +51,8 @@ import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
     private val instanceId: Int,
+    private val customCallingSDK: CallingSDK?,
+    private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
 ) : DependencyInjectionContainer {
 
     //region Overrides
@@ -72,7 +75,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val videoViewManager by lazy {
-        VideoViewManager(callingSDKWrapper, applicationContext, VideoStreamRendererFactory())
+        VideoViewManager(
+            callingSDKWrapper,
+            applicationContext,
+            customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
+        )
     }
 
     override val permissionManager by lazy {
@@ -178,12 +185,14 @@ internal class DependencyInjectionContainerImpl(
     private val applicationContext get() = parentContext.applicationContext
 
     private val logger by lazy { DefaultLogger() }
+
     private val callingSDKWrapper: CallingSDK by lazy {
-        CallingSDKWrapper(
-            instanceId,
-            applicationContext,
-            callingSDKEventHandler,
-        )
+        customCallingSDK
+            ?: CallingSDKWrapper(
+                instanceId,
+                applicationContext,
+                callingSDKEventHandler,
+            )
     }
 
     private val callingSDKEventHandler by lazy {
