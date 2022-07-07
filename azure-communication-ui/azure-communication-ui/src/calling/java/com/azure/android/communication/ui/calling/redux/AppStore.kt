@@ -4,36 +4,49 @@
 package com.azure.android.communication.ui.calling.redux
 
 import android.os.Handler
+import android.os.Looper
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
-import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlin.coroutines.CoroutineContext
+
+internal class AppStoreException(msg: String, e: Throwable? = null) : Exception(msg, e)
 
 internal class AppStore<S>(
     initialState: S,
     private val reducer: Reducer<S>,
     middlewares: MutableList<Middleware<S>>,
-    private val storeHandlerThread: StoreHandlerThread,
+    dispatcher: CoroutineContext,
 ) : Store<S> {
-
+    // Any exceptions encountered in the reducer are rethrown to crash the app and not get silently ignored.
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+            throw AppStoreException("Exception while reducing state", throwable)
+        }
+        // At this point (after an exception) we don't want to accept any more work.
+        scope.cancel()
+    }
+    private val dispatcherWithExceptionHandler = dispatcher + exceptionHandler
+    private val scope = CoroutineScope(dispatcher)
     private val stateFlow = MutableStateFlow(initialState)
     private var middlewareMap: List<(Dispatch) -> Dispatch> =
         middlewares.map { m -> m.invoke(this) }
 
     private var middlewareDispatch = compose(middlewareMap)(::reduce)
-    private var handler: Handler = storeHandlerThread.startHandlerThread()
 
     override fun end() {
-        storeHandlerThread.stopHandlerThread()
+        scope.cancel()
         middlewareMap = emptyList()
         middlewareDispatch = compose(middlewareMap)(::reduce)
     }
 
     override fun dispatch(action: Action) {
-        if (storeHandlerThread.isHandlerThreadAlive()) {
-            handler.post {
-                middlewareDispatch(action)
-            }
+        scope.launch(dispatcherWithExceptionHandler) {
+            middlewareDispatch(action)
         }
     }
 
@@ -52,8 +65,7 @@ internal class AppStore<S>(
     private fun compose(functions: List<(Dispatch) -> Dispatch>): (Dispatch) -> Dispatch =
         { dispatch ->
             functions.foldRight(
-                dispatch,
-                { nextDispatch, composed -> nextDispatch(composed) }
-            )
+                dispatch
+            ) { nextDispatch, composed -> nextDispatch(composed) }
         }
 }

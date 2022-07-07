@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 import java.lang.IllegalArgumentException
 import java.lang.RuntimeException
@@ -32,6 +33,7 @@ internal class DependencyInjectionContainerHolder(
     application: Application,
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
+    private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : AndroidViewModel(application) {
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
@@ -58,7 +60,8 @@ internal class DependencyInjectionContainerHolder(
             application,
             instanceId,
             customCallingSDK,
-            customVideoStreamRendererFactory
+            customVideoStreamRendererFactory,
+            customCoroutineContextProvider
         )
     }
 

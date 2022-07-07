@@ -46,13 +46,13 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
     private val instanceId: Int,
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
+    private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : DependencyInjectionContainer {
 
     //region Overrides
@@ -131,7 +131,7 @@ internal class DependencyInjectionContainerImpl(
             initialState,
             appReduxStateReducer,
             appMiddleware,
-            storeHandlerThread
+            storeDispatcher
         )
     }
 
@@ -207,7 +207,7 @@ internal class DependencyInjectionContainerImpl(
     //endregion
 
     //region Threading
-    private val coroutineContextProvider by lazy { CoroutineContextProvider() }
-    private val storeHandlerThread by lazy { StoreHandlerThread() }
+    private val coroutineContextProvider by lazy { customCoroutineContextProvider ?: CoroutineContextProvider() }
+    private val storeDispatcher by lazy { customCoroutineContextProvider?.SingleThreaded ?: coroutineContextProvider.SingleThreaded }
     //endregion
 }
