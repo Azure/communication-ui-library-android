@@ -3,8 +3,15 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-import com.azure.android.communication.calling.LocalVideoStream
-import com.azure.android.communication.calling.RemoteParticipant
+import android.view.View
+import com.azure.android.communication.calling.CameraFacing
+import com.azure.android.communication.calling.CreateViewOptions
+import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.ParticipantState
+import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
+import com.azure.android.communication.calling.StreamSize
+import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -40,4 +47,62 @@ internal interface CallingSDK {
     fun getIsMutedSharedFlow(): SharedFlow<Boolean>
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
+}
+
+internal interface RemoteParticipant {
+    val identifier: CommunicationIdentifier
+    val displayName: String
+    val isSpeaking: Boolean
+    val isMuted: Boolean
+    val state: ParticipantState
+    val videoStreams: List<RemoteVideoStream>
+    fun addOnVideoStreamsUpdatedListener(listener: RemoteVideoStreamsUpdatedListener?)
+    fun removeOnVideoStreamsUpdatedListener(listener: RemoteVideoStreamsUpdatedListener?)
+    fun addOnIsMutedChangedListener(listener: PropertyChangedListener?)
+    fun removeOnIsMutedChangedListener(listener: PropertyChangedListener?)
+    fun addOnIsSpeakingChangedListener(listener: PropertyChangedListener?)
+    fun removeOnIsSpeakingChangedListener(listener: PropertyChangedListener?)
+    fun addOnStateChangedListener(listener: PropertyChangedListener?)
+    fun removeOnStateChangedListener(listener: PropertyChangedListener?)
+}
+
+internal sealed class CommunicationIdentifier(val id: String) {
+    data class CommunicationUserIdentifier(val userId: String) : CommunicationIdentifier(userId)
+    data class MicrosoftTeamsUserIdentifier(val userId: String, val isAnonymous: Boolean) :
+        CommunicationIdentifier(userId)
+
+    data class PhoneNumberIdentifier(val phoneNumber: String) : CommunicationIdentifier(phoneNumber)
+    data class UnknownIdentifier(val genericId: String) : CommunicationIdentifier(genericId)
+}
+
+internal interface RemoteVideoStream {
+    val native: Any
+    val id: Int
+    val mediaStreamType: MediaStreamType
+}
+
+internal interface LocalVideoStream {
+    val native: Any
+    val source: VideoDeviceInfo
+    fun switchSource(deviceInfo: VideoDeviceInfo): CompletableFuture<Void>
+}
+
+internal data class VideoDeviceInfo(
+    val native: Any,
+    val id: String,
+    val name: String,
+    val cameraFacing: CameraFacing,
+    val deviceType: VideoDeviceType,
+)
+
+internal interface VideoStreamRenderer {
+    fun createView(): VideoStreamRendererView?
+    fun createView(options: CreateViewOptions): VideoStreamRendererView?
+    fun dispose()
+    fun getStreamSize(): StreamSize?
+}
+
+internal interface VideoStreamRendererView {
+    fun dispose()
+    fun getView(): View?
 }

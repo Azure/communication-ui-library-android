@@ -3,13 +3,13 @@
 
 package com.azure.android.communication.ui.calling.handlers
 
-import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.into
 import kotlinx.coroutines.flow.collect
 
 internal class RemoteParticipantHandler(
@@ -50,12 +50,9 @@ internal class RemoteParticipantHandler(
     private fun sendRemoteParticipantJoinedEvent(joinedParticipant: List<String>) {
         try {
             if (joinedParticipant.isNotEmpty()) {
-                val identifiers = mutableListOf<CommunicationIdentifier>()
-                joinedParticipant.forEach {
-                    identifiers.add(
-                        remoteParticipantsCollection.getRemoteParticipantsMap()
-                            .getValue(it).identifier
-                    )
+                val participantIdMap = remoteParticipantsCollection.getRemoteParticipantsMap()
+                val identifiers = joinedParticipant.map {
+                    participantIdMap.getValue(it).identifier.into()
                 }
                 val eventArgs = CallCompositeRemoteParticipantJoinedEvent(identifiers)
                 configuration.callCompositeEventsHandler.getOnRemoteParticipantJoinedHandlers()

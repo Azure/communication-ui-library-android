@@ -13,9 +13,7 @@ import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
-import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -215,25 +213,15 @@ internal class CallingSDKEventHandler(
             userIdentifier = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
             isMuted = participant.isMuted,
             isSpeaking = participant.isSpeaking && !participant.isMuted,
-            screenShareVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.SCREEN_SHARING),
+            screenShareVideoStreamModel = createVideoStreamModel(
+                participant,
+                MediaStreamType.SCREEN_SHARING
+            ),
             cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
             speakingTimestamp = if (participant.isSpeaking) currentTimestamp else 0,
-            participantStatus = getParticipantStatus(participant.state)
+            participantStatus = participant.state.into()
         )
-    }
-
-    private fun getParticipantStatus(state: ParticipantState?): ParticipantStatus? {
-        return when (state) {
-            ParticipantState.IDLE -> ParticipantStatus.IDLE
-            ParticipantState.EARLY_MEDIA -> ParticipantStatus.EARLY_MEDIA
-            ParticipantState.CONNECTING -> ParticipantStatus.CONNECTING
-            ParticipantState.HOLD -> ParticipantStatus.HOLD
-            ParticipantState.DISCONNECTED -> ParticipantStatus.DISCONNECTED
-            ParticipantState.IN_LOBBY -> ParticipantStatus.IN_LOBBY
-            ParticipantState.RINGING -> ParticipantStatus.RINGING
-            else -> null
-        }
     }
 
     private fun createVideoStreamModel(
@@ -317,7 +305,8 @@ internal class CallingSDKEventHandler(
 
         val addOnIsStateChangedEvent =
             PropertyChangedListener {
-                remoteParticipantsInfoModelMap[id]?.participantStatus = getParticipantStatus(remoteParticipantsCacheMap[id]!!.state)
+                remoteParticipantsInfoModelMap[id]?.participantStatus =
+                    remoteParticipantsCacheMap[id]!!.state.into()
                 onRemoteParticipantPropertyChange(id)
             }
         isStateChangedListenerMap[id] = addOnIsStateChangedEvent
