@@ -10,7 +10,6 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
-import com.azure.android.communication.calling.StreamSize
 import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -106,3 +105,5 @@ internal interface VideoStreamRendererView {
     fun dispose()
     fun getView(): View?
 }
+
+internal data class StreamSize(val width: Int, val height: Int)

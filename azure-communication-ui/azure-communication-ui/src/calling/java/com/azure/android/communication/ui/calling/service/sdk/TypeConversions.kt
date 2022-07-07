@@ -59,3 +59,7 @@ internal fun ParticipantState.into(): ParticipantStatus {
         ParticipantState.CONNECTED -> ParticipantStatus.CONNECTED
     }
 }
+
+internal fun com.azure.android.communication.calling.StreamSize.into(): StreamSize {
+    return StreamSize(this.width, this.height)
+}
