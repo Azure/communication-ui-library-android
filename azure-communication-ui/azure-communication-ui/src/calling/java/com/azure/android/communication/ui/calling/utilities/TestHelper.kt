@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.presentation.VideoStreamRender
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 internal object TestHelper {
-    var customCallingSDK: CallingSDK? = null
-    var customVideoStreamRendererFactory: VideoStreamRendererFactory? = null
+    var callingSDK: CallingSDK? = null
+    var videoStreamRendererFactory: VideoStreamRendererFactory? = null
+    var coroutineContextProvider: CoroutineContextProvider? = null
 }

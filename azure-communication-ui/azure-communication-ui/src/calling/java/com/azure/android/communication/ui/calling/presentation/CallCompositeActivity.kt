@@ -41,8 +41,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
-            TestHelper.customCallingSDK,
-            TestHelper.customVideoStreamRendererFactory
+            TestHelper.callingSDK,
+            TestHelper.videoStreamRendererFactory,
+            TestHelper.coroutineContextProvider
         )
     }
     private val container by lazy { diContainerHolder.container }
