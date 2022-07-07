@@ -19,6 +19,7 @@ class GenericStateTest {
         val genericState = GenericState(data = mapOf(
             TestClass::class.java to TestClass(data = "initial")
         ))
+
         assertEquals(genericState.getSubState<TestClass>()?.data, "initial")
         val genericState2 = genericState.copy(
             data = mapOf(

@@ -3,6 +3,6 @@
 
 package com.azure.android.communication.ui.arch.redux
 
-internal interface Reducer<S> {
+interface Reducer<S> {
     fun reduce(state: S, action: Any): S
 }

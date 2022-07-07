@@ -31,7 +31,7 @@ Use locate<T>(Class<T> clazz) to get/build the instance
 public class ServiceLocator {
 
     /// Global Instance
-    static final ServiceLocator INSTANCE = new ServiceLocator();
+    public static final ServiceLocator INSTANCE = new ServiceLocator();
 
     interface Disposable {
         void dispose();
@@ -45,12 +45,12 @@ public class ServiceLocator {
     private final HashMap<Class<?>, TypedBuilder> builders = new HashMap<>();
     private final HashMap<Class<?>, Object> implementations = new HashMap<>();
 
-    <T> void addTypedBuilder(final Class<T> klass, final TypedBuilder<T> builder) {
+    public <T> void addTypedBuilder(final Class<T> klass, final TypedBuilder<T> builder) {
         builders.put(klass, builder);
     }
 
     /// Clear the implementation map
-    void clear() {
+    public void clear() {
         for (final Object implementation : implementations.values()) {
             if (implementation instanceof Disposable) {
                 ((Disposable) implementation).dispose();
@@ -61,7 +61,7 @@ public class ServiceLocator {
     }
 
     // Locate a class
-    <T> T locate(final Class<T> klass) {
+    public <T> T locate(final Class<T> klass) {
         if (!builders.containsKey(klass)) {
             throw new IllegalArgumentException("Builder for " + klass + " Does not exist");
         }

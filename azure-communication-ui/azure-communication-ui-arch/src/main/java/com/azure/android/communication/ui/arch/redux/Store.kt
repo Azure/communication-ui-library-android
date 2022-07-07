@@ -3,8 +3,12 @@
 
 package com.azure.android.communication.ui.arch.redux
 
-internal interface Store<S> {
+interface Store<S> {
+    fun addListener(listener: StoreListener<S>)
+    fun removeListener(listener: StoreListener<S>)
     fun dispatch(action: Any)
     fun getCurrentState(): S
     fun end()
 }
+
+data class StoreListener<S> (val onStoreChanged:(currentState : S) -> Unit)

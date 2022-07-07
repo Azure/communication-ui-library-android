@@ -17,7 +17,7 @@ data class GenericState(val data:Map<Type, Any>) {
         }
     }
     /// Gets a installed Sub State
-    inline fun<reified T> getSubState() = data[T::class.java] as T?;
+    inline fun<reified T> getSubState() = data[T::class.java] as T
 
     /// Rebuilds this GenericState with a patch of new data
     fun rebuildWith(patch:Map<Type, Any?>): GenericState {
@@ -35,4 +35,8 @@ data class GenericState(val data:Map<Type, Any>) {
 
         return GenericState(newData)
     }
+
+    fun<T> replace(subState: T) = rebuildWith(mapOf(
+        subState!!::class.java to subState
+    ))
 }
