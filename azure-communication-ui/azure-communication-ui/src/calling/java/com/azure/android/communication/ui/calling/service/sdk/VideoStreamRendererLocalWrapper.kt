@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.service.sdk
 import android.content.Context
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.LocalVideoStream
-import com.azure.android.communication.calling.StreamSize
 
 internal class VideoStreamRendererLocalWrapper(
     private val localVideoStream: LocalVideoStream,
@@ -44,5 +43,5 @@ internal class VideoStreamRendererLocalWrapper(
         videoStreamRenderer?.dispose()
     }
 
-    override fun getStreamSize(): StreamSize? = videoStreamRenderer?.size
+    override fun getStreamSize(): StreamSize? = videoStreamRenderer?.size?.into()
 }

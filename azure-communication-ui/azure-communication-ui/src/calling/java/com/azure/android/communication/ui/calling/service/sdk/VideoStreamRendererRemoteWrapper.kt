@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.service.sdk
 import android.content.Context
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.RemoteVideoStream
-import com.azure.android.communication.calling.StreamSize
 
 internal class VideoStreamRendererRemoteWrapper(
     private val remoteVideoStream: RemoteVideoStream,
@@ -44,5 +43,5 @@ internal class VideoStreamRendererRemoteWrapper(
         videoStreamRenderer?.dispose()
     }
 
-    override fun getStreamSize(): StreamSize? = videoStreamRenderer?.size
+    override fun getStreamSize(): StreamSize? = videoStreamRenderer?.size?.into()
 }
