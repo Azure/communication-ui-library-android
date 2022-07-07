@@ -12,8 +12,7 @@ import android.os.Looper
 import android.view.View
 import android.view.ViewTreeObserver
 
-
-internal class DrawListener: ViewTreeObserver.OnDrawListener {
+internal class DrawListener : ViewTreeObserver.OnDrawListener {
 
     private var mainHandler: Handler? = null
     private var view: View? = null
@@ -26,7 +25,7 @@ internal class DrawListener: ViewTreeObserver.OnDrawListener {
         fun onDrawingFinish()
     }
 
-    private constructor(view: View, onDrawCallback: OnDrawCallback): super() {
+    private constructor(view: View, onDrawCallback: OnDrawCallback) : super() {
         this.view = view
         this.onDrawCallback = onDrawCallback
         mainHandler = Handler(Looper.getMainLooper())
@@ -41,7 +40,6 @@ internal class DrawListener: ViewTreeObserver.OnDrawListener {
             return DrawListener(view, onDrawCallback)
         }
     }
-
 
     private fun registerDrawListener() {
         if (view!!.viewTreeObserver.isAlive && view!!.isAttachedToWindow) {
@@ -65,7 +63,6 @@ internal class DrawListener: ViewTreeObserver.OnDrawListener {
             })
         }
     }
-
 
     override fun onDraw() {
         if (!onDrawInvoked) {
