@@ -17,6 +17,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -199,23 +200,29 @@ internal class ControlBarView : ConstraintLayout {
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
             requestCallEndCallback()
+            PerformanceDiagnostics.sendEvent("End Call")
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {
                 viewModel.turnMicOff()
+                PerformanceDiagnostics.sendEvent("Mic Toggle: Turn OFF")
             } else {
                 viewModel.turnMicOn()
+                PerformanceDiagnostics.sendEvent("Mic Toggle: Turn ON")
             }
         }
         cameraToggle.setOnClickListener {
             if (cameraToggle.isSelected) {
                 viewModel.turnCameraOff()
+                PerformanceDiagnostics.sendEvent("Camera Toggle: Turn OFF")
             } else {
                 viewModel.turnCameraOn()
+                PerformanceDiagnostics.sendEvent("Camera Toggle: Turn OFF")
             }
         }
         callAudioDeviceButton.setOnClickListener {
             openAudioDeviceSelectionMenuCallback()
+            PerformanceDiagnostics.sendEvent("Audio Device Button Clicked")
         }
     }
 }

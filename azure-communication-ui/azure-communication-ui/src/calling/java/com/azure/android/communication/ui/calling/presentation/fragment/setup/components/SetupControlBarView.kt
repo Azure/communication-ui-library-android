@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnostics
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -200,16 +201,20 @@ internal class SetupControlBarView : LinearLayout {
     private fun toggleAudio() {
         if (micButton.isON) {
             viewModel.turnMicOff()
+            PerformanceDiagnostics.sendEvent("Mic Toggle: Turn OFF")
         } else {
             viewModel.turnMicOn()
+            PerformanceDiagnostics.sendEvent("Mic Toggle: Turn ON")
         }
     }
 
     private fun toggleVideo() {
         if (cameraButton.isON) {
             viewModel.turnCameraOff()
+            PerformanceDiagnostics.sendEvent("Camera Toggle: Turn OFF")
         } else {
             viewModel.turnCameraOn()
+            PerformanceDiagnostics.sendEvent("Camera Toggle: Turn ON")
         }
     }
 }

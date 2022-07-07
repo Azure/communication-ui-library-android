@@ -22,9 +22,14 @@ class PerformanceDiagnostics {
                 callback?.trackMetric(name, System.currentTimeMillis() - it)
             }
         }
+
+        fun sendEvent(event: String) {
+            callback?.trackEvent(event)
+        }
     }
 }
 
 interface TrackMetricHandler {
     fun trackMetric(name: String, value: Long)
+    fun trackEvent(event: String)
 }
