@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 import java.lang.IllegalArgumentException
 import java.lang.RuntimeException
@@ -27,8 +28,11 @@ import java.lang.RuntimeException
  *
  * Afterwards you can reference container, which holds the services.
  */
-internal class DependencyInjectionContainerHolder(application: Application) :
-    AndroidViewModel(application) {
+internal class DependencyInjectionContainerHolder(
+    application: Application,
+    private val customCallingSDK: CallingSDK?,
+    private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
+) : AndroidViewModel(application) {
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
         set(value) {
@@ -50,7 +54,12 @@ internal class DependencyInjectionContainerHolder(application: Application) :
         }
 
         // Generate a new instance
-        DependencyInjectionContainerImpl(application, instanceId)
+        DependencyInjectionContainerImpl(
+            application,
+            instanceId,
+            customCallingSDK,
+            customVideoStreamRendererFactory
+        )
     }
 
     val setupViewModel by lazy {
@@ -63,7 +72,11 @@ internal class DependencyInjectionContainerHolder(application: Application) :
     val callingViewModel by lazy {
         CallingViewModel(
             container.appStore,
-            CallingViewModelFactory(container.appStore, ParticipantGridCellViewModelFactory(), application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants))
+            CallingViewModelFactory(
+                container.appStore,
+                ParticipantGridCellViewModelFactory(),
+                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants)
+            )
         )
     }
 }
