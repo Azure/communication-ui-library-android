@@ -13,10 +13,10 @@ import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
-import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
@@ -68,7 +68,8 @@ internal class CallingSDKWrapper(
             return nullableCall!!
         }
 
-    override fun getRemoteParticipantsMap() = callingSDKEventHandler.getRemoteParticipantsMap()
+    override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
+        callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
 
     override fun getCallingStateWrapperSharedFlow() =
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()
@@ -77,7 +78,8 @@ internal class CallingSDKWrapper(
 
     override fun getIsRecordingSharedFlow() = callingSDKEventHandler.getIsRecordingSharedFlow()
 
-    override fun getIsTranscribingSharedFlow() = callingSDKEventHandler.getIsTranscribingSharedFlow()
+    override fun getIsTranscribingSharedFlow() =
+        callingSDKEventHandler.getIsTranscribingSharedFlow()
 
     override fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> =
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
@@ -138,7 +140,10 @@ internal class CallingSDKWrapper(
         createDeviceManager()
     }
 
-    override fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
+    override fun startCall(
+        cameraState: CameraState,
+        audioState: AudioState,
+    ): CompletableFuture<Void> {
         val startCallCompletableFuture = CompletableFuture<Void>()
         createCallAgent().thenAccept { agent: CallAgent ->
             val audioOptions = AudioOptions()
@@ -146,7 +151,8 @@ internal class CallingSDKWrapper(
 
             var videoOptions: VideoOptions? = null
             if (cameraState.operation == CameraOperationalStatus.ON) {
-                val localVideoStreams = arrayOf(getLocalVideoStream().get())
+                val localVideoStreams =
+                    arrayOf(getLocalVideoStream().get().native as NativeLocalVideoStream)
                 videoOptions = VideoOptions(localVideoStreams)
             }
 
@@ -170,13 +176,14 @@ internal class CallingSDKWrapper(
         val result = CompletableFuture<LocalVideoStream>()
         this.getLocalVideoStream()
             .thenCompose { videoStream: LocalVideoStream ->
-                call.startVideo(context, videoStream).whenComplete { _, error: Throwable? ->
-                    if (error != null) {
-                        result.completeExceptionally(error)
-                    } else {
-                        result.complete(videoStream)
+                call.startVideo(context, videoStream.native as NativeLocalVideoStream)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            result.completeExceptionally(error)
+                        } else {
+                            result.complete(videoStream)
+                        }
                     }
-                }
             }
             .exceptionally { error ->
                 result.completeExceptionally(error)
@@ -190,7 +197,7 @@ internal class CallingSDKWrapper(
         val result = CompletableFuture<Void>()
         this.getLocalVideoStream()
             .thenAccept { videoStream: LocalVideoStream ->
-                call.stopVideo(context, videoStream)
+                call.stopVideo(context, videoStream.native as NativeLocalVideoStream)
                     .whenComplete { _, error: Throwable? ->
                         if (error != null) {
                             result.completeExceptionally(error)
@@ -225,7 +232,7 @@ internal class CallingSDKWrapper(
                     if (desiredCamera == null) {
                         result.completeExceptionally(null)
                     } else {
-                        videoStream.switchSource(desiredCamera)
+                        videoStream.switchSource(desiredCamera.into())
                             .exceptionally {
                                 result.completeExceptionally(it)
                                 null
@@ -284,10 +291,7 @@ internal class CallingSDKWrapper(
                         val desiredCamera = getCamera(CameraFacing.FRONT)
 
                         localVideoStreamCompletableFuture.complete(
-                            LocalVideoStream(
-                                desiredCamera,
-                                context
-                            )
+                            LocalVideoStreamWrapper(NativeLocalVideoStream(desiredCamera, context))
                         )
                         result.complete(localVideoStreamCompletableFuture.get())
                     }
@@ -431,5 +435,6 @@ internal class CallingSDKWrapper(
         endCallCompletableFuture?.complete(null)
     }
 
-    private fun canCreateLocalVideostream() = deviceManagerCompletableFuture != null || callClient != null
+    private fun canCreateLocalVideostream() =
+        deviceManagerCompletableFuture != null || callClient != null
 }

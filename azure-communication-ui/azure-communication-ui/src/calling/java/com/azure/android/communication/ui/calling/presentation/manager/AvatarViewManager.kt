@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,7 +36,7 @@ internal class AvatarViewManager(
         MutableSharedFlow<Map<String, CallCompositeParticipantViewData>>()
 
     override fun onSetParticipantViewData(data: RemoteParticipantViewData): CallCompositeSetParticipantViewDataResult {
-        val id = ParticipantIdentifierHelper.getRemoteParticipantId(data.identifier)
+        val id = data.identifier.id
         if (!appStore.getCurrentState().remoteParticipantState.participantMap.keys.contains(id)) {
             return CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL
         }

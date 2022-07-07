@@ -109,18 +109,10 @@ class RemoteParticipantJoinedHandler(
 
     private fun getRemoteParticipantId(identifier: CommunicationIdentifier): String {
         return when (identifier) {
-            is PhoneNumberIdentifier -> {
-                identifier.phoneNumber
-            }
-            is MicrosoftTeamsUserIdentifier -> {
-                identifier.userId
-            }
-            is CommunicationUserIdentifier -> {
-                identifier.id
-            }
-            else -> {
-                (identifier as UnknownIdentifier).id
-            }
+            is PhoneNumberIdentifier -> identifier.phoneNumber
+            is MicrosoftTeamsUserIdentifier -> identifier.userId
+            is CommunicationUserIdentifier -> identifier.id
+            else -> (identifier as UnknownIdentifier).id
         }
     }
 }
