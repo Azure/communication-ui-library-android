@@ -2,6 +2,9 @@
 
 
 ### Bug Fixes
+- Display DrawerDialog across screen rotation
+- Fix ANR when trying to hang up call on hold
+- Fix edge case with multiple activity instances
 - Fix display name not getting truncated in participant list when they are too long (https://github.com/Azure/communication-ui-library-android/pull/370)
 
 ## 1.0.0 (2022-06-20)
