@@ -153,6 +153,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth"),
+                    null,
                     CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
                 ),
                 videoStreamID = null,

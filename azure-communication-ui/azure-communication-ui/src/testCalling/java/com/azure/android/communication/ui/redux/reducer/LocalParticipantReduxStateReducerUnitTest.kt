@@ -723,14 +723,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
     }
 
     @Test
-    fun deviceStateReducer_reduce_when_AudioDeviceRequested_request_receiver() =
-        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
-
-    @Test
-    fun deviceStateReducer_reduce_when_AudioDeviceRequested_request_bluetooth() =
-        deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
-
-    @Test
     fun deviceStateReducer_reduce_when_AudioDeviceRequested_select_receiver() =
         deviceStateReducer_reduce_when_AudioDeviceAction(AudioDeviceSelectionStatus.RECEIVER_SELECTED)
 

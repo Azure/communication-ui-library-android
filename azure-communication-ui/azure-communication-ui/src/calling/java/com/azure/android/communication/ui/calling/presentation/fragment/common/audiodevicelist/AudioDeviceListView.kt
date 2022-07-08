@@ -110,7 +110,7 @@ internal class AudioDeviceListView(
                     null,
                     false,
                 ) {
-                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
+                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_SELECTED)
                     audioDeviceDrawer.dismiss()
                 },
                 // Speaker
@@ -131,7 +131,7 @@ internal class AudioDeviceListView(
                     null,
                     false,
                 ) {
-                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
+                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
                     audioDeviceDrawer.dismiss()
                 },
             )
@@ -158,7 +158,7 @@ internal class AudioDeviceListView(
                         null,
                         false,
                     ) {
-                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
+                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
                         audioDeviceDrawer.dismiss()
                     }
                 )
@@ -180,11 +180,11 @@ internal class AudioDeviceListView(
 
     private fun getDeviceTypeName(audioState: AudioState): String {
         return when (audioState.device) {
-            AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED ->
+            AudioDeviceSelectionStatus.RECEIVER_SELECTED ->
                 context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
-            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED ->
+            AudioDeviceSelectionStatus.SPEAKER_SELECTED ->
                 context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker)
-            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED ->
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED ->
                 audioState.bluetoothState.deviceName
         }
     }

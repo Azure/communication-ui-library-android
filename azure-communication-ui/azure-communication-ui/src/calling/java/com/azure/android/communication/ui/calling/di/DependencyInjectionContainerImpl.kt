@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.calling.presentation.VideoStreamRender
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
-import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
@@ -25,7 +24,9 @@ import com.azure.android.communication.ui.calling.presentation.manager.SwitchCam
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
+import com.azure.android.communication.ui.calling.redux.middleware.audio.AudioSwitchingMiddleware
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
@@ -38,6 +39,7 @@ import com.azure.android.communication.ui.calling.redux.reducer.ParticipantState
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -46,6 +48,11 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHan
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
+import com.azure.android.communication.ui.calling.utilities.audio.BluetoothDetector
+import com.azure.android.communication.ui.calling.utilities.audio.BluetoothDetectorImpl
+import com.azure.android.communication.ui.calling.utilities.audio.HeadsetDetector
+import com.azure.android.communication.ui.calling.utilities.audio.HeadsetDetectorImpl
+import com.azure.android.communication.ui.calling.utilities.audio.AndroidAudioSwitchAdapter
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
@@ -76,14 +83,31 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val permissionManager by lazy {
-        PermissionManager(appStore)
+        PermissionManager(appStore) { old, new ->
+            if (new.audioPermissionState == PermissionStatus.GRANTED &&
+                (old == null || old.audioPermissionState != new.audioPermissionState)
+            ) {
+                // Audio Permission Granted
+                bluetoothDetector.trigger()
+            }
+        }
     }
 
-    override val audioSessionManager by lazy {
-        AudioSessionManager(
-            appStore,
-            applicationContext,
-        )
+    override val bluetoothDetector: BluetoothDetector by lazy {
+        BluetoothDetectorImpl(applicationContext) { available: Boolean, name: String ->
+            appStore.dispatch(
+                LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
+                    available,
+                    name
+                )
+            )
+        }
+    }
+
+    override val headsetDetector: HeadsetDetector by lazy {
+        HeadsetDetectorImpl(applicationContext) { available: Boolean ->
+            appStore.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(available = available))
+        }
     }
 
     override val audioFocusManager by lazy {
@@ -151,13 +175,17 @@ internal class DependencyInjectionContainerImpl(
     private val audioSessionReducer get() = AudioSessionStateReducerImpl()
 
     // Middleware
-    private val appMiddleware get() = mutableListOf(callingMiddleware)
+    private val appMiddleware get() = mutableListOf(callingMiddleware, audioSwitchMiddleware)
 
     private val callingMiddleware: Middleware<ReduxState> by lazy {
         CallingMiddlewareImpl(
             callingMiddlewareActionHandler,
             logger
         )
+    }
+
+    override val audioSwitchMiddleware: AudioSwitchingMiddleware by lazy {
+        AudioSwitchingMiddleware(AndroidAudioSwitchAdapter(applicationContext))
     }
 
     private val appReduxStateReducer: Reducer<ReduxState> by lazy {
