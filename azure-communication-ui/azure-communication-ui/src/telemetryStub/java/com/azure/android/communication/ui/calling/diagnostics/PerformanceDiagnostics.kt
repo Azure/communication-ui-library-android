@@ -12,5 +12,8 @@ internal class PerformanceDiagnostics {
 
         fun finishTrackingMetric(name: String) {
         }
+
+        fun sendEvent(event: String) {
+        }
     }
 }
