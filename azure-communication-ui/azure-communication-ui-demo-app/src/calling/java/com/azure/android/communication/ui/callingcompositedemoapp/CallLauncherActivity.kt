@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -37,7 +38,8 @@ class CallLauncherActivity : AppCompatActivity() {
             return
         }
         PerformanceDiagnosticsClient().init()
-        if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
+        if (!AppCenter.isConfigured()) {
+
             Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
                 application,
@@ -47,6 +49,11 @@ class CallLauncherActivity : AppCompatActivity() {
                 Distribute::class.java
             )
             Distribute.checkForUpdate()
+        } else {
+
+            AppCenter.start(Analytics::class.java)
+            AppCenter.start(Crashes::class.java)
+            AppCenter.start(Distribute::class.java)
         }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)
