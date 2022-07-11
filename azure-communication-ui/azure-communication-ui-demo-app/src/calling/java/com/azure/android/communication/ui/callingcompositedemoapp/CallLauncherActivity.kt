@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -175,6 +174,7 @@ class CallLauncherActivity : AppCompatActivity() {
         saveState(outState)
         super.onSaveInstanceState(outState)
     }
+
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot

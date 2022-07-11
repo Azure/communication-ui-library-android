@@ -26,7 +26,6 @@ class PerformanceDiagnostics {
         fun sendEvent(event: String) {
             callback?.trackEvent(event)
         }
-
     }
 }
 

@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.diagnostics
 
 internal class PerformanceDiagnostics {
-<<<<<<< HEAD
+
     companion object {
         const val CALL_SCREEN_LOADING = "CALL_SCREEN_LOADING"
 
@@ -16,9 +16,10 @@ internal class PerformanceDiagnostics {
 
         fun sendEvent(event: String) {
         }
-=======
-    fun trackMetric(name: String, value: Double) {
-        // It is a stub. Do not add implementation here
->>>>>>> db9fd66 (Initial Performance Telemetry backbone)
     }
+}
+
+interface TrackMetricHandler {
+    fun trackMetric(name: String, value: Long)
+    fun trackEvent(event: String)
 }

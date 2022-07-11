@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.diagnostics.PerformanceDiagnos
 import com.azure.android.communication.ui.calling.diagnostics.TrackMetricHandler
 import com.microsoft.appcenter.analytics.Analytics
 
-
 internal class PerformanceDiagnosticsClient {
     fun init() {
         PerformanceDiagnostics.callback = object : TrackMetricHandler {
@@ -19,7 +18,6 @@ internal class PerformanceDiagnosticsClient {
             override fun trackEvent(event: String) {
                 Analytics.trackEvent(event)
             }
-
         }
     }
 }
