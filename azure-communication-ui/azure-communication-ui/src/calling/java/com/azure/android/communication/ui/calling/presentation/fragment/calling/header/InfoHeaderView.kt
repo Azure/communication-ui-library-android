@@ -75,7 +75,7 @@ internal class InfoHeaderView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getIsLobbyOverlayDisplayedFlow().collect {
+            infoHeaderViewModel.getIsOverlayDisplayedFlow().collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(headerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
                 } else {
