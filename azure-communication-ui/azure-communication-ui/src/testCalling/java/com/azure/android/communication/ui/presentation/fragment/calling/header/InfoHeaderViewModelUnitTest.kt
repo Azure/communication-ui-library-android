@@ -115,7 +115,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean>()
 
             val flowJob = launch {
-                floatingHeaderViewModel.getIsLobbyOverlayDisplayedFlow()
+                floatingHeaderViewModel.getIsOverlayDisplayedFlow()
                     .toList(resultListFromIsLobbyOverlayDisplayedFlow)
             }
 

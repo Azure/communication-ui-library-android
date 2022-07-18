@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 internal class BannerViewModel {
 
     private lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
-    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private var shouldShowBannerStateFlow = MutableStateFlow(false)
 
     private var recordingState: ComplianceState = ComplianceState.OFF
@@ -19,7 +19,7 @@ internal class BannerViewModel {
 
     private var displayedBannerType: BannerInfoType = BannerInfoType.BLANK
 
-    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
+    fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
     fun getBannerInfoTypeStateFlow(): StateFlow<BannerInfoType> {
         return bannerInfoTypeStateFlow
@@ -35,11 +35,11 @@ internal class BannerViewModel {
         bannerInfoTypeStateFlow = MutableStateFlow(
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
         )
-        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState.callingStatus))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus))
     }
 
-    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
-        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
+    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
     fun update(callingState: CallingState) {
@@ -140,8 +140,8 @@ internal class BannerViewModel {
         }
     }
 
-    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
+    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
 }
 
 internal enum class ComplianceState {
