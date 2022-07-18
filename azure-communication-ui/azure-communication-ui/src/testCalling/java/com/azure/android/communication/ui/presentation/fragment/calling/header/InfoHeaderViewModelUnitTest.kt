@@ -120,8 +120,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(CallingStatus.CONNECTED)
-            floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(CallingStatus.IN_LOBBY)
+            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.CONNECTED)
+            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.IN_LOBBY)
 
             // assert
             Assert.assertEquals(
