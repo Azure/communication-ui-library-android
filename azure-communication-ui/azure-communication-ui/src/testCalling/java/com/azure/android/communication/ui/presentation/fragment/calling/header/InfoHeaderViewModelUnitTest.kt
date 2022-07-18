@@ -115,13 +115,13 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean>()
 
             val flowJob = launch {
-                floatingHeaderViewModel.getIsLobbyOverlayDisplayedFlow()
+                floatingHeaderViewModel.getIsOverlayDisplayedFlow()
                     .toList(resultListFromIsLobbyOverlayDisplayedFlow)
             }
 
             // act
-            floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(CallingStatus.CONNECTED)
-            floatingHeaderViewModel.updateIsLobbyOverlayDisplayed(CallingStatus.IN_LOBBY)
+            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.CONNECTED)
+            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.IN_LOBBY)
 
             // assert
             Assert.assertEquals(
