@@ -27,7 +27,7 @@ internal class LocalParticipantViewModel(
     private lateinit var displayPipSwitchCameraButtonFlow: MutableStateFlow<Boolean>
     private lateinit var enableCameraSwitchFlow: MutableStateFlow<Boolean>
     private lateinit var cameraDeviceSelectionFlow: MutableStateFlow<CameraDeviceSelectionStatus>
-    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfRemoteParticipantsFlow: MutableStateFlow<Int>
 
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
@@ -101,18 +101,18 @@ internal class LocalParticipantViewModel(
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         )
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
-        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState))
         numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())
 
-    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
+    fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
     fun getNumberOfRemoteParticipantsFlow(): StateFlow<Int> = numberOfRemoteParticipantsFlow
 
-    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
-        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
+    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
     private fun shouldDisplayVideo(videoStreamID: String?) = videoStreamID != null
@@ -132,8 +132,8 @@ internal class LocalParticipantViewModel(
             LocalParticipantViewMode.PIP else LocalParticipantViewMode.FULL_SCREEN
     }
 
-    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
+    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
 
     internal data class VideoModel(
         val shouldDisplayVideo: Boolean,
