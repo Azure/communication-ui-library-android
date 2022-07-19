@@ -53,7 +53,7 @@ internal class BannerView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getIsLobbyOverlayDisplayedFlow().collect {
+            viewModel.getIsOverlayDisplayedFlow().collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(bannerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
                 } else {

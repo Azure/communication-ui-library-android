@@ -11,14 +11,14 @@ import java.util.TimerTask
 
 internal class InfoHeaderViewModel {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
-    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
 
     private lateinit var timer: Timer
 
     private var displayedOnLaunch = false
 
-    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
+    fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
     fun getDisplayFloatingHeaderFlow(): StateFlow<Boolean> = displayFloatingHeaderFlow
 
@@ -36,8 +36,8 @@ internal class InfoHeaderViewModel {
         }
     }
 
-    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
-        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
+    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
     fun init(
@@ -47,7 +47,7 @@ internal class InfoHeaderViewModel {
         timer = Timer()
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus))
     }
 
     fun switchFloatingHeader() {
@@ -76,6 +76,6 @@ internal class InfoHeaderViewModel {
         }
     }
 
-    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
+    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
 }

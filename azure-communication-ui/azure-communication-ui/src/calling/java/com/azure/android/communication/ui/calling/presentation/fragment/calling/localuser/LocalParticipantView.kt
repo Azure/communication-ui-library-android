@@ -165,7 +165,7 @@ internal class LocalParticipantView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getIsLobbyOverlayDisplayedFlow().collect {
+            viewModel.getIsOverlayDisplayedFlow().collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(
                         switchCameraButton,
