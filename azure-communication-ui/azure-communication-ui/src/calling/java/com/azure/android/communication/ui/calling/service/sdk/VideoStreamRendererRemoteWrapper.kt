@@ -40,6 +40,7 @@ internal class VideoStreamRendererRemoteWrapper(
 
     override fun dispose() {
         videoStreamRendererView?.dispose()
+        videoStreamRenderer?.dispose()
     }
 
     override fun getStreamSize(): StreamSize? = videoStreamRenderer?.size?.into()
