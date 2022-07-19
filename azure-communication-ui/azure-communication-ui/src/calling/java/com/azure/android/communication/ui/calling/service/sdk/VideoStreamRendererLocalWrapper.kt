@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
-import android.view.View
-import android.view.ViewGroup
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.LocalVideoStream
 
