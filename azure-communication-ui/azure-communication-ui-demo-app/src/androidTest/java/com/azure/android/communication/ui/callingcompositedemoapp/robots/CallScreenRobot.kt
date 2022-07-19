@@ -99,6 +99,12 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
         UiTestUtils.clickViewWithIdAndText(R.id.cell_text, "Leave")
     }
 
+    fun verifyIsCameraButtonDisabled(): CallScreenRobot {
+        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_cameraToggle)
+        UiTestUtils.checkViewIdIsNotEnabled(R.id.azure_communication_ui_call_cameraToggle)
+        return this
+    }
+
     fun verifyFirstParticipantName(userName: String): CallScreenRobot {
 
         UiTestUtils.checkRecyclerViewViewHolderText(

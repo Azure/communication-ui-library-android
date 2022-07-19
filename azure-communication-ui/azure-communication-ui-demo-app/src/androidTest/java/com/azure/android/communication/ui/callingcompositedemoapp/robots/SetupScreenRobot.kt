@@ -3,11 +3,19 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.robots
 
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiObject
+import androidx.test.uiautomator.UiObjectNotFoundException
+import androidx.test.uiautomator.UiSelector
 import com.azure.android.communication.ui.callingcompositedemoapp.Localize
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils
+import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils.checkViewIdAndTextIsEnabled
+import com.azure.android.communication.ui.callingcompositedemoapp.util.UiTestUtils.checkViewIdAndTextIsNotEnabled
 import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDisplayedResource
 import junit.framework.Assert.assertTrue
 
@@ -43,12 +51,39 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         return this
     }
 
+    fun verifyIsJoinCallButtonDisabled(): SetupScreenRobot {
+        checkViewIdAndTextIsNotEnabled(R.id.azure_communication_ui_setup_join_call_button, "Join call")
+        return this
+    }
+
+    fun verifyIsJoinCallButtonEnabled(): SetupScreenRobot {
+        checkViewIdAndTextIsEnabled(R.id.azure_communication_ui_setup_join_call_button, "Join call")
+        return this
+    }
+
+    fun isAudioPermissionErrorMessageShown(): SetupScreenRobot {
+        verifyErrorMessage("Your audio is disabled")
+        return this
+    }
+
+    fun isVideoPermissionErrorMessageShown(): SetupScreenRobot {
+        verifyErrorMessage("Your camera is disabled")
+        return this
+    }
+
     private fun verifyAudioDevice(deviceText: String) {
         waitUntilViewIdIsNotDisplayed(R.id.bottom_drawer_table)
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_audio_device_button)
         val text =
             UiTestUtils.getTextFromButtonView(R.id.azure_communication_ui_setup_audio_device_button)
         assertTrue(text == deviceText)
+    }
+
+    private fun verifyErrorMessage(errorText: String) {
+        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_missing_text)
+        val text =
+            UiTestUtils.getTextFromTextView(R.id.azure_communication_ui_setup_missing_text)
+        assertTrue(text.contains(errorText))
     }
 
     fun selectAndroidAudioDevice(isSelected: Boolean): SetupScreenRobot {
@@ -72,6 +107,29 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     private fun selectAudioDevice(@DrawableRes iconId: Int, text: String, isSelected: Boolean) {
         val audioDeviceList = waitUntilAllViewIdIsAreDisplayed(R.id.cell_text)
         UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text, isSelected)
+    }
+
+    fun permissionDialogAction(deny: Boolean): SetupScreenRobot {
+        Thread.sleep(1000)
+        val actionButtonIndex = if (deny) 2 else 1
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val device: UiDevice = UiDevice.getInstance(getInstrumentation())
+                val allowPermissions: UiObject = device.findObject(
+                    UiSelector()
+                        .clickable(true)
+                        .checkable(false)
+                        .index(actionButtonIndex)
+                )
+                if (allowPermissions.exists()) {
+                    allowPermissions.click()
+                }
+            }
+        } catch (_: UiObjectNotFoundException) {
+        }
+
+        return this
     }
 
     fun turnCameraOn(videoOffText: String = Localize.English.videoOffText): SetupScreenRobot {
@@ -130,6 +188,12 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
             )
         }
         return CallScreenRobot()
+    }
+
+    fun clickCameraButton(): SetupScreenRobot {
+        waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_setup_camera_button)
+        UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_setup_camera_button, Localize.English.videoOffText)
+        return this
     }
 
     fun dismissNetworkLossBanner(): SetupScreenRobot {
