@@ -41,7 +41,7 @@ internal class CallingService(
 
     fun turnCameraOn(): CompletableFuture<String> {
         return callingSdk.turnOnVideoAsync().thenApply { stream ->
-            stream?.source?.id
+            stream?.source()?.id
         }
     }
 

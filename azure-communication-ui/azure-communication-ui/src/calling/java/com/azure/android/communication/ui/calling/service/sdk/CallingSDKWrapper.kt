@@ -217,7 +217,7 @@ internal class CallingSDKWrapper(
         val result = CompletableFuture<CameraDeviceSelectionStatus>()
         this.getLocalVideoStream()
             .thenAccept { videoStream: LocalVideoStream ->
-                val desiredCameraState = when (videoStream.source.cameraFacing) {
+                val desiredCameraState = when (videoStream.source().cameraFacing) {
                     CameraFacing.FRONT -> CameraFacing.BACK
                     else -> CameraFacing.FRONT
                 }

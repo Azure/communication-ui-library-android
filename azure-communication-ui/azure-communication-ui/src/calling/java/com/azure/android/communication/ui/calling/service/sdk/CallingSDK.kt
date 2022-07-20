@@ -82,7 +82,7 @@ internal interface RemoteVideoStream {
 
 internal interface LocalVideoStream {
     val native: Any
-    val source: VideoDeviceInfo
+    fun source(): VideoDeviceInfo
     fun switchSource(deviceInfo: VideoDeviceInfo): CompletableFuture<Void>
 }
 
