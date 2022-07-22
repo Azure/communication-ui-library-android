@@ -6,14 +6,16 @@ package com.azure.android.communication.ui.calling.presentation
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import com.azure.android.communication.calling.RemoteVideoStream
-import com.azure.android.communication.calling.LocalVideoStream
-import com.azure.android.communication.calling.VideoStreamRenderer
-import com.azure.android.communication.calling.VideoStreamRendererView
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererLocalWrapper
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererRemoteWrapper
 
 internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDK,
@@ -26,7 +28,6 @@ internal class VideoViewManager(
     private class VideoRenderer(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
-        var videoStreamID: String,
         var isScreenShareView: Boolean,
     )
 
@@ -68,7 +69,7 @@ internal class VideoViewManager(
                         )
                     val rendererView = videoStreamRenderer.createView()
                     localParticipantVideoRendererMap[videoStreamID] =
-                        VideoRenderer(rendererView, videoStreamRenderer, videoStreamID, false)
+                        VideoRenderer(rendererView, videoStreamRenderer, false)
                 }
             }
         }
@@ -79,8 +80,8 @@ internal class VideoViewManager(
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
         }
-        detachFromParentView(rendererView)
-        return rendererView
+        detachFromParentView(rendererView?.getView())
+        return rendererView?.getView()
     }
 
     fun getRemoteVideoStreamRenderer(
@@ -100,9 +101,9 @@ internal class VideoViewManager(
             rendererView = remoteParticipantVideoRendererMap[uniqueID]?.rendererView
         }
 
-        detachFromParentView(rendererView)
+        detachFromParentView(rendererView?.getView())
 
-        return rendererView
+        return rendererView?.getView()
     }
 
     private fun updateRemoteParticipantVideoRenderer(
@@ -120,15 +121,12 @@ internal class VideoViewManager(
                 remoteParticipants[userID]?.videoStreams != null &&
                 remoteParticipants[userID]?.videoStreams?.size!! > 0
             ) {
-                var stream: RemoteVideoStream? = null
-                remoteParticipants[userID]?.videoStreams?.forEach { videoStream ->
-                    if (videoStream.id.toString() == videoStreamID) {
-                        stream = videoStream
-                    }
+                val stream = remoteParticipants[userID]?.videoStreams?.find { videoStream ->
+                    videoStream.id.toString() == videoStreamID
                 }
 
                 if (stream != null) {
-                    val isScreenShare = stream!!.mediaStreamType == MediaStreamType.SCREEN_SHARING
+                    val isScreenShare = stream.mediaStreamType == MediaStreamType.SCREEN_SHARING
                     val videoStreamRenderer =
                         videoStreamRendererFactory.getRemoteParticipantVideoStreamRenderer(
                             stream,
@@ -146,7 +144,6 @@ internal class VideoViewManager(
                         VideoRenderer(
                             rendererView,
                             videoStreamRenderer,
-                            videoStreamID,
                             isScreenShare
                         )
                     return true
@@ -195,7 +192,7 @@ internal class VideoViewManager(
 
     private fun destroyVideoRenderer(videoRenderer: VideoRenderer?) {
         if (videoRenderer != null) {
-            detachFromParentView(videoRenderer.rendererView)
+            detachFromParentView(videoRenderer.rendererView?.getView())
             videoRenderer.videoStreamRenderer?.dispose()
             videoRenderer.videoStreamRenderer = null
             videoRenderer.rendererView?.dispose()
@@ -210,14 +207,34 @@ internal class VideoViewManager(
     }
 }
 
-internal class VideoStreamRendererFactory {
+internal interface VideoStreamRendererFactory {
     fun getRemoteParticipantVideoStreamRenderer(
-        stream: RemoteVideoStream?,
+        stream: RemoteVideoStream,
         context: Context,
-    ) = VideoStreamRenderer(stream, context)
+    ): VideoStreamRenderer
 
     fun getLocalParticipantVideoStreamRenderer(
-        stream: LocalVideoStream?,
+        stream: LocalVideoStream,
         context: Context,
-    ) = VideoStreamRenderer(stream, context)
+    ): VideoStreamRenderer
+}
+
+internal class VideoStreamRendererFactoryImpl : VideoStreamRendererFactory {
+    override fun getRemoteParticipantVideoStreamRenderer(
+        stream: RemoteVideoStream,
+        context: Context,
+    ) =
+        VideoStreamRendererRemoteWrapper(
+            stream.native as com.azure.android.communication.calling.RemoteVideoStream,
+            context
+        )
+
+    override fun getLocalParticipantVideoStreamRenderer(
+        stream: LocalVideoStream,
+        context: Context,
+    ) =
+        VideoStreamRendererLocalWrapper(
+            stream.native as com.azure.android.communication.calling.LocalVideoStream,
+            context
+        )
 }
