@@ -213,10 +213,12 @@ internal class ParticipantListView(
             else R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label
         )
 
+        val onHoldAnnouncement: String = if (isOnHold) context.getString(R.string.azure_communication_ui_calling_remote_participant_on_hold) else ""
+
         return BottomCellItem(
             null,
             displayName,
-            displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list),
+            displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list) + onHoldAnnouncement,
             micIcon,
             R.color.azure_communication_ui_calling_color_participant_list_mute_mic,
             micAccessibilityAnnouncement,
