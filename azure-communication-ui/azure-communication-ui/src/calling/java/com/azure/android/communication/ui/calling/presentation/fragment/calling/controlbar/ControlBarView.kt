@@ -3,25 +3,21 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.updateLayoutParams
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.CallCompositeControlCode
 import com.azure.android.communication.ui.calling.models.CallCompositeControlOptions
@@ -32,11 +28,11 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class ControlBarView : ConstraintLayout {
+internal class ControlBarView : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    private lateinit var controlBar: ConstraintLayout
+    private lateinit var controlBar: LinearLayout
     private lateinit var viewModel: ControlBarViewModel
     private lateinit var endCallButton: ImageButton
     private lateinit var cameraToggle: ImageButton
@@ -152,29 +148,13 @@ internal class ControlBarView : ConstraintLayout {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     private fun reOrder() {
-
-        firstControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            endToStart = secondControl.id
-            startToStart = ConstraintSet.PARENT_ID
-            horizontalChainStyle = ConstraintSet.CHAIN_SPREAD_INSIDE
+        if (parent != null) {
+            controlBar.removeAllViews()
         }
-
-        secondControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            endToStart = thirdControl.id
-            startToEnd = firstControl.id
-        }
-        secondControl.accessibilityTraversalAfter = firstControl.id
-
-        thirdControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            endToStart = fourthControl.id
-            startToEnd = secondControl.id
-        }
-        thirdControl.accessibilityTraversalAfter = secondControl.id
-
-        fourthControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            startToEnd = thirdControl.id
-        }
-        fourthControl.accessibilityTraversalAfter = thirdControl.id
+        controlBar.addView(firstControl)
+        controlBar.addView(secondControl)
+        controlBar.addView(thirdControl)
+        controlBar.addView(fourthControl)
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
