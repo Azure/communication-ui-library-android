@@ -3,12 +3,16 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
@@ -16,7 +20,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.updateLayoutParams
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.models.CallCompositeControlCode
+import com.azure.android.communication.ui.calling.models.CallCompositeControlOptions
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -28,6 +36,7 @@ internal class ControlBarView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
+    private lateinit var controlBar: ConstraintLayout
     private lateinit var viewModel: ControlBarViewModel
     private lateinit var endCallButton: ImageButton
     private lateinit var cameraToggle: ImageButton
@@ -36,24 +45,37 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var requestCallEndCallback: () -> Unit
     private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
 
+    private lateinit var firstControl: ImageButton
+    private lateinit var secondControl: ImageButton
+    private lateinit var thirdControl: ImageButton
+    private lateinit var fourthControl: ImageButton
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     override fun onFinishInflate() {
         super.onFinishInflate()
+        controlBar = findViewById(R.id.azure_communication_ui_call_call_buttons)
         endCallButton = findViewById(R.id.azure_communication_ui_call_end_call_button)
         cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
+
         subscribeClickListener()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
         requestCallEnd: () -> Unit,
         openAudioDeviceSelectionMenu: () -> Unit,
+        controlBarConfig: CallCompositeControlOptions
     ) {
         this.viewModel = viewModel
         this.requestCallEndCallback = requestCallEnd
         this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
+
+        orderAssignment(controlBarConfig)
+        reOrder()
 
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -95,6 +117,64 @@ internal class ControlBarView : ConstraintLayout {
                 }
             }
         }
+    }
+
+    private fun orderAssignment(config: CallCompositeControlOptions) {
+        when(config.firstControl) {
+            CallCompositeControlCode.CAMERA_CONTROL -> firstControl = cameraToggle
+            CallCompositeControlCode.MIC_CONTROL -> firstControl = micToggle
+            CallCompositeControlCode.AUDIO_CONTROL -> firstControl = callAudioDeviceButton
+            CallCompositeControlCode.HANGUP_CONTROL -> firstControl = endCallButton
+        }
+
+        when(config.secondControl) {
+            CallCompositeControlCode.CAMERA_CONTROL -> secondControl = cameraToggle
+            CallCompositeControlCode.MIC_CONTROL -> secondControl = micToggle
+            CallCompositeControlCode.AUDIO_CONTROL -> secondControl = callAudioDeviceButton
+            CallCompositeControlCode.HANGUP_CONTROL -> secondControl = endCallButton
+        }
+
+        when(config.thirdControl) {
+            CallCompositeControlCode.CAMERA_CONTROL -> thirdControl = cameraToggle
+            CallCompositeControlCode.MIC_CONTROL -> thirdControl = micToggle
+            CallCompositeControlCode.AUDIO_CONTROL -> thirdControl = callAudioDeviceButton
+            CallCompositeControlCode.HANGUP_CONTROL -> thirdControl = endCallButton
+        }
+
+        when(config.fourthControl) {
+            CallCompositeControlCode.CAMERA_CONTROL -> fourthControl = cameraToggle
+            CallCompositeControlCode.MIC_CONTROL -> fourthControl = micToggle
+            CallCompositeControlCode.AUDIO_CONTROL -> fourthControl = callAudioDeviceButton
+            CallCompositeControlCode.HANGUP_CONTROL -> fourthControl = endCallButton
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    private fun reOrder() {
+
+        firstControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            endToStart = secondControl.id
+            startToStart = ConstraintSet.PARENT_ID
+            horizontalChainStyle = ConstraintSet.CHAIN_SPREAD_INSIDE
+        }
+
+        secondControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            endToStart = thirdControl.id
+            startToEnd = firstControl.id
+        }
+        secondControl.accessibilityTraversalAfter = firstControl.id
+
+        thirdControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            endToStart = fourthControl.id
+            startToEnd = secondControl.id
+        }
+        thirdControl.accessibilityTraversalAfter = secondControl.id
+
+        fourthControl.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            startToEnd = thirdControl.id
+        }
+        fourthControl.accessibilityTraversalAfter = thirdControl.id
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)

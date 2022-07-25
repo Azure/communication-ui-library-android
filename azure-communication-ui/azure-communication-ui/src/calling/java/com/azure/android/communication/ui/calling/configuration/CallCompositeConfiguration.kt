@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeControlOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import java.lang.RuntimeException
@@ -11,6 +12,7 @@ import java.lang.RuntimeException
 internal class CallCompositeConfiguration {
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
+    var controlBarConfig: CallCompositeControlOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
     var callConfig: CallConfiguration? = null
     var callCompositeLocalOptions: CallCompositeLocalOptions? = null

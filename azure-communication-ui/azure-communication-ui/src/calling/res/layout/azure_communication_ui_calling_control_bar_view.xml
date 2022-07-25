@@ -35,7 +35,6 @@
             android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
             android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_audio_accessibility_label"
             android:src="@drawable/azure_communication_ui_calling_toggle_selector_mic_for_call"
-            app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_audio_device_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/azure_communication_ui_call_cameraToggle"
             app:layout_constraintTop_toTopOf="parent"

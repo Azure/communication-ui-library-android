@@ -7,6 +7,8 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
 import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
+import com.azure.android.communication.ui.calling.models.CallCompositeControlCode;
+import com.azure.android.communication.ui.calling.models.CallCompositeControlOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
@@ -58,6 +60,11 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         if (AdditionalFeatures.Companion.getSecondaryThemeFeature().getActive()) {
             builder.theme(R.style.MyCompany_Theme_Calling);
         }
+
+        builder.controlBar(new CallCompositeControlOptions(CallCompositeControlCode.MIC_CONTROL,
+                CallCompositeControlCode.CAMERA_CONTROL,
+                CallCompositeControlCode.AUDIO_CONTROL,
+                CallCompositeControlCode.HANGUP_CONTROL));
 
         final CallComposite callComposite = builder.build();
         callComposite.addOnErrorEventHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
