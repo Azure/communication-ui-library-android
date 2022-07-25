@@ -8,11 +8,13 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +43,8 @@ internal class CallingFragment :
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
+    private val container by lazy { holder.container }
+    private val configuration get() = container.configuration
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
@@ -62,6 +66,7 @@ internal class CallingFragment :
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
@@ -75,12 +80,15 @@ internal class CallingFragment :
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
-        controlBarView.start(
-            viewLifecycleOwner,
-            viewModel.getControlBarViewModel(),
-            this::requestCallEnd,
-            this::openAudioDeviceSelectionMenu
-        )
+        configuration.controlBarConfig?.let {
+            controlBarView.start(
+                viewLifecycleOwner,
+                viewModel.getControlBarViewModel(),
+                this::requestCallEnd,
+                this::openAudioDeviceSelectionMenu,
+                it
+            )
+        }
 
         participantGridView =
             view.findViewById(R.id.azure_communication_ui_call_participant_container)

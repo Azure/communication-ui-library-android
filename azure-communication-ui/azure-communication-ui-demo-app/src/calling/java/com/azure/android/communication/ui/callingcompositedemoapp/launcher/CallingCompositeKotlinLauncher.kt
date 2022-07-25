@@ -7,12 +7,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.calling.models.*
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
@@ -45,11 +40,19 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(R.style.MyCompany_Theme_Calling)
+                    .controlBar(CallCompositeControlOptions(CallCompositeControlCode.CAMERA_CONTROL,
+                        CallCompositeControlCode.MIC_CONTROL,
+                        CallCompositeControlCode.AUDIO_CONTROL,
+                        CallCompositeControlCode.HANGUP_CONTROL))
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
                     .build()
             else
                 CallCompositeBuilder()
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
+                    .controlBar(CallCompositeControlOptions(CallCompositeControlCode.CAMERA_CONTROL,
+                        CallCompositeControlCode.AUDIO_CONTROL,
+                        CallCompositeControlCode.MIC_CONTROL,
+                        CallCompositeControlCode.HANGUP_CONTROL))
                     .build()
 
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
