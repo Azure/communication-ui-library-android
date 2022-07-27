@@ -3,43 +3,53 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import androidx.annotation.NonNull;
+import android.graphics.drawable.Drawable;
 
 public final class CallCompositeControlOptions {
 
-    private CallCompositeControlCode firstControl = CallCompositeControlCode.CAMERA_CONTROL;
-    private CallCompositeControlCode secondControl = CallCompositeControlCode.MIC_CONTROL;
-    private CallCompositeControlCode thirdControl = CallCompositeControlCode.AUDIO_CONTROL;
-    private CallCompositeControlCode fourthControl = CallCompositeControlCode.HANGUP_CONTROL;
+    private CallCompositeControlOrderOptions controlOrderOptions = null;
+    private Drawable micControlDrawable = null;
+    private Drawable cameraControlDrawable = null;
+    private Drawable audioControlDrawable = null;
+    private Drawable hangupControlDrawable = null;
 
-    /**
-     * Create Localization configuration.
-     *
-     *
-     */
-    public CallCompositeControlOptions(@NonNull final CallCompositeControlCode firstControl,
-                                       @NonNull final CallCompositeControlCode secondControl,
-                                       @NonNull final CallCompositeControlCode thirdControl,
-                                       @NonNull final CallCompositeControlCode fourthControl) {
-        this.firstControl = firstControl;
-        this.secondControl = secondControl;
-        this.thirdControl = thirdControl;
-        this.fourthControl = fourthControl;
+    public CallCompositeControlOrderOptions getControlOrderOptions() {
+        return controlOrderOptions;
     }
 
-    public CallCompositeControlCode getFirstControl() {
-        return firstControl;
+    public void setControlOrderOptions(final CallCompositeControlOrderOptions controlOrderOptions) {
+        this.controlOrderOptions = controlOrderOptions;
     }
 
-    public CallCompositeControlCode getSecondControl() {
-        return secondControl;
+    public Drawable getMicControlDrawable() {
+        return micControlDrawable;
     }
 
-    public CallCompositeControlCode getThirdControl() {
-        return thirdControl;
+    public void setMicControlDrawable(final Drawable micControlDrawable) {
+        this.micControlDrawable = micControlDrawable;
     }
 
-    public CallCompositeControlCode getFourthControl() {
-        return fourthControl;
+    public Drawable getCameraControlDrawable() {
+        return cameraControlDrawable;
+    }
+
+    public void setCameraControlDrawable(final Drawable cameraControlDrawable) {
+        this.cameraControlDrawable = cameraControlDrawable;
+    }
+
+    public Drawable getAudioControlDrawable() {
+        return audioControlDrawable;
+    }
+
+    public void setAudioControlDrawable(final Drawable audioControlDrawable) {
+        this.audioControlDrawable = audioControlDrawable;
+    }
+
+    public Drawable getHangupControlDrawable() {
+        return hangupControlDrawable;
+    }
+
+    public void setHangupControlDrawable(final Drawable hangupControlDrawable) {
+        this.hangupControlDrawable = hangupControlDrawable;
     }
 }

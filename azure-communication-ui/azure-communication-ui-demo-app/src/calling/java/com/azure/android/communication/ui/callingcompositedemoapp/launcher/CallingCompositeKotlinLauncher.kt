@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher
 
+import android.content.Context
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
@@ -36,23 +37,22 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val participantViewData = getParticipantViewData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
+        /*val controlOptions = CallCompositeControlOptions(CallCompositeControlCode.CAMERA_CONTROL,
+            CallCompositeControlCode.MIC_CONTROL,
+            CallCompositeControlCode.AUDIO_CONTROL,
+            CallCompositeControlCode.HANGUP_CONTROL)
+        controlOptions.setResource( callLauncherActivity.applicationContext,
+                                    callLauncherActivity.applicationContext.resources.getDrawable(R.drawable.azure_communication_ui_calling_toggle_selector_camera_for_call)
+        )*/
 
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(R.style.MyCompany_Theme_Calling)
-                    .controlBar(CallCompositeControlOptions(CallCompositeControlCode.CAMERA_CONTROL,
-                        CallCompositeControlCode.MIC_CONTROL,
-                        CallCompositeControlCode.AUDIO_CONTROL,
-                        CallCompositeControlCode.HANGUP_CONTROL))
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
                     .build()
             else
                 CallCompositeBuilder()
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
-                    .controlBar(CallCompositeControlOptions(CallCompositeControlCode.CAMERA_CONTROL,
-                        CallCompositeControlCode.AUDIO_CONTROL,
-                        CallCompositeControlCode.MIC_CONTROL,
-                        CallCompositeControlCode.HANGUP_CONTROL))
                     .build()
 
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
@@ -82,3 +82,4 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         }
     }
 }
+

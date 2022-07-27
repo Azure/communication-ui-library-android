@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.models.CallCompositeControlOptions
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
@@ -66,7 +67,6 @@ internal class CallingFragment :
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
@@ -80,14 +80,23 @@ internal class CallingFragment :
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
-        configuration.controlBarConfig?.let {
-            controlBarView.start(
-                viewLifecycleOwner,
-                viewModel.getControlBarViewModel(),
-                this::requestCallEnd,
-                this::openAudioDeviceSelectionMenu,
-                it
-            )
+        when (configuration.controlBarConfig) {
+            null ->
+                controlBarView.start(
+                    viewLifecycleOwner,
+                    viewModel.getControlBarViewModel(),
+                    this::requestCallEnd,
+                    this::openAudioDeviceSelectionMenu,
+                    CallCompositeControlOptions(),
+                )
+            else ->
+                controlBarView.start(
+                    viewLifecycleOwner,
+                    viewModel.getControlBarViewModel(),
+                    this::requestCallEnd,
+                    this::openAudioDeviceSelectionMenu,
+                    configuration.controlBarConfig!!,
+                )
         }
 
         participantGridView =
