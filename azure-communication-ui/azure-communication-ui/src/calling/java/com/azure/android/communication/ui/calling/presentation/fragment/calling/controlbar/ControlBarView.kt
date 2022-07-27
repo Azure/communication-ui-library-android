@@ -4,15 +4,12 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
@@ -69,8 +66,8 @@ internal class ControlBarView : LinearLayout {
         this.requestCallEndCallback = requestCallEnd
         this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
-        Log.d("Mohtasim", "View Model initialized")
         //micToggle.setImageDrawable(controlBarConfig.drawableId)
+        setCustomDrawables(controlBarConfig)
         orderAssignment(controlBarConfig)
 
         setupAccessibility()
@@ -112,6 +109,25 @@ internal class ControlBarView : LinearLayout {
                     callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
                 }
             }
+        }
+    }
+
+    private fun setCustomDrawables(controlBarConfig: CallCompositeControlOptions) {
+
+        controlBarConfig.micControlDrawable?.let {
+            micToggle.setImageDrawable(it)
+        }
+
+        controlBarConfig.cameraControlDrawable?.let {
+            cameraToggle.setImageDrawable(it)
+        }
+
+        controlBarConfig.audioControlDrawable?.let {
+            callAudioDeviceButton.setImageDrawable(it)
+        }
+
+        controlBarConfig.hangupControlDrawable?.let {
+            endCallButton.setImageDrawable(it)
         }
     }
 

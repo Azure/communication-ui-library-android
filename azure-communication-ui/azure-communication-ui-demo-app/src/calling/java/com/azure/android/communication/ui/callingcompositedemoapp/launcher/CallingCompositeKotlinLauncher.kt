@@ -45,14 +45,26 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                                     callLauncherActivity.applicationContext.resources.getDrawable(R.drawable.azure_communication_ui_calling_toggle_selector_camera_for_call)
         )*/
 
+        val controlOptions: CallCompositeControlOptions = CallCompositeControlOptionsBuilder().controlOrderOptions(
+                                CallCompositeControlOrderOptions(CallCompositeControlCode.CAMERA_CONTROL,
+                                    CallCompositeControlCode.AUDIO_CONTROL,
+                                    CallCompositeControlCode.MIC_CONTROL,
+                                    CallCompositeControlCode.HANGUP_CONTROL) )
+            .setCameraControlDrawable(
+                                callLauncherActivity.applicationContext
+                                .resources.getDrawable(R.drawable.azure_communication_ic_fluent_camera_selector))
+            .build()
+
         val callComposite: CallComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(R.style.MyCompany_Theme_Calling)
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
+                    .controlBar(controlOptions)
                     .build()
             else
                 CallCompositeBuilder()
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
+                    .controlBar(controlOptions)
                     .build()
 
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
