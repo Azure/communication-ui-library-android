@@ -53,6 +53,9 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             .setCameraControlDrawable(
                                 callLauncherActivity.applicationContext
                                 .resources.getDrawable(R.drawable.azure_communication_ic_fluent_camera_selector))
+            .setMicControlDrawable(
+                                callLauncherActivity.applicationContext
+                                .resources.getDrawable(R.drawable.azure_communication_ui_calling_mic_toggle_selector))
             .build()
 
         val callComposite: CallComposite =
