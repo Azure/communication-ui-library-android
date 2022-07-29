@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
+import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
@@ -45,11 +46,13 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
     private val instanceId: Int,
+    private val customCallingSDK: CallingSDK?,
+    private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
+    private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : DependencyInjectionContainer {
 
     //region Overrides
@@ -72,7 +75,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val videoViewManager by lazy {
-        VideoViewManager(callingSDKWrapper, applicationContext, VideoStreamRendererFactory())
+        VideoViewManager(
+            callingSDKWrapper,
+            applicationContext,
+            customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
+        )
     }
 
     override val permissionManager by lazy {
@@ -124,7 +131,7 @@ internal class DependencyInjectionContainerImpl(
             initialState,
             appReduxStateReducer,
             appMiddleware,
-            storeHandlerThread
+            storeDispatcher
         )
     }
 
@@ -178,12 +185,14 @@ internal class DependencyInjectionContainerImpl(
     private val applicationContext get() = parentContext.applicationContext
 
     private val logger by lazy { DefaultLogger() }
+
     private val callingSDKWrapper: CallingSDK by lazy {
-        CallingSDKWrapper(
-            instanceId,
-            applicationContext,
-            callingSDKEventHandler,
-        )
+        customCallingSDK
+            ?: CallingSDKWrapper(
+                instanceId,
+                applicationContext,
+                callingSDKEventHandler,
+            )
     }
 
     private val callingSDKEventHandler by lazy {
@@ -198,7 +207,7 @@ internal class DependencyInjectionContainerImpl(
     //endregion
 
     //region Threading
-    private val coroutineContextProvider by lazy { CoroutineContextProvider() }
-    private val storeHandlerThread by lazy { StoreHandlerThread() }
+    private val coroutineContextProvider by lazy { customCoroutineContextProvider ?: CoroutineContextProvider() }
+    private val storeDispatcher by lazy { customCoroutineContextProvider?.SingleThreaded ?: coroutineContextProvider.SingleThreaded }
     //endregion
 }
