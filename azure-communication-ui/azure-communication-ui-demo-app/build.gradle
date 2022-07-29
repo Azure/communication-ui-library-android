@@ -149,7 +149,7 @@ dependencies {
         exclude group: "net.java.dev.jna", module: "jna"
     }
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
-    androidTestImplementation 'androidx.test:rules:1.4.1-alpha06'
+    androidTestImplementation "androidx.test:rules:$androidx_test_rules_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"
     androidTestImplementation "com.squareup.leakcanary:leakcanary-android-instrumentation:2.9.1"

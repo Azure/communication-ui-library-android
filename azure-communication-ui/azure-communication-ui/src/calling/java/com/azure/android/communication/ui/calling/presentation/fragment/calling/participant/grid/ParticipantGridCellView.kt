@@ -12,11 +12,11 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.azure.android.communication.calling.VideoStreamRenderer
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellAvatarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell.ParticipantGridCellVideoView
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
 import com.microsoft.fluentui.persona.AvatarView
 
 @SuppressLint("ViewConstructor")

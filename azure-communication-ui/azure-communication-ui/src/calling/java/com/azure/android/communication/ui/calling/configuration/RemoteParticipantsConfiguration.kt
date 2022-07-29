@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
-import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
+import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
 
 internal data class RemoteParticipantViewData(
     val identifier: CommunicationIdentifier,

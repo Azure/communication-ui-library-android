@@ -23,11 +23,8 @@ internal object VideoStreamModelFactory {
         return null
     }
 
-    private fun getStreamType(mediaStreamTye: MediaStreamType): StreamType {
-        return if (mediaStreamTye == MediaStreamType.SCREEN_SHARING) {
-            StreamType.SCREEN_SHARING
-        } else {
-            StreamType.VIDEO
-        }
+    private fun getStreamType(mediaStreamTye: MediaStreamType) = when (mediaStreamTye) {
+        MediaStreamType.SCREEN_SHARING -> StreamType.SCREEN_SHARING
+        else -> StreamType.VIDEO
     }
 }

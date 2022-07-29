@@ -3,11 +3,9 @@
 
 package com.azure.android.communication.ui.redux
 
-import android.os.Handler
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.helper.HandlerAnswerStub
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.Action
@@ -16,7 +14,6 @@ import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.utilities.StoreHandlerThread
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import kotlinx.coroutines.flow.first
@@ -26,7 +23,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
 
 @RunWith(MockitoJUnitRunner::class)
 internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
@@ -37,19 +33,13 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
     @Mock
     private lateinit var mockAppState: AppReduxState
 
-    @Mock
-    private lateinit var mockStoreHandlerThread: StoreHandlerThread
-
-    @Mock
-    private lateinit var mockHandler: Handler
-
     @Test
     fun appStore_dispatch_when_invoked_then_updateStoreState() =
         runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
             val stateTest = AppReduxState("")
-            var participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
+            val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
                 ParticipantInfoModel(
                     "user",
@@ -64,15 +54,11 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 )
             stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0)
 
-            Mockito.`when`(mockHandler.post(any())).thenAnswer(HandlerAnswerStub())
-            Mockito.`when`(mockStoreHandlerThread.startHandlerThread()).thenReturn(mockHandler)
-            Mockito.`when`(mockStoreHandlerThread.isHandlerThreadAlive()).thenReturn(true)
-
             val store = AppStore(
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread
+                this.coroutineContext
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(stateTest)
@@ -93,15 +79,12 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             val middleware2 = TestMiddlewareImplementation() as Middleware<AppReduxState>
             val middleware1Spy = Mockito.spy(middleware1)
             val middleware2Spy = Mockito.spy(middleware2)
-            Mockito.`when`(mockHandler.post(any())).thenAnswer(HandlerAnswerStub())
-            Mockito.`when`(mockStoreHandlerThread.startHandlerThread()).thenReturn(mockHandler)
-            Mockito.`when`(mockStoreHandlerThread.isHandlerThreadAlive()).thenReturn(true)
 
             val store = AppStore(
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(middleware1Spy, middleware2Spy),
-                mockStoreHandlerThread
+                this.coroutineContext
             )
 
             // act
@@ -118,15 +101,11 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val action = CallingAction.CallStartRequested()
 
-            Mockito.`when`(mockHandler.post(any())).thenAnswer(HandlerAnswerStub())
-            Mockito.`when`(mockStoreHandlerThread.startHandlerThread()).thenReturn(mockHandler)
-            Mockito.`when`(mockStoreHandlerThread.isHandlerThreadAlive()).thenReturn(true)
-
             val store = AppStore(
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread
+                this.coroutineContext
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action))
@@ -145,25 +124,22 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val action = CallingAction.CallStartRequested()
             val testState = AppReduxState("")
-            Mockito.`when`(mockHandler.post(any())).thenAnswer(HandlerAnswerStub())
-            Mockito.`when`(mockStoreHandlerThread.startHandlerThread()).thenReturn(mockHandler)
 
             val store = AppStore(
                 mockAppState,
                 mockAppStateReducer,
                 mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                mockStoreHandlerThread
+                this.coroutineContext
             )
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(testState)
             Mockito.`when`(mockAppStateReducer.reduce(testState, action)).thenReturn(mockAppState)
-            Mockito.`when`(mockStoreHandlerThread.isHandlerThreadAlive()).thenReturn(true)
 
             // act
             store.dispatch(action)
-            var firstState = store.getStateFlow().first()
+            val firstState = store.getStateFlow().first()
 
             store.dispatch(action)
-            var secondState = store.getStateFlow().first()
+            val secondState = store.getStateFlow().first()
 
             // assert
             assertEquals(testState, firstState)
