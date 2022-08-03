@@ -24,8 +24,8 @@ class BottomCellViewHolderMatcher(
 
     override fun matchesSafely(item: RecyclerView.ViewHolder?): Boolean {
         val holderRoot = item?.itemView ?: return false
-        val checkMark: ImageView = holderRoot.findViewById(R.id.cell_check_mark)
-        val audioDeviceTextView: TextView = holderRoot.findViewById(R.id.cell_text)
+        val checkMark: ImageView = holderRoot.findViewById(R.id.azure_communication_ui_cell_check_mark)
+        val audioDeviceTextView: TextView = holderRoot.findViewById(R.id.azure_communication_ui_cell_text)
 
         // helps to click after delay
         // on API 31, test case will fail if delay is removed
