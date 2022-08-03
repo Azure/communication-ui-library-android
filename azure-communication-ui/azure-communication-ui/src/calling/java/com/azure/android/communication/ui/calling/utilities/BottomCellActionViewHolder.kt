@@ -14,11 +14,11 @@ import com.azure.android.communication.ui.R
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {
-    private val imageView: ImageView = itemView.findViewById(R.id.cell_icon)
+    private val imageView: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_icon)
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
-    private val accessoryImageView: ImageView = itemView.findViewById(R.id.cell_check_mark)
-    private val additionalText: TextView = itemView.findViewById(R.id.cell_additional_text)
+    private val accessoryImageView: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_check_mark)
+    private val additionalText: TextView = itemView.findViewById(R.id.azure_communication_ui_cell_additional_text)
 
     override fun setCellData(bottomCellItem: BottomCellItem) {
         super.setCellData(bottomCellItem)
