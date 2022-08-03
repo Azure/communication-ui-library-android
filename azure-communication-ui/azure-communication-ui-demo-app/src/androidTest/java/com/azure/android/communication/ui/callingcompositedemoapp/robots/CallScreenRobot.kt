@@ -52,9 +52,9 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
 
     fun checkFirstParticipantInList(): CallScreenRobot {
         val viewIds = Triple(
-            R.id.cell_icon,
+            R.id.azure_communication_ui_cell_icon,
             R.id.azure_communication_ui_participant_list_avatar,
-            R.id.cell_text
+            R.id.azure_communication_ui_cell_text
         )
         UiTestUtils.check3IemRecyclerViewHolderAtPosition(R.id.bottom_drawer_table, 0, viewIds)
         return this
@@ -96,7 +96,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
             UiTestUtils.checkViewWithTextIsDisplayed("Leave call?")
         }
         onView(withId(R.id.bottom_drawer_table)).perform(swipeUp())
-        UiTestUtils.clickViewWithIdAndText(R.id.cell_text, "Leave")
+        UiTestUtils.clickViewWithIdAndText(R.id.azure_communication_ui_cell_text, "Leave")
     }
 
     fun verifyFirstParticipantName(userName: String): CallScreenRobot {
@@ -104,7 +104,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
         UiTestUtils.checkRecyclerViewViewHolderText(
             R.id.bottom_drawer_table,
             0,
-            R.id.cell_text,
+            R.id.azure_communication_ui_cell_text,
             userName
         )
         return this
