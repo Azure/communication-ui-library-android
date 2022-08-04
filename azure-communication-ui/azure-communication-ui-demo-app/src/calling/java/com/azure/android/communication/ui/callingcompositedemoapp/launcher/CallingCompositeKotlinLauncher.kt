@@ -37,13 +37,6 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val participantViewData = getParticipantViewData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
-        /*val controlOptions = CallCompositeControlOptions(CallCompositeControlCode.CAMERA_CONTROL,
-            CallCompositeControlCode.MIC_CONTROL,
-            CallCompositeControlCode.AUDIO_CONTROL,
-            CallCompositeControlCode.HANGUP_CONTROL)
-        controlOptions.setResource( callLauncherActivity.applicationContext,
-                                    callLauncherActivity.applicationContext.resources.getDrawable(R.drawable.azure_communication_ui_calling_toggle_selector_camera_for_call)
-        )*/
 
         val controlOptions: CallCompositeControlOptions = CallCompositeControlOptionsBuilder().controlOrderOptions(
                                 CallCompositeControlOrderOptions(CallCompositeControlCode.CAMERA_CONTROL,
@@ -56,6 +49,9 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             .setMicControlDrawable(
                                 callLauncherActivity.applicationContext
                                 .resources.getDrawable(R.drawable.azure_communication_ui_calling_mic_toggle_selector))
+            .setHangupControlDrawable(
+                                callLauncherActivity.applicationContext
+                                    .resources.getDrawable(R.drawable.image_cat))
             .build()
 
         val callComposite: CallComposite =

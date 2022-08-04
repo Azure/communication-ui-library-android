@@ -41,6 +41,13 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /***
+     * Sets an optional control bar options to customize the control bar for call-composite
+     * to use by (@link CallComposite}
+     *
+     * @param controlOptions {@link CallCompositeControlOptions}.
+     * @return {@link CallCompositeBuilder} for chaining options
+     */
     public CallCompositeBuilder controlBar(final CallCompositeControlOptions controlOptions) {
         this.controlOptions = controlOptions;
         return this;

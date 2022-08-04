@@ -4,12 +4,14 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
@@ -142,33 +144,86 @@ internal class ControlBarView : LinearLayout {
         }
 
         when(config.controlOrderOptions.firstControl) {
-            CallCompositeControlCode.CAMERA_CONTROL -> controlBar.addView(cameraToggle)
-            CallCompositeControlCode.MIC_CONTROL -> controlBar.addView(micToggle)
-            CallCompositeControlCode.AUDIO_CONTROL -> controlBar.addView(callAudioDeviceButton)
-            CallCompositeControlCode.HANGUP_CONTROL -> controlBar.addView(endCallButton)
+            CallCompositeControlCode.CAMERA_CONTROL -> {
+                controlBar.addView(cameraToggle)
+                firstControl = cameraToggle
+            }
+            CallCompositeControlCode.MIC_CONTROL -> {
+                controlBar.addView(micToggle)
+                firstControl = micToggle
+            }
+            CallCompositeControlCode.AUDIO_CONTROL -> {
+                controlBar.addView(callAudioDeviceButton)
+                firstControl = callAudioDeviceButton
+            }
+            CallCompositeControlCode.HANGUP_CONTROL -> {
+                controlBar.addView(endCallButton)
+                firstControl = endCallButton
+            }
         }
 
         when(config.controlOrderOptions.secondControl) {
-            CallCompositeControlCode.CAMERA_CONTROL -> controlBar.addView(cameraToggle)
-            CallCompositeControlCode.MIC_CONTROL -> controlBar.addView(micToggle)
-            CallCompositeControlCode.AUDIO_CONTROL -> controlBar.addView(callAudioDeviceButton)
-            CallCompositeControlCode.HANGUP_CONTROL -> controlBar.addView(endCallButton)
+            CallCompositeControlCode.CAMERA_CONTROL -> {
+                controlBar.addView(cameraToggle)
+                secondControl = cameraToggle
+            }
+            CallCompositeControlCode.MIC_CONTROL -> {
+                controlBar.addView(micToggle)
+                secondControl = micToggle
+            }
+            CallCompositeControlCode.AUDIO_CONTROL -> {
+                controlBar.addView(callAudioDeviceButton)
+                secondControl = callAudioDeviceButton
+            }
+            CallCompositeControlCode.HANGUP_CONTROL -> {
+                controlBar.addView(endCallButton)
+                secondControl = endCallButton
+            }
         }
 
         when(config.controlOrderOptions.thirdControl) {
-            CallCompositeControlCode.CAMERA_CONTROL -> controlBar.addView(cameraToggle)
-            CallCompositeControlCode.MIC_CONTROL -> controlBar.addView(micToggle)
-            CallCompositeControlCode.AUDIO_CONTROL -> controlBar.addView(callAudioDeviceButton)
-            CallCompositeControlCode.HANGUP_CONTROL -> controlBar.addView(endCallButton)
+            CallCompositeControlCode.CAMERA_CONTROL -> {
+                controlBar.addView(cameraToggle)
+                thirdControl = cameraToggle
+            }
+            CallCompositeControlCode.MIC_CONTROL -> {
+                controlBar.addView(micToggle)
+                thirdControl = micToggle
+            }
+            CallCompositeControlCode.AUDIO_CONTROL -> {
+                controlBar.addView(callAudioDeviceButton)
+                thirdControl = callAudioDeviceButton
+            }
+            CallCompositeControlCode.HANGUP_CONTROL -> {
+                controlBar.addView(endCallButton)
+                thirdControl = endCallButton
+            }
         }
 
         when(config.controlOrderOptions.fourthControl) {
-            CallCompositeControlCode.CAMERA_CONTROL -> controlBar.addView(cameraToggle)
-            CallCompositeControlCode.MIC_CONTROL -> controlBar.addView(micToggle)
-            CallCompositeControlCode.AUDIO_CONTROL -> controlBar.addView(callAudioDeviceButton)
-            CallCompositeControlCode.HANGUP_CONTROL -> controlBar.addView(endCallButton)
+            CallCompositeControlCode.CAMERA_CONTROL -> {
+                controlBar.addView(cameraToggle)
+                fourthControl = cameraToggle
+            }
+            CallCompositeControlCode.MIC_CONTROL -> {
+                controlBar.addView(micToggle)
+                fourthControl = micToggle
+            }
+            CallCompositeControlCode.AUDIO_CONTROL -> {
+                controlBar.addView(callAudioDeviceButton)
+                fourthControl = callAudioDeviceButton
+            }
+            CallCompositeControlCode.HANGUP_CONTROL -> {
+                controlBar.addView(endCallButton)
+                fourthControl = endCallButton
+            }
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            secondControl.accessibilityTraversalAfter = firstControl.id
+            thirdControl.accessibilityTraversalAfter = secondControl.id
+            fourthControl.accessibilityTraversalAfter = thirdControl.id
+        }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
