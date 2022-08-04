@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.handler
 
-import com.azure.android.communication.calling.RemoteParticipant
-import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
@@ -19,6 +17,9 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
+import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
+import com.azure.android.communication.ui.calling.service.sdk.into
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.junit.Test
@@ -108,7 +109,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifier = CommunicationUserIdentifier("test")
+            val communicationIdentifier = CommunicationIdentifier.CommunicationUserIdentifier("test")
 
             val mockRemoteParticipant = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifier
@@ -141,7 +142,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
-                    event.identifiers.size == 1 && event.identifiers.toList()[0] == communicationIdentifier
+                    event.identifiers.size == 1 && event.identifiers.toList()[0] == communicationIdentifier.into()
                 }
             )
 
@@ -279,8 +280,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifierFirst = CommunicationUserIdentifier("test")
-            val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
+            val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
 
             val mockRemoteParticipantFirst = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierFirst
@@ -321,8 +322,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers.toList()[0] == communicationIdentifierFirst &&
-                        event.identifiers.toList()[1] == communicationIdentifierSecond
+                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 
@@ -388,9 +389,9 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifierFirst = CommunicationUserIdentifier("test")
-            val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
-            val communicationIdentifierNew = CommunicationUserIdentifier("testNew")
+            val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
+            val communicationIdentifierNew = CommunicationIdentifier.CommunicationUserIdentifier("testNew")
 
             val mockRemoteParticipantFirst = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierFirst
@@ -439,8 +440,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers.toList()[0] == communicationIdentifierFirst &&
-                        event.identifiers.toList()[1] == communicationIdentifierSecond
+                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 
@@ -527,7 +528,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 1 &&
-                        event.identifiers.toList()[0] == communicationIdentifierNew
+                        event.identifiers.toList()[0] == communicationIdentifierNew.into()
                 }
             )
 
@@ -593,8 +594,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifierFirst = CommunicationUserIdentifier("test")
-            val communicationIdentifierSecond = CommunicationUserIdentifier("test2")
+            val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
 
             val mockRemoteParticipantFirst = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierFirst
@@ -642,8 +643,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers.toList()[0] == communicationIdentifierFirst &&
-                        event.identifiers.toList()[1] == communicationIdentifierSecond
+                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 

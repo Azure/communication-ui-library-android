@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.service.calling
 
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.calling.LocalVideoStream
-import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
@@ -28,6 +26,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_EVICTED
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_SUB_CODE_DECLINED
+import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
 
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -435,7 +434,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         var videoStreamId: String? = null
         val cameraStateCompletableFuture: CompletableFuture<LocalVideoStream> = CompletableFuture()
         val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
-        val mockVideoDevice = mock(VideoDeviceInfo::class.java)
+        val mockVideoDevice =
+            mock(com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo::class.java)
 
         Mockito.`when`(mockCallingGateway.turnOnVideoAsync())
             .thenReturn(cameraStateCompletableFuture)

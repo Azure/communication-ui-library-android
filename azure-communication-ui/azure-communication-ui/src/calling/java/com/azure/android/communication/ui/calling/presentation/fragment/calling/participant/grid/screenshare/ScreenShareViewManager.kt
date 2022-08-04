@@ -11,7 +11,7 @@ import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.azure.android.communication.calling.VideoStreamRenderer
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
 
 internal class ScreenShareViewManager(
     private val context: Context,
@@ -59,7 +59,7 @@ internal class ScreenShareViewManager(
     }
 
     private fun setScreenShareLayoutSize() {
-        val streamSize = getScreenShareVideoStreamRendererCallback()?.size
+        val streamSize = getScreenShareVideoStreamRendererCallback()?.getStreamSize()
         if (streamSize == null) {
             screenShareZoomFrameLayout.postDelayed({
                 setScreenShareLayoutSize()

@@ -4,15 +4,16 @@
 package com.azure.android.communication.ui.presentation
 
 import android.content.Context
-import com.azure.android.communication.calling.LocalVideoStream
-import com.azure.android.communication.calling.RemoteParticipant
-import com.azure.android.communication.calling.RemoteVideoStream
-import com.azure.android.communication.calling.VideoStreamRenderer
-import com.azure.android.communication.calling.VideoStreamRendererView
+import android.widget.FrameLayout
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
+import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
 import java9.util.concurrent.CompletableFuture
 import org.junit.Assert
 import org.junit.Test
@@ -51,8 +52,11 @@ internal class VideoViewManagerUnitTest {
         }
 
         val mockContext = mock<Context> {}
+        val mockLayout = mock<FrameLayout> {}
 
-        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {}
+        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
+            on { getView() } doAnswer { mockLayout }
+        }
 
         val mockVideoStreamRenderer = mock<VideoStreamRenderer> {
             on { createView() } doAnswer { mockVideoStreamRendererView }
@@ -110,7 +114,11 @@ internal class VideoViewManagerUnitTest {
 
         val mockContext = mock<Context> {}
 
-        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {}
+        val mockLayout = mock<FrameLayout> {}
+
+        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
+            on { getView() } doAnswer { mockLayout }
+        }
 
         val mockVideoStreamRenderer = mock<VideoStreamRenderer> {
             on { createView() } doAnswer { mockVideoStreamRendererView }
@@ -133,7 +141,7 @@ internal class VideoViewManagerUnitTest {
         val localVideoView = videoViewManager.getLocalVideoRenderer("345")
 
         // assert
-        Assert.assertEquals(localVideoView, mockVideoStreamRendererView)
+        Assert.assertEquals(localVideoView, mockLayout)
     }
 
     @Test
@@ -156,7 +164,11 @@ internal class VideoViewManagerUnitTest {
 
         val mockContext = mock<Context> {}
 
-        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {}
+        val mockLayout = mock<FrameLayout> {}
+
+        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
+            on { getView() } doAnswer { mockLayout }
+        }
 
         val mockVideoStreamRenderer = mock<VideoStreamRenderer> {
             on { createView() } doAnswer { mockVideoStreamRendererView }
@@ -179,7 +191,7 @@ internal class VideoViewManagerUnitTest {
             videoViewManager.getRemoteVideoStreamRenderer("user", "111")
 
         // assert
-        Assert.assertEquals(remoteVideoView, mockVideoStreamRendererView)
+        Assert.assertEquals(remoteVideoView, mockLayout)
     }
 
     @Test
