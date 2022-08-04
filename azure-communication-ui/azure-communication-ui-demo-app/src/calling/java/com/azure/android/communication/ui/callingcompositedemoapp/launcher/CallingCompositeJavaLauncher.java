@@ -79,11 +79,9 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CallCompositeRemoteOptions remoteOptions =
                 new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
 
-        if (participantViewData != null) {
-            final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(participantViewData);
-            callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
-        } else {
-            callComposite.launch(callLauncherActivity, remoteOptions);
-        }
+
+        final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(participantViewData,
+                SettingsFeatures.getCallTitle(), SettingsFeatures.getCallSubTitle());
+        callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
     }
 }

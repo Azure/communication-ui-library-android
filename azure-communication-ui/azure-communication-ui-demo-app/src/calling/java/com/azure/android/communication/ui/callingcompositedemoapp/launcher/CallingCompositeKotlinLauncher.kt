@@ -18,6 +18,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCallSubTitle
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCallTitle
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getRemoteParticipantPersonaInjectionSelection
@@ -71,11 +73,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
-        if (participantViewData != null) {
-            val localOptions = CallCompositeLocalOptions(participantViewData)
-            callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
-        } else {
-            callComposite.launch(callLauncherActivity, remoteOptions)
-        }
+        val localOptions = CallCompositeLocalOptions(participantViewData, getCallTitle(), getCallSubTitle())
+        callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
     }
 }

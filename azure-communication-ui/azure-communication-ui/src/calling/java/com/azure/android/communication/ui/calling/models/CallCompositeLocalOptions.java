@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import androidx.annotation.Nullable;
+
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
@@ -33,14 +35,21 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private final CallCompositeParticipantViewData participantViewData;
 
+    private final String callTitle;
+
+    private final String callSubTitle;
+
     /**
      * Create LocalSettings.
      *
      * @param participantViewData The {@link CallCompositeParticipantViewData};
      * @see CallCompositeParticipantViewData
      */
-    public CallCompositeLocalOptions(final CallCompositeParticipantViewData participantViewData) {
+    public CallCompositeLocalOptions(final CallCompositeParticipantViewData participantViewData,
+                                     @Nullable final String callTitle, @Nullable final String callSubTitle) {
         this.participantViewData = participantViewData;
+        this.callTitle = callTitle;
+        this.callSubTitle = callSubTitle;
     }
 
     /**
@@ -51,4 +60,14 @@ public final class CallCompositeLocalOptions {
     public CallCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
     }
+
+
+    public String getCallTitle() {
+        return callTitle;
+    }
+
+    public String getCallSubTitle() {
+        return callSubTitle;
+    }
+
 }
