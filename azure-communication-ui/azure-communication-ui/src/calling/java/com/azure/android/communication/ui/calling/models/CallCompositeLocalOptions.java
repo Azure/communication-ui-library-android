@@ -33,11 +33,14 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * @see CallComposite
  */
 public final class CallCompositeLocalOptions {
-    private final CallCompositeParticipantViewData participantViewData;
+    @Nullable
+    private CallCompositeParticipantViewData participantViewData = null;
 
-    private final String callTitle;
+    @Nullable
+    private String callTitle = null;
 
-    private final String callSubTitle;
+    @Nullable
+    private String callSubTitle = null;
 
     /**
      * Create LocalSettings.
@@ -45,12 +48,14 @@ public final class CallCompositeLocalOptions {
      * @param participantViewData The {@link CallCompositeParticipantViewData};
      * @see CallCompositeParticipantViewData
      */
-    public CallCompositeLocalOptions(final CallCompositeParticipantViewData participantViewData,
-                                     @Nullable final String callTitle, @Nullable final String callSubTitle) {
+    public CallCompositeLocalOptions(final CallCompositeParticipantViewData participantViewData) {
         this.participantViewData = participantViewData;
-        this.callTitle = callTitle;
-        this.callSubTitle = callSubTitle;
     }
+
+    /**
+     * Create an empty {@Link CallCompositeLocalOptions} object and assign using setters
+     */
+    public CallCompositeLocalOptions() { }
 
     /**
      * Get {@link CallCompositeParticipantViewData}.
@@ -61,7 +66,6 @@ public final class CallCompositeLocalOptions {
         return participantViewData;
     }
 
-
     public String getCallTitle() {
         return callTitle;
     }
@@ -70,4 +74,11 @@ public final class CallCompositeLocalOptions {
         return callSubTitle;
     }
 
+    public void setCallTitle(@Nullable final String callTitle) {
+        this.callTitle = callTitle;
+    }
+
+    public void setCallSubTitle(@Nullable final String callSubTitle) {
+        this.callSubTitle = callSubTitle;
+    }
 }

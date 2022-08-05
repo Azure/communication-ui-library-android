@@ -80,8 +80,10 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                 new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
 
 
-        final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(participantViewData,
-                SettingsFeatures.getCallTitle(), SettingsFeatures.getCallSubTitle());
+        final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(participantViewData);
+        localOptions.setCallTitle(SettingsFeatures.getCallTitle());
+        localOptions.setCallSubTitle(SettingsFeatures.getCallSubTitle());
+
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
     }
 }
