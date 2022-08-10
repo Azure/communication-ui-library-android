@@ -1,5 +1,7 @@
 # Azure Communication UI Calling Release History
 
+### Features
+- Setting up Group Call Title and Subtitle is now possible by customizing CallCompositeLocalOptions
 
 ### Bug Fixes
 - Display DrawerDialog across screen rotation
