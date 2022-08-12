@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 
 internal sealed class LocalParticipantAction : Action {
+    class DeviceManagerFetchFailed(val error: CallCompositeError) : LocalParticipantAction()
     class CameraPreviewOnRequested : LocalParticipantAction()
     class CameraPreviewOnTriggered : LocalParticipantAction()
     class CameraPreviewOnSucceeded(var videoStreamID: String) : LocalParticipantAction()

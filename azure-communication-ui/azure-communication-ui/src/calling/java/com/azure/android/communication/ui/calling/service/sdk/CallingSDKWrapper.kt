@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import android.util.Log
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
@@ -130,20 +131,21 @@ internal class CallingSDKWrapper(
         cleanupResources()
     }
 
-    override fun setupCall() {
+    override fun setupCall(): CompletableFuture<DeviceManager> {
         if (callClient == null) {
             val callClientOptions = CallClientOptions().also {
                 it.setTags(configuration.callConfig?.diagnosticConfig?.tags, logger)
             }
             callClient = CallClient(callClientOptions)
         }
-        createDeviceManager()
+        return createDeviceManager()
     }
 
     override fun startCall(
         cameraState: CameraState,
         audioState: AudioState,
     ): CompletableFuture<Void> {
+
         val startCallCompletableFuture = CompletableFuture<Void>()
         createCallAgent().thenAccept { agent: CallAgent ->
             val audioOptions = AudioOptions()
@@ -351,7 +353,7 @@ internal class CallingSDKWrapper(
         return deviceManagerCompletableFuture!!
     }
 
-    private fun createDeviceManager() {
+    private fun createDeviceManager(): CompletableFuture<DeviceManager> {
         val deviceManagerCompletableFuture = getDeviceManagerCompletableFuture()
 
         if (deviceManagerCompletableFuture.isCompletedExceptionally ||
@@ -363,6 +365,7 @@ internal class CallingSDKWrapper(
                         deviceManagerCompletableFuture.completeExceptionally(
                             getDeviceManagerError
                         )
+
                     } else {
                         deviceManagerCompletableFuture.complete(deviceManager)
                     }
@@ -372,6 +375,7 @@ internal class CallingSDKWrapper(
         CompletableFuture.allOf(
             deviceManagerCompletableFuture,
         )
+        return deviceManagerCompletableFuture
     }
 
     private fun initializeCameras(): CompletableFuture<Void> {

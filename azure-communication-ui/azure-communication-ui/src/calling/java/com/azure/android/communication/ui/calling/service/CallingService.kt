@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.service
 
+import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
@@ -102,8 +103,8 @@ internal class CallingService(
         return callingSdk.resume()
     }
 
-    fun setupCall() {
-        callingSdk.setupCall()
+    fun setupCall(): CompletableFuture<DeviceManager> {
+        return callingSdk.setupCall()
     }
 
     fun dispose() {
