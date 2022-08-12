@@ -200,7 +200,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun setupCall(store: Store<ReduxState>) {
         callingService.setupCall().handle { _, error: Throwable? ->
-            if(error != null) {
+            if (error != null) {
                 ErrorAction.FatalErrorOccurred(
                     FatalError(error, ErrorCode.UNKNOWN_ERROR)
                 )
