@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
-import android.util.Log
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
@@ -365,7 +364,6 @@ internal class CallingSDKWrapper(
                         deviceManagerCompletableFuture.completeExceptionally(
                             getDeviceManagerError
                         )
-
                     } else {
                         deviceManagerCompletableFuture.complete(deviceManager)
                     }
