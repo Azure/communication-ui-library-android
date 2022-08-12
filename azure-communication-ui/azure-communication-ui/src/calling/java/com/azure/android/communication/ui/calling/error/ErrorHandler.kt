@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.error
 
+import android.util.Log
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
@@ -10,6 +11,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.SWIT
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_OFF_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_ON_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.UNKNOWN_ERROR
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
@@ -113,10 +115,14 @@ internal class ErrorHandler(
     }
 
     private fun getCallCompositeErrorCode(errorCode: ErrorCode?): CallCompositeErrorCode? {
+        Log.d("Mohtasim", "Error code - " + errorCode.toString())
         errorCode?.let {
             when (it) {
                 TOKEN_EXPIRED -> {
                     return CallCompositeErrorCode.TOKEN_EXPIRED
+                }
+                UNKNOWN_ERROR -> {
+                    return CallCompositeErrorCode.UNKNOWN_ERROR
                 }
                 CALL_JOIN_FAILED -> {
                     return CallCompositeErrorCode.CALL_JOIN_FAILED
