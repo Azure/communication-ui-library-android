@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.error
 
-import android.util.Log
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
@@ -115,7 +114,6 @@ internal class ErrorHandler(
     }
 
     private fun getCallCompositeErrorCode(errorCode: ErrorCode?): CallCompositeErrorCode? {
-        Log.d("Mohtasim", "Error code - " + errorCode.toString())
         errorCode?.let {
             when (it) {
                 TOKEN_EXPIRED -> {
