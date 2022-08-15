@@ -37,10 +37,8 @@ public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
 
     @Nullable
-    private String callTitle = null;
+    private CallCompositeNavigationBarViewData navigationBarViewData = null;
 
-    @Nullable
-    private String callSubTitle = null;
 
     /**
      * Create LocalSettings.
@@ -62,23 +60,21 @@ public final class CallCompositeLocalOptions {
      *
      * @return The {@link CallCompositeParticipantViewData};
      */
+    @Nullable
     public CallCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
     }
 
-    public String getCallTitle() {
-        return callTitle;
+    public void setParticipantViewData(@Nullable final CallCompositeParticipantViewData participantViewData) {
+        this.participantViewData = participantViewData;
     }
 
-    public String getCallSubTitle() {
-        return callSubTitle;
+    @Nullable
+    public CallCompositeNavigationBarViewData getNavigationBarViewData() {
+        return navigationBarViewData;
     }
 
-    public void setCallTitle(@Nullable final String callTitle) {
-        this.callTitle = callTitle;
-    }
-
-    public void setCallSubTitle(@Nullable final String callSubTitle) {
-        this.callSubTitle = callSubTitle;
+    public void setNavigationBarViewData(@Nullable final CallCompositeNavigationBarViewData navigationBarViewData) {
+        this.navigationBarViewData = navigationBarViewData;
     }
 }

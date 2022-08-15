@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeNavigationBarViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
@@ -81,8 +82,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
 
 
         final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(participantViewData);
-        localOptions.setCallTitle(SettingsFeatures.getCallTitle());
-        localOptions.setCallSubTitle(SettingsFeatures.getCallSubTitle());
+        localOptions.setNavigationBarViewData(new CallCompositeNavigationBarViewData(SettingsFeatures.getCallTitle(),
+                SettingsFeatures.getCallSubTitle()));
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
     }
