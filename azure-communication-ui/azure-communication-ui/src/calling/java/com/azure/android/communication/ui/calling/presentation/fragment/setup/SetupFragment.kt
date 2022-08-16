@@ -116,9 +116,7 @@ internal class SetupFragment :
         get() = (activity as AppCompatActivity)
 
     private fun setActionBarTitle() {
-        fun setActionbarTextColor(text: SpannableString,
-                                  @ColorInt color: Int
-        ) {
+        fun setActionbarTextColor(text: SpannableString, @ColorInt color: Int) {
             text.setSpan(
                 ForegroundColorSpan(
                     ContextCompat.getColor(
@@ -143,9 +141,10 @@ internal class SetupFragment :
 
         callCompositeActivity.supportActionBar?.title = titleSpan
 
-        //Only set the subTitle if the title has also been set
-        if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.callTitle)
-            && !TextUtils.isEmpty(localOptions?.navigationBarViewData?.callSubTitle)) {
+        // Only set the subTitle if the title has also been set
+        if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.callTitle) &&
+            !TextUtils.isEmpty(localOptions?.navigationBarViewData?.callSubTitle)
+        ) {
             val subtitleSpan = SpannableString(localOptions?.navigationBarViewData?.callSubTitle)
             setActionbarTextColor(subtitleSpan, R.color.azure_communication_ui_calling_color_action_bar_subtext)
             callCompositeActivity.supportActionBar?.subtitle = subtitleSpan

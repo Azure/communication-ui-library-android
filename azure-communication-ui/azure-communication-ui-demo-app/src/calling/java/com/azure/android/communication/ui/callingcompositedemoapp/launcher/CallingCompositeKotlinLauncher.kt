@@ -7,7 +7,13 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.models.*
+import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeNavigationBarViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.R
@@ -35,8 +41,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)
-        val
-        participantViewData = getParticipantViewData(callLauncherActivity.applicationContext)
+        val participantViewData = getParticipantViewData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
 
@@ -70,8 +75,10 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
         val localOptions = CallCompositeLocalOptions(participantViewData)
-        localOptions.navigationBarViewData = CallCompositeNavigationBarViewData(getCallTitle(),
-            getCallSubTitle())
+        localOptions.navigationBarViewData = CallCompositeNavigationBarViewData(
+            getCallTitle(),
+            getCallSubTitle()
+        )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
     }
