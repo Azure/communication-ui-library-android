@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl
@@ -18,7 +19,6 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 import java.lang.IllegalArgumentException
-import java.lang.RuntimeException
 
 /**
  * ViewModel for the CallCompositeActivity
@@ -39,20 +39,18 @@ internal class DependencyInjectionContainerHolder(
     var instanceId: Int = -1
         set(value) {
             if (!CallCompositeConfiguration.hasConfig(value)) {
-                throw IllegalArgumentException(
-                    "Configuration with instanceId:$value does not exist. " +
-                        "Please ensure that you have set a valid instanceId before retrieving the container."
-                )
+                val exceptionMessage = "Configuration with instanceId:$value does not exist. " +
+                    "Please ensure that you have set a valid instanceId before retrieving the container."
+                throw CallCompositeException(exceptionMessage, IllegalArgumentException(exceptionMessage))
             }
             field = value
         }
 
     val container: DependencyInjectionContainer by lazy {
         if (instanceId == -1) {
-            throw RuntimeException(
-                "Will not be able to locate a Configuration for instanceId: -1. " +
-                    "Please ensure that you have set instanceId before retrieving the container."
-            )
+            val exceptionMessage = "Will not be able to locate a Configuration for instanceId: -1. " +
+                "Please ensure that you have set instanceId before retrieving the container."
+            throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
         // Generate a new instance
