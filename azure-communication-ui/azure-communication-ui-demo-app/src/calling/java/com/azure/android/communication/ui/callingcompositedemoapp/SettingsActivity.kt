@@ -31,6 +31,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
+    private lateinit var callTitleTextView: TextView
+    private lateinit var callSubTitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
 
     private val sharedPreference by lazy {
@@ -48,6 +50,8 @@ class SettingsActivity : AppCompatActivity() {
         }
         setLanguageInSharedPrefForFirstTime()
         updateRenderedDisplayNameText()
+        updateCallTitle()
+        updateCallSubTitle()
     }
 
     override fun onResume() {
@@ -108,6 +112,14 @@ class SettingsActivity : AppCompatActivity() {
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
         }
+        callTitleTextView = findViewById(R.id.call_title)
+        callSubTitleTextView = findViewById(R.id.call_subtitle)
+        callTitleTextView.addTextChangedListener {
+            saveCallTitle()
+        }
+        callSubTitleTextView.addTextChangedListener {
+            saveCallSubTitle()
+        }
     }
 
     private fun updateRTLCheckbox() {
@@ -163,8 +175,26 @@ class SettingsActivity : AppCompatActivity() {
             .putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
     }
 
+    private fun saveCallTitle() {
+        sharedPreference.edit()
+            .putString(CALL_TITLE, callTitleTextView.text.toString()).apply()
+    }
+
+    private fun saveCallSubTitle() {
+        sharedPreference.edit()
+            .putString(CALL_SUBTITLE, callSubTitleTextView.text.toString()).apply()
+    }
+
     private fun updateRenderedDisplayNameText() {
         renderDisplayNameTextView.text = sharedPreference.getString(RENDERED_DISPLAY_NAME, "")
+    }
+
+    private fun updateCallTitle() {
+        callTitleTextView.text = sharedPreference.getString(CALL_TITLE, null)
+    }
+
+    private fun updateCallSubTitle() {
+        callSubTitleTextView.text = sharedPreference.getString(CALL_SUBTITLE, null)
     }
 
     private fun updateAvatarInjectionCheckbox() {
@@ -190,3 +220,5 @@ const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"
 const val AVATAR_IMAGE = "AVATAR_IMAGE"
 const val DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY = "PERSONA_INJECTION_VALUE_PREF_KEY"
 const val REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE = false
+const val CALL_TITLE = "CALL_TITLE"
+const val CALL_SUBTITLE = "CALL_SUBTITLE"
