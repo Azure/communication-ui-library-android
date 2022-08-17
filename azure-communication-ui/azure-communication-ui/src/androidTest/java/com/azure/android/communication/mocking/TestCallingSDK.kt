@@ -4,13 +4,7 @@
 package com.azure.android.communication.mocking
 
 import androidx.annotation.GuardedBy
-import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.calling.CameraFacing
-import com.azure.android.communication.calling.MediaStreamType
-import com.azure.android.communication.calling.ParticipantState
-import com.azure.android.communication.calling.PropertyChangedListener
-import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
-import com.azure.android.communication.calling.VideoDeviceType
+import com.azure.android.communication.calling.*
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -78,6 +72,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var localCameraFacing = CameraFacing.FRONT
     private val localVideoStream = LocalVideoStreamTest(callEvents, localCameraFacing, coroutineScope)
 
+    private lateinit var deviceManager: DeviceManager
+
     suspend fun addRemoteParticipant(
         id: CommunicationIdentifier,
         displayName: String,
@@ -137,7 +133,9 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         emitRemoteParticipantFlow()
     }
 
-    override fun setupCall() {}
+    override fun setupCall(): CompletableFuture<Void> {
+        return completedNullFuture()
+    }
     override fun dispose() {}
 
     override fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream> {
