@@ -130,13 +130,19 @@ internal class CallingFragment :
         participantListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         participantListView.start(viewLifecycleOwner)
-
+    
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
         bannerView.start(
             viewModel.getBannerViewModel(),
             viewLifecycleOwner,
         )
-
+        participantGridView.setOnClickListener {
+            switchFloatingHeader()
+        }
+    }
+    
+    override fun onResume() {
+        super.onResume()
         sensorManager =
             context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         powerManager =
@@ -149,11 +155,19 @@ internal class CallingFragment :
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
             SensorManager.SENSOR_DELAY_NORMAL
         )
-        participantGridView.setOnClickListener {
-            switchFloatingHeader()
-        }
     }
-
+    
+    override fun onPause() {
+        super.onPause()
+        if (this::wakeLock.isInitialized) {
+            if (wakeLock.isHeld) {
+                wakeLock.setReferenceCounted(false)
+                wakeLock.release()
+            }
+        }
+        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
+    }
+    
     override fun onDestroy() {
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
@@ -170,14 +184,6 @@ internal class CallingFragment :
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
-
-        if (this::wakeLock.isInitialized) {
-            if (wakeLock.isHeld) {
-                wakeLock.setReferenceCounted(false)
-                wakeLock.release()
-            }
-        }
-        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
