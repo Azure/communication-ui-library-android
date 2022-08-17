@@ -495,7 +495,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
-                on { getCurrentState() } doAnswer { appState }
             }
 
             val exception = Exception("test")
@@ -1770,7 +1769,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             // act
             handler.startCall(mockAppStore)
-            handler.setupCall(mockAppStore)
             callInfoModelStateFlow.emit(CallInfoModel(CallingStatus.DISCONNECTED, null))
 
             // assert
@@ -1837,7 +1835,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             // act
             handler.startCall(mockAppStore)
-            handler.setupCall(mockAppStore)
             callInfoModelStateFlow.emit(
                 CallInfoModel(
                     CallingStatus.DISCONNECTED,
@@ -1848,12 +1845,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
 
             // assert
-            verify(mockAppStore, times(0)).dispatch(
-                argThat { action ->
-                    action is ErrorAction.FatalErrorOccurred &&
-                        action.error.errorCode == UNKNOWN_ERROR
-                }
-            )
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
