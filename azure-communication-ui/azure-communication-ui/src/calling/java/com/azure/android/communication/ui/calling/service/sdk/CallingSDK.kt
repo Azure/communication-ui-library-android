@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.SharedFlow
  */
 internal interface CallingSDK {
     // Internal helpers. Refactor these out further.
-    fun setupCall(): CompletableFuture<DeviceManager>
+    fun setupCall(): CompletableFuture<Void>
     fun dispose()
 
     // Interactions.

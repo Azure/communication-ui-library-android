@@ -103,7 +103,7 @@ internal class CallingService(
         return callingSdk.resume()
     }
 
-    fun setupCall(): CompletableFuture<DeviceManager> {
+    fun setupCall(): CompletableFuture<Void> {
         return callingSdk.setupCall()
     }
 

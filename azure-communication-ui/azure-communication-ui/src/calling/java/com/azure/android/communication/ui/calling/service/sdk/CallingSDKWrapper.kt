@@ -23,8 +23,11 @@ import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -130,14 +133,22 @@ internal class CallingSDKWrapper(
         cleanupResources()
     }
 
-    override fun setupCall(): CompletableFuture<DeviceManager> {
+    override fun setupCall(): CompletableFuture<Void> {
         if (callClient == null) {
             val callClientOptions = CallClientOptions().also {
                 it.setTags(configuration.callConfig?.diagnosticConfig?.tags, logger)
             }
             callClient = CallClient(callClientOptions)
         }
-        return createDeviceManager()
+        val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
+        createDeviceManager().handle { _, error: Throwable? ->
+            if (error != null) {
+                setupCallCompletableFuture.completeExceptionally(error)
+            } else {
+                setupCallCompletableFuture.complete(null)
+            }
+        }
+        return setupCallCompletableFuture
     }
 
     override fun startCall(
@@ -379,13 +390,14 @@ internal class CallingSDKWrapper(
     private fun initializeCameras(): CompletableFuture<Void> {
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
-            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager, _: Throwable? ->
+            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager?, error: Throwable? ->
+
                 completeCamerasInitializedCompletableFuture()
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
                         completeCamerasInitializedCompletableFuture()
                     }
-                deviceManager.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+                deviceManager?.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
             }
         }
 
