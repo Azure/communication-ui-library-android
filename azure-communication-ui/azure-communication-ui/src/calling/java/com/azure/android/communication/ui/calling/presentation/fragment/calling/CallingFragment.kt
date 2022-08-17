@@ -130,7 +130,7 @@ internal class CallingFragment :
         participantListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         participantListView.start(viewLifecycleOwner)
-    
+
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
         bannerView.start(
             viewModel.getBannerViewModel(),
@@ -140,7 +140,7 @@ internal class CallingFragment :
             switchFloatingHeader()
         }
     }
-    
+
     override fun onResume() {
         super.onResume()
         sensorManager =
@@ -156,7 +156,7 @@ internal class CallingFragment :
             SensorManager.SENSOR_DELAY_NORMAL
         )
     }
-    
+
     override fun onPause() {
         super.onPause()
         if (this::wakeLock.isInitialized) {
@@ -167,7 +167,7 @@ internal class CallingFragment :
         }
         if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
