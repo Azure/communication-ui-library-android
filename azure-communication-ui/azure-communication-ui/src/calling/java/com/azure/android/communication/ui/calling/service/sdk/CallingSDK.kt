@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.view.View
-import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener

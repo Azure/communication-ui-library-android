@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service
 
-import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel

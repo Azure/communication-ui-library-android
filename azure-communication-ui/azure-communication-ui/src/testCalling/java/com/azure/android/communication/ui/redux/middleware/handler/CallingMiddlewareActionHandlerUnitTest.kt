@@ -485,7 +485,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
             val mockCallingService: CallingService = mock {
-                on {setupCall()} doReturn setupCallCompletableFuture
+                on { setupCall() } doReturn setupCallCompletableFuture
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -506,10 +506,9 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                            action.error.fatalError == exception && action.error.errorCode == ErrorCode.UNKNOWN_ERROR
+                        action.error.fatalError == exception && action.error.errorCode == ErrorCode.UNKNOWN_ERROR
                 }
             )
-
         }
 
     @ExperimentalCoroutinesApi
@@ -1852,7 +1851,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                            action.error.errorCode == UNKNOWN_ERROR
+                        action.error.errorCode == UNKNOWN_ERROR
                 }
             )
             verify(mockAppStore, times(0)).dispatch(
