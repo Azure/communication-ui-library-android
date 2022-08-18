@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.redux
 
 import android.os.Handler
 import android.os.Looper
+import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -13,8 +14,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.coroutines.CoroutineContext
-
-internal class AppStoreException(msg: String, e: Throwable? = null) : Exception(msg, e)
 
 internal class AppStore<S>(
     initialState: S,
@@ -25,7 +24,7 @@ internal class AppStore<S>(
     // Any exceptions encountered in the reducer are rethrown to crash the app and not get silently ignored.
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Handler(Looper.getMainLooper()).postAtFrontOfQueue {
-            throw AppStoreException("Exception while reducing state", throwable)
+            throw CallCompositeException("App store exception while reducing state", throwable)
         }
         // At this point (after an exception) we don't want to accept any more work.
         scope.cancel()

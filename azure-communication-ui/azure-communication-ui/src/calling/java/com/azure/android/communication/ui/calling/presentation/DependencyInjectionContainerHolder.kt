@@ -35,12 +35,16 @@ internal class DependencyInjectionContainerHolder(
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : AndroidViewModel(application) {
+    companion object {
+        private const val commonMessage =
+            "Please ensure that you have set a valid instanceId before retrieving the container."
+    }
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
         set(value) {
             if (!CallCompositeConfiguration.hasConfig(value)) {
-                val exceptionMessage = "Configuration with instanceId:$value does not exist. " +
-                    "Please ensure that you have set a valid instanceId before retrieving the container."
+                val exceptionMessage =
+                    "Configuration with instanceId:$value does not exist. $commonMessage"
                 throw CallCompositeException(exceptionMessage, IllegalArgumentException(exceptionMessage))
             }
             field = value
@@ -48,8 +52,8 @@ internal class DependencyInjectionContainerHolder(
 
     val container: DependencyInjectionContainer by lazy {
         if (instanceId == -1) {
-            val exceptionMessage = "Will not be able to locate a Configuration for instanceId: -1. " +
-                "Please ensure that you have set instanceId before retrieving the container."
+            val exceptionMessage =
+                "Will not be able to locate a Configuration for instanceId: -1. $commonMessage"
             throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
