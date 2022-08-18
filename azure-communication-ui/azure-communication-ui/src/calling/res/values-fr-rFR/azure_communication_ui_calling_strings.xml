@@ -13,7 +13,7 @@
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Sélectionner le périphérique audio %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Périphérique audio %1$s, sélectionné</string>
     <!--    Setup View-->
-    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours… Merci de patienter.</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vidéo désactivée</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Vidéo activée</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microphone désactivé</string>
@@ -24,6 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Votre caméra est désactivée. Pour l’activer, accédez à Paramètres
         pour autoriser l’accès.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Autorisations requises</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settingst">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Sélectionné</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Configurer le dégradé</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Changer de caméra</string>
