@@ -4,8 +4,12 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
@@ -27,6 +31,7 @@ internal class PermissionWarningView : LinearLayout {
     private lateinit var setupPermissionsHolder: LinearLayout
     private lateinit var setupMissingImage: ImageView
     private lateinit var setupMissingText: AppCompatTextView
+    private lateinit var setupSettingsButton: Button
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -36,6 +41,12 @@ internal class PermissionWarningView : LinearLayout {
             findViewById(R.id.azure_communication_ui_setup_missing_image)
         setupMissingText =
             findViewById(R.id.azure_communication_ui_setup_missing_text)
+        setupSettingsButton =
+            findViewById(R.id.azure_communication_ui_setup_settings_button)
+
+        setupSettingsButton.setOnClickListener {
+            openSettings()
+        }
     }
 
     fun start(
@@ -97,5 +108,13 @@ internal class PermissionWarningView : LinearLayout {
             )
             setupMissingText.setText(context.getString(R.string.azure_communication_ui_calling_setup_view_preview_area_camera_disabled))
         }
+    }
+
+    private fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val uri = Uri.fromParts("package", context.packageName, null)
+        intent.data = uri
+        context.startActivity(intent)
     }
 }

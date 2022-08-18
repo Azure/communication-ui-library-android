@@ -102,6 +102,15 @@
                 android:text="@string/azure_communication_ui_calling_setup_view_warning_missing_text"
                 android:textColor="@color/azure_communication_ui_calling_color_on_surface"
                 />
+
+            <Button
+                android:id="@+id/azure_communication_ui_setup_settings_button"
+                android:layout_width="142dp"
+                android:layout_height="48dp"
+                android:background="@drawable/button_outlined"
+                android:text="@string/azure_communication_ui_calling_setup_view_go_to_settingst" />
+
+
         </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningView>
 
         <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView
