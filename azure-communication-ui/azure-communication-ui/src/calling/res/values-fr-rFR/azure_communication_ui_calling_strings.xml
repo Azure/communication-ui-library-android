@@ -13,7 +13,7 @@
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Sélectionner le périphérique audio %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Périphérique audio %1$s, sélectionné</string>
     <!--    Setup View-->
-    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours… Merci de patienter.</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vidéo désactivée</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Vidéo activée</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microphone désactivé</string>
@@ -87,6 +87,8 @@
     <string name="azure_communication_ui_calling_call_state_error_call_end">Vous avez été supprimé de l’appel en raison d’une erreur.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Impossible de rejoindre l’appel en raison d’une erreur.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Vous avez été retiré de l’appel.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Appel en cours</string>
     <string name="azure_communication_ui_calling_service_notification_message">Appuyez pour revenir à l\'appel</string>
