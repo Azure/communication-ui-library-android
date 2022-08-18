@@ -33,5 +33,6 @@
         <item name="titleTextColor">
             @color/azure_communication_ui_calling_color_action_bar_text
         </item>
+        <item name="actionBarStyle">@style/AzureCommunicationUICalling.ActionBar</item>
     </style>
 </resources>

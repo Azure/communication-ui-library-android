@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import androidx.annotation.Nullable;
+
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
@@ -31,7 +33,12 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * @see CallComposite
  */
 public final class CallCompositeLocalOptions {
-    private final CallCompositeParticipantViewData participantViewData;
+    @Nullable
+    private CallCompositeParticipantViewData participantViewData = null;
+
+    @Nullable
+    private CallCompositeNavigationBarViewData navigationBarViewData = null;
+
 
     /**
      * Create LocalSettings.
@@ -44,11 +51,30 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
+     * Create an empty {@Link CallCompositeLocalOptions} object and assign using setters
+     */
+    public CallCompositeLocalOptions() { }
+
+    /**
      * Get {@link CallCompositeParticipantViewData}.
      *
      * @return The {@link CallCompositeParticipantViewData};
      */
+    @Nullable
     public CallCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
+    }
+
+    public void setParticipantViewData(@Nullable final CallCompositeParticipantViewData participantViewData) {
+        this.participantViewData = participantViewData;
+    }
+
+    @Nullable
+    public CallCompositeNavigationBarViewData getNavigationBarViewData() {
+        return navigationBarViewData;
+    }
+
+    public void setNavigationBarViewData(@Nullable final CallCompositeNavigationBarViewData navigationBarViewData) {
+        this.navigationBarViewData = navigationBarViewData;
     }
 }

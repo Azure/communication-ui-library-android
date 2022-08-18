@@ -136,7 +136,13 @@ internal class CallingFragment :
             viewModel.getBannerViewModel(),
             viewLifecycleOwner,
         )
+        participantGridView.setOnClickListener {
+            switchFloatingHeader()
+        }
+    }
 
+    override fun onResume() {
+        super.onResume()
         sensorManager =
             context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         powerManager =
@@ -149,9 +155,17 @@ internal class CallingFragment :
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
             SensorManager.SENSOR_DELAY_NORMAL
         )
-        participantGridView.setOnClickListener {
-            switchFloatingHeader()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (this::wakeLock.isInitialized) {
+            if (wakeLock.isHeld) {
+                wakeLock.setReferenceCounted(false)
+                wakeLock.release()
+            }
         }
+        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
     }
 
     override fun onDestroy() {
@@ -170,14 +184,6 @@ internal class CallingFragment :
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
-
-        if (this::wakeLock.isInitialized) {
-            if (wakeLock.isHeld) {
-                wakeLock.setReferenceCounted(false)
-                wakeLock.release()
-            }
-        }
-        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

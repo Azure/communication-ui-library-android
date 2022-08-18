@@ -194,6 +194,21 @@
             android:layout_margin="8dp"
             android:hint="@string/rendered_display_name"
             />
+        <EditText
+            android:id="@+id/call_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/call_title"
+            />
+
+        <EditText
+            android:id="@+id/call_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/call_subtitle"
+            />
 
         <TextView
             android:id="@+id/callSellingRemoteAvatarInjection"
