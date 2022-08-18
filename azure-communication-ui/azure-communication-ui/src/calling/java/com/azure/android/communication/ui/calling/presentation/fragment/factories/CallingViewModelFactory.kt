@@ -22,85 +22,45 @@ internal class CallingViewModelFactory(
     private val maxRemoteParticipants: Int,
 ) {
 
-    private val participantGridViewModel by lazy {
+    val participantGridViewModel by lazy {
         ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)
     }
-
-    private val controlBarViewModel by lazy {
+    
+    val controlBarViewModel by lazy {
         ControlBarViewModel(store::dispatch)
     }
-
-    private val floatingHeaderViewModel by lazy {
+    
+    val floatingHeaderViewModel by lazy {
         InfoHeaderViewModel()
     }
-
-    private val audioDeviceListViewModel by lazy {
+    
+    val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
     }
-
-    private val confirmLeaveOverlayViewModel by lazy {
+    
+    val confirmLeaveOverlayViewModel by lazy {
         LeaveConfirmViewModel(store::dispatch)
     }
-
-    private val localParticipantViewModel by lazy {
+    
+    val localParticipantViewModel by lazy {
         LocalParticipantViewModel(
             store::dispatch,
         )
     }
-
-    private val participantListViewModel by lazy {
+    
+    val participantListViewModel by lazy {
         ParticipantListViewModel()
     }
-
-    private val bannerViewModel by lazy {
+    
+    val bannerViewModel by lazy {
         BannerViewModel()
     }
-
-    private val lobbyOverlayViewModel by lazy {
+    
+    val lobbyOverlayViewModel by lazy {
         LobbyOverlayViewModel()
     }
-
-    private val onHoldOverlayViewModel by lazy {
+    
+    val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
-    }
-
-    fun provideParticipantGridViewModel(): ParticipantGridViewModel {
-        return participantGridViewModel
-    }
-
-    fun provideControlBarViewModel(): ControlBarViewModel {
-        return controlBarViewModel
-    }
-
-    fun provideFloatingHeaderViewModel(): InfoHeaderViewModel {
-        return floatingHeaderViewModel
-    }
-
-    fun provideAudioDeviceListViewModel(): AudioDeviceListViewModel {
-        return audioDeviceListViewModel
-    }
-
-    fun provideConfirmLeaveOverlayViewModel(): LeaveConfirmViewModel {
-        return confirmLeaveOverlayViewModel
-    }
-
-    fun provideLocalParticipantViewModel(): LocalParticipantViewModel {
-        return localParticipantViewModel
-    }
-
-    fun provideParticipantListViewModel(): ParticipantListViewModel {
-        return participantListViewModel
-    }
-
-    fun provideBannerViewModel(): BannerViewModel {
-        return bannerViewModel
-    }
-
-    fun provideLobbyOverlayViewModel(): LobbyOverlayViewModel {
-        return lobbyOverlayViewModel
-    }
-
-    fun provideHoldOverlayViewModel(): OnHoldOverlayViewModel {
-        return onHoldOverlayViewModel
     }
 }

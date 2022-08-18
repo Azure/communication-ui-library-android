@@ -6,31 +6,23 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 internal class BannerViewModel {
 
-    private lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
-    private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
-    private var shouldShowBannerStateFlow = MutableStateFlow(false)
+    lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
+    lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    var shouldShowBannerStateFlow = MutableStateFlow(false)
 
     private var recordingState: ComplianceState = ComplianceState.OFF
     private var transcriptionState: ComplianceState = ComplianceState.OFF
-
-    private var displayedBannerType: BannerInfoType = BannerInfoType.BLANK
-
-    fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
-
-    fun getBannerInfoTypeStateFlow(): StateFlow<BannerInfoType> {
-        return bannerInfoTypeStateFlow
-    }
-
-    fun getShouldShowBannerStateFlow(): StateFlow<Boolean> {
-        return shouldShowBannerStateFlow
-    }
-
-    fun getDisplayedBannerType() = displayedBannerType
-
+    
+    private var _displayedBannerType: BannerInfoType = BannerInfoType.BLANK
+    var displayedBannerType: BannerInfoType
+        get() = _displayedBannerType
+        internal set(value) {
+            _displayedBannerType = value
+        }
+    
     fun init(callingState: CallingState) {
         bannerInfoTypeStateFlow = MutableStateFlow(
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
