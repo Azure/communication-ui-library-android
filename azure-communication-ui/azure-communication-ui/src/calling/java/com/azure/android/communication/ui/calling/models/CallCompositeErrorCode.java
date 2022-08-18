@@ -38,6 +38,11 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode UNKNOWN_ERROR = fromString("unknownError");
 
     /**
+     * Dispatched when camera failed to start, stop or switch
+     */
+    public static final CallCompositeErrorCode CAMERA_FAILURE = fromString("cameraFailure");
+
+    /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
      *
      * @param name a name to look for.
