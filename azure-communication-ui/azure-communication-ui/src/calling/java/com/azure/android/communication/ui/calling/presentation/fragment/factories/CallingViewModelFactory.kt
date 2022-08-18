@@ -25,41 +25,41 @@ internal class CallingViewModelFactory(
     val participantGridViewModel by lazy {
         ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)
     }
-    
+
     val controlBarViewModel by lazy {
         ControlBarViewModel(store::dispatch)
     }
-    
+
     val floatingHeaderViewModel by lazy {
         InfoHeaderViewModel()
     }
-    
+
     val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
     }
-    
+
     val confirmLeaveOverlayViewModel by lazy {
         LeaveConfirmViewModel(store::dispatch)
     }
-    
+
     val localParticipantViewModel by lazy {
         LocalParticipantViewModel(
             store::dispatch,
         )
     }
-    
+
     val participantListViewModel by lazy {
         ParticipantListViewModel()
     }
-    
+
     val bannerViewModel by lazy {
         BannerViewModel()
     }
-    
+
     val lobbyOverlayViewModel by lazy {
         LobbyOverlayViewModel()
     }
-    
+
     val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
     }

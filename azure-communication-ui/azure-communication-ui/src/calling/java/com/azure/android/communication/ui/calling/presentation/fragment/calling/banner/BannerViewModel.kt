@@ -15,14 +15,14 @@ internal class BannerViewModel {
 
     private var recordingState: ComplianceState = ComplianceState.OFF
     private var transcriptionState: ComplianceState = ComplianceState.OFF
-    
+
     private var _displayedBannerType: BannerInfoType = BannerInfoType.BLANK
     var displayedBannerType: BannerInfoType
         get() = _displayedBannerType
         internal set(value) {
             _displayedBannerType = value
         }
-    
+
     fun init(callingState: CallingState) {
         bannerInfoTypeStateFlow = MutableStateFlow(
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)

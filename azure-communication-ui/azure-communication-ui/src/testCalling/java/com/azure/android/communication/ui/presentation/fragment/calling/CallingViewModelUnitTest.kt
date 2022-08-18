@@ -88,9 +88,9 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
-                on { controlBarViewModel} doAnswer { mockControlBarViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
                 on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { localParticipantViewModel} doAnswer { mockLocalParticipantViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
                 on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
                 on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
@@ -170,9 +170,9 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
-                on { controlBarViewModel} doAnswer { mockControlBarViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
                 on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { localParticipantViewModel} doAnswer { mockLocalParticipantViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
                 on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
                 on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
@@ -251,9 +251,9 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
-                on { controlBarViewModel} doAnswer { mockControlBarViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
                 on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { localParticipantViewModel} doAnswer { mockLocalParticipantViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
                 on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
                 on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
@@ -339,9 +339,9 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
-                on { controlBarViewModel} doAnswer { mockControlBarViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
                 on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { localParticipantViewModel} doAnswer { mockLocalParticipantViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
                 on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
                 on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }

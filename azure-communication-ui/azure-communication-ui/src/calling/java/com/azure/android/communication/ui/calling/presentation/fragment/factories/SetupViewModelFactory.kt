@@ -20,31 +20,31 @@ internal class SetupViewModelFactory(
     val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
     }
-    
+
     val previewAreaViewModel by lazy {
         PreviewAreaViewModel(store::dispatch)
     }
-    
+
     val setupControlsViewModel by lazy {
         SetupControlBarViewModel(store::dispatch)
     }
-    
+
     val warningsViewModel by lazy {
         PermissionWarningViewModel(store::dispatch)
     }
-    
+
     val snackBarViewModel by lazy {
         ErrorInfoViewModel()
     }
-    
+
     val setupGradientViewModel by lazy {
         SetupGradientViewModel()
     }
-    
+
     val participantAvatarViewModel by lazy {
         SetupParticipantAvatarViewModel()
     }
-    
+
     val joinCallButtonHolderViewModel by lazy {
         JoinCallButtonHolderViewModel(store::dispatch)
     }

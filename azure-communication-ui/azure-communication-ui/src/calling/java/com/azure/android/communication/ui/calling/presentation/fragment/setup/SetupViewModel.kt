@@ -16,7 +16,7 @@ internal class SetupViewModel(
     private val setupViewModelProvider: SetupViewModelFactory,
 ) :
     BaseViewModel(store) {
-    
+
     private val warningsViewModel = setupViewModelProvider.warningsViewModel
     private val setupControlsViewModel = setupViewModelProvider.setupControlsViewModel
     private val localParticipantRendererViewModel = setupViewModelProvider.previewAreaViewModel
@@ -25,11 +25,11 @@ internal class SetupViewModel(
     private val setupGradientViewModel = setupViewModelProvider.setupGradientViewModel
     private val participantAvatarViewModel = setupViewModelProvider.participantAvatarViewModel
     private val joinCallButtonHolderViewModel = setupViewModelProvider.joinCallButtonHolderViewModel
-    
+
     fun getJoinCallButtonHolderViewModel() = joinCallButtonHolderViewModel
-    
+
     fun getParticipantAvatarViewModel() = participantAvatarViewModel
-    
+
     fun getSetupGradientViewViewModel() = setupGradientViewModel
 
     fun getErrorInfoViewModel() = errorInfoViewModel
@@ -44,11 +44,11 @@ internal class SetupViewModel(
 
     val displayName: String?
         get() = store.getCurrentState().localParticipantState.displayName
-    
+
     fun setupCall() {
         dispatchAction(action = CallingAction.SetupCall())
     }
-    
+
     fun exitComposite() {
         dispatchAction(action = CallingAction.CallEndRequested())
         dispatchAction(action = NavigationAction.Exit())
