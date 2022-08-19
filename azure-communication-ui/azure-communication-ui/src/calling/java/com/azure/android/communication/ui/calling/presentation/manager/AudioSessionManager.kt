@@ -25,6 +25,7 @@ import android.os.Bundle
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
+import com.azure.android.communication.ui.calling.CallCompositeException
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -79,7 +80,7 @@ internal class AudioSessionManager(
 
     fun onStart(activity: Activity) {
         if (activity !is LifecycleOwner) {
-            throw IllegalArgumentException("Activity must be a LifecycleOwner)")
+            throw CallCompositeException("Activity must be a LifecycleOwner", IllegalArgumentException())
         }
         (activity as LifecycleOwner).lifecycle.coroutineScope.launch {
             // On first launch we need to init the redux-state, check Bluetooth and Headset status
