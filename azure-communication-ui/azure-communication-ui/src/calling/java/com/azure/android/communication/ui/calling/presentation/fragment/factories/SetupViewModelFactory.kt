@@ -17,51 +17,35 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
 ) {
-    private val audioDeviceListViewModel by lazy {
+    val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
     }
 
-    private val previewAreaViewModel by lazy {
+    val previewAreaViewModel by lazy {
         PreviewAreaViewModel(store::dispatch)
     }
 
-    private val setupControlsViewModel by lazy {
+    val setupControlsViewModel by lazy {
         SetupControlBarViewModel(store::dispatch)
     }
 
-    private val warningsViewModel by lazy {
+    val warningsViewModel by lazy {
         PermissionWarningViewModel(store::dispatch)
     }
 
-    private val snackBarViewModel by lazy {
+    val snackBarViewModel by lazy {
         ErrorInfoViewModel()
     }
 
-    private val setupGradientViewModel by lazy {
+    val setupGradientViewModel by lazy {
         SetupGradientViewModel()
     }
 
-    private val participantAvatarViewModel by lazy {
+    val participantAvatarViewModel by lazy {
         SetupParticipantAvatarViewModel()
     }
 
-    private val joinCallButtonHolderViewModel by lazy {
+    val joinCallButtonHolderViewModel by lazy {
         JoinCallButtonHolderViewModel(store::dispatch)
     }
-
-    fun providePreviewAreaViewModel() = previewAreaViewModel
-
-    fun provideAudioDeviceListViewModel() = audioDeviceListViewModel
-
-    fun provideSetupControlsViewModel() = setupControlsViewModel
-
-    fun provideWarningsViewModel() = warningsViewModel
-
-    fun provideErrorInfoViewModel() = snackBarViewModel
-
-    fun provideSetupGradientViewModel() = setupGradientViewModel
-
-    fun provideParticipantAvatarViewModel() = participantAvatarViewModel
-
-    fun provideJoinCallButtonHolderViewModel() = joinCallButtonHolderViewModel
 }
