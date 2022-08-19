@@ -34,6 +34,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.UNKNOWN_ERROR
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
@@ -471,6 +472,40 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
                         action.callingState == CallingStatus.CONNECTED
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_setupCall_fails_then_dispatchFatalError() =
+        runScopedTest {
+            val appState = AppReduxState("")
+            appState.callState = CallingState(CallingStatus.NONE)
+
+            val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
+            val mockCallingService: CallingService = mock {
+                on { setupCall() } doReturn setupCallCompletableFuture
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+
+            val exception = Exception("test")
+            handler.setupCall(mockAppStore)
+            setupCallCompletableFuture.completeExceptionally(exception)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ErrorAction.FatalErrorOccurred &&
+                        action.error.fatalError == exception && action.error.errorCode == ErrorCode.UNKNOWN_ERROR
                 }
             )
         }
