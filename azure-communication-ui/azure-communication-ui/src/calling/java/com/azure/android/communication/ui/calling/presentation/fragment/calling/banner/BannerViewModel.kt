@@ -6,40 +6,39 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 internal class BannerViewModel {
 
-    private lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
-    private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
-    private var shouldShowBannerStateFlow = MutableStateFlow(false)
+    private var _bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType> =
+        MutableStateFlow(BannerInfoType.BLANK)
+    var bannerInfoTypeStateFlow = _bannerInfoTypeStateFlow
+    private var _isOverlayDisplayedFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    var isOverlayDisplayedFlow = _isOverlayDisplayedFlow
+    private var _shouldShowBannerStateFlow = MutableStateFlow(false)
+    var shouldShowBannerStateFlow = _shouldShowBannerStateFlow
 
     private var recordingState: ComplianceState = ComplianceState.OFF
     private var transcriptionState: ComplianceState = ComplianceState.OFF
 
-    private var displayedBannerType: BannerInfoType = BannerInfoType.BLANK
-
-    fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
-
-    fun getBannerInfoTypeStateFlow(): StateFlow<BannerInfoType> {
-        return bannerInfoTypeStateFlow
-    }
-
-    fun getShouldShowBannerStateFlow(): StateFlow<Boolean> {
-        return shouldShowBannerStateFlow
-    }
-
-    fun getDisplayedBannerType() = displayedBannerType
+    private var _displayedBannerType: BannerInfoType = BannerInfoType.BLANK
+    var displayedBannerType: BannerInfoType
+        get() = _displayedBannerType
+        internal set(value) {
+            _displayedBannerType = value
+        }
 
     fun init(callingState: CallingState) {
         bannerInfoTypeStateFlow = MutableStateFlow(
-            createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
+            createBannerInfoType(
+                callingState.isRecording,
+                callingState.isTranscribing
+            )
         )
-        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus))
+        _isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus))
     }
 
     fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
+        _isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
     fun update(callingState: CallingState) {
@@ -49,17 +48,17 @@ internal class BannerViewModel {
 
         if (newBannerInfoType != currentBannerInfoType) {
             bannerInfoTypeStateFlow.value = newBannerInfoType
-            shouldShowBannerStateFlow.value = true
+            _shouldShowBannerStateFlow.value = true
         }
     }
 
     fun setDisplayedBannerType(bannerInfoType: BannerInfoType) {
-        displayedBannerType = bannerInfoType
+        _displayedBannerType = bannerInfoType
     }
 
     fun dismissBanner() {
-        shouldShowBannerStateFlow.value = false
-        displayedBannerType = BannerInfoType.BLANK
+        _shouldShowBannerStateFlow.value = false
+        _displayedBannerType = BannerInfoType.BLANK
         resetStoppedStates()
     }
 
