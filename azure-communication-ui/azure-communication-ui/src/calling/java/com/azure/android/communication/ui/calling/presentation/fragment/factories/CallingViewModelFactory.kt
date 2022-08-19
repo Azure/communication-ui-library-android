@@ -64,9 +64,8 @@ internal class CallingViewModelFactory(
     val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
     }
-    
-    
-    private val snackBarViewModel by lazy {
+
+    val snackBarViewModel by lazy {
         ErrorInfoViewModel()
     }
 }

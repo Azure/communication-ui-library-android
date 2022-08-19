@@ -42,7 +42,7 @@ internal class CallingViewModel(
     private val bannerViewModel = callingViewModelProvider.bannerViewModel
     private val lobbyOverlayViewModel = callingViewModelProvider.lobbyOverlayViewModel
     private val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
-    private val errorInfoViewModel = callingViewModelProvider.provideErrorInfoViewModel()
+    private val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
 
     fun getLobbyOverlayViewModel(): LobbyOverlayViewModel {
         return lobbyOverlayViewModel
