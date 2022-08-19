@@ -28,20 +28,20 @@ internal class CallingViewModel(
     BaseViewModel(store) {
 
     private val participantGridViewModel =
-        callingViewModelProvider.provideParticipantGridViewModel()
-    private val controlBarViewModel = callingViewModelProvider.provideControlBarViewModel()
+        callingViewModelProvider.participantGridViewModel
+    private val controlBarViewModel = callingViewModelProvider.controlBarViewModel
     private val confirmLeaveOverlayViewModel =
-        callingViewModelProvider.provideConfirmLeaveOverlayViewModel()
+        callingViewModelProvider.confirmLeaveOverlayViewModel
     private val localParticipantViewModel =
-        callingViewModelProvider.provideLocalParticipantViewModel()
-    private val floatingHeaderViewModel = callingViewModelProvider.provideFloatingHeaderViewModel()
+        callingViewModelProvider.localParticipantViewModel
+    private val floatingHeaderViewModel = callingViewModelProvider.floatingHeaderViewModel
     private val audioDeviceListViewModel =
-        callingViewModelProvider.provideAudioDeviceListViewModel()
+        callingViewModelProvider.audioDeviceListViewModel
     private val participantListViewModel =
-        callingViewModelProvider.provideParticipantListViewModel()
-    private val bannerViewModel = callingViewModelProvider.provideBannerViewModel()
-    private val lobbyOverlayViewModel = callingViewModelProvider.provideLobbyOverlayViewModel()
-    private val holdOverlayViewModel = callingViewModelProvider.provideHoldOverlayViewModel()
+        callingViewModelProvider.participantListViewModel
+    private val bannerViewModel = callingViewModelProvider.bannerViewModel
+    private val lobbyOverlayViewModel = callingViewModelProvider.lobbyOverlayViewModel
+    private val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
 
     fun getLobbyOverlayViewModel(): LobbyOverlayViewModel {
         return lobbyOverlayViewModel

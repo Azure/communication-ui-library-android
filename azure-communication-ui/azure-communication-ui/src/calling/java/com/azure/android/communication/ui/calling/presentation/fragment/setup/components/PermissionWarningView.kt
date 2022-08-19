@@ -44,13 +44,13 @@ internal class PermissionWarningView : LinearLayout {
     ) {
         this.viewModel = viewModel
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCameraPermissionStateFlow().collect {
+            viewModel.cameraPermissionStateFlow.collect {
                 onCameraPermissionStateUpdated(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAudioPermissionStateFlow().collect {
+            viewModel.audioPermissionStateFlow.collect {
                 onMicPermissionStateUpdated(it)
             }
         }
