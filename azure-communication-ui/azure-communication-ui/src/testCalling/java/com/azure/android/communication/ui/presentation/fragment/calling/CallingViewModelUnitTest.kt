@@ -87,16 +87,16 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
-                on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
-                on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
-                on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
-                on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
-                on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
-                on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
-                on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
-                on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
+                on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
+                on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
+                on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
+                on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
+                on { participantListViewModel } doAnswer { mockParticipantListViewModel }
+                on { bannerViewModel } doAnswer { mockBannerViewModel }
+                on { lobbyOverlayViewModel } doAnswer { mockLobbyOverlayViewModel }
+                on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -169,16 +169,16 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
-                on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
-                on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
-                on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
-                on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
-                on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
-                on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
-                on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
-                on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
+                on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
+                on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
+                on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
+                on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
+                on { participantListViewModel } doAnswer { mockParticipantListViewModel }
+                on { bannerViewModel } doAnswer { mockBannerViewModel }
+                on { lobbyOverlayViewModel } doAnswer { mockLobbyOverlayViewModel }
+                on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -250,16 +250,16 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
-                on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
-                on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
-                on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
-                on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
-                on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
-                on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
-                on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
-                on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
+                on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
+                on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
+                on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
+                on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
+                on { participantListViewModel } doAnswer { mockParticipantListViewModel }
+                on { bannerViewModel } doAnswer { mockBannerViewModel }
+                on { lobbyOverlayViewModel } doAnswer { mockLobbyOverlayViewModel }
+                on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -338,16 +338,16 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
-                on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
-                on { provideControlBarViewModel() } doAnswer { mockControlBarViewModel }
-                on { provideConfirmLeaveOverlayViewModel() } doAnswer { mockConfirmLeaveOverlayViewModel }
-                on { provideLocalParticipantViewModel() } doAnswer { mockLocalParticipantViewModel }
-                on { provideFloatingHeaderViewModel() } doAnswer { mockFloatingHeaderViewModel }
-                on { provideAudioDeviceListViewModel() } doAnswer { mockAudioDeviceListViewModel }
-                on { provideParticipantListViewModel() } doAnswer { mockParticipantListViewModel }
-                on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
-                on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
-                on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
+                on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
+                on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
+                on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
+                on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
+                on { participantListViewModel } doAnswer { mockParticipantListViewModel }
+                on { bannerViewModel } doAnswer { mockBannerViewModel }
+                on { lobbyOverlayViewModel } doAnswer { mockLobbyOverlayViewModel }
+                on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
             }
 
             val callingViewModel = CallingViewModel(
