@@ -9,9 +9,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class BannerViewModel {
 
-    lateinit var bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType>
-    lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
-    var shouldShowBannerStateFlow = MutableStateFlow(false)
+    private var _bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType> =
+        MutableStateFlow(BannerInfoType.BLANK)
+    var bannerInfoTypeStateFlow = _bannerInfoTypeStateFlow
+    private var _isOverlayDisplayedFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    var isOverlayDisplayedFlow = _isOverlayDisplayedFlow
+    private var _shouldShowBannerStateFlow = MutableStateFlow(false)
+    var shouldShowBannerStateFlow = _shouldShowBannerStateFlow
 
     private var recordingState: ComplianceState = ComplianceState.OFF
     private var transcriptionState: ComplianceState = ComplianceState.OFF
@@ -25,13 +29,16 @@ internal class BannerViewModel {
 
     fun init(callingState: CallingState) {
         bannerInfoTypeStateFlow = MutableStateFlow(
-            createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
+            createBannerInfoType(
+                callingState.isRecording,
+                callingState.isTranscribing
+            )
         )
-        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus))
+        _isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus))
     }
 
     fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
+        _isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
     fun update(callingState: CallingState) {
@@ -41,17 +48,17 @@ internal class BannerViewModel {
 
         if (newBannerInfoType != currentBannerInfoType) {
             bannerInfoTypeStateFlow.value = newBannerInfoType
-            shouldShowBannerStateFlow.value = true
+            _shouldShowBannerStateFlow.value = true
         }
     }
 
     fun setDisplayedBannerType(bannerInfoType: BannerInfoType) {
-        displayedBannerType = bannerInfoType
+        _displayedBannerType = bannerInfoType
     }
 
     fun dismissBanner() {
-        shouldShowBannerStateFlow.value = false
-        displayedBannerType = BannerInfoType.BLANK
+        _shouldShowBannerStateFlow.value = false
+        _displayedBannerType = BannerInfoType.BLANK
         resetStoppedStates()
     }
 
