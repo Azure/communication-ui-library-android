@@ -39,7 +39,7 @@ internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            snackBarViewModel.update(appState.errorState)
+            snackBarViewModel.updateCallStateError(appState.errorState)
 
             // assert
             Assert.assertEquals(

@@ -42,6 +42,7 @@ internal class CallingViewModel(
     private val bannerViewModel = callingViewModelProvider.provideBannerViewModel()
     private val lobbyOverlayViewModel = callingViewModelProvider.provideLobbyOverlayViewModel()
     private val holdOverlayViewModel = callingViewModelProvider.provideHoldOverlayViewModel()
+    private val errorInfoViewModel = callingViewModelProvider.provideErrorInfoViewModel()
 
     fun getLobbyOverlayViewModel(): LobbyOverlayViewModel {
         return lobbyOverlayViewModel
@@ -82,6 +83,8 @@ internal class CallingViewModel(
     fun getBannerViewModel(): BannerViewModel {
         return bannerViewModel
     }
+
+    fun getErrorInfoViewModel() = errorInfoViewModel
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -189,18 +192,18 @@ internal class CallingViewModel(
                 state.remoteParticipantState.participantMap,
             )
 
-            floatingHeaderViewModel.update(
-                state.remoteParticipantState.participantMap.count()
-            )
+            floatingHeaderViewModel.update(state.remoteParticipantState.participantMap.count())
 
             participantListViewModel.update(
                 state.remoteParticipantState.participantMap,
                 state.localParticipantState
             )
 
-            bannerViewModel.update(
-                state.callState
-            )
+            bannerViewModel.update(state.callState)
+
+            state.localParticipantState.cameraState.error?.let {
+                errorInfoViewModel.updateCallCompositeError(it)
+            }
         }
         updateOverlayDisplayedState(state.callState.callingStatus)
     }
