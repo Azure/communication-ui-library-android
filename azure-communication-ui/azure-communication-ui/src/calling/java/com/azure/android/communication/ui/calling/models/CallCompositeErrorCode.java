@@ -27,11 +27,15 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
      */
     public static final CallCompositeErrorCode TOKEN_EXPIRED = fromString("tokenExpired");
 
-
     /**
      * Dispatched when camera failed to start, stop or switch
      */
     public static final CallCompositeErrorCode CAMERA_FAILURE = fromString("cameraFailure");
+
+    /***
+     * Dispatched when composite falls under any ambiguous state such as device manager instance error
+     */
+    public static final CallCompositeErrorCode UNKNOWN_ERROR = fromString("unknownError");
 
     /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
