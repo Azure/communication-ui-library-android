@@ -66,7 +66,7 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Set a {@linnk CallCompositeParticipantViewData} to be used
+     * Set a {@link CallCompositeParticipantViewData} to be used
      * @param participantViewData
      */
     public void setParticipantViewData(@Nullable final CallCompositeParticipantViewData participantViewData) {
