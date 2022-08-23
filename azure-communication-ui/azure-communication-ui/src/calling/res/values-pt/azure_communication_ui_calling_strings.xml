@@ -87,7 +87,7 @@ dando consentimento para que esta reunião seja transcrita.
     <string name="azure_communication_ui_calling_call_state_error_call_end">Você foi removido da chamada devido a um erro.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Não é possível ingressar na chamada devido a um erro.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Você foi removido da chamada.</string>
-    <string name="azure_communication_ui_calling_no_connection_available">No network connection available.</string>
+    <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Chamada em andamento</string>
     <string name="azure_communication_ui_calling_service_notification_message">Toque para retornar à chamada</string>
