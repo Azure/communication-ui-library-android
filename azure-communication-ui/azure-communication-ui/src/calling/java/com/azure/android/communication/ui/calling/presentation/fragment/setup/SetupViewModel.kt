@@ -99,7 +99,10 @@ internal class SetupViewModel(
         audioDeviceListViewModel.update(
             state.localParticipantState.audioState
         )
-        errorInfoViewModel.update(state.errorState)
+        errorInfoViewModel.updateCallStateError(state.errorState)
+        state.localParticipantState.cameraState.error?.let {
+            errorInfoViewModel.updateCallCompositeError(it)
+        }
         setupGradientViewModel.update(
             state.localParticipantState.videoStreamID,
             state.localParticipantState.cameraState.operation
