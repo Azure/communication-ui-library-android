@@ -16,8 +16,8 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallStateError
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.microsoft.fluentui.snackbar.Snackbar
@@ -35,7 +35,21 @@ internal class ErrorInfoView(private val rootView: View) {
                 if (it == null) {
                     snackBar.dismiss()
                 } else {
-                    displaySnackBar(it)
+                    displaySnackBar(it, "")
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            snackBarViewModel.callCompositeErrorFlow.collect {
+                if (it == null) {
+                    snackBar.dismiss()
+                } else {
+                    displaySnackBar(
+                        null,
+                        rootView.context.getText(R.string.azure_communication_ui_calling_call_video_fails_error)
+                            .toString()
+                    )
                 }
             }
         }
@@ -50,8 +64,12 @@ internal class ErrorInfoView(private val rootView: View) {
         snackBar.anchorView = null
     }
 
-    private fun displaySnackBar(it: CallStateError) {
-        val errorMessage = getErrorMessage(it)
+    private fun displaySnackBar(it: CallStateError?, message: String) {
+        val errorMessage = if (it != null) {
+            getErrorMessage(it)
+        } else {
+            message
+        }
 
         if (errorMessage.isBlank()) return
         snackBarTextView.text = errorMessage
