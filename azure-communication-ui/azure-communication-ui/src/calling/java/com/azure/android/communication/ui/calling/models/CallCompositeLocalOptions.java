@@ -56,7 +56,7 @@ public final class CallCompositeLocalOptions {
     public CallCompositeLocalOptions() { }
 
     /**
-     * Get {@link CallCompositeParticipantViewData}.
+     * Get the {@link CallCompositeParticipantViewData}
      *
      * @return The {@link CallCompositeParticipantViewData};
      */
@@ -65,15 +65,27 @@ public final class CallCompositeLocalOptions {
         return participantViewData;
     }
 
+    /**
+     * Set a {@link CallCompositeParticipantViewData} to be used
+     * @param participantViewData
+     */
     public void setParticipantViewData(@Nullable final CallCompositeParticipantViewData participantViewData) {
         this.participantViewData = participantViewData;
     }
 
+    /**
+     * Get the {@link CallCompositeNavigationBarViewData}
+     * @return
+     */
     @Nullable
     public CallCompositeNavigationBarViewData getNavigationBarViewData() {
         return navigationBarViewData;
     }
 
+    /**
+     * Set a {@link CallCompositeNavigationBarViewData} to be used
+     * @param navigationBarViewData
+     */
     public void setNavigationBarViewData(@Nullable final CallCompositeNavigationBarViewData navigationBarViewData) {
         this.navigationBarViewData = navigationBarViewData;
     }
