@@ -39,7 +39,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -76,7 +76,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -113,7 +113,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -151,7 +151,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -194,7 +194,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -237,7 +237,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -281,7 +281,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -325,7 +325,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -373,7 +373,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -421,7 +421,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -470,7 +470,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -519,7 +519,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -562,7 +562,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -606,7 +606,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -649,7 +649,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -693,7 +693,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -737,7 +737,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -781,7 +781,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -825,7 +825,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -869,7 +869,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -918,7 +918,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -967,7 +967,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1016,7 +1016,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1065,7 +1065,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1113,7 +1113,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1162,7 +1162,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1210,7 +1210,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1259,7 +1259,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1308,7 +1308,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1357,7 +1357,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1406,7 +1406,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1455,7 +1455,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1504,7 +1504,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1553,7 +1553,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1602,7 +1602,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {
@@ -1651,7 +1651,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
-                bannerViewModel.getBannerInfoTypeStateFlow().toList(resultBannerInfoTypeStateFlow)
+                bannerViewModel.bannerInfoTypeStateFlow.toList(resultBannerInfoTypeStateFlow)
             }
 
             for (callingState in setupCallingStatus) {

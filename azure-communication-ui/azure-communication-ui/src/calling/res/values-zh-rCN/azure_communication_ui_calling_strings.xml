@@ -88,6 +88,8 @@
     <string name="azure_communication_ui_calling_call_state_error_call_end">由于出现错误，你已从通话中删除。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">由于出现错误，无法加入呼叫。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">正在通话中</string>
     <string name="azure_communication_ui_calling_service_notification_message">点击返回到通话</string>

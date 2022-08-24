@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
  * {@link CallCompositeLocalOptions} when launching a new call
  *
  */
-public class CallCompositeNavigationBarViewData {
+public final class CallCompositeNavigationBarViewData {
     @Nullable
     private final String callTitle;
 
@@ -30,11 +30,19 @@ public class CallCompositeNavigationBarViewData {
         this.callSubTitle = callSubTitle;
     }
 
+    /**
+     * Get the call title
+     * @return
+     */
     @Nullable
     public String getCallTitle() {
         return callTitle;
     }
 
+    /**
+     * Get the call sub title
+     * @return
+     */
     @Nullable
     public String getCallSubTitle() {
         return callSubTitle;

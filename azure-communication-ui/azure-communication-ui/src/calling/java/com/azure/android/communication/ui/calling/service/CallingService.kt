@@ -102,8 +102,8 @@ internal class CallingService(
         return callingSdk.resume()
     }
 
-    fun setupCall() {
-        callingSdk.setupCall()
+    fun setupCall(): CompletableFuture<Void> {
+        return callingSdk.setupCall()
     }
 
     fun dispose() {

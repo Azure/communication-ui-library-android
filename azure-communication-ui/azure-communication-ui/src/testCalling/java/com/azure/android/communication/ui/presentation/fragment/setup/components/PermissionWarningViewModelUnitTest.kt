@@ -50,12 +50,12 @@ internal class PermissionWarningViewModelUnitTest : ACSBaseTestCoroutine() {
             val emitResultFromAudioFlow = mutableListOf<PermissionStatus>()
 
             val audioFlowJob = launch {
-                permissionsViewModel.getAudioPermissionStateFlow()
+                permissionsViewModel.audioPermissionStateFlow
                     .toList(emitResultFromAudioFlow)
             }
 
             val cameraFlowJob = launch {
-                permissionsViewModel.getCameraPermissionStateFlow()
+                permissionsViewModel.cameraPermissionStateFlow
                     .toList(emitResultFromCameraFlow)
             }
 
