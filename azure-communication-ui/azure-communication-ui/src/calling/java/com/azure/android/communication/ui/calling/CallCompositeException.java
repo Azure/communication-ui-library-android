@@ -5,10 +5,12 @@ package com.azure.android.communication.ui.calling;
 
 import androidx.annotation.NonNull;
 
+import com.azure.android.core.exception.AzureException;
+
 /**
  * Defines the base type of custom Exception that can be thrown by this Library.
  */
-public final class CallCompositeException extends RuntimeException {
+public final class CallCompositeException extends AzureException {
 
     /**
      * Constructs a new Calling Composite exception with the specified error message and cause. Note
