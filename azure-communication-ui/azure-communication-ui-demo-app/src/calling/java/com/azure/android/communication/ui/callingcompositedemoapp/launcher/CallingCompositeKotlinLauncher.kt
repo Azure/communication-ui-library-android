@@ -75,10 +75,9 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
         val localOptions = CallCompositeLocalOptions(participantViewData)
-        localOptions.navigationBarViewData = CallCompositeNavigationBarViewData(
-            getCallTitle(),
-            getCallSubTitle()
-        )
+        localOptions.navigationBarViewData = CallCompositeNavigationBarViewData()
+            .setCallTitle(getCallTitle())
+            .setCallSubTitle(getCallSubTitle())
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
     }
