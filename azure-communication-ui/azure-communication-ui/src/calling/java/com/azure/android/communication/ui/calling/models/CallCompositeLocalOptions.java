@@ -62,10 +62,13 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Set a {@link CallCompositeParticipantViewData} to be used
-     * @param participantViewData
+     * @param participantViewData The participant view data object to be used
+     * @return The current CallCompositeLocalOptions object for Fluent use
      */
-    public void setParticipantViewData(final CallCompositeParticipantViewData participantViewData) {
+    public CallCompositeLocalOptions setParticipantViewData(
+            final CallCompositeParticipantViewData participantViewData) {
         this.participantViewData = participantViewData;
+        return this;
     }
 
     /**
@@ -78,9 +81,12 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Set a {@link CallCompositeNavigationBarViewData} to be used
-     * @param navigationBarViewData The CallCompositeNavigationBarViewData that is currently set
+     * @param navigationBarViewData The navigationbar view data object to be used
+     * @return The current CallCompositeLocalOptions object for Fluent use
      */
-    public void setNavigationBarViewData(final CallCompositeNavigationBarViewData navigationBarViewData) {
+    public CallCompositeLocalOptions setNavigationBarViewData(
+            final CallCompositeNavigationBarViewData navigationBarViewData) {
         this.navigationBarViewData = navigationBarViewData;
+        return this;
     }
 }
