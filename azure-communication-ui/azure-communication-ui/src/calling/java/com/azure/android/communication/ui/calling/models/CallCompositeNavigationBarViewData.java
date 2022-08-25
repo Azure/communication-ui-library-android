@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import androidx.annotation.Nullable;
-
 /**
  * Provides navigation bar view data to Call Composite including title and subTitle
  *
@@ -13,38 +11,48 @@ import androidx.annotation.Nullable;
  *
  */
 public final class CallCompositeNavigationBarViewData {
-    @Nullable
-    private final String callTitle;
+    private String callTitle = null;
 
-    @Nullable
-    private final String callSubTitle;
+    private String callSubTitle = null;
 
     /**
-     * Constructs a {@link  CallCompositeNavigationBarViewData}
-     * @param callTitle Default title "Setup" is used if not customized
-     * @param callSubTitle Will appear as a 2nd line under callTitle. Will *not* appear unless
-     *                     callTitle is also specified
+     * Constructs an empty {@link  CallCompositeNavigationBarViewData}
      */
-    public CallCompositeNavigationBarViewData(@Nullable final String callTitle, @Nullable final String callSubTitle) {
-        this.callTitle = callTitle;
-        this.callSubTitle = callSubTitle;
-    }
+    public CallCompositeNavigationBarViewData() { }
 
     /**
      * Get the call title
-     * @return
+     * @return The title of the call
      */
-    @Nullable
     public String getCallTitle() {
         return callTitle;
     }
 
     /**
      * Get the call sub title
-     * @return
+     * @return The subtitle of the call
      */
-    @Nullable
     public String getCallSubTitle() {
         return callSubTitle;
+    }
+
+    /**
+     * Set the title of the call setup screen to the supplied String
+     * @param callTitle Title of the call
+     * @return The current CallCompositeNavigationBarViewData for Fluent use
+     */
+    public CallCompositeNavigationBarViewData setCallTitle(final String callTitle) {
+        this.callTitle = callTitle;
+        return this;
+    }
+
+    /**
+     * Set the subtitle of the call setup screen to the supplied String
+     * @param callSubTitle Subtitle of the call
+     * @return The current CallCompositeNavigationBarViewData for Fluent use
+     */
+    public CallCompositeNavigationBarViewData setCallSubTitle(final String callSubTitle) {
+        this.callSubTitle = callSubTitle;
+        return this;
     }
 }
