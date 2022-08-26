@@ -187,16 +187,15 @@ internal class ParticipantGridView : GridLayout {
         displayedRemoteParticipantsView: List<ParticipantGridCellView>,
     ) {
         when (displayedRemoteParticipantsView.size) {
-            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, EIGHT_PARTICIPANTS,
-            NINE_PARTICIPANTS, -> {
+            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, NINE_PARTICIPANTS, -> {
                 displayedRemoteParticipantsView.forEach {
                     addParticipantToGrid(
                         participantGridCellView = it
                     )
                 }
             }
-            THREE_PARTICIPANTS, FIVE_PARTICIPANTS, SEVEN_PARTICIPANTS -> {
-                // for 3, 5, or 7 number of participants, first participant will take two cells
+            THREE_PARTICIPANTS -> {
+                // for 3 first participant will take two cells
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     addParticipantToGrid(
                         columnSpan = 2,
@@ -217,6 +216,156 @@ internal class ParticipantGridView : GridLayout {
                     }
                 }
             }
+            FIVE_PARTICIPANTS -> {
+                // for 5 number of participants, first participant will take two cells only on phones (< 7inch)
+                if (isTabletScreen()) {
+                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        addParticipantToGrid(
+                            columnSpan = 2,
+                            rowSpan = 3,
+                            participantGridCellView = displayedRemoteParticipantsView[0]
+                        )
+
+                        displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
+                            if (index > 0) {
+                                if (index == 3) {
+                                    addParticipantToGrid(
+                                        columnSpan = 2,
+                                        rowSpan = 3,
+                                        participantGridCellView = participantGridCellView
+                                    )
+                                } else {
+                                    addParticipantToGrid(
+                                        columnSpan = 2,
+                                        rowSpan = 2,
+                                        participantGridCellView = participantGridCellView
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
+                            if (index < 3) {
+                                addParticipantToGrid(
+                                    rowSpan = 2,
+                                    columnSpan = 2,
+                                    participantGridCellView = participantGridCellView
+                                )
+                            } else {
+                                addParticipantToGrid(
+                                    columnSpan = 3,
+                                    rowSpan = 2,
+                                    participantGridCellView = participantGridCellView
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        addParticipantToGrid(
+                            columnSpan = 2,
+                            participantGridCellView = displayedRemoteParticipantsView[0]
+                        )
+                    } else {
+                        addParticipantToGrid(
+                            rowSpan = 2,
+                            participantGridCellView = displayedRemoteParticipantsView[0]
+                        )
+                    }
+
+                    displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
+                        if (index > 0) {
+                            addParticipantToGrid(
+                                participantGridCellView = participantGridCellView
+                            )
+                        }
+                    }
+                }
+            }
+            SEVEN_PARTICIPANTS -> {
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    addParticipantToGrid(
+                        rowSpan = 4,
+                        participantGridCellView = displayedRemoteParticipantsView[0]
+                    )
+                    addParticipantToGrid(
+                        rowSpan = 3,
+                        participantGridCellView = displayedRemoteParticipantsView[1]
+                    )
+                    displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
+                        if (index > 1) {
+                            if (index % 2 == 0) {
+                                addParticipantToGrid(
+                                    rowSpan = 3,
+                                    participantGridCellView = participantGridCellView
+                                )
+                            } else {
+                                addParticipantToGrid(
+                                    rowSpan = 4,
+                                    participantGridCellView = participantGridCellView
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
+                        if (index < 4) {
+                            addParticipantToGrid(
+                                columnSpan = 3,
+                                participantGridCellView = participantGridCellView
+                            )
+                        } else {
+                            addParticipantToGrid(
+                                columnSpan = 4,
+                                participantGridCellView = participantGridCellView
+                            )
+                        }
+                    }
+                }
+            }
+            EIGHT_PARTICIPANTS -> {
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
+                        if (index < 2) {
+                            addParticipantToGrid(
+                                rowSpan = 2,
+                                columnSpan = 3,
+                                participantGridCellView = participantGridCellView
+                            )
+                        } else {
+                            addParticipantToGrid(
+                                rowSpan = 2,
+                                columnSpan = 2,
+                                participantGridCellView = participantGridCellView
+                            )
+                        }
+                    }
+                } else {
+                    addParticipantToGrid(
+                        rowSpan = 3,
+                        columnSpan = 2,
+                        participantGridCellView = displayedRemoteParticipantsView[0]
+                    )
+
+                    displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
+                        if (index > 0) {
+                            if (index == 5) {
+                                addParticipantToGrid(
+                                    rowSpan = 3,
+                                    columnSpan = 2,
+                                    participantGridCellView = participantGridCellView
+                                )
+                            } else {
+                                addParticipantToGrid(
+                                    rowSpan = 2,
+                                    columnSpan = 2,
+                                    participantGridCellView = participantGridCellView
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -234,21 +383,38 @@ internal class ParticipantGridView : GridLayout {
             }
             3, 4 -> {
                 setGridRowsColumn(rows = 2, columns = 2)
-            }
-            5, 6 -> {
+            } 6 -> {
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     setGridRowsColumn(rows = 3, columns = 2)
                 } else {
                     setGridRowsColumn(rows = 2, columns = 3)
                 }
-            } 7, 8 -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    setGridRowsColumn(rows = 4, columns = 2)
+            }
+            5 -> {
+                if (isTabletScreen()) {
+                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        setGridRowsColumn(rows = 6, columns = 4)
+                    } else {
+                        setGridRowsColumn(rows = 4, columns = 6)
+                    }
                 } else {
-                    setGridRowsColumn(rows = 2, columns = 4)
+                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        setGridRowsColumn(rows = 3, columns = 2)
+                    } else {
+                        setGridRowsColumn(rows = 2, columns = 3)
+                    }
                 }
             }
-            9 -> {
+            7 -> {
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setGridRowsColumn(rows = 12, columns = 2)
+                } else {
+                    setGridRowsColumn(rows = 2, columns = 12)
+                }
+            }
+            8 -> {
+                setGridRowsColumn(rows = 6, columns = 6)
+            } 9 -> {
                 setGridRowsColumn(rows = 3, columns = 3)
             }
         }
@@ -263,13 +429,9 @@ internal class ParticipantGridView : GridLayout {
         val columnSpec = spec(UNDEFINED, columnSpan)
         val params = LayoutParams(rowSpec, columnSpec)
 
-        if (columnSpan != 2) {
-            params.width = this.width / this.columnCount
-        }
-
-        if (rowSpan != 2) {
-            params.height = this.height / this.rowCount
-        }
+        params.width = this.width / (this.columnCount / columnSpan)
+        params.height = this.height / (this.rowCount / rowSpan)
+        this.orientation = HORIZONTAL
 
         participantGridCellView.layoutParams = params
         detachFromParentView(participantGridCellView)
@@ -285,6 +447,10 @@ internal class ParticipantGridView : GridLayout {
         if (view != null && view.parent != null) {
             (view.parent as ViewGroup).removeView(view)
         }
+    }
+
+    private fun isTabletScreen(): Boolean {
+        return participantGridViewModel.getMaxRemoteParticipantsSize() == NINE_PARTICIPANTS
     }
 
     private fun createParticipantGridCellView(
