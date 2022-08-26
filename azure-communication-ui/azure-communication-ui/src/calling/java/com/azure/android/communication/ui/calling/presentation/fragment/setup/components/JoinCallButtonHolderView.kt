@@ -11,7 +11,6 @@ import android.util.AttributeSet
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -23,7 +22,6 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
-import com.microsoft.fluentui.snackbar.Snackbar
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -36,9 +34,6 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     private lateinit var joiningCallText: AppCompatTextView
 
     private lateinit var viewModel: JoinCallButtonHolderViewModel
-
-    private lateinit var snackBar: Snackbar
-    private lateinit var snackBarTextView: TextView
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -66,7 +61,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             if (isNetworkConnectionAvailable()) {
                 viewModel.launchCallScreen()
             } else {
-                errorInfoViewModel.update(
+                errorInfoViewModel.updateCallStateError(
                     ErrorState(
                         null,
                         CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null)
@@ -83,15 +78,6 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisableJoinCallButtonFlow().collect { onDisableJoinCallButtonChanged(it) }
         }
-    }
-
-    fun stop() {
-        if (snackBar.isShown) {
-            snackBar.dismiss()
-        }
-        rootView.invalidate()
-        // to fix memory leak
-        snackBar.anchorView = null
     }
 
     private fun onJoinCallEnabledChanged(isEnabled: Boolean) {
