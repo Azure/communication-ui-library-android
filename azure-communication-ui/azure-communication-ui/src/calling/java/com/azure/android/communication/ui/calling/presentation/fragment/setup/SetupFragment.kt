@@ -58,6 +58,7 @@ internal class SetupFragment :
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
             viewModel.getJoinCallButtonHolderViewModel(),
+            viewModel.getErrorInfoViewModel()
         )
 
         participantAvatarView = view.findViewById(R.id.azure_communication_ui_setup_default_avatar)
