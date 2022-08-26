@@ -41,7 +41,6 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)
-        val participantViewData = getParticipantViewData(callLauncherActivity.applicationContext)
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
 
@@ -74,11 +73,13 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
-        val localOptions = CallCompositeLocalOptions(participantViewData)
-        localOptions.navigationBarViewData = CallCompositeNavigationBarViewData(
-            getCallTitle(),
-            getCallSubTitle()
-        )
+        val localOptions = CallCompositeLocalOptions()
+            .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
+            .setNavigationBarViewData(
+                CallCompositeNavigationBarViewData()
+                    .setCallTitle(getCallTitle())
+                    .setCallSubTitle(getCallSubTitle())
+            )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
     }
