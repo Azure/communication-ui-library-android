@@ -4,13 +4,13 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.view.View
-import com.azure.android.communication.calling.CameraFacing
-import com.azure.android.communication.calling.CreateViewOptions
-import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
+import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.VideoDeviceType
+import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.SharedFlow
  */
 internal interface CallingSDK {
     // Internal helpers. Refactor these out further.
-    fun setupCall()
+    fun setupCall(): CompletableFuture<Void>
     fun dispose()
 
     // Interactions.

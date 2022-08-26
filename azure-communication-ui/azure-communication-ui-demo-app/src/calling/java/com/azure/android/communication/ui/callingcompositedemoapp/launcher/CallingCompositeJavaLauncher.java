@@ -9,6 +9,9 @@ import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeNavigationBarViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
@@ -17,9 +20,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R;
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures;
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures;
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -45,9 +45,6 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CallCompositeBuilder builder = new CallCompositeBuilder();
 
         SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
-
-        final CallCompositeParticipantViewData participantViewData =
-                SettingsFeatures.getParticipantViewData(callLauncherActivity.getApplicationContext());
 
         final String selectedLanguage = SettingsFeatures.language();
         final Locale locale = SettingsFeatures.locale(selectedLanguage);
@@ -79,11 +76,14 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CallCompositeRemoteOptions remoteOptions =
                 new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
 
-        if (participantViewData != null) {
-            final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions(participantViewData);
-            callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
-        } else {
-            callComposite.launch(callLauncherActivity, remoteOptions);
-        }
+
+        final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions()
+                .setParticipantViewData(SettingsFeatures
+                        .getParticipantViewData(callLauncherActivity.getApplicationContext()))
+                .setNavigationBarViewData(new CallCompositeNavigationBarViewData()
+                    .setCallTitle(SettingsFeatures.getCallTitle())
+                    .setCallSubTitle(SettingsFeatures.getCallSubTitle()));
+
+        callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
     }
 }

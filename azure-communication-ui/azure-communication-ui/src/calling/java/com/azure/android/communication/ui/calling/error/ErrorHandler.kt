@@ -6,7 +6,11 @@ package com.azure.android.communication.ui.calling.error
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.SWITCH_CAMERA_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_OFF_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_ON_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.UNKNOWN_ERROR
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
@@ -115,11 +119,17 @@ internal class ErrorHandler(
                 TOKEN_EXPIRED -> {
                     return CallCompositeErrorCode.TOKEN_EXPIRED
                 }
+                UNKNOWN_ERROR -> {
+                    return CallCompositeErrorCode.UNKNOWN_ERROR
+                }
                 CALL_JOIN_FAILED -> {
                     return CallCompositeErrorCode.CALL_JOIN_FAILED
                 }
                 CALL_END_FAILED -> {
                     return CallCompositeErrorCode.CALL_END_FAILED
+                }
+                SWITCH_CAMERA_FAILED, TURN_CAMERA_ON_FAILED, TURN_CAMERA_OFF_FAILED -> {
+                    return CallCompositeErrorCode.CAMERA_FAILURE
                 }
                 else -> {
                     return null

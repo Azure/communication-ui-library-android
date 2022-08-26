@@ -29,6 +29,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
+import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class CallingFragment :
@@ -55,6 +56,7 @@ internal class CallingFragment :
     private lateinit var audioDeviceListView: AudioDeviceListView
     private lateinit var participantListView: ParticipantListView
     private lateinit var bannerView: BannerView
+    private lateinit var errorInfoView: ErrorInfoView
     private lateinit var lobbyOverlay: LobbyOverlayView
     private lateinit var holdOverlay: OnHoldOverlayView
     private lateinit var sensorManager: SensorManager
@@ -136,7 +138,16 @@ internal class CallingFragment :
             viewModel.getBannerViewModel(),
             viewLifecycleOwner,
         )
+        participantGridView.setOnClickListener {
+            switchFloatingHeader()
+        }
 
+        errorInfoView = ErrorInfoView(view)
+        errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
+    }
+
+    override fun onResume() {
+        super.onResume()
         sensorManager =
             context?.applicationContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         powerManager =
@@ -149,9 +160,17 @@ internal class CallingFragment :
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
             SensorManager.SENSOR_DELAY_NORMAL
         )
-        participantGridView.setOnClickListener {
-            switchFloatingHeader()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (this::wakeLock.isInitialized) {
+            if (wakeLock.isHeld) {
+                wakeLock.setReferenceCounted(false)
+                wakeLock.release()
+            }
         }
+        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
     }
 
     override fun onDestroy() {
@@ -170,14 +189,7 @@ internal class CallingFragment :
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
-
-        if (this::wakeLock.isInitialized) {
-            if (wakeLock.isHeld) {
-                wakeLock.setReferenceCounted(false)
-                wakeLock.release()
-            }
-        }
-        if (this::sensorManager.isInitialized) sensorManager.unregisterListener(this)
+        if (this::errorInfoView.isInitialized) errorInfoView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

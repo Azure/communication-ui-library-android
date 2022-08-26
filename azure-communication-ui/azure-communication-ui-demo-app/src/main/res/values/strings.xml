@@ -30,4 +30,6 @@
     <string name="local_avatar_injection">Local Avatar Injection</string>
     <string name="remote_avatar_injection">Remote Avatar Injection</string>
     <string name="remote_participant_inject_avatar">Inject avatar\'s</string>
+    <string name="call_title">Call title</string>
+    <string name="call_subtitle">Call subtitle</string>
 </resources>

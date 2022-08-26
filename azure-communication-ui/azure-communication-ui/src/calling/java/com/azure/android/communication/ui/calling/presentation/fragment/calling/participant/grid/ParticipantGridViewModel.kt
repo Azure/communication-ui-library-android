@@ -44,6 +44,10 @@ internal class ParticipantGridViewModel(
         this.updateVideoStreamsCallback = callback
     }
 
+    fun getMaxRemoteParticipantsSize(): Int {
+        return maxRemoteParticipantSize
+    }
+
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
 
     fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {

@@ -6,9 +6,12 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
+import androidx.annotation.ColorInt
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -110,22 +113,42 @@ internal class SetupFragment :
         viewModel.exitComposite()
     }
 
+    val callCompositeActivity
+        get() = (activity as AppCompatActivity)
+
     private fun setActionBarTitle() {
-        val mSpannableText =
+        fun setActionbarTextColor(text: SpannableString, @ColorInt color: Int) {
+            text.setSpan(
+                ForegroundColorSpan(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        color
+                    )
+                ),
+                0,
+                text.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        }
+
+        val localOptions = holder.container.configuration.callCompositeLocalOptions
+        val titleSpan = if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.callTitle)) {
+            SpannableString(localOptions?.navigationBarViewData?.callTitle)
+        } else {
             SpannableString(getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title))
+        }
 
-        mSpannableText.setSpan(
-            ForegroundColorSpan(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.azure_communication_ui_calling_color_action_bar_text
-                )
-            ),
-            0,
-            mSpannableText.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
+        setActionbarTextColor(titleSpan, R.color.azure_communication_ui_calling_color_action_bar_text)
 
-        activity?.title = mSpannableText
+        callCompositeActivity.supportActionBar?.title = titleSpan
+
+        // Only set the subTitle if the title has also been set
+        if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.callTitle) &&
+            !TextUtils.isEmpty(localOptions?.navigationBarViewData?.callSubTitle)
+        ) {
+            val subtitleSpan = SpannableString(localOptions?.navigationBarViewData?.callSubTitle)
+            setActionbarTextColor(subtitleSpan, R.color.azure_communication_ui_calling_color_action_bar_subtext)
+            callCompositeActivity.supportActionBar?.subtitle = subtitleSpan
+        }
     }
 }

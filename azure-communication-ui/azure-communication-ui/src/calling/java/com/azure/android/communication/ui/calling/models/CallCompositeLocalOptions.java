@@ -31,7 +31,10 @@ import com.azure.android.communication.ui.calling.CallComposite;
  * @see CallComposite
  */
 public final class CallCompositeLocalOptions {
-    private final CallCompositeParticipantViewData participantViewData;
+    private CallCompositeParticipantViewData participantViewData = null;
+
+    private CallCompositeNavigationBarViewData navigationBarViewData = null;
+
 
     /**
      * Create LocalSettings.
@@ -44,11 +47,46 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get {@link CallCompositeParticipantViewData}.
+     * Create an empty {@Link CallCompositeLocalOptions} object and assign using setters
+     */
+    public CallCompositeLocalOptions() { }
+
+    /**
+     * Get the {@link CallCompositeParticipantViewData}
      *
-     * @return The {@link CallCompositeParticipantViewData};
+     * @return The {@link CallCompositeParticipantViewData} that is currently set
      */
     public CallCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
+    }
+
+    /**
+     * Set a {@link CallCompositeParticipantViewData} to be used
+     * @param participantViewData The participant view data object to be used
+     * @return The current CallCompositeLocalOptions object for Fluent use
+     */
+    public CallCompositeLocalOptions setParticipantViewData(
+            final CallCompositeParticipantViewData participantViewData) {
+        this.participantViewData = participantViewData;
+        return this;
+    }
+
+    /**
+     * Get the {@link CallCompositeNavigationBarViewData}
+     * @return The CallCompositeNavigationBarViewData that is currently set
+     */
+    public CallCompositeNavigationBarViewData getNavigationBarViewData() {
+        return navigationBarViewData;
+    }
+
+    /**
+     * Set a {@link CallCompositeNavigationBarViewData} to be used
+     * @param navigationBarViewData The navigationbar view data object to be used
+     * @return The current CallCompositeLocalOptions object for Fluent use
+     */
+    public CallCompositeLocalOptions setNavigationBarViewData(
+            final CallCompositeNavigationBarViewData navigationBarViewData) {
+        this.navigationBarViewData = navigationBarViewData;
+        return this;
     }
 }

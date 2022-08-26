@@ -20,6 +20,7 @@ import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
+import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
@@ -54,18 +55,23 @@ internal class CallingSDKWrapper(
 
     private val callConfig: CallConfiguration
         get() {
-            if (configuration.callConfig == null)
-                throw IllegalStateException("Call configurations are not set")
-
-            return configuration.callConfig!!
+            try {
+                return configuration.callConfig!!
+            } catch (ex: Exception) {
+                throw CallCompositeException(
+                    "Call configurations are not set",
+                    IllegalStateException()
+                )
+            }
         }
 
     private val call: Call
         get() {
-            if (nullableCall == null)
-                throw IllegalStateException("Call is not started")
-
-            return nullableCall!!
+            try {
+                return nullableCall!!
+            } catch (ex: Exception) {
+                throw CallCompositeException("Call is not started", IllegalStateException())
+            }
         }
 
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
@@ -130,20 +136,29 @@ internal class CallingSDKWrapper(
         cleanupResources()
     }
 
-    override fun setupCall() {
+    override fun setupCall(): CompletableFuture<Void> {
         if (callClient == null) {
             val callClientOptions = CallClientOptions().also {
                 it.setTags(configuration.callConfig?.diagnosticConfig?.tags, logger)
             }
             callClient = CallClient(callClientOptions)
         }
-        createDeviceManager()
+        val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
+        createDeviceManager().handle { _, error: Throwable? ->
+            if (error != null) {
+                setupCallCompletableFuture.completeExceptionally(error)
+            } else {
+                setupCallCompletableFuture.complete(null)
+            }
+        }
+        return setupCallCompletableFuture
     }
 
     override fun startCall(
         cameraState: CameraState,
         audioState: AudioState,
     ): CompletableFuture<Void> {
+
         val startCallCompletableFuture = CompletableFuture<Void>()
         createCallAgent().thenAccept { agent: CallAgent ->
             val audioOptions = AudioOptions()
@@ -351,7 +366,7 @@ internal class CallingSDKWrapper(
         return deviceManagerCompletableFuture!!
     }
 
-    private fun createDeviceManager() {
+    private fun createDeviceManager(): CompletableFuture<DeviceManager> {
         val deviceManagerCompletableFuture = getDeviceManagerCompletableFuture()
 
         if (deviceManagerCompletableFuture.isCompletedExceptionally ||
@@ -372,18 +387,20 @@ internal class CallingSDKWrapper(
         CompletableFuture.allOf(
             deviceManagerCompletableFuture,
         )
+        return deviceManagerCompletableFuture
     }
 
     private fun initializeCameras(): CompletableFuture<Void> {
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
-            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager, _: Throwable? ->
+            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager?, error: Throwable? ->
+
                 completeCamerasInitializedCompletableFuture()
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
                         completeCamerasInitializedCompletableFuture()
                     }
-                deviceManager.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
+                deviceManager?.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
             }
         }
 

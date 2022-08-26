@@ -36,13 +36,13 @@ internal class BannerView : ConstraintLayout {
 
         // Start callbacks
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getBannerInfoTypeStateFlow().collect {
+            viewModel.bannerInfoTypeStateFlow.collect {
                 updateNoticeBox(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getShouldShowBannerStateFlow().collect {
+            viewModel.shouldShowBannerStateFlow.collect {
                 visibility =
                     if (it) {
                         View.VISIBLE
@@ -53,7 +53,7 @@ internal class BannerView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getIsOverlayDisplayedFlow().collect {
+            viewModel.isOverlayDisplayedFlow.collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(bannerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
                 } else {
@@ -77,8 +77,8 @@ internal class BannerView : ConstraintLayout {
         // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
         // and screen is rotated, blank banner is displayed.
         // We can not remove reset state in view model on stop as that cause incorrect message order
-        else if (bannerText.text.isNullOrBlank() && viewModel.getDisplayedBannerType() != BannerInfoType.BLANK) {
-            bannerText.text = getBannerInfo(viewModel.getDisplayedBannerType())
+        else if (bannerText.text.isNullOrBlank() && viewModel.displayedBannerType != BannerInfoType.BLANK) {
+            bannerText.text = getBannerInfo(viewModel.displayedBannerType)
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
 
             val textToAnnounce = "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_full_accessibility_label)}, ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
