@@ -207,10 +207,7 @@ internal class CallingSDKWrapper(
         val result = CompletableFuture<CameraDeviceSelectionStatus>()
         this.getLocalVideoStream()
             .thenAccept { videoStream: LocalVideoStream ->
-                val desiredCameraState = when (videoStream.source.cameraFacing) {
-                    CameraFacing.FRONT -> CameraFacing.BACK
-                    else -> CameraFacing.FRONT
-                }
+                val desiredCameraState = CameraFacing.EXTERNAL
 
                 initializeCameras().thenAccept {
 
@@ -231,6 +228,7 @@ internal class CallingSDKWrapper(
                                     when (desiredCamera.cameraFacing) {
                                         CameraFacing.FRONT -> CameraDeviceSelectionStatus.FRONT
                                         CameraFacing.BACK -> CameraDeviceSelectionStatus.BACK
+                                        CameraFacing.EXTERNAL -> CameraDeviceSelectionStatus.EXTERNAL
                                         else -> null
                                     }
 
@@ -275,7 +273,7 @@ internal class CallingSDKWrapper(
                     localVideoStreamCompletableFuture.completeExceptionally(error)
                     result.completeExceptionally(error)
                 } else {
-                    val desiredCamera = getCamera(CameraFacing.FRONT)
+                    val desiredCamera = getCamera(CameraFacing.EXTERNAL)
 
                     localVideoStreamCompletableFuture.complete(
                         LocalVideoStream(
@@ -386,18 +384,12 @@ internal class CallingSDKWrapper(
     }
 
     private fun doFrontAndBackCamerasExist(): Boolean {
-        return getCamera(CameraFacing.FRONT) != null &&
-            getCamera(CameraFacing.BACK) != null
+        return getCamera(CameraFacing.EXTERNAL) != null
     }
 
     private fun getCamera(
         cameraFacing: CameraFacing,
-    ) = getDeviceManagerCompletableFuture().get().cameras?.find {
-        it.cameraFacing.name.equals(
-            cameraFacing.name,
-            ignoreCase = true
-        )
-    }
+    ) = getDeviceManagerCompletableFuture().get().cameras?.first()
 
     private fun getLocalVideoStreamCompletableFuture(): CompletableFuture<LocalVideoStream> {
         if (localVideoStreamCompletableFuture == null || localVideoStreamCompletableFuture?.isCompletedExceptionally == true ||

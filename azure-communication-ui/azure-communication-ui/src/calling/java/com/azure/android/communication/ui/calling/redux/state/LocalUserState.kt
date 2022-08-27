@@ -15,6 +15,7 @@ internal enum class CameraOperationalStatus {
 internal enum class CameraDeviceSelectionStatus {
     FRONT,
     BACK,
+    EXTERNAL,
     SWITCHING,
 }
 
