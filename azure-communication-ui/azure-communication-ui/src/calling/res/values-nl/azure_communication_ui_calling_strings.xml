@@ -87,7 +87,9 @@
     <string name="azure_communication_ui_calling_call_state_error_call_end">U bent uit de oproep verwijderd vanwege een fout.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">U bent verwijderd uit het gesprek.</string>
-    <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
+    <string name="azure_communication_ui_calling_no_connection_available">Kan niet deelnemen aan gesprek. Controleer de netwerkverbinding.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Actief gesprek</string>
     <string name="azure_communication_ui_calling_service_notification_message">Tik om terug te gaan naar het gesprek</string>
