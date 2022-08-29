@@ -115,6 +115,37 @@ Included in this repository is a demo of using Mobile UI Library to start a call
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments. Also, please check our [Contribution Policy](CONTRIBUTING.md). 
 
+## Using a Custom Library version in your Application
+
+If your use case includes modifications to the library that won't necessarily become official contributions, you can use publish artifacts to your own Maven Repository. `mavenLocal()` can be used to quickly prototype changes. Please note however that Custom Forks/Branches are not officially supported releases.
+
+In order to do so, you'll need to do the following
+
+1. Specify an internal version to publish
+2. Publish to Maven Local
+3. Reference the library in your project
+4. Build/Run your Application
+
+### Specify an internal version to publish
+
+You will want to specify a version to publish that won't conflict with the released artifacts. It's recommended to suffix the release with something unique to your project/branch.
+
+### Publish to Maven Local
+
+To publish to Maven Local, you can use the gradle task `publishToMavenLocal`. This will build the AAR and publish the POM file with the required dependencies locally on your PC.
+
+If you'd like to share the artifact with other developers/machines, it's recommended to host your own Maven Repository and publish your artifacts there.
+
+### Reference the Library in your project
+
+In your projects `build.gradle` add `mavenLocal()` to the projects `repositories {}` block in order to allow Gradle to locate the artifact.
+
+Additionally, make sure to update the project dependency in your `dependencies {}` block to include the suffixed version you specified in the first step.
+
+### Build/Run your application. 
+
+Once published to `mavenLocal()`, and correctly referenced in your projects `build.grade`, you are ready to start testing your custom version. Run your application as normal and you should see your changes reflected in the Calling Composite.
+
 ## Community Help and Support
 
 If you find a bug or have a feature request, please raise the issue on [GitHub Issues](https://github.com/Azure/communication-ui-library-android/issues).
