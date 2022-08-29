@@ -126,23 +126,45 @@ In order to do so, you'll need to do the following
 3. Reference the library in your project
 4. Build/Run your Application
 
-### Specify an internal version to publish
+### 1. Specify an internal version to publish
 
 You will want to specify a version to publish that won't conflict with the released artifacts. It's recommended to suffix the release with something unique to your project/branch.
 
-### Publish to Maven Local
+Open the `build.gradle` in the root of the project and update
+`ui_library_version_name = '1.0.0'` to `ui_library_version_name = '1.0.0-CustomVersion'`
+
+### 2. Publish to Maven Local
 
 To publish to Maven Local, you can use the gradle task `publishToMavenLocal`. This will build the AAR and publish the POM file with the required dependencies locally on your PC.
 
+This can be done via a Gradle task. Run `./gradlew :azure-communication-ui:publishToMavenLocal` to build and deploy the artifact.
+
 If you'd like to share the artifact with other developers/machines, it's recommended to host your own Maven Repository and publish your artifacts there.
 
-### Reference the Library in your project
+You can modify the `publish.gradle` file in the root in order to target an internal maven repository.
+
+### 3. Reference the Library in your project
 
 In your projects `build.gradle` add `mavenLocal()` to the projects `repositories {}` block in order to allow Gradle to locate the artifact.
 
-Additionally, make sure to update the project dependency in your `dependencies {}` block to include the suffixed version you specified in the first step.
+```
+  repositories {
+    mavenLocal()
+    ...
+  }
+```
 
-### Build/Run your application. 
+Make sure to update the project dependency in your `dependencies {}` block to include the suffixed version you specified in the first step.
+ 
+```
+dependencies {
+...
+    implementation "com.azure.android:azure-communication-ui-calling:1.0.0-CustomVersion"
+...
+}
+``` 
+
+### 4. Build/Run your application. 
 
 Once published to `mavenLocal()`, and correctly referenced in your projects `build.grade`, you are ready to start testing your custom version. Run your application as normal and you should see your changes reflected in the Calling Composite.
 
