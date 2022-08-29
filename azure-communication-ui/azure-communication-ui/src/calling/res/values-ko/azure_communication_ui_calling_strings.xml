@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">카메라를 사용하지 않도록 설정했습니다. 사용하도록 설정하려면 설정으로
         이동하여 액세스를 허용하세요.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">권한 필요</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settingst">Go to Settings</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">선택함</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">설정 그라데이션</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">카메라 전환</string>

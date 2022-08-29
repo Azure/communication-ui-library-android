@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">您的相機已停用。若要啟用，請移至 [設定]
         以允許存取。</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要權限</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settingst">Go to Settings</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已選取</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">設定漸層</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切換相機</string>

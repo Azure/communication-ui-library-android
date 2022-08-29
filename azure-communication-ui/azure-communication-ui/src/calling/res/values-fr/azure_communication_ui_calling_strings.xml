@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Votre caméra est désactivée. Pour l’activer, accédez à Paramètres
         pour autoriser l’accès.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Autorisations requises</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settingst">Go to Settings</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Sélectionné</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Configurer le dégradé</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Changer de caméra</string>
