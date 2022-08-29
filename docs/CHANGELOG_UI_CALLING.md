@@ -4,6 +4,7 @@
 - Setting up Group Call Title and Subtitle is now possible by customizing CallCompositeLocalOptions with CallCompositeNavigationBarViewData
 - Implemented new error message `cameraFailure` that can be sent to developers when turning on camera fails.
 - Error message now shown when network is not available before joining a call.
+- Added new button to allow user to quickly navigate to app's info page when permissions are denied.
 
 ### Bug Fixes
 - Display DrawerDialog across screen rotation
