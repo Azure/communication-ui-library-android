@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeJavaLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeKotlinLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.azure.android.communication.ui.callingcompositedemoapp.launcher.ChatCompositeKotlinLauncher
+import com.azure.android.communication.ui.callingcompositedemoapp.launcher.ChatCompositeLauncher
 import java.util.concurrent.Callable
 
 class CallLauncherViewModel : ViewModel() {
@@ -25,6 +27,8 @@ class CallLauncherViewModel : ViewModel() {
     } else {
         CallingCompositeJavaLauncher(tokenRefresher)
     }
+
+    private fun chatLauncher() = ChatCompositeKotlinLauncher()
 
     fun destroy() {
         fetchResultInternal.value = Result.success(null)
@@ -66,6 +70,9 @@ class CallLauncherViewModel : ViewModel() {
                 )
             }
         }
+    }
+    fun launchChat() {
+        chatLauncher()
     }
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())

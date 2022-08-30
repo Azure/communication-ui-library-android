@@ -1,0 +1,4 @@
+<resources>
+    <string name="chat_action_bar_title">Chat</string>
+    <string name="title_activity_chat">ChatActivity</string>
+</resources>

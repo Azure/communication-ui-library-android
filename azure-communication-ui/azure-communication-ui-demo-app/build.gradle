@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':azure-communication-ui-chat')
     def app_center_sdk_version = '4.1.0'
     implementation project(path: ':azure-communication-ui')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -25,6 +25,8 @@ buildscript {
         androidx_navigation_fragment_ktx_version = '2.4.2'
         androidx_test_rules_version = '1.4.1-alpha07'
 
+        compose_version = '1.2.0-beta02'
+
         if (project.rootProject.file('private_drop.properties').canRead()) {
             Properties privateDropProps = new Properties()
             privateDropProps.load(project.rootProject.file('private_drop.properties').newDataInputStream())
@@ -34,7 +36,7 @@ buildscript {
             azure_calling_sdk_version = '2.2.0'
         }
 
-        jetbrains_kotlinx_coroutines_test_version = '1.6.0-native-mt'
+        jetbrains_kotlinx_coroutines_test_version = '1.6.10-native-mt'
 
         microsoft_dualscreen_layout_version = '1.0.0-alpha01'
         microsoft_fluent_ui_version = '0.0.20'
@@ -61,6 +63,7 @@ buildscript {
 }
 
 plugins {
+    id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
 }
 

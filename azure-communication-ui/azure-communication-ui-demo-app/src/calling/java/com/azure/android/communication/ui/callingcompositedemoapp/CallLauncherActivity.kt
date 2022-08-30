@@ -108,6 +108,11 @@ class CallLauncherActivity : AppCompatActivity() {
                 )
             }
 
+            launchButtonChat.setOnClickListener {
+                launchButtonChat.isEnabled = false
+                callLauncherViewModel.launchChat()
+            }
+
             tokenFunctionRadioButton.setOnClickListener {
                 if (tokenFunctionRadioButton.isChecked) {
                     tokenFunctionUrlText.requestFocus()
