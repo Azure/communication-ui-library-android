@@ -127,7 +127,7 @@ android {
 
 dependencies {
     def app_center_sdk_version = '4.1.0'
-    implementation project(path: ':azure-communication-ui')
+    implementation project(path: ':calling')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
