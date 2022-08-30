@@ -4,9 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.util.AttributeSet
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
@@ -21,6 +18,7 @@ import kotlinx.coroutines.launch
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
@@ -33,6 +31,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     private lateinit var progressBar: ProgressBar
     private lateinit var joiningCallText: AppCompatTextView
 
+    private lateinit var networkManager: NetworkManager
     private lateinit var viewModel: JoinCallButtonHolderViewModel
 
     override fun onFinishInflate() {
@@ -51,14 +50,16 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: JoinCallButtonHolderViewModel,
-        errorInfoViewModel: ErrorInfoViewModel
+        errorInfoViewModel: ErrorInfoViewModel,
+        networkManager: NetworkManager
     ) {
         this.viewModel = viewModel
+        this.networkManager = networkManager
         setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
         joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
-            if (isNetworkConnectionAvailable()) {
+            if (networkManager.isNetworkConnectionAvailable()) {
                 viewModel.launchCallScreen()
             } else {
                 errorInfoViewModel.updateCallStateError(
@@ -99,30 +100,5 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             progressBar.visibility = GONE
             joiningCallText.visibility = GONE
         }
-    }
-
-    private fun isNetworkConnectionAvailable(): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-
-            if (capabilities != null) {
-                return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-            }
-        } else {
-            val networkInfo = connectivityManager.activeNetworkInfo
-            networkInfo ?: return false
-            return networkInfo.isConnected && (
-                networkInfo.type == ConnectivityManager.TYPE_WIFI ||
-                    networkInfo.type == ConnectivityManager.TYPE_MOBILE
-                ) ||
-                networkInfo.type == ConnectivityManager.TYPE_ETHERNET
-        }
-
-        return false
     }
 }
