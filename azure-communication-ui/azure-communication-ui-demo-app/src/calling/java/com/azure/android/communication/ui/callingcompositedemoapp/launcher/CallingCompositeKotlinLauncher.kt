@@ -19,8 +19,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherAc
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCallSubTitle
-import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getCallTitle
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getSubtitle
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getTitle
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures.Companion.getRemoteParticipantPersonaInjectionSelection
@@ -76,9 +76,8 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
             .setNavigationBarViewData(
-                CallCompositeNavigationBarViewData()
-                    .setCallTitle(getCallTitle())
-                    .setCallSubTitle(getCallSubTitle())
+                CallCompositeNavigationBarViewData(getTitle())
+                    .setSubtitle(getSubtitle())
             )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)

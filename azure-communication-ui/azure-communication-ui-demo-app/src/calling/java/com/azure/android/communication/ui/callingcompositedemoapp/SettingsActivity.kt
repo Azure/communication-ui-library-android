@@ -31,8 +31,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
-    private lateinit var callTitleTextView: TextView
-    private lateinit var callSubTitleTextView: TextView
+    private lateinit var titleTextView: TextView
+    private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
 
     private val sharedPreference by lazy {
@@ -50,8 +50,8 @@ class SettingsActivity : AppCompatActivity() {
         }
         setLanguageInSharedPrefForFirstTime()
         updateRenderedDisplayNameText()
-        updateCallTitle()
-        updateCallSubTitle()
+        updateTitle()
+        updateSubtitle()
     }
 
     override fun onResume() {
@@ -112,13 +112,13 @@ class SettingsActivity : AppCompatActivity() {
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
         }
-        callTitleTextView = findViewById(R.id.call_title)
-        callSubTitleTextView = findViewById(R.id.call_subtitle)
-        callTitleTextView.addTextChangedListener {
-            saveCallTitle()
+        titleTextView = findViewById(R.id.call_title)
+        subtitleTextView = findViewById(R.id.call_subtitle)
+        titleTextView.addTextChangedListener {
+            saveTitle()
         }
-        callSubTitleTextView.addTextChangedListener {
-            saveCallSubTitle()
+        subtitleTextView.addTextChangedListener {
+            saveSubtitle()
         }
     }
 
@@ -175,26 +175,26 @@ class SettingsActivity : AppCompatActivity() {
             .putString(RENDERED_DISPLAY_NAME, renderDisplayNameTextView.text.toString()).apply()
     }
 
-    private fun saveCallTitle() {
+    private fun saveTitle() {
         sharedPreference.edit()
-            .putString(CALL_TITLE, callTitleTextView.text.toString()).apply()
+            .putString(CALL_TITLE, titleTextView.text.toString()).apply()
     }
 
-    private fun saveCallSubTitle() {
+    private fun saveSubtitle() {
         sharedPreference.edit()
-            .putString(CALL_SUBTITLE, callSubTitleTextView.text.toString()).apply()
+            .putString(CALL_SUBTITLE, subtitleTextView.text.toString()).apply()
     }
 
     private fun updateRenderedDisplayNameText() {
         renderDisplayNameTextView.text = sharedPreference.getString(RENDERED_DISPLAY_NAME, "")
     }
 
-    private fun updateCallTitle() {
-        callTitleTextView.text = sharedPreference.getString(CALL_TITLE, null)
+    private fun updateTitle() {
+        titleTextView.text = sharedPreference.getString(CALL_TITLE, null)
     }
 
-    private fun updateCallSubTitle() {
-        callSubTitleTextView.text = sharedPreference.getString(CALL_SUBTITLE, null)
+    private fun updateSubtitle() {
+        subtitleTextView.text = sharedPreference.getString(CALL_SUBTITLE, null)
     }
 
     private fun updateAvatarInjectionCheckbox() {
