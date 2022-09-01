@@ -4,17 +4,28 @@
 package com.azure.android.communication.ui.chat;
 
 import android.content.Context;
+import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
+import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
+import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
+import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
 
 public class ChatComposite {
 
-    private final ChatCompositeConfiguration configuration;
+    private static int instanceIdCounter = 0;
+
+    private final ChatContainer chatContainer;
+    private final int instanceId;
+    private final ChatCompositeLocalizationOptions chatCompositeLocalizationOptions;
+
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
-        this.configuration = configuration;
+        instanceId = instanceIdCounter++;
+        chatCompositeLocalizationOptions = configuration.getLocalizationConfig();
+        chatContainer = new ChatContainer(configuration, instanceId);
     }
 
     /**
@@ -44,15 +55,10 @@ public class ChatComposite {
     }
 
     /**
-     * Launch group chat composite in the background.
-     *
-     * @param remoteOptions The {@link ChatCompositeRemoteOptions} has remote parameters to
-     *                      launch group chat experience.
-     * @param localOptions  The {@link ChatCompositeLocalOptions} has local parameters to
-     *                      launch group chat experience.
+     * Stop the ChatComposite. Destroy the UI if in foreground mode. Destroy service layer.
      */
-    public void launchInBackground(ChatCompositeRemoteOptions remoteOptions, ChatCompositeLocalOptions localOptions) {
-
+    public void stop() {
+        chatContainer.stop();
     }
 
     private void launchComposite(final Context context,
@@ -61,6 +67,66 @@ public class ChatComposite {
                                  final boolean isTest) {
     }
 
+    /**
+     * Get Composite UI view
+     *
+     * @param context The android context used to start the Composite.\
+     * @return View ChatComposite UI view
+     */
+    public View getCompositeUIView(final Context context) {
+        return null;
+    }
+
+    /**
+     * To show full composite default view
+     *
+     * @param context The android context used to start the Composite.
+     */
+    public void showCompositeUI(final Context context) {
+    }
+
+    /**
+     * To hide full composite view
+     *
+     * @param context The android context used to start the Composite.
+     */
+    public void hideCompositeUI(final Context context) {
+    }
+
+    /**
+     * Add {@link ChatCompositeEventHandler}.
+     *
+     * @param handler The {@link ChatCompositeEventHandler}.
+     */
+    public void addOnViewClosedEventHandler(final ChatCompositeEventHandler<Object> handler) {
+    }
+
+    /**
+     * Remove {@link ChatCompositeEventHandler}.
+     *
+     * @param handler The {@link ChatCompositeEventHandler}.
+     */
+    public void removeOnViewClosedEventHandler(final ChatCompositeEventHandler<Object> handler) {
+    }
+
+    /**
+     * Add {@link ChatCompositeEventHandler} with {@link ChatCompositeUnreadMessageChangedEvent}.
+     *
+     * @param handler The {@link ChatCompositeEventHandler}.
+     */
+    public void addOnUnreadMessagesChangedEventHandler(
+            final ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent> handler) {
+    }
+
+    /**
+     * Remove {@link ChatCompositeEventHandler} with {@link ChatCompositeUnreadMessageChangedEvent}.
+     *
+     * @param handler The {@link ChatCompositeEventHandler}.
+     */
+    public void removeOnUnreadMessagesChangedEventHandler(
+            final ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent> handler) {
+
+    }
 
     /**
      * Set {@link ChatCompositeRemoteOptions}.
