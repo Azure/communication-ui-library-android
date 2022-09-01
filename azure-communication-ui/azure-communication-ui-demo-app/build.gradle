@@ -126,7 +126,6 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':chat')
     def app_center_sdk_version = '4.1.0'
     implementation project(path: ':calling')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

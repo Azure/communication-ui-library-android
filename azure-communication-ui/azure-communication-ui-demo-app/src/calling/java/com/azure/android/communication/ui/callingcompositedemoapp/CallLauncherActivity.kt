@@ -17,8 +17,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Featu
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.microsoft.appcenter.AppCenter
-import com.microsoft.appcenter.BuildConfig
-import com.microsoft.appcenter.Constants.APP_SECRET
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
@@ -108,11 +106,6 @@ class CallLauncherActivity : AppCompatActivity() {
                     tokenFunctionUrlText.text.toString(),
                     acsTokenText.text.toString()
                 )
-            }
-
-            launchButtonChat.setOnClickListener {
-                launchButtonChat.isEnabled = false
-                callLauncherViewModel.launchChat()
             }
 
             tokenFunctionRadioButton.setOnClickListener {

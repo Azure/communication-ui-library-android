@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeJavaLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeKotlinLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.ChatCompositeKotlinLauncher
 import java.util.concurrent.Callable
 
 class CallLauncherViewModel : ViewModel() {
@@ -20,8 +19,6 @@ class CallLauncherViewModel : ViewModel() {
     val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
-
-    private fun chatLauncher() = ChatCompositeKotlinLauncher()
 
     private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
         CallingCompositeKotlinLauncher(tokenRefresher)
@@ -69,10 +66,6 @@ class CallLauncherViewModel : ViewModel() {
                 )
             }
         }
-    }
-
-    fun launchChat() {
-        chatLauncher()
     }
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
