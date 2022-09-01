@@ -3,8 +3,11 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.calling.error.CallStateError
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -41,5 +44,9 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
             disableJoinCallButtonFlow.value =
                 callingState.callingStatus != CallingStatus.NONE || callingState.joinCallIsRequested
         }
+    }
+
+    fun handleOffline() {
+        dispatch(ErrorAction.CallStateErrorOccurred(CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE)))
     }
 }

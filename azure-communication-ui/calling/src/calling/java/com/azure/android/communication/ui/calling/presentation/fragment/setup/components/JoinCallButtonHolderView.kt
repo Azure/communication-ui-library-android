@@ -16,10 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.error.CallStateError
-import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
-import com.azure.android.communication.ui.calling.redux.state.ErrorState
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -62,12 +59,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             if (networkManager.isNetworkConnectionAvailable()) {
                 viewModel.launchCallScreen()
             } else {
-                errorInfoViewModel.updateCallStateError(
-                    ErrorState(
-                        null,
-                        CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null)
-                    )
-                )
+                viewModel.handleOffline()
             }
         }
 
