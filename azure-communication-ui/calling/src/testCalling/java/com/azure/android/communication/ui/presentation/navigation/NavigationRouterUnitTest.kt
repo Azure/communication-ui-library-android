@@ -14,7 +14,6 @@ import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.junit.Assert
 import org.junit.Test
