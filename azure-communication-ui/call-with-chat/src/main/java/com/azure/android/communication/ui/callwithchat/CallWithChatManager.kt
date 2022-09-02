@@ -5,19 +5,14 @@ package com.azure.android.communication.ui.callwithchat
 
 import android.content.Context
 import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
-import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeCallAndChatLocator
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalOptions
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions
-import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.chat.ChatComposite
-//import com.azure.android.communication.ui.chat.implementation.ChatServiceConfigurationImpl
-//import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
-//import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
-//import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantViewData
-//import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
+// import com.azure.android.communication.ui.chat.implementation.ChatServiceConfigurationImpl
+// import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
+// import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
+// import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantViewData
+// import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 
 internal class CallWithChatManager(
     private val callComposite: CallComposite,

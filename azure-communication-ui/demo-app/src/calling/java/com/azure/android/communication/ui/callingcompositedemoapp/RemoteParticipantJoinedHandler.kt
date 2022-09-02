@@ -17,10 +17,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetPartici
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(
-        private val callComposite: CallComposite,
-        private val callLauncherActivity: CallLauncherActivity,
+    private val callComposite: CallComposite,
+    private val callLauncherActivity: CallLauncherActivity,
 ) :
-        CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> {
+    CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> {
 
     override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
         event.identifiers.forEach { communicationIdentifier ->
