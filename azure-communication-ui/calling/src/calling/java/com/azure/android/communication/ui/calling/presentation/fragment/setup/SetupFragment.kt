@@ -131,8 +131,8 @@ internal class SetupFragment :
         }
 
         val localOptions = holder.container.configuration.callCompositeLocalOptions
-        val titleSpan = if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.callTitle)) {
-            SpannableString(localOptions?.navigationBarViewData?.callTitle)
+        val titleSpan = if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.title)) {
+            SpannableString(localOptions?.navigationBarViewData?.title)
         } else {
             SpannableString(getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title))
         }
@@ -142,10 +142,10 @@ internal class SetupFragment :
         callCompositeActivity.supportActionBar?.title = titleSpan
 
         // Only set the subTitle if the title has also been set
-        if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.callTitle) &&
-            !TextUtils.isEmpty(localOptions?.navigationBarViewData?.callSubTitle)
+        if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.title) &&
+            !TextUtils.isEmpty(localOptions?.navigationBarViewData?.subtitle)
         ) {
-            val subtitleSpan = SpannableString(localOptions?.navigationBarViewData?.callSubTitle)
+            val subtitleSpan = SpannableString(localOptions?.navigationBarViewData?.subtitle)
             setActionbarTextColor(subtitleSpan, R.color.azure_communication_ui_calling_color_action_bar_subtext)
             callCompositeActivity.supportActionBar?.subtitle = subtitleSpan
         }
