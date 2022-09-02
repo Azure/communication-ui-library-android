@@ -12,7 +12,6 @@ class ChatCompositeKotlinLauncher : ChatCompositeLauncher {
     override fun launch(callLauncherActivity: CallLauncherActivity) {
 
         val chatComposite: ChatComposite = ChatCompositeBuilder().build()
-
         chatComposite.launch(callLauncherActivity)
     }
 }
