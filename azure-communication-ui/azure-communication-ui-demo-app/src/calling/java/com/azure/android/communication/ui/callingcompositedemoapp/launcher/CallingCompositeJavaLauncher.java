@@ -80,9 +80,9 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions()
                 .setParticipantViewData(SettingsFeatures
                         .getParticipantViewData(callLauncherActivity.getApplicationContext()))
-                .setNavigationBarViewData(new CallCompositeNavigationBarViewData()
-                    .setCallTitle(SettingsFeatures.getCallTitle())
-                    .setCallSubTitle(SettingsFeatures.getCallSubTitle()));
+                .setNavigationBarViewData(
+                        new CallCompositeNavigationBarViewData(SettingsFeatures.getTitle())
+                            .setSubtitle(SettingsFeatures.getSubtitle()));
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
     }
