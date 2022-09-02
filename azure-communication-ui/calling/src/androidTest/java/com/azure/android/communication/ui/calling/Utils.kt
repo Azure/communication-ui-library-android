@@ -21,11 +21,11 @@ internal fun launchComposite() {
     val communicationTokenCredential =
         CommunicationTokenCredential(communicationTokenRefreshOptions)
     val remoteOptions =
-        CallCompositeRemoteOptions(
-            CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
-            communicationTokenCredential,
-            "test"
-        )
+            CallCompositeRemoteOptions(
+                    CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
+                    communicationTokenCredential,
+                    "test"
+            )
 
     callComposite.launchTest(appContext, remoteOptions, null)
 }
