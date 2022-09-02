@@ -203,7 +203,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             if (error != null) {
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
-                        FatalError(error, ErrorCode.UNKNOWN_ERROR)
+                        FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
             }
