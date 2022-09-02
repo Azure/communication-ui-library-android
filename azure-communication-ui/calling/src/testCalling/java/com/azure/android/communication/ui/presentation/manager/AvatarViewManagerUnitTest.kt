@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.graphics.Bitmap
 import android.widget.ImageView
-import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
@@ -65,7 +64,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
+                CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
             remoteParticipantsConfiguration
         )
 
@@ -92,7 +91,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+                CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
@@ -119,7 +118,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+                CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
@@ -142,10 +141,10 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-            CallCompositeLocalOptions(
-                CallCompositeParticipantViewData()
-                    .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER)
-            ),
+                CallCompositeLocalOptions(
+                        CallCompositeParticipantViewData()
+                            .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER)
+                ),
             remoteParticipantsConfiguration
         )
 

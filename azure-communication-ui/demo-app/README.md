@@ -16,7 +16,7 @@ The sample app is a native Android application developed to demonstrate Azure Co
 ### Run Sample
 
 1. Open azure-communication-ui folder in Android Studio
-2. Select azure-communication-ui-demo-app as a build configuration
+2. Select demo-app as a build configuration
 3. (Optional) for your convinience you may configure default values for the app. Create `local.properties` file in the `/azure-communication-ui` directory:
     - `TOKEN_FUNCTION_URL`="..."  # the URL to request Azure Communication Services token
     - `ACS_TOKEN`="..."           # Azure Communication Services token
