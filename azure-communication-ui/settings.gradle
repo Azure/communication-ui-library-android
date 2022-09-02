@@ -1,3 +1,4 @@
 include ':calling'
 include ':chat'
-include ':azure-communication-ui-demo-app'
+include ':call-with-chat'
+include ':demo-app'
