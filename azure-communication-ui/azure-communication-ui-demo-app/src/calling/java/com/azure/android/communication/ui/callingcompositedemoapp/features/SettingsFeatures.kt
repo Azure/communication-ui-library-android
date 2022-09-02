@@ -91,9 +91,9 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun getCallTitle(): String? = sharedPrefs.getString(CALL_TITLE, null)
+        fun getTitle(): String? = sharedPrefs.getString(CALL_TITLE, null)
 
         @JvmStatic
-        fun getCallSubTitle(): String? = sharedPrefs.getString(CALL_SUBTITLE, null)
+        fun getSubtitle(): String? = sharedPrefs.getString(CALL_SUBTITLE, null)
     }
 }
