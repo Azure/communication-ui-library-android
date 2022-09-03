@@ -26,6 +26,7 @@ import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -101,6 +102,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -142,6 +144,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -186,6 +189,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -230,6 +234,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -374,6 +379,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -497,6 +503,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -535,6 +542,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -572,6 +580,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -609,6 +618,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,

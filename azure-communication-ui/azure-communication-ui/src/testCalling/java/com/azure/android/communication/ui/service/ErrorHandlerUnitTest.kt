@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -95,6 +96,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.REMOTE,
+                    CameraDeviceSelection("", mutableMapOf()),
                     CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
                 ),
                 AudioState(
@@ -148,7 +150,8 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.REMOTE
+                    CameraTransmissionStatus.REMOTE,
+                    CameraDeviceSelection("", mutableMapOf()),
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,

@@ -132,6 +132,10 @@ internal class LocalParticipantView : ConstraintLayout {
             }
         }
 
+        switchCameraButton.visibility = View.GONE
+        pipSwitchCameraButton.visibility = View.GONE
+
+        /*
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplaySwitchCameraButtonFlow().collect {
                 switchCameraButton.visibility = if (it) View.VISIBLE else View.GONE
@@ -150,7 +154,7 @@ internal class LocalParticipantView : ConstraintLayout {
                 pipSwitchCameraButton.isEnabled = it
             }
         }
-
+        */
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraDeviceSelectionFlow().collect { cameraDeviceSelectionStatus ->
                 listOf(switchCameraButton, pipSwitchCameraButton).forEach {

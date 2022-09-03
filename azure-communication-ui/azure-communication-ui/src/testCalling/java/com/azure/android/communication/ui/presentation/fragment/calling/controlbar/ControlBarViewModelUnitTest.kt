@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -46,7 +47,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.PENDING,
@@ -78,7 +80,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.PENDING,
@@ -111,7 +114,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val cameraState = CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.REMOTE
+                CameraTransmissionStatus.REMOTE,
+                CameraDeviceSelection("", mutableMapOf())
             )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
 
@@ -188,7 +192,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val cameraState = CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.REMOTE
+                CameraTransmissionStatus.REMOTE,
+                CameraDeviceSelection("", mutableMapOf())
             )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
 
@@ -275,19 +280,22 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val cameraState1 = CameraState(
                 expectedCameraState1,
                 cameraDeviceSelectionStatus,
-                cameraTransmissionStatus
+                cameraTransmissionStatus,
+                CameraDeviceSelection("", mutableMapOf())
             )
 
             val cameraState2 = CameraState(
                 expectedCameraState2,
                 cameraDeviceSelectionStatus,
-                cameraTransmissionStatus
+                cameraTransmissionStatus,
+                CameraDeviceSelection("", mutableMapOf())
             )
 
             val initialCameraState = CameraState(
                 CameraOperationalStatus.OFF,
                 cameraDeviceSelectionStatus,
-                cameraTransmissionStatus
+                cameraTransmissionStatus,
+                CameraDeviceSelection("", mutableMapOf())
             )
             callingViewModel.init(
                 permissionState,

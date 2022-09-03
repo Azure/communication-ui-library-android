@@ -34,6 +34,7 @@ import com.azure.android.communication.ui.calling.redux.state.LifecycleState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -91,7 +92,8 @@ internal class AppReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,

@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -89,7 +90,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.BACK,
-                    CameraTransmissionStatus.LOCAL
+                    CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf())
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
@@ -148,7 +150,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.BACK,
-                    CameraTransmissionStatus.LOCAL
+                    CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf())
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
@@ -172,7 +175,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.BACK,
-                    CameraTransmissionStatus.LOCAL
+                    CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf())
                 ),
                 AudioState(
                     AudioOperationalStatus.ON,
@@ -249,7 +253,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.BACK,
-                    CameraTransmissionStatus.LOCAL
+                    CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf())
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,

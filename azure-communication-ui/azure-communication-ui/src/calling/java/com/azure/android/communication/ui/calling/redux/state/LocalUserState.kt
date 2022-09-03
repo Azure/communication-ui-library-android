@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.models.VideoDeviceInfoModel
 
 internal enum class CameraOperationalStatus {
     PENDING,
@@ -38,10 +39,16 @@ internal enum class AudioDeviceSelectionStatus {
     BLUETOOTH_SCO_REQUESTED,
 }
 
+internal data class CameraDeviceSelection(
+    val selectedCameraID: String,
+    val cameras: Map<String, VideoDeviceInfoModel>,
+)
+
 internal data class CameraState(
     val operation: CameraOperationalStatus,
     val device: CameraDeviceSelectionStatus,
     val transmission: CameraTransmissionStatus,
+    val deviceSelection: CameraDeviceSelection,
     val error: CallCompositeError? = null,
 )
 

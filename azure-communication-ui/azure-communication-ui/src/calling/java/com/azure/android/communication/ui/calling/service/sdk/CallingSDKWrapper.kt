@@ -19,6 +19,7 @@ import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.LocalVideoStream
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
+import com.azure.android.communication.calling.VideoDeviceInfo
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
@@ -79,8 +80,17 @@ internal class CallingSDKWrapper(
 
     fun getIsTranscribingSharedFlow() = callingSDKEventHandler.getIsTranscribingSharedFlow()
 
+    fun getVideoDevicesSharedFlow() = callingSDKEventHandler.getVideoDevicesSharedFlow()
+
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> =
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
+
+    fun getActiveCameraDeviceID(): String? {
+        if (localVideoStreamCompletableFuture?.isDone == true) {
+            return localVideoStreamCompletableFuture?.get()?.source?.id
+        }
+        return null
+    }
 
     fun hold(): CompletableFuture<Void> {
         val call: Call?
@@ -203,6 +213,37 @@ internal class CallingSDKWrapper(
         return result
     }
 
+    fun selectCamera(deviceID: String): CompletableFuture<String> {
+        val result = CompletableFuture<String>()
+        this.getLocalVideoStream()
+            .thenAccept { videoStream: LocalVideoStream ->
+                initializeCameras().thenAccept {
+                    val desiredCamera =
+                        getCamera(
+                            deviceID,
+                        )
+
+                    if (desiredCamera == null) {
+                        result.completeExceptionally(null)
+                    } else {
+                        videoStream.switchSource(desiredCamera)
+                            .exceptionally {
+                                result.completeExceptionally(it)
+                                null
+                            }.thenRun {
+                                result.complete(deviceID)
+                            }
+                    }
+                }
+            }
+            .exceptionally { error ->
+                result.completeExceptionally(error)
+                null
+            }
+
+        return result
+    }
+
     fun switchCameraAsync(): CompletableFuture<CameraDeviceSelectionStatus> {
         val result = CompletableFuture<CameraDeviceSelectionStatus>()
         this.getLocalVideoStream()
@@ -275,7 +316,7 @@ internal class CallingSDKWrapper(
                     localVideoStreamCompletableFuture.completeExceptionally(error)
                     result.completeExceptionally(error)
                 } else {
-                    val desiredCamera = getCamera(CameraFacing.FRONT)
+                    val desiredCamera = getCameraByFacingTypeSelection()
 
                     localVideoStreamCompletableFuture.complete(
                         LocalVideoStream(
@@ -289,6 +330,16 @@ internal class CallingSDKWrapper(
         }
 
         return result
+    }
+
+    // predefined order to return camera
+    private fun getCameraByFacingTypeSelection(): VideoDeviceInfo? {
+        return getCamera(CameraFacing.FRONT) ?: getCamera(CameraFacing.BACK)
+            ?: getCamera(CameraFacing.EXTERNAL) ?: getCamera(CameraFacing.PANORAMIC) ?: getCamera(
+            CameraFacing.LEFT_FRONT
+        ) ?: getCamera(CameraFacing.RIGHT_FRONT) ?: getCamera(
+            CameraFacing.UNKNOWN
+        )
     }
 
     private fun createCallAgent(): CompletableFuture<CallAgent> {
@@ -371,6 +422,10 @@ internal class CallingSDKWrapper(
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
                         completeCamerasInitializedCompletableFuture()
+                        callingSDKEventHandler.onVideoDeviceUpdated(
+                            it.addedVideoDevices,
+                            it.removedVideoDevices
+                        )
                     }
                 deviceManager.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
             }
@@ -380,14 +435,13 @@ internal class CallingSDKWrapper(
     }
 
     private fun completeCamerasInitializedCompletableFuture() {
-        if (doFrontAndBackCamerasExist()) {
+        if (camerasInitializedCompletableFuture?.isDone == false && cameraExist()) {
             camerasInitializedCompletableFuture?.complete(null)
         }
     }
 
-    private fun doFrontAndBackCamerasExist(): Boolean {
-        return getCamera(CameraFacing.FRONT) != null &&
-            getCamera(CameraFacing.BACK) != null
+    private fun cameraExist(): Boolean {
+        return getDeviceManagerCompletableFuture().get().cameras.isNotEmpty()
     }
 
     private fun getCamera(
@@ -395,6 +449,15 @@ internal class CallingSDKWrapper(
     ) = getDeviceManagerCompletableFuture().get().cameras?.find {
         it.cameraFacing.name.equals(
             cameraFacing.name,
+            ignoreCase = true
+        )
+    }
+
+    private fun getCamera(
+        id: String,
+    ) = getDeviceManagerCompletableFuture().get().cameras?.find {
+        it.id.equals(
+            id,
             ignoreCase = true
         )
     }

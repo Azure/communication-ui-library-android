@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -52,7 +53,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -89,7 +91,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -124,7 +127,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -145,7 +149,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -174,7 +179,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -195,7 +201,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -224,7 +231,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -245,7 +253,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -274,7 +283,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -297,7 +307,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -321,7 +332,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -341,7 +353,8 @@ internal class SetupControlBarViewModelUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,

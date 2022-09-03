@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -29,7 +30,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -57,7 +59,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -85,7 +88,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -116,7 +120,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -150,7 +155,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -178,7 +184,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -209,7 +216,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -243,7 +251,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -271,7 +280,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -299,7 +309,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -330,7 +341,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -364,7 +376,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -393,7 +406,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -425,7 +439,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -456,7 +471,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -485,7 +501,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -515,7 +532,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -551,7 +569,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -579,7 +598,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -609,7 +629,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -640,7 +661,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.ON,
@@ -668,7 +690,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.ON,
@@ -698,7 +721,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             CameraState(
                 CameraOperationalStatus.PENDING,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.ON,

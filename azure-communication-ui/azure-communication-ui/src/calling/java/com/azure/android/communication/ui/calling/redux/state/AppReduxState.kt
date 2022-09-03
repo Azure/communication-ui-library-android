@@ -16,7 +16,8 @@ internal class AppReduxState(displayName: String?) : ReduxState {
             CameraState(
                 operation = CameraOperationalStatus.OFF,
                 device = CameraDeviceSelectionStatus.FRONT,
-                transmission = CameraTransmissionStatus.LOCAL
+                transmission = CameraTransmissionStatus.LOCAL,
+                deviceSelection = CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 operation = AudioOperationalStatus.OFF,

@@ -33,6 +33,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -388,7 +389,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         CameraState(
             CameraOperationalStatus.OFF,
             CameraDeviceSelectionStatus.FRONT,
-            CameraTransmissionStatus.LOCAL
+            CameraTransmissionStatus.LOCAL,
+            CameraDeviceSelection("", mutableMapOf())
         ),
         AudioState(
             AudioOperationalStatus.OFF,

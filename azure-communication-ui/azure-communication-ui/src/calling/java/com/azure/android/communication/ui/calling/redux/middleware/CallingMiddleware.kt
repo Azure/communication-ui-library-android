@@ -51,6 +51,9 @@ internal class CallingMiddlewareImpl(
                 is LocalParticipantAction.CameraOnTriggered -> {
                     callingMiddlewareActionHandler.turnCameraOn(store)
                 }
+                is LocalParticipantAction.CameraChangeTriggered -> {
+                    callingMiddlewareActionHandler.onCameraChangeTriggered(store, action.cameraID)
+                }
                 is LocalParticipantAction.CameraSwitchTriggered -> {
                     callingMiddlewareActionHandler.switchCamera(store)
                 }
