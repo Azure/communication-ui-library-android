@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +31,8 @@ internal class LocalParticipantViewModel(
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfRemoteParticipantsFlow: MutableStateFlow<Int>
 
+    lateinit var displayCameraDeviceSelectionMenu: () -> Unit
+
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
     fun getDisplayNameStateFlow(): StateFlow<String?> = displayNameStateFlow
@@ -47,6 +50,7 @@ internal class LocalParticipantViewModel(
         numberOfRemoteParticipants: Int,
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
+        cameraDeviceSelection: CameraDeviceSelection,
     ) {
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
@@ -59,12 +63,12 @@ internal class LocalParticipantViewModel(
         localUserMutedStateFlow.value = audioOperationalStatus == AudioOperationalStatus.OFF
         displayFullScreenAvatarFlow.value = displayFullScreenAvatar
         displaySwitchCameraButtonFlow.value =
-            displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN
+            displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && cameraDeviceSelection.cameras.size > 1
         displayPipSwitchCameraButtonFlow.value =
-            displayVideo && viewMode == LocalParticipantViewMode.PIP
+            displayVideo && viewMode == LocalParticipantViewMode.PIP && cameraDeviceSelection.cameras.size > 1
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING &&
-            callingState != CallingStatus.LOCAL_HOLD
+            callingState != CallingStatus.LOCAL_HOLD && cameraDeviceSelection.cameras.size > 1
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
         numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
     }
@@ -80,6 +84,8 @@ internal class LocalParticipantViewModel(
         numberOfRemoteParticipants: Int,
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
+        cameraDeviceSelection: CameraDeviceSelection,
+        displayCameraDeviceSelectionMenuOption: () -> Unit,
     ) {
 
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
@@ -103,6 +109,7 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState))
         numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
+        displayCameraDeviceSelectionMenu = displayCameraDeviceSelectionMenuOption
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())

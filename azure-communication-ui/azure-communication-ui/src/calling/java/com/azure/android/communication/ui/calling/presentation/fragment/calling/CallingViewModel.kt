@@ -42,6 +42,10 @@ internal class CallingViewModel(
     private val bannerViewModel = callingViewModelProvider.provideBannerViewModel()
     private val lobbyOverlayViewModel = callingViewModelProvider.provideLobbyOverlayViewModel()
     private val holdOverlayViewModel = callingViewModelProvider.provideHoldOverlayViewModel()
+    private val cameraDeviceListViewModel =
+        callingViewModelProvider.provideCameraDeviceListViewModel()
+
+    fun getCameraDeviceListViewModel() = cameraDeviceListViewModel
 
     fun getLobbyOverlayViewModel(): LobbyOverlayViewModel {
         return lobbyOverlayViewModel
@@ -107,6 +111,8 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.deviceSelection,
+            cameraDeviceListViewModel::displayCameraDeviceSelectionMenu
         )
 
         floatingHeaderViewModel.init(
@@ -116,6 +122,7 @@ internal class CallingViewModel(
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
         )
+        cameraDeviceListViewModel.init(state.localParticipantState.cameraState.deviceSelection)
         bannerViewModel.init(
             state.callState
         )
@@ -126,7 +133,10 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.init(state.callState.callingStatus)
-        holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
+        holdOverlayViewModel.init(
+            state.callState.callingStatus,
+            state.audioSessionState.audioFocusStatus
+        )
 
         participantGridViewModel.init(state.callState.callingStatus)
 
@@ -155,14 +165,20 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.deviceSelection,
         )
 
         audioDeviceListViewModel.update(
             state.localParticipantState.audioState,
         )
 
+        cameraDeviceListViewModel.init(state.localParticipantState.cameraState.deviceSelection)
+
         lobbyOverlayViewModel.update(state.callState.callingStatus)
-        holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
+        holdOverlayViewModel.update(
+            state.callState.callingStatus,
+            state.audioSessionState.audioFocusStatus
+        )
 
         participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)
 
@@ -180,6 +196,7 @@ internal class CallingViewModel(
                 0,
                 state.callState.callingStatus,
                 state.localParticipantState.cameraState.device,
+                state.localParticipantState.cameraState.deviceSelection,
             )
         }
 

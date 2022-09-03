@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.common.cameradevicelist.CameraDeviceListViewModel
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
@@ -24,6 +25,10 @@ internal class CallingViewModelFactory(
 
     private val participantGridViewModel by lazy {
         ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)
+    }
+
+    private val cameraDeviceListViewModel by lazy {
+        CameraDeviceListViewModel(store::dispatch)
     }
 
     private val controlBarViewModel by lazy {
@@ -63,6 +68,8 @@ internal class CallingViewModelFactory(
     private val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
     }
+
+    fun provideCameraDeviceListViewModel() = cameraDeviceListViewModel
 
     fun provideParticipantGridViewModel(): ParticipantGridViewModel {
         return participantGridViewModel

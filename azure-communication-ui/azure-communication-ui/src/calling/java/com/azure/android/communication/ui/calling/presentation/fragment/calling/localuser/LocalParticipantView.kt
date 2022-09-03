@@ -68,8 +68,8 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_display_name)
         micImage =
             findViewById(R.id.azure_communication_ui_call_local_mic_indicator)
-        switchCameraButton.setOnClickListener { viewModel.switchCamera() }
-        pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
+        switchCameraButton.setOnClickListener { viewModel.displayCameraDeviceSelectionMenu() }
+        pipSwitchCameraButton.setOnClickListener { viewModel.displayCameraDeviceSelectionMenu() }
         dragTouchListener = DragTouchListener()
     }
 
@@ -135,7 +135,6 @@ internal class LocalParticipantView : ConstraintLayout {
         switchCameraButton.visibility = View.GONE
         pipSwitchCameraButton.visibility = View.GONE
 
-        /*
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplaySwitchCameraButtonFlow().collect {
                 switchCameraButton.visibility = if (it) View.VISIBLE else View.GONE
@@ -154,7 +153,7 @@ internal class LocalParticipantView : ConstraintLayout {
                 pipSwitchCameraButton.isEnabled = it
             }
         }
-        */
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraDeviceSelectionFlow().collect { cameraDeviceSelectionStatus ->
                 listOf(switchCameraButton, pipSwitchCameraButton).forEach {

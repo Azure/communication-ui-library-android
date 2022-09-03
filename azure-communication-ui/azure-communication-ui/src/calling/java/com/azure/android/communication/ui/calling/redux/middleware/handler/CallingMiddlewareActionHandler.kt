@@ -180,6 +180,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                 )
             } else {
                 store.dispatch(LocalParticipantAction.CameraPreviewOnSucceeded(newVideoStreamId))
+                callingService.getActiveCameraDeviceID()?.let {
+                    store.dispatch(LocalParticipantAction.CameraOnSelected(it))
+                }
             }
         }
     }

@@ -29,10 +29,13 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
+import com.azure.android.communication.ui.calling.presentation.fragment.common.cameradevicelist.CameraDeviceListView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class CallingFragment :
-    Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
+    Fragment(R.layout.azure_communication_ui_calling_call_fragment),
+    BackNavigation,
+    SensorEventListener {
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
@@ -56,6 +59,7 @@ internal class CallingFragment :
     private lateinit var powerManager: PowerManager
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
+    private lateinit var camerasDeviceListView: CameraDeviceListView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -117,6 +121,12 @@ internal class CallingFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
+        camerasDeviceListView =
+            CameraDeviceListView(viewModel.getCameraDeviceListViewModel(), this.requireContext())
+        camerasDeviceListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+        camerasDeviceListView.start(viewLifecycleOwner)
+
         participantListView = ParticipantListView(
             viewModel.getParticipantListViewModel(),
             this.requireContext(),
@@ -165,6 +175,7 @@ internal class CallingFragment :
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
+        if (this::camerasDeviceListView.isInitialized) camerasDeviceListView.stop()
 
         if (this::wakeLock.isInitialized) {
             if (wakeLock.isHeld) {
