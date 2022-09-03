@@ -419,6 +419,7 @@ internal class CallingSDKWrapper(
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
             getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager, _: Throwable? ->
                 completeCamerasInitializedCompletableFuture()
+                callingSDKEventHandler.onVideoDeviceUpdated(deviceManager.cameras, mutableListOf())
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
                         completeCamerasInitializedCompletableFuture()
