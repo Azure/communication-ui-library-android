@@ -2,7 +2,7 @@ apply plugin: 'checkstyle'
 
 checkstyle {
     description 'Check style for the Java code files'
-    configFile file('../demo-app/checkstyle/checkstyle.xml')
+    configFile file('../checkstyle/checkstyle.xml')
 }
 
 task checkstyle(type: Checkstyle) {
