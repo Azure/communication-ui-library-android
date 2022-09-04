@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Alto-falante</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">Alternar Para a Câmera Frontal</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Alternar Para a Câmera Traseira</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Câmera frontal ligada, alterne para a câmera traseira</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Câmera traseira ligada, alterne para a câmera frontal</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Selecionar o Dispositivo de Áudio %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s dispositivo de áudio, selecionado</string>
     <!--    Setup View-->
@@ -59,6 +59,7 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Ativar/Desativar Vídeo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Ativar/Desativar Áudio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opções do Dispositivo</string>
+    <string name="azure_communication_ui_calling_cameras_list_dismiss_list">Double tap to dismiss Camera list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>A transcrição foi iniciada.</b> Ingressando, você está

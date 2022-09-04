@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Luidspreker</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">Overschakelen naar camera aan voorzijde</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Overschakelen naar camera aan achterzijde</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Camera aan voorzijde ingeschakeld, overschakelen naar camera aan achterzijde</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Camera aan achterzijde ingeschakeld, overschakelen naar camera aan voorzijde</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audioapparaat %1$s selecteren</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s-audioapparaat, geselecteerd</string>
     <!--    Setup View-->
@@ -59,6 +59,7 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Video in-/uitschakelen</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Audio in-/uitschakelen</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Apparaatopties</string>
+    <string name="azure_communication_ui_calling_cameras_list_dismiss_list">Double tap to dismiss Camera list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft
