@@ -136,7 +136,7 @@ internal class CameraDeviceListView(
 
         return BottomCellItem(
             title = camera.name,
-            contentDescription = camera.name + context.getString(R.string.azure_communication_ui_cameras_list_dismiss_list),
+            contentDescription = camera.name + context.getString(R.string.azure_communication_ui_calling_cameras_list_dismiss_list),
             accessoryColor = null,
             accessoryImage = null,
             accessoryImageDescription = null,

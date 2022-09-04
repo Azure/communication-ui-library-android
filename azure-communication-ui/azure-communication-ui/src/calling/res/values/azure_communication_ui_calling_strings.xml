@@ -59,7 +59,7 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Toggle Video</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Toggle Audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Device Options</string>
-    <string name="azure_communication_ui_cameras_list_dismiss_list">Double tap to dismiss Camera list</string>
+    <string name="azure_communication_ui_calling_cameras_list_dismiss_list">Double tap to dismiss Camera list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
