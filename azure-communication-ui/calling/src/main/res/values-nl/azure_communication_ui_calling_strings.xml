@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Uw camera is uitgeschakeld. Als u deze wilt inschakelen, gaat u naar Instellingen
         om toegang toe te staan.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Machtigingen vereist</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settingst">Go to Settings</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Geselecteerd</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Camera wisselen</string>
@@ -88,7 +88,7 @@
     <string name="azure_communication_ui_calling_call_state_error_call_end">U bent uit de oproep verwijderd vanwege een fout.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">U bent verwijderd uit het gesprek.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Fout bij het in- of uitschakelen van video</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Actief gesprek</string>
