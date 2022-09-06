@@ -298,7 +298,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val message = switchCameraStatusHook.message(AppReduxState(""), reduxState, mockContext)
 
         // Assert
-        Assert.assertEquals(message, "Switch to Front Camera")
+        Assert.assertEquals(message, "Front camera on, switch to back camera")
     }
 
     @Test
@@ -307,7 +307,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val reduxState = AppReduxState("")
         val switchCameraStatusHook = SwitchCameraStatusHook()
         val mockContext = mock<Context> {
-            on { getString(R.string.azure_communication_ui_calling_switch_camera_button_back) } doAnswer { "Switch to Back Camera" }
+            on { getString(R.string.azure_communication_ui_calling_switch_camera_button_back) } doAnswer { "Back camera on, switch to front camera" }
         }
         val mockAudioState = mock<AudioState> {}
         reduxState.localParticipantState = LocalUserState(
@@ -323,7 +323,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val message = switchCameraStatusHook.message(AppReduxState(""), reduxState, mockContext)
 
         // Assert
-        Assert.assertEquals(message, "Switch to Back Camera")
+        Assert.assertEquals(message, "Back camera on, switch to front camera")
     }
 
     @Test
