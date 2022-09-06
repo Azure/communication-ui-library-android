@@ -18,28 +18,28 @@ internal class ChatContainer(
     private val locator = ServiceLocator.getInstance(instanceId = instanceId)
     private val onUnreadMessageChangedHandlers =
         mutableSetOf<ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent>>()
-    
+
     private fun start(
         context: Context,
         remoteOptions: ChatCompositeRemoteOptions,
         localOptions: ChatCompositeLocalOptions,
     ) {
     }
-    
+
     fun addOnViewClosedEventHandler(handler: ChatCompositeEventHandler<Any>) {
     }
-    
+
     fun removeOnViewClosedEventHandler(handler: ChatCompositeEventHandler<Any>) {
     }
-    
+
     fun addOnUnreadMessagesChangedEventHandler(handler: ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent>) {
         onUnreadMessageChangedHandlers.add(handler)
     }
-    
+
     fun removeOnUnreadMessagesChangedEventHandler(handler: ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent>) {
         onUnreadMessageChangedHandlers.remove(handler)
     }
-    
+
     fun stop() {
         locator.clear()
     }
