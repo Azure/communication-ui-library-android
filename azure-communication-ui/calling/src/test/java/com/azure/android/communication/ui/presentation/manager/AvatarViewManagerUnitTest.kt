@@ -64,7 +64,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-                CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
+            CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
             remoteParticipantsConfiguration
         )
 
@@ -91,7 +91,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-                CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
@@ -118,7 +118,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-                CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
             remoteParticipantsConfiguration
         )
 
@@ -141,10 +141,10 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val avatarViewManager = AvatarViewManager(
             StandardTestContextProvider(),
             mockAppStore,
-                CallCompositeLocalOptions(
-                        CallCompositeParticipantViewData()
-                            .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER)
-                ),
+            CallCompositeLocalOptions(
+                CallCompositeParticipantViewData()
+                    .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER)
+            ),
             remoteParticipantsConfiguration
         )
 
