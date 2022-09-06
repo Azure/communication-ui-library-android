@@ -34,7 +34,6 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.UNKNOWN_ERROR
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
@@ -505,7 +504,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                        action.error.fatalError == exception && action.error.errorCode == ErrorCode.UNKNOWN_ERROR
+                        action.error.fatalError == exception && action.error.errorCode == ErrorCode.CAMERA_INIT_FAILED
                 }
             )
         }
