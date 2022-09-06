@@ -282,7 +282,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val reduxState = AppReduxState("")
         val switchCameraStatusHook = SwitchCameraStatusHook()
         val mockContext = mock<Context> {
-            on { getString(R.string.azure_communication_ui_calling_switch_camera_button_front) } doAnswer { "Switch to Front Camera" }
+            on { getString(R.string.azure_communication_ui_calling_switch_camera_button_front) } doAnswer { "Front camera on, switch to back camera" }
         }
         val mockAudioState = mock<AudioState> {}
         reduxState.localParticipantState = LocalUserState(
