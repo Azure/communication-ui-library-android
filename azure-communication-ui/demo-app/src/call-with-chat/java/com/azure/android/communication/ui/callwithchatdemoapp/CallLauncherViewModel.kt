@@ -1,29 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.callingcompositedemoapp
+package com.azure.android.communication.ui.callwithchatdemoapp
 
 import android.webkit.URLUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeJavaLauncher
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeKotlinLauncher
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.azure.android.communication.ui.callwithchatdemoapp.launcher.CallWithChatCompositeJavaLauncher
+import com.azure.android.communication.ui.callwithchatdemoapp.launcher.CallWithChatCompositeKotlinLauncher
+import com.azure.android.communication.ui.callwithchatdemoapp.launcher.CallWithChatCompositeLauncher
+import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
 class CallLauncherViewModel : ViewModel() {
     private var token: String? = null
-    private val fetchResultInternal = MutableLiveData<Result<CallingCompositeLauncher?>>()
+    private val fetchResultInternal = MutableLiveData<Result<CallWithChatCompositeLauncher?>>()
 
-    val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
+    val fetchResult: LiveData<Result<CallWithChatCompositeLauncher?>> = fetchResultInternal
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
 
     private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
-        CallingCompositeKotlinLauncher(tokenRefresher)
+        CallWithChatCompositeKotlinLauncher(tokenRefresher)
     } else {
-        CallingCompositeJavaLauncher(tokenRefresher)
+        CallWithChatCompositeJavaLauncher(tokenRefresher)
     }
 
     fun destroy() {
@@ -51,11 +52,7 @@ class CallLauncherViewModel : ViewModel() {
             isTokenFunctionOptionSelected && urlIsValid(tokenFunctionURL) -> {
                 token = null
                 fetchResultInternal.postValue(
-                    Result.success(
-                        launcher(
-                            com.azure.android.communication.ui.demoapp.UrlTokenFetcher(tokenFunctionURL)
-                        )
-                    )
+                    Result.success(launcher(UrlTokenFetcher(tokenFunctionURL)))
                 )
             }
             acsToken.isNotBlank() -> {
