@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode ui_library_version_code
         versionName "$ui_library_version_name"
