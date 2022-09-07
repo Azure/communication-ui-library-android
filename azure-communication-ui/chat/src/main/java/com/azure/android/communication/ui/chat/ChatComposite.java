@@ -138,6 +138,7 @@ public class ChatComposite {
      * @param participantViewData The {@link ChatCompositeRemoteOptions}.
      * @param identifier          The {@link CommunicationIdentifier}.
      */
-    public void setChatCompositeRemoteOptions(ChatCompositeRemoteOptions participantViewData, final CommunicationIdentifier identifier) {
+    public void setChatCompositeRemoteOptions(final ChatCompositeRemoteOptions participantViewData,
+                                              final CommunicationIdentifier identifier) {
     }
 }

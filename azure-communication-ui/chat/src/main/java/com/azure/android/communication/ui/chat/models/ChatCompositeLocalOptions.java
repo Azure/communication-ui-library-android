@@ -31,8 +31,15 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  * @see ChatComposite
  */
 public final class ChatCompositeLocalOptions {
-    private boolean isLaunchingWithUI;
-    private final ChatCompositeParticipantViewData participantViewData;
+    private boolean isLaunchingWithUI = true;
+    private ChatCompositeParticipantViewData participantViewData;
+
+    /**
+     * Create Local Options with default setting.
+     */
+    public ChatCompositeLocalOptions() {
+
+    }
 
     /**
      * Create Local Options.
@@ -64,8 +71,11 @@ public final class ChatCompositeLocalOptions {
 
     /**
      * Set is launching with UI boolean
+     *
+     * @return The {@link ChatCompositeLocalOptions };
      */
-    public void setLaunchingWithUI(final boolean isLaunchingWithUI) {
+    public ChatCompositeLocalOptions setLaunchingWithUI(final boolean isLaunchingWithUI) {
         this.isLaunchingWithUI = isLaunchingWithUI;
+        return this;
     }
 }
