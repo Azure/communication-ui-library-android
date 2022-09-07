@@ -28,6 +28,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
@@ -36,6 +47,9 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
+
+    implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
+    implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
