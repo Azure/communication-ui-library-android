@@ -1,5 +1,7 @@
 # Azure Communication UI Calling Release History
 
+## TBA (upcoming release)
+
 ### Features
 - Setting up Group Call Title and Subtitle is now possible by customizing CallCompositeLocalOptions with CallCompositeNavigationBarViewData
 - Implemented new error message `cameraFailure` that can be sent to developers when turning on camera fails.
