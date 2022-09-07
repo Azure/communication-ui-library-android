@@ -59,7 +59,6 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Включить или отключить видео</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Включить или отключить звук</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Параметры устройства</string>
-    <string name="azure_communication_ui_calling_cameras_list_dismiss_list">Double tap to dismiss Camera list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Началась запись.</b> Присоединяясь, вы

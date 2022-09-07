@@ -59,7 +59,6 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Activar/desactivar vídeo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Activar/desactivar audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opciones de dispositivo</string>
-    <string name="azure_communication_ui_calling_cameras_list_dismiss_list">Double tap to dismiss Camera list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Se ha iniciado la grabación.</b> Al unirse, está

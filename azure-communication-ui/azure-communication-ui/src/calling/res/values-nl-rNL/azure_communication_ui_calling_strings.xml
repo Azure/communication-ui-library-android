@@ -59,7 +59,6 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Video in-/uitschakelen</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Audio in-/uitschakelen</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Apparaatopties</string>
-    <string name="azure_communication_ui_calling_cameras_list_dismiss_list">Double tap to dismiss Camera list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft
