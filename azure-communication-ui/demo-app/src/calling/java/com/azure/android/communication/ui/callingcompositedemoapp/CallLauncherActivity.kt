@@ -215,7 +215,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 showAlert(message)
                 return
             }
-
             launcher.launch(
                 this@CallLauncherActivity,
                 userName,
