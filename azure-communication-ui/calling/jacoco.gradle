@@ -7,8 +7,7 @@ jacoco {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     def coverageSourceDirs = [
             "src/main/java",
-            "src/calling/java",
-            "src/testCalling"
+            "src/calling/java"
     ]
     def fileFilter = [
             '**/R.class',
