@@ -10,9 +10,7 @@ import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity;
 public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
     @Override
     public void launch(final ChatLauncherActivity chatLauncherActivity) {
-
         final ChatComposite chatComposite = new ChatCompositeBuilder().build();
         chatComposite.launch(chatLauncherActivity);
-
     }
 }

@@ -17,101 +17,15 @@
         tools:context=".CallLauncherActivity"
         >
 
-        <RadioButton
-            android:id="@+id/tokenFunctionRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/token_function_radio_button_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <EditText
-            android:id="@+id/tokenFunctionUrlText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/token_url_hint"
-            android:inputType="textUri"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tokenFunctionRadioButton"
-            />
-
-        <RadioButton
-            android:id="@+id/acsTokenRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/acs_token_radio_button_text"
-            app:layout_constraintStart_toStartOf="@id/tokenFunctionUrlText"
-            app:layout_constraintTop_toBottomOf="@id/tokenFunctionUrlText"
-            />
-
-        <EditText
-            android:id="@+id/acsTokenText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/acs_token_hint"
-            android:inputType="textUri"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acsTokenRadioButton"
-            />
-
-        <EditText
-            android:id="@+id/userNameText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="@string/name_hint"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="@id/acsTokenText"
-            app:layout_constraintTop_toBottomOf="@id/acsTokenText"
-            />
-
-        <RadioButton
-            android:id="@+id/groupCallRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:checked="true"
-            android:text="@string/group_call_label"
-            app:layout_constraintStart_toStartOf="@id/userNameText"
-            app:layout_constraintTop_toBottomOf="@id/userNameText"
-            />
-
-        <RadioButton
-            android:id="@+id/teamsMeetingRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/teams_meeting_label"
-            app:layout_constraintStart_toEndOf="@id/groupCallRadioButton"
-            app:layout_constraintTop_toBottomOf="@id/userNameText"
-            />
-
-        <EditText
-            android:id="@+id/groupIdOrTeamsMeetingLinkText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/group_call_id_or_teams_meeting_hint"
-            android:inputType="textNoSuggestions"
-            app:layout_constraintStart_toStartOf="@id/groupCallRadioButton"
-            app:layout_constraintTop_toBottomOf="@id/teamsMeetingRadioButton"
-            />
-
         <RadioGroup
             android:id="@+id/javaOrKotlinContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@id/groupIdOrTeamsMeetingLinkText"
-            app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             >
 
             <TextView

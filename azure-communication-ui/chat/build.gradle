@@ -45,7 +45,6 @@ android {
 }
 
 dependencies {
-    api project(path: ':calling')
 
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
