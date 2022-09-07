@@ -4,7 +4,7 @@
 
 ### Features
 - Setting up Group Call Title and Subtitle is now possible by customizing CallCompositeLocalOptions with CallCompositeNavigationBarViewData
-- Implemented new error message `cameraFailure` that can be sent to developers when turning on camera fails.
+- Implemented new error message `cameraFailure` that can be sent to developers when initiating or turning on camera fails.
 - Error message now shown when network is not available before joining a call.
 - Added new button to allow user to quickly navigate to app's info page when permissions are denied.
 
@@ -15,7 +15,7 @@
 - Fix display name not getting truncated in participant list when they are too long (https://github.com/Azure/communication-ui-library-android/pull/370)
 
 ## 1.0.0 (2022-06-20)
-
+- This version is the public GA release with Calling UI Library
 
 ## 1.0.0-beta.3 (2022-06-15)
 
