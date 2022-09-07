@@ -68,8 +68,8 @@ internal class LocalParticipantView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_local_display_name)
         micImage =
             findViewById(R.id.azure_communication_ui_call_local_mic_indicator)
-        switchCameraButton.setOnClickListener { viewModel.displayCameraDeviceSelectionMenu() }
-        pipSwitchCameraButton.setOnClickListener { viewModel.displayCameraDeviceSelectionMenu() }
+        switchCameraButton.setOnClickListener { viewModel.switchCameraOperation() }
+        pipSwitchCameraButton.setOnClickListener { viewModel.switchCameraOperation() }
         dragTouchListener = DragTouchListener()
     }
 

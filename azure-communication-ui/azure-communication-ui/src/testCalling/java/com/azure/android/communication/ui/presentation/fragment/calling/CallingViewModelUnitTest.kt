@@ -101,7 +101,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
                 on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
-                on { provideCameraDeviceListViewModel() } doAnswer { mockCameraDeviceListViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -185,7 +184,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
                 on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
-                on { provideCameraDeviceListViewModel() } doAnswer { mockCameraDeviceListViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -268,7 +266,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
                 on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
-                on { provideCameraDeviceListViewModel() } doAnswer { mockCameraDeviceListViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -358,7 +355,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { provideBannerViewModel() } doAnswer { mockBannerViewModel }
                 on { provideLobbyOverlayViewModel() } doAnswer { mockLobbyOverlayViewModel }
                 on { provideHoldOverlayViewModel() } doAnswer { mockOnHoldOverlayViewModel }
-                on { provideCameraDeviceListViewModel() } doAnswer { mockCameraDeviceListViewModel }
             }
 
             val callingViewModel = CallingViewModel(

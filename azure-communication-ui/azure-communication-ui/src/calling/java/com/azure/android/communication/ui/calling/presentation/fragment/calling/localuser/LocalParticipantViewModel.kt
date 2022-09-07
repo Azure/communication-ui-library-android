@@ -31,7 +31,7 @@ internal class LocalParticipantViewModel(
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfRemoteParticipantsFlow: MutableStateFlow<Int>
 
-    lateinit var displayCameraDeviceSelectionMenu: () -> Unit
+    lateinit var switchCameraOperation: () -> Unit
 
     fun getVideoStatusFlow(): StateFlow<VideoModel> = videoStatusFlow
     fun getDisplayFullScreenAvatarFlow(): StateFlow<Boolean> = displayFullScreenAvatarFlow
@@ -85,7 +85,7 @@ internal class LocalParticipantViewModel(
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         cameraDeviceSelection: CameraDeviceSelection,
-        displayCameraDeviceSelectionMenuOption: () -> Unit,
+        switchCameraOperation: () -> Unit,
     ) {
 
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
@@ -109,7 +109,7 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingState))
         numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        displayCameraDeviceSelectionMenu = displayCameraDeviceSelectionMenuOption
+        this.switchCameraOperation = switchCameraOperation
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())
