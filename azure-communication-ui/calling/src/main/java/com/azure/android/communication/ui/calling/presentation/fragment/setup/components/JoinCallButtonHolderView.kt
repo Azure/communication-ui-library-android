@@ -47,7 +47,6 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: JoinCallButtonHolderViewModel,
-        errorInfoViewModel: ErrorInfoViewModel,
         networkManager: NetworkManager
     ) {
         this.viewModel = viewModel

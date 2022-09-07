@@ -62,7 +62,6 @@ internal class SetupFragment :
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
             viewModel.getJoinCallButtonHolderViewModel(),
-            viewModel.getErrorInfoViewModel(),
             networkManager
         )
 
