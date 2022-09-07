@@ -51,7 +51,11 @@ class CallLauncherViewModel : ViewModel() {
             isTokenFunctionOptionSelected && urlIsValid(tokenFunctionURL) -> {
                 token = null
                 fetchResultInternal.postValue(
-                    Result.success(launcher(UrlTokenFetcher(tokenFunctionURL)))
+                    Result.success(
+                        launcher(
+                            com.azure.android.communication.ui.demoapp.UrlTokenFetcher(tokenFunctionURL)
+                        )
+                    )
                 )
             }
             acsToken.isNotBlank() -> {

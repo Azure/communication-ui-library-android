@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Speaker</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">Switch to Front Camera</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Switch to Back Camera</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Front camera on, switch to back camera</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Back camera on, switch to front camera</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Select Audio Device %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s audio device, selected</string>
     <!--    Setup View-->
@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Your camera is disabled. To enable, please go to Settings
         to allow access.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Permissions required</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settingst">Go to Settings</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Selected</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Setup Gradient</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Switch Camera</string>
