@@ -65,7 +65,6 @@ plugins {
 }
 
 allprojects {
-
     Properties localProps = new Properties()
     if (project.rootProject.file('local.properties').canRead()) {
         localProps.load(project.rootProject.file('local.properties').newDataInputStream())

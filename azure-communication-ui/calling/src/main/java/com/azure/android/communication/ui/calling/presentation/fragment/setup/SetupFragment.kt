@@ -45,6 +45,7 @@ internal class SetupFragment :
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
+    private val networkManager get() = holder.container.networkManager
     private val viewModel get() = holder.setupViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,6 +62,7 @@ internal class SetupFragment :
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
             viewModel.getJoinCallButtonHolderViewModel(),
+            networkManager
         )
 
         participantAvatarView = view.findViewById(R.id.azure_communication_ui_setup_default_avatar)
