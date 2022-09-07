@@ -5,7 +5,7 @@
 
     <application>
         <activity
-            android:name=".ChatActivity"
+            android:name=".presentation.ChatCompositeActivity"
             android:exported="false"
             />
     </application>
