@@ -172,6 +172,7 @@ internal class ControlBarView : ConstraintLayout {
                 micToggle.isSelected = false
                 micToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off)
             }
+            else -> {}
         }
     }
 
@@ -193,6 +194,7 @@ internal class ControlBarView : ConstraintLayout {
                     R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular
                 )
             }
+            else -> {}
         }
     }
 

@@ -239,6 +239,7 @@ internal class AudioSessionManager(
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED ->
                 switchAudioDevice(audioDeviceSelectionStatus)
+            else -> {}
         }
     }
 
@@ -268,6 +269,7 @@ internal class AudioSessionManager(
                     )
                 )
             }
+            else -> {}
         }
     }
 
