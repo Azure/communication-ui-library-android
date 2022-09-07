@@ -13,6 +13,11 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationO
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
 
+/**
+ * Azure android communication chat composite component.
+ *
+ * <p><strong>Instantiating Chat Composite</strong></p>
+ */
 public class ChatComposite {
 
     private static int instanceIdCounter = 0;
