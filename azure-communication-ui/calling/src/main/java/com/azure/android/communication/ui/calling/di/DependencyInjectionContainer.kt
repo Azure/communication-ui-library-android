@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
+import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.calling.redux.Store
@@ -41,6 +42,7 @@ internal interface DependencyInjectionContainer {
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager
+    val networkManager: NetworkManager
 
     // UI
     val videoViewManager: VideoViewManager
