@@ -13,7 +13,6 @@ android {
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        minSdkVersion 21
         targetSdkVersion 31
         versionCode ui_library_version_code
         versionName "$ui_library_version_name"
@@ -117,14 +116,17 @@ android {
     productFlavors {
 
         calling {
+            minSdkVersion 21
             dimension "product"
             matchingFallbacks = ["calling"]
         }
         chat {
+            minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["chat"]
         }
         callwithchat {
+            minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["callwithchat"]
         }

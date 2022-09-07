@@ -8,7 +8,7 @@ android {
     resourcePrefix 'azure_communication_ui_call_'
 
     defaultConfig {
-        minSdk 21
+        minSdk 23
         targetSdk 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -28,6 +28,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
@@ -37,9 +48,11 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
 
+    implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
+    implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
 
-    api ("com.azure.android:azure-communication-chat:1.1.0")
-    implementation 'com.azure.android:azure-communication-common:1.0.0'
+    api ("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
+    api ("com.azure.android:azure-communication-common:$azure_common_sdk_version")
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
