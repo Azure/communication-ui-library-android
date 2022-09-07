@@ -12,5 +12,5 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/black"
-        android:text="@string/call_setting_label"/>
+        android:text="@string/chat_setting_label"/>
 </ScrollView>
