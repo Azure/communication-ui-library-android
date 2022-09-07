@@ -113,6 +113,7 @@ internal class SetupControlBarView : LinearLayout {
                 micButton.isON = false
                 micButton.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off)
             }
+            else -> {}
         }
         micButton.refreshDrawableState()
     }
@@ -127,6 +128,7 @@ internal class SetupControlBarView : LinearLayout {
                 cameraButton.isON = false
                 cameraButton.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)
             }
+            else -> {}
         }
         cameraButton.refreshDrawableState()
     }

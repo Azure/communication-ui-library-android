@@ -376,6 +376,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         CallingStatus.DISCONNECTED -> {
                             store.dispatch(NavigationAction.Exit())
                         }
+                        else -> {}
                     }
                 }
             }

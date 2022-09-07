@@ -245,6 +245,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 launchFragment(SetupFragment::class.java.name)
             }
+            else -> {}
         }
     }
 
