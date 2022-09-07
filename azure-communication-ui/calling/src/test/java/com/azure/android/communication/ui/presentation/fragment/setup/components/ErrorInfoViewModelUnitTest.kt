@@ -54,4 +54,40 @@ internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
 
             resultFlow.cancel()
         }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun errorInfoViewModel_update_when_errorStateNetworkNotAvailable_then_snackBarErrorConnectionErrorDisplayed() =
+        runScopedTest {
+            // arrange
+            val expectedPermissionState = CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null)
+            val appState = AppReduxState("")
+
+            appState.errorState = ErrorState(null, expectedPermissionState)
+
+            val snackBarViewModel = ErrorInfoViewModel()
+
+            val emitResult = mutableListOf<CallStateError?>()
+
+            val resultFlow = launch {
+                snackBarViewModel.getCallStateErrorStateFlow()
+                    .toList(emitResult)
+            }
+
+            // act
+            snackBarViewModel.updateCallStateError(appState.errorState)
+
+            // assert
+            Assert.assertEquals(
+                null,
+                emitResult[0]
+            )
+
+            Assert.assertEquals(
+                expectedPermissionState,
+                emitResult[1]
+            )
+
+            resultFlow.cancel()
+        }
 }
