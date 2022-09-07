@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">喇叭</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">藍牙</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">耳機</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">前置相機開啟，切換到後置相機</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">後置相機開啟，切換到前置相機</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">切換到前置相機</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">切換到後置相機</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">選取音訊裝置 %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s 音訊裝置，已選取</string>
     <!--    Setup View-->

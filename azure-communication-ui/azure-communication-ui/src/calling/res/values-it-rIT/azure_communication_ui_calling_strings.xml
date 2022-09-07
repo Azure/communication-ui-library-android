@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Altoparlante</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Cuffie</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">Fotocamera anteriore attivata, passa alla fotocamera posteriore</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Fotocamera posteriore attivata, passa alla fotocamera anteriore</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Passa alla fotocamera anteriore</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Passa alla videocamera posteriore</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Seleziona dispositivo audio %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s dispositivo audio, selezionato</string>
     <!--    Setup View-->

@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Динамик</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Гарнитура</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">Фронтальная камера включена, переключиться на заднюю камеру</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Задняя камера включена, переключиться на фронтальную камеру</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Переключиться на переднюю камеру</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Переключиться на заднюю камеру</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Выбрать звуковое устройство %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Выбрано аудиоустройство %1$s</string>
     <!--    Setup View-->

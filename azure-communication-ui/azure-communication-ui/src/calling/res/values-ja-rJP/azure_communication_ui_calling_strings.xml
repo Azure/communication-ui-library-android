@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">スピーカー</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">ヘッドセット</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">フロント カメラ オン、背面カメラに切り替える</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">背面カメラ オン、フロント カメラに切り替える</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">フロント カメラに切り替える</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">バック カメラに切り替える</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">オーディオ デバイス %1$s の選択</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s オーディオ デバイス、選択済み</string>
     <!--    Setup View-->
