@@ -33,7 +33,6 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.common.cameradevicelist.CameraDeviceListViewModel
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -87,8 +86,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
 
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
-
-            val mockCameraDeviceListViewModel = mock<CameraDeviceListViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
@@ -171,7 +168,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
 
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
-            val mockCameraDeviceListViewModel = mock<CameraDeviceListViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
@@ -253,7 +249,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockBannerViewModel = mock<BannerViewModel>()
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
-            val mockCameraDeviceListViewModel = mock<CameraDeviceListViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
@@ -342,7 +337,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockBannerViewModel = mock<BannerViewModel>()
             val mockLobbyOverlayViewModel = mock<LobbyOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
-            val mockCameraDeviceListViewModel = mock<CameraDeviceListViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { provideParticipantGridViewModel() } doAnswer { mockParticipantGridViewModel }
