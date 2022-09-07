@@ -24,7 +24,7 @@ buildscript {
         androidx_lifecycle_viewmodel_ktx_version = '2.4.1'
         androidx_navigation_fragment_ktx_version = '2.4.2'
         androidx_test_rules_version = '1.4.1-alpha07'
-        androidx_activity_compos_version = "1.5.1"
+        androidx_activity_compose_version = "1.5.1"
 
         if (project.rootProject.file('private_drop.properties').canRead()) {
             Properties privateDropProps = new Properties()
