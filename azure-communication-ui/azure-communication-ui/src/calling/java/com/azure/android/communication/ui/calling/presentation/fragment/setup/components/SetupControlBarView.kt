@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.utilities.TelevisionDetection
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -164,15 +165,19 @@ internal class SetupControlBarView : LinearLayout {
                 context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker)
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                when (audioState.isHeadphonePlugged) {
-                    true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
+                val receiverText = when (TelevisionDetection.isTelevision(context)) {
+                    true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_television)
                     false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
                 }
+
+                when (audioState.isHeadphonePlugged) {
+                    true ->  context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
+                    false -> receiverText
+                }
+
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                if (audioState.bluetoothState.deviceName.isNotBlank()) {
-                    audioState.bluetoothState.deviceName
-                } else {
+                audioState.bluetoothState.deviceName.ifBlank {
                     context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_bluetooth)
                 }
             }
