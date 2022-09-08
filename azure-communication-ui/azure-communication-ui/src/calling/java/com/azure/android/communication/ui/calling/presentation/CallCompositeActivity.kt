@@ -154,7 +154,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun configureActionBar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(!TelevisionDetection.isTelevision(this))
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(
                 ContextCompat.getColor(
