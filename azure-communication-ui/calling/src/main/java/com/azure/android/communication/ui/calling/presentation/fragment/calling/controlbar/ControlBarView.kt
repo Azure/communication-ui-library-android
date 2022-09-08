@@ -107,7 +107,7 @@ internal class ControlBarView : ConstraintLayout {
             super.onInitializeAccessibilityNodeInfo(host, info)
             if (host in accessibilityNonSelectableViews()) {
                 // From an accessibility standpoint these views are never "selected"
-                info?.isSelected = false
+                info.isSelected = false
             }
         }
     }
@@ -121,7 +121,7 @@ internal class ControlBarView : ConstraintLayout {
                     child: View,
                     event: AccessibilityEvent
                 ): Boolean {
-                    if (child in accessibilityNonSelectableViews() && event?.eventType == AccessibilityEvent.TYPE_VIEW_SELECTED) {
+                    if (child in accessibilityNonSelectableViews() && event.eventType == AccessibilityEvent.TYPE_VIEW_SELECTED) {
                         // We don't want Accessibility TalkBock to read out the "Selected" status of
                         // these views because that's just the way we've internally set up the
                         // icons to have different drawables based on the current status
