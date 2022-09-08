@@ -122,7 +122,12 @@ internal class AudioDeviceListView(
                     audioDeviceDrawer.dismiss()
                 },
                 // Speaker
-                BottomCellItem(
+
+            )
+
+            // Hide "Speaker" when on television
+            if (!TelevisionDetection.isTelevision(context)) {
+                bottomCellItems.add(BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
@@ -141,8 +146,8 @@ internal class AudioDeviceListView(
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                     audioDeviceDrawer.dismiss()
-                },
-            )
+                })
+            }
 
             if (viewModel.audioStateFlow.value.bluetoothState.available) {
                 // Remove the first item (Receiver)
