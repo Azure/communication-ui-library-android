@@ -26,7 +26,7 @@ import com.microsoft.appcenter.distribute.UpdateTrack
 class ChatLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatLauncherBinding
 
-    private val callLauncherViewModel: CallLauncherViewModel by viewModels()
+    private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,23 +55,23 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(isKotlinLauncherOptionSelected)) {
-                callLauncherViewModel.setKotlinLauncher()
+                chatLauncherViewModel.setKotlinLauncher()
             } else {
-                callLauncherViewModel.setJavaLauncher()
+                chatLauncherViewModel.setJavaLauncher()
             }
         }
 
         binding.run {
             launchButton.setOnClickListener {
-                callLauncherViewModel.doLaunch()
+                chatLauncherViewModel.doLaunch()
             }
 
             javaButton.setOnClickListener {
-                callLauncherViewModel.setJavaLauncher()
+                chatLauncherViewModel.setJavaLauncher()
             }
 
             kotlinButton.setOnClickListener {
-                callLauncherViewModel.setKotlinLauncher()
+                chatLauncherViewModel.setKotlinLauncher()
             }
 
             if (!BuildConfig.DEBUG) {
@@ -79,13 +79,13 @@ class ChatLauncherActivity : AppCompatActivity() {
             }
         }
 
-        callLauncherViewModel.fetchResult.observe(this) {
+        chatLauncherViewModel.fetchResult.observe(this) {
             processResult(it)
         }
     }
 
     override fun onDestroy() {
-        callLauncherViewModel.destroy()
+        chatLauncherViewModel.destroy()
         super.onDestroy()
     }
 
@@ -150,6 +150,6 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun saveState(outState: Bundle?) {
-        outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
+        outState?.putBoolean(isKotlinLauncherOptionSelected, chatLauncherViewModel.isKotlinLauncher)
     }
 }

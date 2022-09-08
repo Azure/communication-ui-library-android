@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationO
 /**
  * Builder for creating {@link ChatComposite}.
  *
- * <p>Used to build a {@link ChatComposite} which is then used to start a call.</p>
+ * <p>Used to build a {@link ChatComposite} which is then used to start a chat.</p>
  * <p>This class can be used to specify a locale to be used by the Chat Composite</p>
  */
 public final class ChatCompositeBuilder {
@@ -17,7 +17,7 @@ public final class ChatCompositeBuilder {
     private ChatCompositeLocalizationOptions localizationConfig = null;
 
     /**
-     * Sets an optional localization for call-composite to use by {@link ChatComposite}.
+     * Sets an optional localization for chat-composite to use by {@link ChatComposite}.
      *
      * @param localization {@link ChatCompositeLocalizationOptions}.
      * @return {@link ChatCompositeBuilder} for chaining options
@@ -28,7 +28,7 @@ public final class ChatCompositeBuilder {
     }
 
     /**
-     * Builds the CallCompositeClass {@link ChatComposite}.
+     * Builds the ChatCompositeClass {@link ChatComposite}.
      *
      * @return {@link ChatComposite}
      */

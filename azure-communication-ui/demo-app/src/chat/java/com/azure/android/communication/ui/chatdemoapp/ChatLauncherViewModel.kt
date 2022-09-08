@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeJava
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotlinLauncher
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
 
-class CallLauncherViewModel : ViewModel() {
+class ChatLauncherViewModel : ViewModel() {
     private val fetchResultInternal = MutableLiveData<Result<ChatCompositeLauncher?>>()
 
     val fetchResult: LiveData<Result<ChatCompositeLauncher?>> = fetchResultInternal
