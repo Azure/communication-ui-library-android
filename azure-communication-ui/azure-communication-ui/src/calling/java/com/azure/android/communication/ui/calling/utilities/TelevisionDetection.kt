@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.helper
+package com.azure.android.communication.ui.calling.utilities
 
 import kotlin.apply
 
@@ -7,7 +7,7 @@ internal object TelevisionDetection {
 
     // To Force TV On/Off for testing on a non-tv device
     fun debugSetIsTelevision(override: Boolean?) {
-        this.override = override
+        TelevisionDetection.override = override
     }
 
     // Detect if this a television running

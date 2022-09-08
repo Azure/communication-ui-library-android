@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.Se
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.helper.TelevisionDetection
+import com.azure.android.communication.ui.calling.utilities.TelevisionDetection
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
