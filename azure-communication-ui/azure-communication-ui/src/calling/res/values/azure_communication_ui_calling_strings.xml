@@ -5,6 +5,10 @@
 <resources>
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
+
+    <!-- TODO: NEW Needs Translations -->
+    <string name="azure_communication_ui_calling_audio_device_drawer_television" translatable="false">Television</string>
+
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Speaker</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>

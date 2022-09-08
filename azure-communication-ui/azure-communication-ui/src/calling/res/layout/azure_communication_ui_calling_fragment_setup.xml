@@ -195,6 +195,7 @@
             android:focusable="true"
             android:text="@string/azure_communication_ui_calling_setup_view_button_join_call"
             android:textSize="0sp"
+            android:nextFocusUp="@+id/azure_communication_ui_setup_audio_button"
             app:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

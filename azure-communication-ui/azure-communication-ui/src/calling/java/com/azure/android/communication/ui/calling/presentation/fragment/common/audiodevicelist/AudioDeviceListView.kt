@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.TelevisionDetection
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -89,6 +90,11 @@ internal class AudioDeviceListView(
 
     private val bottomCellItems: List<BottomCellItem>
         get() {
+            val receiverText = when (TelevisionDetection.isTelevision(context)) {
+                true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_television)
+                false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
+            }
+
             val initialDevice = viewModel.audioStateFlow.value.device
             val bottomCellItems = mutableListOf(
                 // Receiver (default)
@@ -99,7 +105,7 @@ internal class AudioDeviceListView(
                     ),
                     when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
                         true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
-                        false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
+                        false -> receiverText
                     },
                     null,
                     ContextCompat.getDrawable(
@@ -116,7 +122,12 @@ internal class AudioDeviceListView(
                     audioDeviceDrawer.dismiss()
                 },
                 // Speaker
-                BottomCellItem(
+
+            )
+
+            // Hide "Speaker" when on television
+            if (!TelevisionDetection.isTelevision(context)) {
+                bottomCellItems.add(BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
@@ -135,8 +146,8 @@ internal class AudioDeviceListView(
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                     audioDeviceDrawer.dismiss()
-                },
-            )
+                })
+            }
 
             if (viewModel.audioStateFlow.value.bluetoothState.available) {
                 // Remove the first item (Receiver)
