@@ -8,10 +8,8 @@ import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity
 
 class ChatCompositeKotlinLauncher : ChatCompositeLauncher {
-
     override fun launch(chatLauncherActivity: ChatLauncherActivity) {
-
         val chatComposite: ChatComposite = ChatCompositeBuilder().build()
-        chatComposite.launch(chatLauncherActivity)
+        chatComposite.launch(chatLauncherActivity, null, null)
     }
 }

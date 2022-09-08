@@ -97,6 +97,7 @@ dependencies {
     implementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_transients:$microsoft_fluent_ui_version"
+    implementation project(path: ':chat')
 
     testImplementation "androidx.arch.core:core-testing:$androidx_core_testing_version"
     testImplementation "junit:junit:$junit_version"

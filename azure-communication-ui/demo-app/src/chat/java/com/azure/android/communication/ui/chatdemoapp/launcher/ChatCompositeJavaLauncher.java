@@ -11,6 +11,6 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
     @Override
     public void launch(final ChatLauncherActivity chatLauncherActivity) {
         final ChatComposite chatComposite = new ChatCompositeBuilder().build();
-        chatComposite.launch(chatLauncherActivity);
+        chatComposite.launch(chatLauncherActivity, null, null);
     }
 }
