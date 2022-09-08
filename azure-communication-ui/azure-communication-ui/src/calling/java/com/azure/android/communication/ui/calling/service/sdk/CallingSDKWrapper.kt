@@ -334,13 +334,15 @@ internal class CallingSDKWrapper(
 
     // predefined order to return camera
     private fun getCameraByFacingTypeSelection(): VideoDeviceInfo? {
-        listOf(CameraFacing.FRONT,
+        listOf(
+            CameraFacing.FRONT,
             CameraFacing.BACK,
             CameraFacing.EXTERNAL,
             CameraFacing.PANORAMIC,
             CameraFacing.LEFT_FRONT,
             CameraFacing.RIGHT_FRONT,
-            CameraFacing.UNKNOWN).forEach {
+            CameraFacing.UNKNOWN
+        ).forEach {
             val camera = getCamera(it)
             if (camera != null) {
                 return camera
