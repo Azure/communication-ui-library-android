@@ -70,12 +70,18 @@ internal class CallingService(
         }
     }
 
+    fun getActiveCameraDeviceID() = callingSDKWrapper.getActiveCameraDeviceID()
+
     fun turnCameraOff(): CompletableFuture<Void> {
         return callingSDKWrapper.turnOffVideoAsync()
     }
 
     fun switchCamera(): CompletableFuture<CameraDeviceSelectionStatus> {
         return callingSDKWrapper.switchCameraAsync()
+    }
+
+    fun selectCamera(id: String): CompletableFuture<String> {
+        return callingSDKWrapper.selectCamera(id)
     }
 
     fun turnMicOff(): CompletableFuture<Void> {
@@ -100,6 +106,8 @@ internal class CallingService(
     fun getParticipantsInfoModelSharedFlow(): SharedFlow<Map<String, ParticipantInfoModel>> {
         return participantsInfoModelSharedFlow
     }
+
+    fun getVideoDevicesSharedFlow() = callingSDKWrapper.getVideoDevicesSharedFlow()
 
     fun getIsMutedSharedFlow(): Flow<Boolean> {
         return isMutedSharedFlow

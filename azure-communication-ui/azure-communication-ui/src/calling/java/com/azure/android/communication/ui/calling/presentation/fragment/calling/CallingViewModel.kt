@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -107,6 +108,8 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.deviceSelection,
+            this::switchCameraOperation
         )
 
         floatingHeaderViewModel.init(
@@ -116,6 +119,7 @@ internal class CallingViewModel(
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
         )
+
         bannerViewModel.init(
             state.callState
         )
@@ -126,7 +130,10 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.init(state.callState.callingStatus)
-        holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
+        holdOverlayViewModel.init(
+            state.callState.callingStatus,
+            state.audioSessionState.audioFocusStatus
+        )
 
         participantGridViewModel.init(state.callState.callingStatus)
 
@@ -155,6 +162,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.deviceSelection,
         )
 
         audioDeviceListViewModel.update(
@@ -162,7 +170,10 @@ internal class CallingViewModel(
         )
 
         lobbyOverlayViewModel.update(state.callState.callingStatus)
-        holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
+        holdOverlayViewModel.update(
+            state.callState.callingStatus,
+            state.audioSessionState.audioFocusStatus
+        )
 
         participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)
 
@@ -180,6 +191,7 @@ internal class CallingViewModel(
                 0,
                 state.callState.callingStatus,
                 state.localParticipantState.cameraState.device,
+                state.localParticipantState.cameraState.deviceSelection,
             )
         }
 
@@ -203,6 +215,21 @@ internal class CallingViewModel(
             )
         }
         updateLobbyOverlayDisplayedState(state.callState.callingStatus)
+    }
+
+    private fun switchCameraOperation() {
+        val currentCameraID =
+            store.getCurrentState().localParticipantState.cameraState.deviceSelection.selectedCameraID
+        val listOfCameras =
+            store.getCurrentState().localParticipantState.cameraState.deviceSelection.cameras
+        val nextCameraIdx = (listOfCameras.keys.indexOf(currentCameraID) + 1) % listOfCameras.size
+        store.dispatch(
+            LocalParticipantAction.CameraChangeTriggered(
+                listOfCameras.keys.elementAt(
+                    nextCameraIdx
+                )
+            )
+        )
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =

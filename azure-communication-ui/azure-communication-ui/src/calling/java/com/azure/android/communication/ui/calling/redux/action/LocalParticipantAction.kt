@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.models.VideoDeviceInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -20,6 +21,12 @@ internal sealed class LocalParticipantAction : Action {
     class CameraOnTriggered : LocalParticipantAction()
     class CameraOnSucceeded(var videoStreamID: String) : LocalParticipantAction()
     class CameraOnFailed(val error: CallCompositeError) : LocalParticipantAction()
+
+    class CameraListUpdated(val cameraList: Map<String, VideoDeviceInfoModel>) :
+        LocalParticipantAction()
+
+    class CameraOnSelected(val cameraID: String) : LocalParticipantAction()
+    class CameraChangeTriggered(val cameraID: String) : LocalParticipantAction()
 
     class CameraOffTriggered : LocalParticipantAction()
     class CameraOffSucceeded : LocalParticipantAction()
@@ -57,7 +64,8 @@ internal sealed class LocalParticipantAction : Action {
         LocalParticipantAction()
 
     class AudioDeviceHeadsetAvailable(val available: Boolean) : LocalParticipantAction()
-    class AudioDeviceBluetoothSCOAvailable(val available: Boolean, val deviceName: String) : LocalParticipantAction()
+    class AudioDeviceBluetoothSCOAvailable(val available: Boolean, val deviceName: String) :
+        LocalParticipantAction()
 
     class AudioDeviceChangeFailed(
         val previousDevice: AudioDeviceSelectionStatus,

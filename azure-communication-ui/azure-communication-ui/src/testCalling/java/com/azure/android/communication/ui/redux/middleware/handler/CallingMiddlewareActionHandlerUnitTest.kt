@@ -41,6 +41,7 @@ import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -104,7 +105,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -351,7 +353,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     CameraState(
                         CameraOperationalStatus.OFF,
                         CameraDeviceSelectionStatus.FRONT,
-                        CameraTransmissionStatus.REMOTE
+                        CameraTransmissionStatus.REMOTE,
+                        CameraDeviceSelection("", mutableMapOf())
                     ),
                     AudioState(
                         AudioOperationalStatus.OFF,
@@ -425,7 +428,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     CameraState(
                         CameraOperationalStatus.OFF,
                         CameraDeviceSelectionStatus.FRONT,
-                        CameraTransmissionStatus.REMOTE
+                        CameraTransmissionStatus.REMOTE,
+                        CameraDeviceSelection("", mutableMapOf())
                     ),
                     AudioState(
                         AudioOperationalStatus.OFF,
@@ -487,7 +491,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     CameraState(
                         CameraOperationalStatus.OFF,
                         CameraDeviceSelectionStatus.FRONT,
-                        CameraTransmissionStatus.REMOTE
+                        CameraTransmissionStatus.REMOTE,
+                        CameraDeviceSelection("", mutableMapOf())
                     ),
                     AudioState(
                         AudioOperationalStatus.OFF,
@@ -548,7 +553,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.REMOTE
+                CameraTransmissionStatus.REMOTE,
+                CameraDeviceSelection("", mutableMapOf())
             )
             val expectedAudioState =
                 AudioState(
@@ -608,7 +614,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.REMOTE
+                CameraTransmissionStatus.REMOTE,
+                CameraDeviceSelection("", mutableMapOf())
             )
             val expectedAudioState =
                 AudioState(
@@ -668,7 +675,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.REMOTE
+                CameraTransmissionStatus.REMOTE,
+                CameraDeviceSelection("", mutableMapOf())
             )
             val expectedAudioState =
                 AudioState(
@@ -728,7 +736,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val expectedCameraState = CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.REMOTE
+                CameraTransmissionStatus.REMOTE,
+                CameraDeviceSelection("", mutableMapOf())
             )
             val expectedAudioState =
                 AudioState(
@@ -789,7 +798,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.ON,
                     CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.REMOTE
+                    CameraTransmissionStatus.REMOTE,
+                    CameraDeviceSelection("", mutableMapOf())
                 ),
                 AudioState(
                     AudioOperationalStatus.OFF,
@@ -844,7 +854,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -896,7 +907,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -949,7 +961,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -997,7 +1010,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -1046,7 +1060,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -1094,7 +1109,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,
@@ -1188,7 +1204,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.LOCAL
+                    CameraTransmissionStatus.LOCAL,
+                    CameraDeviceSelection("", mutableMapOf())
                 ),
                 AudioState(
                     AudioOperationalStatus.PENDING,
@@ -1233,7 +1250,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.ON,
@@ -1283,7 +1301,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
+                CameraTransmissionStatus.LOCAL,
+                CameraDeviceSelection("", mutableMapOf())
             ),
             AudioState(
                 AudioOperationalStatus.OFF,

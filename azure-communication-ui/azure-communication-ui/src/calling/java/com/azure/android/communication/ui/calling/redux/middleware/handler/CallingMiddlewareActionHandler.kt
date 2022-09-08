@@ -17,6 +17,7 @@ import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -46,6 +47,7 @@ internal interface CallingMiddlewareActionHandler {
     fun turnMicOn(store: Store<ReduxState>)
     fun turnMicOff(store: Store<ReduxState>)
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
+    fun onCameraChangeTriggered(store: Store<ReduxState>, cameraID: String)
     fun exit(store: Store<ReduxState>)
     fun dispose()
 }
@@ -178,6 +180,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                 )
             } else {
                 store.dispatch(LocalParticipantAction.CameraPreviewOnSucceeded(newVideoStreamId))
+                callingService.getActiveCameraDeviceID()?.let {
+                    store.dispatch(LocalParticipantAction.CameraOnSelected(it))
+                }
             }
         }
     }
@@ -200,6 +205,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun setupCall(store: Store<ReduxState>) {
         callingService.setupCall()
+        subscribeCamerasUpdate(store, coroutineScope)
     }
 
     override fun startCall(store: Store<ReduxState>) {
@@ -242,6 +248,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                     )
                 } else {
                     store.dispatch(LocalParticipantAction.CameraOnSucceeded(newVideoStreamId))
+                    callingService.getActiveCameraDeviceID()?.let {
+                        store.dispatch(LocalParticipantAction.CameraOnSelected(it))
+                    }
                 }
             }
         }
@@ -260,6 +269,29 @@ internal class CallingMiddlewareActionHandlerImpl(
                 )
             } else {
                 store.dispatch(LocalParticipantAction.CameraSwitchSucceeded(cameraDevice))
+            }
+        }
+    }
+
+    override fun onCameraChangeTriggered(store: Store<ReduxState>, cameraID: String) {
+        val deviceSelection =
+            store.getCurrentState().localParticipantState.cameraState.deviceSelection
+
+        if (deviceSelection.selectedCameraID != cameraID && deviceSelection.cameras.containsKey(
+                cameraID
+            )
+        ) {
+            callingService.selectCamera(cameraID).handle { id, error: Throwable? ->
+                if (error != null) {
+                    store.dispatch(
+                        LocalParticipantAction.CameraSwitchFailed(
+                            CameraDeviceSelectionStatus.SWITCHING,
+                            CallCompositeError(ErrorCode.SWITCH_CAMERA_FAILED, error)
+                        )
+                    )
+                } else {
+                    store.dispatch(LocalParticipantAction.CameraOnSelected(id))
+                }
             }
         }
     }
@@ -314,6 +346,19 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (isActive) {
                     val participantUpdateAction = ParticipantAction.ListUpdated(HashMap(it))
                     store.dispatch(participantUpdateAction)
+                }
+            }
+        }
+    }
+
+    private fun subscribeCamerasUpdate(
+        store: Store<ReduxState>,
+        coroutineScope: CoroutineScope,
+    ) {
+        coroutineScope.launch {
+            callingService.getVideoDevicesSharedFlow().collect {
+                if (isActive) {
+                    store.dispatch(LocalParticipantAction.CameraListUpdated(it))
                 }
             }
         }

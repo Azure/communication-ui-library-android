@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
+import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantsUpdatedEvent
 import com.azure.android.communication.calling.ParticipantsUpdatedListener
@@ -14,8 +15,11 @@ import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.calling.ParticipantState
+import com.azure.android.communication.calling.VideoDeviceInfo
+import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.models.VideoDeviceInfoModel
 import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +44,8 @@ internal class CallingSDKEventHandler(
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
+    private var videoDevicesSharedFlow = MutableSharedFlow<Map<String, VideoDeviceInfoModel>>()
+
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
 
@@ -49,6 +55,7 @@ internal class CallingSDKEventHandler(
     private val mutedChangedListenersMap = mutableMapOf<String, PropertyChangedListener>()
     private val isSpeakingChangedListenerMap = mutableMapOf<String, PropertyChangedListener>()
     private val isStateChangedListenerMap = mutableMapOf<String, PropertyChangedListener>()
+    private val videoDevicesCacheMap = mutableMapOf<String, VideoDeviceInfoModel>()
 
     private val remoteParticipantsCacheMap = mutableMapOf<String, RemoteParticipant>()
     private var call: Call? = null
@@ -60,6 +67,9 @@ internal class CallingSDKEventHandler(
 
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
         callingStateWrapperSharedFlow
+
+    fun getVideoDevicesSharedFlow(): SharedFlow<Map<String, VideoDeviceInfoModel>> =
+        videoDevicesSharedFlow
 
     fun getIsMutedSharedFlow(): SharedFlow<Boolean> = isMutedSharedFlow
 
@@ -106,6 +116,32 @@ internal class CallingSDKEventHandler(
             onTranscriptionChanged
         )
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
+    }
+
+    fun onVideoDeviceUpdated(
+        addedVideoDevices: MutableList<VideoDeviceInfo>,
+        removedVideoDevices: MutableList<VideoDeviceInfo>,
+    ) {
+        removedVideoDevices.forEach {
+            if (videoDevicesCacheMap.contains(it.id)) {
+                videoDevicesCacheMap.remove(it.id)
+            }
+        }
+
+        addedVideoDevices.forEach {
+            if (!videoDevicesCacheMap.contains(it.id)) {
+                videoDevicesCacheMap[it.id] = VideoDeviceInfoModel(
+                    id = it.id,
+                    name = it.name,
+                    cameraFacing = getCameraFacing(it.cameraFacing),
+                    videoDeviceType = getVideoDeviceType(it.deviceType),
+                )
+            }
+        }
+
+        coroutineScope.launch {
+            videoDevicesSharedFlow.emit(videoDevicesCacheMap)
+        }
     }
 
     private val onCallStateChanged =
@@ -215,7 +251,10 @@ internal class CallingSDKEventHandler(
             userIdentifier = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
             isMuted = participant.isMuted,
             isSpeaking = participant.isSpeaking && !participant.isMuted,
-            screenShareVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.SCREEN_SHARING),
+            screenShareVideoStreamModel = createVideoStreamModel(
+                participant,
+                MediaStreamType.SCREEN_SHARING
+            ),
             cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
             speakingTimestamp = if (participant.isSpeaking) currentTimestamp else 0,
@@ -317,7 +356,8 @@ internal class CallingSDKEventHandler(
 
         val addOnIsStateChangedEvent =
             PropertyChangedListener {
-                remoteParticipantsInfoModelMap[id]?.participantStatus = getParticipantStatus(remoteParticipantsCacheMap[id]!!.state)
+                remoteParticipantsInfoModelMap[id]?.participantStatus =
+                    getParticipantStatus(remoteParticipantsCacheMap[id]!!.state)
                 onRemoteParticipantPropertyChange(id)
             }
         isStateChangedListenerMap[id] = addOnIsStateChangedEvent
@@ -349,5 +389,33 @@ internal class CallingSDKEventHandler(
         isTranscribingSharedFlow = MutableSharedFlow()
         callingStateWrapperSharedFlow = MutableSharedFlow()
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
+    }
+
+    private fun getVideoDeviceType(deviceType: VideoDeviceType?): com.azure.android.communication.ui.calling.models.VideoDeviceType {
+
+        return when (deviceType) {
+            VideoDeviceType.USB_CAMERA -> com.azure.android.communication.ui.calling.models.VideoDeviceType.USB_CAMERA
+            VideoDeviceType.CAPTURE_ADAPTER -> com.azure.android.communication.ui.calling.models.VideoDeviceType.CAPTURE_ADAPTER
+            VideoDeviceType.VIRTUAL -> com.azure.android.communication.ui.calling.models.VideoDeviceType.VIRTUAL
+
+            else -> {
+                com.azure.android.communication.ui.calling.models.VideoDeviceType.UNKNOWN
+            }
+        }
+    }
+
+    private fun getCameraFacing(cameraFacing: CameraFacing?): com.azure.android.communication.ui.calling.models.CameraFacing {
+        return when (cameraFacing) {
+            CameraFacing.FRONT -> com.azure.android.communication.ui.calling.models.CameraFacing.FRONT
+            CameraFacing.BACK -> com.azure.android.communication.ui.calling.models.CameraFacing.BACK
+            CameraFacing.EXTERNAL -> com.azure.android.communication.ui.calling.models.CameraFacing.EXTERNAL
+            CameraFacing.PANORAMIC -> com.azure.android.communication.ui.calling.models.CameraFacing.PANORAMIC
+            CameraFacing.LEFT_FRONT -> com.azure.android.communication.ui.calling.models.CameraFacing.LEFT_FRONT
+            CameraFacing.RIGHT_FRONT -> com.azure.android.communication.ui.calling.models.CameraFacing.RIGHT_FRONT
+
+            else -> {
+                com.azure.android.communication.ui.calling.models.CameraFacing.UNKNOWN
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelection
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
@@ -134,7 +135,16 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     videoStreamID = null
                 )
             }
-
+            is LocalParticipantAction.CameraOnSelected -> {
+                localUserState.copy(
+                    cameraState = localUserState.cameraState.copy(deviceSelection = CameraDeviceSelection(action.cameraID, localUserState.cameraState.deviceSelection.cameras)),
+                )
+            }
+            is LocalParticipantAction.CameraListUpdated -> {
+                localUserState.copy(
+                    cameraState = localUserState.cameraState.copy(deviceSelection = CameraDeviceSelection(localUserState.cameraState.deviceSelection.selectedCameraID, action.cameraList)),
+                )
+            }
             is LocalParticipantAction.MicPreviewOffTriggered -> {
                 localUserState.copy(audioState = localUserState.audioState.copy(operation = AudioOperationalStatus.OFF))
             }

@@ -32,7 +32,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class CallingFragment :
-    Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
+    Fragment(R.layout.azure_communication_ui_calling_call_fragment),
+    BackNavigation,
+    SensorEventListener {
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
