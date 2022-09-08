@@ -334,12 +334,19 @@ internal class CallingSDKWrapper(
 
     // predefined order to return camera
     private fun getCameraByFacingTypeSelection(): VideoDeviceInfo? {
-        return getCamera(CameraFacing.FRONT) ?: getCamera(CameraFacing.BACK)
-            ?: getCamera(CameraFacing.EXTERNAL) ?: getCamera(CameraFacing.PANORAMIC) ?: getCamera(
-            CameraFacing.LEFT_FRONT
-        ) ?: getCamera(CameraFacing.RIGHT_FRONT) ?: getCamera(
-            CameraFacing.UNKNOWN
-        )
+        listOf(CameraFacing.FRONT,
+            CameraFacing.BACK,
+            CameraFacing.EXTERNAL,
+            CameraFacing.PANORAMIC,
+            CameraFacing.LEFT_FRONT,
+            CameraFacing.RIGHT_FRONT,
+            CameraFacing.UNKNOWN).forEach {
+            val camera = getCamera(it)
+            if (camera != null) {
+                return camera
+            }
+        }
+        return null
     }
 
     private fun createCallAgent(): CompletableFuture<CallAgent> {
@@ -441,9 +448,7 @@ internal class CallingSDKWrapper(
         }
     }
 
-    private fun cameraExist(): Boolean {
-        return getDeviceManagerCompletableFuture().get().cameras.isNotEmpty()
-    }
+    private fun cameraExist() = getDeviceManagerCompletableFuture().get().cameras.isNotEmpty()
 
     private fun getCamera(
         cameraFacing: CameraFacing,

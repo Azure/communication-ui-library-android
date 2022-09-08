@@ -218,24 +218,18 @@ internal class CallingViewModel(
     }
 
     private fun switchCameraOperation() {
-
         val currentCameraID =
             store.getCurrentState().localParticipantState.cameraState.deviceSelection.selectedCameraID
         val listOfCameras =
             store.getCurrentState().localParticipantState.cameraState.deviceSelection.cameras
-        val selectedCameraIndex = listOfCameras.keys.indexOf(currentCameraID)
-
-        if (selectedCameraIndex == listOfCameras.size - 1) {
-            store.dispatch(LocalParticipantAction.CameraChangeTriggered(listOfCameras.keys.first()))
-        } else {
-            store.dispatch(
-                LocalParticipantAction.CameraChangeTriggered(
-                    listOfCameras.keys.elementAt(
-                        selectedCameraIndex + 1
-                    )
+        val nextCameraIdx = (listOfCameras.keys.indexOf(currentCameraID) + 1) % listOfCameras.size
+        store.dispatch(
+            LocalParticipantAction.CameraChangeTriggered(
+                listOfCameras.keys.elementAt(
+                    nextCameraIdx
                 )
             )
-        }
+        )
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
