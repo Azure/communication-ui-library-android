@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
-        tools:context=".CallLauncherActivity"
+        tools:context=".ChatLauncherActivity"
         >
 
         <RadioGroup
