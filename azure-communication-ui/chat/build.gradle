@@ -39,6 +39,23 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    ktlint {
+        debug.set(false)
+        verbose.set(true)
+        android.set(true)
+        outputToConsole.set(true)
+        outputColorName.set("RED")
+        enableExperimentalRules.set(false)
+        disabledRules = ["import-ordering", "max-line-length", "parameter-list-wrapping"]
+        reporters {
+            reporter "checkstyle"
+            reporter "plain"
+        }
+        filter {
+            exclude({ it.file.absolutePath.contains("/generated/") })
+        }
+    }
 }
 
 dependencies {
