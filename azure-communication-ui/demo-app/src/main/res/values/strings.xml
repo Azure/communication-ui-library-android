@@ -21,6 +21,7 @@
     <string name="launch_settings_button_text">Settings</string>
     <string name="language_setting_label">Language Settings</string>
     <string name="call_setting_label">Call Settings</string>
+    <string name="chat_setting_label">Chat Settings</string>
     <string name="is_rtl_check_box_label">isRTL</string>
     <string name="language_dropdown_hint">Language</string>
     <string name="language_default_selection">ENGLISH</string>

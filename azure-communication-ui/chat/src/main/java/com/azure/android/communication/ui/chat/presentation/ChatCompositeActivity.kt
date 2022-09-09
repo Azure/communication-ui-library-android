@@ -4,15 +4,17 @@
 package com.azure.android.communication.ui.chat.presentation
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.text.BasicText
 
-internal class ChatCompositeActivity : AppCompatActivity() {
+class ChatCompositeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BasicText(text = "Hello Chat!")
+            BasicText(
+                text = "Hello Chat!",
+            )
         }
     }
 }

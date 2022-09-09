@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
@@ -12,6 +13,7 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity;
 
 /**
  * Azure android communication chat composite component.
@@ -70,6 +72,8 @@ public class ChatComposite {
                                  final ChatCompositeRemoteOptions remoteOptions,
                                  final ChatCompositeLocalOptions localOptions,
                                  final boolean isTest) {
+        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
+        context.startActivity(launchIntent);
     }
 
     /**
