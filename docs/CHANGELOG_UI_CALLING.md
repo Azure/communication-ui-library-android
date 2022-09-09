@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## TBA (upcoming release)
+## 1.1.0-beta.1 (2022-09-20)
 
 ### Features
 - Setting up Group Call Title and Subtitle is now possible by customizing CallCompositeLocalOptions with CallCompositeNavigationBarViewData
