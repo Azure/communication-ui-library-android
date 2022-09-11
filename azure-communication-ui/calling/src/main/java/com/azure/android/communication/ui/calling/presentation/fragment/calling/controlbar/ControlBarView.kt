@@ -86,12 +86,14 @@ internal class ControlBarView : ConstraintLayout {
                     cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
-                    callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic))
+                    // THESE SHOULD BE HANDLED BY ENABLED STATE DRAWABLE
+                    //callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic))
                 } else {
                     updateCamera(viewModel.getCameraStateFlow().value)
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
-                    callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
+                    // THESE SHOULD BE HANDLED BY ENABLED STATE DRAWABLE
+                    //callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
                 }
             }
         }
@@ -185,7 +187,7 @@ internal class ControlBarView : ConstraintLayout {
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
+                    R.drawable.azure_communication_ui_calling_speaker_receiver_selector
                 )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
