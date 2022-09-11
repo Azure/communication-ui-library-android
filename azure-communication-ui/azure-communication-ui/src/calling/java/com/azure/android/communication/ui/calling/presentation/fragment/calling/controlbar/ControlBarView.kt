@@ -153,8 +153,7 @@ internal class ControlBarView : ConstraintLayout {
             }
             else -> {
                 // disable button
-                // TODO: Set false before merge
-                cameraToggle.isEnabled = true
+                cameraToggle.isEnabled = false
             }
         }
     }
