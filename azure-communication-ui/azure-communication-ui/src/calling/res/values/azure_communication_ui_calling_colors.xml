@@ -30,6 +30,7 @@
     <color name="azure_communication_ui_calling_color_on_surface_camera_active">#FFFFFF</color>
     <color name="azure_communication_ui_calling_color_on_surface_disabled">#ACACAC</color>
     <color name="azure_communication_ui_calling_color_background_red">#A42E43</color>
+    <color name="azure_communication_ui_calling_color_background_red_tint">#A80000</color>
     <color name="azure_communication_ui_calling_color_white">#FFFFFF</color>
     <color name="azure_communication_ui_calling_color_button_background_transparent">#00000000</color>
     <color name="azure_communication_ui_calling_color_floating_header">#99000000</color>
