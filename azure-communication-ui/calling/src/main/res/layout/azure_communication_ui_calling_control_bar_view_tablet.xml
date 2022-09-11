@@ -60,7 +60,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
-        android:backgroundTint="@color/azure_communication_ui_calling_color_background_red"
+        android:backgroundTint="@color/azure_communication_ui_calling_hangup_selector"
         android:contentDescription="@string/azure_communication_ui_calling_view_button_hang_up_accessibility_label"
         android:src="@drawable/azure_communication_ui_calling_ic_fluent_call_end_28_filled_composite_button_filled"
         app:layout_constraintEnd_toEndOf="parent"
