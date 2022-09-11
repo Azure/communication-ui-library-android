@@ -86,14 +86,10 @@ internal class ControlBarView : ConstraintLayout {
                     cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
-                    // THESE SHOULD BE HANDLED BY ENABLED STATE DRAWABLE
-                    //callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic))
                 } else {
                     updateCamera(viewModel.getCameraStateFlow().value)
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
-                    // THESE SHOULD BE HANDLED BY ENABLED STATE DRAWABLE
-                    //callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
                 }
             }
         }
@@ -157,7 +153,8 @@ internal class ControlBarView : ConstraintLayout {
             }
             else -> {
                 // disable button
-                cameraToggle.isEnabled = false
+                // TODO: Set false before merge
+                cameraToggle.isEnabled = true
             }
         }
     }
