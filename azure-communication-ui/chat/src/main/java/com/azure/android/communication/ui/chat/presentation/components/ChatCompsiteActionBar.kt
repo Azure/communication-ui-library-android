@@ -4,7 +4,11 @@
 package com.azure.android.communication.ui.chat.presentation.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -45,33 +49,34 @@ fun ChatCompsiteActionBar(
             },
             actions = {
             }, title = {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(stringResource(id = R.string.azure_communication_ui_chat_action_bar_title), style = MaterialTheme.typography.body1)
-                    Text("2 Participants", style = MaterialTheme.typography.body2)
-                }
-            }, navigationIcon = {
-                ChatCompositeActionBarBackButton(
-                    contentDescription = "Back button",
-                    modifier = Modifier
-                        .size(20.dp)
-                        .clickable(onClick = onNavIconPressed)
-                        .padding(19.dp)
-                )
-            }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White)
-        )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(stringResource(id = R.string.azure_communication_ui_chat_action_bar_title), style = MaterialTheme.typography.body1)
+                Text("2 Participants", style = MaterialTheme.typography.body2)
+            }
+        }, navigationIcon = {
+            ChatCompositeActionBarBackButton(
+                contentDescription = "Back button",
+                modifier = Modifier
+                    .size(20.dp)
+                    .clickable(onClick = onNavIconPressed)
+                    .padding(19.dp)
+            )
+        }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White)
+            )
+        }
     }
-}
 
-@Preview
-@Composable
-fun PreviewChatCompsiteActionBar() {
-    Column() {
-        ChatCompsiteActionBar(
-            onNavIconPressed = {},
-        )
+    @Preview
+    @Composable
+    fun PreviewChatCompsiteActionBar() {
+        Column() {
+            ChatCompsiteActionBar(
+                onNavIconPressed = {},
+            )
 
-        ChatCompsiteActionBar(
-            onNavIconPressed = {},
-        )
+            ChatCompsiteActionBar(
+                onNavIconPressed = {},
+            )
+        }
     }
-}
+    

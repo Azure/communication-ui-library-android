@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
 import com.azure.android.communication.ui.chat.presentation.screens.ChattingScreen
 
-class ChatCompositeChatView(context: Context): FrameLayout(context) {
+class ChatCompositeChatView(context: Context) : FrameLayout(context) {
     private val composeView = ComposeView(context)
 
     init {
