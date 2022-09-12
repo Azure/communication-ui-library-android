@@ -126,7 +126,7 @@ internal class AudioDeviceListView(
             )
 
             // Hide "Speaker" when on television
-            if (true || !TelevisionDetection.isTelevision(context)) {
+            if (!TelevisionDetection.isTelevision(context)) {
                 bottomCellItems.add(BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
