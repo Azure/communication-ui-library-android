@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import java.util.Locale;
 
 public final class ChatCompositeLocalizationOptions {
-    private Integer layoutDirection;
     private final Locale locale;
+    private Integer layoutDirection;
 
     /**
      * Create Localization configuration.
