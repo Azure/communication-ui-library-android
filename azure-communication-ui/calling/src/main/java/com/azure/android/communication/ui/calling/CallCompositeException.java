@@ -18,8 +18,8 @@ public final class CallCompositeException extends AzureException {
      * exception's error message.
      *
      * @param errorMessage - the error message.  The error message can be retrieved by the
-     *                     getMessage() method
-     * @param cause - the cause (which is saved for later retrieval by the getCause() method).  A
+     *                     getMessage() method.
+     * @param cause - the cause (which is saved for later retrieval by the getCause() method). A
      *              null value is permitted, and indicates that the cause is non-existent or unknown.
      */
     public CallCompositeException(final String errorMessage, @NonNull final Throwable cause) {

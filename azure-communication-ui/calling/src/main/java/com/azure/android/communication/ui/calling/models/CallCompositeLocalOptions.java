@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
- * CallCompositeLocalOptions for CallComposite.launch.
+ * {@link CallCompositeLocalOptions} for {@link CallComposite#launch}.
  *
  * <p>
  *     Local Options for the Call Composite. These options are not shared with the server and impact local views only.
@@ -47,23 +47,23 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Create an empty {@Link CallCompositeLocalOptions} object and assign using setters
+     * Create an empty {@link CallCompositeLocalOptions} object and assign using setters.
      */
     public CallCompositeLocalOptions() { }
 
     /**
-     * Get the {@link CallCompositeParticipantViewData}
+     * Get the {@link CallCompositeParticipantViewData}.
      *
-     * @return The {@link CallCompositeParticipantViewData} that is currently set
+     * @return The {@link CallCompositeParticipantViewData} that is currently set.
      */
     public CallCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
     }
 
     /**
-     * Set a {@link CallCompositeParticipantViewData} to be used
-     * @param participantViewData The participant view data object to be used
-     * @return The current CallCompositeLocalOptions object for Fluent use
+     * Set a {@link CallCompositeParticipantViewData} to be used.
+     * @param participantViewData The participant view data object to be used.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setParticipantViewData(
             final CallCompositeParticipantViewData participantViewData) {
@@ -72,17 +72,17 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the {@link CallCompositeNavigationBarViewData}
-     * @return The CallCompositeNavigationBarViewData that is currently set
+     * Get the {@link CallCompositeNavigationBarViewData}.
+     * @return The {@link CallCompositeNavigationBarViewData} that is currently set.
      */
     public CallCompositeNavigationBarViewData getNavigationBarViewData() {
         return navigationBarViewData;
     }
 
     /**
-     * Set a {@link CallCompositeNavigationBarViewData} to be used
-     * @param navigationBarViewData The navigationbar view data object to be used
-     * @return The current CallCompositeLocalOptions object for Fluent use
+     * Set a {@link CallCompositeNavigationBarViewData} to be used.
+     * @param navigationBarViewData The navigation bar view data object to be used.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setNavigationBarViewData(
             final CallCompositeNavigationBarViewData navigationBarViewData) {
