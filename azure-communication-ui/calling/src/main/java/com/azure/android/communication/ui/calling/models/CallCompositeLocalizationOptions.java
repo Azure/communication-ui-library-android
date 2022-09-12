@@ -44,8 +44,8 @@ public final class CallCompositeLocalizationOptions {
     /**
      * Create Localization configuration.
      *
-     * @param locale          The {@link Locale}; eg,. {@code Locale.US}
-     * @param layoutDirection layout direction int; eg,. {@code LayoutDirection.RTL}
+     * @param locale          The {@link Locale}; eg,. {@code Locale.US}.
+     * @param layoutDirection layout direction int; eg,. {@code LayoutDirection.RTL}.
      */
     public CallCompositeLocalizationOptions(@NonNull final Locale locale, final int layoutDirection) {
         this.locale = locale;
