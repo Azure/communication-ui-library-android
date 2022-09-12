@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.calling.models;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.azure.android.communication.ui.calling.CallComposite;
+
 /**
  * CallCompositeParticipantViewData for participant.
  *
@@ -35,9 +37,9 @@ public final class CallCompositeParticipantViewData {
     /**
      * Set scaleType.
      *
-     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@link CallComposite}.
      *
-     * @return The {@link CallCompositeParticipantViewData};
+     * @return The {@link CallCompositeParticipantViewData}.
      */
     public CallCompositeParticipantViewData setScaleType(final ImageView.ScaleType scaleType) {
         this.scaleType = scaleType;
@@ -47,9 +49,9 @@ public final class CallCompositeParticipantViewData {
     /**
      * Get scaleType.
      *
-     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@link CallComposite}.
      *
-     * @return The {@link ImageView.ScaleType};
+     * @return The {@link ImageView.ScaleType}.
      */
     public ImageView.ScaleType getScaleType() {
         return scaleType;
@@ -58,7 +60,7 @@ public final class CallCompositeParticipantViewData {
     /**
      * Set display name.
      *
-     * @return The {@link CallCompositeParticipantViewData};
+     * @return The {@link CallCompositeParticipantViewData}.
      */
     public CallCompositeParticipantViewData setDisplayName(final String displayName) {
         this.displayName = displayName;
@@ -68,7 +70,7 @@ public final class CallCompositeParticipantViewData {
     /**
      * Get display name.
      *
-     * @return The {@link String};
+     * @return The {@link String}.
      */
     public String getDisplayName() {
         return displayName;
@@ -77,7 +79,7 @@ public final class CallCompositeParticipantViewData {
     /**
      * Get avatar Bitmap.
      *
-     * @return The {@link Bitmap};
+     * @return The {@link Bitmap}.
      */
     public Bitmap getAvatarBitmap() {
         return avatarBitmap;
@@ -86,9 +88,9 @@ public final class CallCompositeParticipantViewData {
     /**
      * Set avatar Bitmap.
      *
-     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@see CallComposite}
+     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@link CallComposite}.
      *
-     * @return The {@link CallCompositeParticipantViewData};
+     * @return The {@link CallCompositeParticipantViewData}.
      */
     public CallCompositeParticipantViewData setAvatarBitmap(final Bitmap avatarBitmap) {
         this.avatarBitmap = avatarBitmap;

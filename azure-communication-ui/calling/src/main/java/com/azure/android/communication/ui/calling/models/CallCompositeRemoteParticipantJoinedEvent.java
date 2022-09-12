@@ -17,7 +17,7 @@ public final class CallCompositeRemoteParticipantJoinedEvent {
     /**
      * Create {@link CallCompositeRemoteParticipantJoinedEvent} with user identifiers.
      *
-     * @param identifiers {@link CommunicationIdentifier};
+     * @param identifiers {@link CommunicationIdentifier}.
      */
     public CallCompositeRemoteParticipantJoinedEvent(final Collection<CommunicationIdentifier> identifiers) {
         this.identifiers = identifiers;
@@ -26,7 +26,7 @@ public final class CallCompositeRemoteParticipantJoinedEvent {
     /**
      * Returns the communication identifiers.
      *
-     * @return The collection of {@link CommunicationIdentifier};
+     * @return The collection of {@link CommunicationIdentifier}.
      */
     public Collection<CommunicationIdentifier> getIdentifiers() {
         return Collections.unmodifiableCollection(identifiers);
