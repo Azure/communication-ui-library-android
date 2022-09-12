@@ -89,7 +89,7 @@
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">エラーが発生したため、通話に参加できません。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">通話から削除されました。</string>
     <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Unable to switch cameras.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">進行中の通話</string>

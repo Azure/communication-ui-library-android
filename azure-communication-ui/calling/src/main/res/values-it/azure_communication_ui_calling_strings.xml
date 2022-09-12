@@ -89,7 +89,7 @@
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Impossibile partecipare alla chiamata a causa di un errore.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sei stato rimosso dalla chiamata.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Unable to switch cameras.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Chiamata in corso</string>
