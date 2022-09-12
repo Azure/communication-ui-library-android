@@ -13,7 +13,7 @@ public final class CallCompositeTeamsMeetingLinkLocator extends CallCompositeJoi
     private final String meetingLink;
 
     /**
-     * Creates {@link CallCompositeTeamsMeetingLinkLocator}
+     * Creates {@link CallCompositeTeamsMeetingLinkLocator}.
      *
      * @param meetingLink Teams meeting link, for more information please check Quickstart Doc.
      */
@@ -24,7 +24,7 @@ public final class CallCompositeTeamsMeetingLinkLocator extends CallCompositeJoi
     /**
      * Get Teams meeting link.
      *
-     * @return {@link String}
+     * @return {@link String}.
      */
     public String getMeetingLink() {
         return meetingLink;
