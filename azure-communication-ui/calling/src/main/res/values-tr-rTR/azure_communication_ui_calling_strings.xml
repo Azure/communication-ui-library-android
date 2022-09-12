@@ -89,7 +89,7 @@
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Bir hata nedeniyle aramaya katılınamıyor.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Aramadan çıkarıldınız.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Unable to switch cameras.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Devam eden çağrı</string>
