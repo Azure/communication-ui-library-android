@@ -6,15 +6,18 @@ package com.azure.android.communication.ui.chat.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.text.BasicText
 
-class ChatCompositeActivity : ComponentActivity() {
+class ChatCompositeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BasicText(
-                text = "Hello Chat!",
-            )
+            ChatCompositeChatView(this)
         }
+    }
+
+    companion object {
+        const val KEY_INSTANCE_ID = "InstanceID"
     }
 }
