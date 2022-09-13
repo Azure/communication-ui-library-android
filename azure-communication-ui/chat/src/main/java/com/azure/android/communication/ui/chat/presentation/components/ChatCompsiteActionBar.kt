@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +32,7 @@ fun ChatCompsiteActionBar(
     onNavIconPressed: () -> Unit = { }
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
-        CenterAlignedTopAppBar(
+        TopAppBar(
             modifier = Modifier.drawWithContent {
                 drawContent()
                 clipRect {
@@ -50,8 +48,8 @@ fun ChatCompsiteActionBar(
             actions = {
             }, title = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(stringResource(id = R.string.azure_communication_ui_chat_action_bar_title), style = MaterialTheme.typography.body1)
-                Text("2 Participants", style = MaterialTheme.typography.body2)
+                Text(stringResource(id = R.string.azure_communication_ui_chat_action_bar_title))
+                Text("2 Participants")
             }
         }, navigationIcon = {
             ChatCompositeActionBarBackButton(
@@ -61,7 +59,7 @@ fun ChatCompsiteActionBar(
                     .clickable(onClick = onNavIconPressed)
                     .padding(19.dp)
             )
-        }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White)
+        }
             )
         }
     }
