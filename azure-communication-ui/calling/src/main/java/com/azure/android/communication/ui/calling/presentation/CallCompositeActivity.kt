@@ -242,7 +242,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                if (TelevisionDetection.isTelevision(this)) {
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                } else {
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                }
+
                 launchFragment(SetupFragment::class.java.name)
             }
             else -> {}
