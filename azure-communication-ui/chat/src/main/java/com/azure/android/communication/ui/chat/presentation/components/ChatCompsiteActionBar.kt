@@ -60,21 +60,20 @@ fun ChatCompsiteActionBar(
                     .padding(19.dp)
             )
         }
-            )
-        }
+        )
     }
+}
 
-    @Preview
-    @Composable
-    fun PreviewChatCompsiteActionBar() {
-        Column() {
-            ChatCompsiteActionBar(
-                onNavIconPressed = {},
-            )
+@Preview
+@Composable
+fun PreviewChatCompsiteActionBar() {
+    Column() {
+        ChatCompsiteActionBar(
+            onNavIconPressed = {},
+        )
 
-            ChatCompsiteActionBar(
-                onNavIconPressed = {},
-            )
-        }
+        ChatCompsiteActionBar(
+            onNavIconPressed = {},
+        )
     }
-    
+}
