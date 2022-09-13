@@ -89,7 +89,7 @@
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">發生錯誤，因此無法加入通話。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已從通話中移除您。</string>
     <string name="azure_communication_ui_calling_no_connection_available">無法加入通話。檢查您的網路連線。</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Unable to switch cameras.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">無法切換攝影機。</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">通話進行中</string>
