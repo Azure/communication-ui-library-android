@@ -36,7 +36,7 @@ buildscript {
         jetbrains_kotlinx_coroutines_test_version = '1.6.0-native-mt'
 
         microsoft_dualscreen_layout_version = '1.0.0-alpha01'
-        microsoft_fluent_ui_version = '0.0.20'
+        microsoft_fluent_ui_version = '0.0.21'
 
         mockito_inline_version = '4.3.1'
         mockito_kotlin_version = '4.0.0'
