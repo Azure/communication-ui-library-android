@@ -52,9 +52,8 @@ dependencies {
 
     implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
     implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.activity:activity-compose:1.5.1"
+    implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_runtime_ktx_version"
 
     testImplementation "junit:junit:$junit_version"
@@ -65,6 +64,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling-data:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
+    // Added as an workaround for not being able to preview for latest compose version
+    // Should be removed when there's a next android studio version is released
     debugImplementation "androidx.customview:customview:1.2.0-alpha01"
     debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 }

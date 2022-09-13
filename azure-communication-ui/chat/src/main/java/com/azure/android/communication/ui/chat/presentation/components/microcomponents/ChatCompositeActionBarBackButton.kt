@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.presentation.components.microcomponents
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -21,15 +21,15 @@ fun ChatCompositeActionBarBackButton(
     contentDescription: String,
     modifier: Modifier = Modifier
 ) {
-    Icon(
+    Image(
         painter = painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_left_20_filled),
         contentDescription = null,
-        modifier = Modifier
-            .padding(19.dp)
+        modifier = modifier
+            .padding(10.dp)
             .semantics {
                 this.contentDescription = contentDescription
                 this.role = Role.Image
-            },
+            }
     )
 }
 
