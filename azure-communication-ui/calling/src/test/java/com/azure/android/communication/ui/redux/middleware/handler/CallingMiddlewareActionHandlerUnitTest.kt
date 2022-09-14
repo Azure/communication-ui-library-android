@@ -1988,7 +1988,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
         }
 
-
     private fun provideAppStore(): AppStore<ReduxState> {
         val appState = AppReduxState("CallingMiddleWareActionHandlerUnitTest")
         return mock {

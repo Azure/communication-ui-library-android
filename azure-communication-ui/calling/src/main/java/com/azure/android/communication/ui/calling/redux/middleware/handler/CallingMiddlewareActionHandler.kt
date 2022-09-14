@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.FatalError
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -24,7 +23,6 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -96,7 +94,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         if (state.callState.callingStatus != CallingStatus.LOCAL_HOLD) {
             tryCameraOn(store)
         }
-
     }
 
     override fun onCameraPermissionIsSet(store: Store<ReduxState>) {
