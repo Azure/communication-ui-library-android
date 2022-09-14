@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
     resourcePrefix 'azure_communication_ui_call_'
 
     defaultConfig {
         minSdk 23
-        targetSdk 31
+        targetSdk 32
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -56,4 +56,6 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+    debugImplementation 'androidx.compose.ui:ui-tooling:1.2.1'
+    implementation "androidx.compose.ui:ui-tooling-preview:1.2.1"
 }
