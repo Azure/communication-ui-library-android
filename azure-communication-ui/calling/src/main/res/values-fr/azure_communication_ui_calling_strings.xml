@@ -89,7 +89,7 @@
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Impossible de rejoindre l’appel en raison d’une erreur.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Vous avez été retiré de l’appel.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Impossible de rejoindre l’appel. Vérifiez votre connexion réseau.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Erreur lors de la désactivation de la vidéo</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Impossible de changer de caméra.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Appel en cours</string>

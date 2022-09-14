@@ -89,7 +89,7 @@
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">No se puede unir a la llamada debido a un error.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Te han quitado de la llamada.</string>
     <string name="azure_communication_ui_calling_no_connection_available">No se puede unir a la llamada. Comprueba la conexión de red.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Error al alternar el vídeo</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">No se pueden cambiar las cámaras.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Llamada en curso</string>
