@@ -86,23 +86,13 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun enterForeground(store: Store<ReduxState>) {
         store.dispatch(LifecycleAction.EnterForegroundSucceeded())
+
+        // turning camera on during hold state cause remote users to not see video
+        // this check will make sure that if call is on hold, camera state is still paused
+        // on resume call this logic will be retried
         val state = store.getCurrentState()
-        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED) {
-            if (state.callState.callingStatus != CallingStatus.NONE) {
-                callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
-                    if (error != null) {
-                        store.dispatch(
-                            LocalParticipantAction.CameraPauseFailed(
-                                CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error)
-                            )
-                        )
-                    } else {
-                        store.dispatch(LocalParticipantAction.CameraOnSucceeded(newVideoStreamId))
-                    }
-                }
-            } else {
-                store.dispatch(LocalParticipantAction.CameraPreviewOnTriggered())
-            }
+        if (state.callState.callingStatus != CallingStatus.LOCAL_HOLD) {
+            tryCameraOn(store)
         }
     }
 
@@ -348,7 +338,15 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeCallInfoModelEventUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
+                val previousCallState = store.getCurrentState().callState.callingStatus
+
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+
+                if (previousCallState == CallingStatus.LOCAL_HOLD &&
+                    callInfoModel.callingStatus == CallingStatus.CONNECTED
+                ) {
+                    tryCameraOn(store)
+                }
 
                 callInfoModel.callStateError?.let {
                     val action = ErrorAction.CallStateErrorOccurred(it)
@@ -379,6 +377,27 @@ internal class CallingMiddlewareActionHandlerImpl(
                         else -> {}
                     }
                 }
+            }
+        }
+    }
+
+    private fun tryCameraOn(store: Store<ReduxState>) {
+        val state = store.getCurrentState()
+        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED) {
+            if (state.callState.callingStatus != CallingStatus.NONE) {
+                callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
+                    if (error != null) {
+                        store.dispatch(
+                            LocalParticipantAction.CameraPauseFailed(
+                                CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error)
+                            )
+                        )
+                    } else {
+                        store.dispatch(LocalParticipantAction.CameraOnSucceeded(newVideoStreamId))
+                    }
+                }
+            } else {
+                store.dispatch(LocalParticipantAction.CameraPreviewOnTriggered())
             }
         }
     }
