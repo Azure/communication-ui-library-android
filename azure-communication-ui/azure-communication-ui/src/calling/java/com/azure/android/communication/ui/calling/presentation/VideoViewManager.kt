@@ -4,15 +4,16 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.content.Context
+import android.graphics.Matrix
+import android.graphics.Point
+import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
-import com.azure.android.communication.calling.RemoteVideoStream
-import com.azure.android.communication.calling.VideoStreamRenderer
-import com.azure.android.communication.calling.VideoStreamRendererView
-import com.azure.android.communication.calling.MediaStreamType
-import com.azure.android.communication.calling.ScalingMode
-import com.azure.android.communication.calling.CreateViewOptions
+import androidx.core.view.get
+import com.azure.android.communication.calling.*
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
+import java.util.*
+import kotlin.collections.HashMap
 
 internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDKWrapper,
@@ -74,6 +75,17 @@ internal class VideoViewManager(
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
         }
         detachFromParentView(rendererView)
+
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                ViewScaleHelper.scaleView(
+                    rendererView?.get(0) as TextureView,
+                    rendererView.width, rendererView.height,
+                    1920,
+                    -1080,
+                    true, Point(0,0))
+            }
+        }, 5000)
         return rendererView
     }
 
@@ -196,5 +208,54 @@ internal class VideoViewManager(
         if (view != null && view.parent != null) {
             (view.parent as ViewGroup).removeView(view)
         }
+    }
+}
+
+internal object ViewScaleHelper {
+    fun scaleView(
+        view: TextureView?,
+        viewWidth: Int,
+        viewHeight: Int,
+        videoWidth: Int,
+        videoHeight: Int,
+        scaleToFit: Boolean,
+        offset: Point
+    ) {
+        if (view != null && view.isAvailable) {
+            val scaleWidth = viewWidth.toFloat() / videoWidth.toFloat()
+            val scaleHeight = viewHeight.toFloat() / videoHeight.toFloat()
+            val matrix = view.getTransform(null as Matrix?)
+            val scale = if (scaleToFit) Math.min(scaleWidth, scaleHeight) else Math.max(
+                scaleWidth,
+                scaleHeight
+            )
+            val sw = (scale * videoWidth.toFloat()).toInt()
+            val sh = (scale * videoHeight.toFloat()).toInt()
+            val scaleX = sw.toFloat() / viewWidth.toFloat()
+            val scaleY = sh.toFloat() / viewHeight.toFloat()
+            matrix.setScale(scaleX, scaleY)
+            val translateX: Float
+            val translateY: Float
+            if (scaleToFit) {
+                translateX = (viewWidth - sw).toFloat() / 2.0f
+                translateY = (viewHeight - sh).toFloat() / 2.0f
+                matrix.postTranslate(translateX, translateY)
+            } else {
+                translateX = (viewWidth - sw).toFloat() / 2.0f + offset.x.toFloat()
+                translateY = (viewHeight - sh).toFloat() / 2.0f + offset.y.toFloat()
+                val translateX =
+                    clampValue(translateX, (viewWidth - sw).toFloat(), 0.0f)
+                val translateY =
+                    clampValue(translateY, (viewHeight - sh).toFloat(), 0.0f)
+                matrix.postTranslate(translateX, translateY)
+                offset.x = (offset.x.toFloat() + (translateX - translateX)).toInt()
+                offset.y = (offset.y.toFloat() + (translateY - translateY)).toInt()
+            }
+            view.setTransform(matrix)
+        }
+    }
+
+    private fun clampValue(value: Float, min: Float, max: Float): Float {
+        return Math.min(Math.max(value, min), max)
     }
 }
