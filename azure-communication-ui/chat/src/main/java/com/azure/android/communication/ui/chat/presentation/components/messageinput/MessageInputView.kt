@@ -22,25 +22,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.azure.android.communication.ui.chat.R
 
 @Preview(showSystemUi = true)
 @Composable
 fun MessageInputAreaPreview() {
-    MessageInputArea(MessageInputViewModel())
+    MessageInputArea()
 }
 
 @Composable
-fun MessageInputArea(messageInputViewModel: MessageInputViewModel) {
-    // Message Input Area = message input field + send button
-
-//    val textState: TextFieldValue by messageInputViewModel.textState.observeAsState(TextFieldValue())
-//    val focusState: Boolean by messageInputViewModel.focusState.observeAsState(false)
-
+fun MessageInputArea() {
     var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
     var focusState by rememberSaveable { mutableStateOf(false) }
 
@@ -55,7 +52,10 @@ fun MessageInputArea(messageInputViewModel: MessageInputViewModel) {
             onTextChanged = { textState = it },
             textState = textState,
             onTextFieldFocused = { focusState = it },
-            focusState = focusState
+            focusState = focusState,
+            // TODO: Pass in color from Theme
+            textColor = Color(0xFF212121),
+            outlineColor = Color(0xFFE1E1E1)
         )
         // TODO: SendButton()
     }
@@ -68,6 +68,8 @@ fun MessageInput(
     textState: TextFieldValue,
     onTextFieldFocused: (Boolean) -> Unit,
     focusState: Boolean,
+    textColor: Color,
+    outlineColor: Color,
 ) {
 
     val configuration = LocalConfiguration.current
@@ -83,7 +85,7 @@ fun MessageInput(
         value = textState,
         onValueChange = { onTextChanged(it) },
         textStyle = androidx.compose.ui.text.TextStyle(
-            color = Color.fromHex("#212121")
+            color = textColor
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
@@ -92,16 +94,16 @@ fun MessageInput(
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
-                    .border(1.dp, Color.fromHex("#E1E1E1"), RoundedCornerShape(10))
+                    .border(1.dp, outlineColor, RoundedCornerShape(10))
                     .padding(6.dp, 0.dp, 6.dp, 0.dp),
                 contentAlignment = Alignment.CenterStart,
             ) {
 
                 if (textState.text.isEmpty() && !focusState) {
                     BasicText(
-                        text = "Enter a message",
+                        text = stringResource(R.string.azure_communication_ui_call_enter_a_message),
                         style = androidx.compose.ui.text.TextStyle(
-                            color = Color.fromHex("#ACACAC")
+                            color = textColor
                         )
                     )
                 }
@@ -110,5 +112,3 @@ fun MessageInput(
         }
     )
 }
-
-private fun Color.Companion.fromHex(color: String) = Color(android.graphics.Color.parseColor(color))

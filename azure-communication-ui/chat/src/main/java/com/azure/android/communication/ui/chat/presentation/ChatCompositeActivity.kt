@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.presentation.components.messageinput.MessageInputArea
-import com.azure.android.communication.ui.chat.presentation.components.messageinput.MessageInputViewModel
 
 class ChatCompositeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +55,7 @@ fun ChatScreen() {
         ) {
 
             DummyMessageList()
-            MessageInputArea(MessageInputViewModel())
+            MessageInputArea()
         }
     }
 }
