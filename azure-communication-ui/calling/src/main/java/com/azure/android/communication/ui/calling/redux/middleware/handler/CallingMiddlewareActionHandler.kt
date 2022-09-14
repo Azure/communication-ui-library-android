@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.FatalError
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -23,6 +24,7 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
+import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -86,7 +88,15 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun enterForeground(store: Store<ReduxState>) {
         store.dispatch(LifecycleAction.EnterForegroundSucceeded())
-        tryCameraOn(store)
+
+        // turning camera on during hold state cause remote users to not see video
+        // this check will make sure that if call is on hold, camera state is still paused
+        // on resume call this logic will be retried
+        val state = store.getCurrentState()
+        if (state.callState.callingStatus != CallingStatus.LOCAL_HOLD) {
+            tryCameraOn(store)
+        }
+
     }
 
     override fun onCameraPermissionIsSet(store: Store<ReduxState>) {
@@ -331,14 +341,15 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeCallInfoModelEventUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
-
-                if (store.getCurrentState().callState.callingStatus == CallingStatus.LOCAL_HOLD
-                    && callInfoModel.callingStatus == CallingStatus.CONNECTED
-                ) {
-                    requestCameraOn(store)
-                }
+                val previousCallState = store.getCurrentState().callState.callingStatus
 
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+
+                if (previousCallState == CallingStatus.LOCAL_HOLD &&
+                    callInfoModel.callingStatus == CallingStatus.CONNECTED
+                ) {
+                    tryCameraOn(store)
+                }
 
                 callInfoModel.callStateError?.let {
                     val action = ErrorAction.CallStateErrorOccurred(it)
@@ -374,14 +385,6 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()
-
-        // turning camera on during hold state cause remote users to not see video
-        // this check will make sure that if call is on hold, camera state is still paused
-        // on resume call this logic will be retried
-        if (state.callState.callingStatus == CallingStatus.LOCAL_HOLD) {
-            return
-        }
-
         if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED) {
             if (state.callState.callingStatus != CallingStatus.NONE) {
                 callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
