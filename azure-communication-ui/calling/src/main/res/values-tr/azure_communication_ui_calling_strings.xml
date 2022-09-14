@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Hoparlör</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Mikrofonlu kulaklık</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">Ön Kameraya Geç</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Arka Kameraya Geç</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Ön kamera açık, arka kameraya geç</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Arka kamera açık, ön kameraya geç</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">%1$s Ses Cihazını Seç</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s ses cihazı, seçildi</string>
     <!--    Setup View-->
@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kameranız devre dışı. Etkinleştirmek için Ayarlar seçeneğine giderek
       erişime izin verin.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">İzinler gerekli</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Ayarlara Git</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Seçili</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Gradyan Kur</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamerayı Değiştir</string>
@@ -87,9 +87,9 @@
     <string name="azure_communication_ui_calling_alert_title">Uyarı</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">Bir hata nedeniyle aramadan çıkarıldınız.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Bir hata nedeniyle aramaya katılınamıyor.</string>
-    <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Aramadan çıkarıldınız.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Video değiştirilirken hata oluştu</string>
+    <string name="azure_communication_ui_calling_no_connection_available">Aramaya katılınamıyor. Ağ bağlantınızı kontrol edin.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Kameralar değiştirilemiyor.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Devam eden çağrı</string>
