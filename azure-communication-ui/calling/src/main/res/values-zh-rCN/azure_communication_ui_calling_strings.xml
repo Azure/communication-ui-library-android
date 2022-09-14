@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">扬声器</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">蓝牙</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">耳麦</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">切换到前置摄像头</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">切换到后置摄像头</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">前置摄像头开启，切换到后置摄像头</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">后置摄像头开启，切换到前置摄像头</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">选择音频设备 %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">已选择 %1$s 音频设备</string>
     <!--    Setup View-->
@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">你的相机已禁用。若要启用，请转到“设置”
 以允许访问。</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要权限</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">转到“设置”</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已选择</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">设置渐变</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切换摄像头</string>
@@ -87,9 +87,9 @@
     <string name="azure_communication_ui_calling_alert_title">警报</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">由于出现错误，你已从通话中删除。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">由于出现错误，无法加入呼叫。</string>
-    <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">切换视频时出错</string>
+    <string name="azure_communication_ui_calling_no_connection_available">无法加入呼叫。请检查网络连接。</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">无法切换相机。</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">正在通话中</string>
