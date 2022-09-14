@@ -72,13 +72,5 @@ class AdditionalFeatures private constructor() {
 
             return diagnosticsFeature
         }
-
-        val secondaryThemeFeature = FeatureFlagEntry(
-            // Will use default false here
-            start = {},
-            end = {},
-            enabledByDefault = false,
-            label = "Secondary theme"
-        )
     }
 }

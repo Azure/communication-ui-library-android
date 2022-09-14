@@ -21,9 +21,10 @@ public final class CallWithChatCompositeCallAndChatLocator extends CallWithChatC
      * @param chatThreadId  Chat thread ID
      * @param endpoint  ACS resource endpoint
      */
-    public CallWithChatCompositeCallAndChatLocator(final UUID groupId,
-                                                 final String chatThreadId,
-                                                 final String endpoint) {
+    public CallWithChatCompositeCallAndChatLocator(final String endpoint,
+                                                   final UUID groupId,
+                                                   final String chatThreadId
+    ) {
         super(endpoint);
         this.groupId = groupId;
         this.chatThreadId = chatThreadId;

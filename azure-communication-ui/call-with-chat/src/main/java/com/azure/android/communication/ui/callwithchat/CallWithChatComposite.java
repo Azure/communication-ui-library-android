@@ -12,19 +12,16 @@ import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompos
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeParticipantViewData;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeEventHandler;
-import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeSetParticipantViewDataResult;
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.callwithchat.service.CallWithChatService;
 
 public final class CallWithChatComposite {
 
-    private CallWithChatManager callWithChatManager;
+    private CallWithChatService callWithChatService;
 
-    CallWithChatComposite(final CallComposite callComposite,
-                          final ChatComposite chatComposite) {
-
-        callWithChatManager = new CallWithChatManager(callComposite, chatComposite);
+    CallWithChatComposite(final CallWithChatService callWithChatService) {
+        this.callWithChatService = callWithChatService;
     }
 
     public void launch(final Context context,
@@ -36,7 +33,7 @@ public final class CallWithChatComposite {
                        final CallWithChatCompositeRemoteOptions remoteOptions,
                        final CallWithChatCompositeLocalOptions localOptions) {
 
-        callWithChatManager.launch(context, remoteOptions, localOptions);
+        callWithChatService.launch(context, remoteOptions, localOptions);
     }
 
     /**
