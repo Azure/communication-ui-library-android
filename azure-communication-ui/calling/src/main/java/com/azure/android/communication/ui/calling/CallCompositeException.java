@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling;
 
-import androidx.annotation.NonNull;
-
 import com.azure.android.core.exception.AzureException;
 
 /**
@@ -17,14 +15,14 @@ public final class CallCompositeException extends AzureException {
      * that the error message associated with "cause" is not automatically incorporated into this
      * exception's error message.
      *
-     * @param errorMessage - the error message.  The error message can be retrieved by the
-     *                     getMessage() method
-     * @param cause - the cause (which is saved for later retrieval by the getCause() method).  A
+     * @param message - the error message. The error message can be retrieved by the getMessage() method.
+     * @param cause - the cause (which is saved for later retrieval by the getCause() method). A
      *              null value is permitted, and indicates that the cause is non-existent or unknown.
      */
-    public CallCompositeException(final String errorMessage, @NonNull final Throwable cause) {
-        super(errorMessage, cause);
+    public CallCompositeException(final String message, final Throwable cause) {
+        super(message, cause);
     }
+
     /**
      * Constructs a new Calling Composite exception with the specified cause and  message of
      * (cause==null ? null : cause.toString()) (which typically contains the class and detail message
@@ -36,5 +34,16 @@ public final class CallCompositeException extends AzureException {
      */
     public CallCompositeException(final Throwable cause) {
         super(cause);
+    }
+
+    /**
+     * Constructs a new Calling Composite exception with the specified error message and cause. Note
+     * that the error message associated with "cause" is not automatically incorporated into this
+     * exception's error message.
+     *
+     * @param message - the error message. The error message can be retrieved by the getMessage() method.
+     */
+    public CallCompositeException(final String message) {
+        super(message);
     }
 }
