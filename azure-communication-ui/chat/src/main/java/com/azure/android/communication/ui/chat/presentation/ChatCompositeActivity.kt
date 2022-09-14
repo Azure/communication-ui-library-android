@@ -15,6 +15,14 @@ class ChatCompositeActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     companion object {
         const val KEY_INSTANCE_ID = "InstanceID"
     }

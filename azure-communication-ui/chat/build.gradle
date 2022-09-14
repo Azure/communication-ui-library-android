@@ -63,6 +63,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
 
     api ("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
     api ("com.azure.android:azure-communication-common:$azure_common_sdk_version")
@@ -71,18 +72,17 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_runtime_ktx_version"
+
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling-data:$compose_version"
+
+    // Next two are added as an workaround for not being able to preview for latest compose version
+    // Should be removed when there's a next android studio version is released
+    debugImplementation "androidx.customview:customview:1.2.0-alpha01"
+    debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling-data:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-
-    // Added as an workaround for not being able to preview for latest compose version
-    // Should be removed when there's a next android studio version is released
-    debugImplementation "androidx.customview:customview:1.2.0-alpha01"
-    debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 }
