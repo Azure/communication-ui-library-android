@@ -4,17 +4,27 @@
 package com.azure.android.communication.ui.chat.presentation
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.text.BasicText
+import androidx.appcompat.app.AppCompatActivity
+import com.azure.android.communication.ui.chat.presentation.ui.container.ContainerView
 
-class ChatCompositeActivity : ComponentActivity() {
+class ChatCompositeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BasicText(
-                text = "Hello Chat!",
-            )
+            ContainerView(this)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    companion object {
+        const val KEY_INSTANCE_ID = "InstanceID"
     }
 }
