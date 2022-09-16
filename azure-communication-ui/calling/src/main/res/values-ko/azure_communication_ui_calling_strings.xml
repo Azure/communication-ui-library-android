@@ -87,9 +87,9 @@
     <string name="azure_communication_ui_calling_alert_title">알림</string>
     <string name="azure_communication_ui_calling_call_state_error_call_end">오류로 인해 통화에서 제외되었습니다.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
-    <string name="azure_communication_ui_calling_call_state_evicted">통화에서 제거되었습니다.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Error toggling video</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">통화에서 제거되었습니다.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">비디오 토글 오류</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">진행 중인 통화</string>
