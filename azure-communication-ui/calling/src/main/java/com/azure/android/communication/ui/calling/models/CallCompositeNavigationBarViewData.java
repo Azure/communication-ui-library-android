@@ -30,17 +30,7 @@ public final class CallCompositeNavigationBarViewData {
     }
 
     /**
-     * Set the title of the call setup screen to the supplied String.
-     * @param title Title of the call.
-     * @return The current {@link CallCompositeNavigationBarViewData}.
-     */
-    public CallCompositeNavigationBarViewData setTitle(final String title) {
-        this.title = title;
-        return this;
-    }
-
-    /**
-     * Get the call sub title.
+     * Get the call subtitle.
      * @return The subtitle of the call.
      */
     public String getSubtitle() {

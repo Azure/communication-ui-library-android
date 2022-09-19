@@ -143,7 +143,7 @@ internal class SetupFragment :
 
         callCompositeActivity.supportActionBar?.title = titleSpan
 
-        // Only set the subTitle if the title has also been set
+        // Only set the subtitle if the title has also been set
         if (!TextUtils.isEmpty(localOptions?.navigationBarViewData?.title) &&
             !TextUtils.isEmpty(localOptions?.navigationBarViewData?.subtitle)
         ) {
