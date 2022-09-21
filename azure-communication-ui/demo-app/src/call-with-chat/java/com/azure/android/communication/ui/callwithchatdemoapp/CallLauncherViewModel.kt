@@ -3,28 +3,31 @@
 
 package com.azure.android.communication.ui.callwithchatdemoapp
 
+import android.content.Context
 import android.webkit.URLUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.azure.android.communication.ui.callwithchatdemoapp.launcher.CallWithChatCompositeJavaLauncher
 import com.azure.android.communication.ui.callwithchatdemoapp.launcher.CallWithChatCompositeKotlinLauncher
-import com.azure.android.communication.ui.callwithchatdemoapp.launcher.CallWithChatCompositeLauncher
-import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
-import java.util.concurrent.Callable
+import com.azure.android.communication.ui.demoapp.AuthService
+import com.azure.android.communication.ui.demoapp.AuthServiceLocal
+import com.azure.android.communication.ui.demoapp.AuthServiceRemote
+import kotlinx.coroutines.launch
+import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
-    private var token: String? = null
-    private val fetchResultInternal = MutableLiveData<Result<CallWithChatCompositeLauncher?>>()
+    private val fetchResultInternal = MutableLiveData<Result<Any?>>()
 
-    val fetchResult: LiveData<Result<CallWithChatCompositeLauncher?>> = fetchResultInternal
+    val fetchResult: LiveData<Result<Any?>> = fetchResultInternal
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
 
-    private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
-        CallWithChatCompositeKotlinLauncher(tokenRefresher)
+    private fun getLauncher() = if (isKotlinLauncher) {
+        CallWithChatCompositeKotlinLauncher()
     } else {
-        CallWithChatCompositeJavaLauncher(tokenRefresher)
+        CallWithChatCompositeJavaLauncher()
     }
 
     fun destroy() {
@@ -47,25 +50,52 @@ class CallLauncherViewModel : ViewModel() {
         isTokenFunctionOptionSelected = false
     }
 
-    fun doLaunch(tokenFunctionURL: String, acsToken: String) {
-        when {
-            isTokenFunctionOptionSelected && urlIsValid(tokenFunctionURL) -> {
-                token = null
-                fetchResultInternal.postValue(
-                    Result.success(launcher(UrlTokenFetcher(tokenFunctionURL)))
-                )
-            }
-            acsToken.isNotBlank() -> {
-                token = acsToken
-                fetchResultInternal.postValue(
-                    Result.success(launcher(CachedTokenFetcher(acsToken)))
-                )
-            }
+    fun doLaunch(
+        context: Context,
+        alertHandler: AlertHandler,
+        authApiUrl: String?,
+        acsToken: String?,
+        communicationUserId: String?,
+        userName: String?,
+        acsEndpoint: String,
+        groupId: UUID?,
+        chatThreadId: String?,
+        meetingLink: String?,
+
+    ) {
+        val authService: AuthService = when {
+            isTokenFunctionOptionSelected && authApiUrl != null && urlIsValid(authApiUrl) ->
+                AuthServiceRemote(authApiUrl)
+            acsToken != null && acsToken.isNotBlank() && communicationUserId != null ->
+                AuthServiceLocal(acsToken, communicationUserId)
             else -> {
                 fetchResultInternal.postValue(
-                    Result.failure(IllegalStateException("Invalid Token function URL or acs Token"))
+                    Result.failure(
+                        IllegalStateException(
+                            "Invalid Token function URL or acs Token or CommunicationUserId"
+                        )
+                    )
                 )
+                return@doLaunch
             }
+        }
+
+        viewModelScope.launch {
+            authService.ensureAuthInfo()
+
+            fetchResultInternal.postValue(Result.success(null))
+
+            val launcher = getLauncher()
+            launcher.launch(
+                context,
+                alertHandler,
+                authService,
+                userName,
+                acsEndpoint,
+                groupId,
+                chatThreadId,
+                meetingLink,
+            )
         }
     }
 

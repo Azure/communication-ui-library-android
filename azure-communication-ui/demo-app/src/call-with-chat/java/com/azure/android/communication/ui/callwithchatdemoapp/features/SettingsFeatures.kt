@@ -8,7 +8,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeParticipantViewData
 import com.azure.android.communication.ui.callwithchatdemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callwithchatdemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callwithchatdemoapp.CALL_TITLE
@@ -72,7 +72,7 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun getParticipantViewData(context: Context): CallCompositeParticipantViewData? {
+        fun getParticipantViewData(context: Context): CallWithChatCompositeParticipantViewData? {
             val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
             val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
             var avatarImageBitmap: Bitmap? = null
@@ -83,7 +83,7 @@ class SettingsFeatures {
             }
 
             if (!displayName.isNullOrEmpty() || avatarImageBitmap != null)
-                return CallCompositeParticipantViewData()
+                return CallWithChatCompositeParticipantViewData()
                     .setDisplayName(displayName)
                     .setAvatarBitmap(avatarImageBitmap)
 
