@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.chat.service.sdk.models
+package com.azure.android.communication.ui.chat.service.sdk.wrapper
 
 internal enum class ChatMessageType {
     TEXT,
@@ -12,9 +12,6 @@ internal fun ChatMessageType.into(): com.azure.android.communication.chat.models
     return when (this) {
         ChatMessageType.TEXT -> com.azure.android.communication.chat.models.ChatMessageType.TEXT
         ChatMessageType.HTML -> com.azure.android.communication.chat.models.ChatMessageType.HTML
-        else -> {
-            throw IllegalStateException("Unknown type of ChatMessageType: $this")
-        }
     }
 }
 

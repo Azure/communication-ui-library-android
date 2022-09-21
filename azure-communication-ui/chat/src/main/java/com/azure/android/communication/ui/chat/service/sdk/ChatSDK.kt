@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.service.sdk
 
-import com.azure.android.communication.ui.chat.service.sdk.models.ChatMessageType
-import com.azure.android.communication.ui.chat.service.sdk.models.SendChatMessageResult
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import java9.util.concurrent.CompletableFuture
 
 internal interface ChatSDK {

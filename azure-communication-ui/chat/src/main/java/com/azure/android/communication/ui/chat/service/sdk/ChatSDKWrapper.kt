@@ -11,9 +11,9 @@ import com.azure.android.communication.chat.ChatThreadClientBuilder
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
-import com.azure.android.communication.ui.chat.service.sdk.models.ChatMessageType
-import com.azure.android.communication.ui.chat.service.sdk.models.SendChatMessageResult
-import com.azure.android.communication.ui.chat.service.sdk.models.into
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
 import com.azure.android.core.http.policy.UserAgentPolicy
 import com.azure.android.core.util.RequestContext
 import java9.util.concurrent.CompletableFuture
