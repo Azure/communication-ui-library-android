@@ -41,7 +41,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 internal class ChatContainer(
     private val chatComposite: ChatComposite,
     private val configuration: ChatCompositeConfiguration,
-    private val instanceId: Int,
 ) {
     companion object {
         lateinit var locator: ServiceLocator
