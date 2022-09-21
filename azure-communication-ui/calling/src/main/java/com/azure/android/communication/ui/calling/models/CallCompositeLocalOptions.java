@@ -33,7 +33,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
 
-    private CallCompositeNavigationBarViewData navigationBarViewData = null;
+    private CallCompositeSetupScreenViewData setupScreenViewData = null;
 
 
     /**
@@ -72,21 +72,21 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the {@link CallCompositeNavigationBarViewData}.
-     * @return The {@link CallCompositeNavigationBarViewData} that is currently set.
+     * Get the {@link CallCompositeSetupScreenViewData}.
+     * @return The {@link CallCompositeSetupScreenViewData} that is currently set.
      */
-    public CallCompositeNavigationBarViewData getNavigationBarViewData() {
-        return navigationBarViewData;
+    public CallCompositeSetupScreenViewData getSetupScreenViewData() {
+        return setupScreenViewData;
     }
 
     /**
-     * Set a {@link CallCompositeNavigationBarViewData} to be used.
-     * @param navigationBarViewData The navigation bar view data object to be used.
+     * Set a {@link CallCompositeSetupScreenViewData} to be used.
+     * @param setupScreenViewData The setup screen view data object to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setNavigationBarViewData(
-            final CallCompositeNavigationBarViewData navigationBarViewData) {
-        this.navigationBarViewData = navigationBarViewData;
+    public CallCompositeLocalOptions setSetupScreenViewData(
+            final CallCompositeSetupScreenViewData setupScreenViewData) {
+        this.setupScreenViewData = setupScreenViewData;
         return this;
     }
 }
