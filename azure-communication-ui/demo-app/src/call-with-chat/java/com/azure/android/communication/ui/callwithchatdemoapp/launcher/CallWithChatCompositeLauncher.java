@@ -2,17 +2,21 @@
 // Licensed under the MIT License.
 package com.azure.android.communication.ui.callwithchatdemoapp.launcher;
 
-import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivity;
+import android.content.Context;
+
+import com.azure.android.communication.ui.callwithchatdemoapp.AlertHandler;
+import com.azure.android.communication.ui.demoapp.AuthService;
 
 import java.util.UUID;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 public interface CallWithChatCompositeLauncher {
-    void launch(CallWithChatLauncherActivity callLauncherActivity,
+    void launch(Context context,
+                AlertHandler alertHandler,
+                AuthService authService,
                 String userName,
+                String acsEndpoint,
                 UUID groupId,
-                String meetingLink,
-                Function1<? super String, Unit> showAlert);
+                String chatThreadId,
+                String meetingLink);
 }
