@@ -35,20 +35,8 @@ public final class ChatCompositeParticipantViewData {
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
 
     /**
-     * Set scaleType.
-     *
-     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatComposite}
-     *
-     * @return The {@link ChatCompositeParticipantViewData};
-     */
-    public ChatCompositeParticipantViewData setScaleType(final ImageView.ScaleType scaleType) {
-        this.scaleType = scaleType;
-        return this;
-    }
-
-    /**
      * Get scaleType.
-     *
+     * <p>
      * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatComposite}
      *
      * @return The {@link ImageView.ScaleType};
@@ -58,12 +46,14 @@ public final class ChatCompositeParticipantViewData {
     }
 
     /**
-     * Set display name.
+     * Set scaleType.
+     * <p>
+     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatComposite}
      *
      * @return The {@link ChatCompositeParticipantViewData};
      */
-    public ChatCompositeParticipantViewData setDisplayName(final String displayName) {
-        this.displayName = displayName;
+    public ChatCompositeParticipantViewData setScaleType(final ImageView.ScaleType scaleType) {
+        this.scaleType = scaleType;
         return this;
     }
 
@@ -77,6 +67,16 @@ public final class ChatCompositeParticipantViewData {
     }
 
     /**
+     * Set display name.
+     *
+     * @return The {@link ChatCompositeParticipantViewData};
+     */
+    public ChatCompositeParticipantViewData setDisplayName(final String displayName) {
+        this.displayName = displayName;
+        return this;
+    }
+
+    /**
      * Get avatar Bitmap.
      *
      * @return The {@link Bitmap};
@@ -87,7 +87,7 @@ public final class ChatCompositeParticipantViewData {
 
     /**
      * Set avatar Bitmap.
-     *
+     * <p>
      * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatComposite}
      *
      * @return The {@link ChatCompositeParticipantViewData};
