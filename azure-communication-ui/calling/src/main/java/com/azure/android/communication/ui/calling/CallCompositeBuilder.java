@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.ui.calling.models.CallCompositeControlOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 
@@ -16,6 +17,7 @@ public final class CallCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
+    private CallCompositeControlOptions controlOptions;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -36,6 +38,11 @@ public final class CallCompositeBuilder {
      */
     public CallCompositeBuilder localization(final CallCompositeLocalizationOptions localization) {
         this.localizationConfig = localization;
+        return this;
+    }
+
+    public CallCompositeBuilder controlOptions(final CallCompositeControlOptions controlOptions) {
+        this.controlOptions = controlOptions;
         return this;
     }
 
