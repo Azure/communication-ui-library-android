@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeJavaLauncher
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotlinLauncher
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
+import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 
 class ChatLauncherViewModel : ViewModel() {
     private val fetchResultInternal = MutableLiveData<Result<ChatCompositeLauncher?>>()
@@ -17,9 +18,9 @@ class ChatLauncherViewModel : ViewModel() {
     var isKotlinLauncher = true; private set
 
     private fun launcher() = if (isKotlinLauncher) {
-        ChatCompositeKotlinLauncher()
+        ChatCompositeKotlinLauncher(UrlTokenFetcher("todo"))
     } else {
-        ChatCompositeJavaLauncher()
+        ChatCompositeJavaLauncher(UrlTokenFetcher("todo"))
     }
 
     fun destroy() {

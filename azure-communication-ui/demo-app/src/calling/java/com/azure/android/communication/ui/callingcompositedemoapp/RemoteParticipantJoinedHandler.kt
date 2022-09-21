@@ -48,7 +48,8 @@ class RemoteParticipantJoinedHandler(
                     val url = URL("$imageTestUrl$id.png")
                     val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
                     val result = callComposite.setRemoteParticipantViewData(
-                        communicationIdentifier, CallCompositeParticipantViewData().setAvatarBitmap(bitMap)
+                        communicationIdentifier,
+                        CallCompositeParticipantViewData().setAvatarBitmap(bitMap)
                     )
 
                     if (result == CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
@@ -89,7 +90,8 @@ class RemoteParticipantJoinedHandler(
                         val result = callComposite.setRemoteParticipantViewData(
                             communicationIdentifier,
                             CallCompositeParticipantViewData()
-                                .setDisplayName(callLauncherActivity.resources.getResourceEntryName(it))
+                                .setDisplayName(callLauncherActivity.resources.getResourceEntryName(
+                                    it))
                                 .setAvatarBitmap(bitMap)
                         )
 

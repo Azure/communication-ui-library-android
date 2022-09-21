@@ -77,7 +77,7 @@ public class CallWithChatCompositeJavaLauncher implements CallWithChatCompositeL
                         .getParticipantViewData(callLauncherActivity.getApplicationContext()))
                 .setNavigationBarViewData(
                         new CallCompositeNavigationBarViewData(SettingsFeatures.getTitle())
-                            .setSubtitle(SettingsFeatures.getSubtitle()));
+                                .setSubtitle(SettingsFeatures.getSubtitle()));
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
     }

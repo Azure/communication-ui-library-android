@@ -53,7 +53,8 @@ class CallLauncherViewModel : ViewModel() {
                 fetchResultInternal.postValue(
                     Result.success(
                         launcher(
-                            com.azure.android.communication.ui.demoapp.UrlTokenFetcher(tokenFunctionURL)
+                            com.azure.android.communication.ui.demoapp.UrlTokenFetcher(
+                                tokenFunctionURL)
                         )
                     )
                 )

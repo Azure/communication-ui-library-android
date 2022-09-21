@@ -70,7 +70,8 @@ class CallWithChatCompositeKotlinLauncher(private val tokenRefresher: Callable<S
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else CallCompositeTeamsMeetingLinkLocator(meetingLink)
 
-        val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+        val remoteOptions =
+            CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))

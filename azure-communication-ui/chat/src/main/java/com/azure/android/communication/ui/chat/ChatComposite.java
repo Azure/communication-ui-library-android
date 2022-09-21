@@ -140,8 +140,9 @@ public class ChatComposite {
      * @param participantViewData The {@link ChatCompositeParticipantViewData}.
      * @return {@link ChatCompositeSetParticipantViewDataResult}.
      */
-    public ChatCompositeSetParticipantViewDataResult setRemoteParticipantViewData(final CommunicationIdentifier identifier,
-                                                                                  final ChatCompositeParticipantViewData participantViewData) {
+    public ChatCompositeSetParticipantViewDataResult setRemoteParticipantViewData(
+            final CommunicationIdentifier identifier,
+            final ChatCompositeParticipantViewData participantViewData) {
         return configuration.getRemoteParticipantsConfiguration()
                 .setParticipantViewData(into(identifier), participantViewData);
     }

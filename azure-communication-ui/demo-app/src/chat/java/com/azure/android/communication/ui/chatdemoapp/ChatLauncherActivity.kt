@@ -93,6 +93,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         saveState(outState)
         super.onSaveInstanceState(outState)
     }
+
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
@@ -130,8 +131,11 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun launch(launcher: ChatCompositeLauncher) {
+        // TODO: add UI in separate PR
         launcher.launch(
-            this@ChatLauncherActivity
+            this@ChatLauncherActivity,
+            "todo",
+            "todo"
         )
     }
 

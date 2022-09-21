@@ -34,7 +34,7 @@ enum class FeatureFlags(
     override val enabledByDefault: Boolean,
     override val label: String,
 
-) : FeatureFlag {
+    ) : FeatureFlag {
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
 
@@ -72,7 +72,8 @@ enum class FeatureFlags(
         }
 
         // List of all features
-        val features: List<FeatureFlag> get() = values().filter { it != NOOP }.toList() + additionalEntries
+        val features: List<FeatureFlag>
+            get() = values().filter { it != NOOP }.toList() + additionalEntries
 
         // The delegate to use for getting/setting, default in-memory
         var flagStoreDelegate: FeatureFlagStore = DefaultFeatureFlagStore()
@@ -86,7 +87,7 @@ data class FeatureFlagEntry(
     private val start: () -> Unit,
     private val end: () -> Unit,
 
-) : FeatureFlag {
+    ) : FeatureFlag {
 
     override val onStart: () -> Unit
         get() = {

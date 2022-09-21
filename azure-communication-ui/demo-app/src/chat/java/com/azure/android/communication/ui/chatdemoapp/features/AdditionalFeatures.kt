@@ -41,7 +41,8 @@ class AdditionalFeatures private constructor() {
                 )
 
                 // Hooks for Activities for this feature
-                application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+                application.registerActivityLifecycleCallbacks(object :
+                    Application.ActivityLifecycleCallbacks {
                     // On Resume/Pause we should show/hide the Overlay
                     // Because after initial enable it goes to accessibility and "resumes"
                     //
@@ -58,13 +59,21 @@ class AdditionalFeatures private constructor() {
                     }
 
                     // Unused
-                    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+                    override fun onActivityCreated(
+                        activity: Activity,
+                        savedInstanceState: Bundle?,
+                    ) {
+                    }
 
                     override fun onActivityStarted(activity: Activity) {}
 
                     override fun onActivityStopped(activity: Activity) {}
 
-                    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+                    override fun onActivitySaveInstanceState(
+                        activity: Activity,
+                        outState: Bundle,
+                    ) {
+                    }
 
                     override fun onActivityDestroyed(activity: Activity) {}
                 })

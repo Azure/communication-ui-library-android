@@ -3,13 +3,29 @@
 
 package com.azure.android.communication.ui.chatdemoapp.launcher
 
-import com.azure.android.communication.ui.chat.ChatComposite
+import com.azure.android.communication.common.CommunicationTokenCredential
+import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder
+import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
+import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity
+import java.util.concurrent.Callable
 
-class ChatCompositeKotlinLauncher : ChatCompositeLauncher {
-    override fun launch(chatLauncherActivity: ChatLauncherActivity) {
-        val chatComposite: ChatComposite = ChatCompositeBuilder().build()
-        chatComposite.launch(chatLauncherActivity, null, null)
+class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :
+    ChatCompositeLauncher {
+
+    override fun launch(
+        chatLauncherActivity: ChatLauncherActivity?,
+        threadID: String?,
+        endPointURL: String?,
+    ) {
+        val chatComposite = ChatCompositeBuilder().build()
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions(tokenRefresher, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
+        val locator = ChatCompositeJoinLocator(threadID, endPointURL)
+        val remoteOptions = ChatCompositeRemoteOptions(locator, communicationTokenCredential)
+        chatComposite.launch(chatLauncherActivity, remoteOptions, null)
     }
 }
