@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
-    resourcePrefix 'azure_communication_ui_call_'
+    compileSdk 32
+    resourcePrefix 'azure_communication_ui_chat_'
 
     defaultConfig {
         minSdk 23
-        targetSdk 31
+        targetSdk 32
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -32,11 +32,28 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    ktlint {
+        debug.set(false)
+        verbose.set(true)
+        android.set(true)
+        outputToConsole.set(true)
+        outputColorName.set("RED")
+        enableExperimentalRules.set(false)
+        disabledRules = ["import-ordering", "max-line-length", "parameter-list-wrapping"]
+        reporters {
+            reporter "checkstyle"
+            reporter "plain"
+        }
+        filter {
+            exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
 }
@@ -46,14 +63,26 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
-
-    implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
-    implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
 
     api ("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
     api ("com.azure.android:azure-communication-common:$azure_common_sdk_version")
 
+    implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
+
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling-data:$compose_version"
+
+    // Next two are added as an workaround for not being able to preview for latest compose version
+    // Should be removed when there's a next android studio version is released
+    debugImplementation "androidx.customview:customview:1.2.0-alpha01"
+    debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
+
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 }
