@@ -34,7 +34,7 @@ enum class FeatureFlags(
     override val enabledByDefault: Boolean,
     override val label: String,
 
-    ) : FeatureFlag {
+) : FeatureFlag {
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
 
@@ -87,7 +87,7 @@ data class FeatureFlagEntry(
     private val start: () -> Unit,
     private val end: () -> Unit,
 
-    ) : FeatureFlag {
+) : FeatureFlag {
 
     override val onStart: () -> Unit
         get() = {

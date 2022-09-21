@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.demoapp
 
 import com.github.kittinunf.fuel.httpGet
+import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Callable
-import org.json.JSONObject
 
 // The Calling SDK Requires a callable that can return a string
 // It is run in a Handler (non-ui thread) so this network call is blocking.
