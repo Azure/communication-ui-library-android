@@ -14,14 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun ChatCompositeActionBar() {
     Box(modifier = Modifier.fillMaxWidth()) {
-        Row() {}
+        Row {}
     }
 }
 
 @Preview
 @Composable
 fun PreviewChatCompsiteActionBar() {
-    Column() {
+    Column {
         ChatCompositeActionBar()
     }
 }
