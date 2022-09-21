@@ -92,10 +92,8 @@ class RemoteParticipantJoinedHandler(
                             BitmapFactory.decodeResource(context.resources, it)
                         val result = composite.setRemoteParticipantViewData(
                             communicationIdentifier,
-
-                            CallCompositeParticipantViewData()
-                                .setDisplayName(callLauncherActivity.resources.getResourceEntryName(
-                                    it))
+                            CallWithChatCompositeParticipantViewData()
+                                .setDisplayName(context.resources.getResourceEntryName(it))
                                 .setAvatarBitmap(bitMap)
                         )
 
