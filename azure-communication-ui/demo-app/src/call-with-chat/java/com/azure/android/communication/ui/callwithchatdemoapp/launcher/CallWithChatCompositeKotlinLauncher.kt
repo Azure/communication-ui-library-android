@@ -3,21 +3,21 @@
 
 package com.azure.android.communication.ui.callwithchatdemoapp.launcher
 
+import android.content.Context
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeNavigationBarViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
-import com.azure.android.communication.ui.callwithchatdemoapp.CallLauncherActivityErrorHandler
-import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivity
+import com.azure.android.communication.ui.callwithchat.CallWithChatComposite
+import com.azure.android.communication.ui.callwithchat.CallWithChatCompositeBuilder
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeCallAndChatLocator
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeJoinLocator
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalOptions
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalizationOptions
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeNavigationBarViewData
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.callwithchatdemoapp.AlertHandler
+import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callwithchatdemoapp.RemoteParticipantJoinedHandler
-import com.azure.android.communication.ui.callwithchatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getParticipantViewData
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getRemoteParticipantPersonaInjectionSelection
@@ -26,60 +26,61 @@ import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsF
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.initialize
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.language
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.locale
+import com.azure.android.communication.ui.demoapp.AuthService
 import java.util.UUID
-import java.util.concurrent.Callable
 
-class CallWithChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :
+internal class CallWithChatCompositeKotlinLauncher :
     CallWithChatCompositeLauncher {
 
     override fun launch(
-        callLauncherActivity: CallWithChatLauncherActivity,
+        context: Context,
+        alertHandler: AlertHandler,
+        authService: AuthService,
         displayName: String,
+        acsEndpoint: String,
         groupId: UUID?,
+        chatThreadId: String?,
         meetingLink: String?,
-        showAlert: ((String) -> Unit)?,
     ) {
-        initialize(callLauncherActivity.applicationContext)
+        initialize(context)
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
 
-        val callComposite: CallComposite =
-            if (AdditionalFeatures.secondaryThemeFeature.active)
-                CallCompositeBuilder()
-                    .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
-                    .build()
-            else
-                CallCompositeBuilder()
-                    .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
-                    .build()
+        val builder = CallWithChatCompositeBuilder()
+            .localization(CallWithChatCompositeLocalizationOptions(locale!!, getLayoutDirection()))
 
-        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
+        val composite: CallWithChatComposite = builder.build()
+
+        composite.addOnErrorEventHandler(CallWithChatLauncherActivityErrorHandler(alertHandler))
 
         if (getRemoteParticipantPersonaInjectionSelection()) {
-            callComposite.addOnRemoteParticipantJoinedEventHandler(
-                RemoteParticipantJoinedHandler(callComposite, callLauncherActivity)
+            composite.addOnRemoteParticipantJoinedEventHandler(
+                RemoteParticipantJoinedHandler(composite, context)
             )
         }
 
         val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions(tokenRefresher, true)
+            CommunicationTokenRefreshOptions({ authService.tokenRefresher() }, true)
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val locator: CallCompositeJoinLocator =
-            if (groupId != null) CallCompositeGroupCallLocator(groupId)
-            else CallCompositeTeamsMeetingLinkLocator(meetingLink)
+        val locator: CallWithChatCompositeJoinLocator =
+            if (groupId != null) CallWithChatCompositeCallAndChatLocator(acsEndpoint, groupId, chatThreadId)
+            else CallWithChatCompositeTeamsMeetingLinkLocator(acsEndpoint, meetingLink)
 
-        val remoteOptions =
-            CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+        val remoteOptions = CallWithChatCompositeRemoteOptions(
+            locator,
+            authService.currentUserCommunicationIdentifier, communicationTokenCredential, displayName
+        )
 
-        val localOptions = CallCompositeLocalOptions()
-            .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
+        val localOptions = CallWithChatCompositeLocalOptions()
+            .setParticipantViewData(getParticipantViewData(context))
             .setNavigationBarViewData(
-                CallCompositeNavigationBarViewData(getTitle())
-                    .setSubtitle(getSubtitle())
+                CallWithChatCompositeNavigationBarViewData()
+                    .setCallTitle(getTitle())
+                    .setCallSubtitle(getSubtitle())
             )
 
-        callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
+        composite.launch(context, remoteOptions, localOptions)
     }
 }

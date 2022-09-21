@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeJavaLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeKotlinLauncher
 import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
+import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
 class CallLauncherViewModel : ViewModel() {
@@ -53,8 +54,7 @@ class CallLauncherViewModel : ViewModel() {
                 fetchResultInternal.postValue(
                     Result.success(
                         launcher(
-                            com.azure.android.communication.ui.demoapp.UrlTokenFetcher(
-                                tokenFunctionURL)
+                            UrlTokenFetcher(tokenFunctionURL)
                         )
                     )
                 )

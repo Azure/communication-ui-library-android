@@ -28,17 +28,17 @@ public final class ChatCompositeSetParticipantViewDataResult
             = fromString("participantNotInChat");
 
     /**
-     * Creates or finds a ChatCompositeSetParticipantViewDataResult from it's string representation.
+     * Creates or finds a {@link ChatCompositeSetParticipantViewDataResult} from it's string representation.
      *
      * @param name a name to look for.
-     * @return the corresponding ChatCompositeSetParticipantViewDataResult.
+     * @return the corresponding {@link ChatCompositeSetParticipantViewDataResult}.
      */
     private static ChatCompositeSetParticipantViewDataResult fromString(final String name) {
         return fromString(name, ChatCompositeSetParticipantViewDataResult.class);
     }
 
     /**
-     * @return known ChatCompositeSetParticipantViewDataResult values.
+     * @return collection of {@link ChatCompositeSetParticipantViewDataResult} values.
      */
     public static Collection<ChatCompositeSetParticipantViewDataResult> values() {
         return values(ChatCompositeSetParticipantViewDataResult.class);
