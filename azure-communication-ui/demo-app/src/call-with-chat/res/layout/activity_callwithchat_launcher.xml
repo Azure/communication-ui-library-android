@@ -24,6 +24,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <EditText
+            android:id="@+id/acsEndpointText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/acs_endpoint_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
         <RadioButton
             android:id="@+id/tokenFunctionRadioButton"
             android:layout_width="wrap_content"
@@ -70,6 +80,16 @@
             android:hint="@string/acs_user_id_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/acsTokenText" />
+
+        <EditText
+            android:id="@+id/acsCommunicationUserIdText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/acs_user_id_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acsTokenText"
+            />
 
         <EditText
             android:id="@+id/userNameText"
@@ -122,6 +142,18 @@
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText" />
+
+        <EditText
+            android:id="@+id/chatThreadIdText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/chat_thread_id_hint"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText"
+            />
 
         <RadioGroup
             android:id="@+id/javaOrKotlinContainer"
