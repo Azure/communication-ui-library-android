@@ -73,6 +73,7 @@ public class ChatComposite {
                                  final ChatCompositeLocalOptions localOptions,
                                  final boolean isTest) {
         final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
+        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
         context.startActivity(launchIntent);
     }
 

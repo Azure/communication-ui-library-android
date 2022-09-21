@@ -51,7 +51,9 @@ buildscript {
             return rootProject.hasProperty("disableTaskRootCheck") && rootProject.getProperty("disableTaskRootCheck")
         }
 
-        compose_version = '1.3.1'
+        androidx_activity_compose_version = '1.5.1'
+        compose_version = '1.2.1'
+        kotlin_compiler_extension_version = '1.3.1'
     }
 
     repositories {
