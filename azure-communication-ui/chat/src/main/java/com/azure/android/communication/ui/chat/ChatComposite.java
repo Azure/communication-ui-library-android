@@ -29,6 +29,7 @@ public class ChatComposite {
     private static int instanceIdCounter = 0;
     private final ChatContainer chatContainer;
     private final ChatCompositeConfiguration configuration;
+    private final Integer instanceId = instanceIdCounter++;
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -151,9 +152,9 @@ public class ChatComposite {
                                  final ChatCompositeRemoteOptions remoteOptions,
                                  final ChatCompositeLocalOptions localOptions,
                                  final boolean isTest) {
-        chatContainer.start(context, remoteOptions, localOptions, instanceIdCounter);
+        chatContainer.start(context, remoteOptions, localOptions, instanceId);
         final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
-        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceIdCounter++);
+        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
         context.startActivity(launchIntent);
     }
 }
