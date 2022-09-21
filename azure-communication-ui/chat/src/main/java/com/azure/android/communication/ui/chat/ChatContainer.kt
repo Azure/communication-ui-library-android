@@ -53,7 +53,6 @@ internal class ChatContainer(
         context: Context,
         remoteOptions: ChatCompositeRemoteOptions,
         localOptions: ChatCompositeLocalOptions?,
-
     ) {
         // currently only single instance is supported
         if (!started) {
