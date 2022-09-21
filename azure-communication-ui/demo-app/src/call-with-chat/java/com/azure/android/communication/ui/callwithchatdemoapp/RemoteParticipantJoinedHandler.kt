@@ -50,6 +50,7 @@ class RemoteParticipantJoinedHandler(
                         .filterNot { it == ":"[0] || it == "-"[0] }
                     val url = URL("$imageTestUrl$id.png")
                     val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+
                     val result = composite.setRemoteParticipantViewData(
                         communicationIdentifier, CallWithChatCompositeParticipantViewData().setAvatarBitmap(bitMap)
                     )

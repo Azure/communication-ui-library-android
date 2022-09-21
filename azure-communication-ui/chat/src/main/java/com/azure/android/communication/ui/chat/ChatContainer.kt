@@ -25,7 +25,7 @@ internal class ChatContainer(
     fun start(
         context: Context,
         remoteOptions: ChatCompositeRemoteOptions,
-        localOptions: ChatCompositeLocalOptions,
+        localOptions: ChatCompositeLocalOptions?,
         instanceId: Int,
     ) {
         // currently only single instance is supported
@@ -43,17 +43,19 @@ internal class ChatContainer(
                 )
 
             locator = ServiceLocator.getInstance(instanceId = instanceId)
-            locator?.let {
-                it.addTypedBuilder { localOptions }
-                it.addTypedBuilder { remoteOptions }
-                it.addTypedBuilder {
+            locator?.let { serviceLocator ->
+                localOptions?.let { localOptions ->
+                    serviceLocator.addTypedBuilder { localOptions }
+                }
+                serviceLocator.addTypedBuilder { remoteOptions }
+                serviceLocator.addTypedBuilder {
                     ChatSDKWrapper(
                         context = context,
                         instanceId = instanceId,
                     )
                 }
-                it.addTypedBuilder {
-                    ChatService(it.locate<ChatSDK>())
+                serviceLocator.addTypedBuilder {
+                    ChatService(serviceLocator.locate<ChatSDK>())
                 }
             }
         }

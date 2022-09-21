@@ -21,13 +21,13 @@
         >
 
         <activity
+            android:name="com.microsoft.appcenter.distribute.DeepLinkActivity"
             android:exported="true"
-            android:name="com.microsoft.appcenter.distribute.DeepLinkActivity">
-        </activity>
+            ></activity>
         <receiver
+            android:name="com.microsoft.appcenter.distribute.DownloadManagerReceiver"
             android:exported="true"
-            android:name="com.microsoft.appcenter.distribute.DownloadManagerReceiver">
-        </receiver>
+            ></receiver>
     </application>
 
 </manifest>
