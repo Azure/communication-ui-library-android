@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.chat;
 
+import static com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifierKt.into;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -10,10 +12,12 @@ import android.view.View;
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
-import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
+import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantViewData;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
+import com.azure.android.communication.ui.chat.models.ChatCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity;
+
 
 /**
  * Azure android communication chat composite component.
@@ -23,16 +27,13 @@ import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivit
 public class ChatComposite {
 
     private static int instanceIdCounter = 0;
-
     private final ChatContainer chatContainer;
-    private final int instanceId;
-    private final ChatCompositeLocalizationOptions chatCompositeLocalizationOptions;
-
+    private final ChatCompositeConfiguration configuration;
+    private final Integer instanceId = instanceIdCounter++;
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
-        instanceId = instanceIdCounter++;
-        chatCompositeLocalizationOptions = configuration.getLocalizationConfig();
-        chatContainer = new ChatContainer(configuration, instanceId);
+        this.configuration = configuration;
+        chatContainer = new ChatContainer(configuration);
     }
 
     /**
@@ -66,15 +67,6 @@ public class ChatComposite {
      */
     public void stop() {
         chatContainer.stop();
-    }
-
-    private void launchComposite(final Context context,
-                                 final ChatCompositeRemoteOptions remoteOptions,
-                                 final ChatCompositeLocalOptions localOptions,
-                                 final boolean isTest) {
-        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
-        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
-        context.startActivity(launchIntent);
     }
 
     /**
@@ -139,16 +131,30 @@ public class ChatComposite {
     }
 
     /**
-     * Set {@link ChatCompositeRemoteOptions}.
+     * Set {@link ChatCompositeParticipantViewData}.
      *
      * <p>
      * Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
      * </p>
      *
-     * @param participantViewData The {@link ChatCompositeRemoteOptions}.
      * @param identifier          The {@link CommunicationIdentifier}.
+     * @param participantViewData The {@link ChatCompositeParticipantViewData}.
+     * @return {@link ChatCompositeSetParticipantViewDataResult}.
      */
-    public void setChatCompositeRemoteOptions(final ChatCompositeRemoteOptions participantViewData,
-                                              final CommunicationIdentifier identifier) {
+    public ChatCompositeSetParticipantViewDataResult setRemoteParticipantViewData(
+            final CommunicationIdentifier identifier,
+            final ChatCompositeParticipantViewData participantViewData) {
+        return configuration.getRemoteParticipantsConfiguration()
+                .setParticipantViewData(into(identifier), participantViewData);
+    }
+
+    private void launchComposite(final Context context,
+                                 final ChatCompositeRemoteOptions remoteOptions,
+                                 final ChatCompositeLocalOptions localOptions,
+                                 final boolean isTest) {
+        chatContainer.start(context, remoteOptions, localOptions, instanceId);
+        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
+        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
+        context.startActivity(launchIntent);
     }
 }

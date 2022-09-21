@@ -14,8 +14,8 @@ import java.util.Locale;
  * @see com.azure.android.communication.ui.chat.ChatComposite
  */
 public final class ChatCompositeLocalizationOptions {
-    private Integer layoutDirection;
     private final Locale locale;
+    private Integer layoutDirection;
 
     /**
      * Create Localization configuration.

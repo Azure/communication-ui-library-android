@@ -9,8 +9,8 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  * ChatCompositeLocalOptions for ChatComposite.launch.
  *
  * <p>
- *     Local Options for the Chat Composite. These options are not shared with the server and impact local views only.
- *     E.g. The Local Participant Name if it differs from the display name you'd like to share with the server.
+ * Local Options for the Chat Composite. These options are not shared with the server and impact local views only.
+ * E.g. The Local Participant Name if it differs from the display name you'd like to share with the server.
  * </p>
  * <pre>
  *

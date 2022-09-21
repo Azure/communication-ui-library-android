@@ -17,12 +17,13 @@ public final class ChatCompositeException extends RuntimeException {
      *
      * @param errorMessage - the error message.  The error message can be retrieved by the
      *                     getMessage() method
-     * @param cause - the cause (which is saved for later retrieval by the getCause() method).  A
-     *              null value is permitted, and indicates that the cause is non-existent or unknown.
+     * @param cause        - the cause (which is saved for later retrieval by the getCause() method).  A
+     *                     null value is permitted, and indicates that the cause is non-existent or unknown.
      */
     public ChatCompositeException(final String errorMessage, @NonNull final Throwable cause) {
         super(errorMessage, cause);
     }
+
     /**
      * Constructs a new Chat Composite exception with the specified cause and  message of
      * (cause==null ? null : cause.toString()) (which typically contains the class and detail message
