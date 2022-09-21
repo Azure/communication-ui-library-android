@@ -21,8 +21,4 @@ class ContainerView(context: Context) : FrameLayout(context) {
             ChattingScreen()
         }
     }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-    }
 }

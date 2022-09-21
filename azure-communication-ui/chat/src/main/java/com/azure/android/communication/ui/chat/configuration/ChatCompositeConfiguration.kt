@@ -5,11 +5,12 @@ package com.azure.android.communication.ui.chat.configuration
 
 import com.azure.android.communication.ui.chat.ChatCompositeException
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions
-import java.lang.IllegalStateException
 
 internal class ChatCompositeConfiguration {
     var localizationConfig: ChatCompositeLocalizationOptions? = null
     var chatConfig: ChatConfiguration? = null
+    val remoteParticipantsConfiguration: RemoteParticipantsConfiguration =
+        RemoteParticipantsConfiguration()
 
     /*
     ChatCompositeConfiguration Storage
