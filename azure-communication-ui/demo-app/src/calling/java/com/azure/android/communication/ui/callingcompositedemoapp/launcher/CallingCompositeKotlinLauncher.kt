@@ -11,8 +11,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeNavigationBarViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivityErrorHandler
@@ -75,9 +75,9 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
-            .setNavigationBarViewData(
-                CallCompositeNavigationBarViewData(getTitle())
-                    .setSubtitle(getSubtitle())
+            .setSetupScreenViewData(
+                CallCompositeSetupScreenViewData()
+                    .setTitleAndSubtitle(getTitle(), getSubtitle())
             )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
