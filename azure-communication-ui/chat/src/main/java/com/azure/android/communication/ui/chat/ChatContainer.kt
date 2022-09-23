@@ -46,12 +46,14 @@ internal class ChatContainer(
                 ChatConfiguration(
                     endPointURL = remoteOptions.locator.endpointURL,
                     credential = remoteOptions.credential,
-                    applicationID = "azure_communication_ui_chat", // TODO: modify while working on diagnostics config
+                    applicationID = "azure_communication_ui", // TODO: modify while working on diagnostics config < 24
                     sdkName = "com.azure.android:azure-communication-chat",
                     sdkVersion = "2.0.0",
                     threadId = remoteOptions.locator.chatThreadId,
                     senderDisplayName = remoteOptions.displayName
                 )
+
+            ChatCompositeConfiguration.putConfig(instanceId, configuration)
 
             locator = ServiceLocator.getInstance(instanceId = instanceId)
             locator?.let { serviceLocator ->
@@ -59,14 +61,16 @@ internal class ChatContainer(
                     serviceLocator.addTypedBuilder { localOptions }
                 }
                 serviceLocator.addTypedBuilder { remoteOptions }
+
                 serviceLocator.addTypedBuilder {
                     ChatSDKWrapper(
                         context = context,
                         instanceId = instanceId,
                     )
                 }
+
                 serviceLocator.addTypedBuilder {
-                    ChatService(chatSDK = serviceLocator.locate())
+                    ChatService(chatSDK = serviceLocator.locate<ChatSDKWrapper>())
                 }
 
                 serviceLocator.addTypedBuilder { CoroutineContextProvider() }
