@@ -24,7 +24,8 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
     @Override
     public void launch(final ChatLauncherActivity chatLauncherActivity,
                        final String threadID,
-                       final String endPointURL) {
+                       final String endPointURL,
+                       final String displayName) {
         final ChatComposite chatComposite = new ChatCompositeBuilder().build();
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
@@ -35,7 +36,7 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
         final ChatCompositeJoinLocator locator =
                 new ChatCompositeJoinLocator(threadID, endPointURL);
         final ChatCompositeRemoteOptions remoteOptions =
-                new ChatCompositeRemoteOptions(locator, communicationTokenCredential);
+                new ChatCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
         chatComposite.launch(chatLauncherActivity, remoteOptions, null);
     }
 }
