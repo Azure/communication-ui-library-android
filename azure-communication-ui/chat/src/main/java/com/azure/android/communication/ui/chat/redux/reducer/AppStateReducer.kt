@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 internal class AppStateReducer(
     private val chatReducer: ChatReducer,
@@ -13,8 +14,8 @@ internal class AppStateReducer(
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
 ) :
-    Reducer<AppReduxState> {
-    override fun reduce(state: AppReduxState, action: Action): AppReduxState {
+    Reducer<ReduxState> {
+    override fun reduce(state: ReduxState, action: Action): AppReduxState {
 
         val appState = AppReduxState()
 

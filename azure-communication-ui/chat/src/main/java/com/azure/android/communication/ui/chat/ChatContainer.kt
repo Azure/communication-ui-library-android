@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationO
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent
 import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
 import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceMiddleware
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
@@ -20,6 +21,7 @@ import com.azure.android.communication.ui.chat.redux.reducer.LifecycleReducerImp
 import com.azure.android.communication.ui.chat.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ParticipantsReducerImpl
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
@@ -44,7 +46,10 @@ internal class ChatContainer(private val instanceId: Int,
                 instanceId = instanceId,
                 remoteOptions = remoteOptions,
                 localOptions = localOptions,
-                context =context)
+                context = context
+            ).apply {
+                locate<AppStore<ReduxState>>().dispatch(LifecycleAction.Wakeup())
+            }
         }
     }
 
