@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat;
 
-import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
 
 /**
@@ -33,8 +32,6 @@ public final class ChatCompositeBuilder {
      * @return {@link ChatComposite}
      */
     public ChatComposite build() {
-        final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
-        config.setLocalizationConfig(localizationConfig);
-        return new ChatComposite(config);
+        return new ChatComposite(localizationConfig);
     }
 }

@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.chat.service.ChatService
 
 internal class ChatServiceListener(
     private val chatService: ChatService,
-    private val chatMiddleware: ChatMiddleware
 ) {
     // subscribe to chat service and notify middleware
 }

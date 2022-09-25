@@ -10,7 +10,7 @@ import com.azure.android.communication.chat.ChatThreadAsyncClient
 import com.azure.android.communication.chat.ChatThreadClientBuilder
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
+import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
@@ -21,9 +21,8 @@ import java9.util.concurrent.CompletableFuture
 internal class ChatSDKWrapper(
     private val instanceId: Int,
     private val context: Context,
+    private val chatConfig: ChatConfiguration,
 ) : ChatSDK {
-
-    private val chatConfig get() = ChatCompositeConfiguration.getConfig(instanceId).chatConfig!!
 
     private lateinit var chatAsyncClient: ChatAsyncClient
     private lateinit var chatThreadAsyncClient: ChatThreadAsyncClient
