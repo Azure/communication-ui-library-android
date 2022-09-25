@@ -13,8 +13,6 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceMiddleware
-import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatActionListener
-import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatServiceListener
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
@@ -77,8 +75,7 @@ internal class ChatContainer(private val instanceId: Int,
             remoteOptions: ChatCompositeRemoteOptions,
             localOptions: ChatCompositeLocalOptions?,
             context: Context
-        ) =
-            ServiceLocator.getInstance(instanceId = instanceId).apply {
+        ) = ServiceLocator.getInstance(instanceId = instanceId).apply {
                 clear()
 
                 // ChatConfiguration
@@ -105,7 +102,6 @@ internal class ChatContainer(private val instanceId: Int,
                     ChatService(
                         chatSDK = ChatSDKWrapper(
                             context = context,
-                            instanceId = instanceId,
                             chatConfig = locate(),
                         )
                     )
@@ -125,8 +121,7 @@ internal class ChatContainer(private val instanceId: Int,
                         ),
                         middlewares = mutableListOf(
                             ChatServiceMiddleware(
-                                ChatActionListener(chatService = locate()),
-                                ChatServiceListener(chatService = locate())
+                                chatService = locate()
                             )
                         ),
                         dispatcher = (locate<CoroutineContextProvider>()).SingleThreaded

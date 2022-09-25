@@ -7,9 +7,12 @@ import com.azure.android.communication.ui.chat.service.sdk.ChatSDK
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 
 internal class ChatService(private val chatSDK: ChatSDK) {
-    fun init() = chatSDK.init()
+
     fun sendMessage(
         type: ChatMessageType,
         content: String,
     ) = chatSDK.sendMessage(type = type, content = content)
+
+    fun init() = chatSDK.init()
+    fun dispose() = chatSDK.dispose()
 }

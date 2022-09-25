@@ -9,7 +9,7 @@ import java9.util.concurrent.CompletableFuture
 
 internal interface ChatSDK {
     fun init()
-
+    fun dispose()
     fun sendMessage(
         type: ChatMessageType,
         content: String,

@@ -4,6 +4,9 @@
 package com.azure.android.communication.ui.chat.redux.action
 
 internal sealed class LifecycleAction : Action {
+    class Wakeup: LifecycleAction()
+    class Shutdown: LifecycleAction()
+
     class EnterForegroundTriggered : LifecycleAction()
     class EnterBackgroundTriggered : LifecycleAction()
 

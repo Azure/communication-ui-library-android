@@ -4,9 +4,7 @@
 package com.azure.android.communication.ui.chat.service.sdk
 
 import android.content.Context
-import com.azure.android.communication.chat.ChatAsyncClient
 import com.azure.android.communication.chat.ChatClientBuilder
-import com.azure.android.communication.chat.ChatThreadAsyncClient
 import com.azure.android.communication.chat.ChatThreadClientBuilder
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
@@ -19,13 +17,38 @@ import com.azure.android.core.util.RequestContext
 import java9.util.concurrent.CompletableFuture
 
 internal class ChatSDKWrapper(
-    private val instanceId: Int,
-    private val context: Context,
-    private val chatConfig: ChatConfiguration,
+    val context: Context,
+    chatConfig: ChatConfiguration,
 ) : ChatSDK {
 
-    private lateinit var chatAsyncClient: ChatAsyncClient
-    private lateinit var chatThreadAsyncClient: ChatThreadAsyncClient
+    private val chatAsyncClient by lazy {
+        ChatClientBuilder()
+            .endpoint(endPointURL)
+            .credential(credential)
+            .addPolicy(
+                UserAgentPolicy(
+                    applicationID,
+                    sdkName,
+                    sdkVersion
+                )
+            )
+            .buildAsyncClient()
+    }
+
+    private val chatThreadAsyncClient by lazy {
+        ChatThreadClientBuilder()
+            .endpoint(endPointURL)
+            .credential(credential)
+            .addPolicy(
+                UserAgentPolicy(
+                    applicationID,
+                    sdkName,
+                    sdkVersion
+                )
+            )
+            .chatThreadId(threadId)
+            .buildAsyncClient()
+    }
 
     private val endPointURL = chatConfig.endPointURL
     private val credential: CommunicationTokenCredential = chatConfig.credential
@@ -35,10 +58,8 @@ internal class ChatSDKWrapper(
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
 
-    override fun init() {
-        createChatAsyncClient()
-        createChatThreadAsyncClient()
-    }
+    override fun init() = chatAsyncClient.startRealtimeNotifications(context.applicationContext) { /* Error Handler */ }
+    override fun dispose() = chatAsyncClient.stopRealtimeNotifications()
 
     override fun sendMessage(
         type: ChatMessageType,
@@ -63,32 +84,4 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    private fun createChatAsyncClient() {
-        chatAsyncClient = ChatClientBuilder()
-            .endpoint(endPointURL)
-            .credential(credential)
-            .addPolicy(
-                UserAgentPolicy(
-                    applicationID,
-                    sdkName,
-                    sdkVersion
-                )
-            )
-            .buildAsyncClient()
-    }
-
-    private fun createChatThreadAsyncClient() {
-        chatThreadAsyncClient = ChatThreadClientBuilder()
-            .endpoint(endPointURL)
-            .credential(credential)
-            .addPolicy(
-                UserAgentPolicy(
-                    applicationID,
-                    sdkName,
-                    sdkVersion
-                )
-            )
-            .chatThreadId(threadId)
-            .buildAsyncClient()
-    }
 }
