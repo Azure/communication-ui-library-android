@@ -13,13 +13,13 @@ import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatSer
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 
-internal interface ChatMiddleware
+internal interface ChatServiceMiddleware
 
-internal class ChatServiceMiddleware(
+internal class ChatServiceServiceMiddlewareImpl(
     private val chatService: ChatService
 ) :
     Middleware<ReduxState>,
-    ChatMiddleware {
+    ChatServiceMiddleware {
 
     private val chatActionHandler = ChatActionHandler(chatService = chatService)
     private val chatServiceListener = ChatServiceListener(chatService = chatService)

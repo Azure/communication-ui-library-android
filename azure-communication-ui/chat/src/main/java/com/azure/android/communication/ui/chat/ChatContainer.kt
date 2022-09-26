@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
-import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceMiddleware
+import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceServiceMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
@@ -131,7 +131,7 @@ internal class ChatContainer(private val instanceId: Int,
                             navigationReducer = NavigationReducerImpl()
                         ),
                         middlewares = mutableListOf(
-                            ChatServiceMiddleware(
+                            ChatServiceServiceMiddlewareImpl(
                                 chatService = chatService
                             )
                         ),
