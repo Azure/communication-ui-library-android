@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.chat.redux.middleware
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
+import com.azure.android.communication.ui.chat.redux.action.Action
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatActionListener
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
@@ -16,7 +18,20 @@ internal class ChatMiddlewareImpl(
 ) :
     Middleware<ReduxState>,
     ChatMiddleware {
-    override fun invoke(store: Store<ReduxState>): (next: Dispatch) -> Dispatch {
-        TODO("Not yet implemented")
+    override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
+        { action: Action ->
+            when (action) {
+                is ChatAction.Initialization -> {
+                    chatActionListener.initialization(store)
+                }
+                is ChatAction.Initialized -> {
+                    chatActionListener.initialized(store)
+                }
+                is ChatAction.Error -> {
+                    chatActionListener.chatError(store)
+                }
+            }
+            next(action)
+        }
     }
 }
