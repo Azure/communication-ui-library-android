@@ -30,7 +30,7 @@ internal class ChatServiceMiddleware(
             when (action) {
                 is LifecycleAction.Wakeup -> {
                     chatService.init()
-                    chatServiceListener.startListening(store)
+                    chatServiceListener.startListening(store::dispatch)
                 }
                 is LifecycleAction.Shutdown -> {
                     chatServiceListener.stopListening()
