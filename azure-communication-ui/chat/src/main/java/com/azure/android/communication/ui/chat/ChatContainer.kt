@@ -110,14 +110,14 @@ internal class ChatContainer(private val instanceId: Int,
                 addTypedBuilder { remoteOptions }
 
                 // Chat Service
-                addTypedBuilder {
-                    ChatService(
+
+                val chatService = ChatService(
                         chatSDK = ChatSDKWrapper(
                             context = context,
                             chatConfig = locate(),
                         )
                     )
-                }
+
 
 
                 addTypedBuilder {
@@ -132,7 +132,7 @@ internal class ChatContainer(private val instanceId: Int,
                         ),
                         middlewares = mutableListOf(
                             ChatServiceMiddleware(
-                                chatService = locate()
+                                chatService = chatService
                             )
                         ),
                         dispatcher = contextProvider.SingleThreaded
