@@ -36,7 +36,7 @@ internal class ChatServiceServiceMiddlewareImpl(
                     chatServiceListener.stopListening()
                     chatService.dispose()
                 }
-                else -> chatActionHandler.onAction(action, next)
+                else -> chatActionHandler.handleSendMessage(action, next)
             }
         }
     }

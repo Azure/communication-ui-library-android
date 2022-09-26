@@ -28,6 +28,7 @@ internal class ChatServiceListener(
     }
 }
 
+// Example Placeholder of a Bindings class, to handle the Event Listeners
 internal class ChatServiceBindings(val chatService: ChatService, val dispatcher: Dispatch) {
     init {
         // Bind methods
@@ -61,6 +62,8 @@ internal class ChatServiceBindings(val chatService: ChatService, val dispatcher:
 }
 
 /*
- Convertors
+ Convertors:
+ Add functions to convert from Event->Action here.
+
  fun toAction(newMessageEvent : NewMessageEvent) = ChatAction.newMessageAction(...)
 */
