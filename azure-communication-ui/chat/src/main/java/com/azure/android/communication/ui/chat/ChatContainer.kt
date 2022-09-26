@@ -48,6 +48,7 @@ internal class ChatContainer(private val instanceId: Int,
                 localOptions = localOptions,
                 context = context
             ).apply {
+                // Wake up the store
                 locate<AppStore<ReduxState>>().dispatch(LifecycleAction.Wakeup())
             }
         }
@@ -83,7 +84,9 @@ internal class ChatContainer(private val instanceId: Int,
         ) = ServiceLocator.getInstance(instanceId = instanceId).apply {
                 clear()
 
-                // ChatConfiguration
+            val contextProvider =   CoroutineContextProvider()
+
+            // ChatConfiguration
                 addTypedBuilder {
                     ChatConfiguration(
                         endPointURL = remoteOptions.locator.endpointURL,
@@ -97,7 +100,11 @@ internal class ChatContainer(private val instanceId: Int,
                 }
 
                 // Local Options
-                localOptions?.let { addTypedBuilder { it } }
+                if (localOptions != null) {
+                    addTypedBuilder { localOptions }
+                } else {
+                    addTypedBuilder { ChatCompositeLocalOptions() }
+                }
 
                 // Remote Options
                 addTypedBuilder { remoteOptions }
@@ -112,7 +119,6 @@ internal class ChatContainer(private val instanceId: Int,
                     )
                 }
 
-                addTypedBuilder { CoroutineContextProvider() }
 
                 addTypedBuilder {
                     AppStore(
@@ -129,7 +135,7 @@ internal class ChatContainer(private val instanceId: Int,
                                 chatService = locate()
                             )
                         ),
-                        dispatcher = (locate<CoroutineContextProvider>()).SingleThreaded
+                        dispatcher = contextProvider.SingleThreaded
                     )
                 }
             }

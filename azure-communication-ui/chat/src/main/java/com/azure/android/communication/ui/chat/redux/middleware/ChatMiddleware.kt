@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
 import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatServiceListener
-import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 
