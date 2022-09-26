@@ -11,5 +11,5 @@ internal class MockStore : AppStore<ReduxState>(
     middlewares = mutableListOf(),
     initialState = AppReduxState()
 ) {
-    val mockReducer : MockReducer = reducer as MockReducer
+    val mockReducer: MockReducer = reducer as MockReducer
 }

@@ -40,7 +40,7 @@ internal class ChatServiceBindings(val chatService: ChatService, val dispatcher:
 
     // TODO: Implement event handler methods
     // Method to be bound (signature may vary based on Call Sdk)
-    fun onEvent(sdkEvent : Any) {
+    fun onEvent(sdkEvent: Any) {
         /*
             Logic for mapping EVENT -> Action
             I.e.
@@ -52,8 +52,7 @@ internal class ChatServiceBindings(val chatService: ChatService, val dispatcher:
     }
 
     // Error handler
-    fun onError(exception : Throwable) {
-
+    fun onError(exception: Throwable) {
     }
 
     // Clean up listeners
@@ -61,7 +60,6 @@ internal class ChatServiceBindings(val chatService: ChatService, val dispatcher:
         // Remove Listeners
         // E.g. chatService.remoteOnEventListener(::onEvent)
     }
-
 }
 
 /*

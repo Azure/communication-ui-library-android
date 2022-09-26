@@ -21,6 +21,6 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun handleSendMessage(action: ChatAction.SendMessage) {
-            chatService.sendMessage(ChatMessageType.TEXT, action.message)
+        chatService.sendMessage(ChatMessageType.TEXT, action.message)
     }
 }

@@ -6,7 +6,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessa
 import java9.util.concurrent.CompletableFuture
 
 internal class MockChatSdk : ChatSDK {
-    var lastMessage : String? = null
+    var lastMessage: String? = null
     var started = false
 
     override fun init() {
@@ -24,5 +24,4 @@ internal class MockChatSdk : ChatSDK {
         lastMessage = content
         return CompletableFuture<SendChatMessageResult>()
     }
-
 }

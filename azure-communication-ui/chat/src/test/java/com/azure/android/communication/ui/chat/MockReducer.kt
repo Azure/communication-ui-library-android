@@ -5,10 +5,9 @@ import com.azure.android.communication.ui.chat.redux.reducer.Reducer
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 internal class MockReducer : Reducer<ReduxState> {
-    var lastAction : Action? = null
+    var lastAction: Action? = null
     override fun reduce(state: ReduxState, action: Action): ReduxState {
         lastAction = action
         return state
     }
-
 }

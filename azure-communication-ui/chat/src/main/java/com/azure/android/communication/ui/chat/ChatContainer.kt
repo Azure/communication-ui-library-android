@@ -26,8 +26,9 @@ import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 
-internal class ChatContainer(private val instanceId: Int,
-                             private val localization : ChatCompositeLocalizationOptions
+internal class ChatContainer(
+    private val instanceId: Int,
+    private val localization: ChatCompositeLocalizationOptions
 ) {
     var started = false
     private var locator: ServiceLocator? = null
@@ -82,62 +83,60 @@ internal class ChatContainer(private val instanceId: Int,
             localOptions: ChatCompositeLocalOptions?,
             context: Context
         ) = ServiceLocator.getInstance(instanceId = instanceId).apply {
-                clear()
+            clear()
 
-            val contextProvider =   CoroutineContextProvider()
+            val contextProvider = CoroutineContextProvider()
 
             // ChatConfiguration
-                addTypedBuilder {
-                    ChatConfiguration(
-                        endPointURL = remoteOptions.locator.endpointURL,
-                        credential = remoteOptions.credential,
-                        applicationID = "azure_communication_ui", // TODO: modify while working on diagnostics config < 24
-                        sdkName = "com.azure.android:azure-communication-chat",
-                        sdkVersion = "2.0.0",
-                        threadId = remoteOptions.locator.chatThreadId,
-                        senderDisplayName = remoteOptions.displayName
-                    )
-                }
-
-                // Local Options
-                if (localOptions != null) {
-                    addTypedBuilder { localOptions }
-                } else {
-                    addTypedBuilder { ChatCompositeLocalOptions() }
-                }
-
-                // Remote Options
-                addTypedBuilder { remoteOptions }
-
-                // Chat Service
-
-                val chatService = ChatService(
-                        chatSDK = ChatSDKWrapper(
-                            context = context,
-                            chatConfig = locate(),
-                        )
-                    )
-
-
-
-                addTypedBuilder {
-                    AppStore(
-                        initialState = AppReduxState(),
-                        reducer = AppStateReducer(
-                            chatReducer = ChatReducerImpl(),
-                            participantReducer = ParticipantsReducerImpl(),
-                            lifecycleReducer = LifecycleReducerImpl(),
-                            errorReducer = ErrorReducerImpl(),
-                            navigationReducer = NavigationReducerImpl()
-                        ),
-                        middlewares = mutableListOf(
-                            ChatServiceMiddlewareImpl(
-                                chatService = chatService
-                            )
-                        ),
-                        dispatcher = contextProvider.SingleThreaded
-                    )
-                }
+            addTypedBuilder {
+                ChatConfiguration(
+                    endPointURL = remoteOptions.locator.endpointURL,
+                    credential = remoteOptions.credential,
+                    applicationID = "azure_communication_ui", // TODO: modify while working on diagnostics config < 24
+                    sdkName = "com.azure.android:azure-communication-chat",
+                    sdkVersion = "2.0.0",
+                    threadId = remoteOptions.locator.chatThreadId,
+                    senderDisplayName = remoteOptions.displayName
+                )
             }
+
+            // Local Options
+            if (localOptions != null) {
+                addTypedBuilder { localOptions }
+            } else {
+                addTypedBuilder { ChatCompositeLocalOptions() }
+            }
+
+            // Remote Options
+            addTypedBuilder { remoteOptions }
+
+            // Chat Service
+
+            val chatService = ChatService(
+                chatSDK = ChatSDKWrapper(
+                    context = context,
+                    chatConfig = locate(),
+                )
+            )
+
+            addTypedBuilder {
+                AppStore(
+                    initialState = AppReduxState(),
+                    reducer = AppStateReducer(
+                        chatReducer = ChatReducerImpl(),
+                        participantReducer = ParticipantsReducerImpl(),
+                        lifecycleReducer = LifecycleReducerImpl(),
+                        errorReducer = ErrorReducerImpl(),
+                        navigationReducer = NavigationReducerImpl()
+                    ),
+                    middlewares = mutableListOf(
+                        ChatServiceMiddlewareImpl(
+                            chatService = chatService
+                        )
+                    ),
+                    dispatcher = contextProvider.SingleThreaded
+                )
+            }
+        }
     }
 }
