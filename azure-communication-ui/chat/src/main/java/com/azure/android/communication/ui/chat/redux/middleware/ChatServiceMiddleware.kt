@@ -15,14 +15,14 @@ import com.azure.android.communication.ui.chat.service.ChatService
 
 internal interface ChatServiceMiddleware
 
-internal class ChatServiceServiceMiddlewareImpl(
+internal class ChatServiceMiddlewareImpl(
     private val chatService: ChatService
 ) :
     Middleware<ReduxState>,
     ChatServiceMiddleware {
 
-    private val chatActionHandler = ChatActionHandler(chatService = chatService)
-    private val chatServiceListener = ChatServiceListener(chatService = chatService)
+    val chatActionHandler = ChatActionHandler(chatService = chatService)
+    val chatServiceListener = ChatServiceListener(chatService = chatService)
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
@@ -31,10 +31,14 @@ internal class ChatServiceServiceMiddlewareImpl(
                 is LifecycleAction.Wakeup -> {
                     chatService.init()
                     chatServiceListener.startListening(store::dispatch)
+                    // Call next(action) to pass this on if the action gets a reducer
+                    // And we want this to impact state
                 }
                 is LifecycleAction.Shutdown -> {
                     chatServiceListener.stopListening()
                     chatService.dispose()
+                    // Call next(action) to pass this on if the action gets a reducer
+                    // And we want this to impact state
                 }
                 else -> chatActionHandler.handleSendMessage(action, next)
             }

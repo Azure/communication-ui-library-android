@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-internal class AppStore<S>(
+internal open class AppStore<S>(
     initialState: S,
-    private val reducer: Reducer<S>,
+    val reducer: Reducer<S>,
     middlewares: MutableList<Middleware<S>>,
     dispatcher: CoroutineContext,
 ) : Store<S> {

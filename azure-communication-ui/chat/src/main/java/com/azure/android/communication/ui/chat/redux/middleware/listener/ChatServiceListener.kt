@@ -11,18 +11,21 @@ import kotlin.reflect.KFunction1
 internal class ChatServiceListener(
     private val chatService: ChatService,
 ) {
+    var isListening = false
     // start listening the chatService here
     //
     // Args:
     //  - Dispatcher
     //  Function to Dispatch Actions after Events from the SDK
     fun startListening(dispatcher: KFunction1<Action, Unit>) {
+        isListening = true
         // TODO: Bind service listeners here
         // I.e,
         // csb = ChatServiceBindings(chatService dispatcher)
     }
 
     fun stopListening() {
+        isListening = false
         // Todo: Cleanup bindings here
         // csb.dispose
     }
