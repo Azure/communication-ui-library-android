@@ -14,6 +14,6 @@ internal enum class ChatStatus {
 
 internal data class ChatState(
     val chatStatus: ChatStatus,
-    val localParticipantInfoModel: ParticipantInfoModel,
+    val localParticipantInfoModel: ParticipantInfoModel?,
     val chatThreadId: String?,
 )

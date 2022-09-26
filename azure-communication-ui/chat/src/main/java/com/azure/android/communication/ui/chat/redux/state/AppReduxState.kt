@@ -4,7 +4,11 @@
 package com.azure.android.communication.ui.chat.redux.state
 
 internal class AppReduxState : ReduxState {
-    override var chatState: ChatState = ChatState(ChatStatus.NONE)
+    override var chatState: ChatState = ChatState(
+        chatStatus = ChatStatus.NONE,
+        localParticipantInfoModel = null,
+        chatThreadId = null
+    )
 
     override var participantState: ParticipantsState = ParticipantsState(HashMap())
 
