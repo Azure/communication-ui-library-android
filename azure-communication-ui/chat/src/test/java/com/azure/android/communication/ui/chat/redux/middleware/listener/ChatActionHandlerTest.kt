@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.redux.middleware.listener
 
 import com.azure.android.communication.ui.chat.MockChatSdk
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.service.ChatService
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 internal class ChatActionHandlerTest {
