@@ -8,13 +8,12 @@ import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatActionListener
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 internal interface ChatMiddleware
 
 internal class ChatMiddlewareImpl(
-    private val chatActionListener: ChatActionListener
+    private val chatActionHandler: ChatActionHandler
 ) :
     Middleware<ReduxState>,
     ChatMiddleware {
@@ -22,13 +21,13 @@ internal class ChatMiddlewareImpl(
         { action: Action ->
             when (action) {
                 is ChatAction.Initialization -> {
-                    chatActionListener.initialization(store)
+                    chatActionHandler.initialization(store)
                 }
                 is ChatAction.Initialized -> {
-                    chatActionListener.initialized(store)
+                    chatActionHandler.initialized(store)
                 }
                 is ChatAction.Error -> {
-                    chatActionListener.chatError(store)
+                    chatActionHandler.onError(store)
                 }
             }
             next(action)

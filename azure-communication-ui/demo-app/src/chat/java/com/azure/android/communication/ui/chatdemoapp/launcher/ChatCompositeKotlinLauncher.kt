@@ -19,6 +19,7 @@ class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) 
         threadID: String?,
         endPointURL: String?,
         displayName: String?,
+        identity: String?,
     ) {
         val chatComposite = ChatCompositeBuilder().build()
         val communicationTokenRefreshOptions =
@@ -27,7 +28,7 @@ class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) 
             CommunicationTokenCredential(communicationTokenRefreshOptions)
         val locator = ChatCompositeJoinLocator(threadID, endPointURL)
         val remoteOptions =
-            ChatCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+            ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName)
         chatComposite.launch(chatLauncherActivity, remoteOptions, null)
     }
 }

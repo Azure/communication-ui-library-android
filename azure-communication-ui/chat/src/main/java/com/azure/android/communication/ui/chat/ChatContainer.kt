@@ -10,10 +10,12 @@ import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent
+import com.azure.android.communication.ui.chat.models.ParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.middleware.ChatMiddlewareImpl
-import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatActionListener
-import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatServiceListener
+import com.azure.android.communication.ui.chat.redux.middleware.ChatActionHandler
+import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceListener
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
@@ -47,6 +49,7 @@ internal class ChatContainer(
             configuration.chatConfig =
                 ChatConfiguration(
                     endPointURL = remoteOptions.locator.endpointURL,
+                    identity = remoteOptions.identity,
                     credential = remoteOptions.credential,
                     applicationID = "azure_communication_ui", // TODO: modify while working on diagnostics config < 24
                     sdkName = "com.azure.android:azure-communication-chat",
@@ -77,9 +80,9 @@ internal class ChatContainer(
 
                 serviceLocator.addTypedBuilder { CoroutineContextProvider() }
 
-                serviceLocator.addTypedBuilder { ChatActionListener(chatService = serviceLocator.locate()) }
+                serviceLocator.addTypedBuilder { ChatActionHandler(chatService = serviceLocator.locate()) }
 
-                serviceLocator.addTypedBuilder { ChatMiddlewareImpl(chatActionListener = serviceLocator.locate()) }
+                serviceLocator.addTypedBuilder { ChatMiddlewareImpl(chatActionHandler = serviceLocator.locate()) }
 
                 serviceLocator.addTypedBuilder {
                     ChatServiceListener(
@@ -102,6 +105,20 @@ internal class ChatContainer(
                         dispatcher = (serviceLocator.locate() as CoroutineContextProvider).SingleThreaded
                     )
                 }
+
+                val store: AppStore<AppReduxState> = serviceLocator.locate()
+                store.dispatch(
+                    ChatAction.LocalParticipantInfo(
+                        ParticipantInfoModel(
+                            configuration.chatConfig!!.identity,
+                            configuration.chatConfig?.senderDisplayName
+                        )
+                    )
+                )
+                store.dispatch(
+                    ChatAction.ChatThreadID(configuration.chatConfig!!.threadId)
+                )
+                store.dispatch(ChatAction.Initialization())
             }
         }
     }
