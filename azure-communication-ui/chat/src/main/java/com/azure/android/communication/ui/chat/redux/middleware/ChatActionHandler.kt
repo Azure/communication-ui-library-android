@@ -43,11 +43,4 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
         }
     }
-
-
-    private fun onError(dispatch: Dispatch) {
-        // TODO:notify Contoso with Error
-        // TODO:display UI discussion required
-    }
-
 }
