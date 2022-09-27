@@ -8,5 +8,7 @@ import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity;
 public interface ChatCompositeLauncher {
     void launch(ChatLauncherActivity chatLauncherActivity,
                 String threadID,
-                String endPointURL, String toString);
+                String endPointURL,
+                String toString,
+                String identity);
 }
