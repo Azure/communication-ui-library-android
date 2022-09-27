@@ -21,14 +21,11 @@ internal interface ChatMiddleware
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
 internal class ChatMiddlewareImpl(
-    chatService: ChatService,
-    coroutineContextProvider: CoroutineContextProvider
+    private val chatServiceListener: ChatServiceListener,
+    private val chatActionHandler: ChatActionHandler
 ) :
     Middleware<ReduxState>,
     ChatMiddleware {
-
-    private val chatServiceListener = ChatServiceListener(chatService = chatService, coroutineContextProvider = coroutineContextProvider)
-    private val chatActionHandler = ChatActionHandler(chatService =  chatService)
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->

@@ -12,7 +12,9 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.middleware.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.middleware.ChatMiddlewareImpl
+import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceListener
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
@@ -92,8 +94,13 @@ internal class ChatContainer(
 
             addTypedBuilder {
                 ChatMiddlewareImpl(
-                    chatService = locate(),
-                    coroutineContextProvider = locate()
+                    chatActionHandler = ChatActionHandler(
+                        chatService = locate()
+                    ),
+                    chatServiceListener = ChatServiceListener(
+                        chatService = locate(),
+                        coroutineContextProvider = locate()
+                    )
                 )
             }
 
