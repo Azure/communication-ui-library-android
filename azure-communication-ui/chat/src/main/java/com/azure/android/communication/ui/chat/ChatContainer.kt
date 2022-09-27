@@ -64,7 +64,8 @@ internal class ChatContainer(
                 instanceId,
                 localOptions,
                 remoteOptions,
-                context)
+                context
+            )
                 .apply { locate<Dispatch>()(ChatAction.StartChat()) }
         }
     }
@@ -125,7 +126,6 @@ internal class ChatContainer(
 
             addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
         }
-
 
     fun stop() {
         locator?.clear()
