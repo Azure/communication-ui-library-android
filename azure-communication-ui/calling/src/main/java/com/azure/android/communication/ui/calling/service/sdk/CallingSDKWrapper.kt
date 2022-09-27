@@ -49,6 +49,7 @@ internal class CallingSDKWrapper(
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
+    private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
@@ -143,7 +144,6 @@ internal class CallingSDKWrapper(
             }
             callClient = CallClient(callClientOptions)
         }
-        val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
         createDeviceManager().handle { _, error: Throwable? ->
             if (error != null) {
                 setupCallCompletableFuture.completeExceptionally(error)
@@ -289,27 +289,35 @@ internal class CallingSDKWrapper(
 
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
         val result = CompletableFuture<LocalVideoStream>()
+        setupCallCompletableFuture.whenComplete { _, error ->
+            if (error == null) {
+                val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
 
-        val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
-
-        if (localVideoStreamCompletableFuture.isDone) {
-            result.complete(localVideoStreamCompletableFuture.get())
-        } else if (!canCreateLocalVideostream()) {
-            // cleanUpResources() could have been called before this, so we need to check if it's still
-            // alright to call initializeCameras()
-            result.complete(null)
-        } else {
-            initializeCameras().whenComplete { _, error ->
-                if (error != null) {
-                    localVideoStreamCompletableFuture.completeExceptionally(error)
-                    result.completeExceptionally(error)
-                } else {
-                    val desiredCamera = getCamera(CameraFacing.FRONT)
-
-                    localVideoStreamCompletableFuture.complete(
-                        LocalVideoStreamWrapper(NativeLocalVideoStream(desiredCamera, context))
-                    )
+                if (localVideoStreamCompletableFuture.isDone) {
                     result.complete(localVideoStreamCompletableFuture.get())
+                } else if (!canCreateLocalVideostream()) {
+                    // cleanUpResources() could have been called before this, so we need to check if it's still
+                    // alright to call initializeCameras()
+                    result.complete(null)
+                } else {
+                    initializeCameras().whenComplete { _, error ->
+                        if (error != null) {
+                            localVideoStreamCompletableFuture.completeExceptionally(error)
+                            result.completeExceptionally(error)
+                        } else {
+                            val desiredCamera = getCamera(CameraFacing.FRONT)
+
+                            localVideoStreamCompletableFuture.complete(
+                                LocalVideoStreamWrapper(
+                                    NativeLocalVideoStream(
+                                        desiredCamera,
+                                        context
+                                    )
+                                )
+                            )
+                            result.complete(localVideoStreamCompletableFuture.get())
+                        }
+                    }
                 }
             }
         }
@@ -368,7 +376,6 @@ internal class CallingSDKWrapper(
 
     private fun createDeviceManager(): CompletableFuture<DeviceManager> {
         val deviceManagerCompletableFuture = getDeviceManagerCompletableFuture()
-
         if (deviceManagerCompletableFuture.isCompletedExceptionally ||
             !deviceManagerCompletableFuture.isDone
         ) {
