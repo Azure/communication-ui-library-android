@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.chat.redux.action
 
 internal sealed class ChatAction : Action {
-    class startChat : ChatAction()
+    class StartChat : ChatAction()
     class Initialization : ChatAction()
     class Initialized : ChatAction()
     class TopicUpdated(val topic: String) : ChatAction()

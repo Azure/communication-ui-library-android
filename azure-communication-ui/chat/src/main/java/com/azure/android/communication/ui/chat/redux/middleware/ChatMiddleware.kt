@@ -22,7 +22,7 @@ internal class ChatMiddlewareImpl(
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
             when (action) {
-                is ChatAction.startChat -> {
+                is ChatAction.StartChat -> {
                     chatServiceListener.subscribe(store::dispatch)
                     chatActionHandler.initialization(store)
                 }

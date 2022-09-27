@@ -109,7 +109,7 @@ internal class ChatContainer(
                 }
             }.apply {
                 val store: AppStore<AppReduxState> = locate()
-                store.dispatch(ChatAction.startChat())
+                store.dispatch(ChatAction.StartChat())
             }
         }
     }
