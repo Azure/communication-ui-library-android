@@ -49,7 +49,7 @@ internal class CallingSDKWrapper(
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
-    private var setupCallCompletableFuture: CompletableFuture<Void>? = null
+    private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
@@ -144,15 +144,14 @@ internal class CallingSDKWrapper(
             }
             callClient = CallClient(callClientOptions)
         }
-        setupCallCompletableFuture = CompletableFuture()
         createDeviceManager().handle { _, error: Throwable? ->
             if (error != null) {
-                setupCallCompletableFuture?.completeExceptionally(error)
+                setupCallCompletableFuture.completeExceptionally(error)
             } else {
-                setupCallCompletableFuture?.complete(null)
+                setupCallCompletableFuture.complete(null)
             }
         }
-        return setupCallCompletableFuture!!
+        return setupCallCompletableFuture
     }
 
     override fun startCall(
@@ -290,7 +289,7 @@ internal class CallingSDKWrapper(
 
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
         val result = CompletableFuture<LocalVideoStream>()
-        setupCallCompletableFuture?.whenComplete { _, error ->
+        setupCallCompletableFuture.whenComplete { _, error ->
             if (error == null) {
                 val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
 
