@@ -4,15 +4,18 @@
 package com.azure.android.communication.ui.callwithchat.models;
 
 public final class CallWithChatCompositeLocalOptions {
-    private final CallWithChatCompositeParticipantViewData participantViewData;
+    private CallWithChatCompositeParticipantViewData participantViewData;
+    private CallWithChatCompositeNavigationBarViewData navigationBarViewData;
 
     /**
-     * Create Local Options.
+     * Get {@link CallWithChatCompositeParticipantViewData}.
      *
-     * @param participantViewData The {@link CallWithChatCompositeParticipantViewData};
+     * @return The {@link CallWithChatCompositeParticipantViewData};
      */
-    public CallWithChatCompositeLocalOptions(final CallWithChatCompositeParticipantViewData participantViewData) {
+    public CallWithChatCompositeLocalOptions setParticipantViewData(
+            final CallWithChatCompositeParticipantViewData participantViewData) {
         this.participantViewData = participantViewData;
+        return this;
     }
 
     /**
@@ -22,5 +25,24 @@ public final class CallWithChatCompositeLocalOptions {
      */
     public CallWithChatCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
+    }
+
+    /**
+     * Get the {@link CallWithChatCompositeNavigationBarViewData}
+     * @return The {@link CallWithChatCompositeNavigationBarViewData} that is currently set
+     */
+    public CallWithChatCompositeNavigationBarViewData getNavigationBarViewData() {
+        return navigationBarViewData;
+    }
+
+    /**
+     * Set a {@link CallWithChatCompositeNavigationBarViewData} to be used
+     * @param navigationBarViewData The navigation bar view data object to be used
+     * @return The current {@link CallWithChatCompositeLocalOptions} object for Fluent use
+     */
+    public CallWithChatCompositeLocalOptions setNavigationBarViewData(
+            final CallWithChatCompositeNavigationBarViewData navigationBarViewData) {
+        this.navigationBarViewData = navigationBarViewData;
+        return this;
     }
 }

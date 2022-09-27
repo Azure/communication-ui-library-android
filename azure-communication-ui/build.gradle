@@ -35,6 +35,7 @@ buildscript {
             azure_calling_sdk_version = '2.2.0'
         }
 
+        // while modifying this version, make sure to modify in ChatContainer
         azure_chat_sdk_version = '2.0.0'
         azure_common_sdk_version = '1.0.2'
 
@@ -51,7 +52,9 @@ buildscript {
             return rootProject.hasProperty("disableTaskRootCheck") && rootProject.getProperty("disableTaskRootCheck")
         }
 
-        compose_version = '1.3.1'
+        androidx_activity_compose_version = '1.5.1'
+        compose_version = '1.2.1'
+        kotlin_compiler_extension_version = '1.3.1'
     }
 
     repositories {

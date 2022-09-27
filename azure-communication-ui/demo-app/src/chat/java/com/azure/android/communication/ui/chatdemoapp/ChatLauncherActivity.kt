@@ -28,6 +28,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
+    private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,12 @@ class ChatLauncherActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(isTokenFunctionOptionSelected)) {
+                chatLauncherViewModel.useTokenFunction()
+            } else {
+                chatLauncherViewModel.useAcsToken()
+            }
+
             if (savedInstanceState.getBoolean(isKotlinLauncherOptionSelected)) {
                 chatLauncherViewModel.setKotlinLauncher()
             } else {
@@ -62,8 +69,36 @@ class ChatLauncherActivity : AppCompatActivity() {
         }
 
         binding.run {
+            tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
+            acsTokenText.setText(BuildConfig.ACS_TOKEN)
+            userNameText.setText(BuildConfig.USER_NAME)
+            chatThreadID.setText(BuildConfig.THREAD_ID)
+            endPointURL.setText(BuildConfig.END_POINT_URL)
+
             launchButton.setOnClickListener {
-                chatLauncherViewModel.doLaunch()
+                chatLauncherViewModel.doLaunch(
+                    tokenFunctionUrlText.text.toString(),
+                    acsTokenText.text.toString()
+                )
+            }
+
+            tokenFunctionRadioButton.setOnClickListener {
+                if (tokenFunctionRadioButton.isChecked) {
+                    tokenFunctionUrlText.requestFocus()
+                    tokenFunctionUrlText.isEnabled = true
+                    acsTokenText.isEnabled = false
+                    acsTokenRadioButton.isChecked = false
+                    chatLauncherViewModel.useTokenFunction()
+                }
+            }
+            acsTokenRadioButton.setOnClickListener {
+                if (acsTokenRadioButton.isChecked) {
+                    acsTokenText.requestFocus()
+                    acsTokenText.isEnabled = true
+                    tokenFunctionUrlText.isEnabled = false
+                    tokenFunctionRadioButton.isChecked = false
+                    chatLauncherViewModel.useAcsToken()
+                }
             }
 
             javaButton.setOnClickListener {
@@ -93,6 +128,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         saveState(outState)
         super.onSaveInstanceState(outState)
     }
+
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
@@ -131,7 +167,10 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private fun launch(launcher: ChatCompositeLauncher) {
         launcher.launch(
-            this@ChatLauncherActivity
+            this@ChatLauncherActivity,
+            binding.chatThreadID.text.toString(),
+            binding.endPointURL.text.toString(),
+            binding.userNameText.text.toString()
         )
     }
 

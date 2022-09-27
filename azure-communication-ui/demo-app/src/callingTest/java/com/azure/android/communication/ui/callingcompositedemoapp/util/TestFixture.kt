@@ -9,14 +9,17 @@ import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 // Do not modify when testing on AppCenter
 object TestFixture {
     val teamsUrl by lazy {
-        InstrumentationRegistry.getArguments().getString("teamsUrl") ?: BuildConfig.TEAMS_MEETING_LINK
+        InstrumentationRegistry.getArguments().getString("teamsUrl")
+            ?: BuildConfig.TEAMS_MEETING_LINK
     }
 
     val tokenFunctionUrl by lazy {
-        InstrumentationRegistry.getArguments().getString("tokenFunctionUrl") ?: BuildConfig.TOKEN_FUNCTION_URL
+        InstrumentationRegistry.getArguments().getString("tokenFunctionUrl")
+            ?: BuildConfig.TOKEN_FUNCTION_URL
     }
 
     val expiredToken by lazy {
-        InstrumentationRegistry.getArguments().getString("expiredToken") ?: BuildConfig.ACS_TOKEN_EXPIRED
+        InstrumentationRegistry.getArguments().getString("expiredToken")
+            ?: BuildConfig.ACS_TOKEN_EXPIRED
     }
 }

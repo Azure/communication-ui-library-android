@@ -5,14 +5,18 @@
 <resources>
     <string name="app_name">Azure Communication Demo</string>
     <string name="token_url_hint">Token function URL</string>
+    <string name="acs_endpoint_hint">ACS Endpoint</string>
     <string name="name_hint">Your Name</string>
     <string name="group_call_label">Group call</string>
     <string name="teams_meeting_label">Teams meeting</string>
     <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link</string>
+    <string name="chat_thread_id_hint">Chat Thread ID</string>
+    <string name="end_point_url_hint">End Point URL</string>
     <string name="kotlin">Kotlin</string>
     <string name="java">Java</string>
     <string name="launch_button_text">Launch</string>
     <string name="acs_token_hint">ACS Token</string>
+    <string name="acs_user_id_hint">Communication User Id</string>
     <string name="launch_type_text">Launch In:</string>
     <string name="token_function_radio_button_text">Token Function</string>
     <string name="acs_token_radio_button_text">@string/acs_token_hint</string>

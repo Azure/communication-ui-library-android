@@ -8,9 +8,14 @@ import androidx.annotation.NonNull;
 
 import java.util.Locale;
 
+/**
+ * Localization configuration to provide for {@link com.azure.android.communication.ui.chat.ChatComposite}.
+ *
+ * @see com.azure.android.communication.ui.chat.ChatComposite
+ */
 public final class ChatCompositeLocalizationOptions {
-    private Integer layoutDirection;
     private final Locale locale;
+    private Integer layoutDirection;
 
     /**
      * Create Localization configuration.

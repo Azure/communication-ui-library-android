@@ -8,6 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.azure.android.communication.ui.callingcompositedemoapp"
     >
+
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
@@ -16,10 +17,12 @@
         <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.SettingsActivity"
             android:exported="false"
-            android:theme="@style/Launcher.Theme" />
-        <activity android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
             android:theme="@style/Launcher.Theme"
+            />
+        <activity
+            android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
             android:exported="true"
+            android:theme="@style/Launcher.Theme"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

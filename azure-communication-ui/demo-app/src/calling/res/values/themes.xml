@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
 
     <!-- Custom Theme for Composite-->

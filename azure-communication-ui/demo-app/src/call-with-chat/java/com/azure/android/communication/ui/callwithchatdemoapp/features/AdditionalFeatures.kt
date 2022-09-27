@@ -41,44 +41,45 @@ class AdditionalFeatures private constructor() {
                 )
 
                 // Hooks for Activities for this feature
-                application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
-                    // On Resume/Pause we should show/hide the Overlay
-                    // Because after initial enable it goes to accessibility and "resumes"
-                    //
-                    override fun onActivityResumed(activity: Activity) {
-                        if (diagnosticsFeature.active) {
-                            magnifierViewer.show()
+                application.registerActivityLifecycleCallbacks(object :
+                        Application.ActivityLifecycleCallbacks {
+                        // On Resume/Pause we should show/hide the Overlay
+                        // Because after initial enable it goes to accessibility and "resumes"
+                        //
+                        override fun onActivityResumed(activity: Activity) {
+                            if (diagnosticsFeature.active) {
+                                magnifierViewer.show()
+                            }
                         }
-                    }
 
-                    override fun onActivityPaused(activity: Activity) {
-                        if (diagnosticsFeature.active) {
-                            magnifierViewer.hide()
+                        override fun onActivityPaused(activity: Activity) {
+                            if (diagnosticsFeature.active) {
+                                magnifierViewer.hide()
+                            }
                         }
-                    }
 
-                    // Unused
-                    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+                        // Unused
+                        override fun onActivityCreated(
+                            activity: Activity,
+                            savedInstanceState: Bundle?,
+                        ) {
+                        }
 
-                    override fun onActivityStarted(activity: Activity) {}
+                        override fun onActivityStarted(activity: Activity) {}
 
-                    override fun onActivityStopped(activity: Activity) {}
+                        override fun onActivityStopped(activity: Activity) {}
 
-                    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+                        override fun onActivitySaveInstanceState(
+                            activity: Activity,
+                            outState: Bundle,
+                        ) {
+                        }
 
-                    override fun onActivityDestroyed(activity: Activity) {}
-                })
+                        override fun onActivityDestroyed(activity: Activity) {}
+                    })
             }
 
             return diagnosticsFeature
         }
-
-        val secondaryThemeFeature = FeatureFlagEntry(
-            // Will use default false here
-            start = {},
-            end = {},
-            enabledByDefault = false,
-            label = "Secondary theme"
-        )
     }
 }

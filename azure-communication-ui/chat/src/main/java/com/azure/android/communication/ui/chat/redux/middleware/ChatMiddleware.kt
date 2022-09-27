@@ -6,11 +6,14 @@ package com.azure.android.communication.ui.chat.redux.middleware
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
+import com.azure.android.communication.ui.chat.redux.middleware.listener.ChatActionListener
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 internal interface ChatMiddleware
 
-internal class ChatMiddlewareImpl :
+internal class ChatMiddlewareImpl(
+    private val chatActionListener: ChatActionListener
+) :
     Middleware<ReduxState>,
     ChatMiddleware {
     override fun invoke(store: Store<ReduxState>): (next: Dispatch) -> Dispatch {

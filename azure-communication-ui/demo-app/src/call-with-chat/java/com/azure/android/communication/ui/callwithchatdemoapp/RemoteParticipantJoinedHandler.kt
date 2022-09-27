@@ -3,30 +3,31 @@
 
 package com.azure.android.communication.ui.callwithchatdemoapp
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
 import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
-import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
+import com.azure.android.communication.ui.callwithchat.CallWithChatComposite
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeEventHandler
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeParticipantViewData
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeSetParticipantViewDataResult
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(
-    private val callComposite: CallComposite,
-    private val callLauncherActivity: CallWithChatLauncherActivity,
+    private val composite: CallWithChatComposite,
+    private val context: Context,
 ) :
-    CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> {
+    CallWithChatCompositeEventHandler<CallWithChatCompositeRemoteParticipantJoinedEvent> {
 
-    override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
+    override fun handle(event: CallWithChatCompositeRemoteParticipantJoinedEvent) {
         event.identifiers.forEach { communicationIdentifier ->
-            if (callLauncherActivity.resources.getBoolean(R.bool.remote_url_persona_injection)) {
+            if (context.resources.getBoolean(R.bool.remote_url_persona_injection)) {
                 getImageFromServer(communicationIdentifier)
             } else {
                 selectRandomAvatar(communicationIdentifier)
@@ -49,15 +50,16 @@ class RemoteParticipantJoinedHandler(
                         .filterNot { it == ":"[0] || it == "-"[0] }
                     val url = URL("$imageTestUrl$id.png")
                     val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                    val result = callComposite.setRemoteParticipantViewData(
-                        communicationIdentifier, CallCompositeParticipantViewData().setAvatarBitmap(bitMap)
+
+                    val result = composite.setRemoteParticipantViewData(
+                        communicationIdentifier, CallWithChatCompositeParticipantViewData().setAvatarBitmap(bitMap)
                     )
 
-                    if (result == CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
+                    if (result == CallWithChatCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
                         // participant not in call
                     }
 
-                    if (result == CallCompositeSetParticipantViewDataResult.SUCCESS) {
+                    if (result == CallWithChatCompositeSetParticipantViewDataResult.SUCCESS) {
                         // success
                     }
                 } catch (e: Exception) {
@@ -87,19 +89,19 @@ class RemoteParticipantJoinedHandler(
                     )
                     images[number].let {
                         val bitMap =
-                            BitmapFactory.decodeResource(callLauncherActivity.resources, it)
-                        val result = callComposite.setRemoteParticipantViewData(
+                            BitmapFactory.decodeResource(context.resources, it)
+                        val result = composite.setRemoteParticipantViewData(
                             communicationIdentifier,
-                            CallCompositeParticipantViewData()
-                                .setDisplayName(callLauncherActivity.resources.getResourceEntryName(it))
+                            CallWithChatCompositeParticipantViewData()
+                                .setDisplayName(context.resources.getResourceEntryName(it))
                                 .setAvatarBitmap(bitMap)
                         )
 
-                        if (result == CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
+                        if (result == CallWithChatCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
                             // participant not in call
                         }
 
-                        if (result == CallCompositeSetParticipantViewDataResult.SUCCESS) {
+                        if (result == CallWithChatCompositeSetParticipantViewDataResult.SUCCESS) {
                             // success
                         }
                     }
