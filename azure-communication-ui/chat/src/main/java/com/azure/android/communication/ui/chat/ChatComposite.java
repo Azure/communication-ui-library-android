@@ -33,7 +33,7 @@ public class ChatComposite {
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
         this.configuration = configuration;
-        chatContainer = new ChatContainer(configuration);
+        chatContainer = new ChatContainer(configuration, instanceId);
     }
 
     /**
@@ -152,7 +152,7 @@ public class ChatComposite {
                                  final ChatCompositeRemoteOptions remoteOptions,
                                  final ChatCompositeLocalOptions localOptions,
                                  final boolean isTest) {
-        chatContainer.start(context, remoteOptions, localOptions, instanceId);
+        chatContainer.start(context, remoteOptions, localOptions);
         final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
         launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
         context.startActivity(launchIntent);
