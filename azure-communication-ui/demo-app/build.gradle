@@ -60,7 +60,9 @@ android {
                     appIconRound: "@mipmap/ic_launcher_round"
             ]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
-            signingConfig signingConfigs.release
+            if (project.rootProject.file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
+                signingConfig signingConfigs.release
+            }
         }
 
         debug {
