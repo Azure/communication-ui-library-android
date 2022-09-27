@@ -9,8 +9,6 @@ import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent
-import com.azure.android.communication.ui.chat.models.ParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.middleware.ChatMiddlewareImpl
@@ -32,10 +30,12 @@ import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvide
 internal class ChatContainer(
     private val configuration: ChatCompositeConfiguration,
 ) {
-    var started = false
+    companion object {
+        lateinit var locator: ServiceLocator
+    }
+
+    private var started = false
     private var locator: ServiceLocator? = null
-    private val onUnreadMessageChangedHandlers =
-        mutableSetOf<ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent>>()
 
     fun start(
         context: Context,
@@ -58,42 +58,44 @@ internal class ChatContainer(
                     senderDisplayName = remoteOptions.displayName
                 )
 
-            ChatCompositeConfiguration.putConfig(instanceId, configuration)
+            locator = ServiceLocator.getInstance(instanceId = instanceId).apply {
+                val coroutineContextProvider = CoroutineContextProvider()
 
-            locator = ServiceLocator.getInstance(instanceId = instanceId)
-            locator?.let { serviceLocator ->
                 localOptions?.let { localOptions ->
-                    serviceLocator.addTypedBuilder { localOptions }
+                    addTypedBuilder { localOptions }
                 }
-                serviceLocator.addTypedBuilder { remoteOptions }
-
-                serviceLocator.addTypedBuilder {
+                addTypedBuilder { remoteOptions }
+                addTypedBuilder {
                     ChatSDKWrapper(
                         context = context,
-                        instanceId = instanceId,
+                        chatConfig = configuration.chatConfig!!,
                     )
                 }
-
-                serviceLocator.addTypedBuilder {
-                    ChatService(chatSDK = serviceLocator.locate<ChatSDKWrapper>())
+                addTypedBuilder {
+                    ChatService(chatSDK = locate<ChatSDKWrapper>())
                 }
-
-                serviceLocator.addTypedBuilder { CoroutineContextProvider() }
-
-                serviceLocator.addTypedBuilder { ChatActionHandler(chatService = serviceLocator.locate()) }
-
-                serviceLocator.addTypedBuilder { ChatMiddlewareImpl(chatActionHandler = serviceLocator.locate()) }
-
-                serviceLocator.addTypedBuilder {
+                addTypedBuilder { CoroutineContextProvider() }
+                addTypedBuilder { ChatActionHandler(chatService = locate()) }
+                addTypedBuilder {
                     ChatServiceListener(
-                        chatService = serviceLocator.locate(),
-                        chatMiddleware = serviceLocator.locate<ChatMiddlewareImpl>()
+                        chatService = locate(),
+                        coroutineContextProvider = coroutineContextProvider
+                    )
+                }
+                addTypedBuilder {
+                    ChatMiddlewareImpl(
+                        chatActionHandler = locate(),
+                        chatServiceListener = locate()
                     )
                 }
 
-                serviceLocator.addTypedBuilder {
+                addTypedBuilder {
                     AppStore(
-                        initialState = AppReduxState(),
+                        initialState = AppReduxState(
+                            configuration.chatConfig!!.threadId,
+                            configuration.chatConfig!!.identity,
+                            configuration.chatConfig?.senderDisplayName
+                        ),
                         reducer = AppStateReducer(
                             chatReducer = ChatReducerImpl(),
                             participantReducer = ParticipantsReducerImpl(),
@@ -101,40 +103,15 @@ internal class ChatContainer(
                             errorReducer = ErrorReducerImpl(),
                             navigationReducer = NavigationReducerImpl()
                         ) as Reducer<ReduxState>,
-                        middlewares = mutableListOf(serviceLocator.locate<ChatMiddlewareImpl>()),
-                        dispatcher = (serviceLocator.locate() as CoroutineContextProvider).SingleThreaded
+                        middlewares = mutableListOf(locate<ChatMiddlewareImpl>()),
+                        dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
                     )
                 }
-
-                val store: AppStore<AppReduxState> = serviceLocator.locate()
-                store.dispatch(
-                    ChatAction.LocalParticipantInfo(
-                        ParticipantInfoModel(
-                            configuration.chatConfig!!.identity,
-                            configuration.chatConfig?.senderDisplayName
-                        )
-                    )
-                )
-                store.dispatch(
-                    ChatAction.ChatThreadID(configuration.chatConfig!!.threadId)
-                )
-                store.dispatch(ChatAction.Initialization())
+            }.apply {
+                val store: AppStore<AppReduxState> = locate()
+                store.dispatch(ChatAction.startChat())
             }
         }
-    }
-
-    fun addOnViewClosedEventHandler(handler: ChatCompositeEventHandler<Any>) {
-    }
-
-    fun removeOnViewClosedEventHandler(handler: ChatCompositeEventHandler<Any>) {
-    }
-
-    fun addOnUnreadMessagesChangedEventHandler(handler: ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent>) {
-        onUnreadMessageChangedHandlers.add(handler)
-    }
-
-    fun removeOnUnreadMessagesChangedEventHandler(handler: ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent>) {
-        onUnreadMessageChangedHandlers.remove(handler)
     }
 
     fun stop() {

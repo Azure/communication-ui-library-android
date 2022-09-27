@@ -13,20 +13,14 @@ internal interface ChatReducer : Reducer<ChatState>
 internal class ChatReducerImpl : ChatReducer {
     override fun reduce(state: ChatState, action: Action): ChatState {
         return when (action) {
-            is ChatAction.ChatThreadID -> {
-                state.copy(chatThreadId = action.chatThreadId)
-            }
             is ChatAction.Initialization -> {
                 state.copy(chatStatus = ChatStatus.INITIALIZATION)
             }
             is ChatAction.Initialized -> {
                 state.copy(chatStatus = ChatStatus.INITIALIZED)
             }
-            is ChatAction.LocalParticipantInfo -> {
-                state.copy(localParticipantInfoModel = action.localParticipantInfoModel)
-            }
-            is ChatAction.Error -> {
-                state.copy(chatStatus = ChatStatus.ERROR)
+            is ChatAction.TopicUpdated -> {
+                state.copy(chatInfoModel = state.chatInfoModel.copy(topic = action.topic))
             }
             else -> state
         }

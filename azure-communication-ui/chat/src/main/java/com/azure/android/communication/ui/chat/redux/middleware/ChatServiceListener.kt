@@ -3,11 +3,35 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware
 
+import com.azure.android.communication.ui.chat.redux.Dispatch
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.ChatService
+import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 internal class ChatServiceListener(
     private val chatService: ChatService,
-    private val chatMiddleware: ChatMiddleware
+    coroutineContextProvider: CoroutineContextProvider,
 ) {
-    // subscribe to chat service and notify middleware
+    private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
+
+    fun subscribe(dispatch: Dispatch) {
+        coroutineScope.launch {
+            chatService.getChatStatusStateFlow().collect {
+                when (it) {
+                    ChatStatus.INITIALIZATION -> dispatch(ChatAction.Initialization())
+                    ChatStatus.INITIALIZED -> dispatch(ChatAction.Initialized())
+                    else -> {
+                    }
+                }
+            }
+        }
+    }
+
+    fun unsubscribe() {
+        coroutineScope.cancel()
+    }
 }

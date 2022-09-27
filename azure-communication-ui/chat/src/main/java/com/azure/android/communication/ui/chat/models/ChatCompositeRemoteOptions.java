@@ -31,7 +31,7 @@ public class ChatCompositeRemoteOptions {
      *
      * @param locator     {@link ChatCompositeJoinLocator}
      * @param credential  {@link CommunicationTokenCredential}
-     * @param identity   {@link String}
+     * @param identity    {@link String}
      * @param displayName User display name other participants will see.
      */
     public ChatCompositeRemoteOptions(
