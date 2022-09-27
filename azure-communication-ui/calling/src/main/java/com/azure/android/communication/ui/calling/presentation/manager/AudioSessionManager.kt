@@ -211,6 +211,8 @@ internal class AudioSessionManager(
         if (initialized) return
         initialized = true
 
+        switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
+
         updateHeadphoneStatus()
 
         when {
