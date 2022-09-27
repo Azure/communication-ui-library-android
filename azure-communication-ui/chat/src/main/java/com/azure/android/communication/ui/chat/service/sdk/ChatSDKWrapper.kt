@@ -10,21 +10,21 @@ import com.azure.android.communication.chat.ChatThreadAsyncClient
 import com.azure.android.communication.chat.ChatThreadClientBuilder
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
+import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
 import com.azure.android.core.http.policy.UserAgentPolicy
 import com.azure.android.core.util.RequestContext
 import java9.util.concurrent.CompletableFuture
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class ChatSDKWrapper(
-    private val instanceId: Int,
-    private val context: Context,
+    context: Context,
+    chatConfig: ChatConfiguration,
 ) : ChatSDK {
-
-    private val chatConfig get() = ChatCompositeConfiguration.getConfig(instanceId).chatConfig!!
-
     private lateinit var chatAsyncClient: ChatAsyncClient
     private lateinit var chatThreadAsyncClient: ChatThreadAsyncClient
 
@@ -36,9 +36,18 @@ internal class ChatSDKWrapper(
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
 
-    override fun init() {
+    private val chatStatusStateFlow: MutableStateFlow<ChatStatus> =
+        MutableStateFlow(ChatStatus.NONE)
+
+    override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
+
+    override fun initialization() {
+        chatStatusStateFlow.value = ChatStatus.INITIALIZATION
         createChatAsyncClient()
         createChatThreadAsyncClient()
+        // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
+        // TODO: above will make sure, network is connected as well
+        chatStatusStateFlow.value = ChatStatus.INITIALIZED
     }
 
     override fun sendMessage(

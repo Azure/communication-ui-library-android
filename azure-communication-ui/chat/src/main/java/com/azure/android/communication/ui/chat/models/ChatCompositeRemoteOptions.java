@@ -10,17 +10,20 @@ public class ChatCompositeRemoteOptions {
     private final CommunicationTokenCredential credential;
     private final ChatCompositeJoinLocator locator;
     private final String displayName;
+    private final String identity;
 
     /**
      * Create {@link ChatCompositeRemoteOptions}.
      *
      * @param locator    {@link ChatCompositeJoinLocator}
      * @param credential {@link CommunicationTokenCredential}.
+     * @param identity   {@link String}
      */
     public ChatCompositeRemoteOptions(
             final ChatCompositeJoinLocator locator,
-            final CommunicationTokenCredential credential) {
-        this(locator, credential, "");
+            final CommunicationTokenCredential credential,
+            final String identity) {
+        this(locator, credential, identity, "");
     }
 
     /**
@@ -28,14 +31,17 @@ public class ChatCompositeRemoteOptions {
      *
      * @param locator     {@link ChatCompositeJoinLocator}
      * @param credential  {@link CommunicationTokenCredential}
+     * @param identity    {@link String}
      * @param displayName User display name other participants will see.
      */
     public ChatCompositeRemoteOptions(
             final ChatCompositeJoinLocator locator,
             final CommunicationTokenCredential credential,
+            final String identity,
             final String displayName) {
 
         this.credential = credential;
+        this.identity = identity;
         this.displayName = displayName;
         this.locator = locator;
     }
@@ -65,5 +71,14 @@ public class ChatCompositeRemoteOptions {
      */
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * Get user Identity.
+     *
+     * @return {@link String}.
+     */
+    public String getIdentity() {
+        return identity;
     }
 }

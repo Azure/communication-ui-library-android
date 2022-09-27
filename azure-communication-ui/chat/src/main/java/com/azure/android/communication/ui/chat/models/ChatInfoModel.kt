@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.chat.models
 
-internal data class ParticipantInfoModel(
-    val userIdentifier: String,
-    val displayName: String?,
+internal data class ChatInfoModel(
+    val threadId: String,
+    val topic: String?,
 )

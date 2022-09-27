@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 internal class AppStateReducer(
     private val chatReducer: ChatReducer,
@@ -13,24 +14,33 @@ internal class AppStateReducer(
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
 ) :
-    Reducer<AppReduxState> {
-    override fun reduce(state: AppReduxState, action: Action): AppReduxState {
-
-        val appState = AppReduxState()
-
+    Reducer<ReduxState> {
+    override fun reduce(state: ReduxState, action: Action): ReduxState {
+        val appState = AppReduxState(
+            threadID = state.chatState.chatInfoModel.threadId,
+            localParticipantIdentifier = state.chatState.localParticipantInfoModel.userIdentifier,
+            localParticipantDisplayName = state.chatState.localParticipantInfoModel.displayName
+        )
         appState.chatState = chatReducer.reduce(
-            state.chatState,
-            action
+            state = state.chatState,
+            action = action
         )
-
         appState.participantState = participantReducer.reduce(
-            state.participantState,
-            action
+            state = state.participantState,
+            action = action
         )
-
-        appState.lifecycleState = lifecycleReducer.reduce(state.lifecycleState, action)
-        appState.errorState = errorReducer.reduce(state.errorState, action)
-        appState.navigationState = navigationReducer.reduce(state.navigationState, action)
+        appState.lifecycleState = lifecycleReducer.reduce(
+            state = state.lifecycleState,
+            action = action
+        )
+        appState.errorState = errorReducer.reduce(
+            state = state.errorState,
+            action = action
+        )
+        appState.navigationState = navigationReducer.reduce(
+            state = state.navigationState,
+            action = action
+        )
         return appState
     }
 }
