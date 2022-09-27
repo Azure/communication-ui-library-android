@@ -10,15 +10,21 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import com.azure.android.communication.ui.chat.service.ChatService
+import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 
 internal interface ChatMiddleware
 
 internal class ChatMiddlewareImpl(
-    private val chatActionHandler: ChatActionHandler,
-    private val chatServiceListener: ChatServiceListener
+    chatService: ChatService,
+    coroutineContextProvider: CoroutineContextProvider
 ) :
     Middleware<ReduxState>,
     ChatMiddleware {
+
+    private val chatServiceListener = ChatServiceListener(chatService = chatService, coroutineContextProvider = coroutineContextProvider)
+    private val chatActionHandler = ChatActionHandler(chatService =  chatService)
+
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
             when (action) {
