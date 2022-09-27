@@ -4,12 +4,25 @@
 package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.redux.action.Action
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatState
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 
 internal interface ChatReducer : Reducer<ChatState>
 
 internal class ChatReducerImpl : ChatReducer {
     override fun reduce(state: ChatState, action: Action): ChatState {
-        return state
+        return when (action) {
+            is ChatAction.Initialization -> {
+                state.copy(chatStatus = ChatStatus.INITIALIZATION)
+            }
+            is ChatAction.Initialized -> {
+                state.copy(chatStatus = ChatStatus.INITIALIZED)
+            }
+            is ChatAction.TopicUpdated -> {
+                state.copy(chatInfoModel = state.chatInfoModel.copy(topic = action.topic))
+            }
+            else -> state
+        }
     }
 }
