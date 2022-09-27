@@ -6,13 +6,13 @@ package com.azure.android.communication.ui.chat.presentation
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.azure.android.communication.ui.chat.presentation.ui.container.ContainerView
+import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView
 
 class ChatCompositeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ContainerView(this)
+            ChatView(this)
         }
     }
 

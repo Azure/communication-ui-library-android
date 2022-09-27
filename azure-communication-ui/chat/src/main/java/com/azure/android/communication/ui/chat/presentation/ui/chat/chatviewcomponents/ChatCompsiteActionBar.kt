@@ -20,7 +20,7 @@ fun ChatCompositeActionBar() {
 
 @Preview
 @Composable
-fun PreviewChatCompsiteActionBar() {
+fun PreviewChatCompositeActionBar() {
     Column {
         ChatCompositeActionBar()
     }

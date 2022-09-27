@@ -5,13 +5,20 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
-import com.azure.android.communication.ui.chat.presentation.theme.ChatCompositeUITheme
+import androidx.compose.ui.tooling.preview.Preview
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
 
 @Composable
-fun ChattingScreen() {
+fun ChatScreen() {
+    BasicText(
+        text = "Hello Chat!",
+    )
+}
+
+@Preview
+@Composable
+fun ChatScreenPreview() {
     ChatCompositeUITheme {
-        BasicText(
-            text = "Hello Chat!",
-        )
+        ChatScreen()
     }
 }
