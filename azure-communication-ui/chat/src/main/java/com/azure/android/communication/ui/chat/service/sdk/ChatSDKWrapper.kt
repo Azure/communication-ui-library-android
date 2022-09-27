@@ -45,6 +45,8 @@ internal class ChatSDKWrapper(
         chatStatusStateFlow.value = ChatStatus.INITIALIZATION
         createChatAsyncClient()
         createChatThreadAsyncClient()
+        // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
+        // TODO: above will make sure, network is connected as well
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
     }
 
