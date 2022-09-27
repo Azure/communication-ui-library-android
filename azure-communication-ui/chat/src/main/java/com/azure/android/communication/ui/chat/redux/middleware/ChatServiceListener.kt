@@ -12,6 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
+// Listens to Events from SDK and Dispatches actions
+// Service -> Redux
 internal class ChatServiceListener(
     private val chatService: ChatService,
     coroutineContextProvider: CoroutineContextProvider,
@@ -24,8 +26,7 @@ internal class ChatServiceListener(
                 when (it) {
                     ChatStatus.INITIALIZATION -> dispatch(ChatAction.Initialization())
                     ChatStatus.INITIALIZED -> dispatch(ChatAction.Initialized())
-                    else -> {
-                    }
+                    else -> {}
                 }
             }
         }
