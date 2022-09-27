@@ -15,6 +15,11 @@ import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvide
 
 internal interface ChatMiddleware
 
+// ChatMiddleware
+//
+// Manages
+// ChatServiceListener (Service -> Redux)
+// ChatActionHandler (Redux -> Service)
 internal class ChatMiddlewareImpl(
     chatService: ChatService,
     coroutineContextProvider: CoroutineContextProvider
@@ -27,18 +32,17 @@ internal class ChatMiddlewareImpl(
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
+            // Handle Service Subscription/UnSubscription of service
             when (action) {
                 is ChatAction.StartChat -> {
                     chatServiceListener.subscribe(store::dispatch)
-                    chatActionHandler.initialization(store)
-                }
-                is ChatAction.Initialized -> {
-                    chatActionHandler.initialized(store)
-                }
-                is ErrorAction.ChatStateErrorOccurred -> {
-                    chatActionHandler.onError(store)
                 }
             }
+
+            // Forward Actions to ChatActionHandler
+            chatActionHandler.onAction(action, store::dispatch)
+
+            // Pass Action down the chain
             next(action)
         }
     }
