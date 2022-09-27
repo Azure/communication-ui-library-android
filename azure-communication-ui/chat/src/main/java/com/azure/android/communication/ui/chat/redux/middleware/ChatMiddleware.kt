@@ -29,12 +29,12 @@ internal class ChatMiddlewareImpl(
             // Handle Service Subscription/UnSubscription of service
             when (action) {
                 is ChatAction.StartChat -> {
-                    chatServiceListener.subscribe(store::dispatch)
+                    chatServiceListener.subscribe(dispatch = store::dispatch)
                 }
             }
 
             // Forward Actions to ChatActionHandler
-            chatActionHandler.onAction(action, store::dispatch)
+            chatActionHandler.onAction(action = action, dispatch = store::dispatch)
 
             // Pass Action down the chain
             next(action)

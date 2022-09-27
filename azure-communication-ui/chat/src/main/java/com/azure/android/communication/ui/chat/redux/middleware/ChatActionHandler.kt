@@ -17,21 +17,28 @@ internal class ChatActionHandler(private val chatService: ChatService) {
 
     fun onAction(action: Action, dispatch: Dispatch) {
         when (action) {
-            is ChatAction.StartChat -> initialization(dispatch)
-            // is ChatAction.SendMessage -> sendMessage(action, dispatch)
+            is ChatAction.StartChat -> initialization(dispatch = dispatch)
+            is ChatAction.Initialized -> onChatInitialized(
+                action = action,
+                dispatch = dispatch
+            )
+            is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
         }
     }
 
-    /* EXAMPLE:
-    private fund sendMessage(action: ChatAction.SendMessage, dispatch) {
-        try {
-            chatService.sendMessage(action.message)
-        } catch (ex: Exception) {
-            val error = ChatStateError(errorCode = ErrorCode.SendMessageFailed)
-            dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
+    private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
+        chatService.sendMessage(action.type, action.text).whenComplete { _, error ->
+            if (error != null) {
+                dispatch(
+                    ErrorAction.ChatStateErrorOccurred(
+                        chatStateError = ChatStateError(
+                            errorCode = ErrorCode.CHAT_SEND_MESSAGE_FAILED
+                        )
+                    )
+                )
+            }
         }
     }
-     */
 
     private fun initialization(dispatch: Dispatch) {
         try {
@@ -40,5 +47,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             val error = ChatStateError(errorCode = ErrorCode.CHAT_JOIN_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
         }
+    }
+
+    private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
     }
 }
