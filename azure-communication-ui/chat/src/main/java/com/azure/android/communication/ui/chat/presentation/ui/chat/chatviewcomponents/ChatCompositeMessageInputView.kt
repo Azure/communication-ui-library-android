@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.chat.presentation.components.messageinput
+package com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,11 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -33,11 +30,11 @@ import com.azure.android.communication.ui.chat.R
 @Preview(showSystemUi = true)
 @Composable
 fun MessageInputAreaPreview() {
-    MessageInputArea()
+    MessageInputArea(Color(0xFF212121), Color(0xFFE1E1E1))
 }
 
 @Composable
-fun MessageInputArea() {
+fun MessageInputArea(textColor: Color, outlineColor: Color) {
     var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
     var focusState by rememberSaveable { mutableStateOf(false) }
 
@@ -53,10 +50,10 @@ fun MessageInputArea() {
             textState = textState,
             onTextFieldFocused = { focusState = it },
             focusState = focusState,
-            // TODO: Pass in color from Theme
-            textColor = Color(0xFF212121),
-            outlineColor = Color(0xFFE1E1E1)
+            textColor = textColor,
+            outlineColor = outlineColor
         )
+
         // TODO: SendButton()
     }
 }
@@ -107,6 +104,7 @@ fun MessageInput(
                         )
                     )
                 }
+
                 innerTextField()
             }
         }
