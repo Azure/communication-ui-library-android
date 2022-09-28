@@ -22,7 +22,7 @@ internal class ChatView(context: Context, instanceId : Int) : FrameLayout(contex
 
     private val reduxViewModel by lazy {
         ReduxViewModel(
-            builder = { store -> buildChatScreenViewModel(store, emptyList()) },
+            builder = { store -> buildChatScreenViewModel(store.getCurrentState(), emptyList()) },
             onChanged = {
                 composeView.setContent {
                     ChatCompositeUITheme {
