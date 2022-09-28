@@ -27,7 +27,6 @@ internal class ReduxViewModelTest : Reducer<BasicState> {
             coroutineScope = TestScope(UnconfinedTestDispatcher())
         )
         store.dispatch(Increment())
-        rvm.start()
 
         assertNotNull(outputModel)
     }
