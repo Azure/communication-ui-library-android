@@ -17,6 +17,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.view_model.buildC
 internal class ChatView(context: Context, private val instanceId: Int) : FrameLayout(context) {
     private val composeView = ComposeView(context)
 
+    private val locator get() = ServiceLocator.getInstance(instanceId)
     init {
         addView(composeView)
     }
@@ -24,7 +25,7 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         ReduxViewModel(
-            builder = { store -> buildChatScreenViewModel(store.getCurrentState(), emptyList()) },
+            builder = { store -> buildChatScreenViewModel(store, locator.locate()) },
             onChanged = {
                 composeView.setContent {
                     ChatCompositeUITheme {
@@ -33,7 +34,7 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
                 }
             },
             coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
-            store = ServiceLocator.getInstance(instanceId).locate()
+            store = locator.locate()
         )
     }
 }
