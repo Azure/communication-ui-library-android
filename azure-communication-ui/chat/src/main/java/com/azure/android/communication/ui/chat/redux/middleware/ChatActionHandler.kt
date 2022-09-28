@@ -58,6 +58,10 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
+        chatService.startReceivingEvents {
+            val error = ChatStateError(errorCode = ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
+            dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
+        }
         // test code
         /*sendMessage(
             action = ChatAction.SendMessage(
