@@ -18,8 +18,13 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
 
 @Preview
 @Composable
-fun ChatScreenPreview() {
+internal fun ChatScreenPreview() {
     ChatCompositeUITheme {
-        ChatScreen(viewModel = ChatScreenViewModel(listOf(), "state", 2))
+        ChatScreen(
+            viewModel = ChatScreenViewModel(listOf(),
+            state = "state",
+            buildCount = 2,
+            postMessage = {}
+        ))
     }
 }

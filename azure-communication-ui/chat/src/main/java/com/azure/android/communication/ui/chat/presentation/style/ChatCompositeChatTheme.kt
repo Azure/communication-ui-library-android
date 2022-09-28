@@ -8,7 +8,7 @@ import com.microsoft.fluentui.theme.FluentTheme
 import com.microsoft.fluentui.theme.ThemeMode
 
 @Composable
-fun ChatCompositeUITheme(
+internal fun ChatCompositeUITheme(
     themeMode: ThemeMode = ThemeMode.Auto,
     content: @Composable () -> Unit,
 ) {

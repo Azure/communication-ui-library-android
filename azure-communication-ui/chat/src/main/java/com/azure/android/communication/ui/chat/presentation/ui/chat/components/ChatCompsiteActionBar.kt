@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ChatCompositeActionBar() {
+internal fun ChatCompositeActionBar() {
     Box(modifier = Modifier.fillMaxWidth()) {
         Row {}
     }
@@ -20,7 +20,7 @@ fun ChatCompositeActionBar() {
 
 @Preview
 @Composable
-fun PreviewChatCompositeActionBar() {
+internal fun PreviewChatCompositeActionBar() {
     Column {
         ChatCompositeActionBar()
     }
