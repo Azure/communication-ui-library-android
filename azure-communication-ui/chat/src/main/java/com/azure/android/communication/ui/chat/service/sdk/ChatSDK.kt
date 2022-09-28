@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.service.sdk
 
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,6 @@ internal interface ChatSDK {
     fun getChatStatusStateFlow(): StateFlow<ChatStatus>
 
     fun sendMessage(
-        type: ChatMessageType,
-        content: String,
+        messageInfoModel: MessageInfoModel,
     ): CompletableFuture<SendChatMessageResult>
 }
