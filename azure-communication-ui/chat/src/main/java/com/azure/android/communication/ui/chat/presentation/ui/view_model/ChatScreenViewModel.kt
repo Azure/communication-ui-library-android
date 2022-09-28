@@ -1,7 +1,17 @@
 package com.azure.android.communication.ui.chat.presentation.ui.view_model
 
 import com.azure.android.communication.chat.models.ChatMessage
+import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-class ChatScreenViewModel(val messages:List<ChatMessage>, val state: String) {
+// View Model for the Chat Screen
+data class ChatScreenViewModel(val messages:List<ChatMessage>, val state: String)
 
-}
+// Methods to Build the Chat Screen View Model from the Store
+internal fun buildChatScreenViewModel(
+    store: AppStore<ReduxState>,
+    messages: List<ChatMessage>) =
+        ChatScreenViewModel(
+         messages = messages,
+         state = store.getCurrentState().chatState.chatStatus.name
+        )

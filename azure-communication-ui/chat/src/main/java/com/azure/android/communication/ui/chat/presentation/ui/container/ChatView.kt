@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeU
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
 import com.azure.android.communication.ui.chat.presentation.ui.redux_view_model.ReduxViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.view_model.ChatScreenViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.view_model.buildChatScreenViewModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
@@ -21,26 +22,20 @@ internal class ChatView(context: Context, instanceId : Int) : FrameLayout(contex
 
     private val reduxViewModel by lazy {
         ReduxViewModel(
-            builder = ::viewModelBuilder,
-            onChanged = ::update,
+            builder = { store -> buildChatScreenViewModel(store, emptyList()) },
+            onChanged = {
+                composeView.setContent {
+                    ChatCompositeUITheme {
+                        ChatScreen(viewModel = it)
+                    }
+                }
+            },
             coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
             store = ServiceLocator.getInstance(instanceId).locate())
     }
 
     init {
         addView(composeView)
-    }
-
-    private fun update(viewModel: ChatScreenViewModel) {
-        composeView.setContent {
-            ChatCompositeUITheme {
-                ChatScreen(viewModel = viewModel)
-            }
-        }
-    }
-
-    private fun viewModelBuilder(store: AppStore<ReduxState>): ChatScreenViewModel {
-        return ChatScreenViewModel(emptyList(), store.getCurrentState().chatState.chatStatus.name)
     }
 
     override fun onAttachedToWindow() {
