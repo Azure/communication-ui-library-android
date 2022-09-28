@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.chat.redux.reducer.ParticipantsReducer
 import com.azure.android.communication.ui.chat.redux.reducer.Reducer
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
@@ -124,6 +125,7 @@ internal class ChatContainer(
                 )
             }
 
+            addTypedBuilder { MessageRepository() }
             addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
         }
 
