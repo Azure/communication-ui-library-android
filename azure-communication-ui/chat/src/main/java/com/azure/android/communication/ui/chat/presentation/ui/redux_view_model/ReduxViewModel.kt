@@ -55,5 +55,4 @@ internal class ReduxViewModel<T, M : Any>(
             onChanged(viewModel)
         }
     }
-
 }

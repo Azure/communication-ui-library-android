@@ -12,14 +12,10 @@ import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
 import com.azure.android.communication.ui.chat.presentation.ui.redux_view_model.ReduxViewModel
-import com.azure.android.communication.ui.chat.presentation.ui.view_model.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.view_model.buildChatScreenViewModel
-import com.azure.android.communication.ui.chat.redux.AppStore
-import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatView(context: Context, private val instanceId : Int) : FrameLayout(context) {
+internal class ChatView(context: Context, private val instanceId: Int) : FrameLayout(context) {
     private val composeView = ComposeView(context)
-
 
     init {
         addView(composeView)
@@ -37,6 +33,7 @@ internal class ChatView(context: Context, private val instanceId : Int) : FrameL
                 }
             },
             coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
-            store = ServiceLocator.getInstance(instanceId).locate())
+            store = ServiceLocator.getInstance(instanceId).locate()
+        )
     }
 }
