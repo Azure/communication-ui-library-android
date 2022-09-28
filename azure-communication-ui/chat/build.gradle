@@ -82,6 +82,8 @@ dependencies {
     debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 
     testImplementation "junit:junit:$junit_version"
+    testImplementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-test', version: '1.6.4', ext: 'pom'
+
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
