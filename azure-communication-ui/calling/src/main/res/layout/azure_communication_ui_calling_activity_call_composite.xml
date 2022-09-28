@@ -2,16 +2,32 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.slidingpanelayout.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sliding_pane_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
-    >
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/azure_communication_ui_fragment_container_view"
+    tools:context="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:orientation="vertical"
+        >
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/azure_communication_ui_fragment_container_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
 
-</LinearLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/detail_container"
+        android:name="com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/holo_red_dark" />
+
+</androidx.slidingpanelayout.widget.SlidingPaneLayout>
+

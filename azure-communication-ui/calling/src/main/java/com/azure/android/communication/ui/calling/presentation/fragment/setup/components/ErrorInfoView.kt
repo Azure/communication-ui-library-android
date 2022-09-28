@@ -100,7 +100,7 @@ internal class ErrorInfoView(private val rootView: View) {
     private fun initSnackBar() {
         snackBar = Snackbar.make(
             rootView,
-            "",
+            " ",
             Snackbar.LENGTH_INDEFINITE,
             Snackbar.Style.REGULAR
         ).apply {

@@ -97,9 +97,11 @@ internal class SetupFragment :
             viewLifecycleOwner,
             viewModel.getSetupControlsViewModel()
         )
+/*
 
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
+*/
 
         viewModel.setupCall()
     }

@@ -142,8 +142,8 @@ internal class CallingFragment :
             switchFloatingHeader()
         }
 
-        errorInfoView = ErrorInfoView(view)
-        errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
+        /*errorInfoView = ErrorInfoView(view)
+        errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())*/
     }
 
     override fun onResume() {

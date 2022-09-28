@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
@@ -225,19 +226,22 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity", "RestrictedApi")
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
+        val slidingPane = findViewById<SlidingPaneLayout>(R.id.sliding_pane_layout)
         when (navigationState) {
             NavigationStatus.EXIT -> {
                 notificationService.removeNotification()
                 store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
+                slidingPane.close()
                 finish()
             }
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                launchFragment(CallingFragment::class.java.name)
+                slidingPane.open()
+                //launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()

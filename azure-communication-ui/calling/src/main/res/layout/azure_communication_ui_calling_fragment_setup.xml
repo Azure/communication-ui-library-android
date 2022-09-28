@@ -12,7 +12,6 @@
     android:gravity="center_horizontal"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    tools:context="com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout

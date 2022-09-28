@@ -12,7 +12,6 @@
     android:gravity="center_horizontal"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    tools:context="com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment"
     >
 
     <androidx.constraintlayout.widget.Guideline
@@ -146,6 +145,14 @@
                     android:text="@string/azure_communication_ui_calling_setup_view_warning_missing_text"
                     android:textColor="@color/azure_communication_ui_calling_color_on_surface"
                     />
+
+                <com.microsoft.fluentui.widget.Button
+                    android:id="@+id/azure_communication_ui_setup_settings_button"
+                    android:layout_width="142dp"
+                    android:layout_height="48dp"
+                    android:textColor="@color/azure_communication_ui_calling_color_primary"
+                    android:background="@drawable/button_outlined"
+                    android:text="@string/azure_communication_ui_calling_setup_view_go_to_settings" />
             </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningView>
 
             <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView
