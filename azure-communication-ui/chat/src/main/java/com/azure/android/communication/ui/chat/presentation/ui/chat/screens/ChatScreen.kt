@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeU
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 
 @Composable
-fun ChatScreen(viewModel: ChatScreenViewModel) {
+internal fun ChatScreen(viewModel: ChatScreenViewModel) {
     BasicText(
         text = "Hello Chat! ${viewModel.messages.size} ${viewModel.state} builds: ${viewModel.buildCount}",
     )
