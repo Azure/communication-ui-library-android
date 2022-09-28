@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.service.sdk
 
-import android.content.Context
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
@@ -19,6 +18,6 @@ internal interface ChatSDK {
         content: String,
     ): CompletableFuture<SendChatMessageResult>
 
-    fun startEventNotifications(context: Context) {}
+    fun startEventNotifications(errorHandler: (exception: Throwable) -> Unit) {}
     fun stopEventNotifications() {}
 }

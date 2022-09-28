@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class ChatSDKWrapper(
-    context: Context,
+    private val context: Context,
     chatConfig: ChatConfiguration,
 ) : ChatSDK {
     private lateinit var chatAsyncClient: ChatAsyncClient
@@ -74,10 +74,15 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    override fun startEventNotifications(context: Context) {
+    override fun startEventNotifications(errorHandler: (exception: Throwable) -> Unit) {
         if (startedEventNotifications) return
-        chatAsyncClient.startRealtimeNotifications(context) {}
-        startedEventNotifications = true
+        chatAsyncClient.startRealtimeNotifications(context) {
+            if (it == null) {
+                startedEventNotifications = true
+            } else {
+                errorHandler(it)
+            }
+        }
     }
 
     override fun stopEventNotifications() {
