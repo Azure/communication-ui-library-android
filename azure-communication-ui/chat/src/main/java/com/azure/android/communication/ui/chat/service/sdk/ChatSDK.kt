@@ -4,14 +4,17 @@
 package com.azure.android.communication.ui.chat.service.sdk
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.StateFlow
 
 internal interface ChatSDK {
-    fun initialization()
     fun getChatStatusStateFlow(): StateFlow<ChatStatus>
+
+    fun initialization()
+    fun getPreviousPage(): MessagesPageModel
 
     fun sendMessage(
         messageInfoModel: MessageInfoModel,

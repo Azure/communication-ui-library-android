@@ -8,10 +8,12 @@ import com.azure.android.communication.chat.ChatAsyncClient
 import com.azure.android.communication.chat.ChatClientBuilder
 import com.azure.android.communication.chat.ChatThreadAsyncClient
 import com.azure.android.communication.chat.ChatThreadClientBuilder
+import com.azure.android.communication.chat.models.ListChatMessagesOptions
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
@@ -48,6 +50,16 @@ internal class ChatSDKWrapper(
         // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
         // TODO: above will make sure, network is connected as well
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
+    }
+
+    override fun getPreviousPage(): MessagesPageModel {
+        val options = ListChatMessagesOptions()
+        options.maxPageSize = 50
+
+        return MessagesPageModel(
+            messages = listOf(),
+            error = null
+        )
     }
 
     override fun sendMessage(
