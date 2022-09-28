@@ -1,19 +1,17 @@
 package com.azure.android.communication.ui.chat.presentation.ui.redux_view_model
 
-import android.os.Handler
-import android.os.Looper
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.chat.redux.AppStore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 internal class ReduxViewModel<T, M : Any>(
     val builder: (store: AppStore<T>) -> M,
     val onChanged: (viewModel: M) -> Unit,
-    private val genericStore: AppStore<T>
+    private val coroutineScope: LifecycleCoroutineScope,
+    private val store: AppStore<T>
 ) {
     lateinit var viewModel: M
-
-    //private val storeListener = StoreListener {
-//        rebuild(genericStore)
-//    }
 
     private fun rebuild(store: AppStore<T>) {
         val newState = builder(store)
@@ -29,18 +27,16 @@ internal class ReduxViewModel<T, M : Any>(
     }
 
     private fun postOnChanged() {
-        Handler(Looper.getMainLooper()).post {
+        coroutineScope.launch(Dispatchers.Main) {
             onChanged(viewModel)
         }
     }
 
     fun start() {
-
-        genericStore.addListener(storeListener)
-        rebuild(genericStore)
-    }
-
-    fun stop() {
-        genericStore.removeListener(storeListener)
+        coroutineScope.launch(Dispatchers.Default) {
+            store.getStateFlow().collect {
+                rebuild(store)
+            }
+        }
     }
 }

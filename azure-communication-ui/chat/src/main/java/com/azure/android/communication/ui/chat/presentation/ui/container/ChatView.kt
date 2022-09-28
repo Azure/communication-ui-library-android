@@ -6,23 +6,45 @@ package com.azure.android.communication.ui.chat.presentation.ui.container
 import android.content.Context
 import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
+import com.azure.android.communication.ui.chat.presentation.ui.redux_view_model.ReduxViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.view_model.ChatScreenViewModel
+import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-class ChatView(context: Context) : FrameLayout(context) {
+internal class ChatView(context: Context, instanceId : Int) : FrameLayout(context) {
     private val composeView = ComposeView(context)
+
+    private val reduxViewModel by lazy {
+        ReduxViewModel(
+            builder = ::viewModelBuilder,
+            onChanged = ::update,
+            coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
+            store = ServiceLocator.getInstance(instanceId).locate())
+    }
 
     init {
         addView(composeView)
     }
 
+    private fun update(viewModel: ChatScreenViewModel) {
+        composeView.setContent {
+            ChatCompositeUITheme {
+                ChatScreen(viewModel = viewModel)
+            }
+        }
+    }
+
+    private fun viewModelBuilder(store: AppStore<ReduxState>): ChatScreenViewModel {
+        return ChatScreenViewModel(emptyList(), store.getCurrentState().chatState.chatStatus.name)
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        composeView.setContent {
-            ChatCompositeUITheme {
-                ChatScreen()
-            }
-        }
+        reduxViewModel.start()
     }
 }
