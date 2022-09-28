@@ -17,10 +17,16 @@ import com.azure.android.communication.ui.chat.presentation.ui.view_model.buildC
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatView(context: Context, instanceId : Int) : FrameLayout(context) {
+internal class ChatView(context: Context, private val instanceId : Int) : FrameLayout(context) {
     private val composeView = ComposeView(context)
 
-    private val reduxViewModel by lazy {
+
+    init {
+        addView(composeView)
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
         ReduxViewModel(
             builder = { store -> buildChatScreenViewModel(store.getCurrentState(), emptyList()) },
             onChanged = {
@@ -32,14 +38,5 @@ internal class ChatView(context: Context, instanceId : Int) : FrameLayout(contex
             },
             coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
             store = ServiceLocator.getInstance(instanceId).locate())
-    }
-
-    init {
-        addView(composeView)
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        reduxViewModel.start()
     }
 }

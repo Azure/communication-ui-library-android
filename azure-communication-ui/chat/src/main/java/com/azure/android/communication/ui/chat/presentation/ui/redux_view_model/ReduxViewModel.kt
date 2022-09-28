@@ -27,6 +27,14 @@ internal class ReduxViewModel<T, M : Any>(
 ) {
     lateinit var viewModel: M
 
+    init {
+        coroutineScope.launch(Dispatchers.Default) {
+            store.getStateFlow().collect {
+                rebuild(store)
+            }
+        }
+    }
+
     // Rebuild the View Model
     private fun rebuild(store: AppStore<T>) {
         val newState = builder(store)
@@ -48,11 +56,4 @@ internal class ReduxViewModel<T, M : Any>(
         }
     }
 
-    fun start() {
-        coroutineScope.launch(Dispatchers.Default) {
-            store.getStateFlow().collect {
-                rebuild(store)
-            }
-        }
-    }
 }
