@@ -21,10 +21,12 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
 internal fun ChatScreenPreview() {
     ChatCompositeUITheme {
         ChatScreen(
-            viewModel = ChatScreenViewModel(listOf(),
-            state = "state",
-            buildCount = 2,
-            postMessage = {}
-        ))
+            viewModel = ChatScreenViewModel(
+                listOf(),
+                state = "state",
+                buildCount = 2,
+                postMessage = {}
+            )
+        )
     }
 }
