@@ -35,6 +35,7 @@ internal class ChatSDKWrapper(
     private val sdkVersion = chatConfig.sdkVersion
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
+    private var startedEventNotifications = false
 
     private val chatStatusStateFlow: MutableStateFlow<ChatStatus> =
         MutableStateFlow(ChatStatus.NONE)
@@ -74,11 +75,14 @@ internal class ChatSDKWrapper(
     }
 
     override fun startEventNotifications(context: Context) {
-        chatAsyncClient.startRealtimeNotifications(context){}
+        if (startedEventNotifications) return
+        chatAsyncClient.startRealtimeNotifications(context) {}
+        startedEventNotifications = true
     }
 
     override fun stopEventNotifications() {
         chatAsyncClient.stopRealtimeNotifications()
+        startedEventNotifications = false
     }
 
     private fun createChatAsyncClient() {

@@ -19,6 +19,6 @@ internal interface ChatSDK {
         content: String,
     ): CompletableFuture<SendChatMessageResult>
 
-    fun startEventNotifications(context: Context){}
-    fun stopEventNotifications(){}
+    fun startEventNotifications(context: Context) {}
+    fun stopEventNotifications() {}
 }
