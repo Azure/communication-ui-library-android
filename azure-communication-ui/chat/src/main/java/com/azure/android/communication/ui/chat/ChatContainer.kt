@@ -44,7 +44,7 @@ internal class ChatContainer(
         remoteOptions: ChatCompositeRemoteOptions,
         localOptions: ChatCompositeLocalOptions?,
 
-    ) {
+        ) {
         // currently only single instance is supported
         if (!started) {
             started = true

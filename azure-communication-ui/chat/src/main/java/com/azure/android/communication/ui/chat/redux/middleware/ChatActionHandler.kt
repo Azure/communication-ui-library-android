@@ -27,12 +27,20 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
-        chatService.sendMessage(action.type, action.text).whenComplete { _, error ->
+        chatService.sendMessage(action.messageInfoModel).whenComplete { result, error ->
             if (error != null) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatStateError = ChatStateError(
                             errorCode = ErrorCode.CHAT_SEND_MESSAGE_FAILED
+                        )
+                    )
+                )
+            } else {
+                dispatch(
+                    ChatAction.MessageSent(
+                        messageInfoModel = action.messageInfoModel.copy(
+                            id = result.id
                         )
                     )
                 )
@@ -50,5 +58,17 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
+        // test code
+        /*sendMessage(
+            action = ChatAction.SendMessage(
+                MessageInfoModel(
+                    "123",
+                    "456",
+                    ChatMessageType.TEXT,
+                    "hello"
+                )
+            ),
+            dispatch = dispatch
+        )*/
     }
 }
