@@ -16,7 +16,10 @@ class ChatCompositeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         addContentView(
             ChatView(this, instanceId),
-            ViewGroup.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+            ViewGroup.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
         )
     }
 

@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.chat.presentation.ui.redux_view_model
+package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodel
 
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.Action

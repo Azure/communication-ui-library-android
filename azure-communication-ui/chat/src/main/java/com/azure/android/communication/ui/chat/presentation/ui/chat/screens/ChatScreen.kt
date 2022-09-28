@@ -7,7 +7,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
-import com.azure.android.communication.ui.chat.presentation.ui.view_model.ChatScreenViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 
 @Composable
 fun ChatScreen(viewModel: ChatScreenViewModel) {

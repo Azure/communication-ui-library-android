@@ -11,13 +11,14 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
-import com.azure.android.communication.ui.chat.presentation.ui.redux_view_model.ReduxViewModel
-import com.azure.android.communication.ui.chat.presentation.ui.view_model.buildChatScreenViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodel.ReduxViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.buildChatScreenViewModel
 
 internal class ChatView(context: Context, private val instanceId: Int) : FrameLayout(context) {
     private val composeView = ComposeView(context)
 
     private val locator get() = ServiceLocator.getInstance(instanceId)
+
     init {
         addView(composeView)
     }
@@ -25,7 +26,12 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         ReduxViewModel(
-            builder = { store -> buildChatScreenViewModel(store, locator.locate()) },
+            builder = { store ->
+                buildChatScreenViewModel(
+                    store = store,
+                    repository = locator.locate()
+                )
+            },
             onChanged = {
                 composeView.setContent {
                     ChatCompositeUITheme {

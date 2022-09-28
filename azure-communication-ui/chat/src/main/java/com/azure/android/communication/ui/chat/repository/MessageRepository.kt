@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
@@ -12,6 +15,7 @@ private val emptyMessage = MessageInfoModel(
 
 internal class MessageRepository : List<MessageInfoModel> {
     override val size: Int = 0
+
     // TODO: Nothing here correctly implemented yet
     override fun contains(element: MessageInfoModel) = false
     override fun containsAll(elements: Collection<MessageInfoModel>) = false
