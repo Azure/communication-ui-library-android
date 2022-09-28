@@ -216,8 +216,8 @@ internal class AudioSessionManager(
         updateHeadphoneStatus()
 
         store.dispatch(
-                LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED))
-
+            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+        )
     }
 
     private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
