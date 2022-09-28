@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.view_model.ChatSc
 @Composable
 fun ChatScreen(viewModel: ChatScreenViewModel) {
     BasicText(
-        text = "Hello Chat! ${viewModel.messages.size} ${viewModel.state}",
+        text = "Hello Chat! ${viewModel.messages.size} ${viewModel.state} builds: ${viewModel.buildCount}",
     )
 }
 
@@ -20,6 +20,6 @@ fun ChatScreen(viewModel: ChatScreenViewModel) {
 @Composable
 fun ChatScreenPreview() {
     ChatCompositeUITheme {
-        ChatScreen(viewModel = ChatScreenViewModel(listOf(), "state"))
+        ChatScreen(viewModel = ChatScreenViewModel(listOf(), "state", 2))
     }
 }
