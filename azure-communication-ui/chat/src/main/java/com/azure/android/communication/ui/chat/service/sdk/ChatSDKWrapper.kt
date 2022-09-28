@@ -73,6 +73,14 @@ internal class ChatSDKWrapper(
         return future
     }
 
+    override fun startEventNotifications(context: Context) {
+        chatAsyncClient.startRealtimeNotifications(context){}
+    }
+
+    override fun stopEventNotifications() {
+        chatAsyncClient.stopRealtimeNotifications()
+    }
+
     private fun createChatAsyncClient() {
         chatAsyncClient = ChatClientBuilder()
             .endpoint(endPointURL)
