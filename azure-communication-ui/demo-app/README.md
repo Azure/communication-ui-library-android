@@ -30,4 +30,9 @@ library. Showcases use of both Java and Kotlin to run library.
     - `USER_NAME`="..."           # your preferred display name
     - `GROUP_CALL_ID`="..."       # this a type of UUID used to start and join a meeting
     - `TEAMS_MEETING_LINK`="..."  # the URL to a Teams meeting
+    - `END_POINT_URL`="..."       # the URL for chat end point
+    - `IDENTITY`="..."            # the identity for chat
+    - `CREDENTIAL`="..."          # the credential for chat
+    - `THREAD_ID`="..."           # chat thread id
+    - `SENDER_DISPLAY_NAME`="..." # the display name for local participant in chat thread
 4. Build and Run
