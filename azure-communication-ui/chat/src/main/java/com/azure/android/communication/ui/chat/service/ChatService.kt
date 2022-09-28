@@ -3,14 +3,13 @@
 
 package com.azure.android.communication.ui.chat.service
 
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDK
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 
 internal class ChatService(private val chatSDK: ChatSDK) {
     fun initialize() = chatSDK.initialization()
     fun getChatStatusStateFlow() = chatSDK.getChatStatusStateFlow()
     fun sendMessage(
-        type: ChatMessageType,
-        content: String,
-    ) = chatSDK.sendMessage(type = type, content = content)
+        messageInfoModel: MessageInfoModel,
+    ) = chatSDK.sendMessage(messageInfoModel)
 }
