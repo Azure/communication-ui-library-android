@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodel
+package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelgenerator
 
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.Action
@@ -20,7 +20,7 @@ internal class ReduxViewModelTest : Reducer<BasicState> {
             dispatcher = UnconfinedTestDispatcher()
         )
 
-        val rvm = ReduxViewModel(
+        val rvm = ReduxViewModelGenerator(
             builder = { store -> BasicViewModel(countAsString = "${store.getCurrentState().count}") },
             store = store,
             onChanged = { viewModel -> outputModel = viewModel },

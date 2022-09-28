@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodel
+package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelgenerator
 
 import com.azure.android.communication.ui.chat.redux.AppStore
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
  *   coroutineScope: The lifecycle scope to run this under
  *   store: The Store you want to listen to
  */
-internal class ReduxViewModel<T, M : Any>(
+internal class ReduxViewModelGenerator<T, M : Any>(
     val builder: (store: AppStore<T>) -> M,
     val onChanged: (viewModel: M) -> Unit,
     private val coroutineScope: CoroutineScope,
