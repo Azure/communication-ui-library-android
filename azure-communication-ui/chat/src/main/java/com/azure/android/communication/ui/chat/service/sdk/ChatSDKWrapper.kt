@@ -11,8 +11,8 @@ import com.azure.android.communication.chat.ChatThreadClientBuilder
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
 import com.azure.android.core.http.policy.UserAgentPolicy
@@ -52,13 +52,12 @@ internal class ChatSDKWrapper(
     }
 
     override fun sendMessage(
-        type: ChatMessageType,
-        content: String,
+        messageInfoModel: MessageInfoModel,
     ): CompletableFuture<SendChatMessageResult> {
         val future = CompletableFuture<SendChatMessageResult>()
         val chatMessageOptions = SendChatMessageOptions()
-            .setType(type.into())
-            .setContent(content)
+            .setType(messageInfoModel.messageType.into())
+            .setContent(messageInfoModel.content)
             .setSenderDisplayName(senderDisplayName)
 
         chatThreadAsyncClient.sendMessageWithResponse(
