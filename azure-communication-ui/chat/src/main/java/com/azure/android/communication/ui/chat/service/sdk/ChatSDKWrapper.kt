@@ -73,14 +73,11 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    override fun startEventNotifications(errorHandler: (exception: Throwable) -> Unit) {
+    override fun startEventNotifications() {
         if (startedEventNotifications) return
+        startedEventNotifications = true
         chatAsyncClient.startRealtimeNotifications(context) {
-            if (it == null) {
-                startedEventNotifications = true
-            } else {
-                errorHandler(it)
-            }
+            throw it
         }
     }
 

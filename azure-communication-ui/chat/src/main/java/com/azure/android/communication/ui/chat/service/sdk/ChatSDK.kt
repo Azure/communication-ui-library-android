@@ -17,6 +17,6 @@ internal interface ChatSDK {
         messageInfoModel: MessageInfoModel,
     ): CompletableFuture<SendChatMessageResult>
 
-    fun startEventNotifications(errorHandler: (exception: Throwable) -> Unit) {}
-    fun stopEventNotifications() {}
+    fun startEventNotifications()
+    fun stopEventNotifications()
 }
