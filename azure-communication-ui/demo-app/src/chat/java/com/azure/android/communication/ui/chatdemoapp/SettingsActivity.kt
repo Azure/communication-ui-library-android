@@ -21,7 +21,7 @@ import java.util.Locale
 const val SETTINGS_SHARED_PREFS = "Settings"
 
 class SettingsActivity : AppCompatActivity() {
-    
+
     private lateinit var supportedLanguages: List<String>
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var languageArrayAdapter: ArrayAdapter<String>
@@ -29,15 +29,15 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageSettingLabelView: TextView
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
-    
+
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        
+
         this.initializeViews()
         SettingsFeatures.initialize(this)
         supportedLanguages = ChatCompositeSupportedLocale.getSupportedLocales().map {
@@ -45,17 +45,17 @@ class SettingsActivity : AppCompatActivity() {
         }
         setLanguageInSharedPrefForFirstTime()
     }
-    
+
     override fun onResume() {
         super.onResume()
-        
+
         languageArrayAdapter =
             ArrayAdapter(applicationContext, R.layout.language_dropdown_item, supportedLanguages)
         autoCompleteTextView.setAdapter(languageArrayAdapter)
         languageArrayAdapter.filter.filter(null)
-        
+
         setLanguageInAdapter()
-        
+
         updateRTLCheckbox()
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -63,24 +63,24 @@ class SettingsActivity : AppCompatActivity() {
             updateRTLCheckbox()
         }
     }
-    
+
     fun onCheckBoxTap(view: View) {
         if (view is CheckBox) {
             when (view.id) {
                 R.id.language_is_rtl_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         LANGUAGE_IS_RTL_VALUE_SHARED_PREF_KEY +
-                                sharedPreference.getString(
-                                    LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                                    DEFAULT_LANGUAGE_VALUE
-                                ),
+                            sharedPreference.getString(
+                                LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                                DEFAULT_LANGUAGE_VALUE
+                            ),
                         view.isChecked
                     ).apply()
                 }
             }
         }
     }
-    
+
     private fun initializeViews() {
         languageSettingLabelView = findViewById(R.id.language_setting_text_view)
         languageSettingLabelDivider = findViewById(R.id.language_setting_label_divider)
@@ -88,7 +88,7 @@ class SettingsActivity : AppCompatActivity() {
         languageAdapterLayout = findViewById(R.id.language_adapter_layout)
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view)
     }
-    
+
     private fun updateRTLCheckbox() {
         val selectedLanguage = getSelectedLanguageValue()
         val isRTLKey = LANGUAGE_IS_RTL_VALUE_SHARED_PREF_KEY + selectedLanguage
@@ -97,15 +97,15 @@ class SettingsActivity : AppCompatActivity() {
                 sharedPreference.getBoolean(isRTLKey, DEFAULT_RTL_VALUE)
         }
     }
-    
+
     private fun setLanguageInSharedPrefForFirstTime() {
         if (isFirstRun()) {
             setLanguageValueInSharedPref(Locale.ENGLISH.displayName)
         }
     }
-    
+
     private fun setLanguageInAdapter() {
-        
+
         autoCompleteTextView.setText(
             sharedPreference.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
@@ -115,7 +115,7 @@ class SettingsActivity : AppCompatActivity() {
         )
         languageArrayAdapter.filter.filter(null)
     }
-    
+
     private fun isFirstRun(): Boolean {
         return sharedPreference.getString(
             LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
@@ -124,12 +124,12 @@ class SettingsActivity : AppCompatActivity() {
             LANGUAGE_IS_YET_TOBE_SET
         )
     }
-    
+
     private fun setLanguageValueInSharedPref(languageValue: String) {
         sharedPreference.edit().putString(LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, languageValue)
             .apply()
     }
-    
+
     private fun getSelectedLanguageValue(): String? {
         return sharedPreference.getString(
             LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
@@ -146,4 +146,3 @@ const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
 // Shared pref default values for language & rtl settings
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
 const val DEFAULT_RTL_VALUE = false
-
