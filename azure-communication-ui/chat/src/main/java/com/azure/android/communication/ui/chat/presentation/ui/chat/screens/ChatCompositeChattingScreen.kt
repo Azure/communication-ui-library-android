@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.azure.android.communication.ui.chat.presentation.theme.ChatCompositeUITheme
+import androidx.compose.ui.res.stringResource
+import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents.AcsChatActionBarViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents.ChatCompositeActionBar
 
@@ -23,11 +25,10 @@ fun ChattingScreen() {
 
             ) {
                 ChatCompositeActionBar(
-                    viewModel = AcsChatActionBarViewModel(4) {}
-                )
-                BasicText(
-                    text = "Hello Chat!",
-                )
+                    viewModel = AcsChatActionBarViewModel(4,
+                        stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                    )
+                ) {}
             }
         }
 

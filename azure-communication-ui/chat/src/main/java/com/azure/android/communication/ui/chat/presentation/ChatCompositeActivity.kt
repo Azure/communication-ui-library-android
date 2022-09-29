@@ -12,9 +12,8 @@ import com.azure.android.communication.ui.chat.presentation.ui.container.Contain
 class ChatCompositeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*setContent {
-            ContainerView(this)
-        }*/
+        // hide the existing action bar, it will be replaced with ChatCompositeActionBar
+        supportActionBar?.hide()
         setContentView(
             ContainerView(this).apply {
                 setContent {

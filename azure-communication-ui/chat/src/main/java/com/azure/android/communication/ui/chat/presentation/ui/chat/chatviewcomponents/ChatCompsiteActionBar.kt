@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,16 +23,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.clipRect
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
-import com.azure.android.communication.ui.chat.R
 
-data class AcsChatActionBarViewModel(val participantCount: Int, val onBackPressed: () -> Unit)
+data class AcsChatActionBarViewModel(val participantCount: Int, val topic: String)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatCompositeActionBar(
-    viewModel: AcsChatActionBarViewModel
+    viewModel: AcsChatActionBarViewModel,
+    onBackButtonPressed: () -> Unit = { }
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         CenterAlignedTopAppBar(
@@ -49,8 +51,7 @@ fun ChatCompositeActionBar(
             actions = {},
             title = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(stringResource(
-                        id = R.string.azure_communication_ui_chat_chat_action_bar_title),
+                    Text(text = viewModel.topic,
                         style = MaterialTheme.typography.body1)
                     if (viewModel.participantCount == 1) {
                         Text("${viewModel.participantCount} Participant", style = MaterialTheme.typography.body2)
@@ -62,10 +63,7 @@ fun ChatCompositeActionBar(
             navigationIcon = {
                 AcsChatBackButton(
                     contentDescription = "Back button",
-                    modifier = Modifier
-                        .size(20.dp)
-
-                        .padding(19.dp)
+                    onBackButtonPressed = onBackButtonPressed
                 )
             },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White)
@@ -79,14 +77,16 @@ fun PreviewChatCompsiteActionBar() {
     Column() {
         ChatCompositeActionBar(
             viewModel = AcsChatActionBarViewModel(
-                participantCount = 4
-            ) {}
-        )
+                participantCount = 4,
+                topic = "Topic"
+            )
+        ) {}
 
         ChatCompositeActionBar(
             viewModel = AcsChatActionBarViewModel(
-                participantCount = 1
-            ) {}
-        )
+                participantCount = 1,
+                topic = "Title"
+            )
+        )  {}
     }
 }
