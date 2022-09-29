@@ -1,0 +1,14 @@
+package com.azure.android.communication.ui.chat
+
+import com.azure.android.communication.ui.chat.helper.MainCoroutineRule
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
+import org.junit.Rule
+
+open class ACSBaseTestCoroutine {
+    @get:Rule
+    val mainCoroutineRule = MainCoroutineRule()
+
+    fun runScopedTest(body: suspend TestScope.() -> Unit) =
+        mainCoroutineRule.scope.runTest { body() }
+}
