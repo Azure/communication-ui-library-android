@@ -163,19 +163,25 @@ internal class CallingSDKWrapper(
         createCallAgent().thenAccept { agent: CallAgent ->
             val audioOptions = AudioOptions()
             audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
-
-            var videoOptions: VideoOptions? = null
-            if (cameraState.operation == CameraOperationalStatus.ON) {
-                val localVideoStreams =
-                    arrayOf(getLocalVideoStream().get().native as NativeLocalVideoStream)
-                videoOptions = VideoOptions(localVideoStreams)
-            }
-
             val callLocator: JoinMeetingLocator = when (callConfig.callType) {
                 CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
                 CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
             }
-            joinCall(agent, audioOptions, videoOptions, callLocator)
+            var videoOptions: VideoOptions? = null
+            // it is possible to have camera state not on, (Example: waiting for local video stream)
+            // if camera on is in progress, the waiting will make sure for starting call with right state
+            if (cameraState.operation != CameraOperationalStatus.OFF) {
+                getLocalVideoStream().whenComplete { videoStream, error ->
+                    if (error == null) {
+                        val localVideoStreams =
+                            arrayOf(videoStream.native as NativeLocalVideoStream)
+                        videoOptions = VideoOptions(localVideoStreams)
+                    }
+                    joinCall(agent, audioOptions, videoOptions, callLocator)
+                }
+            } else {
+                joinCall(agent, audioOptions, videoOptions, callLocator)
+            }
 
             startCallCompletableFuture.complete(null)
         }
