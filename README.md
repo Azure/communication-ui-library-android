@@ -123,6 +123,10 @@ If you find a bug or have a feature request, please raise the issue on [GitHub I
 
 Please refer to the [wiki](https://github.com/Azure/communication-ui-library-android/wiki/Known-Issues) for known issues related to the library.
 
+## Ongoing work
+
+The support for chat experience is a work in progress. We are working to bring you chat and call-with-chat ui libraries in future releases.
+
 ## Further Reading
 
 * [Azure Communication UI Library Conceptual Documentation](https://docs.microsoft.com/azure/communication-services/concepts/ui-framework/ui-sdk-overview)
