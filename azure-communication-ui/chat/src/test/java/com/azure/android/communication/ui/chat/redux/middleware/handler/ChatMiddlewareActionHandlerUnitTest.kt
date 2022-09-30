@@ -4,6 +4,7 @@ import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.middleware.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
@@ -31,7 +32,7 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                id = "12345",
+                id = null,
                 internalId = "54321",
                 messageType = ChatMessageType.TEXT,
                 content = "hello, world!"
@@ -64,6 +65,47 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ChatAction.MessageSent && action.messageInfoModel.id == returnMessageId
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_sendMessage_then_dispatch_ChatStateErrorOccurred() =
+        runScopedTest {
+            // arrange
+            val messageInfoModel = MessageInfoModel(
+                id = null,
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
+            )
+
+            val error = Exception("test")
+
+            val sendChatMessageCompletableFuture = CompletableFuture<SendChatMessageResult>()
+
+            val mockChatService: ChatService = mock {
+                on { sendMessage(messageInfoModel) } doReturn sendChatMessageCompletableFuture
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+
+            val action = ChatAction.SendMessage(messageInfoModel)
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch)
+
+            sendChatMessageCompletableFuture.completeExceptionally(error)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ErrorAction.ChatStateErrorOccurred
                 }
             )
         }
