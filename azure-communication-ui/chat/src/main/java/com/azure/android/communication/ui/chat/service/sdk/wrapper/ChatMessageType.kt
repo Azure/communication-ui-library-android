@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.chat.service.sdk.wrapper
 
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
-
 internal enum class ChatMessageType {
     TEXT,
     HTML,

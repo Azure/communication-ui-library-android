@@ -28,6 +28,10 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
         content = this.content.message,
         internalId = null,
         version = this.version,
-        senderDisplayName = this.senderDisplayName
+        senderDisplayName = this.senderDisplayName,
+        createdOn = this.createdOn,
+        senderCommunicationIdentifier = this.senderCommunicationIdentifier.into(),
+        deletedOn = this.deletedOn,
+        editedOn = this.editedOn
     )
 }

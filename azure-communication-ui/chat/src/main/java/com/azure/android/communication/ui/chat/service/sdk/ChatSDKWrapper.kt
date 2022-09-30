@@ -43,8 +43,7 @@ internal class ChatSDKWrapper(
     private val sdkVersion = chatConfig.sdkVersion
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
-
-    private var continuationToken: String? = null
+    private var pagingContinuationToken: String? = null
 
     private val chatStatusStateFlow: MutableStateFlow<ChatStatus> =
         MutableStateFlow(ChatStatus.NONE)
@@ -69,10 +68,10 @@ internal class ChatSDKWrapper(
 
         try {
             val chatMessages = chatThreadAsyncClient.listMessages(options, RequestContext.NONE)
-            val chatMessagesStream = chatMessages.byPage(continuationToken)
+            val chatMessagesStream = chatMessages.byPage(pagingContinuationToken)
 
             chatMessagesStream.forEach { handler ->
-                continuationToken = handler.continuationToken
+                pagingContinuationToken = handler.continuationToken
                 messages = handler.elements.map { it.into() }
             }.cancel()
         } catch (ex: Exception) {
