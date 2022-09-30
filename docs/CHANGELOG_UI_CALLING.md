@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 1.1.0-beta.1 (2022-09-20)
+## 1.1.0-beta.1 (2022-10-03)
 
 ### Features
 - Setting up Call Title and Subtitle is now availble by customizing `CallCompositeLocalOptions` with `CallCompositeSetupScreenViewData`.
