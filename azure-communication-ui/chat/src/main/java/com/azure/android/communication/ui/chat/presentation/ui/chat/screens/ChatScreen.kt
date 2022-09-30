@@ -29,8 +29,8 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             ChatCompositeActionBar(
                 AcsChatActionBarViewModel(
-                    4,
-                    stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                    participantCount = 4,
+                    topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
                 )
             ) {
                 dispatcher?.onBackPressed()
