@@ -74,9 +74,6 @@ dependencies {
     implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
-    //need to upgrade toolchain to android-33 in order to use newer version of dependency
-    implementation "androidx.compose.material3:material3:1.0.0-alpha14"
-    implementation "androidx.compose.material3:material3-window-size-class:1.0.0-alpha14"
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling-data:$compose_version"

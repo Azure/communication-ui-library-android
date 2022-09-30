@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,15 +24,16 @@ fun ChattingScreen() {
                     .fillMaxSize()
 
             ) {
+                val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
                 ChatCompositeActionBar(
-                    viewModel = AcsChatActionBarViewModel(4,
+                    AcsChatActionBarViewModel(
+                        4,
                         stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
                     )
-                ) {}
+                ) {
+                    dispatcher?.onBackPressed()
+                }
             }
         }
-
     }
 }
-
-
