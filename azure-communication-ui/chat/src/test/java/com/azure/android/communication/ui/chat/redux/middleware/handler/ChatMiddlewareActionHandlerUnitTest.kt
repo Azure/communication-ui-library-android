@@ -4,7 +4,6 @@ import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.middleware.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
@@ -32,11 +31,15 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                "12345",
-                "54321",
-                ChatMessageType.TEXT,
-                "hello, world!"
+                id = "12345",
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
             )
+
+            val returnMessageId = "test"
+
+            val sendChatMessageResult = SendChatMessageResult(returnMessageId)
 
             val sendChatMessageCompletableFuture = CompletableFuture<SendChatMessageResult>()
 
@@ -55,12 +58,12 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             chatHandler.onAction(action, mockAppStore::dispatch)
 
-            sendChatMessageCompletableFuture.complete(null)
+            sendChatMessageCompletableFuture.complete(sendChatMessageResult)
 
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
-                    action is ChatAction.MessageSent
+                    action is ChatAction.MessageSent && action.messageInfoModel.id == returnMessageId
                 }
             )
         }
