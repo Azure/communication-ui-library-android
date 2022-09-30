@@ -69,6 +69,9 @@ internal class ChatMiddlewareUnitTest {
         )(actionToDispatch)
 
         // assert
-        verify(mockChatMiddlewareActionHandler, times(1)).onAction(actionToDispatch, mockAppStore::dispatch)
+        verify(mockChatMiddlewareActionHandler, times(1)).onAction(
+            actionToDispatch,
+            mockAppStore::dispatch
+        )
     }
 }
