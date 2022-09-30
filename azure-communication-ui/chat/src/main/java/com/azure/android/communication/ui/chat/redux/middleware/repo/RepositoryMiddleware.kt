@@ -43,5 +43,6 @@ internal class RepositoryMiddlewareImpl(
         notifyUpdate(dispatch)
     }
 
-    private fun notifyUpdate(dispatch: (Action) -> Unit) = dispatch(RepositoryAction.RepositoryUpdated())
+    private fun notifyUpdate(dispatch: (Action) -> Unit) =
+        dispatch(RepositoryAction.RepositoryUpdated())
 }

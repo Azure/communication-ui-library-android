@@ -31,5 +31,6 @@ internal class AppReduxState(
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 
-    override var repositoryState: RepositoryState = RepositoryState(lastUpdatedTimestamp = System.currentTimeMillis())
+    override var repositoryState: RepositoryState =
+        RepositoryState(lastUpdatedTimestamp = System.currentTimeMillis())
 }
