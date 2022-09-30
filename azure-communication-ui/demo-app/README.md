@@ -30,4 +30,9 @@ library. Showcases use of both Java and Kotlin to run library.
     - `USER_NAME`="..."           # your preferred display name
     - `GROUP_CALL_ID`="..."       # this a type of UUID used to start and join a meeting
     - `TEAMS_MEETING_LINK`="..."  # the URL to a Teams meeting
-4. Build and Run
+    - `END_POINT_URL`="..."       # the URL for chat end point
+    - `IDENTITY`="..."            # the identity for chat
+    - `THREAD_ID`="..."           # chat thread id
+4. For build variants:
+    You can add variants selection for build to indicate which demo app you want to run or debug (calling, chat, call-with-chat)
+5. Build and Run
