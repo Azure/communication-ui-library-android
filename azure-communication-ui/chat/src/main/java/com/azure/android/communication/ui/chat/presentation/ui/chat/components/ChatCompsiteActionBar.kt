@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-package com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents
+package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -80,14 +78,7 @@ fun ChatCompositeActionBar(
     }
 }
 
-@Composable
-private fun Body2Text(text: String) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.body2,
-        textAlign = TextAlign.Center,
-    )
-}
+
 
 @Preview
 @Composable

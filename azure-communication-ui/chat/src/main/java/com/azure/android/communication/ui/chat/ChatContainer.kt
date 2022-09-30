@@ -10,9 +10,10 @@ import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.middleware.ChatMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.ChatActionHandler
+import com.azure.android.communication.ui.chat.redux.middleware.ChatMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceListener
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
@@ -23,12 +24,14 @@ import com.azure.android.communication.ui.chat.redux.reducer.ParticipantsReducer
 import com.azure.android.communication.ui.chat.redux.reducer.Reducer
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 
 internal class ChatContainer(
     private val configuration: ChatCompositeConfiguration,
+    private val instanceId: Int
 ) {
     companion object {
         lateinit var locator: ServiceLocator
@@ -41,7 +44,7 @@ internal class ChatContainer(
         context: Context,
         remoteOptions: ChatCompositeRemoteOptions,
         localOptions: ChatCompositeLocalOptions?,
-        instanceId: Int,
+
     ) {
         // currently only single instance is supported
         if (!started) {
@@ -58,61 +61,73 @@ internal class ChatContainer(
                     senderDisplayName = remoteOptions.displayName
                 )
 
-            locator = ServiceLocator.getInstance(instanceId = instanceId).apply {
-                val coroutineContextProvider = CoroutineContextProvider()
+            locator = initializeServiceLocator(
+                instanceId,
+                localOptions,
+                remoteOptions,
+                context
+            )
+                .apply { locate<Dispatch>()(ChatAction.StartChat()) }
+        }
+    }
 
-                localOptions?.let { localOptions ->
-                    addTypedBuilder { localOptions }
-                }
-                addTypedBuilder { remoteOptions }
-                addTypedBuilder {
-                    ChatSDKWrapper(
+    private fun initializeServiceLocator(
+        instanceId: Int,
+        localOptions: ChatCompositeLocalOptions?,
+        remoteOptions: ChatCompositeRemoteOptions,
+        context: Context
+    ) =
+        ServiceLocator.getInstance(instanceId = instanceId).apply {
+
+            addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
+
+            addTypedBuilder { remoteOptions }
+
+            addTypedBuilder {
+                ChatService(
+                    chatSDK = ChatSDKWrapper(
                         context = context,
                         chatConfig = configuration.chatConfig!!,
                     )
-                }
-                addTypedBuilder {
-                    ChatService(chatSDK = locate<ChatSDKWrapper>())
-                }
-                addTypedBuilder { CoroutineContextProvider() }
-                addTypedBuilder { ChatActionHandler(chatService = locate()) }
-                addTypedBuilder {
-                    ChatServiceListener(
-                        chatService = locate(),
-                        coroutineContextProvider = coroutineContextProvider
-                    )
-                }
-                addTypedBuilder {
-                    ChatMiddlewareImpl(
-                        chatActionHandler = locate(),
-                        chatServiceListener = locate()
-                    )
-                }
-
-                addTypedBuilder {
-                    AppStore(
-                        initialState = AppReduxState(
-                            configuration.chatConfig!!.threadId,
-                            configuration.chatConfig!!.identity,
-                            configuration.chatConfig?.senderDisplayName
-                        ),
-                        reducer = AppStateReducer(
-                            chatReducer = ChatReducerImpl(),
-                            participantReducer = ParticipantsReducerImpl(),
-                            lifecycleReducer = LifecycleReducerImpl(),
-                            errorReducer = ErrorReducerImpl(),
-                            navigationReducer = NavigationReducerImpl()
-                        ) as Reducer<ReduxState>,
-                        middlewares = mutableListOf(locate<ChatMiddlewareImpl>()),
-                        dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
-                    )
-                }
-            }.apply {
-                val store: AppStore<AppReduxState> = locate()
-                store.dispatch(ChatAction.StartChat())
+                )
             }
+
+            addTypedBuilder { CoroutineContextProvider() }
+
+            addTypedBuilder {
+                ChatMiddlewareImpl(
+                    chatActionHandler = ChatActionHandler(
+                        chatService = locate()
+                    ),
+                    chatServiceListener = ChatServiceListener(
+                        chatService = locate(),
+                        coroutineContextProvider = locate()
+                    )
+                )
+            }
+
+            addTypedBuilder {
+                AppStore(
+                    initialState = AppReduxState(
+                        configuration.chatConfig!!.threadId,
+                        configuration.chatConfig!!.identity,
+                        configuration.chatConfig?.senderDisplayName
+                    ),
+                    reducer = AppStateReducer(
+                        chatReducer = ChatReducerImpl(),
+                        participantReducer = ParticipantsReducerImpl(),
+                        lifecycleReducer = LifecycleReducerImpl(),
+                        errorReducer = ErrorReducerImpl(),
+                        navigationReducer = NavigationReducerImpl()
+                    ) as Reducer<ReduxState>,
+                    middlewares = mutableListOf(locate<ChatMiddlewareImpl>()),
+                    dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
+                )
+            }
+
+            addTypedBuilder { MessageRepository() }
+            addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
         }
-    }
 
     fun stop() {
         locator?.clear()

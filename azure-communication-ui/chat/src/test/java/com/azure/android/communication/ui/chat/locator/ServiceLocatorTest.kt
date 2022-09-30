@@ -108,7 +108,7 @@ class ServiceLocatorTest {
             )
         }
 
-        Assert.assertThrows(java.lang.IllegalArgumentException::class.java,) {
+        Assert.assertThrows(java.lang.IllegalArgumentException::class.java) {
             locator.initializeAll()
         }
     }

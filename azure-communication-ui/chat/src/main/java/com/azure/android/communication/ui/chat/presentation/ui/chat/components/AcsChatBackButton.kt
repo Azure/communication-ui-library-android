@@ -1,5 +1,5 @@
 
-package com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents
+package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

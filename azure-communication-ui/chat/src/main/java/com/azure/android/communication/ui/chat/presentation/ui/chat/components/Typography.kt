@@ -1,4 +1,4 @@
-package com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents
+package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
