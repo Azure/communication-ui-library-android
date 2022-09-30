@@ -78,8 +78,6 @@ fun ChatCompositeActionBar(
     }
 }
 
-
-
 @Preview
 @Composable
 fun PreviewChatCompsiteActionBar() {

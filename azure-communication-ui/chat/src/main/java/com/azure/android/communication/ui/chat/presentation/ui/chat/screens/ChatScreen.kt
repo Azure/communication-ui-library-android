@@ -3,17 +3,43 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.AcsChatActionBarViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeActionBar
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 
 @Composable
 internal fun ChatScreen(viewModel: ChatScreenViewModel) {
-    BasicText(
-        text = "Hello Chat! ${viewModel.messages.size} ${viewModel.state} builds: ${viewModel.buildCount}",
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+
+        ) {
+            val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            ChatCompositeActionBar(
+                AcsChatActionBarViewModel(
+                    4,
+                    stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                )
+            ) {
+                dispatcher?.onBackPressed()
+            }
+            BasicText(
+                text = "Hello Chat! ${viewModel.messages.size} ${viewModel.state} builds: ${viewModel.buildCount}",
+            )
+        }
+    }
 }
 
 @Preview

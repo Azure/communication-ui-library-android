@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView
 
-
 class ChatCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.extras!!.getInt(KEY_INSTANCE_ID)
 
