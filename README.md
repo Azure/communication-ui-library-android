@@ -125,7 +125,7 @@ Please refer to the [wiki](https://github.com/Azure/communication-ui-library-and
 
 ## Ongoing work
 
-The support for chat experience is a work in progress. We are working to bring you chat and call-with-chat ui libraries in future releases.
+The chat experience is a work in progress, please be aware that chat and callwithchat components are not complete and may not be in a working state. No support or assurances are provided at this time.
 
 ## Further Reading
 
