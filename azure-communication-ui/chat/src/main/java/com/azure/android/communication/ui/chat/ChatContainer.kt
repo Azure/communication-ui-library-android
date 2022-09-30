@@ -99,18 +99,6 @@ internal class ChatContainer(
             }
 
             addTypedBuilder {
-                ChatMiddlewareImpl(
-                    chatActionHandler = ChatActionHandler(
-                        chatService = locate()
-                    ),
-                    chatServiceListener = ChatServiceListener(
-                        chatService = locate(),
-                        coroutineContextProvider = locate()
-                    )
-                )
-            }
-
-            addTypedBuilder {
                 AppStore(
                     initialState = AppReduxState(
                         configuration.chatConfig!!.threadId,
