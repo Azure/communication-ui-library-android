@@ -78,6 +78,7 @@ internal class ChatContainer(
         context: Context
     ) =
         ServiceLocator.getInstance(instanceId = instanceId).apply {
+            addTypedBuilder { CoroutineContextProvider() }
 
             addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
 
@@ -88,11 +89,10 @@ internal class ChatContainer(
                     chatSDK = ChatSDKWrapper(
                         context = context,
                         chatConfig = configuration.chatConfig!!,
+                        coroutineContextProvider = locate()
                     )
                 )
             }
-
-            addTypedBuilder { CoroutineContextProvider() }
 
             addTypedBuilder {
                 ChatMiddlewareImpl(

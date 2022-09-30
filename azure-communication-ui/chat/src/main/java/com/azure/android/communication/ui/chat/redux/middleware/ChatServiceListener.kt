@@ -30,6 +30,18 @@ internal class ChatServiceListener(
                 }
             }
         }
+
+        coroutineScope.launch {
+            chatService.getMessageSharedFlow().collect {
+                // TODO: remove test code
+                /*it?.messages?.forEach { messageInfoModel ->
+                    Log.d(
+                        "helloh ",
+                        messageInfoModel.content.toString() + " " + messageInfoModel.messageType
+                    )
+                }*/
+            }
+        }
     }
 
     fun unsubscribe() {
