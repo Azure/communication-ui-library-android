@@ -12,9 +12,11 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.middleware.ChatActionHandler
-import com.azure.android.communication.ui.chat.redux.middleware.ChatMiddlewareImpl
-import com.azure.android.communication.ui.chat.redux.middleware.ChatServiceListener
+import com.azure.android.communication.ui.chat.redux.middleware.repo.RepositoryMiddlewareImpl
+import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
+import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddlewareImpl
+import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatServiceListener
+import com.azure.android.communication.ui.chat.redux.reducer.RepositoryReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
@@ -94,17 +96,7 @@ internal class ChatContainer(
 
             addTypedBuilder { CoroutineContextProvider() }
 
-            addTypedBuilder {
-                ChatMiddlewareImpl(
-                    chatActionHandler = ChatActionHandler(
-                        chatService = locate()
-                    ),
-                    chatServiceListener = ChatServiceListener(
-                        chatService = locate(),
-                        coroutineContextProvider = locate()
-                    )
-                )
-            }
+            addTypedBuilder { MessageRepository() }
 
             addTypedBuilder {
                 AppStore(
@@ -118,14 +110,25 @@ internal class ChatContainer(
                         participantReducer = ParticipantsReducerImpl(),
                         lifecycleReducer = LifecycleReducerImpl(),
                         errorReducer = ErrorReducerImpl(),
-                        navigationReducer = NavigationReducerImpl()
+                        navigationReducer = NavigationReducerImpl(),
+                        repositoryReducer = RepositoryReducerImpl()
                     ) as Reducer<ReduxState>,
-                    middlewares = mutableListOf(locate<ChatMiddlewareImpl>()),
+                    middlewares = mutableListOf(
+                        ChatMiddlewareImpl(
+                            chatActionHandler = ChatActionHandler(
+                                chatService = locate()
+                            ),
+                            chatServiceListener = ChatServiceListener(
+                                chatService = locate(),
+                                coroutineContextProvider = locate()
+                            )
+                        ),
+                        RepositoryMiddlewareImpl(locate<MessageRepository>())
+                    ),
                     dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
                 )
             }
 
-            addTypedBuilder { MessageRepository() }
             addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
         }
 
