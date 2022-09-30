@@ -3,9 +3,7 @@
 
 package com.azure.android.communication.ui.chat.models
 
-import java.lang.Error
-
 internal data class MessagesPageModel(
     val messages: List<MessageInfoModel>?,
-    val error: Error?
+    val error: Throwable?
 )

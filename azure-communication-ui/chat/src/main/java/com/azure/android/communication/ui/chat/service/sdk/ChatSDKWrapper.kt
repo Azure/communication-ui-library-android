@@ -14,6 +14,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
+import com.azure.android.communication.ui.chat.models.into
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
@@ -27,6 +28,11 @@ internal class ChatSDKWrapper(
     context: Context,
     chatConfig: ChatConfiguration,
 ) : ChatSDK {
+
+    companion object {
+        private const val PAGE_SIZE = 50
+    }
+
     private lateinit var chatAsyncClient: ChatAsyncClient
     private lateinit var chatThreadAsyncClient: ChatThreadAsyncClient
 
@@ -37,6 +43,8 @@ internal class ChatSDKWrapper(
     private val sdkVersion = chatConfig.sdkVersion
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
+
+    private var continuationToken: String? = null
 
     private val chatStatusStateFlow: MutableStateFlow<ChatStatus> =
         MutableStateFlow(ChatStatus.NONE)
@@ -53,12 +61,27 @@ internal class ChatSDKWrapper(
     }
 
     override fun getPreviousPage(): MessagesPageModel {
+        var messages: List<MessageInfoModel>? = null
+        var throwable: Throwable? = null
+
         val options = ListChatMessagesOptions()
-        options.maxPageSize = 50
+        options.maxPageSize = PAGE_SIZE
+
+        try {
+            val chatMessages = chatThreadAsyncClient.listMessages(options, RequestContext.NONE)
+            val chatMessagesStream = chatMessages.byPage(continuationToken)
+
+            chatMessagesStream.forEach { handler ->
+                continuationToken = handler.continuationToken
+                messages = handler.elements.map { it.into() }
+            }.cancel()
+        } catch (ex: Exception) {
+            throwable = ex
+        }
 
         return MessagesPageModel(
-            messages = listOf(),
-            error = null
+            messages = messages ?: listOf(),
+            error = throwable
         )
     }
 
