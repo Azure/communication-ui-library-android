@@ -22,11 +22,15 @@ import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvide
 import com.azure.android.core.http.policy.UserAgentPolicy
 import com.azure.android.core.util.RequestContext
 import java9.util.concurrent.CompletableFuture
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executors
 
 internal class ChatSDKWrapper(

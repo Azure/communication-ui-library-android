@@ -19,7 +19,8 @@ internal class AppReduxState(
         ),
         chatInfoModel = ChatInfoModel(
             threadId = threadID,
-            topic = null
+            topic = null,
+            allMessagesFetched = false
         )
     )
 
