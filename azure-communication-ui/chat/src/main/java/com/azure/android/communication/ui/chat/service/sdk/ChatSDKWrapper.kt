@@ -22,14 +22,11 @@ import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvide
 import com.azure.android.core.http.policy.UserAgentPolicy
 import com.azure.android.core.util.RequestContext
 import java9.util.concurrent.CompletableFuture
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 
 internal class ChatSDKWrapper(
@@ -55,11 +52,12 @@ internal class ChatSDKWrapper(
     private val sdkVersion = chatConfig.sdkVersion
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
+
+    private val options = ListChatMessagesOptions().apply { maxPageSize = PAGE_MESSAGES_SIZE }
     private var pagingContinuationToken: String? = null
 
     @Volatile
-    private var fetchedAllPages: Boolean = false
-    private val options = ListChatMessagesOptions().apply { maxPageSize = PAGE_MESSAGES_SIZE }
+    private var allPagesFetched: Boolean = false
 
     private val chatStatusStateFlow: MutableStateFlow<ChatStatus> =
         MutableStateFlow(ChatStatus.NONE)
@@ -67,7 +65,7 @@ internal class ChatSDKWrapper(
         MutableSharedFlow()
 
     override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
-    override fun getMessageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
+    override fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
 
     override fun initialization() {
         chatStatusStateFlow.value = ChatStatus.INITIALIZATION
@@ -78,28 +76,42 @@ internal class ChatSDKWrapper(
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
     }
 
+    override fun destroy() {
+        singleThreadedContext.shutdown()
+        coroutineScope.cancel()
+    }
+
     override fun getPreviousPage() {
+        // coroutine to make sure requests are not blocking
         coroutineScope.launch {
             withContext(singleThreadedContext.asCoroutineDispatcher()) {
-                if (!fetchedAllPages) {
-                    val messages = threadClient.listMessages(options, RequestContext.NONE)
-                    val pagedResponse = messages.byPage(pagingContinuationToken)
+                var messages: List<MessageInfoModel>? = null
+                var throwable: Throwable? = null
+                if (!allPagesFetched) {
+                    try {
+                        var pagedIterable = threadClient.listMessages(options, RequestContext.NONE)
+                        val pagedResponse = pagedIterable.byPage(pagingContinuationToken)
 
-                    val response = pagedResponse.iterator().next()
-                    response?.apply {
-                        if (continuationToken == null) {
-                            fetchedAllPages = true
+                        val response = pagedResponse.iterator().next()
+                        response?.apply {
+                            if (continuationToken == null) {
+                                allPagesFetched = true
+                            }
+                            pagingContinuationToken = continuationToken
+                            messages = elements.map { it.into() }
                         }
-                        pagingContinuationToken = continuationToken
-                        coroutineScope.launch {
-                            messagesSharedFlow.emit(
-                                MessagesPageModel(
-                                    messages = elements.map { it.into() },
-                                    null
-                                )
-                            )
-                        }
+                    } catch (ex: Exception) {
+                        throwable = ex
                     }
+                }
+                coroutineScope.launch {
+                    messagesSharedFlow.emit(
+                        MessagesPageModel(
+                            messages = messages,
+                            throwable = throwable,
+                            allPagesFetched = allPagesFetched
+                        )
+                    )
                 }
             }
         }
@@ -109,6 +121,7 @@ internal class ChatSDKWrapper(
         messageInfoModel: MessageInfoModel,
     ): CompletableFuture<SendChatMessageResult> {
         val future = CompletableFuture<SendChatMessageResult>()
+        // coroutine to make sure requests are not blocking
         coroutineScope.launch {
             val chatMessageOptions = SendChatMessageOptions()
                 .setType(messageInfoModel.messageType.into())

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.chat.redux.middleware.repo
+package com.azure.android.communication.ui.chat.redux.middleware.repository
 
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
@@ -15,7 +15,7 @@ import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddl
 
 internal interface RepositoryMiddleware
 
-// ChatMiddleware
+// MessagesRepositoryMiddleware
 //
 // Manages
 // ChatServiceListener (Service -> Redux)
@@ -24,7 +24,8 @@ internal class RepositoryMiddlewareImpl(
     private val messageRepository: MessageRepositoryMiddlewareInterface
 ) :
     Middleware<ReduxState>,
-    ChatMiddleware {
+    ChatMiddleware,
+    RepositoryMiddleware {
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->

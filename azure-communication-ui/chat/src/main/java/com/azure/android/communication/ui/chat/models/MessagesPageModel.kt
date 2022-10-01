@@ -5,5 +5,6 @@ package com.azure.android.communication.ui.chat.models
 
 internal data class MessagesPageModel(
     val messages: List<MessageInfoModel>?,
-    val error: Throwable?
+    val throwable: Throwable? = null,
+    val allPagesFetched: Boolean = false,
 )

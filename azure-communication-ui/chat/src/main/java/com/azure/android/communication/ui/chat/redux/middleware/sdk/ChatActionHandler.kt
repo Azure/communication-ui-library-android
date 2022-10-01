@@ -23,19 +23,12 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch = dispatch
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
-            is ChatAction.FetchMessages -> fetchMessages(action = action, dispatch = dispatch)
+            is ChatAction.FetchMessages -> fetchMessages()
         }
     }
 
-    private fun fetchMessages(action: ChatAction.FetchMessages, dispatch: (Action) -> Unit) {
-        try {
-            chatService.getPreviousPage()
-        } catch (ex: Exception) {
-            val error = ChatStateError(errorCode = ErrorCode.CHAT_FETCH_MESSAGES_FAILED)
-            // TODO: lets use only one action and state to fire error for timing
-            // TODO: while working on error stories, we can create separate states for every error
-            dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
-        }
+    private fun fetchMessages() {
+        chatService.getPreviousPage()
     }
 
     private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {

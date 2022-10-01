@@ -13,9 +13,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal interface ChatSDK {
     fun getChatStatusStateFlow(): StateFlow<ChatStatus>
-    fun getMessageSharedFlow(): SharedFlow<MessagesPageModel>
+    fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel>
 
     fun initialization()
+    fun destroy()
     fun getPreviousPage()
 
     fun sendMessage(
