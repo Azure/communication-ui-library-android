@@ -8,11 +8,14 @@ import com.azure.android.communication.ui.chat.service.sdk.ChatSDK
 
 internal class ChatService(private val chatSDK: ChatSDK) {
     fun initialize() = chatSDK.initialization()
-
-    fun getChatStatusStateFlow() = chatSDK.getChatStatusStateFlow()
+    fun destroy() = chatSDK.destroy()
 
     fun startEventNotifications() = chatSDK.startEventNotifications()
     fun stopEventNotifications() = chatSDK.stopEventNotifications()
+    fun getPreviousPage() = chatSDK.getPreviousPage()
+
+    fun getChatStatusStateFlow() = chatSDK.getChatStatusStateFlow()
+    fun getMessagesPageSharedFlow() = chatSDK.getMessagesPageSharedFlow()
 
     fun sendMessage(
         messageInfoModel: MessageInfoModel,
