@@ -58,6 +58,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private fun initialization(dispatch: Dispatch) {
         try {
             chatService.initialize()
+            chatService.getPreviousPage()
         } catch (ex: Exception) {
             val error = ChatStateError(errorCode = ErrorCode.CHAT_JOIN_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))

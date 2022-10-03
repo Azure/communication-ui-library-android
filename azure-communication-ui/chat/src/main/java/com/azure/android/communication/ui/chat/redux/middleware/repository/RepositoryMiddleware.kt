@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddlewareInterface
+import kotlin.reflect.KFunction1
 
 internal interface RepositoryMiddleware
 
@@ -32,11 +33,20 @@ internal class RepositoryMiddlewareImpl(
             when (action) {
                 // TODO: Map Actions from ChatServiceListener and UI to MessageRepo calls
                 is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
+                is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
             }
 
             // Pass Action down the chain
             next(action)
         }
+    }
+
+    private fun processPageReceived(
+        action: ChatAction.MessagesPageReceived,
+        dispatch: Dispatch
+    ) {
+        messageRepository.addPage(action.messages)
+        notifyUpdate(dispatch)
     }
 
     private fun processSendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
