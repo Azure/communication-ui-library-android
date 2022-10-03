@@ -7,10 +7,13 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
@@ -37,6 +40,14 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
             }
             BasicText(
                 text = "Hello Chat! ${viewModel.messages.size} ${viewModel.state} builds: ${viewModel.buildCount}",
+            )
+            ClickableText(
+                text = AnnotatedString("Click me for random message"),
+                onClick = {
+
+                    viewModel.postMessage("Random Message @ ${System.currentTimeMillis()}")
+                }
+
             )
         }
     }

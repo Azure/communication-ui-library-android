@@ -13,34 +13,49 @@ private val emptyMessage = MessageInfoModel(
     messageType = ChatMessageType.TEXT
 )
 
-internal class MessageRepository : List<MessageInfoModel> {
-    override val size: Int = 0
+// Interface for Message Repository Middleware to use
+// I.e.
+// - addLocalMessage
+// - messageRetrieved,
+// - pageRetrieved
+// - messageEdited
+// - messageDeleted
+internal interface MessageRepositoryMiddlewareInterface {
+    fun addLocalMessage(messageInfoModel: MessageInfoModel)
+}
 
-    // TODO: Nothing here correctly implemented yet
-    override fun contains(element: MessageInfoModel) = false
-    override fun containsAll(elements: Collection<MessageInfoModel>) = false
-    override fun get(index: Int) = emptyMessage
-    override fun indexOf(element: MessageInfoModel) = 0
-    override fun isEmpty() = true
+internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
+    // Simple List for now
+    private val messages = mutableListOf<MessageInfoModel>()
 
-    // Probably do not need Iterator methods, but they are on the interface
-    override fun iterator(): Iterator<MessageInfoModel> {
-        TODO("Not yet implemented")
+    // Middleware Interface
+    override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
+        messages.add(messageInfoModel)
     }
 
-    override fun lastIndexOf(element: MessageInfoModel): Int {
-        TODO("Not yet implemented")
+    // List Implementation
+    // Important parts of a list to implement
+    override val size get() = messages.size
+    override fun indexOf(element: MessageInfoModel) = messages.indexOf(element)
+    override fun get(index: Int): MessageInfoModel = try {
+        messages[index]
+    } catch (exception: Exception) {
+        emptyMessage
     }
 
-    override fun listIterator(): ListIterator<MessageInfoModel> {
-        TODO("Not yet implemented")
-    }
+    override fun isEmpty() = messages.isEmpty()
 
-    override fun listIterator(index: Int): ListIterator<MessageInfoModel> {
-        TODO("Not yet implemented")
-    }
+    // Less Important, but should be easy to implement
+    override fun contains(element: MessageInfoModel) = messages.contains(element)
 
-    override fun subList(fromIndex: Int, toIndex: Int): List<MessageInfoModel> {
-        TODO("Not yet implemented")
-    }
+    // Less or Not important parts of the List Interface
+    // Don't hesitate to not support them if the internal implementation changes
+    override fun containsAll(elements: Collection<MessageInfoModel>) =
+        messages.containsAll(elements)
+
+    override fun iterator(): Iterator<MessageInfoModel> = messages.iterator()
+    override fun lastIndexOf(element: MessageInfoModel) = messages.lastIndexOf(element)
+    override fun listIterator() = messages.listIterator()
+    override fun listIterator(index: Int) = messages.listIterator(index)
+    override fun subList(fromIndex: Int, toIndex: Int) = messages.subList(fromIndex, toIndex)
 }
