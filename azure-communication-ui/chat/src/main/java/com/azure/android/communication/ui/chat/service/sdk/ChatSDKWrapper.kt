@@ -75,7 +75,9 @@ internal class ChatSDKWrapper(
 
     override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
     override fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
-    override fun getChatEventSharedFlow(): SharedFlow<ChatEventInfoModel> = chatEventInfoModelSharedFlow
+    override fun getChatEventSharedFlow(): SharedFlow<ChatEventInfoModel> =
+        chatEventInfoModelSharedFlow
+
     override fun initialization() {
         chatStatusStateFlow.value = ChatStatus.INITIALIZATION
         createChatAsyncClient()
@@ -83,12 +85,6 @@ internal class ChatSDKWrapper(
         // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
         // TODO: above will make sure, network is connected as well
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
-
-        chatEventHandler.start(
-            chatClient = chatClient,
-            threadID = threadId,
-            eventSubscriber = this::onChatEventReceived
-        )
     }
 
     override fun destroy() {
@@ -162,12 +158,19 @@ internal class ChatSDKWrapper(
         chatClient.startRealtimeNotifications(context) {
             throw it
         }
+
+        chatEventHandler.start(
+            chatClient = chatClient,
+            threadID = threadId,
+            eventSubscriber = this::onChatEventReceived
+        )
     }
 
     override fun stopEventNotifications() {
         if (startedEventNotifications) {
             chatClient.stopRealtimeNotifications()
             startedEventNotifications = false
+            chatEventHandler.stop(chatClient)
         }
     }
 
