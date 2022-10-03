@@ -23,12 +23,19 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch = dispatch
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
+            is ChatAction.FetchMessages -> fetchMessages()
         }
+    }
+
+    private fun fetchMessages() {
+        chatService.getPreviousPage()
     }
 
     private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
         chatService.sendMessage(action.messageInfoModel).whenComplete { result, error ->
             if (error != null) {
+                // TODO: lets use only one action and state to fire error for timing
+                // TODO: while working on error stories, we can create separate states for every error
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatStateError = ChatStateError(
@@ -58,8 +65,24 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
-        // test code
-        /*sendMessage(
+
+        // TODO: remove test code
+        /*
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+        chatService.getPreviousPage()
+
+        sendMessage(
             action = ChatAction.SendMessage(
                 MessageInfoModel(
                     "123",
