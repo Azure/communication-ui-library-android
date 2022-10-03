@@ -19,7 +19,8 @@ internal class AppReduxState(
         ),
         chatInfoModel = ChatInfoModel(
             threadId = threadID,
-            topic = null
+            topic = null,
+            allMessagesFetched = false
         )
     )
 
@@ -31,5 +32,6 @@ internal class AppReduxState(
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 
-    override var repositoryState: RepositoryState = RepositoryState(lastUpdatedTimestamp = System.currentTimeMillis())
+    override var repositoryState: RepositoryState =
+        RepositoryState(lastUpdatedTimestamp = System.currentTimeMillis())
 }

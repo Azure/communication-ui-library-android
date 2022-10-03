@@ -22,6 +22,9 @@ internal class ChatReducerImpl : ChatReducer {
             is ChatAction.TopicUpdated -> {
                 state.copy(chatInfoModel = state.chatInfoModel.copy(topic = action.topic))
             }
+            is ChatAction.AllMessagesFetched -> {
+                state.copy(chatInfoModel = state.chatInfoModel.copy(allMessagesFetched = true))
+            }
             else -> state
         }
     }
