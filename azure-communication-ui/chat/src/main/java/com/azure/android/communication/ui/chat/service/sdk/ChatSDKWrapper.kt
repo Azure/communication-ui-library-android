@@ -149,14 +149,16 @@ internal class ChatSDKWrapper(
     override fun startEventNotifications() {
         if (startedEventNotifications) return
         startedEventNotifications = true
-        chatAsyncClient.startRealtimeNotifications(context) {
+        chatClient.startRealtimeNotifications(context) {
             throw it
         }
     }
 
     override fun stopEventNotifications() {
-        chatAsyncClient.stopRealtimeNotifications()
-        startedEventNotifications = false
+        if (startedEventNotifications) {
+            chatClient.stopRealtimeNotifications()
+            startedEventNotifications = false
+        }
     }
 
     private fun createChatAsyncClient() {
