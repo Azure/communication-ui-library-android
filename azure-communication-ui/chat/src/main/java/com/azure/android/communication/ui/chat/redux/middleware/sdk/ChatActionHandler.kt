@@ -75,7 +75,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
 /*sendMessage(
 
 // TODO: remove test code
-/*
+
 chatService.getPreviousPage()
 chatService.getPreviousPage()
 chatService.getPreviousPage()
@@ -101,5 +101,5 @@ sendMessage(
     ),
     dispatch = dispatch
 )*/
-}
+    }
 }
