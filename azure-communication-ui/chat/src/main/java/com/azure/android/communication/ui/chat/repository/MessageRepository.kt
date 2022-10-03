@@ -42,6 +42,7 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
     } catch (exception: Exception) {
         emptyMessage
     }
+
     override fun isEmpty() = messages.isEmpty()
 
     // Less Important, but should be easy to implement
@@ -49,7 +50,9 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
 
     // Less or Not important parts of the List Interface
     // Don't hesitate to not support them if the internal implementation changes
-    override fun containsAll(elements: Collection<MessageInfoModel>) = messages.containsAll(elements)
+    override fun containsAll(elements: Collection<MessageInfoModel>) =
+        messages.containsAll(elements)
+
     override fun iterator(): Iterator<MessageInfoModel> = messages.iterator()
     override fun lastIndexOf(element: MessageInfoModel) = messages.lastIndexOf(element)
     override fun listIterator() = messages.listIterator()
