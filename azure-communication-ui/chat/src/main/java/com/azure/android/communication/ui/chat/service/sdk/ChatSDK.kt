@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.service.sdk
 
+import com.azure.android.communication.ui.chat.models.ChatEventInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 internal interface ChatSDK {
     fun getChatStatusStateFlow(): StateFlow<ChatStatus>
     fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel>
+    fun getChatEventSharedFlow(): SharedFlow<ChatEventInfoModel>
 
     fun initialization()
     fun destroy()

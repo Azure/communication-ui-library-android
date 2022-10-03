@@ -12,6 +12,7 @@ import com.azure.android.communication.chat.models.ListChatMessagesOptions
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.models.ChatEventInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.into
@@ -37,6 +38,7 @@ internal class ChatSDKWrapper(
     context: Context,
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
+    private val chatEventHandler: ChatEventHandler
 ) : ChatSDK {
 
     companion object {
@@ -67,10 +69,12 @@ internal class ChatSDKWrapper(
         MutableStateFlow(ChatStatus.NONE)
     private val messagesSharedFlow: MutableSharedFlow<MessagesPageModel> =
         MutableSharedFlow()
+    private val chatEventInfoModelSharedFlow: MutableSharedFlow<ChatEventInfoModel> =
+        MutableSharedFlow()
 
     override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
     override fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
-
+    override fun getChatEventSharedFlow(): SharedFlow<ChatEventInfoModel> = chatEventInfoModelSharedFlow
     override fun initialization() {
         chatStatusStateFlow.value = ChatStatus.INITIALIZATION
         createChatAsyncClient()
@@ -78,6 +82,12 @@ internal class ChatSDKWrapper(
         // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
         // TODO: above will make sure, network is connected as well
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
+
+        chatEventHandler.start(
+            chatClient = chatClient,
+            threadID = threadId,
+            eventSubscriber = this::onChatEventReceived
+        )
     }
 
     override fun destroy() {
@@ -128,7 +138,7 @@ internal class ChatSDKWrapper(
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
             val chatMessageOptions = SendChatMessageOptions()
-                .setType(messageInfoModel.messageType.into())
+                .setType(messageInfoModel.messageType!!.into())
                 .setContent(messageInfoModel.content)
                 .setSenderDisplayName(senderDisplayName)
 
@@ -172,5 +182,11 @@ internal class ChatSDKWrapper(
             )
             .chatThreadId(threadId)
             .buildClient()
+    }
+
+    private fun onChatEventReceived(infoModel: ChatEventInfoModel) {
+        coroutineScope.launch {
+            chatEventInfoModelSharedFlow.emit(infoModel)
+        }
     }
 }

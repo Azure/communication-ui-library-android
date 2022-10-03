@@ -15,7 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 internal fun ChatCompositeBottomBar() {
     Box(modifier = Modifier.fillMaxWidth()) {
         Row {
-            TextField(value = "", onValueChange = {}, modifier = Modifier.fillMaxWidth(fraction = 0.8f))
+            TextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier.fillMaxWidth(fraction = 0.8f)
+            )
             ClickableText(text = AnnotatedString("Send"), onClick = {
                 // Send Message
             })
