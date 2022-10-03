@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddlewareInterface
-import kotlin.reflect.KFunction1
 
 internal interface RepositoryMiddleware
 

@@ -69,12 +69,12 @@ class ChatLauncherActivity : AppCompatActivity() {
             }
         }
 
-        //Use: https://acs-ui-dev-test.azurewebsites.net/api/Chat to setup
-        //Install in local.properties
-        //THREAD_ID
-        //END_POINT_URL
-        //IDENTITY
-        //ACS_TOKEN
+        // Use: https://acs-ui-dev-test.azurewebsites.net/api/Chat to setup
+        // Install in local.properties
+        // THREAD_ID
+        // END_POINT_URL
+        // IDENTITY
+        // ACS_TOKEN
         binding.run {
             tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
             acsTokenText.setText(BuildConfig.ACS_TOKEN)
