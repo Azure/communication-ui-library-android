@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.redux.middleware.handler
 
 import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
@@ -5,7 +8,7 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
-import com.azure.android.communication.ui.chat.redux.middleware.ChatActionHandler
+import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
