@@ -34,10 +34,12 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:+'
+    implementation 'com.azure.android:azure-communication-ui-calling:<latest stable release version>'
     ...
 }
 ```
+
+Please make sure to pick latest stable release version from our [Github Releases](https://github.com/Azure/communication-ui-library-android/releases) 
 
 In your project gradle scripts add following lines to `repositories`. For `Android Studio (2020.*)` the `repositories` are in `settings.gradle` `dependencyResolutionManagement(Gradle version 6.8 or greater)`. If you are using old versions of `Android Studio (4.*)` then the `repositories` will be in project level `build.gradle` `allprojects{}`.
 
