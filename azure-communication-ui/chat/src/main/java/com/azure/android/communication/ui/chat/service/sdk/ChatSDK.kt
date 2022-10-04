@@ -17,6 +17,7 @@ internal interface ChatSDK {
     fun initialization()
     fun destroy()
     fun getPreviousPage()
+    fun getChatParticipants()
 
     fun startEventNotifications()
     fun stopEventNotifications()
