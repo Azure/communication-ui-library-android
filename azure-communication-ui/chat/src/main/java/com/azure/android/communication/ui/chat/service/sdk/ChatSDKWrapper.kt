@@ -158,7 +158,6 @@ internal class ChatSDKWrapper(
         chatClient.startRealtimeNotifications(context) {
             throw it
         }
-
         chatEventHandler.start(
             chatClient = chatClient,
             threadID = threadId,
