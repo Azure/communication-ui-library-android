@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.chat.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
@@ -32,9 +31,11 @@ internal fun ChatCompositeSendMessageButton(
         this.role = Role.Image
     }
     val painter = painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
-    Box(modifier = Modifier.clickable {
-        onClick()
-    } ) {
+    Box(
+        modifier = Modifier.clickable {
+            onClick()
+        }
+    ) {
         Image(
             painter = painter,
             contentDescription = contentDescription,
@@ -44,7 +45,6 @@ internal fun ChatCompositeSendMessageButton(
                 .size(19.5.dp, 19.5.dp)
                 .then(semantics)
         )
-
     }
 }
 
