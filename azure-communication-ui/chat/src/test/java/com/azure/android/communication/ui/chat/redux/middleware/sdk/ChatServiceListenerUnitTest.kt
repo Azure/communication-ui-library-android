@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.chat.mocking.UnconfinedTestContextProv
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
@@ -17,9 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
-import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
@@ -31,7 +28,6 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun chatServiceListener_subscribe_then_dispatch_chatStatusStateChange() {
         // arrange
-        val appState = AppReduxState("", "", "")
         val chatStatusStateFlow = MutableStateFlow(ChatStatus.INITIALIZED)
         val messagesSharedFlow: MutableSharedFlow<MessagesPageModel> = MutableSharedFlow()
 
