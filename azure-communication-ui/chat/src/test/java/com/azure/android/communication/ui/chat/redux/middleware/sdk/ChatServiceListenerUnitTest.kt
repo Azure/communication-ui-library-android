@@ -25,35 +25,35 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
-
 @RunWith(MockitoJUnitRunner::class)
 class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
-    
+
     @Test
     fun chatServiceListener_subscribe_then_dispatch_chatStatusStateChange() {
         // arrange
         val appState = AppReduxState("", "", "")
         val chatStatusStateFlow = MutableStateFlow(ChatStatus.INITIALIZED)
         val messagesSharedFlow: MutableSharedFlow<MessagesPageModel> = MutableSharedFlow()
-        
-        
+
         val mockChatService: ChatService = mock {
             on { getChatStatusStateFlow() } doReturn chatStatusStateFlow
             on { getMessagesPageSharedFlow() } doReturn messagesSharedFlow
         }
-        
+
         val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
-        
+
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
         }
-        
+
         // act
         handler.subscribe(mockAppStore::dispatch)
-        
+
         // assert
-        verify(mockAppStore,
-               times(1)).dispatch(argThat { action -> action is ChatAction.Initialized })
+        verify(
+            mockAppStore,
+            times(1)
+        ).dispatch(argThat { action -> action is ChatAction.Initialized })
     }
 }

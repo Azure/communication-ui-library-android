@@ -106,27 +106,27 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 }
             )
         }
-    
+
     @ExperimentalCoroutinesApi
     @Test
     fun chatMiddlewareActionHandler_fetchMessage_then_call_chatServiceGetPreviousPage() =
         runScopedTest {
             // arrange
             val mockChatService: ChatService = mock {
-                on { getPreviousPage() } doAnswer  {}
+                on { getPreviousPage() } doAnswer {}
             }
-            
+
             val chatHandler = ChatActionHandler(mockChatService)
-            
+
             val action = ChatAction.FetchMessages()
-            
+
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
             }
-            
+
             // act
             chatHandler.onAction(action, mockAppStore::dispatch)
-            
+
             // assert
             verify(mockChatService, times(1)).getPreviousPage()
         }

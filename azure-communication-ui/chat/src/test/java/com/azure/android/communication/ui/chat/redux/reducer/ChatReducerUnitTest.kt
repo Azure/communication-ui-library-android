@@ -24,14 +24,14 @@ internal class ChatReducerUnitTest {
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
         val action = ChatAction.Initialization()
-        
+
         // act
         val newState = reducer.reduce(previousState, action)
-        
+
         // assert
         Assert.assertEquals(ChatStatus.INITIALIZATION, newState.chatStatus)
     }
-    
+
     @Test
     fun chatReducer_reduce_when_actionInitialized_then_changeChatStateInitialized() {
         // arrange
@@ -40,15 +40,14 @@ internal class ChatReducerUnitTest {
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
         val action = ChatAction.Initialized()
-        
+
         // act
         val newState = reducer.reduce(previousState, action)
-        
+
         // assert
         Assert.assertEquals(ChatStatus.INITIALIZED, newState.chatStatus)
     }
-    
-    
+
     @Test
     fun chatReducer_reduce_when_actionTopicUpdated_then_updateChatStateChatInfoTopic() {
         // arrange
@@ -59,14 +58,14 @@ internal class ChatReducerUnitTest {
         val action = ChatAction.TopicUpdated("New Chat topic")
         val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "New Chat topic")
         val afterState = ChatState(ChatStatus.NONE, localParticipantInfoModel, afterChatInfoModel)
-        
+
         // act
         val newState = reducer.reduce(previousState, action)
-        
+
         // assert
         Assert.assertEquals(afterState, newState)
     }
-    
+
     @Test
     fun chatReducer_reduce_when_actionAllMessagesFetched_then_updateChatStateChatInfoAllMessagesFetched() {
         // arrange
@@ -77,10 +76,10 @@ internal class ChatReducerUnitTest {
         val action = ChatAction.AllMessagesFetched()
         val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = true)
         val afterState = ChatState(ChatStatus.NONE, localParticipantInfoModel, afterChatInfoModel)
-        
+
         // act
         val newState = reducer.reduce(previousState, action)
-        
+
         // assert
         Assert.assertEquals(afterState, newState)
     }
