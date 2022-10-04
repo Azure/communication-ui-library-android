@@ -12,7 +12,7 @@ import com.azure.android.communication.chat.models.ListChatMessagesOptions
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
-import com.azure.android.communication.ui.chat.models.ChatEventInfoModel
+import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.into
@@ -70,13 +70,13 @@ internal class ChatSDKWrapper(
         MutableStateFlow(ChatStatus.NONE)
     private val messagesSharedFlow: MutableSharedFlow<MessagesPageModel> =
         MutableSharedFlow()
-    private val chatEventInfoModelSharedFlow: MutableSharedFlow<ChatEventInfoModel> =
+    private val chatEventModelSharedFlow: MutableSharedFlow<ChatEventModel> =
         MutableSharedFlow()
 
     override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
     override fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
-    override fun getChatEventSharedFlow(): SharedFlow<ChatEventInfoModel> =
-        chatEventInfoModelSharedFlow
+    override fun getChatEventSharedFlow(): SharedFlow<ChatEventModel> =
+        chatEventModelSharedFlow
 
     override fun initialization() {
         chatStatusStateFlow.value = ChatStatus.INITIALIZATION
@@ -203,9 +203,9 @@ internal class ChatSDKWrapper(
             .buildClient()
     }
 
-    private fun onChatEventReceived(infoModel: ChatEventInfoModel) {
+    private fun onChatEventReceived(infoModel: ChatEventModel) {
         coroutineScope.launch {
-            chatEventInfoModelSharedFlow.emit(infoModel)
+            chatEventModelSharedFlow.emit(infoModel)
         }
     }
 }

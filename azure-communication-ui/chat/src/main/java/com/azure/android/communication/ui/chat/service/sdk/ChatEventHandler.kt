@@ -16,7 +16,7 @@ import com.azure.android.communication.chat.models.ChatThreadDeletedEvent
 import com.azure.android.communication.chat.models.ChatThreadPropertiesUpdatedEvent
 import com.azure.android.communication.chat.models.ParticipantsAddedEvent
 import com.azure.android.communication.chat.models.ParticipantsRemovedEvent
-import com.azure.android.communication.ui.chat.models.ChatEventInfoModel
+import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
@@ -25,7 +25,7 @@ import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoMode
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventWrapper
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
 
-internal class ChatEventHandler() {
+internal class ChatEventHandler {
     private val eventReceiver = this::onEventReceived
     private val messageReceivedEvent =
         ChatEventWrapper(ChatEventType.CHAT_MESSAGE_RECEIVED, eventReceiver)
@@ -49,12 +49,12 @@ internal class ChatEventHandler() {
         ChatEventWrapper(ChatEventType.PARTICIPANTS_REMOVED, eventReceiver)
 
     private lateinit var chatThreadID: String
-    private lateinit var eventSubscriber: (ChatEventInfoModel) -> Unit
+    private lateinit var eventSubscriber: (ChatEventModel) -> Unit
 
     fun start(
         chatClient: ChatClient,
         threadID: String,
-        eventSubscriber: (ChatEventInfoModel) -> Unit
+        eventSubscriber: (ChatEventModel) -> Unit
     ) {
 
         this.chatThreadID = threadID
@@ -117,7 +117,7 @@ internal class ChatEventHandler() {
                     deletedOn = null,
                     editedOn = null
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
                     infoModel = model
                 )
@@ -137,7 +137,7 @@ internal class ChatEventHandler() {
                     deletedOn = null,
                     editedOn = event.editedOn
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
                     infoModel = model
                 )
@@ -157,7 +157,7 @@ internal class ChatEventHandler() {
                     deletedOn = event.deletedOn,
                     editedOn = null
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
                     infoModel = model
                 )
@@ -169,7 +169,7 @@ internal class ChatEventHandler() {
                     userIdentifier = event.sender.into(),
                     receivedOn = event.receivedOn
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.TYPING_INDICATOR_RECEIVED.into(),
                     infoModel = model
                 )
@@ -181,7 +181,7 @@ internal class ChatEventHandler() {
                     userIdentifier = event.sender.into(),
                     receivedOn = event.readOn
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.READ_RECEIPT_RECEIVED.into(),
                     infoModel = model
                 )
@@ -194,7 +194,7 @@ internal class ChatEventHandler() {
             ChatEventType.CHAT_THREAD_DELETED -> {
                 val event = chatEvent as ChatThreadDeletedEvent
                 val model = ChatThreadInfoModel(receivedOn = event.deletedOn)
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_THREAD_DELETED.into(),
                     infoModel = model
                 )
@@ -206,7 +206,7 @@ internal class ChatEventHandler() {
                     receivedOn = event.updatedOn,
                     topic = event.properties.topic
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED.into(),
                     infoModel = model
                 )
@@ -222,7 +222,7 @@ internal class ChatEventHandler() {
                         )
                     }
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.PARTICIPANTS_ADDED.into(),
                     infoModel = model
                 )
@@ -238,7 +238,7 @@ internal class ChatEventHandler() {
                         )
                     }
                 )
-                val infoModel = ChatEventInfoModel(
+                val infoModel = ChatEventModel(
                     eventType = ChatEventType.PARTICIPANTS_REMOVED.into(),
                     infoModel = model
                 )
