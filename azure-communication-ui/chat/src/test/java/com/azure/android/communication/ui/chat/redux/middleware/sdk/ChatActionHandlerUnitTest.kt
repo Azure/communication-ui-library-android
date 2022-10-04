@@ -125,9 +125,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val action = ChatAction.FetchMessages()
 
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore = mock<AppStore<ReduxState>> {}
 
             // act
             chatHandler.onAction(action, mockAppStore::dispatch)
