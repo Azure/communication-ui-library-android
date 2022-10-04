@@ -187,7 +187,8 @@ internal class ChatSDKWrapper(
                 throw ex
             }
         }
-        
+    }
+
     override fun sendTypingIndicator(): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
