@@ -32,7 +32,9 @@ internal fun ChatCompositeSendMessageButton(
         this.role = Role.Image
     }
     val painter = painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
-    Box(modifier = Modifier.clickable { onClick } ) {
+    Box(modifier = Modifier.clickable {
+        onClick()
+    } ) {
         Image(
             painter = painter,
             contentDescription = contentDescription,
@@ -40,7 +42,6 @@ internal fun ChatCompositeSendMessageButton(
             modifier = modifier
                 .padding(8.dp)
                 .size(19.5.dp, 19.5.dp)
-
                 .then(semantics)
         )
 
