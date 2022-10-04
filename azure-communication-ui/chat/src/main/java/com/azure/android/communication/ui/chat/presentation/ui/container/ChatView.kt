@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
-import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
 import com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelgenerator.ReduxViewModelGenerator
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.buildChatScreenViewModel
@@ -34,7 +34,7 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
             },
             onChanged = {
                 composeView.setContent {
-                    ChatCompositeUITheme {
+                    ChatCompositeTheme {
                         ChatScreen(viewModel = it)
                     }
                 }

@@ -4,25 +4,18 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
-import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.AcsChatActionBarViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeActionBar
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeBottomBar
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeMessageList
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
@@ -57,7 +50,7 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
 @Preview
 @Composable
 internal fun ChatScreenPreview() {
-    ChatCompositeUITheme {
+    ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
                 listOf(
