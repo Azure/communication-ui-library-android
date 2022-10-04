@@ -22,4 +22,7 @@ internal interface ChatSDK {
     fun sendMessage(
         messageInfoModel: MessageInfoModel,
     ): CompletableFuture<SendChatMessageResult>
+
+    fun startEventNotifications()
+    fun stopEventNotifications()
 }

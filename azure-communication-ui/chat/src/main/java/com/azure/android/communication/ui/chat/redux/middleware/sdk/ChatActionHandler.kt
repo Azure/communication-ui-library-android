@@ -65,33 +65,41 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
+        try {
+            chatService.startEventNotifications()
+        } catch (ex: Exception) {
+            val error = ChatStateError(errorCode = ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
+            dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
+        }
+// test code
+/*sendMessage(
 
-        // TODO: remove test code
-        /*
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
+// TODO: remove test code
 
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
-        chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
 
-        sendMessage(
-            action = ChatAction.SendMessage(
-                MessageInfoModel(
-                    "123",
-                    "456",
-                    ChatMessageType.TEXT,
-                    "hello"
-                )
-            ),
-            dispatch = dispatch
-        )*/
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+chatService.getPreviousPage()
+
+sendMessage(
+    action = ChatAction.SendMessage(
+        MessageInfoModel(
+            "123",
+            "456",
+            ChatMessageType.TEXT,
+            "hello"
+        )
+    ),
+    dispatch = dispatch
+)*/
     }
 }
