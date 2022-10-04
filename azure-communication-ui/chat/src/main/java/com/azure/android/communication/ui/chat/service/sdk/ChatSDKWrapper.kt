@@ -13,11 +13,15 @@ import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.chat.models.UpdateChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
+import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 import com.azure.android.communication.ui.chat.models.ChatEventModel
+import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.into
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
@@ -87,10 +91,18 @@ internal class ChatSDKWrapper(
         createChatThreadAsyncClient()
         // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
         // TODO: above will make sure, network is connected as well
+        ChatEventModel(
+            eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+            ChatThreadInfoModel(
+                topic = threadClient.properties.topic,
+                receivedOn = threadClient.properties.createdOn
+            )
+        )
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
     }
 
     override fun destroy() {
+        stopEventNotifications()
         singleThreadedContext.shutdown()
         coroutineScope.cancel()
     }
@@ -103,7 +115,7 @@ internal class ChatSDKWrapper(
                 var throwable: Throwable? = null
                 if (!allPagesFetched) {
                     try {
-                        var pagedIterable = threadClient.listMessages(options, RequestContext.NONE)
+                        val pagedIterable = threadClient.listMessages(options, RequestContext.NONE)
                         val pagedResponse = pagedIterable.byPage(pagingContinuationToken)
 
                         val response = pagedResponse.iterator().next()
@@ -153,6 +165,28 @@ internal class ChatSDKWrapper(
             }
         }
         return future
+    }
+
+    override fun getChatParticipants() {
+        coroutineScope.launch {
+            try {
+                val participants: List<RemoteParticipantInfoModel> =
+                    threadClient.listParticipants().map {
+                        RemoteParticipantInfoModel(
+                            userIdentifier = it.communicationIdentifier.into(),
+                            displayName = it.displayName
+                        )
+                    }
+                ChatEventModel(
+                    eventType = ChatEventType.PARTICIPANTS_ADDED,
+                    RemoteParticipantsInfoModel(
+                        participants = participants
+                    )
+                )
+            } catch (ex: Exception) {
+                throw ex
+            }
+        }
     }
 
     override fun sendTypingIndicator(): CompletableFuture<Void> {

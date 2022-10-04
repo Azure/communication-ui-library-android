@@ -18,6 +18,7 @@ internal class ChatService(private val chatSDK: ChatSDK) {
     fun getChatStatusStateFlow() = chatSDK.getChatStatusStateFlow()
     fun getMessagesPageSharedFlow() = chatSDK.getMessagesPageSharedFlow()
     fun getChatEventSharedFlow() = chatSDK.getChatEventSharedFlow()
+    fun getChatParticipants() = chatSDK.getChatParticipants()
 
     fun sendMessage(
         messageInfoModel: MessageInfoModel,

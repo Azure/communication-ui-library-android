@@ -24,7 +24,12 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
             is ChatAction.FetchMessages -> fetchMessages()
+            is ChatAction.EndChat -> endChat()
         }
+    }
+
+    private fun endChat() {
+        chatService.destroy()
     }
 
     private fun fetchMessages() {

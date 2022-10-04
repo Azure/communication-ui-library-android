@@ -15,4 +15,5 @@ internal sealed class ChatAction : Action {
     class FetchMessages : ChatAction()
     class AllMessagesFetched : ChatAction()
     class MessagesPageReceived(val messages: List<MessageInfoModel>) : ChatAction()
+    class EndChat : ChatAction()
 }

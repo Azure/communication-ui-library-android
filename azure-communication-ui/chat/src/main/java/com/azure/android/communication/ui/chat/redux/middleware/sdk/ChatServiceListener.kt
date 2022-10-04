@@ -55,6 +55,7 @@ internal class ChatServiceListener(
     }
 
     fun unsubscribe() {
+        chatService.stopEventNotifications()
         coroutineScope.cancel()
     }
 
