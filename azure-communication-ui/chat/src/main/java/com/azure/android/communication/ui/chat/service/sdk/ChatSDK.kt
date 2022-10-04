@@ -20,6 +20,7 @@ internal interface ChatSDK {
     fun initialization()
     fun destroy()
     fun getPreviousPage()
+    fun getChatParticipants()
 
     fun sendMessage(
         messageInfoModel: MessageInfoModel,
