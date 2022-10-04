@@ -150,11 +150,20 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val argumentCaptor = argumentCaptor<ErrorAction.ChatStateErrorOccurred>()
 
             // act
-            chatHandler.onAction(action = ChatAction.Initialized(), dispatch = mockAppStore::dispatch)
+            chatHandler.onAction(
+                action = ChatAction.Initialized(),
+                dispatch = mockAppStore::dispatch
+            )
 
             // assert
             verify(mockAppStore, times(1)).dispatch(argumentCaptor.capture())
-            assertEquals(argumentCaptor.firstValue.javaClass, ErrorAction.ChatStateErrorOccurred::class.java)
-            assertEquals(argumentCaptor.firstValue.chatStateError.errorCode, ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
+            assertEquals(
+                argumentCaptor.firstValue.javaClass,
+                ErrorAction.ChatStateErrorOccurred::class.java
+            )
+            assertEquals(
+                argumentCaptor.firstValue.chatStateError.errorCode,
+                ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED
+            )
         }
 }

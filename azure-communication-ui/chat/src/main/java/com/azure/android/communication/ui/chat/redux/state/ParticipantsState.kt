@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.redux.state
 
-import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
+import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 
 internal data class ParticipantsState(
-    val participantMap: Map<String, LocalParticipantInfoModel>,
+    val participantMap: Map<String, RemoteParticipantsInfoModel>,
 )
