@@ -34,7 +34,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executors
 
 internal class ChatSDKWrapper(
-    context: Context,
+    private val context: Context,
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
 ) : ChatSDK {
@@ -56,6 +56,7 @@ internal class ChatSDKWrapper(
     private val sdkVersion = chatConfig.sdkVersion
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
+    private var startedEventNotifications = false
 
     private val options = ListChatMessagesOptions().apply { maxPageSize = PAGE_MESSAGES_SIZE }
     private var pagingContinuationToken: String? = null
@@ -143,6 +144,21 @@ internal class ChatSDKWrapper(
             }
         }
         return future
+    }
+
+    override fun startEventNotifications() {
+        if (startedEventNotifications) return
+        startedEventNotifications = true
+        chatClient.startRealtimeNotifications(context) {
+            throw it
+        }
+    }
+
+    override fun stopEventNotifications() {
+        if (startedEventNotifications) {
+            chatClient.stopRealtimeNotifications()
+            startedEventNotifications = false
+        }
     }
 
     private fun createChatAsyncClient() {

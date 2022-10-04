@@ -19,16 +19,21 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.AcsChatActionBarViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeActionBar
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeBottomBar
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeMessageList
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 
 @Composable
 internal fun ChatScreen(viewModel: ChatScreenViewModel) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
 
-        ) {
+    Scaffold(
+        topBar = {
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             ChatCompositeActionBar(
                 AcsChatActionBarViewModel(
@@ -38,19 +43,15 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
             ) {
                 dispatcher?.onBackPressed()
             }
-            BasicText(
-                text = "Hello Chat! ${viewModel.messages.size} ${viewModel.state} builds: ${viewModel.buildCount}",
+        },
+        content = {
+            ChatCompositeMessageList(
+                modifier = Modifier.padding(it),
+                messages = viewModel.messages
             )
-            ClickableText(
-                text = AnnotatedString("Click me for random message"),
-                onClick = {
-
-                    viewModel.postMessage("Random Message @ ${System.currentTimeMillis()}")
-                }
-
-            )
-        }
-    }
+        },
+        bottomBar = { ChatCompositeBottomBar() }
+    )
 }
 
 @Preview
@@ -59,7 +60,29 @@ internal fun ChatScreenPreview() {
     ChatCompositeUITheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                listOf(),
+                listOf(
+                    MessageInfoModel(
+                        messageType = ChatMessageType.TEXT,
+                        content = "Test Message",
+                        internalId = null,
+                        id = null
+                    ),
+
+                    MessageInfoModel(
+                        messageType = ChatMessageType.TEXT,
+                        content = "Test Message 2 ",
+                        internalId = null,
+                        id = null
+                    ),
+
+                    MessageInfoModel(
+                        messageType = ChatMessageType.TEXT,
+                        content = "Test Message 3",
+                        internalId = null,
+                        id = null
+                    ),
+
+                ).toViewModelList(),
                 state = "state",
                 buildCount = 2,
                 postMessage = {}
