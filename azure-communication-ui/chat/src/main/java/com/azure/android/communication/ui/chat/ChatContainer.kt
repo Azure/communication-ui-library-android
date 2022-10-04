@@ -29,6 +29,7 @@ import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
+import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 
 internal class ChatContainer(
@@ -88,12 +89,15 @@ internal class ChatContainer(
 
             addTypedBuilder { remoteOptions }
 
+            addTypedBuilder { ChatEventHandler() }
+
             addTypedBuilder {
                 ChatService(
                     chatSDK = ChatSDKWrapper(
                         context = context,
                         chatConfig = configuration.chatConfig!!,
-                        coroutineContextProvider = locate()
+                        coroutineContextProvider = locate(),
+                        chatEventHandler = locate()
                     )
                 )
             }

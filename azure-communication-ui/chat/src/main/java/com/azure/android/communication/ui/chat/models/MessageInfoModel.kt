@@ -11,7 +11,7 @@ import org.threeten.bp.OffsetDateTime
 internal data class MessageInfoModel(
     val id: String?,
     val internalId: String? = null,
-    val messageType: ChatMessageType,
+    val messageType: ChatMessageType?,
     val content: String?,
     val version: String? = null,
     val senderDisplayName: String? = null,
@@ -19,7 +19,7 @@ internal data class MessageInfoModel(
     val senderCommunicationIdentifier: CommunicationIdentifier? = null,
     val deletedOn: OffsetDateTime? = null,
     val editedOn: OffsetDateTime? = null,
-)
+) : BaseInfoModel
 
 internal fun com.azure.android.communication.chat.models.ChatMessage.into(): MessageInfoModel {
     return MessageInfoModel(
