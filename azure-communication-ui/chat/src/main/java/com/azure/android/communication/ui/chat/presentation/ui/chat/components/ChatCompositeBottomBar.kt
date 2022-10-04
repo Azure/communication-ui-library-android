@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.layout.Box
@@ -18,9 +21,7 @@ internal fun ChatCompositeBottomBar() {
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(fraction = 0.8f)
             )
-            ClickableText(text = AnnotatedString("Send"), onClick = {
-                // Send Message
-            })
+            AcsChatSendMessageButton("Send Message Button")
         }
     }
 }
