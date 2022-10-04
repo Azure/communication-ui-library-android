@@ -52,7 +52,7 @@ internal fun PreviewChatCompositeMessageList() {
                     id = null
                 ),
 
-            ).toViewModelList()
+                ).toViewModelList()
         )
     }
 }

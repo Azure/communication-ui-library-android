@@ -59,7 +59,7 @@ internal fun ChatScreenPreview() {
                         id = null
                     ),
 
-                ).toViewModelList(),
+                    ).toViewModelList(),
                 state = "state",
                 buildCount = 2,
                 postMessage = {}
