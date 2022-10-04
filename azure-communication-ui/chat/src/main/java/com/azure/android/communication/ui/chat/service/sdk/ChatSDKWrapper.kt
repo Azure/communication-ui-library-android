@@ -91,13 +91,17 @@ internal class ChatSDKWrapper(
         createChatThreadAsyncClient()
         // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
         // TODO: above will make sure, network is connected as well
-        ChatEventModel(
-            eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
-            ChatThreadInfoModel(
-                topic = threadClient.properties.topic,
-                receivedOn = threadClient.properties.createdOn
+
+        onChatEventReceived(
+            infoModel = ChatEventModel(
+                eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+                ChatThreadInfoModel(
+                    topic = threadClient.properties.topic,
+                    receivedOn = threadClient.properties.createdOn
+                )
             )
         )
+
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
     }
 
@@ -177,10 +181,13 @@ internal class ChatSDKWrapper(
                             displayName = it.displayName
                         )
                     }
-                ChatEventModel(
-                    eventType = ChatEventType.PARTICIPANTS_ADDED,
-                    RemoteParticipantsInfoModel(
-                        participants = participants
+
+                onChatEventReceived(
+                    infoModel = ChatEventModel(
+                        eventType = ChatEventType.PARTICIPANTS_ADDED,
+                        RemoteParticipantsInfoModel(
+                            participants = participants
+                        )
                     )
                 )
             } catch (ex: Exception) {
