@@ -27,7 +27,7 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
                 messages = viewModel.messages
             )
         },
-        bottomBar = { ChatCompositeBottomBar() }
+        bottomBar = { ChatCompositeBottomBar(viewModel.postMessage) }
     )
 }
 

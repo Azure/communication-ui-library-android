@@ -9,6 +9,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
@@ -20,29 +22,33 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun AcsChatSendMessageButton(
+internal fun ChatCompositeSendMessageButton(
     contentDescription: String,
-    onClick: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     val semantics = Modifier.semantics {
         this.contentDescription = contentDescription
         this.role = Role.Image
     }
     val painter = painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
-    Image(
-        painter = painter,
-        contentDescription = contentDescription,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .padding(2.25.dp)
-            .size(19.5.dp, 19.5.dp)
-            .clickable { onClick }
-            .then(semantics)
-    )
+    Box(modifier = Modifier.clickable { onClick } ) {
+        Image(
+            painter = painter,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+                .padding(8.dp)
+                .size(19.5.dp, 19.5.dp)
+
+                .then(semantics)
+        )
+
+    }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun PreviewAcsChatSendMessageButton() {
-    AcsChatSendMessageButton(contentDescription = "Send Message Button")
+fun PreviewChatCompositeSendMessageButton() {
+    ChatCompositeSendMessageButton(contentDescription = "Send Message Button")
 }
