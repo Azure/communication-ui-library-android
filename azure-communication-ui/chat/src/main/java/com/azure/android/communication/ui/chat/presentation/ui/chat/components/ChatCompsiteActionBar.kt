@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
-import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 
 data class AcsChatActionBarViewModel(val participantCount: Int, val topic: String)
 @Composable
@@ -52,19 +52,19 @@ fun ChatCompositeActionBar(
                     Text(
                         text = viewModel.topic,
                         textAlign = TextAlign.Center,
-                        style = ChatCompositeUITheme.typography.title
+                        style = ChatCompositeTheme.typography.title
                     )
                     if (viewModel.participantCount == 1) {
                         Text(
                             text = "${viewModel.participantCount} Participant",
                             textAlign = TextAlign.Center,
-                            style = ChatCompositeUITheme.typography.body
+                            style = ChatCompositeTheme.typography.body
                         )
                     } else {
                         Text(
                             text = "${viewModel.participantCount} Participants",
                             textAlign = TextAlign.Center,
-                            style = ChatCompositeUITheme.typography.body
+                            style = ChatCompositeTheme.typography.body
                         )
                     }
                 }

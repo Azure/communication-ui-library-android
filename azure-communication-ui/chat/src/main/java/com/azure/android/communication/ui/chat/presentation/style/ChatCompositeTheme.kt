@@ -103,8 +103,8 @@ internal fun ChatCompositeTheme(
     }
 }
 
-// Usage: ChatCompositeUITheme.typography.body
-object ChatCompositeUITheme {
+// Usage: ChatCompositeTheme.typography.body
+object ChatCompositeTheme {
 
     val typography: AcsChatTypography
         @Composable
