@@ -21,6 +21,7 @@ internal fun ChatCompositeBottomBar() {
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(fraction = 0.8f)
             )
+            AcsChatSendMessageButton("Send Message Button")
         }
     }
 }
