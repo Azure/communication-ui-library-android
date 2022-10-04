@@ -42,10 +42,7 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
 
         val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
 
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getCurrentState() } doReturn appState
-            on { dispatch(any()) } doAnswer { }
-        }
+        val mockAppStore = mock<AppStore<ReduxState>> {}
 
         // act
         handler.subscribe(mockAppStore::dispatch)
