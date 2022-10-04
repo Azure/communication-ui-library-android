@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.models.ChatInfoModel
-import com.azure.android.communication.ui.chat.models.ParticipantInfoModel
+import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatState
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
@@ -20,7 +20,7 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionInitialization_then_changeChatStateInitialization() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<ParticipantInfoModel> { }
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
         val action = ChatAction.Initialization()
@@ -36,7 +36,7 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionInitialized_then_changeChatStateInitialized() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<ParticipantInfoModel> { }
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
         val action = ChatAction.Initialized()
@@ -52,7 +52,7 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionTopicUpdated_then_updateChatStateChatInfoTopic() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<ParticipantInfoModel> { }
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = ChatInfoModel(threadId = "", topic = "Previous Chat topic")
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
         val action = ChatAction.TopicUpdated("New Chat topic")
@@ -70,7 +70,7 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionAllMessagesFetched_then_updateChatStateChatInfoAllMessagesFetched() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<ParticipantInfoModel> { }
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = false)
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
         val action = ChatAction.AllMessagesFetched()
