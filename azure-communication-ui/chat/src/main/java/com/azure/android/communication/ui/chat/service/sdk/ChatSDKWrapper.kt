@@ -12,6 +12,7 @@ import com.azure.android.communication.chat.models.ListChatMessagesOptions
 import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.into
@@ -37,6 +38,7 @@ internal class ChatSDKWrapper(
     private val context: Context,
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
+    private val chatEventHandler: ChatEventHandler
 ) : ChatSDK {
 
     companion object {
@@ -68,9 +70,13 @@ internal class ChatSDKWrapper(
         MutableStateFlow(ChatStatus.NONE)
     private val messagesSharedFlow: MutableSharedFlow<MessagesPageModel> =
         MutableSharedFlow()
+    private val chatEventModelSharedFlow: MutableSharedFlow<ChatEventModel> =
+        MutableSharedFlow()
 
     override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
     override fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
+    override fun getChatEventSharedFlow(): SharedFlow<ChatEventModel> =
+        chatEventModelSharedFlow
 
     override fun initialization() {
         chatStatusStateFlow.value = ChatStatus.INITIALIZATION
@@ -129,7 +135,7 @@ internal class ChatSDKWrapper(
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
             val chatMessageOptions = SendChatMessageOptions()
-                .setType(messageInfoModel.messageType.into())
+                .setType(messageInfoModel.messageType!!.into())
                 .setContent(messageInfoModel.content)
                 .setSenderDisplayName(senderDisplayName)
 
@@ -152,12 +158,18 @@ internal class ChatSDKWrapper(
         chatClient.startRealtimeNotifications(context) {
             throw it
         }
+        chatEventHandler.start(
+            chatClient = chatClient,
+            threadID = threadId,
+            eventSubscriber = this::onChatEventReceived
+        )
     }
 
     override fun stopEventNotifications() {
         if (startedEventNotifications) {
             chatClient.stopRealtimeNotifications()
             startedEventNotifications = false
+            chatEventHandler.stop(chatClient)
         }
     }
 
@@ -188,5 +200,11 @@ internal class ChatSDKWrapper(
             )
             .chatThreadId(threadId)
             .buildClient()
+    }
+
+    private fun onChatEventReceived(infoModel: ChatEventModel) {
+        coroutineScope.launch {
+            chatEventModelSharedFlow.emit(infoModel)
+        }
     }
 }
