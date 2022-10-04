@@ -1,0 +1,4 @@
+<resources>
+    <string name="title_activity_compose_chat">ComposeChatActivity</string>
+    <string name="chat_action_bar_title">Chat</string>
+</resources>

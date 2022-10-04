@@ -19,7 +19,7 @@ setLocalProperty "USER_NAME" "Test User"
 setLocalProperty "ACS_TOKEN" "$1"
 
 # run Ui tests with the required parameters
-./gradlew clean connectedCallingDebugAndroidTest -PdisableTaskRootCheck=true -Pandroid.testInstrumentationRunnerArguments.expiredToken=$1 -Pandroid.testInstrumentationRunnerArguments.teamsUrl="$2" -Pandroid.testInstrumentationRunnerArguments.groupId="$3" -Pandroid.testInstrumentationRunnerArguments.acsToken=$4 -Pandroid.testInstrumentationRunnerArguments.tokenFunctionUrl=$5
+./gradlew clean connectedCallingDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.expiredToken=$1 -Pandroid.testInstrumentationRunnerArguments.teamsUrl="$2" -Pandroid.testInstrumentationRunnerArguments.groupId="$3" -Pandroid.testInstrumentationRunnerArguments.acsToken=$4 -Pandroid.testInstrumentationRunnerArguments.tokenFunctionUrl=$5
 
 # clean up
 if [ -z "$DEVICE" ]; then

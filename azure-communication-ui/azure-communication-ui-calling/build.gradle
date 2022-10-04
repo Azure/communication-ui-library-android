@@ -1,0 +1,129 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+apply from: file('publish.gradle')
+apply from: file('jacoco.gradle')
+
+android {
+    compileSdkVersion 31
+    resourcePrefix 'azure_communication_ui_calling_'
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 31
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        buildConfig = false
+        resValues = false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += [
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xuse-experimental=kotlinx.coroutines.ObsoleteCoroutinesApi"
+        ]
+    }
+
+    testOptions {
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+        unitTests {
+            returnDefaultValues = true
+            all {
+                failFast = true
+            }
+        }
+    }
+
+    ktlint {
+        debug.set(false)
+        verbose.set(true)
+        android.set(true)
+        outputToConsole.set(true)
+        outputColorName.set("RED")
+        enableExperimentalRules.set(false)
+        disabledRules = ["import-ordering", "max-line-length", "parameter-list-wrapping"]
+        reporters {
+            reporter "checkstyle"
+            reporter "plain"
+        }
+        filter {
+            exclude({ it.file.absolutePath.contains("/generated/") })
+        }
+    }
+
+    sourceSets {
+        calling {
+            java.srcDirs = ['src/main/java','src/calling/java']
+            res.srcDirs = ['src/main/res','src/calling/res']
+        }
+    }
+
+    flavorDimensions 'product'
+    productFlavors {
+        calling {
+            dimension 'product'
+        }
+    }
+
+    publishing {
+        multipleVariants('releaseCalling') {
+            withSourcesJar()
+            withJavadocJar()
+            includeBuildTypeValues('release')
+            includeFlavorDimensionAndValues(
+                    /*dimension =*/ 'product',
+                    /*values =*/ 'calling'
+            )
+        }
+    }
+
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
+    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$jetbrains_kotlinx_coroutines_core_version"
+
+    callingApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
+    callingImplementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
+    callingImplementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"
+    callingImplementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"
+    callingImplementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
+    callingImplementation "com.microsoft.fluentui:fluentui_transients:$microsoft_fluent_ui_version"
+
+    testImplementation "androidx.arch.core:core-testing:$androidx_core_testing_version"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$jetbrains_kotlinx_coroutines_test_version"
+
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+}

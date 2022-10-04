@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Call With Chat Demo</string>
+    <string name="title_activity_call_with_chat_launcher">CallWithChatLauncherActivity</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- Custom Theme for Composite-->
+    <style name="MyCompany.Theme.Calling" parent="AzureCommunicationUICalling.Theme">
+        <!--
+            This custom theme is derived from the FluentUI colors, by swapping Red & Green Components
+            When supplying your own theme, choose your primary and also associated tints/shades
+        -->
+
+        <item name="azure_communication_ui_calling_primary_color">#7800D4</item>
+        <item name="azure_communication_ui_calling_primary_color_tint10">#882BD8</item>
+        <item name="azure_communication_ui_calling_primary_color_tint20">#E0C7F4</item>
+        <item name="azure_communication_ui_calling_primary_color_tint30">#ECDEF9</item>
+    </style>
+
+</resources>
