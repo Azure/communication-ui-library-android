@@ -11,9 +11,7 @@ internal class ChatEventWrapper(
     private val eventType: ChatEventType,
     private val onEventReceived: (ChatEventType, ChatEvent) -> Unit
 ) : RealTimeNotificationCallback {
-    override fun onChatEvent(chatEvent: ChatEvent?) {
-        chatEvent?.let {
-            onEventReceived(eventType, it)
-        }
+    override fun onChatEvent(chatEvent: ChatEvent) {
+        onEventReceived(eventType, chatEvent)
     }
 }
