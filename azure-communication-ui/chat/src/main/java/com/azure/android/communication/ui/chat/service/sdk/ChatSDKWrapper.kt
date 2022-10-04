@@ -10,6 +10,7 @@ import com.azure.android.communication.chat.ChatThreadClient
 import com.azure.android.communication.chat.ChatThreadClientBuilder
 import com.azure.android.communication.chat.models.ListChatMessagesOptions
 import com.azure.android.communication.chat.models.SendChatMessageOptions
+import com.azure.android.communication.chat.models.UpdateChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
@@ -21,6 +22,7 @@ import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.into
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
@@ -47,6 +49,7 @@ internal class ChatSDKWrapper(
 
     companion object {
         private const val PAGE_MESSAGES_SIZE = 50
+        private const val RESPONSE_SUCCESS_CODE = 200
     }
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -184,6 +187,84 @@ internal class ChatSDKWrapper(
                 throw ex
             }
         }
+        
+    override fun sendTypingIndicator(): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            val response = threadClient.sendTypingNotificationWithResponse(RequestContext.NONE)
+            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                future.complete(null)
+            } else {
+                // TODO: in future create exception if required
+                future.completeExceptionally(null)
+            }
+        }
+        return future
+    }
+
+    override fun sendReadReceipt(id: String): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            val response = threadClient.sendReadReceiptWithResponse(id, RequestContext.NONE)
+            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                future.complete(null)
+            } else {
+                // TODO: in future create exception if required
+                future.completeExceptionally(null)
+            }
+        }
+        return future
+    }
+
+    override fun editMessage(id: String, content: String): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        coroutineScope.launch {
+            val options = UpdateChatMessageOptions()
+            options.content = content
+            val response = threadClient.updateMessageWithResponse(id, options, RequestContext.NONE)
+            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                future.complete(null)
+            } else {
+                // TODO: in future create exception if required
+                future.completeExceptionally(null)
+            }
+        }
+        return future
+    }
+
+    override fun deleteMessage(id: String): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            val response = threadClient.deleteMessageWithResponse(id, RequestContext.NONE)
+            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                future.complete(null)
+            } else {
+                // TODO: in future create exception if required
+                future.completeExceptionally(null)
+            }
+        }
+        return future
+    }
+
+    override fun removeSelfFromChat(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            val response = threadClient.removeParticipantWithResponse(
+                communicationIdentifier.into(),
+                RequestContext.NONE
+            )
+            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                future.complete(null)
+            } else {
+                // TODO: in future create exception if required
+                future.completeExceptionally(null)
+            }
+        }
+        return future
     }
 
     override fun startEventNotifications() {
