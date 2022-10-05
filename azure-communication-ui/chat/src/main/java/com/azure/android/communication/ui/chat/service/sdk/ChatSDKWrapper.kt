@@ -174,14 +174,17 @@ internal class ChatSDKWrapper(
     override fun requestChatParticipants() {
         coroutineScope.launch {
             try {
-                val participants: List<RemoteParticipantInfoModel> =
-                    threadClient.listParticipants().map {
-                        RemoteParticipantInfoModel(
-                            userIdentifier = it.communicationIdentifier.into(),
-                            displayName = it.displayName
+                val participants: MutableList<RemoteParticipantInfoModel> = mutableListOf()
+                threadClient.listParticipants().byPage().forEach { page ->
+                    page.elements.map {
+                        participants.add(
+                            RemoteParticipantInfoModel(
+                                userIdentifier = it.communicationIdentifier.into(),
+                                displayName = it.displayName
+                            )
                         )
                     }
-
+                }
                 onChatEventReceived(
                     infoModel = ChatEventModel(
                         eventType = ChatEventType.PARTICIPANTS_ADDED,
