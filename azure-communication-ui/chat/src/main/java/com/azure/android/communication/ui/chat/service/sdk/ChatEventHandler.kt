@@ -11,7 +11,6 @@ import com.azure.android.communication.chat.models.TypingIndicatorReceivedEvent
 import com.azure.android.communication.chat.models.ChatMessageEditedEvent
 import com.azure.android.communication.chat.models.ChatMessageDeletedEvent
 import com.azure.android.communication.chat.models.ReadReceiptReceivedEvent
-import com.azure.android.communication.chat.models.ChatThreadCreatedEvent
 import com.azure.android.communication.chat.models.ChatThreadDeletedEvent
 import com.azure.android.communication.chat.models.ChatThreadPropertiesUpdatedEvent
 import com.azure.android.communication.chat.models.ParticipantsAddedEvent
@@ -193,7 +192,6 @@ internal class ChatEventHandler {
                 eventSubscriber(infoModel)
             }
             ChatEventType.CHAT_THREAD_CREATED -> {
-                val event = chatEvent as ChatThreadCreatedEvent
                 // No use case
             }
             ChatEventType.CHAT_THREAD_DELETED -> {

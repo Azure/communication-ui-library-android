@@ -27,7 +27,7 @@ import java.util.concurrent.Executors
 
 internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProvider) {
     companion object {
-        private const val POLLING_INTERVAL = 5000L
+        private const val POLLING_INTERVAL = 10000L
     }
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -89,7 +89,6 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
             lastMessageSyncTime?.let {
                 listChatMessagesOptions.startTime = lastMessageSyncTime
             }
-
             val messages =
                 chatThreadClient.listMessages(listChatMessagesOptions, RequestContext.NONE)
 
@@ -166,7 +165,7 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                                     messageType = null,
                                     version = message.version,
                                     content = null,
-                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
+                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier?.into(),
                                     senderDisplayName = message.senderDisplayName,
                                     createdOn = message.createdOn,
                                     deletedOn = message.deletedOn,
@@ -187,7 +186,7 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                                     messageType = null,
                                     version = message.version,
                                     content = message.content.message,
-                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
+                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier?.into(),
                                     senderDisplayName = message.senderDisplayName,
                                     createdOn = message.createdOn,
                                     deletedOn = null,
@@ -209,7 +208,7 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                                     messageType = message.type.into(),
                                     version = message.version,
                                     content = message.content.message,
-                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
+                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier?.into(),
                                     senderDisplayName = message.senderDisplayName,
                                     createdOn = message.createdOn,
                                     deletedOn = null,
@@ -257,11 +256,11 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
             }
         }
 
-        var head = 0
+        private var head = 0
 
-        var tail = 0
+        private var tail = 0
 
-        var capacity = 0
+        private var capacity = 0
 
         fun clear() {
             head = 0
