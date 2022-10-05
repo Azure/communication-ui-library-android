@@ -10,15 +10,15 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.Communication
 internal class ChatService(private val chatSDK: ChatSDK) {
     fun initialize() = chatSDK.initialization()
     fun destroy() = chatSDK.destroy()
+    fun requestPreviousPage() = chatSDK.requestPreviousPage()
+    fun requestChatParticipants() = chatSDK.requestChatParticipants()
 
     fun startEventNotifications() = chatSDK.startEventNotifications()
     fun stopEventNotifications() = chatSDK.stopEventNotifications()
-    fun getPreviousPage() = chatSDK.getPreviousPage()
 
     fun getChatStatusStateFlow() = chatSDK.getChatStatusStateFlow()
     fun getMessagesPageSharedFlow() = chatSDK.getMessagesPageSharedFlow()
     fun getChatEventSharedFlow() = chatSDK.getChatEventSharedFlow()
-    fun getChatParticipants() = chatSDK.getChatParticipants()
 
     fun sendMessage(
         messageInfoModel: MessageInfoModel,
@@ -28,6 +28,6 @@ internal class ChatService(private val chatSDK: ChatSDK) {
     fun editMessage(id: String, content: String) = chatSDK.editMessage(id = id, content = content)
     fun sendTypingIndicator() = chatSDK.sendTypingIndicator()
     fun sendReadReceipt(id: String) = chatSDK.sendReadReceipt(id = id)
-    fun removeSelfFromChat(communicationIdentifier: CommunicationIdentifier) =
-        chatSDK.removeSelfFromChat(communicationIdentifier = communicationIdentifier)
+    fun removeParticipant(communicationIdentifier: CommunicationIdentifier) =
+        chatSDK.removeParticipant(communicationIdentifier = communicationIdentifier)
 }

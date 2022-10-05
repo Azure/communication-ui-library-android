@@ -111,7 +111,7 @@ internal class ChatSDKWrapper(
         coroutineScope.cancel()
     }
 
-    override fun getPreviousPage() {
+    override fun requestPreviousPage() {
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
             withContext(singleThreadedContext.asCoroutineDispatcher()) {
@@ -171,7 +171,7 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    override fun getChatParticipants() {
+    override fun requestChatParticipants() {
         coroutineScope.launch {
             try {
                 val participants: List<RemoteParticipantInfoModel> =
@@ -257,7 +257,7 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    override fun removeSelfFromChat(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void> {
+    override fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
