@@ -1,6 +1,5 @@
-package com.azure.android.communication.ui.chat.presentation.ui.chat.chatviewcomponents
+package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -17,12 +16,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -32,33 +32,26 @@ import com.azure.android.communication.ui.chat.R
 
 @Preview(showSystemUi = true)
 @Composable
-fun MessageInputAreaPreview() {
-    MessageInputArea(Color(0xFF212121), Color(0xFFE1E1E1))
+fun MessageInputViewPreview() {
+    Row {
+        MessageInputView(Color(0xFF212121), Color(0xFFE1E1E1), "Message Input Field")
+    }
 }
 
 @Composable
-fun MessageInputArea(textColor: Color, outlineColor: Color) {
+fun MessageInputView(textColor: Color, outlineColor: Color, contentDescription: String) {
     var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
     var focusState by rememberSaveable { mutableStateOf(false) }
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White),
-        verticalAlignment = CenterVertically
-
-    ) {
-        MessageInput(
-            onTextChanged = { textState = it },
-            textState = textState,
-            onTextFieldFocused = { focusState = it },
-            focusState = focusState,
-            textColor = textColor,
-            outlineColor = outlineColor
-        )
-
-        // TODO: SendButton()
-    }
+    MessageInput(
+        onTextChanged = { textState = it },
+        textState = textState,
+        onTextFieldFocused = { focusState = it },
+        focusState = focusState,
+        textColor = textColor,
+        outlineColor = outlineColor,
+        contentDescription = contentDescription
+    )
 }
 
 @Composable
@@ -70,16 +63,22 @@ fun MessageInput(
     focusState: Boolean,
     textColor: Color,
     outlineColor: Color,
+    contentDescription: String
 ) {
 
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val maxInputHeight = screenHeight / 4
 
+    val semantics = Modifier.semantics {
+        this.contentDescription = contentDescription
+    }
+
     BasicTextField(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(fraction = 0.9f)
             .padding(6.dp)
+            .semantics { semantics }
             .heightIn(52.dp, maxInputHeight)
             .onFocusChanged { onTextFieldFocused(it.isFocused) },
         value = textState,
