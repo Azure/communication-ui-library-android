@@ -8,9 +8,9 @@ import com.azure.android.communication.chat.models.ChatMessage
 import com.azure.android.communication.chat.models.ChatMessageType
 import com.azure.android.communication.chat.models.ChatEventType
 import com.azure.android.communication.chat.models.ListChatMessagesOptions
+import com.azure.android.communication.ui.chat.models.into
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
@@ -159,42 +159,18 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
 
                         if (message.type == ChatMessageType.HTML || message.type == ChatMessageType.TEXT) {
                             if (message.deletedOn != null) {
-                                val model = MessageInfoModel(
-                                    internalId = null,
-                                    id = message.id,
-                                    messageType = null,
-                                    version = message.version,
-                                    content = null,
-                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier?.into(),
-                                    senderDisplayName = message.senderDisplayName,
-                                    createdOn = message.createdOn,
-                                    deletedOn = message.deletedOn,
-                                    editedOn = null
-                                )
                                 val infoModel = ChatEventModel(
                                     eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
-                                    infoModel = model,
+                                    infoModel = message.into(),
                                     eventReceivedOffsetDateTime = null
                                 )
                                 eventSubscriber(infoModel)
                             }
 
                             if (message.editedOn != null) {
-                                val model = MessageInfoModel(
-                                    internalId = null,
-                                    id = message.id,
-                                    messageType = null,
-                                    version = message.version,
-                                    content = message.content.message,
-                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier?.into(),
-                                    senderDisplayName = message.senderDisplayName,
-                                    createdOn = message.createdOn,
-                                    deletedOn = null,
-                                    editedOn = message.editedOn
-                                )
                                 val infoModel = ChatEventModel(
                                     eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
-                                    infoModel = model,
+                                    infoModel = message.into(),
                                     eventReceivedOffsetDateTime = null
                                 )
                                 eventSubscriber(infoModel)
@@ -202,21 +178,9 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
 
                             // new message
                             if (message.deletedOn == null && message.editedOn == null) {
-                                val model = MessageInfoModel(
-                                    internalId = null,
-                                    id = message.id,
-                                    messageType = message.type.into(),
-                                    version = message.version,
-                                    content = message.content.message,
-                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier?.into(),
-                                    senderDisplayName = message.senderDisplayName,
-                                    createdOn = message.createdOn,
-                                    deletedOn = null,
-                                    editedOn = null
-                                )
                                 val infoModel = ChatEventModel(
                                     eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
-                                    infoModel = model,
+                                    infoModel = message.into(),
                                     eventReceivedOffsetDateTime = null
                                 )
                                 eventSubscriber(infoModel)

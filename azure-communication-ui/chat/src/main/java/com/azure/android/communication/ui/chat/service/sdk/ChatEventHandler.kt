@@ -15,9 +15,9 @@ import com.azure.android.communication.chat.models.ChatThreadDeletedEvent
 import com.azure.android.communication.chat.models.ChatThreadPropertiesUpdatedEvent
 import com.azure.android.communication.chat.models.ParticipantsAddedEvent
 import com.azure.android.communication.chat.models.ParticipantsRemovedEvent
+import com.azure.android.communication.ui.chat.models.into
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
@@ -104,63 +104,27 @@ internal class ChatEventHandler {
         when (eventType) {
             ChatEventType.CHAT_MESSAGE_RECEIVED -> {
                 val event = chatEvent as ChatMessageReceivedEvent
-                val model = MessageInfoModel(
-                    internalId = null,
-                    id = event.id,
-                    messageType = event.type.into(),
-                    version = event.version,
-                    content = event.content,
-                    senderCommunicationIdentifier = event.sender.into(),
-                    senderDisplayName = event.senderDisplayName,
-                    createdOn = event.createdOn,
-                    deletedOn = null,
-                    editedOn = null
-                )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
-                    infoModel = model,
+                    infoModel = event.into(),
                     eventReceivedOffsetDateTime = event.createdOn
                 )
                 eventSubscriber(infoModel)
             }
             ChatEventType.CHAT_MESSAGE_EDITED -> {
                 val event = chatEvent as ChatMessageEditedEvent
-                val model = MessageInfoModel(
-                    internalId = null,
-                    id = event.id,
-                    messageType = null,
-                    version = event.version,
-                    content = event.content,
-                    senderCommunicationIdentifier = event.sender.into(),
-                    senderDisplayName = event.senderDisplayName,
-                    createdOn = event.createdOn,
-                    deletedOn = null,
-                    editedOn = event.editedOn
-                )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
-                    infoModel = model,
+                    infoModel = event.into(),
                     eventReceivedOffsetDateTime = event.editedOn
                 )
                 eventSubscriber(infoModel)
             }
             ChatEventType.CHAT_MESSAGE_DELETED -> {
                 val event = chatEvent as ChatMessageDeletedEvent
-                val model = MessageInfoModel(
-                    internalId = null,
-                    id = event.id,
-                    messageType = null,
-                    version = event.version,
-                    content = null,
-                    senderCommunicationIdentifier = event.sender.into(),
-                    senderDisplayName = event.senderDisplayName,
-                    createdOn = event.createdOn,
-                    deletedOn = event.deletedOn,
-                    editedOn = null
-                )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
-                    infoModel = model,
+                    infoModel = event.into(),
                     eventReceivedOffsetDateTime = event.deletedOn
                 )
                 eventSubscriber(infoModel)
