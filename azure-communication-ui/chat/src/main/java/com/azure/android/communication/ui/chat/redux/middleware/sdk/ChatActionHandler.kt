@@ -24,6 +24,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
             is ChatAction.FetchMessages -> fetchMessages()
+            is ChatAction.DeleteMessage -> deleteMessage(action = action)
             is ChatAction.EndChat -> endChat()
         }
     }
@@ -34,6 +35,10 @@ internal class ChatActionHandler(private val chatService: ChatService) {
 
     private fun fetchMessages() {
         chatService.requestPreviousPage()
+    }
+
+    private fun deleteMessage(action: ChatAction.DeleteMessage) {
+        chatService.deleteMessage(action.messageInfoModel.id.toString())
     }
 
     private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {

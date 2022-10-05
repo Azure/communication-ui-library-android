@@ -22,6 +22,7 @@ private val emptyMessage = MessageInfoModel(
 // - messageDeleted
 internal interface MessageRepositoryMiddlewareInterface {
     fun addLocalMessage(messageInfoModel: MessageInfoModel)
+    fun deleteMessage(messageInfoModel: MessageInfoModel)
 }
 
 internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
@@ -31,6 +32,10 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
     // Middleware Interface
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
         messages.add(messageInfoModel)
+    }
+
+    override fun deleteMessage(messageInfoModel: MessageInfoModel) {
+        messages.remove(messageInfoModel)
     }
 
     // List Implementation
