@@ -30,6 +30,7 @@ import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
+import com.azure.android.communication.ui.chat.service.sdk.ChatPollingHandler
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 
 internal class ChatContainer(
@@ -91,13 +92,16 @@ internal class ChatContainer(
 
             addTypedBuilder { ChatEventHandler() }
 
+            addTypedBuilder { ChatPollingHandler(coroutineContextProvider = locate()) }
+
             addTypedBuilder {
                 ChatService(
                     chatSDK = ChatSDKWrapper(
                         context = context,
                         chatConfig = configuration.chatConfig!!,
                         coroutineContextProvider = locate(),
-                        chatEventHandler = locate()
+                        chatEventHandler = locate(),
+                        chatPollingHandler = locate()
                     )
                 )
             }

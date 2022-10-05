@@ -119,7 +119,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.createdOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -139,7 +140,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.editedOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -159,7 +161,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.deletedOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -171,7 +174,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.TYPING_INDICATOR_RECEIVED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.receivedOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -183,7 +187,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.READ_RECEIPT_RECEIVED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.readOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -196,7 +201,8 @@ internal class ChatEventHandler {
                 val model = ChatThreadInfoModel(receivedOn = event.deletedOn)
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_THREAD_DELETED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.deletedOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -208,7 +214,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.updatedOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -224,7 +231,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.PARTICIPANTS_ADDED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.addedOn
                 )
                 eventSubscriber(infoModel)
             }
@@ -240,7 +248,8 @@ internal class ChatEventHandler {
                 )
                 val infoModel = ChatEventModel(
                     eventType = ChatEventType.PARTICIPANTS_REMOVED.into(),
-                    infoModel = model
+                    infoModel = model,
+                    eventOffsetDateTime = event.removedOn
                 )
                 eventSubscriber(infoModel)
             }

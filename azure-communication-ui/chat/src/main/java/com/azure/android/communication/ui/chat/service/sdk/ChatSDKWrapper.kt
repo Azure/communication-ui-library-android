@@ -44,7 +44,8 @@ internal class ChatSDKWrapper(
     private val context: Context,
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
-    private val chatEventHandler: ChatEventHandler
+    private val chatEventHandler: ChatEventHandler,
+    private val chatPollingHandler: ChatPollingHandler
 ) : ChatSDK {
 
     companion object {
@@ -96,7 +97,8 @@ internal class ChatSDKWrapper(
             ChatThreadInfoModel(
                 topic = threadClient.properties.topic,
                 receivedOn = threadClient.properties.createdOn
-            )
+            ),
+            eventOffsetDateTime = null
         )
         chatStatusStateFlow.value = ChatStatus.INITIALIZED
     }
@@ -181,7 +183,8 @@ internal class ChatSDKWrapper(
                     eventType = ChatEventType.PARTICIPANTS_ADDED,
                     RemoteParticipantsInfoModel(
                         participants = participants
-                    )
+                    ),
+                    eventOffsetDateTime = null
                 )
             } catch (ex: Exception) {
                 throw ex
@@ -279,10 +282,21 @@ internal class ChatSDKWrapper(
             threadID = threadId,
             eventSubscriber = this::onChatEventReceived
         )
+        val lastMessageUpdatedTimeStamp =
+            threadClient.listMessages().byPage().iterator().next().elements.iterator()
+                .next().deletedOn ?: threadClient.listMessages().byPage().iterator()
+                .next().elements.iterator().next().editedOn ?: threadClient.listMessages().byPage()
+                .iterator().next().elements.iterator().next().createdOn
+        chatPollingHandler.setLastMessageSyncTime(lastMessageUpdatedTimeStamp)
+        chatPollingHandler.start(
+            chatThreadClient = threadClient,
+            eventSubscriber = this::onChatEventReceived
+        )
     }
 
     override fun stopEventNotifications() {
         if (startedEventNotifications) {
+            chatPollingHandler.stop()
             chatClient.stopRealtimeNotifications()
             startedEventNotifications = false
             chatEventHandler.stop(chatClient)
@@ -321,6 +335,9 @@ internal class ChatSDKWrapper(
     private fun onChatEventReceived(infoModel: ChatEventModel) {
         coroutineScope.launch {
             chatEventModelSharedFlow.emit(infoModel)
+        }
+        infoModel.eventOffsetDateTime?.let {
+            chatPollingHandler.setLastMessageSyncTime(it)
         }
     }
 }

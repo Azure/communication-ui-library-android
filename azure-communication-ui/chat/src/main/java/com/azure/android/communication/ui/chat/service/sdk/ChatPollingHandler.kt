@@ -33,10 +33,12 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private val singleThreadedContext = Executors.newSingleThreadExecutor()
 
-    private lateinit var chatThreadID: String
     private lateinit var eventSubscriber: (ChatEventModel) -> Unit
     private lateinit var chatThreadClient: ChatThreadClient
+
+    @Volatile
     private var lastMessageSyncTime: OffsetDateTime? = null
+
     private val listChatMessagesOptions = ListChatMessagesOptions().apply {
         maxPageSize = ChatSDKWrapper.PAGE_MESSAGES_SIZE
     }
@@ -50,11 +52,9 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
 
     fun start(
         chatThreadClient: ChatThreadClient,
-        threadID: String,
         eventSubscriber: (ChatEventModel) -> Unit
     ) {
         this.chatThreadClient = chatThreadClient
-        this.chatThreadID = threadID
         this.eventSubscriber = eventSubscriber
         startPolling()
     }
@@ -131,7 +131,8 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                         )
                         val infoModel = ChatEventModel(
                             eventType = ChatEventType.PARTICIPANTS_ADDED.into(),
-                            infoModel = model
+                            infoModel = model,
+                            eventOffsetDateTime = null
                         )
                         eventSubscriber(infoModel)
                     }
@@ -147,7 +148,8 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                         )
                         val infoModel = ChatEventModel(
                             eventType = ChatEventType.PARTICIPANTS_REMOVED.into(),
-                            infoModel = model
+                            infoModel = model,
+                            eventOffsetDateTime = null
                         )
                         eventSubscriber(infoModel)
                     }
@@ -168,7 +170,8 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                             )
                             val infoModel = ChatEventModel(
                                 eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
-                                infoModel = model
+                                infoModel = model,
+                                eventOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)
                         }
@@ -188,7 +191,8 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                             )
                             val infoModel = ChatEventModel(
                                 eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
-                                infoModel = model
+                                infoModel = model,
+                                eventOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)
                         }
@@ -209,7 +213,8 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                             )
                             val infoModel = ChatEventModel(
                                 eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
-                                infoModel = model
+                                infoModel = model,
+                                eventOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)
                         }
@@ -222,7 +227,8 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
                         )
                         val infoModel = ChatEventModel(
                             eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED.into(),
-                            infoModel = model
+                            infoModel = model,
+                            eventOffsetDateTime = null
                         )
                         eventSubscriber(infoModel)
                     }
