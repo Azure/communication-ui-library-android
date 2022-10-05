@@ -52,8 +52,8 @@ class ServiceLocatorTest {
         val basicObjectHello = locator.locate<BasicObjectHello>()
         val basicObjectWorld = locator.locate<BasicObjectWorld>()
 
-        Assert.assertEquals(basicObjectHello!!.data, "hello")
-        Assert.assertEquals(basicObjectWorld!!.data, "world")
+        Assert.assertEquals(basicObjectHello.data, "hello")
+        Assert.assertEquals(basicObjectWorld.data, "world")
     }
 
     // Test that Dispose is called after clear()
@@ -63,7 +63,7 @@ class ServiceLocatorTest {
 
         locator.addTypedBuilder { BasicObjectWorld() }
         val basicObjectWorld = locator.locate<BasicObjectWorld>()
-        Assert.assertEquals(basicObjectWorld!!.disposed, false)
+        Assert.assertEquals(basicObjectWorld.disposed, false)
         locator.clear()
         Assert.assertEquals(basicObjectWorld.disposed, true)
     }
@@ -90,7 +90,7 @@ class ServiceLocatorTest {
 
         val basicObjectHello = locator.locate<BasicObjectHelloWorld>()
 
-        Assert.assertEquals(basicObjectHello!!.data, "hello world")
+        Assert.assertEquals(basicObjectHello.data, "hello world")
     }
 
     @Test
@@ -108,7 +108,7 @@ class ServiceLocatorTest {
             )
         }
 
-        Assert.assertThrows(java.lang.IllegalArgumentException::class.java,) {
+        Assert.assertThrows(java.lang.IllegalArgumentException::class.java) {
             locator.initializeAll()
         }
     }

@@ -3,4 +3,4 @@
 
 package com.azure.android.communication.ui.chat.models
 
-internal data class ParticipantInfoModel(val userIdentifier: String)
+internal interface BaseInfoModel

@@ -27,6 +27,7 @@ android {
         buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
         buildConfigField 'String', 'REMOTE_PARTICIPANT_AVATAR_TEST_URL', properties.getProperty('REMOTE_PARTICIPANT_AVATAR_TEST_URL', '""')
         buildConfigField 'String', 'ACS_TOKEN_EXPIRED', properties.getProperty('ACS_TOKEN_EXPIRED', '""')
+        buildConfigField 'String', 'IDENTITY', properties.getProperty('IDENTITY', '""')
         buildConfigField 'boolean', 'CHECK_TASK_ROOT', String.valueOf(!shouldNotCheckTaskRoot())
         buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
         buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
@@ -60,7 +61,9 @@ android {
                     appIconRound: "@mipmap/ic_launcher_round"
             ]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
-            signingConfig signingConfigs.release
+            if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
+                signingConfig signingConfigs.release
+            }
         }
 
         debug {

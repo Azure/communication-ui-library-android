@@ -65,16 +65,21 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
 
-    api ("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
-    api ("com.azure.android:azure-communication-common:$azure_common_sdk_version")
+    api("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
+    api("com.azure.android:azure-communication-common:$azure_common_sdk_version")
 
     implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
+    implementation "androidx.compose.material:material:$compose_version"
+
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.activity:activity-compose:$androidx_activity_compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling-data:$compose_version"
+
 
     // Next two are added as an workaround for not being able to preview for latest compose version
     // Should be removed when there's a next android studio version is released
@@ -82,6 +87,11 @@ dependencies {
     debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 
     testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$jetbrains_kotlinx_coroutines_test_version"
+    testImplementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-test', version: '1.6.4', ext: 'pom'
+
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"

@@ -7,6 +7,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 
 internal class ChatConfiguration(
     val endPointURL: String,
+    val identity: String,
     val credential: CommunicationTokenCredential,
     val applicationID: String,
     val sdkName: String,

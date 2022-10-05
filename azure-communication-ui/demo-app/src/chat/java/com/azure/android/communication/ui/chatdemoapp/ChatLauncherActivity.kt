@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Identity.IDENTITY
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -74,6 +75,7 @@ class ChatLauncherActivity : AppCompatActivity() {
             userNameText.setText(BuildConfig.USER_NAME)
             chatThreadID.setText(BuildConfig.THREAD_ID)
             endPointURL.setText(BuildConfig.END_POINT_URL)
+            identity.setText(BuildConfig.IDENTITY)
 
             launchButton.setOnClickListener {
                 chatLauncherViewModel.doLaunch(
@@ -170,7 +172,8 @@ class ChatLauncherActivity : AppCompatActivity() {
             this@ChatLauncherActivity,
             binding.chatThreadID.text.toString(),
             binding.endPointURL.text.toString(),
-            binding.userNameText.text.toString()
+            binding.userNameText.text.toString(),
+            binding.identity.text.toString()
         )
     }
 

@@ -3,8 +3,26 @@
 
 package com.azure.android.communication.ui.chat.redux.state
 
-internal class AppReduxState : ReduxState {
-    override var chatState: ChatState = ChatState(ChatStatus.NONE)
+import com.azure.android.communication.ui.chat.models.ChatInfoModel
+import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
+
+internal class AppReduxState(
+    threadID: String,
+    localParticipantIdentifier: String,
+    localParticipantDisplayName: String?
+) : ReduxState {
+    override var chatState: ChatState = ChatState(
+        chatStatus = ChatStatus.NONE,
+        localParticipantInfoModel = LocalParticipantInfoModel(
+            userIdentifier = localParticipantIdentifier,
+            displayName = localParticipantDisplayName
+        ),
+        chatInfoModel = ChatInfoModel(
+            threadId = threadID,
+            topic = null,
+            allMessagesFetched = false
+        )
+    )
 
     override var participantState: ParticipantsState = ParticipantsState(HashMap())
 
@@ -13,4 +31,7 @@ internal class AppReduxState : ReduxState {
     override var errorState: ErrorState = ErrorState(fatalError = null, chatStateError = null)
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
+
+    override var repositoryState: RepositoryState =
+        RepositoryState(lastUpdatedTimestamp = System.currentTimeMillis())
 }
