@@ -189,9 +189,10 @@ internal class ChatSDKWrapper(
                 onChatEventReceived(
                     infoModel = ChatEventModel(
                         eventType = ChatEventType.PARTICIPANTS_ADDED,
-                        RemoteParticipantsInfoModel(
+                        infoModel = RemoteParticipantsInfoModel(
                             participants = participants
-                        )
+                        ),
+                        eventReceivedOffsetDateTime = null
                     )
                 )
             } catch (ex: Exception) {
