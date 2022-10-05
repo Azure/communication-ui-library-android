@@ -3,14 +3,19 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeUITheme
+import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.AcsChatActionBarViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeActionBar
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeBottomBar
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeMessageList
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
@@ -19,8 +24,19 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 
 @Composable
 internal fun ChatScreen(viewModel: ChatScreenViewModel) {
+
     Scaffold(
-        topBar = { ChatCompositeActionBar() },
+        topBar = {
+            val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            ChatCompositeActionBar(
+                AcsChatActionBarViewModel(
+                    participantCount = 4,
+                    topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                )
+            ) {
+                dispatcher?.onBackPressed()
+            }
+        },
         content = {
             ChatCompositeMessageList(
                 modifier = Modifier.padding(it),
@@ -34,7 +50,7 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
 @Preview
 @Composable
 internal fun ChatScreenPreview() {
-    ChatCompositeUITheme {
+    ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
                 listOf(
