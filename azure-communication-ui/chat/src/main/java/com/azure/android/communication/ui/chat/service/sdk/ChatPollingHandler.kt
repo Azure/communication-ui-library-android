@@ -46,8 +46,9 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
 
     // get messages after the latest received notification
     fun setLastMessageSyncTime(lastMessagesSyncTime: OffsetDateTime) {
-        if (lastMessagesSyncTime < this.lastMessageSyncTime) return
-
+        this.lastMessageSyncTime?.let {
+            if (lastMessagesSyncTime < this.lastMessageSyncTime) return
+        }
         this.lastMessageSyncTime = lastMessagesSyncTime
     }
 

@@ -282,12 +282,14 @@ internal class ChatSDKWrapper(
             threadID = threadId,
             eventSubscriber = this::onChatEventReceived
         )
-        val lastMessageUpdatedTimeStamp =
-            threadClient.listMessages().byPage().iterator().next().elements.iterator()
-                .next().deletedOn ?: threadClient.listMessages().byPage().iterator()
-                .next().elements.iterator().next().editedOn ?: threadClient.listMessages().byPage()
-                .iterator().next().elements.iterator().next().createdOn
-        chatPollingHandler.setLastMessageSyncTime(lastMessageUpdatedTimeStamp)
+
+        threadClient.listMessages()?.byPage()?.iterator()?.next()?.elements?.iterator()?.next()
+            ?.let {
+                val lastMessageUpdatedTimeStamp =
+                    it.deletedOn ?: it.editedOn ?: it.createdOn
+                chatPollingHandler.setLastMessageSyncTime(lastMessageUpdatedTimeStamp)
+            }
+
         chatPollingHandler.start(
             chatThreadClient = threadClient,
             eventSubscriber = this::onChatEventReceived
