@@ -32,7 +32,6 @@ internal class RepositoryMiddlewareImpl(
             when (action) {
                 // TODO: Map Actions from ChatServiceListener and UI to MessageRepo calls
                 is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
-                is ChatAction.DeleteMessage -> processDeleteMessage(action, store::dispatch)
             }
 
             // Pass Action down the chain
@@ -42,11 +41,6 @@ internal class RepositoryMiddlewareImpl(
 
     private fun processSendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
         messageRepository.addLocalMessage(action.messageInfoModel)
-        notifyUpdate(dispatch)
-    }
-
-    private fun processDeleteMessage(action: ChatAction.DeleteMessage, dispatch: Dispatch) {
-        messageRepository.deleteMessage(action.messageInfoModel)
         notifyUpdate(dispatch)
     }
 
