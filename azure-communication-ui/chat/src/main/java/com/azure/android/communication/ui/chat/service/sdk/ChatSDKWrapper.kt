@@ -347,8 +347,5 @@ internal class ChatSDKWrapper(
         coroutineScope.launch {
             chatEventModelSharedFlow.emit(infoModel)
         }
-        infoModel.eventReceivedOffsetDateTime?.let {
-            chatPollingHandler.setLastMessageSyncTime(it)
-        }
     }
 }
