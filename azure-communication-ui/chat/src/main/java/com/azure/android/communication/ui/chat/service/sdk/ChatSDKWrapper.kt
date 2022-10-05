@@ -48,7 +48,7 @@ internal class ChatSDKWrapper(
 ) : ChatSDK {
 
     companion object {
-        private const val PAGE_MESSAGES_SIZE = 50
+        const val PAGE_MESSAGES_SIZE = 50
         private const val RESPONSE_SUCCESS_CODE = 200
     }
 
