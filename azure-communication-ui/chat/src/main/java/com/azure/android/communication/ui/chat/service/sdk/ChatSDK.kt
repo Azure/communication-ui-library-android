@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 internal interface ChatSDK {
     fun initialization()
     fun destroy()
-    fun getPreviousPage()
-    fun getChatParticipants()
+    fun requestPreviousPage()
+    fun requestChatParticipants()
 
     fun startEventNotifications()
     fun stopEventNotifications()
@@ -34,5 +34,5 @@ internal interface ChatSDK {
     fun editMessage(id: String, content: String): CompletableFuture<Void>
     fun sendTypingIndicator(): CompletableFuture<Void>
     fun sendReadReceipt(id: String): CompletableFuture<Void>
-    fun removeSelfFromChat(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void>
+    fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void>
 }

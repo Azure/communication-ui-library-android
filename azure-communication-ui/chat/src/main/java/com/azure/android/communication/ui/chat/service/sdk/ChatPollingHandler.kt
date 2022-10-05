@@ -44,6 +44,7 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
     }
     private val messagesRingBuffer = RingBuffer<String>(ChatSDKWrapper.PAGE_MESSAGES_SIZE * 2)
 
+    // get messages after the latest received notification
     fun setLastMessageSyncTime(lastMessagesSyncTime: OffsetDateTime) {
         if (lastMessagesSyncTime < this.lastMessageSyncTime) return
 
@@ -83,157 +84,162 @@ internal class ChatPollingHandler(coroutineContextProvider: CoroutineContextProv
     }
 
     private fun processMessagesList() {
-        lastMessageSyncTime?.let {
-            listChatMessagesOptions.startTime = lastMessageSyncTime
-        }
+        try {
+            lastMessageSyncTime?.let {
+                listChatMessagesOptions.startTime = lastMessageSyncTime
+            }
 
-        val messages =
-            chatThreadClient.listMessages(listChatMessagesOptions, RequestContext.NONE)
+            val messages =
+                chatThreadClient.listMessages(listChatMessagesOptions, RequestContext.NONE)
 
-        messages.byPage().forEach { pages ->
-            pages.elements.forEach { message ->
+            messages.byPage().forEach { pages ->
+                pages.elements.forEach { message ->
 
-                // here ring bugger helps to
-                // make sure already notified message is not triggered as notification
-                // example: sending list messages request multiple time with same timestamp will return same last message
-                // the duplication of message is possible for only few last messages ths buffer size is equal to page size
-                // as the message ud remains same for edited/deleted message, thus
-                // to not ignore any updates, in buffer message id + last time stamp is stored
-                if (!messagesRingBuffer.contents()
-                    .contains(message.id + getLastUpdatedTime(message))
-                ) {
-                    messagesRingBuffer.enqueue(message.id + getLastUpdatedTime(message))
+                    // here ring bugger helps to
+                    // make sure already notified message is not triggered as notification
+                    // example: sending list messages request multiple time with same timestamp will return same last message
+                    // the duplication of message is possible for only few last messages ths buffer size is equal to page size
+                    // as the message ud remains same for edited/deleted message, thus
+                    // to not ignore any updates, in buffer message id + last time stamp is stored
+                    // in worst case the already notified messages will be notified back, if buffer limit is not enough
+                    if (!messagesRingBuffer.contents()
+                        .contains(message.id + getLastUpdatedTime(message))
+                    ) {
+                        messagesRingBuffer.enqueue(message.id + getLastUpdatedTime(message))
 
-                    if (lastMessageSyncTime == null || lastMessageSyncTime?.isBefore(message.createdOn) == true) {
-                        lastMessageSyncTime = message.createdOn
-                    }
-
-                    if (message.editedOn != null) {
-                        if (lastMessageSyncTime == null || lastMessageSyncTime?.isBefore(message.editedOn) == true) {
-                            lastMessageSyncTime = message.editedOn
-                        }
-                    }
-
-                    if (message.deletedOn != null) {
-                        if (lastMessageSyncTime == null || lastMessageSyncTime?.isBefore(message.deletedOn) == true) {
-                            lastMessageSyncTime = message.deletedOn
-                        }
-                    }
-
-                    if (message.type == ChatMessageType.PARTICIPANT_ADDED) {
-                        val model = RemoteParticipantsInfoModel(
-                            participants = message.content.participants.map {
-                                RemoteParticipantInfoModel(
-                                    userIdentifier = it.communicationIdentifier.into(),
-                                    displayName = it.displayName
-                                )
-                            }
-                        )
-                        val infoModel = ChatEventModel(
-                            eventType = ChatEventType.PARTICIPANTS_ADDED.into(),
-                            infoModel = model,
-                            eventOffsetDateTime = null
-                        )
-                        eventSubscriber(infoModel)
-                    }
-
-                    if (message.type == ChatMessageType.PARTICIPANT_REMOVED) {
-                        val model = RemoteParticipantsInfoModel(
-                            participants = message.content.participants.map {
-                                RemoteParticipantInfoModel(
-                                    userIdentifier = it.communicationIdentifier.into(),
-                                    displayName = it.displayName
-                                )
-                            }
-                        )
-                        val infoModel = ChatEventModel(
-                            eventType = ChatEventType.PARTICIPANTS_REMOVED.into(),
-                            infoModel = model,
-                            eventOffsetDateTime = null
-                        )
-                        eventSubscriber(infoModel)
-                    }
-
-                    if (message.type == ChatMessageType.HTML || message.type == ChatMessageType.TEXT) {
-                        if (message.deletedOn != null) {
-                            val model = MessageInfoModel(
-                                internalId = null,
-                                id = message.id,
-                                messageType = null,
-                                version = message.version,
-                                content = null,
-                                senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
-                                senderDisplayName = message.senderDisplayName,
-                                createdOn = message.createdOn,
-                                deletedOn = message.deletedOn,
-                                editedOn = null
-                            )
-                            val infoModel = ChatEventModel(
-                                eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
-                                infoModel = model,
-                                eventOffsetDateTime = null
-                            )
-                            eventSubscriber(infoModel)
+                        if (lastMessageSyncTime == null || lastMessageSyncTime?.isBefore(message.createdOn) == true) {
+                            lastMessageSyncTime = message.createdOn
                         }
 
                         if (message.editedOn != null) {
-                            val model = MessageInfoModel(
-                                internalId = null,
-                                id = message.id,
-                                messageType = null,
-                                version = message.version,
-                                content = message.content.message,
-                                senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
-                                senderDisplayName = message.senderDisplayName,
-                                createdOn = message.createdOn,
-                                deletedOn = null,
-                                editedOn = message.editedOn
+                            if (lastMessageSyncTime == null || lastMessageSyncTime?.isBefore(message.editedOn) == true) {
+                                lastMessageSyncTime = message.editedOn
+                            }
+                        }
+
+                        if (message.deletedOn != null) {
+                            if (lastMessageSyncTime == null || lastMessageSyncTime?.isBefore(message.deletedOn) == true) {
+                                lastMessageSyncTime = message.deletedOn
+                            }
+                        }
+
+                        if (message.type == ChatMessageType.PARTICIPANT_ADDED) {
+                            val model = RemoteParticipantsInfoModel(
+                                participants = message.content.participants.map {
+                                    RemoteParticipantInfoModel(
+                                        userIdentifier = it.communicationIdentifier.into(),
+                                        displayName = it.displayName
+                                    )
+                                }
                             )
                             val infoModel = ChatEventModel(
-                                eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
+                                eventType = ChatEventType.PARTICIPANTS_ADDED.into(),
                                 infoModel = model,
-                                eventOffsetDateTime = null
+                                eventReceivedOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)
                         }
 
-                        // new message
-                        if (message.deletedOn == null && message.editedOn == null) {
-                            val model = MessageInfoModel(
-                                internalId = null,
-                                id = message.id,
-                                messageType = message.type.into(),
-                                version = message.version,
-                                content = message.content.message,
-                                senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
-                                senderDisplayName = message.senderDisplayName,
-                                createdOn = message.createdOn,
-                                deletedOn = null,
-                                editedOn = null
+                        if (message.type == ChatMessageType.PARTICIPANT_REMOVED) {
+                            val model = RemoteParticipantsInfoModel(
+                                participants = message.content.participants.map {
+                                    RemoteParticipantInfoModel(
+                                        userIdentifier = it.communicationIdentifier.into(),
+                                        displayName = it.displayName
+                                    )
+                                }
                             )
                             val infoModel = ChatEventModel(
-                                eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
+                                eventType = ChatEventType.PARTICIPANTS_REMOVED.into(),
                                 infoModel = model,
-                                eventOffsetDateTime = null
+                                eventReceivedOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)
                         }
-                    }
 
-                    if (message.type == ChatMessageType.TOPIC_UPDATED) {
-                        val model = ChatThreadInfoModel(
-                            receivedOn = message.editedOn ?: message.createdOn,
-                            topic = message.content.topic
-                        )
-                        val infoModel = ChatEventModel(
-                            eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED.into(),
-                            infoModel = model,
-                            eventOffsetDateTime = null
-                        )
-                        eventSubscriber(infoModel)
+                        if (message.type == ChatMessageType.HTML || message.type == ChatMessageType.TEXT) {
+                            if (message.deletedOn != null) {
+                                val model = MessageInfoModel(
+                                    internalId = null,
+                                    id = message.id,
+                                    messageType = null,
+                                    version = message.version,
+                                    content = null,
+                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
+                                    senderDisplayName = message.senderDisplayName,
+                                    createdOn = message.createdOn,
+                                    deletedOn = message.deletedOn,
+                                    editedOn = null
+                                )
+                                val infoModel = ChatEventModel(
+                                    eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
+                                    infoModel = model,
+                                    eventReceivedOffsetDateTime = null
+                                )
+                                eventSubscriber(infoModel)
+                            }
+
+                            if (message.editedOn != null) {
+                                val model = MessageInfoModel(
+                                    internalId = null,
+                                    id = message.id,
+                                    messageType = null,
+                                    version = message.version,
+                                    content = message.content.message,
+                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
+                                    senderDisplayName = message.senderDisplayName,
+                                    createdOn = message.createdOn,
+                                    deletedOn = null,
+                                    editedOn = message.editedOn
+                                )
+                                val infoModel = ChatEventModel(
+                                    eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
+                                    infoModel = model,
+                                    eventReceivedOffsetDateTime = null
+                                )
+                                eventSubscriber(infoModel)
+                            }
+
+                            // new message
+                            if (message.deletedOn == null && message.editedOn == null) {
+                                val model = MessageInfoModel(
+                                    internalId = null,
+                                    id = message.id,
+                                    messageType = message.type.into(),
+                                    version = message.version,
+                                    content = message.content.message,
+                                    senderCommunicationIdentifier = message.content.initiatorCommunicationIdentifier.into(),
+                                    senderDisplayName = message.senderDisplayName,
+                                    createdOn = message.createdOn,
+                                    deletedOn = null,
+                                    editedOn = null
+                                )
+                                val infoModel = ChatEventModel(
+                                    eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
+                                    infoModel = model,
+                                    eventReceivedOffsetDateTime = null
+                                )
+                                eventSubscriber(infoModel)
+                            }
+                        }
+
+                        if (message.type == ChatMessageType.TOPIC_UPDATED) {
+                            val model = ChatThreadInfoModel(
+                                receivedOn = message.editedOn ?: message.createdOn,
+                                topic = message.content.topic
+                            )
+                            val infoModel = ChatEventModel(
+                                eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED.into(),
+                                infoModel = model,
+                                eventReceivedOffsetDateTime = null
+                            )
+                            eventSubscriber(infoModel)
+                        }
                     }
                 }
             }
+        } catch (ex: Exception) {
+            // TODO: notify sdk wrapper about error in future
         }
     }
 
