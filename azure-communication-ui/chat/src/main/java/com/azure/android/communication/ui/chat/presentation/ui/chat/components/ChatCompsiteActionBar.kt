@@ -24,6 +24,7 @@ import androidx.core.graphics.toColorInt
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 
 data class AcsChatActionBarViewModel(val participantCount: Int, val topic: String)
+
 @Composable
 fun ChatCompositeActionBar(
     viewModel: AcsChatActionBarViewModel,

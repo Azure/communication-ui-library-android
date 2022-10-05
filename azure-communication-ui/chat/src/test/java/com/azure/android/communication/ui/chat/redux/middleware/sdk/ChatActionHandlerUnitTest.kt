@@ -118,7 +118,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val mockChatService: ChatService = mock {
-                on { getPreviousPage() } doAnswer {}
+                on { requestPreviousPage() } doAnswer {}
             }
 
             val chatHandler = ChatActionHandler(mockChatService)
@@ -131,7 +131,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             chatHandler.onAction(action, mockAppStore::dispatch)
 
             // assert
-            verify(mockChatService, times(1)).getPreviousPage()
+            verify(mockChatService, times(1)).requestPreviousPage()
         }
 
     @ExperimentalCoroutinesApi
