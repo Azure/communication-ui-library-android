@@ -33,7 +33,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun fetchMessages() {
-        chatService.getPreviousPage()
+        chatService.requestPreviousPage()
     }
 
     private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
