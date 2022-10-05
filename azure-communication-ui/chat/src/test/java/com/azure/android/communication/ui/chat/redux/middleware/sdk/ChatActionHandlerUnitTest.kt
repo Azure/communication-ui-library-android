@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.chat.redux.middleware.handler
+package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
 import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.error.ErrorCode
@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
-import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDK
@@ -32,7 +31,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
 @RunWith(MockitoJUnitRunner::class)
-internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
+internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
@@ -90,24 +89,19 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
 
             val error = Exception("test")
-
             val sendChatMessageCompletableFuture = CompletableFuture<SendChatMessageResult>()
-
             val mockChatService: ChatService = mock {
                 on { sendMessage(messageInfoModel) } doReturn sendChatMessageCompletableFuture
             }
 
             val chatHandler = ChatActionHandler(mockChatService)
-
             val action = ChatAction.SendMessage(messageInfoModel)
-
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
             }
 
             // act
             chatHandler.onAction(action, mockAppStore::dispatch)
-
             sendChatMessageCompletableFuture.completeExceptionally(error)
 
             // assert
@@ -116,6 +110,28 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     action is ErrorAction.ChatStateErrorOccurred
                 }
             )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_fetchMessage_then_call_chatServiceGetPreviousPage() =
+        runScopedTest {
+            // arrange
+            val mockChatService: ChatService = mock {
+                on { getPreviousPage() } doAnswer {}
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+
+            val action = ChatAction.FetchMessages()
+
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch)
+
+            // assert
+            verify(mockChatService, times(1)).getPreviousPage()
         }
 
     @ExperimentalCoroutinesApi
@@ -150,11 +166,20 @@ internal class ChatMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val argumentCaptor = argumentCaptor<ErrorAction.ChatStateErrorOccurred>()
 
             // act
-            chatHandler.onAction(action = ChatAction.Initialized(), dispatch = mockAppStore::dispatch)
+            chatHandler.onAction(
+                action = ChatAction.Initialized(),
+                dispatch = mockAppStore::dispatch
+            )
 
             // assert
             verify(mockAppStore, times(1)).dispatch(argumentCaptor.capture())
-            assertEquals(argumentCaptor.firstValue.javaClass, ErrorAction.ChatStateErrorOccurred::class.java)
-            assertEquals(argumentCaptor.firstValue.chatStateError.errorCode, ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
+            assertEquals(
+                argumentCaptor.firstValue.javaClass,
+                ErrorAction.ChatStateErrorOccurred::class.java
+            )
+            assertEquals(
+                argumentCaptor.firstValue.chatStateError.errorCode,
+                ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED
+            )
         }
 }
