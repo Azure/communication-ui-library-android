@@ -24,11 +24,16 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
             is ChatAction.FetchMessages -> fetchMessages()
+            is ChatAction.EndChat -> endChat()
         }
     }
 
+    private fun endChat() {
+        chatService.destroy()
+    }
+
     private fun fetchMessages() {
-        chatService.getPreviousPage()
+        chatService.requestPreviousPage()
     }
 
     private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
@@ -58,7 +63,6 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private fun initialization(dispatch: Dispatch) {
         try {
             chatService.initialize()
-            chatService.getPreviousPage()
         } catch (ex: Exception) {
             val error = ChatStateError(errorCode = ErrorCode.CHAT_JOIN_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
@@ -68,6 +72,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
         try {
             chatService.startEventNotifications()
+            dispatch.invoke(ChatAction.FetchMessages())
         } catch (ex: Exception) {
             val error = ChatStateError(errorCode = ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))

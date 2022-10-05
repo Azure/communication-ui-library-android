@@ -13,12 +13,14 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 
 @Composable
 internal fun ChatCompositeMessage(viewModel: MessageViewModel) {
+
     when (viewModel.message.messageType) {
         ChatMessageType.TEXT -> BasicText(text = viewModel.message.content ?: "Empty")
         ChatMessageType.HTML -> BasicText(text = viewModel.message.content ?: "Empty")
         ChatMessageType.TOPIC_UPDATED -> BasicText("Topic Updated")
         ChatMessageType.PARTICIPANT_ADDED -> BasicText("Participant Added")
         ChatMessageType.PARTICIPANT_REMOVED -> BasicText("Participant Removed")
+        else -> { BasicText("Tpe not Detected ${viewModel.message.messageType}")}
     }
 }
 

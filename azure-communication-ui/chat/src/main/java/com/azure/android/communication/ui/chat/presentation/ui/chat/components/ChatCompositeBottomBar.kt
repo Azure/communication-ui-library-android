@@ -15,9 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ChatCompositeBottomBar(postMessage: (String) -> Unit) {
-
     Row(
-
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()

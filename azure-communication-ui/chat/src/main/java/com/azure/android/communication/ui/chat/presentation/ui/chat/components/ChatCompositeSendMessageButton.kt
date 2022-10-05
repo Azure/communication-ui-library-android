@@ -41,7 +41,6 @@ internal fun ChatCompositeSendMessageButton(
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
             modifier = modifier
-                .padding(8.dp)
                 .size(19.5.dp, 19.5.dp)
                 .then(semantics)
         )

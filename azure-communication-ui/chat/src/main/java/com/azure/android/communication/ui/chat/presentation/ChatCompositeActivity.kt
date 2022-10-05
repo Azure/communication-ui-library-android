@@ -14,6 +14,8 @@ class ChatCompositeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // hide the existing action bar, it will be replaced with ChatCompositeActionBar
+        supportActionBar?.hide()
         addContentView(
             ChatView(this, instanceId),
             ViewGroup.LayoutParams(

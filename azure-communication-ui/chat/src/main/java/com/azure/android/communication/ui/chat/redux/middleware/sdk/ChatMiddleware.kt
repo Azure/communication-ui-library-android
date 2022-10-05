@@ -31,6 +31,9 @@ internal class ChatMiddlewareImpl(
                 is ChatAction.StartChat -> {
                     chatServiceListener.subscribe(dispatch = store::dispatch)
                 }
+                is ChatAction.EndChat -> {
+                    chatServiceListener.unsubscribe()
+                }
             }
 
             // Forward Actions to ChatActionHandler
