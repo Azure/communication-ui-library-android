@@ -131,6 +131,4 @@ internal class ChatServiceListener(
             }
         }
     }
-
 }
-

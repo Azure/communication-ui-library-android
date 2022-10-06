@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
-import com.azure.android.communication.ui.chat.error.ChatStateError
-import com.azure.android.communication.ui.chat.error.ErrorCode
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
@@ -50,8 +48,6 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
                     BasicText("ERROR")
                     BasicText(viewModel.errorMessage)
                 }
-
-
             } else if (viewModel.isLoading) {
                 CircularProgressIndicator()
             } else {
@@ -59,7 +55,6 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
                     modifier = Modifier.padding(it),
                     messages = viewModel.messages
                 )
-
             }
         },
         bottomBar = { ChatCompositeBottomBar(viewModel.postMessage) }
@@ -99,9 +94,9 @@ internal fun ChatScreenPreview() {
                 buildCount = 2,
                 postMessage = {},
 
-                //error = ChatStateError(
+                // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
-                //)
+                // )
             )
         )
     }

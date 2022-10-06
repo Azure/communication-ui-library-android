@@ -55,6 +55,7 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
         }
 
         if (idx != -1) {
+            // TODO: Merge with old message, keep metadata such as type
             messages[idx] = message
         }
     }
