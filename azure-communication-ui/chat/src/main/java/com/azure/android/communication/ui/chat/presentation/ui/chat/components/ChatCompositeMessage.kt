@@ -20,7 +20,9 @@ internal fun ChatCompositeMessage(viewModel: MessageViewModel) {
         ChatMessageType.TOPIC_UPDATED -> BasicText("Topic Updated")
         ChatMessageType.PARTICIPANT_ADDED -> BasicText("Participant Added")
         ChatMessageType.PARTICIPANT_REMOVED -> BasicText("Participant Removed")
-        else -> { BasicText(text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty") }
+        else -> {
+            BasicText(text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty")
+        }
     }
 }
 
