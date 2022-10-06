@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.graphics.toColorInt
 
 @Composable
 internal fun ChatCompositeBottomBar() {
@@ -23,11 +21,7 @@ internal fun ChatCompositeBottomBar() {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            MessageInputView(
-                textColor = Color("#212121".toColorInt()),
-                outlineColor = Color("#E1E1E1".toColorInt()),
-                contentDescription = "Message Input Field"
-            )
+            MessageInputView(contentDescription = "Message Input Field")
 
             AcsChatSendMessageButton(contentDescription = "Send Message Button")
         }
