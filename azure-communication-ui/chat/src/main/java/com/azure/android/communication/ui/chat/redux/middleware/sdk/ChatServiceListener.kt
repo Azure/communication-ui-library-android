@@ -122,10 +122,10 @@ internal class ChatServiceListener(
             is RemoteParticipantsInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.PARTICIPANTS_ADDED -> {
-                        val model = it
+                        dispatch(ChatAction.ParticipantsAdded(participants = it.infoModel))
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
-                        val model = it
+                        dispatch(ChatAction.ParticipantsRemoved(participants = it.infoModel))
                     }
                     else -> {}
                 }
