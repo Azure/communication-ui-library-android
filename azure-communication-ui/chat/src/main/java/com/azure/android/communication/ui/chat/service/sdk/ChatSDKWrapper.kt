@@ -88,8 +88,8 @@ internal class ChatSDKWrapper(
 
     override fun initialization() {
         chatStatusStateFlow.value = ChatStatus.INITIALIZATION
-        createChatAsyncClient()
-        createChatThreadAsyncClient()
+        createChatClient()
+        createChatThreadClient()
         // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
         // TODO: above will make sure, network is connected as well
         onChatEventReceived(
@@ -314,7 +314,7 @@ internal class ChatSDKWrapper(
         }
     }
 
-    private fun createChatAsyncClient() {
+    private fun createChatClient() {
         chatClient = ChatClientBuilder()
             .endpoint(endPointURL)
             .credential(credential)
@@ -328,7 +328,7 @@ internal class ChatSDKWrapper(
             .buildClient()
     }
 
-    private fun createChatThreadAsyncClient() {
+    private fun createChatThreadClient() {
         threadClient = ChatThreadClientBuilder()
             .endpoint(endPointURL)
             .credential(credential)
