@@ -77,9 +77,10 @@ fun MessageInput(
         modifier = Modifier
             .fillMaxWidth(fraction = 0.9f)
             .padding(6.dp)
-            .semantics { semantics }
             .heightIn(52.dp, maxInputHeight)
-            .onFocusChanged { onTextFieldFocused(it.isFocused) },
+            .onFocusChanged { onTextFieldFocused(it.isFocused) }
+            .then(semantics),
+
         value = textState,
         onValueChange = { onTextChanged(it) },
         textStyle = androidx.compose.ui.text.TextStyle(
@@ -99,7 +100,7 @@ fun MessageInput(
 
                 if (textState.text.isEmpty() && !focusState) {
                     BasicText(
-                        text = stringResource(R.string.azure_communication_ui_call_enter_a_message),
+                        text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
                         style = androidx.compose.ui.text.TextStyle(
                             color = textColor
                         )
