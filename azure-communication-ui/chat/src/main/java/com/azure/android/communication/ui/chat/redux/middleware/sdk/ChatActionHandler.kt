@@ -38,7 +38,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun deleteMessage(action: ChatAction.DeleteMessage, dispatch: Dispatch) {
-        chatService.deleteMessage(action.messageInfoModel.id.toString()).whenComplete { _, error ->
+        chatService.deleteMessage(action.message.id.toString()).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
@@ -52,8 +52,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             } else {
                 dispatch(
                     ChatAction.MessageDeleted(
-                        messageInfoModel = action.messageInfoModel.copy(
-                            id = action.messageInfoModel.id
+                        message = action.message.copy(
+                            id = action.message.id
                         )
                     )
                 )
