@@ -72,6 +72,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
         try {
             chatService.startEventNotifications()
+            dispatch.invoke(ChatAction.FetchMessages())
         } catch (ex: Exception) {
             val error = ChatStateError(errorCode = ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
