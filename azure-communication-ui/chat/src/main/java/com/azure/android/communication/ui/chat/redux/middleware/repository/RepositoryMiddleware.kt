@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
+import android.util.Log
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
@@ -32,11 +33,17 @@ internal class RepositoryMiddlewareImpl(
             when (action) {
                 // TODO: Map Actions from ChatServiceListener and UI to MessageRepo calls
                 is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
+                is ChatAction.MessagesPageReceived -> processReceivedMessage(action, store::dispatch)
             }
 
             // Pass Action down the chain
             next(action)
         }
+    }
+
+    private fun processReceivedMessage(action: ChatAction.MessagesPageReceived, dispatch: Dispatch) {
+        messageRepository.addBulkRemoteMessage(action.messages)
+        notifyUpdate(dispatch)
     }
 
     private fun processSendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {

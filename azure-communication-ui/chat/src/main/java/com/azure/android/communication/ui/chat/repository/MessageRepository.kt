@@ -20,17 +20,22 @@ private val emptyMessage = MessageInfoModel(
 // - pageRetrieved
 // - messageEdited
 // - messageDeleted
-internal interface MessageRepositoryMiddlewareInterface {
+internal interface MessageRepositoryMiddlewareInterface: List<MessageInfoModel> {
     fun addLocalMessage(messageInfoModel: MessageInfoModel)
+    fun addBulkRemoteMessage(messages: List<MessageInfoModel>)
 }
 
-internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
+internal class MessageRepository : MessageRepositoryMiddlewareInterface {
     // Simple List for now
     private val messages = mutableListOf<MessageInfoModel>()
 
     // Middleware Interface
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
         messages.add(messageInfoModel)
+    }
+
+    override fun addBulkRemoteMessage(messages: List<MessageInfoModel>) {
+        this.messages.addAll(messages)
     }
 
     // List Implementation
