@@ -72,6 +72,7 @@ internal class ChatServiceListener(
         }
 
         messagesPageModel.messages?.let {
+            it.filter { it != null }
             dispatch(ChatAction.MessagesPageReceived(messages = it))
         }
 
