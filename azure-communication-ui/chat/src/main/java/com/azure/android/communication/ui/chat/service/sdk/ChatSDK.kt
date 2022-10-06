@@ -19,8 +19,8 @@ internal interface ChatSDK {
 
     fun startEventNotifications()
     fun stopEventNotifications()
-    fun getPreviousPage()
-    fun getChatParticipants()
+    fun requestPreviousPage()
+    fun requestChatParticipants()
 
     fun getChatStatusStateFlow(): StateFlow<ChatStatus>
     fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel>
@@ -29,9 +29,10 @@ internal interface ChatSDK {
     fun sendMessage(
         messageInfoModel: MessageInfoModel,
     ): CompletableFuture<SendChatMessageResult>
+
     fun deleteMessage(id: String): CompletableFuture<Void>
     fun editMessage(id: String, content: String): CompletableFuture<Void>
     fun sendTypingIndicator(): CompletableFuture<Void>
     fun sendReadReceipt(id: String): CompletableFuture<Void>
-    fun removeSelfFromChat(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void>
+    fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void>
 }

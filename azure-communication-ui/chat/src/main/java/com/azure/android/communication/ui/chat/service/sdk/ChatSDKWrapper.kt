@@ -111,7 +111,7 @@ internal class ChatSDKWrapper(
         coroutineScope.cancel()
     }
 
-    override fun getPreviousPage() {
+    override fun requestPreviousPage() {
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
             withContext(singleThreadedContext.asCoroutineDispatcher()) {
@@ -171,17 +171,20 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    override fun getChatParticipants() {
+    override fun requestChatParticipants() {
         coroutineScope.launch {
             try {
-                val participants: List<RemoteParticipantInfoModel> =
-                    threadClient.listParticipants().map {
-                        RemoteParticipantInfoModel(
-                            userIdentifier = it.communicationIdentifier.into(),
-                            displayName = it.displayName
+                val participants: MutableList<RemoteParticipantInfoModel> = mutableListOf()
+                threadClient.listParticipants().byPage().forEach { page ->
+                    page.elements.map {
+                        participants.add(
+                            RemoteParticipantInfoModel(
+                                userIdentifier = it.communicationIdentifier.into(),
+                                displayName = it.displayName
+                            )
                         )
                     }
-
+                }
                 onChatEventReceived(
                     infoModel = ChatEventModel(
                         eventType = ChatEventType.PARTICIPANTS_ADDED,
@@ -257,7 +260,7 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    override fun removeSelfFromChat(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void> {
+    override fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
