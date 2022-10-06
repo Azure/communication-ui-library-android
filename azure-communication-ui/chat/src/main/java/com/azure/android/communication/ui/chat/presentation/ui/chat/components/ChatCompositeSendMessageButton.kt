@@ -29,7 +29,8 @@ internal fun ChatCompositeSendMessageButton(
         this.contentDescription = contentDescription
         this.role = Role.Image
     }
-    val painter = painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
+    val painter =
+        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
     Box(
         modifier = Modifier.clickable {
             onClick()
