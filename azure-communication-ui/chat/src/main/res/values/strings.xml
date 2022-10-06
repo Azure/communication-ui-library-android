@@ -3,5 +3,5 @@
    Licensed under the MIT License.
   -->
 <resources>
-    <string name="azure_communication_ui_call_enter_a_message">Enter a message</string>
+    <string name="azure_communication_ui_chat_enter_a_message">Enter a message</string>
 </resources>
