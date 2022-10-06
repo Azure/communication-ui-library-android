@@ -25,6 +25,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.C
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeMessageList
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 
 @Composable
@@ -94,7 +95,7 @@ internal fun ChatScreenPreview() {
                     ),
 
                 ).toViewModelList(),
-                state = "state",
+                state = ChatStatus.INITIALIZED.name,
                 buildCount = 2,
                 postMessage = {},
 

@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddlewareInterface
+import kotlin.reflect.KFunction1
 
 internal interface RepositoryMiddleware
 
@@ -31,8 +32,12 @@ internal class RepositoryMiddlewareImpl(
         { action: Action ->
             when (action) {
                 // TODO: Map Actions from ChatServiceListener and UI to MessageRepo calls
+
                 is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
                 is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
+                is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
+                is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
+                is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
             }
 
             // Pass Action down the chain
@@ -40,16 +45,33 @@ internal class RepositoryMiddlewareImpl(
         }
     }
 
+    private fun processNewMessage(
+        action: ChatAction.MessageReceived,
+        dispatch: Dispatch
+    ) {
+        messageRepository.addServerMessage(action.message)
+        notifyUpdate(dispatch)
+    }
+
     private fun processPageReceived(
         action: ChatAction.MessagesPageReceived,
         dispatch: Dispatch
     ) {
-        messageRepository.addPage(action.messages)
+        messageRepository.addPage(action.messages.reversed())
         notifyUpdate(dispatch)
     }
 
     private fun processSendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
         messageRepository.addLocalMessage(action.messageInfoModel)
+        notifyUpdate(dispatch)
+    }
+
+    private fun processDeletedMessage(action: ChatAction.MessageDeleted, dispatch: Dispatch) {
+        messageRepository.removeMessage(action.message)
+        notifyUpdate(dispatch)
+    }
+    private fun processEditMessage(action: ChatAction.MessageEdited, dispatch: Dispatch) {
+        messageRepository.editMessage(action.message)
         notifyUpdate(dispatch)
     }
 

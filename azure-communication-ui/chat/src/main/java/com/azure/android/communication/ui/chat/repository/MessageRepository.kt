@@ -23,6 +23,9 @@ private val emptyMessage = MessageInfoModel(
 internal interface MessageRepositoryMiddlewareInterface {
     fun addLocalMessage(messageInfoModel: MessageInfoModel)
     fun addPage(page: List<MessageInfoModel>)
+    fun addServerMessage(message: MessageInfoModel)
+    fun removeMessage(message: MessageInfoModel)
+    fun editMessage(message: MessageInfoModel)
 }
 
 internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
@@ -36,6 +39,24 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
 
     override fun addPage(page: List<MessageInfoModel>) {
         messages.addAll(0, page)
+    }
+
+    override fun addServerMessage(message: MessageInfoModel) {
+        messages.add(message)
+    }
+
+    override fun removeMessage(message: MessageInfoModel) {
+        messages.retainAll { it.id != message.id }
+    }
+
+    override fun editMessage(message: MessageInfoModel) {
+        val idx = messages.indexOfFirst {
+            it.id == message.id
+        }
+
+        if (idx != -1) {
+            messages[idx] = message
+        }
     }
 
     // List Implementation

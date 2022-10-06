@@ -16,4 +16,8 @@ internal sealed class ChatAction : Action {
     class AllMessagesFetched : ChatAction()
     class MessagesPageReceived(val messages: List<MessageInfoModel>) : ChatAction()
     class EndChat : ChatAction()
+    class MessageReceived(val message: MessageInfoModel) : ChatAction()
+    class MessageEdited(val message: MessageInfoModel) : ChatAction()
+    class MessageDeleted(val message: MessageInfoModel) : ChatAction()
+
 }
