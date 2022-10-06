@@ -13,7 +13,7 @@ internal class MessageRepositoryUnitTest {
     @Test
     fun messageRepository_addBulkRemoteMessage() {
 
-        val messageRepository: MessageRepositoryMiddlewareInterface = MessageRepository()
+        val messageRepository = MessageRepository()
 
         val messages = mutableListOf<MessageInfoModel>()
         val numberOfTestMessages = 51
@@ -27,7 +27,7 @@ internal class MessageRepositoryUnitTest {
             )
         }
 
-        messageRepository.addBulkRemoteMessage(messages)
+        messageRepository.addPage(messages)
 
         Assert.assertEquals(numberOfTestMessages, messageRepository.size)
 
