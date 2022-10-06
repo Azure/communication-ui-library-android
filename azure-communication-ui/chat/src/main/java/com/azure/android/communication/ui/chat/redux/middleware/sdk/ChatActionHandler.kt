@@ -24,6 +24,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
             is ChatAction.FetchMessages -> fetchMessages()
+            is ChatAction.DeleteMessage -> deleteMessage(action = action, dispatch = dispatch)
             is ChatAction.EndChat -> endChat()
         }
     }
@@ -34,6 +35,30 @@ internal class ChatActionHandler(private val chatService: ChatService) {
 
     private fun fetchMessages() {
         chatService.requestPreviousPage()
+    }
+
+    private fun deleteMessage(action: ChatAction.DeleteMessage, dispatch: Dispatch) {
+        chatService.deleteMessage(action.message.id.toString()).whenComplete { _, error ->
+            if (error != null) {
+                // TODO: lets use only one action and state to fire error for timing
+                // TODO: while working on error stories, we can create separate states for every error
+                dispatch(
+                    ErrorAction.ChatStateErrorOccurred(
+                        chatStateError = ChatStateError(
+                            errorCode = ErrorCode.CHAT_SEND_MESSAGE_FAILED
+                        )
+                    )
+                )
+            } else {
+                dispatch(
+                    ChatAction.MessageDeleted(
+                        message = action.message.copy(
+                            id = action.message.id
+                        )
+                    )
+                )
+            }
+        }
     }
 
     private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
