@@ -11,7 +11,7 @@ import org.junit.Test
 internal class MessageRepositoryUnitTest {
 
     @Test
-    fun messageRepository_addBulkRemoteMessage() {
+    fun messageRepository_addPage() {
 
         val messageRepository = MessageRepository()
 
