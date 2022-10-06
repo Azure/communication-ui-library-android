@@ -49,7 +49,7 @@ internal class ChatServiceListener(
 
         coroutineScope.launch {
             chatService.getChatEventSharedFlow().collect {
-                handleInfoModel(it)
+                handleInfoModel(it, dispatch)
             }
         }
     }
@@ -80,18 +80,18 @@ internal class ChatServiceListener(
         }
     }
 
-    private fun handleInfoModel(it: ChatEventModel) {
+    private fun handleInfoModel(it: ChatEventModel, dispatch: Dispatch) {
         when (it.infoModel) {
             is MessageInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.CHAT_MESSAGE_RECEIVED -> {
-                        val model = it.infoModel
+                        dispatch(ChatAction.MessageReceived(message = it.infoModel))
                     }
                     ChatEventType.CHAT_MESSAGE_EDITED -> {
-                        val model = it.infoModel
+                        dispatch(ChatAction.MessageEdited(message = it.infoModel))
                     }
                     ChatEventType.CHAT_MESSAGE_DELETED -> {
-                        val model = it.infoModel
+                        dispatch(ChatAction.MessageDeleted(message = it.infoModel))
                     }
                     else -> {}
                 }
