@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
+import android.util.Log
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
