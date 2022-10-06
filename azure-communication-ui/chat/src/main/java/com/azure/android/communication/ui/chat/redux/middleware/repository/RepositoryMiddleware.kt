@@ -31,8 +31,6 @@ internal class RepositoryMiddlewareImpl(
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
             when (action) {
-                // TODO: Map Actions from ChatServiceListener and UI to MessageRepo calls
-
                 is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
                 is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
                 is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
