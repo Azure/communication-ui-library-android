@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
-import android.util.Log
 import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.ChatEventModel

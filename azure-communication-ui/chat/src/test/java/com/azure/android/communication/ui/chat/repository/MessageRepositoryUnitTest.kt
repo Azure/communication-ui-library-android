@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import org.junit.Assert
 import org.junit.Test
 
-
 internal class MessageRepositoryUnitTest {
 
     @Test
@@ -39,6 +38,5 @@ internal class MessageRepositoryUnitTest {
         for (i in 0..50) {
             Assert.assertEquals("Message $i", messageRepository.get(i).content)
         }
-
     }
 }
