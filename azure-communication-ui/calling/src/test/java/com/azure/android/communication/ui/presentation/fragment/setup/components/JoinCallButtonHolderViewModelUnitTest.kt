@@ -2,11 +2,12 @@ package com.azure.android.communication.ui.presentation.fragment.setup.component
 
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -27,7 +28,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
             val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
-            viewModel.init(PermissionStatus.DENIED)
+            viewModel.init(
+                PermissionStatus.DENIED,
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
 
             val emitResult = mutableListOf<Boolean>()
 
@@ -37,7 +42,12 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.NONE))
+            viewModel.update(
+                PermissionStatus.GRANTED,
+                CallingState(CallingStatus.NONE),
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
 
             // assert
             Assert.assertEquals(
@@ -61,7 +71,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
             val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
-            viewModel.init(PermissionStatus.GRANTED)
+            viewModel.init(
+                PermissionStatus.GRANTED,
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
 
             val emitResult = mutableListOf<Boolean>()
 
@@ -71,7 +85,12 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            viewModel.update(PermissionStatus.DENIED, CallingState(CallingStatus.NONE))
+            viewModel.update(
+                PermissionStatus.DENIED,
+                CallingState(CallingStatus.NONE),
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
 
             // assert
             Assert.assertEquals(
@@ -95,7 +114,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
             val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
-            viewModel.init(PermissionStatus.GRANTED)
+            viewModel.init(
+                PermissionStatus.GRANTED,
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
 
             val emitResult = mutableListOf<Boolean>()
 
@@ -110,7 +133,12 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(false, emitResult[0])
 
             // act
-            viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.CONNECTING))
+            viewModel.update(
+                PermissionStatus.GRANTED,
+                CallingState(CallingStatus.CONNECTING),
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
 
             // assert
             // Should have disabled during connecting
@@ -118,11 +146,102 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(true, emitResult[1])
 
             // act
-            viewModel.update(PermissionStatus.GRANTED, CallingState(CallingStatus.NONE))
+            viewModel.update(
+                PermissionStatus.GRANTED,
+                CallingState(CallingStatus.NONE),
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
 
             // assert
             // no more emits yet
             Assert.assertEquals(false, emitResult[2])
+
+            resultFlow.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun joinCallButtonHolderViewModel_onUpdate_then_notifyButtonDisabled_when_cameraPermissionStateIsUnknown() =
+        runScopedTest {
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+
+            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
+            viewModel.init(
+                PermissionStatus.GRANTED,
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
+
+            val emitResult = mutableListOf<Boolean>()
+
+            val resultFlow = launch {
+                viewModel.getJoinCallButtonEnabledFlow()
+                    .toList(emitResult)
+            }
+
+            // act
+            viewModel.update(
+                PermissionStatus.GRANTED,
+                CallingState(CallingStatus.NONE),
+                PermissionStatus.UNKNOWN,
+                CameraOperationalStatus.ON
+            )
+
+            // assert
+            Assert.assertEquals(
+                true,
+                emitResult[0]
+            )
+
+            Assert.assertEquals(
+                false,
+                emitResult[1]
+            )
+
+            resultFlow.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun joinCallButtonHolderViewModel_onUpdate_then_notifyButtonDisabled_when_cameraOperationStateIsPending() =
+        runScopedTest {
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+
+            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch)
+            viewModel.init(
+                PermissionStatus.GRANTED,
+                PermissionStatus.GRANTED,
+                CameraOperationalStatus.ON
+            )
+
+            val emitResult = mutableListOf<Boolean>()
+
+            val resultFlow = launch {
+                viewModel.getJoinCallButtonEnabledFlow()
+                    .toList(emitResult)
+            }
+
+            // act
+            viewModel.update(
+                PermissionStatus.GRANTED,
+                CallingState(CallingStatus.NONE),
+                PermissionStatus.UNKNOWN,
+                CameraOperationalStatus.PENDING
+            )
+
+            // assert
+            Assert.assertEquals(
+                true,
+                emitResult[0]
+            )
+
+            Assert.assertEquals(
+                false,
+                emitResult[1]
+            )
 
             resultFlow.cancel()
         }
