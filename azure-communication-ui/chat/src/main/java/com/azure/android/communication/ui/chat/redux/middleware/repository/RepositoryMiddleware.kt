@@ -67,6 +67,7 @@ internal class RepositoryMiddlewareImpl(
         messageRepository.removeMessage(action.message)
         notifyUpdate(dispatch)
     }
+
     private fun processEditMessage(action: ChatAction.MessageEdited, dispatch: Dispatch) {
         messageRepository.editMessage(action.message)
         notifyUpdate(dispatch)
