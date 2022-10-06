@@ -58,7 +58,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     override fun enterBackground(store: Store<ReduxState>) {
-        store.dispatch(LifecycleAction.EnterBackgroundSucceeded())
+        store.dispatch(LifecycleAction.EnterBackgroundSucceeded)
         val state = store.getCurrentState()
 
         if (state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF &&
@@ -85,7 +85,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun enterForeground(store: Store<ReduxState>) {
-        store.dispatch(LifecycleAction.EnterForegroundSucceeded())
+        store.dispatch(LifecycleAction.EnterForegroundSucceeded)
         val state = store.getCurrentState()
         if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED) {
             if (state.callState.callingStatus != CallingStatus.NONE) {

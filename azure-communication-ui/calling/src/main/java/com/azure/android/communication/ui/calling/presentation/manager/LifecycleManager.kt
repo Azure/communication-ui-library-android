@@ -18,10 +18,10 @@ internal class LifecycleManagerImpl(
     LifecycleManager {
 
     override fun pause() {
-        store.dispatch(action = LifecycleAction.EnterBackgroundTriggered())
+        store.dispatch(action = LifecycleAction.EnterBackgroundTriggered)
     }
 
     override fun resume() {
-        store.dispatch(action = LifecycleAction.EnterForegroundTriggered())
+        store.dispatch(action = LifecycleAction.EnterForegroundTriggered)
     }
 }
