@@ -22,7 +22,10 @@ private val emptyMessage = MessageInfoModel(
 // - messageDeleted
 internal interface MessageRepositoryMiddlewareInterface : List<MessageInfoModel> {
     fun addLocalMessage(messageInfoModel: MessageInfoModel)
-    fun addBulkRemoteMessage(messages: List<MessageInfoModel>)
+    fun addPage(page: List<MessageInfoModel>)
+    fun addServerMessage(message: MessageInfoModel)
+    fun removeMessage(message: MessageInfoModel)
+    fun editMessage(message: MessageInfoModel)
 }
 
 internal class MessageRepository : MessageRepositoryMiddlewareInterface {
@@ -34,8 +37,27 @@ internal class MessageRepository : MessageRepositoryMiddlewareInterface {
         messages.add(messageInfoModel)
     }
 
-    override fun addBulkRemoteMessage(messages: List<MessageInfoModel>) {
-        this.messages.addAll(messages)
+    override fun addPage(page: List<MessageInfoModel>) {
+        messages.addAll(0, page)
+    }
+
+    override fun addServerMessage(message: MessageInfoModel) {
+        messages.add(message)
+    }
+
+    override fun removeMessage(message: MessageInfoModel) {
+        messages.retainAll { it.id != message.id }
+    }
+
+    override fun editMessage(message: MessageInfoModel) {
+        val idx = messages.indexOfFirst {
+            it.id == message.id
+        }
+
+        if (idx != -1) {
+            // TODO: Merge with old message, keep metadata such as type
+            messages[idx] = message
+        }
     }
 
     // List Implementation
