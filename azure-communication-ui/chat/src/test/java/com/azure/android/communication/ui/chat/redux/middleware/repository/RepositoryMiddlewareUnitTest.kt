@@ -50,5 +50,4 @@ internal class RepositoryMiddlewareUnitTest {
             nextReceivedAction
         )
     }
-
 }
