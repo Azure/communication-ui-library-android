@@ -9,5 +9,5 @@ import org.threeten.bp.OffsetDateTime
 internal data class ChatEventModel(
     val eventType: ChatEventType,
     val infoModel: BaseInfoModel,
-    val eventReceivedOffsetDateTime: OffsetDateTime?,
+    val eventReceivedOffsetDateTime: OffsetDateTime? = null,
 )
