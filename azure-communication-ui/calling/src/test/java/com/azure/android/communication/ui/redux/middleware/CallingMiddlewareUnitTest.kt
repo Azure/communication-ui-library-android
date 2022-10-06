@@ -62,7 +62,7 @@ internal class CallingMiddlewareUnitTest {
     @Test
     fun callingMiddleware_invoke_when_invokedWithEnterBackground_then_invokeEnterBackground() {
         // arrange
-        val actionToDispatch = LifecycleAction.EnterBackgroundTriggered()
+        val actionToDispatch = LifecycleAction.EnterBackgroundTriggered
 
         val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
             on { enterBackground(any()) } doAnswer {}
@@ -89,7 +89,7 @@ internal class CallingMiddlewareUnitTest {
     @Test
     fun callingMiddleware_invoke_when_invokedWithEnterForeground_then_invokeEnterForeground() {
         // arrange
-        val actionToDispatch = LifecycleAction.EnterForegroundTriggered()
+        val actionToDispatch = LifecycleAction.EnterForegroundTriggered
 
         val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
             on { enterForeground(any()) } doAnswer {}
