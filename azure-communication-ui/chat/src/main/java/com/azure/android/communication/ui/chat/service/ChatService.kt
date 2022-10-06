@@ -20,8 +20,9 @@ internal class ChatService(private val chatSDK: ChatSDK) {
     fun getMessagesPageSharedFlow() = chatSDK.getMessagesPageSharedFlow()
     fun getChatEventSharedFlow() = chatSDK.getChatEventSharedFlow()
 
-    fun sendMessage(messageInfoModel: MessageInfoModel) =
-        chatSDK.sendMessage(messageInfoModel = messageInfoModel)
+    fun sendMessage(
+        messageInfoModel: MessageInfoModel,
+    ) = chatSDK.sendMessage(messageInfoModel = messageInfoModel)
 
     fun deleteMessage(id: String) = chatSDK.deleteMessage(id = id)
     fun editMessage(id: String, content: String) = chatSDK.editMessage(id = id, content = content)
