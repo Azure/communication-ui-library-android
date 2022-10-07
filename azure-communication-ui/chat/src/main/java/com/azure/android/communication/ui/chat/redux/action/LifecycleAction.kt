@@ -6,5 +6,4 @@ package com.azure.android.communication.ui.chat.redux.action
 internal sealed class LifecycleAction : Action {
     object EnterForeground : LifecycleAction()
     object EnterBackground : LifecycleAction()
-
 }
