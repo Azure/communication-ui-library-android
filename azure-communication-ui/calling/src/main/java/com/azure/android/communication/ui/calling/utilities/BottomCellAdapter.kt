@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.utilities
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 

@@ -125,26 +125,28 @@ internal class AudioDeviceListView(
             // Hide "Speaker" when on television
 
             if (isAndroidTV) {
-                bottomCellItems.add(BottomCellItem(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
-                    ),
-                    context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker),
-                    null,
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.ms_ic_checkmark_24_filled
-                    ),
-                    null,
-                    context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                    enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    null,
-                    false,
-                ) {
-                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
-                    audioDeviceDrawer.dismiss()
-                })
+                bottomCellItems.add(
+                    BottomCellItem(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
+                        ),
+                        context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker),
+                        null,
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ms_ic_checkmark_24_filled
+                        ),
+                        null,
+                        context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
+                        enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        null,
+                        false,
+                    ) {
+                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
+                        audioDeviceDrawer.dismiss()
+                    }
+                )
             }
 
             if (viewModel.audioStateFlow.value.bluetoothState.available) {
