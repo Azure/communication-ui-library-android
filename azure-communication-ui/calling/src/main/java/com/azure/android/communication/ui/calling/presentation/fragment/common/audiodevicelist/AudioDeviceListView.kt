@@ -24,6 +24,12 @@ internal class AudioDeviceListView(
     context: Context,
 ) : RelativeLayout(context) {
 
+    private val isAndroidTV by lazy {
+        val uiModeManager =
+            context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
+        uiModeManager.currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
+    }
+
     private var deviceTable: RecyclerView
     private lateinit var audioDeviceDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
@@ -118,7 +124,7 @@ internal class AudioDeviceListView(
 
             // Hide "Speaker" when on television
 
-            if (!TelevisionDetection.isTelevision(context)) {
+            if (isAndroidTV) {
                 bottomCellItems.add(BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
