@@ -5,4 +5,5 @@
 <resources>
     <string name="azure_communication_ui_chat_chat_action_bar_title">Chat</string>
     <string name="azure_communication_ui_chat_title_activity_compose_chat">ComposeChatActivity</string>
+    <string name="azure_communication_ui_chat_enter_a_message">Enter a message</string>
 </resources>

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -5,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +21,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 internal fun ChatCompositeMessageList(modifier: Modifier, messages: List<MessageViewModel>) {
     LazyColumn(modifier = modifier.fillMaxHeight()) {
         items(messages) { message ->
-            BasicText(text = message.message.content ?: "Empty")
+            ChatCompositeMessage(viewModel = message)
         }
     }
 }
