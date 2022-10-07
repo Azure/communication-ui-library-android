@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -12,6 +13,8 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.AcsChatActionBarViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeActionBar
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
@@ -20,6 +23,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.C
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ChatCompositeMessageList
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 
 @Composable
@@ -37,13 +41,23 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
                 dispatcher?.onBackPressed()
             }
         },
+
         content = {
-            ChatCompositeMessageList(
-                modifier = Modifier.padding(it),
-                messages = viewModel.messages
-            )
+            if (viewModel.showError) {
+                Column() {
+                    BasicText("ERROR")
+                    BasicText(viewModel.errorMessage)
+                }
+            } else if (viewModel.isLoading) {
+                CircularProgressIndicator()
+            } else {
+                ChatCompositeMessageList(
+                    modifier = Modifier.padding(it),
+                    messages = viewModel.messages
+                )
+            }
         },
-        bottomBar = { ChatCompositeBottomBar() }
+        bottomBar = { ChatCompositeBottomBar(viewModel.postMessage) }
     )
 }
 
@@ -76,9 +90,13 @@ internal fun ChatScreenPreview() {
                     ),
 
                 ).toViewModelList(),
-                state = "state",
+                state = ChatStatus.INITIALIZED.name,
                 buildCount = 2,
-                postMessage = {}
+                postMessage = {},
+
+                // error = ChatStateError(
+                //    errorCode = ErrorCode.CHAT_JOIN_FAILED
+                // )
             )
         )
     }

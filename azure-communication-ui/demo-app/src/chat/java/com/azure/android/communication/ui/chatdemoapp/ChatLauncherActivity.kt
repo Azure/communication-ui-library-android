@@ -69,6 +69,12 @@ class ChatLauncherActivity : AppCompatActivity() {
             }
         }
 
+        // Use: https://acs-ui-dev-test.azurewebsites.net/api/Chat to setup
+        // Install in local.properties
+        // THREAD_ID
+        // END_POINT_URL
+        // IDENTITY
+        // ACS_TOKEN
         binding.run {
             tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
             acsTokenText.setText(BuildConfig.ACS_TOKEN)
@@ -135,7 +141,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
-    fun showAlert(message: String) {
+    private fun showAlert(message: String) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
                 setMessage(message)
