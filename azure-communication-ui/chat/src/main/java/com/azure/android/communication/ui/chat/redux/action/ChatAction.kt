@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat.redux.action
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 
 internal sealed class ChatAction : Action {
     class StartChat : ChatAction()
@@ -21,6 +20,4 @@ internal sealed class ChatAction : Action {
     class EndChat : ChatAction()
     class MessageReceived(val message: MessageInfoModel) : ChatAction()
     class MessageEdited(val message: MessageInfoModel) : ChatAction()
-    class ParticipantsAdded(val participants: RemoteParticipantsInfoModel) : ChatAction()
-    class ParticipantsRemoved(val participants: RemoteParticipantsInfoModel) : ChatAction()
 }
