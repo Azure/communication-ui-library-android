@@ -32,8 +32,8 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         count++
-        if (count >= 1) {
-            dispatch(LifecycleAction.EnterForegroundTriggered())
+        if (count == 1) {
+            dispatch(LifecycleAction.EnterForeground)
         }
         reduxViewModelGenerator = ReduxViewModelGenerator(
             builder = { store ->
@@ -58,8 +58,8 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
         super.onDetachedFromWindow()
         count--
         reduxViewModelGenerator.stop()
-        if (count <= 0) {
-            dispatch(LifecycleAction.EnterBackgroundTriggered())
+        if (count == 0) {
+            dispatch(LifecycleAction.EnterBackground)
         }
     }
 
