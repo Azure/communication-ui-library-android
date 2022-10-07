@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
@@ -37,6 +38,12 @@ import java.lang.IllegalArgumentException
 import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
+
+    private val isAndroidTV by lazy {
+        val uiModeManager =
+            getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
+        uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
+    }
 
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
@@ -242,7 +249,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                requestedOrientation = if (TelevisionDetection.isTelevision(this)) {
+                requestedOrientation = if (isAndroidTV) {
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
