@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
@@ -287,7 +288,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { dispatch(any()) } doAnswer { }
             }
             whenever(mockChatSDK.requestChatParticipants()).then { throw java.lang.RuntimeException() }
-            val argumentCaptor = argumentCaptor<ErrorAction.ChatStateErrorOccurred>()
+            val argumentCaptor = argumentCaptor<Action>()
 
             // act
             chatHandler.onAction(
@@ -296,13 +297,14 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
 
             // assert
-            verify(mockAppStore, times(1)).dispatch(argumentCaptor.capture())
+            verify(mockAppStore, times(2)).dispatch(argumentCaptor.capture())
             assertEquals(
-                argumentCaptor.firstValue.javaClass,
+                argumentCaptor.secondValue.javaClass,
                 ErrorAction.ChatStateErrorOccurred::class.java
             )
+            val chatError = argumentCaptor.secondValue as ErrorAction.ChatStateErrorOccurred
             assertEquals(
-                argumentCaptor.firstValue.chatStateError.errorCode,
+                chatError.chatStateError.errorCode,
                 ErrorCode.CHAT_REQUEST_PARTICIPANTS_FAILED
             )
         }
