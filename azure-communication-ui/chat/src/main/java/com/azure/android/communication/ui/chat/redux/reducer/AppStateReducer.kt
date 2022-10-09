@@ -14,6 +14,7 @@ internal class AppStateReducer(
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
     private val repositoryReducer: RepositoryReducer,
+    private val networkReducer: NetworkReducer,
 ) :
     Reducer<ReduxState> {
     override fun reduce(state: ReduxState, action: Action): ReduxState {
@@ -45,6 +46,10 @@ internal class AppStateReducer(
         )
         appState.repositoryState = repositoryReducer.reduce(
             state = state.repositoryState,
+            action = action
+        )
+        appState.networkState = networkReducer.reduce(
+            state = state.networkState,
             action = action
         )
         return appState

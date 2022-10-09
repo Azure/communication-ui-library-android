@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessa
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.threeten.bp.OffsetDateTime
 
 internal interface ChatSDK {
     fun initialization()
@@ -35,4 +36,5 @@ internal interface ChatSDK {
     fun sendTypingIndicator(): CompletableFuture<Void>
     fun sendReadReceipt(id: String): CompletableFuture<Void>
     fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void>
+    fun fetchMessages(from: OffsetDateTime?)
 }

@@ -26,6 +26,7 @@ internal interface MessageRepositoryMiddlewareInterface {
     fun addServerMessage(message: MessageInfoModel)
     fun removeMessage(message: MessageInfoModel)
     fun editMessage(message: MessageInfoModel)
+    fun getLastMessage(): MessageInfoModel?
 }
 
 internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
@@ -59,6 +60,8 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
             messages[idx] = message
         }
     }
+
+    override fun getLastMessage(): MessageInfoModel? = messages?.last()
 
     // List Implementation
     // Important parts of a list to implement

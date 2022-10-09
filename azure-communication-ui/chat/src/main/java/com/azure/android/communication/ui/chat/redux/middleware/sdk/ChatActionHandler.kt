@@ -6,14 +6,30 @@ package com.azure.android.communication.ui.chat.redux.middleware.sdk
 import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.redux.Dispatch
+import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
+import com.azure.android.communication.ui.chat.redux.action.NetworkAction
+import com.azure.android.communication.ui.chat.redux.state.NetworkStatus
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 
 // Converts Redux Actions into SDK Calls
 // Redux -> Service
 internal class ChatActionHandler(private val chatService: ChatService) {
+
+    fun onAction(store: Store<ReduxState>, action: Action) {
+        when (action) {
+            is NetworkAction.Connected -> {
+                // this check will help prevent false fetch messages when library starts
+                // as state is updated later, once action go through middlewares
+                if (store.getCurrentState().networkState.networkStatus == NetworkStatus.DISCONNECTED) {
+                    chatService.fetchMessages(from = store.getCurrentState().networkState.disconnectOffsetDateTime)
+                }
+            }
+        }
+    }
 
     fun onAction(action: Action, dispatch: Dispatch) {
         when (action) {

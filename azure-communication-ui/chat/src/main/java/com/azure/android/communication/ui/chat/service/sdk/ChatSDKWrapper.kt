@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.asCoroutineDispatcher
+import org.threeten.bp.OffsetDateTime
 import java.util.concurrent.Executors
 
 internal class ChatSDKWrapper(
@@ -45,7 +46,7 @@ internal class ChatSDKWrapper(
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
     private val chatEventHandler: ChatEventHandler,
-    private val chatPollingHandler: ChatPollingHandler
+    private val chatPullEventHandler: ChatPullEventHandler
 ) : ChatSDK {
 
     companion object {
@@ -110,6 +111,7 @@ internal class ChatSDKWrapper(
         stopEventNotifications()
         singleThreadedContext.shutdown()
         coroutineScope.cancel()
+        chatPullEventHandler.stop()
     }
 
     override fun requestPreviousPage() {
@@ -280,6 +282,10 @@ internal class ChatSDKWrapper(
         return future
     }
 
+    override fun fetchMessages(from: OffsetDateTime?) {
+        chatPullEventHandler.fetchMessages(from)
+    }
+
     override fun startEventNotifications() {
         if (startedEventNotifications) return
         startedEventNotifications = true
@@ -291,15 +297,7 @@ internal class ChatSDKWrapper(
             threadID = threadId,
             eventSubscriber = this::onChatEventReceived
         )
-
-        threadClient.listMessages()?.byPage()?.iterator()?.next()?.elements?.iterator()?.next()
-            ?.let {
-                val lastMessageUpdatedTimeStamp =
-                    it.deletedOn ?: it.editedOn ?: it.createdOn
-                chatPollingHandler.setLastMessageSyncTime(lastMessageUpdatedTimeStamp)
-            }
-
-        chatPollingHandler.start(
+        chatPullEventHandler.start(
             chatThreadClient = threadClient,
             eventSubscriber = this::onChatEventReceived
         )
@@ -307,7 +305,6 @@ internal class ChatSDKWrapper(
 
     override fun stopEventNotifications() {
         if (startedEventNotifications) {
-            chatPollingHandler.stop()
             chatClient.stopRealtimeNotifications()
             startedEventNotifications = false
             chatEventHandler.stop(chatClient)

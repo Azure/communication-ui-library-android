@@ -37,6 +37,7 @@ internal class ChatMiddlewareImpl(
             }
 
             // Forward Actions to ChatActionHandler
+            chatActionHandler.onAction(store = store, action = action)
             chatActionHandler.onAction(action = action, dispatch = store::dispatch)
 
             // Pass Action down the chain
