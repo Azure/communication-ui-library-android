@@ -49,7 +49,7 @@ internal class ChatServiceListener(
 
         coroutineScope.launch {
             chatService.getChatEventSharedFlow().collect {
-                handleInfoModel(it)
+                handleInfoModel(it = it, dispatch = dispatch)
             }
         }
     }
@@ -80,7 +80,7 @@ internal class ChatServiceListener(
         }
     }
 
-    private fun handleInfoModel(it: ChatEventModel) {
+    private fun handleInfoModel(it: ChatEventModel, dispatch: Dispatch) {
         when (it.infoModel) {
             is MessageInfoModel -> {
                 when (it.eventType) {
@@ -113,7 +113,7 @@ internal class ChatServiceListener(
                         val model = it
                     }
                     ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED -> {
-                        val model = it
+                        dispatch(ChatAction.TopicUpdated(it.infoModel.topic))
                     }
                     else -> {}
                 }
