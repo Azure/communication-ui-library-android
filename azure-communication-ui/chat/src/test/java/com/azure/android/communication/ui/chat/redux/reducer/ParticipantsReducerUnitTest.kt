@@ -17,7 +17,7 @@ class ParticipantsReducerUnitTest {
     private val userFour = RemoteParticipantInfoModel(userIdentifier = CommunicationIdentifier.UnknownIdentifier("85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC"), "Four")
 
     @Test
-    fun participantsReducer_reduce_when_actionAddParticipants_then_changeChatStateParticipants() {
+    fun participantsReducer_reduce_when_actionAddParticipants_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
@@ -36,7 +36,7 @@ class ParticipantsReducerUnitTest {
     }
 
     @Test
-    fun participantsReducer_reduce_when_actionAddParticipants_PartiallyExisting_then_changeChatStateParticipants() {
+    fun participantsReducer_reduce_when_actionAddParticipants_PartiallyExisting_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
@@ -56,7 +56,7 @@ class ParticipantsReducerUnitTest {
     }
 
     @Test
-    fun participantsReducer_reduce_when_actionAddParticipants_AllExisting_then_DontChangeChatStateParticipants() {
+    fun participantsReducer_reduce_when_actionAddParticipants_AllExisting_then_DontChangeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
@@ -77,7 +77,7 @@ class ParticipantsReducerUnitTest {
     }
 
     @Test
-    fun participantsReducer_reduce_when_actionRemoveParticipants_then_changeChatStateParticipants() {
+    fun participantsReducer_reduce_when_actionRemoveParticipants_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(participants = listOf(userOne, userTwo, userThree, userFour))
