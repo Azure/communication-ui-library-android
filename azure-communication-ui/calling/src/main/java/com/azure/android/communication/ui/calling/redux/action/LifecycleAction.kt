@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 internal sealed class LifecycleAction : Action {
-    object EnterForegroundTriggered : LifecycleAction()
-    object EnterBackgroundTriggered : LifecycleAction()
+    class EnterForegroundTriggered : LifecycleAction()
+    class EnterBackgroundTriggered : LifecycleAction()
 
-    object EnterForegroundSucceeded : LifecycleAction()
-    object EnterBackgroundSucceeded : LifecycleAction()
+    class EnterForegroundSucceeded : LifecycleAction()
+    class EnterBackgroundSucceeded : LifecycleAction()
 }
