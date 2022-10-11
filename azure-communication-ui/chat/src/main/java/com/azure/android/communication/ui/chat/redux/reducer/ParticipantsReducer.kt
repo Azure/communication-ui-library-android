@@ -13,7 +13,7 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
     override fun reduce(state: ParticipantsState, action: Action): ParticipantsState {
         return when (action) {
             is ParticipantAction.ParticipantsAdded -> {
-                state.copy(participants = action.participants.participants.associateBy({ it.userIdentifier.id }))
+                state.copy(participants = action.participants)
             }
             else -> state
         }

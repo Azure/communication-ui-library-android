@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.chat.redux.action
 
-import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
+import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 
 internal sealed class ParticipantAction : Action {
-    class ParticipantsAdded(val participants: RemoteParticipantsInfoModel) : ParticipantAction()
-    class ParticipantsRemoved(val participants: RemoteParticipantsInfoModel) : ParticipantAction()
+    class ParticipantsAdded(val participants: List<RemoteParticipantInfoModel>) : ParticipantAction()
+    class ParticipantsRemoved(val participants: List<RemoteParticipantInfoModel>) : ParticipantAction()
 }
