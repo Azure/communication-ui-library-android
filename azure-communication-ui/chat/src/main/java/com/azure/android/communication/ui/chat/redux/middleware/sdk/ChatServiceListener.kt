@@ -111,7 +111,7 @@ internal class ChatServiceListener(
             is ChatThreadInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.CHAT_THREAD_DELETED -> {
-                        val model = it
+                        dispatch(ChatAction.ThreadDeleted())
                     }
                     ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED -> {
                         val model = it
