@@ -13,10 +13,10 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
     override fun reduce(state: ParticipantsState, action: Action): ParticipantsState {
         return when (action) {
             is ParticipantAction.ParticipantsAdded -> {
-                state.copy(participants = state.participants + action.participants.filterNot { it in state.participants })
+                state.copy(participants = state.participants + action.participants.associateBy({ it.userIdentifier.id }))
             }
             is ParticipantAction.ParticipantsRemoved -> {
-                state.copy(participants = state.participants - action.participants)
+                state.copy(participants = state.participants - action.participants.map { it.userIdentifier.id })
             }
             else -> state
         }

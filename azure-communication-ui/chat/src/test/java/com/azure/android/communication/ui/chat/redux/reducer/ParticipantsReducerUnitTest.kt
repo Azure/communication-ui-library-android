@@ -21,10 +21,7 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-            participants = listOf(
-                userOne,
-                userTwo
-            )
+            participants = listOf(userOne, userTwo).associateBy({ it.userIdentifier.id })
         )
         val action = ParticipantAction.ParticipantsAdded(participants = listOf(userThree, userFour))
 
@@ -32,7 +29,7 @@ class ParticipantsReducerUnitTest {
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(newState.participants, listOf(userOne, userTwo, userThree, userFour))
+        Assert.assertEquals(newState.participants, listOf(userOne, userTwo, userThree, userFour).associateBy({ it.userIdentifier.id }))
     }
 
     @Test
@@ -40,10 +37,7 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-            participants = listOf(
-                userOne,
-                userTwo
-            )
+            participants = listOf(userOne, userTwo).associateBy({ it.userIdentifier.id })
         )
         val userTwo_duplicate = RemoteParticipantInfoModel(userIdentifier = CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"), "Two")
         val action = ParticipantAction.ParticipantsAdded(participants = listOf(userTwo_duplicate, userThree, userFour))
@@ -52,7 +46,7 @@ class ParticipantsReducerUnitTest {
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(newState.participants, listOf(userOne, userTwo, userThree, userFour))
+        Assert.assertEquals(newState.participants, listOf(userOne, userTwo, userThree, userFour).associateBy({ it.userIdentifier.id }))
     }
 
     @Test
@@ -60,10 +54,7 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-            participants = listOf(
-                userOne,
-                userTwo
-            )
+            participants = listOf(userOne, userTwo).associateBy({ it.userIdentifier.id })
         )
         val userOne_duplicate = RemoteParticipantInfoModel(userIdentifier = CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"), "One")
         val userTwo_duplicate = RemoteParticipantInfoModel(userIdentifier = CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"), "Two")
@@ -80,13 +71,13 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionRemoveParticipants_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
-        val previousState = ParticipantsState(participants = listOf(userOne, userTwo, userThree, userFour))
+        val previousState = ParticipantsState(participants = listOf(userOne, userTwo, userThree, userFour).associateBy({ it.userIdentifier.id }))
         val action = ParticipantAction.ParticipantsRemoved(participants = listOf(userThree, userFour))
 
         // act
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(newState.participants, listOf(userOne, userTwo))
+        Assert.assertEquals(newState.participants, listOf(userOne, userTwo).associateBy({ it.userIdentifier.id }))
     }
 }
