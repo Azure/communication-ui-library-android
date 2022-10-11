@@ -24,7 +24,7 @@ internal class AppReduxState(
         )
     )
 
-    override var participantState: ParticipantsState = ParticipantsState(HashMap())
+    override var participantState: ParticipantsState = ParticipantsState(participants = listOf())
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 
