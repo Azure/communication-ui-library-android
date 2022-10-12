@@ -5,12 +5,16 @@ package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
 import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.mocking.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.chat.models.ChatEventModel
+import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Test
@@ -21,6 +25,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
+import org.threeten.bp.OffsetDateTime
 
 @RunWith(MockitoJUnitRunner::class)
 class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
@@ -48,5 +53,37 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
             mockAppStore,
             times(1)
         ).dispatch(argThat { action -> action is ChatAction.Initialized })
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatServiceListener_subscribe_then_dispatch_chatThreadUpdated_on_threadDeleted() {
+        runScopedTest {
+            // arrange
+            val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
+
+            val mockChatService: ChatService = mock {
+                on { getChatEventSharedFlow() } doReturn chatEventSharedFlow
+            }
+
+            val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+
+            // act
+            handler.subscribe(mockAppStore::dispatch)
+
+            chatEventSharedFlow.emit(
+                ChatEventModel(
+                    ChatEventType.CHAT_THREAD_DELETED,
+                    ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
+                )
+            )
+
+            // assert
+            verify(
+                mockAppStore,
+                times(1)
+            ).dispatch(argThat { action -> action is ChatAction.ThreadDeleted })
+        }
     }
 }
