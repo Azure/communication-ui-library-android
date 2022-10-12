@@ -26,21 +26,21 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         ReduxViewModelGenerator(
-            builder = { store ->
-                buildChatScreenViewModel(
-                    store = store,
-                    repository = locator.locate()
-                )
-            },
-            onChanged = {
-                composeView.setContent {
-                    ChatCompositeUITheme {
-                        ChatScreen(viewModel = it)
+                builder = { store ->
+                    buildChatScreenViewModel(
+                            store = store,
+                            repository = locator.locate()
+                    )
+                },
+                onChanged = {
+                    composeView.setContent {
+                        ChatCompositeUITheme {
+                            ChatScreen(viewModel = it)
+                        }
                     }
-                }
-            },
-            coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
-            store = locator.locate()
+                },
+                coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
+                store = locator.locate()
         )
     }
 }

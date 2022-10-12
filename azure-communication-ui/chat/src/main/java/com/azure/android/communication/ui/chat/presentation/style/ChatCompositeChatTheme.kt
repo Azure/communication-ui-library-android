@@ -17,3 +17,15 @@ internal fun ChatCompositeUITheme(
         content = content
     )
 }
+
+//@Preview(showBackground = true)
+//@ExperimentalAnimationApi
+//@Composable
+//fun PreviewAzurecommunicationuiTheme() {
+//    Column() {
+//        AzurecommunicationuiTheme(
+//                false,
+//
+//        )
+//    }
+//}

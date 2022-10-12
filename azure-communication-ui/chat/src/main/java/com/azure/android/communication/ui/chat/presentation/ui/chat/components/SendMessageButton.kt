@@ -20,7 +20,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun AcsChatSendMessageButton(
+internal fun SendMessageButton(
     contentDescription: String,
     onClick: () -> Unit = {}
 ) {
@@ -44,6 +44,6 @@ internal fun AcsChatSendMessageButton(
 
 @Composable
 @Preview(showBackground = true)
-fun PreviewAcsChatSendMessageButton() {
-    AcsChatSendMessageButton(contentDescription = "Send Message Button")
+internal fun PreviewAcsChatSendMessageButton() {
+    SendMessageButton(contentDescription = "Send Message Button")
 }

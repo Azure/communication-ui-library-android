@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun ChatCompositeBottomBar() {
+internal fun BottomBar() {
     Box(modifier = Modifier.fillMaxWidth()) {
         Row {
             TextField(
@@ -21,7 +21,7 @@ internal fun ChatCompositeBottomBar() {
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(fraction = 0.8f)
             )
-            AcsChatSendMessageButton("Send Message Button")
+            SendMessageButton("Send Message Button")
         }
     }
 }
@@ -30,6 +30,6 @@ internal fun ChatCompositeBottomBar() {
 @Composable
 internal fun PreviewChatCompositeBottomBar() {
     Column {
-        ChatCompositeBottomBar()
+        BottomBar()
     }
 }

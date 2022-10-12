@@ -10,16 +10,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun ChatCompositeActionBar() {
+internal fun ActionBar(
+        onNavIconPressed: () -> Unit = { },
+) {
     TopAppBar {
+        BackButton("Back")
         BasicText(text = "Top Bar")
     }
 }
 
 @Preview
 @Composable
-internal fun PreviewChatCompositeActionBar() {
+internal fun PreviewActionBar() {
     Column {
-        ChatCompositeActionBar()
+        ActionBar()
     }
 }
