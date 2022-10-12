@@ -26,7 +26,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             is ChatAction.FetchMessages -> fetchMessages()
             is ChatAction.DeleteMessage -> deleteMessage(action = action, dispatch = dispatch)
             is ChatAction.MessageRead -> sendReadReceipt(action = action, dispatch = dispatch)
-            is ChatAction.TypingIndicator -> sendTypingIndicator (dispatch = dispatch)
+            is ChatAction.TypingIndicator -> sendTypingIndicator(dispatch = dispatch)
             is ChatAction.EndChat -> endChat()
         }
     }
@@ -88,7 +88,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch) {
-        chatService.sendReadReceipt (action.message.id.toString()).whenComplete { _, error ->
+        chatService.sendReadReceipt(action.message.id.toString()).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
@@ -112,7 +112,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun sendTypingIndicator(dispatch: Dispatch) {
-        chatService.sendTypingIndicator ().whenComplete { _, error ->
+        chatService.sendTypingIndicator().whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
