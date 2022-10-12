@@ -83,4 +83,35 @@ internal class ChatReducerUnitTest {
         // assert
         Assert.assertEquals(afterState, newState)
     }
+
+    @Test
+    fun chatReducer_reduce_when_actionThreadDeleted_then_updateChatStateChatThreadDeleted() {
+        // arrange
+        val reducer = ChatReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
+
+        val chatInfoModel = ChatInfoModel(
+            threadId = "",
+            topic = "",
+            allMessagesFetched = false,
+            isThreadDeleted = false
+        )
+        val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
+
+        val action = ChatAction.ThreadDeleted()
+
+        val afterChatInfoModel = ChatInfoModel(
+            threadId = "",
+            topic = "",
+            allMessagesFetched = false,
+            isThreadDeleted = true
+        )
+        val afterState = ChatState(ChatStatus.NONE, localParticipantInfoModel, afterChatInfoModel)
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertEquals(afterState, newState)
+    }
 }
