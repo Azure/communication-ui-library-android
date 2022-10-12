@@ -105,7 +105,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         try {
             chatService.requestChatParticipants()
         } catch (ex: Exception) {
-            val error = ChatStateError(errorCode = ErrorCode.CHAT_REQUEST_PARTICIPANTS_FAILED)
+            val error = ChatStateError(errorCode = ErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
         }
 // test code

@@ -305,7 +305,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val chatError = argumentCaptor.secondValue as ErrorAction.ChatStateErrorOccurred
             assertEquals(
                 chatError.chatStateError.errorCode,
-                ErrorCode.CHAT_REQUEST_PARTICIPANTS_FAILED
+                ErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED
             )
         }
 }
