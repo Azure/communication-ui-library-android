@@ -36,7 +36,7 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             ActionBarView(
                 participantCount = 4,
-                    topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
             ) {
                 dispatcher?.onBackPressed()
             }
@@ -104,9 +104,12 @@ internal fun ChatScreenPreview() {
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
                 // )
-            remoteParticipants = listOf(RemoteParticipantInfoModel(
-                    CommunicationIdentifier.CommunicationUserIdentifier(""),
-                    displayName = "John Doe", isTyping = true))
+                remoteParticipants = listOf(
+                    RemoteParticipantInfoModel(
+                        CommunicationIdentifier.CommunicationUserIdentifier(""),
+                        displayName = "John Doe", isTyping = true
+                    )
+                )
             )
         )
     }
