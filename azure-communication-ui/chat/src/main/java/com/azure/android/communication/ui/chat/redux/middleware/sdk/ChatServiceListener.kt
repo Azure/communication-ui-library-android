@@ -49,7 +49,8 @@ internal class ChatServiceListener(
 
         coroutineScope.launch {
             chatService.getChatEventSharedFlow().collect {
-                handleInfoModel(it = it, dispatch = dispatch)
+
+                handleInfoModel(it, dispatch)
             }
         }
     }
@@ -72,6 +73,7 @@ internal class ChatServiceListener(
         }
 
         messagesPageModel.messages?.let {
+            it.filter { it != null }
             dispatch(ChatAction.MessagesPageReceived(messages = it))
         }
 
@@ -85,13 +87,13 @@ internal class ChatServiceListener(
             is MessageInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.CHAT_MESSAGE_RECEIVED -> {
-                        val model = it.infoModel
+                        dispatch(ChatAction.MessageReceived(message = it.infoModel))
                     }
                     ChatEventType.CHAT_MESSAGE_EDITED -> {
-                        val model = it.infoModel
+                        dispatch(ChatAction.MessageEdited(message = it.infoModel))
                     }
                     ChatEventType.CHAT_MESSAGE_DELETED -> {
-                        val model = it.infoModel
+                        dispatch(ChatAction.MessageDeleted(message = it.infoModel))
                     }
                     else -> {}
                 }

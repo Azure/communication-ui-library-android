@@ -12,13 +12,20 @@ internal fun List<MessageInfoModel>.toViewModelList() =
 
 private class InfoModelToViewModelAdapter(private val messages: List<MessageInfoModel>) :
     List<MessageViewModel> {
+
+    override fun get(index: Int): MessageViewModel {
+        // Generate Message View Model here
+        return MessageViewModel(
+            messages[index]
+        )
+    }
+
+    // Rest of List Implementation
     override val size = messages.size
     override fun contains(element: MessageViewModel) = messages.contains(element.message)
 
     override fun containsAll(elements: Collection<MessageViewModel>) =
         messages.containsAll(elements.map { it.message })
-
-    override fun get(index: Int) = MessageViewModel(messages[index])
 
     override fun indexOf(element: MessageViewModel) = messages.indexOf(element.message)
 

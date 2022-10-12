@@ -38,6 +38,8 @@ internal fun ChatCompositeTheme(
         content = Color(0xFFDD0D3C),
         component = Color(0xFFC20029),
         background = Color.White,
+        textColor = Color(0xFF212121),
+        outlineColor = Color(0xFFE1E1E1),
         messageBackgroundSelf = Color(0xFFDEECF9),
         messageBackground = Color(primaryColor),
     )
