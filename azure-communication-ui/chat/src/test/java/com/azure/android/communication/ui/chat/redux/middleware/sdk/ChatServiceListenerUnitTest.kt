@@ -60,7 +60,6 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun chatServiceListener_subscribe_then_dispatch_ChatThreadUpdated() {
-    fun chatServiceListener_subscribe_then_dispatch_chatThreadUpdated_on_threadDeleted() {
         runScopedTest {
             // arrange
             val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
@@ -74,15 +73,12 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
             }
-            val mockAppStore = mock<AppStore<ReduxState>> {}
-
             // act
             handler.subscribe(mockAppStore::dispatch)
 
             chatEventSharedFlow.emit(
                 ChatEventModel(
-                    com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
-                    ChatEventType.CHAT_THREAD_DELETED,
+                    ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
                     ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
                 )
             )
@@ -92,6 +88,37 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 times(1)
             ).dispatch(argThat { action -> action is ChatAction.TopicUpdated && action.topic == "Topic" })
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatServiceListener_subscribe_then_dispatch_chatThreadUpdated_on_threadDeleted() {
+        runScopedTest {
+            // arrange
+            val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
+
+            val mockChatService: ChatService = mock {
+                on { getChatEventSharedFlow() } doReturn chatEventSharedFlow
+            }
+
+            val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+
+            // act
+            handler.subscribe(mockAppStore::dispatch)
+
+            chatEventSharedFlow.emit(
+                ChatEventModel(
+                    ChatEventType.CHAT_THREAD_DELETED,
+                    ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
+                )
+            )
+
+            // assert
+            verify(
+                mockAppStore,
+                times(1)
             ).dispatch(argThat { action -> action is ChatAction.ThreadDeleted })
         }
     }
