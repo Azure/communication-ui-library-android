@@ -16,9 +16,9 @@ import com.microsoft.fluentui.theme.token.AliasTokens
 
 @Composable
 internal fun ChatCompositeTheme(
-        primaryColor: Int = 0xFFFFFFFF.toInt(),
-        themeMode: ThemeMode = ThemeMode.Auto,
-        content: @Composable () -> Unit,
+    primaryColor: Int = 0xFFFFFFFF.toInt(),
+    themeMode: ThemeMode = ThemeMode.Auto,
+    content: @Composable () -> Unit,
 ) {
     val fluentTypography = FluentTheme.aliasTokens.typography
     val customTypography = ChatCompositeTypography(

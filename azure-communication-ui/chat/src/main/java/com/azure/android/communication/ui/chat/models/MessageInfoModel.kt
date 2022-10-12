@@ -36,3 +36,48 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
         editedOn = this.editedOn,
     )
 }
+
+internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(): MessageInfoModel {
+    return MessageInfoModel(
+        internalId = null,
+        id = this.id,
+        messageType = this.type.into(),
+        version = this.version,
+        content = this.content,
+        senderCommunicationIdentifier = this.sender.into(),
+        senderDisplayName = this.senderDisplayName,
+        createdOn = this.createdOn,
+        deletedOn = null,
+        editedOn = null
+    )
+}
+
+internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.into(): MessageInfoModel {
+    return MessageInfoModel(
+        internalId = null,
+        id = this.id,
+        messageType = null,
+        version = this.version,
+        content = this.content,
+        senderCommunicationIdentifier = this.sender.into(),
+        senderDisplayName = this.senderDisplayName,
+        createdOn = this.createdOn,
+        deletedOn = null,
+        editedOn = this.editedOn
+    )
+}
+
+internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent.into(): MessageInfoModel {
+    return MessageInfoModel(
+        internalId = null,
+        id = this.id,
+        messageType = null,
+        version = this.version,
+        content = null,
+        senderCommunicationIdentifier = this.sender.into(),
+        senderDisplayName = this.senderDisplayName,
+        createdOn = this.createdOn,
+        deletedOn = this.deletedOn,
+        editedOn = null
+    )
+}

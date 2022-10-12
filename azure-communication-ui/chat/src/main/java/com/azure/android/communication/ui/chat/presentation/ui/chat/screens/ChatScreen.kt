@@ -23,10 +23,12 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.B
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageList
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 
 @Composable
 internal fun ChatScreen(viewModel: ChatScreenViewModel) {
+
     Scaffold(
             topBar = {
                 val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
@@ -89,9 +91,13 @@ internal fun ChatScreenPreview() {
                     ),
 
                 ).toViewModelList(),
-                state = "state",
+                state = ChatStatus.INITIALIZED.name,
                 buildCount = 2,
-                postMessage = {}
+                postMessage = {},
+
+                // error = ChatStateError(
+                //    errorCode = ErrorCode.CHAT_JOIN_FAILED
+                // )
             )
         )
     }

@@ -11,12 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
+import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 
 @ExperimentalAnimationApi
 @Composable
-fun AcsChatTypingIndicator(mockParticipants: List<ParticipantIn>) {
-    val typers = mockParticipants.filter { it.isTyping }
+internal fun TypingIndicator(participants: List<RemoteParticipantInfoModel>) {
+    val typers = participants.filter { it.isTyping }
 
     AnimatedVisibility(
             visible = typers.isNotEmpty(),
@@ -30,13 +31,13 @@ fun AcsChatTypingIndicator(mockParticipants: List<ParticipantIn>) {
         ) {
             Box(Modifier.size(width = 0.dp, height = 40.dp))
 
-            mockParticipants.forEach {
+            participants.forEach {
                 AnimatedVisibility(
                         visible = it.isTyping,
                         enter = expandHorizontally(), exit = shrinkHorizontally()
 
                 ) {
-                    AcsChatAvatar(name = it.displayName)
+                    AvatarView(name = it.displayName)
                 }
             }
 
@@ -55,13 +56,14 @@ fun AcsChatTypingIndicator(mockParticipants: List<ParticipantIn>) {
 @Preview(showBackground = true)
 @ExperimentalAnimationApi
 @Composable
-fun PreviewAcsChatTypingIndicator() {
-    Column() {
-        AcsChatTypingIndicator(
-                mockParticipants = listOf(
-                        MockParticipant("User A", isTyping = true),
-                        MockParticipant("User B", isTyping = true)
-                )
-        )
-    }
+internal fun PreviewTypingIndicator() {
+    TypingIndicator(
+            participants = listOf(
+                    RemoteParticipantInfoModel(
+                            CommunicationIdentifier.CommunicationUserIdentifier(""), displayName = "User A", isTyping = true),
+                    RemoteParticipantInfoModel(
+                            CommunicationIdentifier.CommunicationUserIdentifier(""), displayName = "User B", isTyping = true),
+            )
+    )
+
 }

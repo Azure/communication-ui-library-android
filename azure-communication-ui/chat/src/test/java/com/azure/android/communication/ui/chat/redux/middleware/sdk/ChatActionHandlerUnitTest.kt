@@ -114,11 +114,86 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun chatMiddlewareActionHandler_deleteMessage_then_dispatch_ChatActionDeleteMessage() =
+        runScopedTest {
+            // arrange
+            val messageInfoModel = MessageInfoModel(
+                id = "Message",
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
+            )
+
+            val deleteChatMessageCompletableFuture = CompletableFuture<Void>()
+
+            val mockChatService: ChatService = mock {
+                on { deleteMessage(messageInfoModel.id.toString()) } doReturn deleteChatMessageCompletableFuture
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+
+            val action = ChatAction.DeleteMessage(messageInfoModel)
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch)
+
+            deleteChatMessageCompletableFuture.complete(any())
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ChatAction.MessageDeleted
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_deleteMessage_then_dispatch_ChatStateErrorOccurred() =
+        runScopedTest {
+            // arrange
+            val messageInfoModel = MessageInfoModel(
+                id = "Message",
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
+            )
+
+            val error = Exception("test")
+            val deleteChatMessageCompletableFuture = CompletableFuture<Void>()
+            val mockChatService: ChatService = mock {
+                on { deleteMessage(messageInfoModel.id.toString()) } doReturn deleteChatMessageCompletableFuture
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+            val action = ChatAction.DeleteMessage(messageInfoModel)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch)
+            deleteChatMessageCompletableFuture.completeExceptionally(error)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ErrorAction.ChatStateErrorOccurred
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun chatMiddlewareActionHandler_fetchMessage_then_call_chatServiceGetPreviousPage() =
         runScopedTest {
             // arrange
             val mockChatService: ChatService = mock {
-                on { getPreviousPage() } doAnswer {}
+                on { requestPreviousPage() } doAnswer {}
             }
 
             val chatHandler = ChatActionHandler(mockChatService)
@@ -131,7 +206,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             chatHandler.onAction(action, mockAppStore::dispatch)
 
             // assert
-            verify(mockChatService, times(1)).getPreviousPage()
+            verify(mockChatService, times(1)).requestPreviousPage()
         }
 
     @ExperimentalCoroutinesApi

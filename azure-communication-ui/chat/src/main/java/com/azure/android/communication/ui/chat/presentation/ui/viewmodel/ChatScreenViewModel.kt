@@ -15,11 +15,11 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
-        val messages: List<MessageViewModel>,
-        val state: String,
-        var buildCount: Int,
-        val postMessage: (String) -> Unit,
-        private val error: ChatStateError? = null
+    val messages: List<MessageViewModel>,
+    val state: String,
+    var buildCount: Int,
+    val postMessage: (String) -> Unit,
+    private val error: ChatStateError? = null
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -38,6 +38,7 @@ internal fun buildChatScreenViewModel(
         messages = repository.toViewModelList(),
         state = store.getCurrentState().chatState.chatStatus.name,
         buildCount = buildCount++,
+        error = store.getCurrentState().errorState.chatStateError,
         postMessage = {
             store.dispatch(
                 ChatAction.SendMessage(
@@ -51,46 +52,4 @@ internal fun buildChatScreenViewModel(
             )
         }
     )
-
-
-
-internal fun List<MessageInfoModel>.toViewModelList() =
-        InfoModelToViewModelAdapter(this) as List<MessageViewModel>
-
-private class InfoModelToViewModelAdapter(private val messages: List<MessageInfoModel>) :
-        List<MessageViewModel> {
-    override val size = messages.size
-    override fun contains(element: MessageViewModel) = messages.contains(element.message)
-
-    override fun containsAll(elements: Collection<MessageViewModel>) =
-            messages.containsAll(elements.map { it.message })
-
-    override fun get(index: Int) = MessageViewModel(messages[index])
-
-    override fun indexOf(element: MessageViewModel) = messages.indexOf(element.message)
-
-    override fun isEmpty() = messages.isEmpty()
-
-    override fun iterator(): Iterator<MessageViewModel> {
-        // Not Implemented
-        TODO("Not Implemented, probably not needed")
-    }
-
-    override fun lastIndexOf(element: MessageViewModel) = messages.lastIndexOf(element.message)
-
-    override fun listIterator(): ListIterator<MessageViewModel> {
-        // Not Implemented
-        TODO("Not Implemented, probably not needed")
-    }
-
-    override fun listIterator(index: Int): ListIterator<MessageViewModel> {
-        // Not Implemented
-        TODO("Not Implemented, probably not needed")
-    }
-
-    override fun subList(fromIndex: Int, toIndex: Int): List<MessageViewModel> {
-        // Not Implemented
-        TODO("Not Implemented, probably not needed")
-    }
-}
 
