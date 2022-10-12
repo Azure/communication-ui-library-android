@@ -3,6 +3,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelge
 import com.azure.android.communication.ui.chat.redux.AppStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /**
@@ -33,6 +34,10 @@ internal class ReduxViewModelGenerator<T, M : Any>(
                 rebuild(store)
             }
         }
+    }
+
+    fun stop() {
+        coroutineScope.cancel()
     }
 
     // Rebuild the View Model

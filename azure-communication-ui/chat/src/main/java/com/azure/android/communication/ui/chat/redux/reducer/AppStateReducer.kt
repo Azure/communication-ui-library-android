@@ -21,7 +21,7 @@ internal class AppStateReducer(
         val appState = AppReduxState(
             threadID = state.chatState.chatInfoModel.threadId,
             localParticipantIdentifier = state.chatState.localParticipantInfoModel.userIdentifier,
-            localParticipantDisplayName = state.chatState.localParticipantInfoModel.displayName
+            localParticipantDisplayName = state.chatState.localParticipantInfoModel.displayName,
         )
 
         appState.chatState = chatReducer.reduce(
