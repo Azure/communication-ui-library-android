@@ -3,9 +3,11 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
+import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepository
@@ -13,11 +15,16 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
-    val messages: List<MessageViewModel>,
-    val state: String,
-    var buildCount: Int,
-    val postMessage: (String) -> Unit
-)
+        val messages: List<MessageViewModel>,
+        val state: String,
+        var buildCount: Int,
+        val postMessage: (String) -> Unit,
+        private val error: ChatStateError? = null
+) {
+    val showError get() = error != null
+    val errorMessage get() = error?.errorCode?.toString() ?: ""
+    val isLoading get() = state != ChatStatus.INITIALIZED.name && !showError
+}
 
 // Internal counter for early debugging
 private var buildCount = 0

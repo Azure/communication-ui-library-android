@@ -3,25 +3,25 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun BottomBar() {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Row {
-            TextField(
-                value = "",
-                onValueChange = {},
-                modifier = Modifier.fillMaxWidth(fraction = 0.8f)
-            )
-            SendMessageButton("Send Message Button")
+internal fun ChatCompositeBottomBar(postMessage: (String) -> Unit) {
+    Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+    ) {
+
+        MessageInputView(contentDescription = "Message Input Field")
+
+        SendMessageButton("Send Message Button") {
+            postMessage("Test Message @ ${System.currentTimeMillis()}")
         }
     }
 }
@@ -30,6 +30,6 @@ internal fun BottomBar() {
 @Composable
 internal fun PreviewChatCompositeBottomBar() {
     Column {
-        BottomBar()
+        ChatCompositeBottomBar {}
     }
 }
