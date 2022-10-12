@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
@@ -25,6 +26,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScr
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 
 @Composable
 internal fun ChatScreen(viewModel: ChatScreenViewModel) {
@@ -102,6 +104,9 @@ internal fun ChatScreenPreview() {
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
                 // )
+            remoteParticipants = listOf(RemoteParticipantInfoModel(
+                    CommunicationIdentifier.CommunicationUserIdentifier(""),
+                    displayName = "John Doe", isTyping = true))
             )
         )
     }
