@@ -34,8 +34,12 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 
 @Composable
-internal fun MessageInputView(contentDescription: String) {
-    var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
+fun MessageInputView(contentDescription: String) {
+    var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(
+            TextFieldValue()
+        )
+    }
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
