@@ -25,6 +25,8 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doAnswer
 import org.threeten.bp.OffsetDateTime
 
 @RunWith(MockitoJUnitRunner::class)
@@ -53,6 +55,40 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
             mockAppStore,
             times(1)
         ).dispatch(argThat { action -> action is ChatAction.Initialized })
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatServiceListener_subscribe_then_dispatch_ChatThreadUpdated() {
+        runScopedTest {
+            // arrange
+            val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
+
+            val mockChatService: ChatService = mock {
+                on { getChatEventSharedFlow() } doReturn chatEventSharedFlow
+            }
+
+            val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+            // act
+            handler.subscribe(mockAppStore::dispatch)
+
+            chatEventSharedFlow.emit(
+                ChatEventModel(
+                    ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+                    ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
+                )
+            )
+
+            // assert
+            verify(
+                mockAppStore,
+                times(1)
+            ).dispatch(argThat { action -> action is ChatAction.TopicUpdated && action.topic == "Topic" })
+        }
     }
 
     @ExperimentalCoroutinesApi
