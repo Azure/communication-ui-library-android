@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,6 +60,7 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun chatServiceListener_subscribe_then_dispatch_ChatThreadUpdated() {
+    fun chatServiceListener_subscribe_then_dispatch_chatThreadUpdated_on_threadDeleted() {
         runScopedTest {
             // arrange
             val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
@@ -72,12 +74,15 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
             }
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+
             // act
             handler.subscribe(mockAppStore::dispatch)
 
             chatEventSharedFlow.emit(
                 ChatEventModel(
                     com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+                    ChatEventType.CHAT_THREAD_DELETED,
                     ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
                 )
             )
@@ -87,6 +92,7 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 times(1)
             ).dispatch(argThat { action -> action is ChatAction.TopicUpdated && action.topic == "Topic" })
+            ).dispatch(argThat { action -> action is ChatAction.ThreadDeleted })
         }
     }
 }
