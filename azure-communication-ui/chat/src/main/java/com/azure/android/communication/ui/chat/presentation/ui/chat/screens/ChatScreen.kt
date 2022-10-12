@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
@@ -34,10 +33,8 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
         topBar = {
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             ActionBarView(
-                viewModel = ActionBarViewModel(
-                    participantCount = 4,
+                participantCount = 4,
                     topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
-                ),
             ) {
                 dispatcher?.onBackPressed()
             }
