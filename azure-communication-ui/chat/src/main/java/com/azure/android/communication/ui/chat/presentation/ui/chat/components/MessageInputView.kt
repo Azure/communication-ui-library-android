@@ -1,11 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
@@ -22,6 +24,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -29,14 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
-
-@Preview(showSystemUi = true)
-@Composable
-fun MessageInputViewPreview() {
-    Row {
-        MessageInputView("Message Input Field")
-    }
-}
 
 @Composable
 fun MessageInputView(contentDescription: String) {
@@ -57,7 +52,7 @@ fun MessageInputView(contentDescription: String) {
 }
 
 @Composable
-fun MessageInput(
+internal fun MessageInput(
     keyboardType: KeyboardType = KeyboardType.Text,
     onTextChanged: (TextFieldValue) -> Unit,
     textState: TextFieldValue,
@@ -87,7 +82,7 @@ fun MessageInput(
 
         value = textState,
         onValueChange = { onTextChanged(it) },
-        textStyle = androidx.compose.ui.text.TextStyle(
+        textStyle = TextStyle(
             color = textColor
         ),
         keyboardOptions = KeyboardOptions(
@@ -105,7 +100,7 @@ fun MessageInput(
                 if (textState.text.isEmpty() && !focusState) {
                     BasicText(
                         text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
-                        style = androidx.compose.ui.text.TextStyle(
+                        style = TextStyle(
                             color = textColor
                         )
                     )
@@ -115,4 +110,10 @@ fun MessageInput(
             }
         }
     )
+}
+
+@Preview
+@Composable
+internal fun PreviewMessageInputView() {
+    MessageInputView("Message Input Field")
 }

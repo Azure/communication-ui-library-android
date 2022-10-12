@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
-import com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelgenerator.ReduxViewModelGenerator
+import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.buildChatScreenViewModel
 import com.azure.android.communication.ui.chat.redux.Dispatch

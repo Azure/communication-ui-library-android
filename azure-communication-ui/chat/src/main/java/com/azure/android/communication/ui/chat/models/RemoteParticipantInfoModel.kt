@@ -8,4 +8,5 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.Communication
 internal data class RemoteParticipantInfoModel(
     val userIdentifier: CommunicationIdentifier,
     val displayName: String?,
+    val isTyping: Boolean = false
 )

@@ -3,6 +3,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelge
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.reducer.Reducer
+import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
