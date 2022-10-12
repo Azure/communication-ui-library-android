@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 internal enum class ChatStatus {
     NONE,
     INITIALIZATION,
-    INITIALIZED,
+    INITIALIZED
 }
 
 internal data class ChatState(
