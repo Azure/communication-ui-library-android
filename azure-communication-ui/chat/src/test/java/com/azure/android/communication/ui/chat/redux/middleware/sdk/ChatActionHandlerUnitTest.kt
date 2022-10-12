@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
@@ -255,6 +256,56 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             assertEquals(
                 argumentCaptor.firstValue.chatStateError.errorCode,
                 ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_onChatInitialized_then_dispatch_ChatRequestParticipants() =
+        runScopedTest {
+            // arrange
+            val mockChatSDK = mock<ChatSDK>()
+            val chatService = ChatService(mockChatSDK)
+            val chatHandler = ChatActionHandler(chatService)
+            val mockAppStore = mock<AppStore<ReduxState>>()
+
+            // act
+            chatHandler.onAction(ChatAction.Initialized(), mockAppStore::dispatch)
+
+            // assert
+            verify(mockChatSDK, times(1)).requestChatParticipants()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_onChatRequestParticipantsErrored_then_dispatch_ChatError() =
+        runScopedTest {
+            // arrange
+            val mockChatSDK = mock<ChatSDK>()
+            val chatService = ChatService(mockChatSDK)
+            val chatHandler = ChatActionHandler(chatService)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+            whenever(mockChatSDK.requestChatParticipants()).then { throw java.lang.RuntimeException() }
+            val argumentCaptor = argumentCaptor<Action>()
+
+            // act
+            chatHandler.onAction(
+                action = ChatAction.Initialized(),
+                dispatch = mockAppStore::dispatch
+            )
+
+            // assert
+            verify(mockAppStore, times(2)).dispatch(argumentCaptor.capture())
+            assertEquals(
+                argumentCaptor.secondValue.javaClass,
+                ErrorAction.ChatStateErrorOccurred::class.java
+            )
+            val chatError = argumentCaptor.secondValue as ErrorAction.ChatStateErrorOccurred
+            assertEquals(
+                chatError.chatStateError.errorCode,
+                ErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED
             )
         }
 }
