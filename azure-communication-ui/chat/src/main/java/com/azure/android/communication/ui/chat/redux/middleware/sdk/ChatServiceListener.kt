@@ -33,7 +33,7 @@ internal class ChatServiceListener(
 
     fun subscribe(dispatch: Dispatch) {
         coroutineScope.launch {
-            chatService.getChatStatusStateFlow().collect {
+            chatService.getChatStatusStateFlow()?.collect {
                 when (it) {
                     ChatStatus.INITIALIZATION -> dispatch(ChatAction.Initialization())
                     ChatStatus.INITIALIZED -> dispatch(ChatAction.Initialized())
@@ -43,13 +43,13 @@ internal class ChatServiceListener(
         }
 
         coroutineScope.launch {
-            chatService.getMessagesPageSharedFlow().collect {
+            chatService.getMessagesPageSharedFlow()?.collect {
                 onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch)
             }
         }
 
         coroutineScope.launch {
-            chatService.getChatEventSharedFlow().collect {
+            chatService.getChatEventSharedFlow()?.collect {
                 handleInfoModel(it, dispatch)
             }
         }
@@ -112,7 +112,7 @@ internal class ChatServiceListener(
             is ChatThreadInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.CHAT_THREAD_DELETED -> {
-                        val model = it
+                        dispatch(ChatAction.ThreadDeleted())
                     }
                     ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED -> {
                         val model = it
