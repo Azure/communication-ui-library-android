@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import java.util.*
 
 private val emptyMessage = MessageInfoModel(
     content = null,
@@ -30,7 +31,7 @@ internal interface MessageRepositoryMiddlewareInterface {
 
 internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
     // Simple List for now
-    private val messages = mutableListOf<MessageInfoModel>()
+    private val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
 
     // Middleware Interface
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
@@ -43,6 +44,7 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
 
     override fun addServerMessage(message: MessageInfoModel) {
         messages.add(message)
+        reorder()
     }
 
     override fun removeMessage(message: MessageInfoModel) {
@@ -58,6 +60,7 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
             // TODO: Merge with old message, keep metadata such as type
             messages[idx] = message
         }
+        reorder()
     }
 
     // List Implementation
@@ -85,4 +88,10 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
     override fun listIterator() = messages.listIterator()
     override fun listIterator(index: Int) = messages.listIterator(index)
     override fun subList(fromIndex: Int, toIndex: Int) = messages.subList(fromIndex, toIndex)
+
+    fun reorder() {
+        messages.sortBy {
+            it.createdOn?.nano
+        }
+    }
 }

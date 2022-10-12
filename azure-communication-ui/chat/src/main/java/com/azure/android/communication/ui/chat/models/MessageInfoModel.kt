@@ -56,7 +56,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.
     return MessageInfoModel(
         internalId = null,
         id = this.id,
-        messageType = null,
+        messageType = ChatMessageType.TEXT,
         version = this.version,
         content = this.content,
         senderCommunicationIdentifier = this.sender.into(),
