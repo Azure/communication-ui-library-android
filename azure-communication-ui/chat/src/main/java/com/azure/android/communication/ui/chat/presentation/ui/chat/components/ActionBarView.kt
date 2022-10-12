@@ -24,11 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 
-internal data class ActionBarViewModel(val participantCount: Int, val topic: String)
-
 @Composable
 internal fun ActionBarView(
-    viewModel: ActionBarViewModel,
+    participantCount: Int,
+    topic: String,
     onBackButtonPressed: () -> Unit = { }
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
@@ -52,19 +51,19 @@ internal fun ActionBarView(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = viewModel.topic,
+                        text = topic,
                         textAlign = TextAlign.Center,
                         style = ChatCompositeTheme.typography.title
                     )
-                    if (viewModel.participantCount == 1) {
+                    if (participantCount == 1) {
                         Text(
-                            text = "${viewModel.participantCount} Participant",
+                            text = "$participantCount Participant",
                             textAlign = TextAlign.Center,
                             style = ChatCompositeTheme.typography.body
                         )
                     } else {
                         Text(
-                            text = "${viewModel.participantCount} Participants",
+                            text = "$participantCount Participants",
                             textAlign = TextAlign.Center,
                             style = ChatCompositeTheme.typography.body
                         )
@@ -85,9 +84,7 @@ internal fun ActionBarView(
 @Composable
 internal fun PreviewActionBarView() {
     ActionBarView(
-        viewModel = ActionBarViewModel(
-            participantCount = 4,
-            topic = "Topic"
-        )
+        participantCount = 4,
+        topic = "Topic"
     ) {}
 }

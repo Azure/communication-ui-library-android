@@ -14,11 +14,11 @@ import com.microsoft.fluentui.persona.AvatarView
 
 @Composable
 internal fun AvatarView(
-        name: String?,
-        color: Color? = null,
-        avatarSize: AvatarSize = AvatarSize.LARGE,
-        @DrawableRes image: Int = -1,
-        isGrouped: Boolean = false,
+    name: String?,
+    color: Color? = null,
+    avatarSize: AvatarSize = AvatarSize.LARGE,
+    @DrawableRes image: Int = -1,
+    isGrouped: Boolean = false,
 ) {
     AndroidView(factory = {
         val view = AvatarView(it)
