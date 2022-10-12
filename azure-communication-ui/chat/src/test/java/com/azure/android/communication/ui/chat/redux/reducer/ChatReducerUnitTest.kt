@@ -71,7 +71,7 @@ internal class ChatReducerUnitTest {
         // arrange
         val reducer = ChatReducerImpl()
         val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
-        val chatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = false,)
+        val chatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = false)
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
         val action = ChatAction.AllMessagesFetched()
         val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = true)
@@ -90,12 +90,22 @@ internal class ChatReducerUnitTest {
         val reducer = ChatReducerImpl()
         val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
 
-        val chatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = false, isThreadDeleted = false)
+        val chatInfoModel = ChatInfoModel(
+            threadId = "",
+            topic = "",
+            allMessagesFetched = false,
+            isThreadDeleted = false
+        )
         val previousState = ChatState(ChatStatus.NONE, localParticipantInfoModel, chatInfoModel)
 
         val action = ChatAction.ThreadDeleted()
 
-        val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = false, isThreadDeleted = true)
+        val afterChatInfoModel = ChatInfoModel(
+            threadId = "",
+            topic = "",
+            allMessagesFetched = false,
+            isThreadDeleted = true
+        )
         val afterState = ChatState(ChatStatus.NONE, localParticipantInfoModel, afterChatInfoModel)
 
         // act

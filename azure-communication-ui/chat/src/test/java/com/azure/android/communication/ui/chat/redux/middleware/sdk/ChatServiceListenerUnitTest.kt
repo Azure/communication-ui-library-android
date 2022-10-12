@@ -57,19 +57,20 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun chatServiceListener_subscribe_then_dispatch_ChatThreadUpdated() {
+    fun chatServiceListener_subscribe_then_dispatch_chatThreadUpdated_on_threadDeleted() {
         runScopedTest {
             // arrange
-            val chatStatusStateFlow = MutableStateFlow(ChatStatus.NONE)
-
             val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
-            val messagesSharedFlow: MutableSharedFlow<MessagesPageModel> = MutableSharedFlow()
 
             val mockChatService: ChatService = mock {
-                on { getChatStatusStateFlow() } doReturn chatStatusStateFlow
                 on { getChatEventSharedFlow() } doReturn chatEventSharedFlow
-                on { getMessagesPageSharedFlow() } doReturn messagesSharedFlow
             }
+
+            val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+
+            // act
+            handler.subscribe(mockAppStore::dispatch)
 
             chatEventSharedFlow.emit(
                 ChatEventModel(
@@ -77,14 +78,6 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
                     ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
                 )
             )
-
-            val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
-            val mockAppStore = mock<AppStore<ReduxState>> {}
-
-            handler.subscribe(mockAppStore::dispatch)
-
-            // act
-            handler.subscribe(mockAppStore::dispatch)
 
             // assert
             verify(
