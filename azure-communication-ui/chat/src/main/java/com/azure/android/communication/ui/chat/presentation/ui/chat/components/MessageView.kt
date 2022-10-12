@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -26,28 +24,22 @@ internal fun MessageView(viewModel: MessageViewModel, isGrouped: Boolean = false
     fun Modifier.selfMessageView(): Modifier = this.padding(end = messagePadding, start = offsetPadding, top = messagePadding, bottom = messagePadding)
 
     Row(modifier = if (viewModel.message.isCurrentUser) Modifier.selfMessageView() else Modifier.participantMessageView()) {
-        Box(modifier = Modifier.padding(horizontal = 12.dp)) {
-            AvatarView(name = viewModel.message.senderDisplayName, color = null)
-        }
-        MessageCard(message = viewModel.message, isGrouped)
+        TextMessageView(message = viewModel.message, isGrouped)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 internal fun PreviewMessageView() {
-    Column {
-        MessageView(MessageViewModel(MessageInfoModel(
+    MessageView(
+        MessageViewModel(
+            MessageInfoModel(
                 messageType = ChatMessageType.TEXT,
                 content = "Test Message",
                 internalId = null,
                 id = null
-        )), isGrouped = false)
-        MessageView(MessageViewModel(MessageInfoModel(
-                messageType = ChatMessageType.TEXT,
-                content = "Test Message  2",
-                internalId = null,
-                id = null
-        )), isGrouped = false)
-    }
+            )
+        ),
+        isGrouped = false
+    )
 }

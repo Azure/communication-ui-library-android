@@ -24,9 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
 
 @Composable
-internal fun BackButton(
-        contentDescription: String,
-        onBackButtonPressed: () -> Unit = { }
+internal fun BackButtonView(
+    contentDescription: String,
+    onBackButtonPressed: () -> Unit = { }
 ) {
     val colorFilter = ColorFilter.tint(LocalContentColor.current)
     val semantics = Modifier.semantics {
@@ -34,25 +34,24 @@ internal fun BackButton(
         this.role = Role.Image
     }
     val painter =
-            painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_left_20_filled)
+        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_left_20_filled)
 
     Image(
-            painter = painter,
-            contentDescription = contentDescription,
-            contentScale = ContentScale.Crop,
-            colorFilter = colorFilter,
-            modifier = Modifier
-                .padding(19.dp)
-                .size(24.dp, 24.dp)
-                .clip(CircleShape)
-                .clickable { onBackButtonPressed() }
-                .then(semantics)
+        painter = painter,
+        contentDescription = contentDescription,
+        contentScale = ContentScale.Crop,
+        colorFilter = colorFilter,
+        modifier = Modifier
+            .padding(19.dp)
+            .size(24.dp, 24.dp)
+            .clip(CircleShape)
+            .clickable { onBackButtonPressed() }
+            .then(semantics)
     )
 }
 
 @Composable
 @Preview(showBackground = true)
-fun PreviewBackButton() {
-    BackButton(contentDescription = "Back Button")
+internal fun PreviewBackButtonView() {
+    BackButtonView(contentDescription = "Back Button")
 }
-

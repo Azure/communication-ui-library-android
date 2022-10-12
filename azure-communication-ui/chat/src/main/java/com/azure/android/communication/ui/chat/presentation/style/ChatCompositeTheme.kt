@@ -22,38 +22,38 @@ internal fun ChatCompositeTheme(
 ) {
     val fluentTypography = FluentTheme.aliasTokens.typography
     val customTypography = ChatCompositeTypography(
-            body = TextStyle(
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = fluentTypography[AliasTokens.TypographyTokens.Body1].weight,
-                    fontSize = fluentTypography[AliasTokens.TypographyTokens.Body1].fontSize.size,
-            ),
-            title = TextStyle(
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = fluentTypography[AliasTokens.TypographyTokens.Title1].weight,
-                    fontSize = fluentTypography[AliasTokens.TypographyTokens.Title1].fontSize.size
-            )
+        body = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = fluentTypography[AliasTokens.TypographyTokens.Body1].weight,
+            fontSize = fluentTypography[AliasTokens.TypographyTokens.Body1].fontSize.size,
+        ),
+        title = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = fluentTypography[AliasTokens.TypographyTokens.Title1].weight,
+            fontSize = fluentTypography[AliasTokens.TypographyTokens.Title1].fontSize.size
+        )
     )
     // TODO: determine which colors to use from FluentTheme before adding them to CompositionLocalProvider
     val acsChatColors = ChatCompositeColors(
-            content = Color(0xFFDD0D3C),
-            component = Color(0xFFC20029),
-            background = Color.White,
-            textColor = Color(0xFF212121),
-            outlineColor = Color(0xFFE1E1E1),
-            messageBackgroundSelf = Color(0xFFDEECF9),
-            messageBackground = Color(primaryColor),
+        content = Color(0xFFDD0D3C),
+        component = Color(0xFFC20029),
+        background = Color.White,
+        textColor = Color(0xFF212121),
+        outlineColor = Color(0xFFE1E1E1),
+        messageBackgroundSelf = Color(0xFFDEECF9),
+        messageBackground = Color(primaryColor),
     )
     val acsChatShapes = ChatCompositeShapes(
-            messageBubble = RoundedCornerShape(4.dp),
+        messageBubble = RoundedCornerShape(4.dp),
     )
 
     CompositionLocalProvider(
-            LocalChatCompositeTypography provides customTypography,
-            LocalChatCompositeShapes provides acsChatShapes
+        LocalChatCompositeTypography provides customTypography,
+        LocalChatCompositeShapes provides acsChatShapes
     ) {
         FluentTheme(
-                themeMode = themeMode,
-                content = content
+            themeMode = themeMode,
+            content = content
         )
     }
 }

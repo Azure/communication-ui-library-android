@@ -10,16 +10,14 @@ import androidx.compose.ui.tooling.preview.Preview
  * Shows a button that lets the user scroll to the bottom.
  */
 @Composable
-fun UnreadMessagesIndicator(
-        unreadCount: Int,
-        onClicked: () -> Unit
+internal fun UnreadMessagesIndicatorView(
+    unreadCount: Int,
+    onClicked: () -> Unit
 ) {
-
-
 }
 
 @Preview
 @Composable
-fun UnreadMessagesIndicatorPreview() {
-    UnreadMessagesIndicator(20) {}
+internal fun PreviewUnreadMessagesIndicatorView() {
+    UnreadMessagesIndicatorView(20) {}
 }

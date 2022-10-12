@@ -17,10 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBar
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarViewModel
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBar
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageList
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
@@ -30,35 +31,38 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 internal fun ChatScreen(viewModel: ChatScreenViewModel) {
 
     Scaffold(
-            topBar = {
-                val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-                ActionBar(
-                        viewModel = ActionBarViewModel(
-                                participantCount = 4,
-                                topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
-                        ),
-                ) {
-                    dispatcher?.onBackPressed()
+        topBar = {
+            val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            ActionBarView(
+                viewModel = ActionBarViewModel(
+                    participantCount = 4,
+                    topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                ),
+            ) {
+                dispatcher?.onBackPressed()
+            }
+        },
+        content = {
+            if (viewModel.showError) {
+                Column() {
+                    BasicText("ERROR")
+                    BasicText(viewModel.errorMessage)
                 }
-            },
-            content = {
-                if (viewModel.showError) {
-                    Column() {
-                        BasicText("ERROR")
-                        BasicText(viewModel.errorMessage)
-                    }
-                } else if (viewModel.isLoading) {
-                    CircularProgressIndicator()
-                } else {
-                    MessageList(
-                            modifier = Modifier.padding(it),
-                            messages = viewModel.messages,
-                            scrollState = LazyListState(),
-                    )
-                }
+            } else if (viewModel.isLoading) {
+                CircularProgressIndicator()
+            } else {
+                MessageListView(
+                    modifier = Modifier.padding(it),
+                    messages = viewModel.messages,
+                    scrollState = LazyListState(),
+                )
+            }
 
-            },
-            bottomBar = { BottomBar(viewModel.postMessage) }
+            viewModel.remoteParticipants?.also { remoteParticipants ->
+                TypingIndicatorView(participants = remoteParticipants)
+            }
+        },
+        bottomBar = { BottomBarView(viewModel.postMessage) }
     )
 }
 
@@ -73,21 +77,24 @@ internal fun ChatScreenPreview() {
                         messageType = ChatMessageType.TEXT,
                         content = "Test Message",
                         internalId = null,
-                        id = null
+                        id = null,
+                        senderDisplayName = "John Doe"
                     ),
 
                     MessageInfoModel(
                         messageType = ChatMessageType.TEXT,
                         content = "Test Message 2 ",
                         internalId = null,
-                        id = null
+                        id = null,
+                        senderDisplayName = "John Doe Junior"
                     ),
 
                     MessageInfoModel(
                         messageType = ChatMessageType.TEXT,
                         content = "Test Message 3",
                         internalId = null,
-                        id = null
+                        id = null,
+                        senderDisplayName = "Elliott Red"
                     ),
 
                 ).toViewModelList(),

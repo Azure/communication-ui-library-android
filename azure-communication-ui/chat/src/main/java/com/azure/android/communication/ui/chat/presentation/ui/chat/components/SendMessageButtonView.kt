@@ -20,35 +20,35 @@ import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
 
 @Composable
-internal fun SendMessageButton(
-        contentDescription: String,
-        modifier: Modifier = Modifier,
-        onClick: () -> Unit = {},
+internal fun SendMessageButtonView(
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     val semantics = Modifier.semantics {
         this.contentDescription = contentDescription
         this.role = Role.Image
     }
     val painter =
-            painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
+        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
     Box(
-            modifier = Modifier.clickable {
-                onClick()
-            }
+        modifier = Modifier.clickable {
+            onClick()
+        }
     ) {
         Image(
-                painter = painter,
-                contentDescription = contentDescription,
-                contentScale = ContentScale.Crop,
-                modifier = modifier
-                    .size(19.5.dp, 19.5.dp)
-                    .then(semantics)
+            painter = painter,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+                .size(19.5.dp, 19.5.dp)
+                .then(semantics)
         )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-internal fun PreviewSendMessageButton() {
-    SendMessageButton(contentDescription = "Send Message Button")
+internal fun PreviewSendMessageButtonView() {
+    SendMessageButtonView(contentDescription = "Send Message Button")
 }

@@ -3,7 +3,12 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -19,48 +24,54 @@ import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
 @Composable
-internal fun MessageCard(message: MessageInfoModel, isGrouped: Boolean) {
+internal fun TextMessageView(message: MessageInfoModel, isGrouped: Boolean) {
     val participantMessageBackground = Color(0xFFF1F1F1)
     val selfMessageBackground = Color(0xFFDEECF9)
-        Column {
-            if (!isGrouped) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (!message.isCurrentUser) {
-                        Text(
+
+    Column {
+        Row {
+            Column {
+                Box(modifier = Modifier.padding(horizontal = 12.dp)) {
+                    AvatarView(name = message.senderDisplayName, color = null)
+                }
+            }
+            Column {
+                if (!isGrouped) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (!message.isCurrentUser) {
+                            Text(
                                 text = message.senderDisplayName ?: "Unnamed participant",
                                 style = MaterialTheme.typography.subtitle2
-                        )
-                        Spacer(modifier = Modifier.padding(4.dp))
-                    }
-                    message.createdOn?.let {
-                        Text(
+                            )
+                            Spacer(modifier = Modifier.padding(4.dp))
+                        }
+                        message.createdOn?.let {
+                            Text(
                                 text = it.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
                                 style = MaterialTheme.typography.overline,
-                        )
+                            )
+                        }
                     }
+                    Spacer(modifier = Modifier.height(2.dp))
                 }
-                Spacer(modifier = Modifier.height(2.dp))
-            }
-            Surface(
+                Surface(
                     shape = MaterialTheme.shapes.medium,
                     elevation = 1.dp,
                     color = if (message.isCurrentUser) selfMessageBackground else participantMessageBackground
-            ) {
-                Text(
+                ) {
+                    Text(
                         text = message.content ?: "",
                         style = MaterialTheme.typography.body1,
                         modifier = Modifier.padding(4.dp)
-                )
+                    )
+                }
             }
         }
-
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewAcsChatMessageCard() {
-    Column {
-        MessageCard(MessageInfoModel(id = "1", content = "Test Message", messageType = ChatMessageType.TEXT), isGrouped = false)
-        MessageCard(MessageInfoModel(id = "1", content = "Test Message", messageType = ChatMessageType.TEXT), isGrouped = false)
-    }
+internal fun PreviewTextMessageView() {
+    TextMessageView(MessageInfoModel(id = "1", content = "Test Message", messageType = ChatMessageType.TEXT), isGrouped = false)
 }

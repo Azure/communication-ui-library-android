@@ -4,7 +4,10 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
@@ -30,30 +33,28 @@ import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 
-
-
 @Composable
-fun MessageInputView(contentDescription: String) {
+internal fun MessageInputView(contentDescription: String) {
     var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
-            onTextChanged = { textState = it },
-            textState = textState,
-            onTextFieldFocused = { focusState = it },
-            focusState = focusState,
-            contentDescription = contentDescription
+        onTextChanged = { textState = it },
+        textState = textState,
+        onTextFieldFocused = { focusState = it },
+        focusState = focusState,
+        contentDescription = contentDescription
     )
 }
 
 @Composable
-fun MessageInput(
-        keyboardType: KeyboardType = KeyboardType.Text,
-        onTextChanged: (TextFieldValue) -> Unit,
-        textState: TextFieldValue,
-        onTextFieldFocused: (Boolean) -> Unit,
-        focusState: Boolean,
-        contentDescription: String
+internal fun MessageInput(
+    keyboardType: KeyboardType = KeyboardType.Text,
+    onTextChanged: (TextFieldValue) -> Unit,
+    textState: TextFieldValue,
+    onTextFieldFocused: (Boolean) -> Unit,
+    focusState: Boolean,
+    contentDescription: String
 ) {
 
     val outlineColor = ChatCompositeTheme.colors.outlineColor
@@ -68,50 +69,47 @@ fun MessageInput(
     }
 
     BasicTextField(
-            modifier = Modifier
-                .fillMaxWidth(fraction = 0.9f)
-                .padding(6.dp)
-                .heightIn(52.dp, maxInputHeight)
-                .onFocusChanged { onTextFieldFocused(it.isFocused) }
-                .then(semantics),
+        modifier = Modifier
+            .fillMaxWidth(fraction = 0.9f)
+            .padding(6.dp)
+            .heightIn(52.dp, maxInputHeight)
+            .onFocusChanged { onTextFieldFocused(it.isFocused) }
+            .then(semantics),
 
-            value = textState,
-            onValueChange = { onTextChanged(it) },
-            textStyle = TextStyle(
-                    color = textColor
-            ),
-            keyboardOptions = KeyboardOptions(
-                    keyboardType = keyboardType,
-                    imeAction = ImeAction.Send
-            ),
-            decorationBox = { innerTextField ->
-                Box(
-                        modifier = Modifier
-                            .border(1.dp, outlineColor, RoundedCornerShape(10))
-                            .padding(6.dp, 0.dp, 6.dp, 0.dp),
-                        contentAlignment = Alignment.CenterStart,
-                ) {
+        value = textState,
+        onValueChange = { onTextChanged(it) },
+        textStyle = TextStyle(
+            color = textColor
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Send
+        ),
+        decorationBox = { innerTextField ->
+            Box(
+                modifier = Modifier
+                    .border(1.dp, outlineColor, RoundedCornerShape(10))
+                    .padding(6.dp, 0.dp, 6.dp, 0.dp),
+                contentAlignment = Alignment.CenterStart,
+            ) {
 
-                    if (textState.text.isEmpty() && !focusState) {
-                        BasicText(
-                                text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
-                                style = TextStyle(
-                                        color = textColor
-                                )
+                if (textState.text.isEmpty() && !focusState) {
+                    BasicText(
+                        text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
+                        style = TextStyle(
+                            color = textColor
                         )
-                    }
-
-                    innerTextField()
+                    )
                 }
+
+                innerTextField()
             }
+        }
     )
 }
 
-
-@Preview(showSystemUi = true)
+@Preview
 @Composable
-fun MessageInputViewPreview() {
-    Row {
-        MessageInputView("Message Input Field")
-    }
+internal fun PreviewMessageInputView() {
+    MessageInputView("Message Input Field")
 }

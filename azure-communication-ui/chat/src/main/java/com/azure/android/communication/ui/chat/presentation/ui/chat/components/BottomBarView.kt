@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -13,16 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun BottomBar(postMessage: (String) -> Unit) {
+internal fun BottomBarView(postMessage: (String) -> Unit) {
     Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
     ) {
 
         MessageInputView(contentDescription = "Message Input Field")
 
-        SendMessageButton("Send Message Button") {
+        SendMessageButtonView("Send Message Button") {
             postMessage("Test Message @ ${System.currentTimeMillis()}")
         }
     }
@@ -30,8 +29,6 @@ internal fun BottomBar(postMessage: (String) -> Unit) {
 
 @Preview
 @Composable
-internal fun PreviewBottomBar() {
-    Column {
-        BottomBar {}
-    }
+internal fun PreviewBottomBarView() {
+    BottomBarView {}
 }

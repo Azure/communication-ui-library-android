@@ -53,4 +53,3 @@ private class InfoModelToViewModelAdapter(private val messages: List<MessageInfo
         TODO("Not Implemented, probably not needed")
     }
 }
-

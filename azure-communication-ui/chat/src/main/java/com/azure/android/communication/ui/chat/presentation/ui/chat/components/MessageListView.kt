@@ -7,7 +7,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -24,9 +23,10 @@ import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun MessageList(modifier: Modifier,
-                         messages: List<MessageViewModel>,
-                         scrollState: LazyListState,
+internal fun MessageListView(
+    modifier: Modifier,
+    messages: List<MessageViewModel>,
+    scrollState: LazyListState,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -36,10 +36,10 @@ internal fun MessageList(modifier: Modifier,
         }
     }
 
-    Box() {
+    Box {
         AnimatedVisibility(visible = scrollState.outOfViewItemCount() > 0) {
-            UnreadMessagesIndicator(
-                    unreadCount = scrollState.outOfViewItemCount()
+            UnreadMessagesIndicatorView(
+                unreadCount = scrollState.outOfViewItemCount()
             ) {
                 scope.launch {
                     scrollState.animateScrollToItem(messages.size)
@@ -51,34 +51,32 @@ internal fun MessageList(modifier: Modifier,
 
 @Preview
 @Composable
-internal fun PreviewChatCompositeMessageList() {
-    Column {
-        MessageList(
-                modifier = Modifier.padding(0.dp),
-                messages = listOf(
-                        MessageInfoModel(
-                                messageType = ChatMessageType.TEXT,
-                                content = "Test Message",
-                                internalId = null,
-                                id = null
-                        ),
+internal fun PreviewMessageListView() {
+    MessageListView(
+        modifier = Modifier.padding(0.dp),
+        messages = listOf(
+            MessageInfoModel(
+                messageType = ChatMessageType.TEXT,
+                content = "Test Message",
+                internalId = null,
+                id = null
+            ),
 
-                        MessageInfoModel(
-                                messageType = ChatMessageType.TEXT,
-                                content = "Test Message 2 ",
-                                internalId = null,
-                                id = null
-                        ),
+            MessageInfoModel(
+                messageType = ChatMessageType.TEXT,
+                content = "Test Message 2 ",
+                internalId = null,
+                id = null
+            ),
 
-                        MessageInfoModel(
-                                messageType = ChatMessageType.TEXT,
-                                content = "Test Message 3",
-                                internalId = null,
-                                id = null
-                        ),
+            MessageInfoModel(
+                messageType = ChatMessageType.TEXT,
+                content = "Test Message 3",
+                internalId = null,
+                id = null
+            ),
 
-                        ).toViewModelList(),
-                scrollState = LazyListState(),
-        )
-    }
+        ).toViewModelList(),
+        scrollState = LazyListState(),
+    )
 }
