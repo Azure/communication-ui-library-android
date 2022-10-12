@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
-import com.azure.android.communication.chat.models.ChatEventType
 import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.mocking.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.chat.models.ChatEventModel
@@ -62,23 +61,11 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
     fun chatServiceListener_subscribe_then_dispatch_ChatThreadUpdated() {
         runScopedTest {
             // arrange
-            val chatStatusStateFlow = MutableStateFlow(ChatStatus.NONE)
-
             val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
-            val messagesSharedFlow: MutableSharedFlow<MessagesPageModel> = MutableSharedFlow()
 
             val mockChatService: ChatService = mock {
-                on { getChatStatusStateFlow() } doReturn chatStatusStateFlow
                 on { getChatEventSharedFlow() } doReturn chatEventSharedFlow
-                on { getMessagesPageSharedFlow() } doReturn messagesSharedFlow
             }
-
-            chatEventSharedFlow.emit(
-                ChatEventModel(
-                    com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
-                    ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
-                )
-            )
 
             val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
 
@@ -88,11 +75,18 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.subscribe(mockAppStore::dispatch)
 
+            chatEventSharedFlow.emit(
+                ChatEventModel(
+                    com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+                    ChatThreadInfoModel("Topic", OffsetDateTime.MIN)
+                )
+            )
+
             // assert
             verify(
                 mockAppStore,
                 times(1)
-            ).dispatch(argThat { action -> action is ChatAction.TopicUpdated })
+            ).dispatch(argThat { action -> action is ChatAction.TopicUpdated && action.topic == "Topic" })
         }
     }
 }

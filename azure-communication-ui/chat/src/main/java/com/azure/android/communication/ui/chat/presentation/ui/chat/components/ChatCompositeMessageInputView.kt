@@ -40,7 +40,11 @@ fun MessageInputViewPreview() {
 
 @Composable
 fun MessageInputView(contentDescription: String) {
-    var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
+    var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(
+            TextFieldValue()
+        )
+    }
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
