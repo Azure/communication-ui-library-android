@@ -32,7 +32,7 @@ private class InfoModelToViewModelAdapter(
         return MessageViewModel(
             messages[index],
             showUsername = !isLocalUser &&
-            (lastMessage.senderCommunicationIdentifier?.id ?: "")
+                (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
 
             showTime =
