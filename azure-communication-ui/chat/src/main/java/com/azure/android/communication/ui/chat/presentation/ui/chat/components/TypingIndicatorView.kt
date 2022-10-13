@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>) {
-
     Row(
         modifier = Modifier.padding(horizontal = 10.dp),
         horizontalArrangement = Arrangement.spacedBy((-12).dp)

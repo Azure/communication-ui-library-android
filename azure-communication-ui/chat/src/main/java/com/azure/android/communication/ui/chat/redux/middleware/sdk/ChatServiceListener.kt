@@ -95,7 +95,7 @@ internal class ChatServiceListener(
                     ChatEventType.CHAT_MESSAGE_DELETED -> {
                         dispatch(ChatAction.MessageDeleted(message = it.infoModel))
                     }
-                    else -> {}
+                    else -> { }
                 }
             }
             is ParticipantTimestampInfoModel -> {
