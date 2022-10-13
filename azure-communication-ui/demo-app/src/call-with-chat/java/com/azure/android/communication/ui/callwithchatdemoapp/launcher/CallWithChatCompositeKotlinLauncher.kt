@@ -6,17 +6,17 @@ package com.azure.android.communication.ui.callwithchatdemoapp.launcher
 import android.content.Context
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
-import com.azure.android.communication.ui.callwithchatdemoapp.CallLauncherActivityErrorHandler
-import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivity
+import com.azure.android.communication.ui.callwithchat.CallWithChatComposite
+import com.azure.android.communication.ui.callwithchat.CallWithChatCompositeBuilder
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeCallAndChatLocator
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeJoinLocator
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalOptions
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalizationOptions
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeNavigationBarViewData
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.callwithchatdemoapp.AlertHandler
+import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivityErrorHandler
 import com.azure.android.communication.ui.callwithchatdemoapp.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getParticipantViewData
@@ -73,19 +73,12 @@ internal class CallWithChatCompositeKotlinLauncher :
             authService.currentUserCommunicationIdentifier, communicationTokenCredential, displayName
         )
 
-<<<<<<< HEAD
         val localOptions = CallWithChatCompositeLocalOptions()
             .setParticipantViewData(getParticipantViewData(context))
             .setNavigationBarViewData(
                 CallWithChatCompositeNavigationBarViewData()
                     .setCallTitle(getTitle())
                     .setCallSubtitle(getSubtitle())
-=======
-        val localOptions = CallCompositeLocalOptions()
-            .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
-            .setSetupScreenViewData(
-                CallCompositeSetupScreenViewData().setTitleAndSubtitle(getTitle(), getSubtitle())
->>>>>>> b0171e6a ([Calling][Feature] Rename NavigationBarViewData to SetupScreenViewData (#439))
             )
 
         composite.launch(context, remoteOptions, localOptions)
