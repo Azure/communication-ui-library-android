@@ -23,7 +23,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import org.threeten.bp.OffsetDateTime
 import java.util.concurrent.Executors
 
-internal class ChatPullEventHandler(coroutineContextProvider: CoroutineContextProvider) {
+internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineContextProvider) {
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private val singleThreadedContext = Executors.newSingleThreadExecutor()

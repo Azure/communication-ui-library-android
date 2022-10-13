@@ -46,7 +46,7 @@ internal class ChatSDKWrapper(
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
     private val chatEventHandler: ChatEventHandler,
-    private val chatPullEventHandler: ChatPullEventHandler
+    private val chatFetchNotificationHandler: ChatFetchNotificationHandler
 ) : ChatSDK {
 
     companion object {
@@ -111,7 +111,7 @@ internal class ChatSDKWrapper(
         stopEventNotifications()
         singleThreadedContext.shutdown()
         coroutineScope.cancel()
-        chatPullEventHandler.stop()
+        chatFetchNotificationHandler.stop()
     }
 
     override fun requestPreviousPage() {
@@ -283,7 +283,7 @@ internal class ChatSDKWrapper(
     }
 
     override fun fetchMessages(from: OffsetDateTime?) {
-        chatPullEventHandler.fetchMessages(from)
+        chatFetchNotificationHandler.fetchMessages(from)
     }
 
     override fun startEventNotifications() {
@@ -297,7 +297,7 @@ internal class ChatSDKWrapper(
             threadID = threadId,
             eventSubscriber = this::onChatEventReceived
         )
-        chatPullEventHandler.start(
+        chatFetchNotificationHandler.start(
             chatThreadClient = threadClient,
             eventSubscriber = this::onChatEventReceived
         )

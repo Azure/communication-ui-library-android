@@ -25,6 +25,10 @@ internal class NetworkManager(dispatch: Dispatch) {
         connectivityManager?.requestNetwork(networkRequest, networkCallback)
     }
 
+    fun stop() {
+        connectivityManager?.unregisterNetworkCallback(networkCallback)
+    }
+
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         // network is available for use
         override fun onAvailable(network: Network) {

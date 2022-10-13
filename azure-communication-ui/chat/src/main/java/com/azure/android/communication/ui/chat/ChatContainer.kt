@@ -32,7 +32,7 @@ import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
-import com.azure.android.communication.ui.chat.service.sdk.ChatPullEventHandler
+import com.azure.android.communication.ui.chat.service.sdk.ChatFetchNotificationHandler
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 
 internal class ChatContainer(
@@ -97,7 +97,7 @@ internal class ChatContainer(
 
             addTypedBuilder { ChatEventHandler() }
 
-            addTypedBuilder { ChatPullEventHandler(coroutineContextProvider = locate()) }
+            addTypedBuilder { ChatFetchNotificationHandler(coroutineContextProvider = locate()) }
 
             addTypedBuilder {
                 ChatService(
@@ -149,6 +149,7 @@ internal class ChatContainer(
         }
 
     fun stop() {
+        locator?.locate<NetworkManager>()?.stop()
         locator?.clear()
     }
 }
