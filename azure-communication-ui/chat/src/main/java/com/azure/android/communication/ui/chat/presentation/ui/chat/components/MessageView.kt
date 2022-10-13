@@ -69,11 +69,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
         }
         Box(modifier = Modifier.size(ChatCompositeTheme.dimensions.messageBubbleLeftSpacing)) {
             if (viewModel.showUsername) {
-                Box(
-                    Modifier
-                        .size(ChatCompositeTheme.dimensions.messageAvatarSize)
-                        .background(color = Color.Red)
-                )
+                AvatarView(name = viewModel.message.senderDisplayName)
             }
         }
         Box(
@@ -121,7 +117,9 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
 @Composable
 internal fun PreviewChatCompositeMessage() {
     Column(
-        modifier = Modifier.width(500.dp).background(color = ChatCompositeTheme.colors.background)
+        modifier = Modifier
+            .width(500.dp)
+            .background(color = ChatCompositeTheme.colors.background)
     ) {
         val userA_ID = CommunicationIdentifier.UnknownIdentifier("Peter")
         val userA_Display = "Peter Terry"

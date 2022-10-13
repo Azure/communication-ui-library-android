@@ -28,9 +28,10 @@ private class InfoModelToViewModelAdapter(
         // Generate Message View Model here
         val lastMessage = messages[index - 1]
         val thisMessage = messages[index]
+        val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier
         return MessageViewModel(
             messages[index],
-            showUsername =
+            showUsername = !isLocalUser &&
             (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
 
@@ -39,7 +40,7 @@ private class InfoModelToViewModelAdapter(
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
 
             showDateHeader = lastMessage.createdOn?.dayOfYear != thisMessage.createdOn?.dayOfYear,
-            isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier,
+            isLocalUser = isLocalUser
         )
     }
 
