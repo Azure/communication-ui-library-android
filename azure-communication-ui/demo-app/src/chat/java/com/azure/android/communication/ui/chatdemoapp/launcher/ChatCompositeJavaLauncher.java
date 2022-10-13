@@ -8,6 +8,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
 import com.azure.android.communication.ui.chat.ChatComposite;
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder;
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator;
+import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity;
 
