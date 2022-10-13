@@ -10,7 +10,6 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
-import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenState
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
 import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
@@ -19,8 +18,10 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatView(context: Context,
-                        private val instanceId: Int) : FrameLayout(context) {
+internal class ChatView(
+    context: Context,
+    private val instanceId: Int
+) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
     private val locator get() = ServiceLocator.getInstance(instanceId)
