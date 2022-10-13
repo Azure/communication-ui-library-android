@@ -22,8 +22,9 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.Message
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
-val timeFormat = org.threeten.bp.format.DateTimeFormatter.ofPattern("h:m a")
+val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
