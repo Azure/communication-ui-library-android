@@ -7,7 +7,8 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 
 internal class MessageViewModel(
     val message: MessageInfoModel,
-    val showUserInfo: Boolean,
+    val showUsername: Boolean,
+    val showTime: Boolean,
     val showDateHeader: Boolean,
     val isLocalUser: Boolean,
 )
@@ -20,13 +21,18 @@ private class InfoModelToViewModelAdapter(private val messages: List<MessageInfo
 
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
-        val lastMessage = messages[index-1]
+        val lastMessage = messages[index - 1]
         val thisMessage = messages[index]
         return MessageViewModel(
             messages[index],
-            showUserInfo =
-                    (lastMessage.senderCommunicationIdentifier?.id ?: "")
+            showUsername =
+            (lastMessage.senderCommunicationIdentifier?.id ?: "")
                     != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
+
+            showTime =
+            (lastMessage.senderCommunicationIdentifier?.id ?: "")
+                    != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
+
             showDateHeader = lastMessage.createdOn?.dayOfYear != thisMessage.createdOn?.dayOfYear,
             isLocalUser = false,
         )
