@@ -6,8 +6,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.azure.android.communication.ui.callingcompositedemoapp"
-    >
+    package="com.azure.android.communication.ui.callingcompositedemoapp">
 
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -17,13 +16,11 @@
         <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.SettingsActivity"
             android:exported="false"
-            android:theme="@style/Launcher.Theme"
-            />
+            android:theme="@style/Launcher.Theme" />
         <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
             android:exported="true"
-            android:theme="@style/Launcher.Theme"
-            >
+            android:theme="@style/Launcher.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,8 +33,7 @@
 
                 <data
                     android:host="calling"
-                    android:scheme="acsui"
-                    />
+                    android:scheme="acsui" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -48,13 +44,11 @@
                 <data
                     android:host="https://test"
                     android:pathPrefix="/calling"
-                    android:scheme="https"
-                    />
+                    android:scheme="https" />
                 <data
                     android:host="https://test"
                     android:pathPrefix="/calling"
-                    android:scheme="http"
-                    />
+                    android:scheme="http" />
             </intent-filter>
         </activity>
 

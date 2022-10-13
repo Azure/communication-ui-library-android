@@ -14,10 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenStateViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
@@ -29,7 +31,10 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 
 @Composable
-internal fun ChatScreen(viewModel: ChatScreenViewModel) {
+internal fun ChatScreen(
+    viewModel: ChatScreenViewModel,
+    stateViewModel: ChatScreenStateViewModel = viewModel()
+) {
 
     Scaffold(
         topBar = {
@@ -43,7 +48,7 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
         },
         content = {
             if (viewModel.showError) {
-                Column() {
+                Column {
                     BasicText("ERROR")
                     BasicText(viewModel.errorMessage)
                 }
@@ -61,7 +66,13 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
                 TypingIndicatorView(participants = remoteParticipants)
             }
         },
-        bottomBar = { BottomBarView(viewModel.postMessage) }
+        bottomBar = {
+            BottomBarView(
+                messageInputTextState = stateViewModel.messageInputTextState,
+                chatStatus = viewModel.chatStatus,
+                postAction = viewModel.postAction
+            )
+        }
     )
 }
 
@@ -97,9 +108,9 @@ internal fun ChatScreenPreview() {
                     ),
 
                 ).toViewModelList(),
-                state = ChatStatus.INITIALIZED.name,
+                chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
-                postMessage = {},
+                postAction = {},
 
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED

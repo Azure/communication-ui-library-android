@@ -65,12 +65,18 @@ internal class CallWithChatCompositeKotlinLauncher :
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         val locator: CallWithChatCompositeJoinLocator =
-            if (groupId != null) CallWithChatCompositeCallAndChatLocator(acsEndpoint, groupId, chatThreadId)
+            if (groupId != null) CallWithChatCompositeCallAndChatLocator(
+                acsEndpoint,
+                groupId,
+                chatThreadId
+            )
             else CallWithChatCompositeTeamsMeetingLinkLocator(acsEndpoint, meetingLink)
 
         val remoteOptions = CallWithChatCompositeRemoteOptions(
             locator,
-            authService.currentUserCommunicationIdentifier, communicationTokenCredential, displayName
+            authService.currentUserCommunicationIdentifier,
+            communicationTokenCredential,
+            displayName
         )
 
         val localOptions = CallWithChatCompositeLocalOptions()
