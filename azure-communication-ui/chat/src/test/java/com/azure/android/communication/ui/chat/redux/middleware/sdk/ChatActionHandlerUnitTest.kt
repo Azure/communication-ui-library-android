@@ -65,7 +65,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            chatHandler.onAction(action, mockAppStore::dispatch)
+            chatHandler.onAction(action, mockAppStore::dispatch, store.getCurrentState())
 
             sendChatMessageCompletableFuture.complete(sendChatMessageResult)
 
@@ -102,7 +102,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            chatHandler.onAction(action, mockAppStore::dispatch)
+            chatHandler.onAction(action, mockAppStore::dispatch, store.getCurrentState())
             sendChatMessageCompletableFuture.completeExceptionally(error)
 
             // assert
@@ -140,7 +140,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            chatHandler.onAction(action, mockAppStore::dispatch)
+            chatHandler.onAction(action, mockAppStore::dispatch, store.getCurrentState())
 
             deleteChatMessageCompletableFuture.complete(any())
 
@@ -177,7 +177,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            chatHandler.onAction(action, mockAppStore::dispatch)
+            chatHandler.onAction(action, mockAppStore::dispatch, store.getCurrentState())
             deleteChatMessageCompletableFuture.completeExceptionally(error)
 
             // assert
@@ -204,7 +204,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>> {}
 
             // act
-            chatHandler.onAction(action, mockAppStore::dispatch)
+            chatHandler.onAction(action, mockAppStore::dispatch, store.getCurrentState())
 
             // assert
             verify(mockChatService, times(1)).requestPreviousPage()
@@ -221,7 +221,11 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>>()
 
             // act
-            chatHandler.onAction(ChatAction.Initialized(), mockAppStore::dispatch)
+            chatHandler.onAction(
+                ChatAction.Initialized(),
+                mockAppStore::dispatch,
+                store.getCurrentState()
+            )
 
             // assert
             verify(mockChatSDK, times(1)).startEventNotifications()
@@ -244,7 +248,8 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             chatHandler.onAction(
                 action = ChatAction.Initialized(),
-                dispatch = mockAppStore::dispatch
+                dispatch = mockAppStore::dispatch,
+                state = store.getCurrentState()
             )
 
             // assert
@@ -270,7 +275,11 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>>()
 
             // act
-            chatHandler.onAction(ChatAction.Initialized(), mockAppStore::dispatch)
+            chatHandler.onAction(
+                ChatAction.Initialized(),
+                mockAppStore::dispatch,
+                store.getCurrentState()
+            )
 
             // assert
             verify(mockChatSDK, times(1)).requestChatParticipants()
@@ -293,7 +302,8 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             chatHandler.onAction(
                 action = ChatAction.Initialized(),
-                dispatch = mockAppStore::dispatch
+                dispatch = mockAppStore::dispatch,
+                state = store.getCurrentState()
             )
 
             // assert

@@ -70,14 +70,19 @@ internal class ChatMiddlewareUnitTest {
         // act
         chatMiddlewareImplementation.invoke(mockAppStore)(
             fun(action) {
-                mockChatMiddlewareActionHandler.onAction(action, mockAppStore::dispatch)
+                mockChatMiddlewareActionHandler.onAction(
+                    action,
+                    mockAppStore::dispatch,
+                    store.getCurrentState()
+                )
             }
         )(actionToDispatch)
 
         // assert
         verify(mockChatMiddlewareActionHandler, times(1)).onAction(
             actionToDispatch,
-            mockAppStore::dispatch
+            mockAppStore::dispatch,
+            store.getCurrentState()
         )
     }
 }
