@@ -4,7 +4,9 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.core.rest.annotation.Immutable
 
+@Immutable
 internal class MessageViewModel(
     val message: MessageInfoModel,
     val showUsername: Boolean,

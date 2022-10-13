@@ -27,8 +27,8 @@ internal fun ChatCompositeMessage(viewModel: MessageViewModel) {
         ChatMessageType.TEXT -> BasicChatMessage(viewModel)
         ChatMessageType.HTML -> BasicChatMessage(viewModel)
         ChatMessageType.TOPIC_UPDATED -> BasicText("Topic Updated")
-        ChatMessageType.PARTICIPANT_ADDED -> BasicText("Participant Added")
-        ChatMessageType.PARTICIPANT_REMOVED -> BasicText("Participant Removed")
+        ChatMessageType.PARTICIPANT_ADDED -> UserJoinedMessage(viewModel)
+        ChatMessageType.PARTICIPANT_REMOVED -> UserLeftMessage(viewModel)
         else -> {
             BasicText(
                 text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
@@ -38,9 +38,22 @@ internal fun ChatCompositeMessage(viewModel: MessageViewModel) {
 }
 
 @Composable
+private fun UserJoinedMessage(viewModel: MessageViewModel) {
+    BasicText("${viewModel.message.senderDisplayName} joined the chat",
+        style = ChatCompositeTheme.typography.systemMessage)
+}
+
+
+@Composable
+private fun UserLeftMessage(viewModel: MessageViewModel) {
+    BasicText("${viewModel.message.senderDisplayName} left the chat",
+        style = ChatCompositeTheme.typography.systemMessage)
+}
+
+@Composable
 private fun BasicChatMessage(viewModel: MessageViewModel) {
     Row(
-        Modifier.padding(8.dp),
+        Modifier.padding(2.dp),
     ) {
         if (viewModel.isLocalUser) {
             Box(modifier = Modifier.weight(1.0f))
@@ -69,7 +82,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
             ) {
                 Column {
                     if (viewModel.showUsername || viewModel.showTime) {
-                        Row() {
+                        Row {
                             if (viewModel.showUsername) {
                                 BasicText(
                                     viewModel.message.senderDisplayName ?: "Unknown Sender",
@@ -78,7 +91,6 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                                 )
                             }
                             if (viewModel.showTime) {
-
                                 BasicText(
                                     viewModel.message.createdOn?.format(timeFormat)
                                         ?: "Unknown Time",
@@ -105,11 +117,17 @@ internal fun PreviewChatCompositeMessage() {
     Column(
     modifier = Modifier.width(500.dp).background(color = ChatCompositeTheme.colors.background)
     ) {
-        val userA_ID = CommunicationIdentifier.UnknownIdentifier("User A")
+        val userA_ID = CommunicationIdentifier.UnknownIdentifier("Peter")
         val userA_Display = "Peter Terry"
 
         val userB_ID = CommunicationIdentifier.UnknownIdentifier("User B")
         val userB_Display = "Local User"
+
+        val userC_ID = CommunicationIdentifier.UnknownIdentifier("Carlos")
+        val userC_Display = "Carlos Slattery"
+
+        val userD_ID = CommunicationIdentifier.UnknownIdentifier("Johnnie")
+        val userD_Display = "Johnnie McConnell"
 
         ChatCompositeMessage(
             viewModel = MessageViewModel(
@@ -128,6 +146,7 @@ internal fun PreviewChatCompositeMessage() {
                 isLocalUser = false,
             )
         )
+
         ChatCompositeMessage(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
@@ -151,6 +170,8 @@ internal fun PreviewChatCompositeMessage() {
                 message = MessageInfoModel(
                     content = null,
                     messageType = ChatMessageType.PARTICIPANT_ADDED,
+                    senderCommunicationIdentifier = userC_ID,
+                    senderDisplayName = userC_Display,
                     id = null,
                     internalId = null
                 ),
@@ -158,14 +179,54 @@ internal fun PreviewChatCompositeMessage() {
                 showUsername = false,
                 isLocalUser = false,
                 showTime = false,
-
                 )
         )
+
+        ChatCompositeMessage(
+            viewModel = MessageViewModel(
+                message = MessageInfoModel(
+                    senderCommunicationIdentifier = userA_ID,
+                    senderDisplayName = userA_Display,
+                    content = "No Problem",
+                    messageType = ChatMessageType.TEXT,
+                    id = null,
+                    internalId = null,
+                    createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+                ),
+                showDateHeader = false,
+                showUsername = true,
+                showTime = true,
+                isLocalUser = false,
+            )
+        )
+
+
+        ChatCompositeMessage(
+            viewModel = MessageViewModel(
+                message = MessageInfoModel(
+                    senderCommunicationIdentifier = userA_ID,
+                    senderDisplayName = userA_Display,
+                    content = "Let's work through the feedback we received on our wednesday meeting",
+                    messageType = ChatMessageType.TEXT,
+                    id = null,
+                    internalId = null,
+                    createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+                ),
+                showDateHeader = false,
+                showUsername = false,
+                showTime = false,
+                isLocalUser = false,
+            )
+        )
+
+
         ChatCompositeMessage(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     content = null,
                     messageType = ChatMessageType.PARTICIPANT_REMOVED,
+                    senderCommunicationIdentifier = userD_ID,
+                    senderDisplayName = userD_Display,
                     id = null,
                     internalId = null
                 ),
@@ -173,9 +234,9 @@ internal fun PreviewChatCompositeMessage() {
                 showUsername = false,
                 isLocalUser = false,
                 showTime = false,
-
-                )
+            )
         )
+
         ChatCompositeMessage(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(

@@ -16,15 +16,25 @@ data class ChatCompositeTypography(
     val messageHeader: TextStyle = TextStyle.Default.copy(
         fontSize = 12.sp
     ),
+
     val messageHeaderDate: TextStyle = TextStyle.Default.copy(
         fontSize = 12.sp,
         color = Color(0xFF6E6E6E)
     ),
+
     val messageBody: TextStyle = TextStyle.Default.copy(
         fontSize = 17.sp
-    )
+    ),
+
+    val systemMessage: TextStyle = TextStyle.Default.copy(
+        fontSize = 11.sp,
+        color = Color(0xFF6E6E6E)
+    ),
+
     // Define additional custom typography styles as required by Figma
-)
+) {
+
+}
 
 val LocalChatCompositeTypography = staticCompositionLocalOf {
     ChatCompositeTypography()
