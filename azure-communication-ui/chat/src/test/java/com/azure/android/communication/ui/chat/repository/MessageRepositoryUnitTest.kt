@@ -8,13 +8,10 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.mock
 import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
-import java.util.*
+import java.util.Collections
 
 @RunWith(MockitoJUnitRunner::class)
 internal class MessageRepositoryUnitTest {
@@ -60,7 +57,7 @@ internal class MessageRepositoryUnitTest {
             )
         }
 
-        messageRepository.removeMessage(messageRepository.get(0));
+        messageRepository.removeMessage(messageRepository.get(0))
 
         Assert.assertEquals(numberOfTestMessages, messageRepository.size)
     }
@@ -86,11 +83,10 @@ internal class MessageRepositoryUnitTest {
             messageType = messageRepository.get(0).messageType
         )
 
-        messageRepository.editMessage(newMessage);
+        messageRepository.editMessage(newMessage)
 
         Assert.assertEquals("Edited Message 0", messageRepository.get(0).content)
     }
-
 
     @Test
     fun messageRepository_Reorder_test() {

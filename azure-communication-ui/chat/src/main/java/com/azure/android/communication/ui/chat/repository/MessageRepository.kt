@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
-import java.util.*
+import java.util.Collections
 
 private val emptyMessage = MessageInfoModel(
     content = null,
