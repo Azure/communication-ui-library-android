@@ -6,8 +6,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.azure.android.communication.ui.callingcompositedemoapp"
-    >
+    package="com.azure.android.communication.ui.callingcompositedemoapp">
 
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -17,17 +16,14 @@
         android:hardwareAccelerated="true"
         android:icon="${appIcon}"
         android:roundIcon="${appIconRound}"
-        android:supportsRtl="true"
-        >
+        android:supportsRtl="true">
 
         <activity
             android:name="com.microsoft.appcenter.distribute.DeepLinkActivity"
-            android:exported="true"
-            ></activity>
+            android:exported="true"></activity>
         <receiver
             android:name="com.microsoft.appcenter.distribute.DownloadManagerReceiver"
-            android:exported="true"
-            ></receiver>
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

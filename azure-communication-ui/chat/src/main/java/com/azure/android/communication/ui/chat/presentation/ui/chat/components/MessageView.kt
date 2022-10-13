@@ -20,8 +20,19 @@ internal fun MessageView(viewModel: MessageViewModel, isGrouped: Boolean = false
     val offsetPadding = (LocalConfiguration.current.screenWidthDp * 0.1).dp
 
     val messagePadding: Dp = 6.dp
-    fun Modifier.participantMessageView(): Modifier = this.padding(end = offsetPadding, start = messagePadding, top = messagePadding, bottom = messagePadding)
-    fun Modifier.selfMessageView(): Modifier = this.padding(end = messagePadding, start = offsetPadding, top = messagePadding, bottom = messagePadding)
+    fun Modifier.participantMessageView(): Modifier = this.padding(
+        end = offsetPadding,
+        start = messagePadding,
+        top = messagePadding,
+        bottom = messagePadding
+    )
+
+    fun Modifier.selfMessageView(): Modifier = this.padding(
+        end = messagePadding,
+        start = offsetPadding,
+        top = messagePadding,
+        bottom = messagePadding
+    )
 
     Row(modifier = if (viewModel.message.isCurrentUser) Modifier.selfMessageView() else Modifier.participantMessageView()) {
         TextMessageView(message = viewModel.message, isGrouped)

@@ -18,22 +18,28 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 
 @Composable
 internal fun SendMessageButtonView(
     contentDescription: String,
     modifier: Modifier = Modifier,
+    chatStatus: ChatStatus,
     onClick: () -> Unit = {},
 ) {
     val semantics = Modifier.semantics {
         this.contentDescription = contentDescription
         this.role = Role.Image
     }
-    val painter =
-        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled)
+    val painter = if (chatStatus == ChatStatus.INITIALIZED)
+        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled_enabled)
+    else
+        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled_disabled)
     Box(
         modifier = Modifier.clickable {
-            onClick()
+            if (chatStatus == ChatStatus.INITIALIZED) {
+                onClick()
+            }
         }
     ) {
         Image(
@@ -50,5 +56,8 @@ internal fun SendMessageButtonView(
 @Composable
 @Preview(showBackground = true)
 internal fun PreviewSendMessageButtonView() {
-    SendMessageButtonView(contentDescription = "Send Message Button")
+    SendMessageButtonView(
+        contentDescription = "Send Message Button",
+        chatStatus = ChatStatus.INITIALIZED
+    )
 }

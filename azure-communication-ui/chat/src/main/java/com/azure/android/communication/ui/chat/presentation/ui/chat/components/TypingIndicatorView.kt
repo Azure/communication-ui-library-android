@@ -68,10 +68,14 @@ internal fun PreviewTypingIndicatorView() {
     TypingIndicatorView(
         participants = listOf(
             RemoteParticipantInfoModel(
-                CommunicationIdentifier.CommunicationUserIdentifier(""), displayName = "User A", isTyping = true
+                CommunicationIdentifier.CommunicationUserIdentifier(""),
+                displayName = "User A",
+                isTyping = true
             ),
             RemoteParticipantInfoModel(
-                CommunicationIdentifier.CommunicationUserIdentifier(""), displayName = "User B", isTyping = true
+                CommunicationIdentifier.CommunicationUserIdentifier(""),
+                displayName = "User B",
+                isTyping = true
             ),
         )
     )
