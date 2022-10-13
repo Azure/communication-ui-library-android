@@ -115,7 +115,9 @@ internal class ChatServiceListener(
                         dispatch(ChatAction.ThreadDeleted())
                     }
                     ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED -> {
-                        val model = it
+                        it.infoModel.topic?.let {
+                            dispatch(ChatAction.TopicUpdated(it))
+                        }
                     }
                     else -> {}
                 }

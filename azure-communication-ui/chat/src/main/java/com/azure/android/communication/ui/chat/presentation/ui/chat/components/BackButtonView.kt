@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
 
 @Composable
-internal fun AcsChatBackButton(
+internal fun BackButtonView(
     contentDescription: String,
     onBackButtonPressed: () -> Unit = { }
 ) {
@@ -52,6 +52,6 @@ internal fun AcsChatBackButton(
 
 @Composable
 @Preview(showBackground = true)
-fun PreviewAcsChatBackButton() {
-    AcsChatBackButton(contentDescription = "Back Button")
+internal fun PreviewBackButtonView() {
+    BackButtonView(contentDescription = "Back Button")
 }
