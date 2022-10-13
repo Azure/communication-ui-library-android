@@ -32,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 
 @Composable
 internal fun MessageInputView(
@@ -113,5 +114,5 @@ internal fun MessageInput(
 @Preview
 @Composable
 internal fun PreviewMessageInputView() {
-    MessageInputView("Message Input Field", mutableStateOf(""))
+    MessageInputView("Message Input Field", remember { mutableStateOf("") })
 }
