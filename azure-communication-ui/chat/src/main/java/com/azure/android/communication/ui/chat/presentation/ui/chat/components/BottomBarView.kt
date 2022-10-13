@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,5 +55,5 @@ internal fun BottomBarView(
 @Preview
 @Composable
 internal fun PreviewBottomBarView() {
-    BottomBarView(mutableStateOf(""), ChatStatus.INITIALIZED) {}
+    BottomBarView(remember { mutableStateOf("") }, ChatStatus.INITIALIZED) {}
 }
