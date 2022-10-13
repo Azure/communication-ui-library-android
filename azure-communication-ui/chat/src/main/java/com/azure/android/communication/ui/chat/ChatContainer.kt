@@ -106,7 +106,7 @@ internal class ChatContainer(
                         chatConfig = configuration.chatConfig!!,
                         coroutineContextProvider = locate(),
                         chatEventHandler = locate(),
-                        chatPullEventHandler = locate()
+                        chatFetchNotificationHandler = locate()
                     )
                 )
             }
