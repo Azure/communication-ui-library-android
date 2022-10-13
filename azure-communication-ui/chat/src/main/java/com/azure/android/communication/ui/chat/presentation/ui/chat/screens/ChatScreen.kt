@@ -41,7 +41,7 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
                 dispatcher?.onBackPressed()
             }
         },
-        content = {
+        content = { paddingValues ->
             if (viewModel.showError) {
                 Column() {
                     BasicText("ERROR")
@@ -51,15 +51,13 @@ internal fun ChatScreen(viewModel: ChatScreenViewModel) {
                 CircularProgressIndicator()
             } else {
                 MessageListView(
-                    modifier = Modifier.padding(it),
+                    modifier = Modifier.padding(paddingValues),
                     messages = viewModel.messages,
                     scrollState = LazyListState(),
                 )
             }
 
-            viewModel.remoteParticipants?.also { remoteParticipants ->
-                TypingIndicatorView(participants = remoteParticipants)
-            }
+            TypingIndicatorView(viewModel.typingParticipants.toList())
         },
         bottomBar = { BottomBarView(viewModel.postMessage) }
     )
@@ -71,7 +69,7 @@ internal fun ChatScreenPreview() {
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                listOf(
+                messages = listOf(
                     MessageInfoModel(
                         messageType = ChatMessageType.TEXT,
                         content = "Test Message",
@@ -99,8 +97,6 @@ internal fun ChatScreenPreview() {
                 ).toViewModelList(),
                 state = ChatStatus.INITIALIZED.name,
                 buildCount = 2,
-                postMessage = {},
-
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
                 // )
@@ -109,8 +105,9 @@ internal fun ChatScreenPreview() {
                         CommunicationIdentifier.CommunicationUserIdentifier(""),
                         displayName = "John Doe", isTyping = true
                     )
-                )
-            )
+                ),
+                typingParticipants = setOf("John Doe", "Mary Sue")
+            ) {},
         )
     }
 }

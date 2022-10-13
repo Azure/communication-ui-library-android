@@ -16,12 +16,13 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
+    val typingParticipants: Set<String>,
     val messages: List<MessageViewModel>,
     val state: String,
     var buildCount: Int,
-    val postMessage: (String) -> Unit,
     private val error: ChatStateError? = null,
-    val remoteParticipants: List<RemoteParticipantInfoModel>? = null
+    val remoteParticipants: List<RemoteParticipantInfoModel>? = null,
+    val postMessage: (String) -> Unit
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -41,16 +42,16 @@ internal fun buildChatScreenViewModel(
         state = store.getCurrentState().chatState.chatStatus.name,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,
-        postMessage = {
-            store.dispatch(
-                ChatAction.SendMessage(
-                    MessageInfoModel(
-                        id = null,
-                        messageType = ChatMessageType.TEXT,
-                        internalId = null,
-                        content = it
-                    )
+        typingParticipants = store.getCurrentState().participantState.participantTyping
+    ) { message ->
+        store.dispatch(
+            ChatAction.SendMessage(
+                MessageInfoModel(
+                    id = null,
+                    messageType = ChatMessageType.TEXT,
+                    internalId = null,
+                    content = message
                 )
             )
-        }
-    )
+        )
+    }
