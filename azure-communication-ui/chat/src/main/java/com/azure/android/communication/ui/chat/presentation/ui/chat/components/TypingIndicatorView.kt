@@ -24,7 +24,7 @@ import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 
 @Composable
-internal fun TypingIndicatorView(participants: List<RemoteParticipantInfoModel>) {
+internal fun TypingIndicatorView(participants: Collection<RemoteParticipantInfoModel>) {
     val typers = participants.filter { it.isTyping }
 
     AnimatedVisibility(
