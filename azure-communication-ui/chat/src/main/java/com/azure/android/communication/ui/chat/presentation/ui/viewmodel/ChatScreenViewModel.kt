@@ -34,10 +34,11 @@ private var buildCount = 0
 // Methods to Build the Chat Screen View Model from the Store
 internal fun buildChatScreenViewModel(
     store: AppStore<ReduxState>,
-    repository: MessageRepository
+    repository: MessageRepository,
+    localUserIdentifier: String,
 ) =
     ChatScreenViewModel(
-        messages = repository.toViewModelList(),
+        messages = repository.toViewModelList(localUserIdentifier),
         state = store.getCurrentState().chatState.chatStatus.name,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,

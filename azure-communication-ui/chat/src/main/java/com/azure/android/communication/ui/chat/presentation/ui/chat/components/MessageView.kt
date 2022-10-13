@@ -4,7 +4,13 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,15 +45,18 @@ internal fun MessageView(viewModel: MessageViewModel) {
 
 @Composable
 private fun UserJoinedMessage(viewModel: MessageViewModel) {
-    BasicText("${viewModel.message.senderDisplayName} joined the chat",
-        style = ChatCompositeTheme.typography.systemMessage)
+    BasicText(
+        "${viewModel.message.senderDisplayName} joined the chat",
+        style = ChatCompositeTheme.typography.systemMessage
+    )
 }
-
 
 @Composable
 private fun UserLeftMessage(viewModel: MessageViewModel) {
-    BasicText("${viewModel.message.senderDisplayName} left the chat",
-        style = ChatCompositeTheme.typography.systemMessage)
+    BasicText(
+        "${viewModel.message.senderDisplayName} left the chat",
+        style = ChatCompositeTheme.typography.systemMessage
+    )
 }
 
 @Composable
@@ -70,8 +79,8 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
         Box(
             Modifier.background(
                 color = when (viewModel.isLocalUser) {
-                    true ->ChatCompositeTheme.colors.messageBackgroundSelf
-                    false ->ChatCompositeTheme.colors.messageBackground
+                    true -> ChatCompositeTheme.colors.messageBackgroundSelf
+                    false -> ChatCompositeTheme.colors.messageBackground
                 },
 
                 shape = ChatCompositeTheme.shapes.messageBubble
@@ -98,16 +107,13 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                                 )
                             }
                         }
-
                     }
                     BasicText(
                         text = viewModel.message.content ?: "Empty"
                     )
                 }
             }
-
         }
-
     }
 }
 
@@ -200,7 +206,6 @@ internal fun PreviewChatCompositeMessage() {
             )
         )
 
-
         MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
@@ -218,7 +223,6 @@ internal fun PreviewChatCompositeMessage() {
                 isLocalUser = false,
             )
         )
-
 
         MessageView(
             viewModel = MessageViewModel(

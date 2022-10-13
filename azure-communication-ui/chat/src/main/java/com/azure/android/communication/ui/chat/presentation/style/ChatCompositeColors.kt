@@ -14,7 +14,7 @@ data class ChatCompositeColors(
     val background: Color = Color.White,
     val textColor: Color = Color(0xFF212121),
     val outlineColor: Color = Color(0xFFE1E1E1),
-    val messageBackground: Color  = Color(0xFFF1F1F1),
+    val messageBackground: Color = Color(0xFFF1F1F1),
     val messageBackgroundSelf: Color = Color(0xFFDEECF9),
 )
 

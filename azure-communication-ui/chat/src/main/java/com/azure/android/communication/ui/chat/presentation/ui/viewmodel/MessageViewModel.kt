@@ -15,10 +15,13 @@ internal class MessageViewModel(
     val isLocalUser: Boolean,
 )
 
-internal fun List<MessageInfoModel>.toViewModelList() =
-    InfoModelToViewModelAdapter(this) as List<MessageViewModel>
+internal fun List<MessageInfoModel>.toViewModelList(localUserIdentifier: String) =
+    InfoModelToViewModelAdapter(this, localUserIdentifier) as List<MessageViewModel>
 
-private class InfoModelToViewModelAdapter(private val messages: List<MessageInfoModel>) :
+private class InfoModelToViewModelAdapter(
+    private val messages: List<MessageInfoModel>,
+    private val localUserIdentifier: String
+) :
     List<MessageViewModel> {
 
     override fun get(index: Int): MessageViewModel {
@@ -29,14 +32,14 @@ private class InfoModelToViewModelAdapter(private val messages: List<MessageInfo
             messages[index],
             showUsername =
             (lastMessage.senderCommunicationIdentifier?.id ?: "")
-                    != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
+                != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
 
             showTime =
             (lastMessage.senderCommunicationIdentifier?.id ?: "")
-                    != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
+                != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
 
             showDateHeader = lastMessage.createdOn?.dayOfYear != thisMessage.createdOn?.dayOfYear,
-            isLocalUser = false,
+            isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier,
         )
     }
 

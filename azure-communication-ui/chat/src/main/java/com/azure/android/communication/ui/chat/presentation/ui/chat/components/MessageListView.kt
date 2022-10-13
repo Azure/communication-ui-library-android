@@ -76,7 +76,7 @@ internal fun PreviewMessageListView() {
                 id = null
             ),
 
-        ).toViewModelList(),
+        ).toViewModelList(""),
         scrollState = LazyListState(),
     )
 }

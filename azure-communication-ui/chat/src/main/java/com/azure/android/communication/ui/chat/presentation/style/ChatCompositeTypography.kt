@@ -32,9 +32,7 @@ data class ChatCompositeTypography(
     ),
 
     // Define additional custom typography styles as required by Figma
-) {
-
-}
+)
 
 val LocalChatCompositeTypography = staticCompositionLocalOf {
     ChatCompositeTypography()

@@ -96,7 +96,7 @@ internal fun ChatScreenPreview() {
                         senderDisplayName = "Elliott Red"
                     ),
 
-                ).toViewModelList(),
+                ).toViewModelList(""),
                 state = ChatStatus.INITIALIZED.name,
                 buildCount = 2,
                 postMessage = {},

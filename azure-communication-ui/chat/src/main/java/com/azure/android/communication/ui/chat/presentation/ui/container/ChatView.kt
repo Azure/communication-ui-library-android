@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
+import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
 import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
@@ -39,7 +40,8 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
             builder = { store ->
                 buildChatScreenViewModel(
                     store = store,
-                    repository = locator.locate()
+                    repository = locator.locate(),
+                    localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity
                 )
             },
             onChanged = {
