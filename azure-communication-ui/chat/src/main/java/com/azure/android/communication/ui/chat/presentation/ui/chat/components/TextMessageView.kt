@@ -73,5 +73,12 @@ internal fun TextMessageView(message: MessageInfoModel, isGrouped: Boolean) {
 @Preview(showBackground = true)
 @Composable
 internal fun PreviewTextMessageView() {
-    TextMessageView(MessageInfoModel(id = "1", content = "Test Message", messageType = ChatMessageType.TEXT), isGrouped = false)
+    TextMessageView(
+        MessageInfoModel(
+            id = "1",
+            content = "Test Message",
+            messageType = ChatMessageType.TEXT
+        ),
+        isGrouped = false
+    )
 }
