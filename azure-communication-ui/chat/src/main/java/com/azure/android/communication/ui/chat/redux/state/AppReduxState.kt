@@ -20,11 +20,12 @@ internal class AppReduxState(
         chatInfoModel = ChatInfoModel(
             threadId = threadID,
             topic = null,
-            allMessagesFetched = false
+            allMessagesFetched = false,
+            isThreadDeleted = false
         )
     )
 
-    override var participantState: ParticipantsState = ParticipantsState(HashMap())
+    override var participantState: ParticipantsState = ParticipantsState(participants = mapOf())
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 

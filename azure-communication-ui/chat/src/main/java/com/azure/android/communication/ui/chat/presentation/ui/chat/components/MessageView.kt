@@ -21,7 +21,7 @@ import org.threeten.bp.OffsetDateTime
 val timeFormat = org.threeten.bp.format.DateTimeFormatter.ofPattern("h:m a")
 
 @Composable
-internal fun ChatCompositeMessage(viewModel: MessageViewModel) {
+internal fun MessageView(viewModel: MessageViewModel) {
 
     when (viewModel.message.messageType) {
         ChatMessageType.TEXT -> BasicChatMessage(viewModel)
@@ -115,7 +115,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
 @Composable
 internal fun PreviewChatCompositeMessage() {
     Column(
-    modifier = Modifier.width(500.dp).background(color = ChatCompositeTheme.colors.background)
+        modifier = Modifier.width(500.dp).background(color = ChatCompositeTheme.colors.background)
     ) {
         val userA_ID = CommunicationIdentifier.UnknownIdentifier("Peter")
         val userA_Display = "Peter Terry"
@@ -129,7 +129,7 @@ internal fun PreviewChatCompositeMessage() {
         val userD_ID = CommunicationIdentifier.UnknownIdentifier("Johnnie")
         val userD_Display = "Johnnie McConnell"
 
-        ChatCompositeMessage(
+        MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     senderCommunicationIdentifier = userA_ID,
@@ -147,7 +147,7 @@ internal fun PreviewChatCompositeMessage() {
             )
         )
 
-        ChatCompositeMessage(
+        MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     senderCommunicationIdentifier = userB_ID,
@@ -165,7 +165,7 @@ internal fun PreviewChatCompositeMessage() {
             )
         )
 
-        ChatCompositeMessage(
+        MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     content = null,
@@ -179,10 +179,10 @@ internal fun PreviewChatCompositeMessage() {
                 showUsername = false,
                 isLocalUser = false,
                 showTime = false,
-                )
+            )
         )
 
-        ChatCompositeMessage(
+        MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     senderCommunicationIdentifier = userA_ID,
@@ -201,7 +201,7 @@ internal fun PreviewChatCompositeMessage() {
         )
 
 
-        ChatCompositeMessage(
+        MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     senderCommunicationIdentifier = userA_ID,
@@ -220,7 +220,7 @@ internal fun PreviewChatCompositeMessage() {
         )
 
 
-        ChatCompositeMessage(
+        MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     content = null,
@@ -237,7 +237,7 @@ internal fun PreviewChatCompositeMessage() {
             )
         )
 
-        ChatCompositeMessage(
+        MessageView(
             viewModel = MessageViewModel(
                 message = MessageInfoModel(
                     content = null,
