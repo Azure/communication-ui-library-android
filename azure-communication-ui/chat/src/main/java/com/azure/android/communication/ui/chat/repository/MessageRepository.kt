@@ -36,10 +36,12 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
     // Middleware Interface
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
         messages.add(messageInfoModel)
+        reorder()
     }
 
     override fun addPage(page: List<MessageInfoModel>) {
         messages.addAll(0, page)
+        reorder()
     }
 
     override fun addServerMessage(message: MessageInfoModel) {
@@ -57,8 +59,8 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
         }
 
         if (idx != -1) {
-            // TODO: Merge with old message, keep metadata such as type
-            messages[idx] = message
+            // TODO: Merge with old message, keep metadata such as type. Update the old message with new message contents
+            mergeWithPreviousMessage(idx, message)
         }
         reorder()
     }
@@ -90,8 +92,25 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
     override fun subList(fromIndex: Int, toIndex: Int) = messages.subList(fromIndex, toIndex)
 
     fun reorder() {
+        // TODO: Will need to update with repository stable algorithm implementation
         messages.sortBy {
             it.createdOn?.nano
         }
+    }
+
+    fun mergeWithPreviousMessage(idx: Int, message: MessageInfoModel) {
+        var newMessage = MessageInfoModel(
+            id = messages[idx].id,
+            internalId = messages[idx].internalId,
+            content = message.content,
+            messageType = messages[idx].messageType,
+            version = messages[idx].version,
+            senderDisplayName = messages[idx].senderDisplayName,
+            createdOn = messages[idx].createdOn,
+            editedOn = messages[idx].editedOn,
+            deletedOn = messages[idx].deletedOn,
+            senderCommunicationIdentifier = messages[idx].senderCommunicationIdentifier
+        )
+        messages[idx] = newMessage
     }
 }
