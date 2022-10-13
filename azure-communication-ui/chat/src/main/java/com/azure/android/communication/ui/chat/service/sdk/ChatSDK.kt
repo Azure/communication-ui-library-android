@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendReadReceiptResult
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,6 +34,6 @@ internal interface ChatSDK {
     fun deleteMessage(id: String): CompletableFuture<Void>
     fun editMessage(id: String, content: String): CompletableFuture<Void>
     fun sendTypingIndicator(): CompletableFuture<Void>
-    fun sendReadReceipt(id: String): CompletableFuture<Void>
+    fun sendReadReceipt(id: String): CompletableFuture<SendReadReceiptResult>
     fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void>
 }
