@@ -56,5 +56,8 @@ internal fun SendMessageButtonView(
 @Composable
 @Preview(showBackground = true)
 internal fun PreviewSendMessageButtonView() {
-    SendMessageButtonView(contentDescription = "Send Message Button", chatStatus = ChatStatus.INITIALIZED)
+    SendMessageButtonView(
+        contentDescription = "Send Message Button",
+        chatStatus = ChatStatus.INITIALIZED
+    )
 }

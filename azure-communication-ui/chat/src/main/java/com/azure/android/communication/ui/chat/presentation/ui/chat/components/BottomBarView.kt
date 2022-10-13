@@ -46,6 +46,7 @@ internal fun BottomBarView(
                     )
                 )
             )
+            messageInputTextState.value = ""
         }
     }
 }
