@@ -10,6 +10,10 @@ import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
+import com.azure.android.communication.ui.chat.redux.action.NetworkAction
+import com.azure.android.communication.ui.chat.redux.state.AppReduxState
+import com.azure.android.communication.ui.chat.redux.state.NetworkState
+import com.azure.android.communication.ui.chat.redux.state.NetworkStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDK
@@ -30,6 +34,7 @@ import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
+import org.threeten.bp.OffsetDateTime
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
@@ -326,5 +331,63 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 chatError.chatStateError.errorCode,
                 ErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED
             )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_onChatRequestNetworkConnectedFromDisconnected_then_fetchMessages() =
+        runScopedTest {
+            // arrange
+            val mockChatSDK = mock<ChatSDK>()
+            val chatService = ChatService(mockChatSDK)
+            val chatHandler = ChatActionHandler(chatService)
+            val mockAppStore = mock<AppStore<ReduxState>> { }
+            val mockAppState = AppReduxState(
+                threadID = "threadID",
+                localParticipantIdentifier = "identifier",
+                localParticipantDisplayName = "name"
+            )
+
+            val offsetTimeStamp = OffsetDateTime.MIN
+            mockAppState.networkState = NetworkState(NetworkStatus.DISCONNECTED, offsetTimeStamp)
+
+            // act
+            chatHandler.onAction(
+                action = NetworkAction.Connected(),
+                dispatch = mockAppStore::dispatch,
+                state = mockAppState
+            )
+
+            // assert
+            verify(mockChatSDK, times(1)).fetchMessages(offsetTimeStamp)
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_onChatRequestNetworkConnected_then_doNotFetchMessages() =
+        runScopedTest {
+            // arrange
+            val mockChatSDK = mock<ChatSDK>()
+            val chatService = ChatService(mockChatSDK)
+            val chatHandler = ChatActionHandler(chatService)
+            val mockAppStore = mock<AppStore<ReduxState>> { }
+            val mockAppState = AppReduxState(
+                threadID = "threadID",
+                localParticipantIdentifier = "identifier",
+                localParticipantDisplayName = "name"
+            )
+
+            val offsetTimeStamp = OffsetDateTime.MIN
+            mockAppState.networkState = NetworkState(NetworkStatus.CONNECTED, offsetTimeStamp)
+
+            // act
+            chatHandler.onAction(
+                action = NetworkAction.Connected(),
+                dispatch = mockAppStore::dispatch,
+                state = mockAppState
+            )
+
+            // assert
+            verify(mockChatSDK, times(0)).fetchMessages(offsetTimeStamp)
         }
 }
