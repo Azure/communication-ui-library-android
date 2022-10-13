@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenState
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
@@ -29,7 +30,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 
 @Composable
-internal fun ChatScreen(viewModel: ChatScreenViewModel) {
+internal fun ChatScreen(viewModel: ChatScreenViewModel, state: ChatScreenState) {
 
     Scaffold(
         topBar = {
@@ -110,7 +111,8 @@ internal fun ChatScreenPreview() {
                         displayName = "John Doe", isTyping = true
                     )
                 )
-            )
+            ),
+            state = ChatScreenState()
         )
     }
 }

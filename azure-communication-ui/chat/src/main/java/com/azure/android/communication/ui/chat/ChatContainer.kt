@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
+import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenState
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -90,6 +91,8 @@ internal class ChatContainer(
             addTypedBuilder { remoteOptions }
 
             addTypedBuilder { ChatEventHandler() }
+
+            addTypedBuilder { ChatScreenState() }
 
             addTypedBuilder {
                 ChatService(
