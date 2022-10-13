@@ -112,11 +112,26 @@ internal fun ChatScreenPreview() {
                 buildCount = 2,
                 postAction = {},
                 participants = listOf(
-                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"), "John Smith"),
-                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"), "William Brown"),
-                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier("152D5D76-3DDC-44BE-873F-A4575F8C91DF"), "James Miller"),
-                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier("85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC"), "George Johnson"),
-                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier("DB75F1F0-65E4-46B0-A213-DA4F574659A5"), "Henry Jones"),
+                    RemoteParticipantInfoModel(
+                        CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
+                        "John Smith"
+                    ),
+                    RemoteParticipantInfoModel(
+                        CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
+                        "William Brown"
+                    ),
+                    RemoteParticipantInfoModel(
+                        CommunicationIdentifier.UnknownIdentifier("152D5D76-3DDC-44BE-873F-A4575F8C91DF"),
+                        "James Miller"
+                    ),
+                    RemoteParticipantInfoModel(
+                        CommunicationIdentifier.UnknownIdentifier("85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC"),
+                        "George Johnson"
+                    ),
+                    RemoteParticipantInfoModel(
+                        CommunicationIdentifier.UnknownIdentifier("DB75F1F0-65E4-46B0-A213-DA4F574659A5"),
+                        "Henry Jones"
+                    ),
                 ).associateBy({ it.userIdentifier.id })
 
                 // error = ChatStateError(
