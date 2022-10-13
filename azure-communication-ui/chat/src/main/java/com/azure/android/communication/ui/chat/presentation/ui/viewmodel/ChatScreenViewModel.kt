@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
 import com.azure.android.communication.ui.chat.error.ChatStateError
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch

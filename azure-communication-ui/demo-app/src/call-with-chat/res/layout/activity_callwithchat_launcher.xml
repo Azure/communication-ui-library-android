@@ -31,8 +31,7 @@
             android:ems="10"
             android:hint="@string/acs_endpoint_hint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioButton
             android:id="@+id/tokenFunctionRadioButton"
@@ -88,8 +87,7 @@
             android:ems="10"
             android:hint="@string/acs_user_id_hint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acsTokenText"
-            />
+            app:layout_constraintTop_toBottomOf="@id/acsTokenText" />
 
         <EditText
             android:id="@+id/userNameText"
@@ -152,8 +150,7 @@
             android:hint="@string/chat_thread_id_hint"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText"
-            />
+            app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText" />
 
         <RadioGroup
             android:id="@+id/javaOrKotlinContainer"
