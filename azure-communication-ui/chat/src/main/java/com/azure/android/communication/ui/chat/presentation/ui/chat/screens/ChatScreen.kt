@@ -111,12 +111,6 @@ internal fun ChatScreenPreview() {
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
                 // )
-                remoteParticipants = listOf(
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.CommunicationUserIdentifier(""),
-                        displayName = "John Doe", isTyping = true
-                    )
-                )
             )
         )
     }
