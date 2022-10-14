@@ -79,7 +79,6 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
             state.permissionState,
         )
-
         joinCallButtonHolderViewModel.init(
             state.permissionState.audioPermissionState,
             state.permissionState.cameraPermissionState,
