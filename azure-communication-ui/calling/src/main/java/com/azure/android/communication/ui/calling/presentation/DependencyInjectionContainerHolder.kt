@@ -7,7 +7,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeException
-import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
@@ -42,7 +42,7 @@ internal class DependencyInjectionContainerHolder(
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
         set(value) {
-            if (!CallCompositeConfiguration.hasConfig(value)) {
+            if (!CallCompositeInstanceManager.hasCallComposite(value)) {
                 val exceptionMessage =
                     "Configuration with instanceId:$value does not exist. $commonMessage"
                 throw CallCompositeException(exceptionMessage, IllegalArgumentException(exceptionMessage))
@@ -57,10 +57,12 @@ internal class DependencyInjectionContainerHolder(
             throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
+        val callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
+
         // Generate a new instance
         DependencyInjectionContainerImpl(
             application,
-            instanceId,
+            callComposite,
             customCallingSDK,
             customVideoStreamRendererFactory,
             customCoroutineContextProvider

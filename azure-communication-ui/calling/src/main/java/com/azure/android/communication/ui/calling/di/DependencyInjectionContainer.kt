@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.di
 
+import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
@@ -27,6 +28,8 @@ internal interface DependencyInjectionContainer {
     // Redux Store
     val appStore: Store<ReduxState>
     val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
+
+    val callComposite: CallComposite
 
     // Config
     val configuration: CallCompositeConfiguration

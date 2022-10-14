@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
+import com.azure.android.communication.ui.calling.service.DiagnosticsService;
 
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
@@ -50,6 +51,7 @@ public final class CallComposite {
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
+    private DiagnosticsService diagnosticsService;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -231,7 +233,7 @@ public final class CallComposite {
             configuration.setCallCompositeLocalOptions(localOptions);
         }
 
-        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
+        CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
@@ -239,6 +241,10 @@ public final class CallComposite {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(intent);
+    }
+
+    CallCompositeConfiguration getConfiguration() {
+        return this.configuration;
     }
 
     void launchTest(final Context context,

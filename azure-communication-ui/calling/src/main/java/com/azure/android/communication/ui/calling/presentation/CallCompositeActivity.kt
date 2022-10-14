@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
@@ -139,12 +139,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // Covers edge case where Android tries to recreate call activity after process death
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
-        if (CallCompositeConfiguration.hasConfig(instanceId)) {
+        if (CallCompositeInstanceManager.hasCallComposite(instanceId)) {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
-                CallCompositeConfiguration.putConfig(instanceId, null)
+                CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
         super.onDestroy()

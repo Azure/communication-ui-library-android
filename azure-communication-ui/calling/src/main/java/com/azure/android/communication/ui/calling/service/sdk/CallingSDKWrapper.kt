@@ -21,7 +21,6 @@ import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.CallCompositeException
-import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
@@ -36,9 +35,9 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 
 internal class CallingSDKWrapper(
-    private val instanceId: Int,
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
+    private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
 ) : CallingSDK {
     private var nullableCall: Call? = null
@@ -50,13 +49,12 @@ internal class CallingSDKWrapper(
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
 
-    private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
 
     private val callConfig: CallConfiguration
         get() {
             try {
-                return configuration.callConfig!!
+                return callConfigInjected!!
             } catch (ex: Exception) {
                 throw CallCompositeException(
                     "Call configurations are not set",
@@ -139,7 +137,7 @@ internal class CallingSDKWrapper(
     override fun setupCall(): CompletableFuture<Void> {
         if (callClient == null) {
             val callClientOptions = CallClientOptions().also {
-                it.setTags(configuration.callConfig?.diagnosticConfig?.tags, logger)
+                it.setTags(callConfig.diagnosticConfig.tags, logger)
             }
             callClient = CallClient(callClientOptions)
         }

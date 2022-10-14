@@ -4,8 +4,9 @@
 package com.azure.android.communication.ui.calling.di
 
 import android.content.Context
-import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.error.ErrorHandler
+import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
@@ -50,15 +51,15 @@ import com.azure.android.communication.ui.calling.utilities.CoroutineContextProv
 
 internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
-    private val instanceId: Int,
+    override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : DependencyInjectionContainer {
 
-    //region Overrides
-    // These getters are required by the interface
-    override val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
+    override val configuration by lazy {
+        callComposite.getConfig()
+    }
 
     override val navigationRouter by lazy {
         NavigationRouterImpl(appStore)
@@ -152,7 +153,7 @@ internal class DependencyInjectionContainerImpl(
 
     //region Redux
     // Initial State
-    private val initialState by lazy { AppReduxState(configuration.callConfig!!.displayName) }
+    private val initialState by lazy { AppReduxState(configuration.callConfig?.displayName) }
 
     // Reducers
     private val callStateReducer get() = CallStateReducerImpl()
@@ -196,9 +197,9 @@ internal class DependencyInjectionContainerImpl(
     private val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK
             ?: CallingSDKWrapper(
-                instanceId,
                 applicationContext,
                 callingSDKEventHandler,
+                configuration.callConfig
             )
     }
 
