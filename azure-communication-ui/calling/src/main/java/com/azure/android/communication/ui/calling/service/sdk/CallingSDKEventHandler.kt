@@ -38,6 +38,7 @@ internal class CallingSDKEventHandler(
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
+    private var callIdSharedFlow = MutableSharedFlow<String?>()
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
 
@@ -58,6 +59,8 @@ internal class CallingSDKEventHandler(
 
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
         callingStateWrapperSharedFlow
+
+    fun getCallIdSharedFlow(): SharedFlow<String?> = callIdSharedFlow
 
     fun getIsMutedSharedFlow(): SharedFlow<Boolean> = isMutedSharedFlow
 
@@ -132,6 +135,10 @@ internal class CallingSDKEventHandler(
         }
 
     private fun onCallStateChange() {
+        coroutineScope.launch {
+            callIdSharedFlow.emit(call?.id)
+        }
+
         val callState = call?.state
         var callEndStatus = Pair(0, 0)
 
@@ -337,6 +344,7 @@ internal class CallingSDKEventHandler(
         isRecordingSharedFlow = MutableSharedFlow()
         isTranscribingSharedFlow = MutableSharedFlow()
         callingStateWrapperSharedFlow = MutableSharedFlow()
+        callIdSharedFlow = MutableSharedFlow()
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
     }
 }

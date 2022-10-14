@@ -364,6 +364,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -384,6 +385,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -439,6 +441,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 MutableSharedFlow()
 
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -446,6 +449,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -536,6 +540,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -544,6 +549,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn startCallCompletableFuture
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
@@ -603,6 +609,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -611,6 +618,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn startCallCompletableFuture
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
@@ -663,6 +671,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -671,6 +680,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn startCallCompletableFuture
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -723,6 +733,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -731,6 +742,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn startCallCompletableFuture
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
@@ -783,6 +795,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -791,6 +804,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn startCallCompletableFuture
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1367,6 +1381,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1375,6 +1390,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1416,6 +1432,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1424,6 +1441,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1480,6 +1498,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val callIdFlow = MutableSharedFlow<String?>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
 
@@ -1487,6 +1506,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1539,6 +1559,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1547,6 +1568,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1603,6 +1625,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1611,6 +1634,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1665,6 +1689,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1673,6 +1698,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1743,6 +1769,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1751,6 +1778,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
@@ -1809,6 +1837,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableSharedFlow<String?>()
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1817,6 +1846,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow

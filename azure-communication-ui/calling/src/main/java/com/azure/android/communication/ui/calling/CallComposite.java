@@ -10,6 +10,7 @@ import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
+import com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -20,7 +21,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
-import com.azure.android.communication.ui.calling.service.DiagnosticsService;
 
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
@@ -51,7 +51,7 @@ public final class CallComposite {
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
-    private DiagnosticsService diagnosticsService;
+    private CallCompositeDiagnosticsInfo diagnosticsInfo;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -202,6 +202,19 @@ public final class CallComposite {
             final CommunicationIdentifier identifier, final CallCompositeParticipantViewData participantViewData) {
         return configuration.getRemoteParticipantsConfiguration()
                 .setParticipantViewData(into(identifier), participantViewData);
+    }
+
+    /**
+     * Get Call Composite Diagnostics information.
+     *
+     * @return {@link CallCompositeDiagnosticsInfo}
+     */
+    public CallCompositeDiagnosticsInfo getDiagnosticInfo() {
+        return diagnosticsInfo != null ? diagnosticsInfo : new CallCompositeDiagnosticsInfo();
+    }
+
+    void setDiagnosticsInfo(final CallCompositeDiagnosticsInfo diagnosticsInfo) {
+        this.diagnosticsInfo = diagnosticsInfo;
     }
 
     private void launchComposite(final Context context,

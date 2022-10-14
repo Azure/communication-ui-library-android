@@ -33,6 +33,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -77,6 +78,8 @@ internal class CallingSDKWrapper(
 
     override fun getCallingStateWrapperSharedFlow() =
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()
+
+    override fun getCallIdSharedFlow(): SharedFlow<String?> = callingSDKEventHandler.getCallIdSharedFlow()
 
     override fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 

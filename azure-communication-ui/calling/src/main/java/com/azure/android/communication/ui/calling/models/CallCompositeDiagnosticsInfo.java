@@ -10,11 +10,20 @@ public class CallCompositeDiagnosticsInfo {
 
     private String lastKnownCallId;
 
+    /**
+     * Set last known call id.
+     * @param lastKnownCallId last known call id.
+     * @return {@link CallCompositeDiagnosticsInfo}
+     */
     public CallCompositeDiagnosticsInfo setLastKnownCallId(final String lastKnownCallId) {
         this.lastKnownCallId = lastKnownCallId;
         return this;
     }
 
+    /**
+     * Set last known call id.
+     * @return {@link String}
+     */
     public String getLastKnownCallId() {
         return lastKnownCallId;
     }

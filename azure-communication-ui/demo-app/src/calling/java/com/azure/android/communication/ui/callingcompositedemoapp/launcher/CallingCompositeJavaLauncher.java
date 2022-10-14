@@ -57,7 +57,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         }
 
         final CallComposite callComposite = builder.build();
-        callComposite.addOnErrorEventHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
+        callComposite.addOnErrorEventHandler(new CallLauncherActivityErrorHandler(callComposite, callLauncherActivity));
 
         if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(

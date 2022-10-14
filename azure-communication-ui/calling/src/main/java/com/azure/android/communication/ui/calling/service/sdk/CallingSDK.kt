@@ -45,6 +45,7 @@ internal interface CallingSDK {
     fun getIsRecordingSharedFlow(): SharedFlow<Boolean>
     fun getIsMutedSharedFlow(): SharedFlow<Boolean>
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
+    fun getCallIdSharedFlow(): SharedFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
 }
 

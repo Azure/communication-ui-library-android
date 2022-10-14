@@ -37,6 +37,7 @@ internal class CallingService(
     private val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
+    private var callIdSharedFlow = MutableSharedFlow<String?>()
     private var callingStatus: CallingStatus = CallingStatus.NONE
 
     fun turnCameraOn(): CompletableFuture<String> {
@@ -86,6 +87,8 @@ internal class CallingService(
 
     fun getCallInfoModelEventSharedFlow(): SharedFlow<CallInfoModel> = callInfoModelSharedFlow
 
+    fun getCallIdSharedFlow(): SharedFlow<String?> = callIdSharedFlow
+
     fun getIsTranscribingSharedFlow(): Flow<Boolean> {
         return isTranscribingSharedFlow
     }
@@ -118,6 +121,12 @@ internal class CallingService(
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
                 callingStatus = it.toCallingStatus()
                 callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+            }
+        }
+
+        coroutineScope.launch {
+            callingSdk.getCallIdSharedFlow().collect {
+                callIdSharedFlow.emit(it)
             }
         }
 

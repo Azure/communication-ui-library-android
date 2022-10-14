@@ -216,6 +216,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeIsRecordingUpdate(store)
         subscribeIsTranscribingUpdate(store)
         subscribeCallInfoModelEventUpdate(store)
+        subscribeCallIdUpdate(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -379,6 +380,14 @@ internal class CallingMiddlewareActionHandlerImpl(
                         else -> {}
                     }
                 }
+            }
+        }
+    }
+
+    private fun subscribeCallIdUpdate(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCallIdSharedFlow().collect {
+                store.dispatch(CallingAction.CallIdUpdated(it))
             }
         }
     }
