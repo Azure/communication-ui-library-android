@@ -88,7 +88,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch) {
-        chatService.sendReadReceipt(action.messageId).whenComplete { result, error ->
+        chatService.sendReadReceipt(action.messageId).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
@@ -101,9 +101,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 )
             } else {
                 dispatch(
-                    ChatAction.MessageRead(
-                        result.id
-                    )
+                    ChatAction.MessageRead(action.messageId)
                 )
             }
         }
@@ -117,7 +115,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatStateError = ChatStateError(
-                            errorCode = ErrorCode.CHAT_SEND_MESSAGE_FAILED
+                            errorCode = ErrorCode.CHAT_SEND_TYPING_INDICATOR_FAILED
                         )
                     )
                 )
