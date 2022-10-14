@@ -10,14 +10,14 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal interface DiagnosticsService {
+internal interface DiagnosticsManager {
     fun start(lifecycleScope: LifecycleCoroutineScope)
     val diagnosticsInfo: CallCompositeDiagnosticsInfo
 }
 
-internal class DiagnosticsServiceImpl(
+internal class DiagnosticsManagerImpl(
     private val store: Store<ReduxState>,
-) : DiagnosticsService {
+) : DiagnosticsManager {
 
     override val diagnosticsInfo = CallCompositeDiagnosticsInfo()
 

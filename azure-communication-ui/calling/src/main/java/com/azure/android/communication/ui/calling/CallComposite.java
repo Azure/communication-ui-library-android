@@ -22,7 +22,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
-import com.azure.android.communication.ui.calling.service.DiagnosticsService;
+import com.azure.android.communication.ui.calling.service.DiagnosticsManager;
 
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
@@ -212,9 +212,9 @@ public final class CallComposite {
      * @return {@link CallCompositeDiagnosticsInfo}
      */
     public CallCompositeDiagnosticsInfo getDiagnosticInfo() {
-        final DiagnosticsService diagnosticsService = getDiagnosticsService();
-        return diagnosticsService != null
-                ? diagnosticsService.getDiagnosticsInfo()
+        final DiagnosticsManager diagnosticsManager = getDiagnosticsManger();
+        return diagnosticsManager != null
+                ? diagnosticsManager.getDiagnosticsInfo()
                 : new CallCompositeDiagnosticsInfo();
     }
 
@@ -222,8 +222,8 @@ public final class CallComposite {
         this.diContainer = diContainer;
     }
 
-    private DiagnosticsService getDiagnosticsService() {
-        return diContainer != null ? diContainer.getDiagnosticsService() : null;
+    private DiagnosticsManager getDiagnosticsManger() {
+        return diContainer != null ? diContainer.getDiagnosticsManager() : null;
     }
 
     private void launchComposite(final Context context,

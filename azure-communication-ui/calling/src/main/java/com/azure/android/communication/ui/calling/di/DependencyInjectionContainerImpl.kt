@@ -43,8 +43,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.service.DiagnosticsService
-import com.azure.android.communication.ui.calling.service.DiagnosticsServiceImpl
+import com.azure.android.communication.ui.calling.service.DiagnosticsManager
+import com.azure.android.communication.ui.calling.service.DiagnosticsManagerImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
@@ -109,8 +109,8 @@ internal class DependencyInjectionContainerImpl(
             applicationContext,
         )
     }
-    override val diagnosticsService: DiagnosticsService
-        get() = DiagnosticsServiceImpl(
+    override val diagnosticsManager: DiagnosticsManager
+        get() = DiagnosticsManagerImpl(
             appStore,
         )
 
