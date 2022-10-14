@@ -4,28 +4,22 @@
 package com.azure.android.communication.ui.calling.service
 
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfo
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.setDiagnosticsInfo
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal interface DiagnosticsService {
     fun start(lifecycleScope: LifecycleCoroutineScope)
+    val diagnosticsInfo: CallCompositeDiagnosticsInfo
 }
 
 internal class DiagnosticsServiceImpl(
     private val store: Store<ReduxState>,
-    callComposite: CallComposite,
 ) : DiagnosticsService {
 
-    private val diagnosticsInfo = CallCompositeDiagnosticsInfo()
-
-    init {
-        callComposite.setDiagnosticsInfo(diagnosticsInfo)
-    }
+    override val diagnosticsInfo = CallCompositeDiagnosticsInfo()
 
     override fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {

@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.setDependencyInjectionContainer
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 import java.lang.IllegalArgumentException
@@ -60,13 +61,17 @@ internal class DependencyInjectionContainerHolder(
         val callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
 
         // Generate a new instance
-        DependencyInjectionContainerImpl(
+        val container = DependencyInjectionContainerImpl(
             application,
             callComposite,
             customCallingSDK,
             customVideoStreamRendererFactory,
             customCoroutineContextProvider
         )
+
+        callComposite.setDependencyInjectionContainer(container)
+
+        return@lazy container
     }
 
     val setupViewModel by lazy {
