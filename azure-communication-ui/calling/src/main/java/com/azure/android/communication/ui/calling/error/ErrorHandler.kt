@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKE
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_OFF_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_ON_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CAMERA_INIT_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.NETWORK_NOT_AVAILABLE
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
@@ -119,7 +120,7 @@ internal class ErrorHandler(
                 TOKEN_EXPIRED -> {
                     return CallCompositeErrorCode.TOKEN_EXPIRED
                 }
-                CALL_JOIN_FAILED -> {
+                CALL_JOIN_FAILED, NETWORK_NOT_AVAILABLE -> {
                     return CallCompositeErrorCode.CALL_JOIN_FAILED
                 }
                 CALL_END_FAILED -> {
