@@ -104,6 +104,9 @@ android {
             java.srcDirs = ['src/main/java', 'src/calling/java']
             res.srcDirs = ['src/main/res', 'src/calling/res']
             manifest.srcFile 'src/calling/AndroidManifest.xml'
+            androidTest {
+                java.srcDirs = ['src/calling-test/java']
+            }
         }
         chat {
             java.srcDirs = ['src/main/java', 'src/chat/java']
