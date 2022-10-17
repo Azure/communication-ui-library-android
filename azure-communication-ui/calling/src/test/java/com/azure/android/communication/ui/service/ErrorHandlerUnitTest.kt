@@ -323,4 +323,38 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
 
             job.cancel()
         }
+
+    @Test
+    fun errorHandler_onStateChange_withNetworkError_notifyCallJoinFailed() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("")
+            appState.errorState =
+                ErrorState(null, CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null))
+
+            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState(""))
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doReturn stateFlow
+            }
+
+            val configuration = CallCompositeConfiguration()
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { on { handle(any()) } doAnswer { } })
+
+            val errorHandler = ErrorHandler(configuration, mockAppStore)
+
+            // act
+            val job = launch {
+                errorHandler.start()
+            }
+            stateFlow.value = appState
+
+            // assert
+            verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().elementAt(0), times(1)).handle(
+                argThat { exception ->
+                    exception.errorCode == CallCompositeErrorCode.CALL_JOIN_FAILED
+                }
+            )
+
+            job.cancel()
+        }
 }
