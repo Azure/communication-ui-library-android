@@ -26,7 +26,9 @@ import com.azure.android.communication.ui.chat.redux.reducer.ParticipantsReducer
 import com.azure.android.communication.ui.chat.redux.reducer.Reducer
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.MessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryView
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryList
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddleware
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
@@ -34,7 +36,7 @@ import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvide
 
 internal class ChatContainer(
     private val configuration: ChatCompositeConfiguration,
-    private val instanceId: Int
+    private val instanceId: Int,
 ) {
     companion object {
         lateinit var locator: ServiceLocator
@@ -78,12 +80,18 @@ internal class ChatContainer(
         instanceId: Int,
         localOptions: ChatCompositeLocalOptions?,
         remoteOptions: ChatCompositeRemoteOptions,
-        context: Context
+        context: Context,
     ) =
         ServiceLocator.getInstance(instanceId = instanceId).apply {
             addTypedBuilder { CoroutineContextProvider() }
 
-            addTypedBuilder { MessageRepository() }
+            val messageRepositoryStorage = MessageRepositoryList()
+            var messageRepository = messageRepositoryStorage as MessageRepositoryView
+            var messageRepositoryMiddlewareInterface =
+                messageRepositoryStorage as MessageRepositoryMiddleware
+
+            addTypedBuilder { messageRepository }
+            addTypedBuilder { messageRepositoryMiddlewareInterface }
 
             addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
 
@@ -127,7 +135,7 @@ internal class ChatContainer(
                                 coroutineContextProvider = locate()
                             )
                         ),
-                        RepositoryMiddlewareImpl(locate<MessageRepository>())
+                        RepositoryMiddlewareImpl(locate())
                     ),
                     dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
                 )

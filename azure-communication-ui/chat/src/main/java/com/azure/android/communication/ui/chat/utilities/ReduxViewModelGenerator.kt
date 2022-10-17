@@ -27,7 +27,7 @@ internal class ReduxViewModelGenerator<T, M : Any>(
     val builder: (store: AppStore<T>) -> M,
     val onChanged: (viewModel: M) -> Unit,
     private val coroutineScope: CoroutineScope,
-    private val store: AppStore<T>
+    private val store: AppStore<T>,
 ) {
     lateinit var viewModel: M
 

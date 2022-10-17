@@ -37,7 +37,7 @@ import androidx.compose.runtime.remember
 @Composable
 internal fun MessageInputView(
     contentDescription: String,
-    messageInputTextState: MutableState<String>
+    messageInputTextState: MutableState<String>,
 ) {
     var focusState by rememberSaveable { mutableStateOf(false) }
 
@@ -57,7 +57,7 @@ internal fun MessageInput(
     textContent: String,
     onTextFieldFocused: (Boolean) -> Unit,
     focusState: Boolean,
-    contentDescription: String
+    contentDescription: String,
 ) {
 
     val outlineColor = ChatCompositeTheme.colors.outlineColor
