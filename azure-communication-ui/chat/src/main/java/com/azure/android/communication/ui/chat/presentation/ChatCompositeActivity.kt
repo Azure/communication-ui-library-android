@@ -7,6 +7,10 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.azure.android.communication.ui.chat.ChatComposite
+import com.azure.android.communication.ui.chat.ChatContainer
+import com.azure.android.communication.ui.chat.locator.ServiceLocator
+import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView
 
 class ChatCompositeActivity : AppCompatActivity() {
@@ -25,7 +29,13 @@ class ChatCompositeActivity : AppCompatActivity() {
         )
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        val chatContainer: ChatComposite = ServiceLocator.getInstance(instanceId).locate()
+        chatContainer.stop()
+    }
+
     companion object {
-        const val KEY_INSTANCE_ID = "InstanceID"
+        const val KEY_INSTANCE_ID = "ChatCompositeActivity.InstanceID"
     }
 }
