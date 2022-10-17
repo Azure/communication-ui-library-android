@@ -86,11 +86,11 @@ internal class ChatContainer(
             addTypedBuilder { CoroutineContextProvider() }
 
             val messageRepositoryStorage = MessageRepositoryList()
-            var messageRepository = messageRepositoryStorage as MessageRepositoryView
+            var messageRepositoryView = messageRepositoryStorage as MessageRepositoryView
             var messageRepositoryMiddlewareInterface =
                 messageRepositoryStorage as MessageRepositoryMiddleware
 
-            addTypedBuilder { messageRepository }
+            addTypedBuilder { messageRepositoryView }
             addTypedBuilder { messageRepositoryMiddlewareInterface }
 
             addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
