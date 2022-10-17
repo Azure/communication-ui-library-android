@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 
@@ -18,15 +19,16 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 internal data class ChatScreenViewModel(
     val typingParticipants: Set<String>,
     val messages: List<MessageViewModel>,
-    val state: String,
+    val chatStatus: ChatStatus,
     var buildCount: Int,
+    val postAction: (Action) -> Unit,
     private val error: ChatStateError? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
     val postMessage: (String) -> Unit
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
-    val isLoading get() = state != ChatStatus.INITIALIZED.name && !showError
+    val isLoading get() = chatStatus != ChatStatus.INITIALIZED && !showError
 }
 
 // Internal counter for early debugging
@@ -36,14 +38,19 @@ private var buildCount = 0
 internal fun buildChatScreenViewModel(
     store: AppStore<ReduxState>,
     repository: MessageRepository
-) =
-    ChatScreenViewModel(
+): ChatScreenViewModel {
+
+    if (dispatchers == null) {
+        dispatchers = Dispatchers(store)
+    }
+    return ChatScreenViewModel(
         messages = repository.toViewModelList(),
-        state = store.getCurrentState().chatState.chatStatus.name,
+        chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,
         typingParticipants = store.getCurrentState().participantState.participantTyping,
-        participants = store.getCurrentState().participantState.participants
+        postAction = dispatchers!!::postAction,
+        participants = store.getCurrentState().participantState.participants,
     ) { message ->
         store.dispatch(
             ChatAction.SendMessage(
@@ -56,3 +63,12 @@ internal fun buildChatScreenViewModel(
             )
         )
     }
+}
+
+internal var dispatchers: Dispatchers? = null
+
+internal class Dispatchers(val store: AppStore<ReduxState>) {
+    fun postAction(action: Action) {
+        store.dispatch(action)
+    }
+}

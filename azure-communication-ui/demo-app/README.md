@@ -34,5 +34,6 @@ library. Showcases use of both Java and Kotlin to run library.
     - `IDENTITY`="..."            # the identity for chat
     - `THREAD_ID`="..."           # chat thread id
 4. For build variants:
-    You can add variants selection for build to indicate which demo app you want to run or debug (calling, chat, call-with-chat)
+   You can add variants selection for build to indicate which demo app you want to run or debug (
+   calling, chat, call-with-chat)
 5. Build and Run

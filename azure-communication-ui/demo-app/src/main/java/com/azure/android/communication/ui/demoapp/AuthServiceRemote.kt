@@ -57,7 +57,8 @@ internal class AuthServiceRemote(private val authUrl: String) : AuthService {
                     throw IOException("Unable to fetch token: ", cause)
 
                 token = JSONObject(response).getString("token")
-                val acsId = JSONObject(response).getJSONObject("user").getString("communicationUserId")
+                val acsId =
+                    JSONObject(response).getJSONObject("user").getString("communicationUserId")
 
                 communicationIdentifier = CommunicationUserIdentifier(acsId)
             }
