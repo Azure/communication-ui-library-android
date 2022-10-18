@@ -18,4 +18,5 @@ internal interface MessageRepositoryMiddleware {
     fun addServerMessage(message: MessageInfoModel)
     fun removeMessage(message: MessageInfoModel)
     fun editMessage(message: MessageInfoModel)
+    fun getLastMessage(): MessageInfoModel?
 }
