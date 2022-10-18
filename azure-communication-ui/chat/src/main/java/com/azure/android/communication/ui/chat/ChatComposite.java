@@ -34,7 +34,7 @@ public class ChatComposite {
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
         this.configuration = configuration;
-        chatContainer = new ChatContainer(configuration, instanceId);
+        chatContainer = new ChatContainer(this, configuration, instanceId);
     }
 
     /**

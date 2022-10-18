@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 // - pageRetrieved
 // - messageEdited
 // - messageDeleted
-internal interface MessageRepositoryMiddleware {
+internal interface MessageRepositoryMiddlewareInterface {
     fun addLocalMessage(messageInfoModel: MessageInfoModel)
     fun addPage(page: List<MessageInfoModel>)
     fun addServerMessage(message: MessageInfoModel)

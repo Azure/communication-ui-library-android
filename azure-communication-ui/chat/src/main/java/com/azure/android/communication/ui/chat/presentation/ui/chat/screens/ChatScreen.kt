@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
@@ -23,9 +23,8 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenSt
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
-import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
@@ -58,11 +57,11 @@ internal fun ChatScreen(
                 MessageListView(
                     modifier = Modifier.padding(paddingValues),
                     messages = viewModel.messages,
-                    scrollState = LazyListState(),
+                    scrollState = rememberLazyListState(),
                 )
             }
 
-            TypingIndicatorView(viewModel.typingParticipants.toList())
+            // TypingIndicatorView(viewModel.typingParticipants.toList())
         },
         bottomBar = {
             BottomBarView(
@@ -81,37 +80,34 @@ internal fun ChatScreenPreview() {
         ChatScreen(
             viewModel = ChatScreenViewModel(
                 messages = listOf(
-                    MessageViewModel(
-                        MessageInfoModel(
-                            messageType = ChatMessageType.TEXT,
-                            content = "Test Message",
-                            internalId = null,
-                            id = null,
-                            senderDisplayName = "John Doe"
-                        )
+                    MessageInfoModel(
+                        messageType = ChatMessageType.TEXT,
+                        content = "Test Message",
+                        internalId = null,
+                        id = null,
+                        senderDisplayName = "John Doe"
+
                     ),
 
-                    MessageViewModel(
-                        MessageInfoModel(
-                            messageType = ChatMessageType.TEXT,
-                            content = "Test Message 2 ",
-                            internalId = null,
-                            id = null,
-                            senderDisplayName = "John Doe Junior"
-                        )
+                    MessageInfoModel(
+                        messageType = ChatMessageType.TEXT,
+                        content = "Test Message 2 ",
+                        internalId = null,
+                        id = null,
+                        senderDisplayName = "John Doe Junior"
+
                     ),
 
-                    MessageViewModel(
-                        MessageInfoModel(
-                            messageType = ChatMessageType.TEXT,
-                            content = "Test Message 3",
-                            internalId = null,
-                            id = null,
-                            senderDisplayName = "Elliott Red"
-                        )
+                    MessageInfoModel(
+                        messageType = ChatMessageType.TEXT,
+                        content = "Test Message 3",
+                        internalId = null,
+                        id = null,
+                        senderDisplayName = "Elliott Red"
+
                     ),
 
-                ),
+                ).toViewModelList(""),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 typingParticipants = setOf("John Doe", "Mary Sue"),
@@ -142,7 +138,7 @@ internal fun ChatScreenPreview() {
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
                 // )
-            ) {},
+            ),
 
         )
     }
