@@ -89,7 +89,7 @@
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">통화에서 제거되었습니다.</string>
     <string name="azure_communication_ui_calling_no_connection_available">통화에 참가할 수 없습니다. 네트워크 연결을 확인하세요.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">비디오 토글 오류</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">카메라를 전환할 수 없습니다.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">진행 중인 통화</string>

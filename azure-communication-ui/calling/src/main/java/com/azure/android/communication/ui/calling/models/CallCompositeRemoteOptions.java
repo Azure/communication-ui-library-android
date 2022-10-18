@@ -39,7 +39,7 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param locator {@link CallCompositeJoinLocator}
+     * @param locator {@link CallCompositeJoinLocator}.
      * @param credential {@link CommunicationTokenCredential}.
      */
     public CallCompositeRemoteOptions(
@@ -51,9 +51,9 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param locator {@link CallCompositeJoinLocator}
-     * @param credential {@link CommunicationTokenCredential}
-     * @param displayName                  User display name other call participants will see.
+     * @param locator {@link CallCompositeJoinLocator}.
+     * @param credential {@link CommunicationTokenCredential}.
+     * @param displayName User display name other call participants will see.
      */
     public CallCompositeRemoteOptions(
             final CallCompositeJoinLocator locator,
