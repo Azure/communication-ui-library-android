@@ -26,7 +26,7 @@ import com.azure.android.communication.ui.chat.R
 @Composable
 internal fun BackButtonView(
     contentDescription: String,
-    onBackButtonPressed: () -> Unit = { }
+    onBackButtonPressed: () -> Unit = { },
 ) {
     val colorFilter = ColorFilter.tint(LocalContentColor.current)
     val semantics = Modifier.semantics {

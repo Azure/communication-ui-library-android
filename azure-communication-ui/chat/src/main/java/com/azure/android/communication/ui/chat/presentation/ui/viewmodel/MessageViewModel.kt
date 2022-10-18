@@ -4,24 +4,25 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryView
 
 internal class MessageViewModel(val message: MessageInfoModel)
 
-internal fun List<MessageInfoModel>.toViewModelList() =
+internal fun MessageRepositoryView.toViewModelList() =
     InfoModelToViewModelAdapter(this) as List<MessageViewModel>
 
-private class InfoModelToViewModelAdapter(private val messages: List<MessageInfoModel>) :
+private class InfoModelToViewModelAdapter(private val messages: MessageRepositoryView) :
     List<MessageViewModel> {
 
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
         return MessageViewModel(
-            messages[index]
+            messages.get(index)
         )
     }
 
     // Rest of List Implementation
-    override val size = messages.size
+    override val size = messages.size()
     override fun contains(element: MessageViewModel) = messages.contains(element.message)
 
     override fun containsAll(elements: Collection<MessageViewModel>) =

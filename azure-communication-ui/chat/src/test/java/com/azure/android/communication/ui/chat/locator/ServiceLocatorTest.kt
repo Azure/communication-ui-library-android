@@ -28,7 +28,7 @@ class ServiceLocatorTest {
 
     internal inner class BasicObjectHelloWorld(
         hello: BasicObjectHello?,
-        world: BasicObjectWorld?
+        world: BasicObjectWorld?,
     ) {
         val data: String
 

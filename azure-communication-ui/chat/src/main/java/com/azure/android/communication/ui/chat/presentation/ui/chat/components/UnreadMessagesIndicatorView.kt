@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 internal fun UnreadMessagesIndicatorView(
     unreadCount: Int,
-    onClicked: () -> Unit
+    onClicked: () -> Unit,
 ) {
 }
 
