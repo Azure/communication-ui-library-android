@@ -53,7 +53,7 @@ internal class ChatEventHandler {
     fun start(
         chatClient: ChatClient,
         threadID: String,
-        eventSubscriber: (ChatEventModel) -> Unit
+        eventSubscriber: (ChatEventModel) -> Unit,
     ) {
 
         this.chatThreadID = threadID
