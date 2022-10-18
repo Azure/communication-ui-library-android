@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.layout.Box
@@ -23,12 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 
-data class AcsChatActionBarViewModel(val participantCount: Int, val topic: String)
-
 @Composable
-fun ChatCompositeActionBar(
-    viewModel: AcsChatActionBarViewModel,
-    onBackButtonPressed: () -> Unit = { }
+internal fun ActionBarView(
+    participantCount: Int,
+    topic: String,
+    onBackButtonPressed: () -> Unit = { },
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         TopAppBar(
@@ -51,19 +51,19 @@ fun ChatCompositeActionBar(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = viewModel.topic,
+                        text = topic,
                         textAlign = TextAlign.Center,
                         style = ChatCompositeTheme.typography.title
                     )
-                    if (viewModel.participantCount == 1) {
+                    if (participantCount == 1) {
                         Text(
-                            text = "${viewModel.participantCount} Participant",
+                            text = "$participantCount Participant",
                             textAlign = TextAlign.Center,
                             style = ChatCompositeTheme.typography.body
                         )
                     } else {
                         Text(
-                            text = "${viewModel.participantCount} Participants",
+                            text = "$participantCount Participants",
                             textAlign = TextAlign.Center,
                             style = ChatCompositeTheme.typography.body
                         )
@@ -71,7 +71,7 @@ fun ChatCompositeActionBar(
                 }
             },
             navigationIcon = {
-                AcsChatBackButton(
+                BackButtonView(
                     contentDescription = "Back button",
                     onBackButtonPressed = onBackButtonPressed
                 )
@@ -82,20 +82,9 @@ fun ChatCompositeActionBar(
 
 @Preview
 @Composable
-fun PreviewChatCompsiteActionBar() {
-    Column() {
-        ChatCompositeActionBar(
-            viewModel = AcsChatActionBarViewModel(
-                participantCount = 4,
-                topic = "Topic"
-            )
-        ) {}
-
-        ChatCompositeActionBar(
-            viewModel = AcsChatActionBarViewModel(
-                participantCount = 1,
-                topic = "Title"
-            )
-        ) {}
-    }
+internal fun PreviewActionBarView() {
+    ActionBarView(
+        participantCount = 4,
+        topic = "Topic"
+    ) {}
 }

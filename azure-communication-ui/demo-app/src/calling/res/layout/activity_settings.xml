@@ -4,8 +4,7 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,8 +14,7 @@
         android:layout_marginStart="@dimen/azure_communication_ui_calling_side_margin"
         android:layout_marginEnd="@dimen/azure_communication_ui_calling_side_margin"
         android:orientation="vertical"
-        tools:context=".SettingsActivity"
-        >
+        tools:context=".SettingsActivity">
 
         <TextView
             android:id="@+id/language_setting_text_view"
@@ -25,24 +23,21 @@
             android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
             android:text="@string/language_setting_label"
             android:textSize="24sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <View
             android:id="@+id/language_setting_label_divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/azure_communication_ui_calling_color_on_surface"
-            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
-            />
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/language_adapter_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
-            >
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding">
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_text_view"
@@ -54,8 +49,7 @@
                 android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
                 android:paddingBottom="@dimen/azure_communication_ui_calling_fab_margin"
                 android:text="@string/language_default_selection"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
@@ -64,8 +58,7 @@
             android:layout_height="wrap_content"
             android:onClick="onCheckBoxTap"
             android:text="@string/is_rtl_check_box_label"
-            tools:ignore="UsingOnClickInXml"
-            />
+            tools:ignore="UsingOnClickInXml" />
 
         <TextView
             android:id="@+id/call_setting_text_view"
@@ -74,21 +67,18 @@
             android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
             android:text="@string/call_setting_label"
             android:textSize="24sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/azure_communication_ui_calling_color_on_surface"
-            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
-            />
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding" />
 
         <com.azure.android.communication.ui.callingcompositedemoapp.launcher.FeatureFlagView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/azure_communication_ui_calling_inner_space_padding"
-            />
+            android:layout_marginTop="@dimen/azure_communication_ui_calling_inner_space_padding" />
 
         <TextView
             android:id="@+id/callSellingAvatarInjection"
@@ -97,26 +87,22 @@
             android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
             android:text="@string/local_avatar_injection"
             android:textSize="24sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/azure_communication_ui_calling_color_on_surface"
-            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
-            />
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout
                 android:id="@+id/avatarImageSelectionLinearlayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/avatarCatImageButton"
@@ -126,8 +112,7 @@
                     android:background="@drawable/avatar_image_button_background"
                     android:padding="2dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/image_cat"
-                    />
+                    android:src="@drawable/image_cat" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/avatarFoxImageButton"
@@ -137,8 +122,7 @@
                     android:background="@drawable/avatar_image_button_background"
                     android:padding="2dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/image_fox"
-                    />
+                    android:src="@drawable/image_fox" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/avatarKoalaImageButton"
@@ -148,8 +132,7 @@
                     android:background="@drawable/avatar_image_button_background"
                     android:padding="2dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/image_koala"
-                    />
+                    android:src="@drawable/image_koala" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/avatarMonkeyImageButton"
@@ -159,8 +142,7 @@
                     android:background="@drawable/avatar_image_button_background"
                     android:padding="2dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/image_monkey"
-                    />
+                    android:src="@drawable/image_monkey" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/avatarMouseImageButton"
@@ -170,8 +152,7 @@
                     android:background="@drawable/avatar_image_button_background"
                     android:padding="2dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/image_mouse"
-                    />
+                    android:src="@drawable/image_mouse" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/avatarOctopusImageButton"
@@ -181,8 +162,7 @@
                     android:background="@drawable/avatar_image_button_background"
                     android:padding="2dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/image_octopus"
-                    />
+                    android:src="@drawable/image_octopus" />
 
             </com.azure.android.communication.ui.callingcompositedemoapp.views.AvatarImageSelectionLinearlayout>
         </HorizontalScrollView>
@@ -192,24 +172,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="@string/rendered_display_name"
-            />
+            android:hint="@string/rendered_display_name" />
 
         <EditText
             android:id="@+id/call_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="@string/call_title"
-            />
+            android:hint="@string/call_title" />
 
         <EditText
             android:id="@+id/call_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="@string/call_subtitle"
-            />
+            android:hint="@string/call_subtitle" />
 
         <TextView
             android:id="@+id/callSellingRemoteAvatarInjection"
@@ -218,15 +195,13 @@
             android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
             android:text="@string/remote_avatar_injection"
             android:textSize="24sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/azure_communication_ui_calling_color_on_surface"
-            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
-            />
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding" />
 
         <CheckBox
             android:id="@+id/remote_avatar_injection_check_box"
@@ -234,8 +209,7 @@
             android:layout_height="wrap_content"
             android:onClick="onCheckBoxTap"
             android:text="@string/remote_participant_inject_avatar"
-            tools:ignore="UsingOnClickInXml"
-            />
+            tools:ignore="UsingOnClickInXml" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

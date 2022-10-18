@@ -26,7 +26,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     fun tapSpeakerIcon(): SetupScreenRobot {
         val speakerButton = waitUntilTextOnViewIsDisplayed(
             R.id.azure_communication_ui_setup_audio_device_button,
-            "Android"
+            "Speaker"
         )
 
         speakerButton.perform(click())
@@ -64,7 +64,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         selectAudioDevice(
             R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled,
             "Speaker",
-            false
+            isSelected
         )
         return this
     }

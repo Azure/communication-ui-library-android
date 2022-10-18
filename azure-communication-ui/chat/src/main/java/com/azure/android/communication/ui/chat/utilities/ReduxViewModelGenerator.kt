@@ -1,8 +1,12 @@
-package com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelgenerator
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+package com.azure.android.communication.ui.chat.utilities
 
 import com.azure.android.communication.ui.chat.redux.AppStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /**
@@ -23,7 +27,7 @@ internal class ReduxViewModelGenerator<T, M : Any>(
     val builder: (store: AppStore<T>) -> M,
     val onChanged: (viewModel: M) -> Unit,
     private val coroutineScope: CoroutineScope,
-    private val store: AppStore<T>
+    private val store: AppStore<T>,
 ) {
     lateinit var viewModel: M
 
@@ -33,6 +37,10 @@ internal class ReduxViewModelGenerator<T, M : Any>(
                 rebuild(store)
             }
         }
+    }
+
+    fun stop() {
+        coroutineScope.cancel()
     }
 
     // Rebuild the View Model

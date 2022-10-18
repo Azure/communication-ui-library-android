@@ -6,14 +6,15 @@ package com.azure.android.communication.ui.chat.redux.middleware.sdk
 import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.ChatEventModel
-import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
+import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
@@ -32,7 +33,7 @@ internal class ChatServiceListener(
 
     fun subscribe(dispatch: Dispatch) {
         coroutineScope.launch {
-            chatService.getChatStatusStateFlow().collect {
+            chatService.getChatStatusStateFlow()?.collect {
                 when (it) {
                     ChatStatus.INITIALIZATION -> dispatch(ChatAction.Initialization())
                     ChatStatus.INITIALIZED -> dispatch(ChatAction.Initialized())
@@ -42,13 +43,13 @@ internal class ChatServiceListener(
         }
 
         coroutineScope.launch {
-            chatService.getMessagesPageSharedFlow().collect {
+            chatService.getMessagesPageSharedFlow()?.collect {
                 onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch)
             }
         }
 
         coroutineScope.launch {
-            chatService.getChatEventSharedFlow().collect {
+            chatService.getChatEventSharedFlow()?.collect {
                 handleInfoModel(it, dispatch)
             }
         }
@@ -61,7 +62,7 @@ internal class ChatServiceListener(
 
     private fun onMessagesPageModelReceived(
         messagesPageModel: MessagesPageModel,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
 
         messagesPageModel.throwable?.let {
@@ -111,10 +112,12 @@ internal class ChatServiceListener(
             is ChatThreadInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.CHAT_THREAD_DELETED -> {
-                        val model = it
+                        dispatch(ChatAction.ThreadDeleted())
                     }
                     ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED -> {
-                        val model = it
+                        it.infoModel.topic?.let {
+                            dispatch(ChatAction.TopicUpdated(it))
+                        }
                     }
                     else -> {}
                 }
@@ -122,10 +125,10 @@ internal class ChatServiceListener(
             is RemoteParticipantsInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.PARTICIPANTS_ADDED -> {
-                        val model = it
+                        dispatch(ParticipantAction.ParticipantsAdded(participants = it.infoModel.participants))
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
-                        val model = it
+                        dispatch(ParticipantAction.ParticipantsRemoved(participants = it.infoModel.participants))
                     }
                     else -> {}
                 }

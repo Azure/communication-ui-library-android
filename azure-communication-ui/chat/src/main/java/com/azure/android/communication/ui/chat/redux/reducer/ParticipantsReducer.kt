@@ -4,12 +4,21 @@
 package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.redux.action.Action
+import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
 
 internal interface ParticipantsReducer : Reducer<ParticipantsState>
 
 internal class ParticipantsReducerImpl : ParticipantsReducer {
     override fun reduce(state: ParticipantsState, action: Action): ParticipantsState {
-        return state
+        return when (action) {
+            is ParticipantAction.ParticipantsAdded -> {
+                state.copy(participants = state.participants + action.participants.associateBy({ it.userIdentifier.id }))
+            }
+            is ParticipantAction.ParticipantsRemoved -> {
+                state.copy(participants = state.participants - action.participants.map { it.userIdentifier.id })
+            }
+            else -> state
+        }
     }
 }

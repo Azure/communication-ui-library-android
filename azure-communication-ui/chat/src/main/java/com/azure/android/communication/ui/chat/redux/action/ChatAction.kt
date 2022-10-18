@@ -9,6 +9,7 @@ internal sealed class ChatAction : Action {
     class StartChat : ChatAction()
     class Initialization : ChatAction()
     class Initialized : ChatAction()
+    class ThreadDeleted : ChatAction()
     class TopicUpdated(val topic: String) : ChatAction()
     class SendMessage(val messageInfoModel: MessageInfoModel) : ChatAction()
     class MessageSent(val messageInfoModel: MessageInfoModel) : ChatAction()
@@ -20,4 +21,6 @@ internal sealed class ChatAction : Action {
     class EndChat : ChatAction()
     class MessageReceived(val message: MessageInfoModel) : ChatAction()
     class MessageEdited(val message: MessageInfoModel) : ChatAction()
+    class MessageRead(val messageId: String) : ChatAction()
+    class TypingIndicator : ChatAction()
 }

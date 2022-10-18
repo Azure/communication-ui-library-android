@@ -19,6 +19,7 @@ internal data class MessageInfoModel(
     val senderCommunicationIdentifier: CommunicationIdentifier? = null,
     val deletedOn: OffsetDateTime? = null,
     val editedOn: OffsetDateTime? = null,
+    val isCurrentUser: Boolean = false,
 ) : BaseInfoModel
 
 internal fun com.azure.android.communication.chat.models.ChatMessage.into(): MessageInfoModel {
@@ -32,7 +33,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
         createdOn = this.createdOn,
         senderCommunicationIdentifier = this.senderCommunicationIdentifier?.into(),
         deletedOn = this.deletedOn,
-        editedOn = this.editedOn
+        editedOn = this.editedOn,
     )
 }
 
