@@ -6,17 +6,8 @@ package com.azure.android.communication.ui.callwithchatdemoapp.launcher
 import android.content.Context
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
-import com.azure.android.communication.ui.callwithchatdemoapp.CallLauncherActivityErrorHandler
-import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivity
 import com.azure.android.communication.ui.callwithchatdemoapp.RemoteParticipantJoinedHandler
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getParticipantViewData
