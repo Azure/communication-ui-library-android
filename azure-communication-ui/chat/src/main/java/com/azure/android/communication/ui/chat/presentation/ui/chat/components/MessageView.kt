@@ -121,7 +121,6 @@ internal fun PreviewChatCompositeMessage() {
             .background(color = ChatCompositeTheme.colors.background)
     ) {
         val vms = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID)
-        // No iterator on this list, so we need to do in order
         for (a in 0 until vms.size) {
             MessageView(vms[a])
         }
