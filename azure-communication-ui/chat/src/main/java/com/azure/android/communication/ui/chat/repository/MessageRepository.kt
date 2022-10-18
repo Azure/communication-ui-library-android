@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 
-internal class MessageRepository(
+internal class MessageRepository private constructor(
     val readerDelegate: MessageRepositoryReader,
     val writerDelegate: MessageRepositoryWriter
 ) : MessageRepositoryReader(), MessageRepositoryWriter {
@@ -21,4 +21,15 @@ internal class MessageRepository(
     // TODO: We should be using read interface to get last message in list
     // This isn't a write message
     override fun getLastMessage(): MessageInfoModel? = writerDelegate.getLastMessage()
+
+    companion object {
+        fun createListBackedRepository(): MessageRepository {
+            val writer = MessageRepositoryListWriter()
+            val reader = MessageRepositoryListReader(writer)
+            return MessageRepository(
+                readerDelegate = reader,
+                writerDelegate = writer
+            )
+        }
+    }
 }
