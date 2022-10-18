@@ -21,7 +21,7 @@ public class CallCompositeDiagnosticsInfo {
     }
 
     /**
-     * Set last known call id.
+     * Get last known call id.
      * @return {@link String}
      */
     public String getLastKnownCallId() {
