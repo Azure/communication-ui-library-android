@@ -178,6 +178,8 @@ internal class CallingSDKWrapper(
                         videoOptions = VideoOptions(localVideoStreams)
                     }
                     joinCall(agent, audioOptions, videoOptions, callLocator)
+                }.exceptionally { error ->
+                    onJoinCallFailed(startCallCompletableFuture, error)
                 }
             } else {
                 joinCall(agent, audioOptions, videoOptions, callLocator)
@@ -186,8 +188,7 @@ internal class CallingSDKWrapper(
             startCallCompletableFuture.complete(null)
         }
             .exceptionally { error ->
-                startCallCompletableFuture.completeExceptionally(error)
-                null
+                onJoinCallFailed(startCallCompletableFuture, error)
             }
 
         return startCallCompletableFuture
@@ -228,8 +229,7 @@ internal class CallingSDKWrapper(
                     }
             }
             .exceptionally { error ->
-                result.completeExceptionally(error)
-                null
+                onJoinCallFailed(result, error)
             }
         return result
     }
@@ -301,7 +301,7 @@ internal class CallingSDKWrapper(
 
                 if (localVideoStreamCompletableFuture.isDone) {
                     result.complete(localVideoStreamCompletableFuture.get())
-                } else if (!canCreateLocalVideostream()) {
+                } else if (!canCreateLocalVideoStream()) {
                     // cleanUpResources() could have been called before this, so we need to check if it's still
                     // alright to call initializeCameras()
                     result.complete(null)
@@ -463,6 +463,14 @@ internal class CallingSDKWrapper(
         endCallCompletableFuture?.complete(null)
     }
 
-    private fun canCreateLocalVideostream() =
+    private fun canCreateLocalVideoStream() =
         deviceManagerCompletableFuture != null || callClient != null
+
+    private fun onJoinCallFailed(
+        startCallCompletableFuture: CompletableFuture<Void>,
+        error: Throwable?,
+    ): Nothing? {
+        startCallCompletableFuture.completeExceptionally(error)
+        return null
+    }
 }
