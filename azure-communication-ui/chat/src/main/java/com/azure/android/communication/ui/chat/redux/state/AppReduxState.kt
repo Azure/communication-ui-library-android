@@ -38,4 +38,7 @@ internal class AppReduxState(
 
     override var repositoryState: RepositoryState =
         RepositoryState(lastUpdatedTimestamp = System.currentTimeMillis())
+
+    override var networkState: NetworkState =
+        NetworkState(networkStatus = NetworkStatus.CONNECTED, disconnectOffsetDateTime = null)
 }
