@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
+import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
+import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
+import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import org.threeten.bp.OffsetDateTime
@@ -120,137 +123,10 @@ internal fun PreviewChatCompositeMessage() {
             .width(500.dp)
             .background(color = ChatCompositeTheme.colors.background)
     ) {
-        val userA_ID = CommunicationIdentifier.UnknownIdentifier("Peter")
-        val userA_Display = "Peter Terry"
-
-        val userB_ID = CommunicationIdentifier.UnknownIdentifier("User B")
-        val userB_Display = "Local User"
-
-        val userC_ID = CommunicationIdentifier.UnknownIdentifier("Carlos")
-        val userC_Display = "Carlos Slattery"
-
-        val userD_ID = CommunicationIdentifier.UnknownIdentifier("Johnnie")
-        val userD_Display = "Johnnie McConnell"
-
-        MessageView(
-            viewModel = MessageViewModel(
-                message = MessageInfoModel(
-                    senderCommunicationIdentifier = userA_ID,
-                    senderDisplayName = userA_Display,
-                    content = "Hey!!",
-                    messageType = ChatMessageType.TEXT,
-                    id = null,
-                    internalId = null,
-                    createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
-                ),
-                showDateHeader = true,
-                showUsername = true,
-                showTime = true,
-                isLocalUser = false,
-            )
-        )
-
-        MessageView(
-            viewModel = MessageViewModel(
-                message = MessageInfoModel(
-                    senderCommunicationIdentifier = userB_ID,
-                    senderDisplayName = userB_Display,
-                    content = "Hi Peter, thanks for following up with me",
-                    messageType = ChatMessageType.TEXT,
-                    id = null,
-                    internalId = null,
-                    createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
-                ),
-                showDateHeader = false,
-                showUsername = false,
-                showTime = true,
-                isLocalUser = true,
-            )
-        )
-
-        MessageView(
-            viewModel = MessageViewModel(
-                message = MessageInfoModel(
-                    content = null,
-                    messageType = ChatMessageType.PARTICIPANT_ADDED,
-                    senderCommunicationIdentifier = userC_ID,
-                    senderDisplayName = userC_Display,
-                    id = null,
-                    internalId = null
-                ),
-                showDateHeader = false,
-                showUsername = false,
-                isLocalUser = false,
-                showTime = false,
-            )
-        )
-
-        MessageView(
-            viewModel = MessageViewModel(
-                message = MessageInfoModel(
-                    senderCommunicationIdentifier = userA_ID,
-                    senderDisplayName = userA_Display,
-                    content = "No Problem",
-                    messageType = ChatMessageType.TEXT,
-                    id = null,
-                    internalId = null,
-                    createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
-                ),
-                showDateHeader = false,
-                showUsername = true,
-                showTime = true,
-                isLocalUser = false,
-            )
-        )
-
-        MessageView(
-            viewModel = MessageViewModel(
-                message = MessageInfoModel(
-                    senderCommunicationIdentifier = userA_ID,
-                    senderDisplayName = userA_Display,
-                    content = "Let's work through the feedback we received on our wednesday meeting",
-                    messageType = ChatMessageType.TEXT,
-                    id = null,
-                    internalId = null,
-                    createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
-                ),
-                showDateHeader = false,
-                showUsername = false,
-                showTime = false,
-                isLocalUser = false,
-            )
-        )
-
-        MessageView(
-            viewModel = MessageViewModel(
-                message = MessageInfoModel(
-                    content = null,
-                    messageType = ChatMessageType.PARTICIPANT_REMOVED,
-                    senderCommunicationIdentifier = userD_ID,
-                    senderDisplayName = userD_Display,
-                    id = null,
-                    internalId = null
-                ),
-                showDateHeader = false,
-                showUsername = false,
-                isLocalUser = false,
-                showTime = false,
-            )
-        )
-
-        MessageView(
-            viewModel = MessageViewModel(
-                message = MessageInfoModel(
-                    content = null,
-                    messageType = ChatMessageType.TOPIC_UPDATED,
-                    id = null,
-                    internalId = null,
-                ),
-                showDateHeader = false,
-                showUsername = false,
-                isLocalUser = false,
-                showTime = false
-            )
-        )
+        val vms = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID)
+        // No iterator on this list, so we need to do in order
+        for (a in 0 until vms.size) {
+            MessageView(vms[a])
+        }
     }
 }

@@ -25,6 +25,8 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.B
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
+import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
+import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
@@ -79,35 +81,7 @@ internal fun ChatScreenPreview() {
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                messages = listOf(
-                    MessageInfoModel(
-                        messageType = ChatMessageType.TEXT,
-                        content = "Test Message",
-                        internalId = null,
-                        id = null,
-                        senderDisplayName = "John Doe"
-
-                    ),
-
-                    MessageInfoModel(
-                        messageType = ChatMessageType.TEXT,
-                        content = "Test Message 2 ",
-                        internalId = null,
-                        id = null,
-                        senderDisplayName = "John Doe Junior"
-
-                    ),
-
-                    MessageInfoModel(
-                        messageType = ChatMessageType.TEXT,
-                        content = "Test Message 3",
-                        internalId = null,
-                        id = null,
-                        senderDisplayName = "Elliott Red"
-
-                    ),
-
-                ).toViewModelList(""),
+                messages = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 typingParticipants = setOf("John Doe", "Mary Sue"),
