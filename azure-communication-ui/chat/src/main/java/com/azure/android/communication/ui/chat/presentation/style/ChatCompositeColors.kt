@@ -8,7 +8,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 @Immutable
-data class ChatCompositeColors(
+internal data class ChatCompositeColors(
     val content: Color = Color.Black,
     val component: Color = Color.Gray,
     val background: Color = Color.White,
@@ -18,6 +18,6 @@ data class ChatCompositeColors(
     val messageBackgroundSelf: Color = Color(0xFFDEECF9),
 )
 
-val ChatCompositeColorPalette = staticCompositionLocalOf {
+internal val ChatCompositeColorPalette = staticCompositionLocalOf {
     ChatCompositeColors()
 }
