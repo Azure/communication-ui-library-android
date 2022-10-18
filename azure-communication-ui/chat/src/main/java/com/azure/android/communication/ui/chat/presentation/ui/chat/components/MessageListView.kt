@@ -67,15 +67,15 @@ internal fun PreviewMessageListView() {
                 content = "Test Message 2 ",
                 internalId = null,
                 id = null
-            ),
 
+            ),
             MessageInfoModel(
                 messageType = ChatMessageType.TEXT,
                 content = "Test Message 3",
                 internalId = null,
                 id = null
-            ),
 
+            ),
         ).toViewModelList(""),
         scrollState = LazyListState(),
     )

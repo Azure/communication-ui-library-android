@@ -30,6 +30,7 @@ private class InfoModelToViewModelAdapter(
         val thisMessage = messages[index]
         val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier
         return MessageViewModel(
+
             messages[index],
             showUsername = !isLocalUser &&
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")

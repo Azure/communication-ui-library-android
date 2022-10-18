@@ -38,17 +38,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.asCoroutineDispatcher
+import org.threeten.bp.OffsetDateTime
 import java.util.concurrent.Executors
 
 internal class ChatSDKWrapper(
     private val context: Context,
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
-    private val chatEventHandler: ChatEventHandler
+    private val chatEventHandler: ChatEventHandler,
+    private val chatFetchNotificationHandler: ChatFetchNotificationHandler
 ) : ChatSDK {
 
     companion object {
-        private const val PAGE_MESSAGES_SIZE = 50
+        const val PAGE_MESSAGES_SIZE = 50
         private const val RESPONSE_SUCCESS_CODE = 200
     }
 
@@ -91,7 +93,6 @@ internal class ChatSDKWrapper(
         createChatThreadClient()
         // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
         // TODO: above will make sure, network is connected as well
-
         onChatEventReceived(
             infoModel = ChatEventModel(
                 eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
@@ -110,6 +111,7 @@ internal class ChatSDKWrapper(
         stopEventNotifications()
         singleThreadedContext.shutdown()
         coroutineScope.cancel()
+        chatFetchNotificationHandler.stop()
     }
 
     override fun requestPreviousPage() {
@@ -189,7 +191,7 @@ internal class ChatSDKWrapper(
                 onChatEventReceived(
                     infoModel = ChatEventModel(
                         eventType = ChatEventType.PARTICIPANTS_ADDED,
-                        RemoteParticipantsInfoModel(
+                        infoModel = RemoteParticipantsInfoModel(
                             participants = participants
                         ),
                         eventReceivedOffsetDateTime = null
@@ -280,6 +282,10 @@ internal class ChatSDKWrapper(
         return future
     }
 
+    override fun fetchMessages(from: OffsetDateTime?) {
+        chatFetchNotificationHandler.fetchMessages(from)
+    }
+
     override fun startEventNotifications() {
         if (startedEventNotifications) return
         startedEventNotifications = true
@@ -289,6 +295,10 @@ internal class ChatSDKWrapper(
         chatEventHandler.start(
             chatClient = chatClient,
             threadID = threadId,
+            eventSubscriber = this::onChatEventReceived
+        )
+        chatFetchNotificationHandler.start(
+            chatThreadClient = threadClient,
             eventSubscriber = this::onChatEventReceived
         )
     }

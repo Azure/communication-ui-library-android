@@ -12,11 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -27,24 +23,27 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 
 @Composable
-fun MessageInputView(contentDescription: String) {
-    var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(
-            TextFieldValue()
-        )
-    }
+internal fun MessageInputView(
+    contentDescription: String,
+    messageInputTextState: MutableState<String>,
+) {
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
-        onTextChanged = { textState = it },
-        textState = textState,
+        onTextChanged = { messageInputTextState.value = it },
+        textContent = messageInputTextState.value,
         onTextFieldFocused = { focusState = it },
         focusState = focusState,
         contentDescription = contentDescription
@@ -54,11 +53,11 @@ fun MessageInputView(contentDescription: String) {
 @Composable
 internal fun MessageInput(
     keyboardType: KeyboardType = KeyboardType.Text,
-    onTextChanged: (TextFieldValue) -> Unit,
-    textState: TextFieldValue,
+    onTextChanged: (String) -> Unit,
+    textContent: String,
     onTextFieldFocused: (Boolean) -> Unit,
     focusState: Boolean,
-    contentDescription: String
+    contentDescription: String,
 ) {
 
     val outlineColor = ChatCompositeTheme.colors.outlineColor
@@ -80,7 +79,7 @@ internal fun MessageInput(
             .onFocusChanged { onTextFieldFocused(it.isFocused) }
             .then(semantics),
 
-        value = textState,
+        value = textContent,
         onValueChange = { onTextChanged(it) },
         textStyle = TextStyle(
             color = textColor
@@ -97,7 +96,7 @@ internal fun MessageInput(
                 contentAlignment = Alignment.CenterStart,
             ) {
 
-                if (textState.text.isEmpty() && !focusState) {
+                if (textContent.isEmpty() && !focusState) {
                     BasicText(
                         text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
                         style = TextStyle(
@@ -115,5 +114,5 @@ internal fun MessageInput(
 @Preview
 @Composable
 internal fun PreviewMessageInputView() {
-    MessageInputView("Message Input Field")
+    MessageInputView("Message Input Field", remember { mutableStateOf("") })
 }

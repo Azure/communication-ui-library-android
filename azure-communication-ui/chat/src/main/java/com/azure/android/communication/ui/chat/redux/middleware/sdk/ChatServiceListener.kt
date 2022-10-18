@@ -62,7 +62,7 @@ internal class ChatServiceListener(
 
     private fun onMessagesPageModelReceived(
         messagesPageModel: MessagesPageModel,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
 
         messagesPageModel.throwable?.let {
@@ -95,13 +95,13 @@ internal class ChatServiceListener(
                     ChatEventType.CHAT_MESSAGE_DELETED -> {
                         dispatch(ChatAction.MessageDeleted(message = it.infoModel))
                     }
-                    else -> { }
+                    else -> {}
                 }
             }
             is ParticipantTimestampInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.TYPING_INDICATOR_RECEIVED -> {
-                        val model = it.infoModel
+                        dispatch(ParticipantAction.TypingIndicatorReceived(message = it.infoModel))
                     }
                     ChatEventType.READ_RECEIPT_RECEIVED -> {
                         val model = it.infoModel

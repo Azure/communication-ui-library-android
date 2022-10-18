@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.action.NetworkAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
@@ -21,7 +22,7 @@ internal interface RepositoryMiddleware
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
 internal class RepositoryMiddlewareImpl(
-    private val messageRepository: MessageRepositoryMiddlewareInterface
+    private val messageRepository: MessageRepositoryMiddlewareInterface,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware,
@@ -35,6 +36,7 @@ internal class RepositoryMiddlewareImpl(
                 is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
                 is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
+                is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
             }
 
             // Pass Action down the chain
@@ -42,9 +44,21 @@ internal class RepositoryMiddlewareImpl(
         }
     }
 
+    private fun processNetworkDisconnected(
+        dispatch: Dispatch
+    ) {
+        messageRepository.getLastMessage()?.let { messageInfoModel ->
+            val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
+                ?: messageInfoModel.createdOn
+            offsetDateTime?.let {
+                dispatch(NetworkAction.SetDisconnectedOffset(it))
+            }
+        }
+    }
+
     private fun processNewMessage(
         action: ChatAction.MessageReceived,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
         messageRepository.addServerMessage(action.message)
         notifyUpdate(dispatch)
@@ -52,7 +66,7 @@ internal class RepositoryMiddlewareImpl(
 
     private fun processPageReceived(
         action: ChatAction.MessagesPageReceived,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
         messageRepository.addPage(action.messages.reversed())
         notifyUpdate(dispatch)

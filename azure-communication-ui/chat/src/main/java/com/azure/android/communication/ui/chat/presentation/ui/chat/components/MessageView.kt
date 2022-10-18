@@ -28,7 +28,6 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
-
     when (viewModel.message.messageType) {
         ChatMessageType.TEXT -> BasicChatMessage(viewModel)
         ChatMessageType.HTML -> BasicChatMessage(viewModel)

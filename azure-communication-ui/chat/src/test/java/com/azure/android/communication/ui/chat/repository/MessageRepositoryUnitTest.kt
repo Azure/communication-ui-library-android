@@ -35,7 +35,7 @@ internal class MessageRepositoryUnitTest {
 
         messageRepository.addPage(messages)
 
-        Assert.assertEquals(numberOfTestMessages, messageRepository.size)
+        Assert.assertEquals(numberOfTestMessages, messageRepository.size())
 
         for (i in 0..50) {
             Assert.assertEquals("Message $i", messageRepository.get(i).content)
@@ -59,7 +59,7 @@ internal class MessageRepositoryUnitTest {
 
         messageRepository.removeMessage(messageRepository.get(0))
 
-        Assert.assertEquals(numberOfTestMessages, messageRepository.size)
+        Assert.assertEquals(numberOfTestMessages, messageRepository.size())
     }
 
     @Test
@@ -125,6 +125,6 @@ internal class MessageRepositoryUnitTest {
 
         messageRepository.reorder()
 
-        Assert.assertEquals("1", messages.get(0).id)
+        Assert.assertEquals("1", messages[0].id)
     }
 }
