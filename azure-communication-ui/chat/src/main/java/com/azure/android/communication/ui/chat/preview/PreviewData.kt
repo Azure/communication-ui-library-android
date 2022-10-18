@@ -6,7 +6,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.Communication
 import org.threeten.bp.OffsetDateTime
 
 internal val MOCK_LOCAL_USER_ID = "Local"
-internal val MOCK_MESSAGES get() : List<MessageInfoModel> {
+internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
     val userA_ID = CommunicationIdentifier.UnknownIdentifier("Peter")
     val userA_Display = "Peter Terry"
 
@@ -40,7 +40,7 @@ internal val MOCK_MESSAGES get() : List<MessageInfoModel> {
             createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
         ),
 
-         MessageInfoModel(
+        MessageInfoModel(
             content = null,
             messageType = ChatMessageType.PARTICIPANT_ADDED,
             senderCommunicationIdentifier = userC_ID,
@@ -73,6 +73,7 @@ internal val MOCK_MESSAGES get() : List<MessageInfoModel> {
             id = null,
             internalId = null,
             createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
-        ),qq
+        ),
+        qq
     )
 }
