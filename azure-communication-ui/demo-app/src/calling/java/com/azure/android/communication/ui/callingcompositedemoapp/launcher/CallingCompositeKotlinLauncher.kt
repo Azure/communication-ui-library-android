@@ -44,7 +44,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
 
-        val callComposite: CallComposite =
+        val callComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(R.style.MyCompany_Theme_Calling)
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
@@ -82,5 +82,12 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
+
+        // For test purposes we will keep a static ref to CallComposite
+        CallingCompositeKotlinLauncher.callComposite = callComposite
+    }
+
+    companion object {
+        var callComposite: CallComposite? = null
     }
 }

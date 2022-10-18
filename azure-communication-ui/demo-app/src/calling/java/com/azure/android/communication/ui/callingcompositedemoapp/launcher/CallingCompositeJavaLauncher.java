@@ -30,6 +30,7 @@ import kotlin.jvm.functions.Function1;
 
 public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
     private final Callable<String> tokenRefresher;
+    private static CallComposite callComposite;
 
     public CallingCompositeJavaLauncher(final Callable<String> tokenRefresher) {
         this.tokenRefresher = tokenRefresher;
@@ -84,5 +85,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                                 .setSubtitle(SettingsFeatures.getSubtitle()));
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
+
+        // For test purposes we will keep a static ref to CallComposite
+        this.callComposite = callComposite;
     }
 }

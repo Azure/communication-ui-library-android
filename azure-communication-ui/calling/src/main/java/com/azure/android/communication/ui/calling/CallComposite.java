@@ -26,6 +26,7 @@ import com.azure.android.communication.ui.calling.service.DiagnosticsManager;
 
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
+import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 /**
@@ -53,7 +54,7 @@ public final class CallComposite {
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
-    private DependencyInjectionContainer diContainer;
+    private WeakReference<DependencyInjectionContainer> diContainer;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -219,11 +220,11 @@ public final class CallComposite {
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
-        this.diContainer = diContainer;
+        this.diContainer = new WeakReference<DependencyInjectionContainer>(diContainer);
     }
 
     private DiagnosticsManager getDiagnosticsManger() {
-        return diContainer != null ? diContainer.getDiagnosticsManager() : null;
+        return diContainer != null ? diContainer.get().getDiagnosticsManager() : null;
     }
 
     private void launchComposite(final Context context,
