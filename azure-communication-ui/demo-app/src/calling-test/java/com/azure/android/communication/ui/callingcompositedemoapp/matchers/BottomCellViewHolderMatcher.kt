@@ -34,7 +34,7 @@ class BottomCellViewHolderMatcher(
         Thread.sleep(1000)
 
         return audioDeviceTextView.text.toString().contains(name) &&
-            verifyCheckMarkMatches(checkMark.visibility == View.VISIBLE)
+                verifyCheckMarkMatches(checkMark.visibility == View.VISIBLE)
     }
 
     private fun verifyCheckMarkMatches(isCheckMarkVisible: Boolean): Boolean {
