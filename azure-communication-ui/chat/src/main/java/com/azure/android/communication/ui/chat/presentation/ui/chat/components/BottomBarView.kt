@@ -23,7 +23,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 internal fun BottomBarView(
     messageInputTextState: MutableState<String>,
     chatStatus: ChatStatus,
-    postAction: (Action) -> Unit
+    postAction: (Action) -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
