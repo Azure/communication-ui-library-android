@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.action.NetworkAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
@@ -35,10 +36,23 @@ internal class RepositoryMiddlewareImpl(
                 is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
                 is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
+                is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
             }
 
             // Pass Action down the chain
             next(action)
+        }
+    }
+
+    private fun processNetworkDisconnected(
+        dispatch: Dispatch
+    ) {
+        messageRepository.getLastMessage()?.let { messageInfoModel ->
+            val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
+                ?: messageInfoModel.createdOn
+            offsetDateTime?.let {
+                dispatch(NetworkAction.SetDisconnectedOffset(it))
+            }
         }
     }
 
