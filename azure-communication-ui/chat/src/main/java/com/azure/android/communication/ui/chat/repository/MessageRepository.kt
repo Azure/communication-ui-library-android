@@ -54,7 +54,7 @@ internal class MessageRepository : MessageRepositoryListInterface(), MessageRepo
 
     override fun isEmpty() = messages.isEmpty()
 
-    override val size: Int = messages.size
+    override val size: Int get() = messages.size
 
     fun reorder() {
         // TODO: Will need to update with repository stable algorithm implementation

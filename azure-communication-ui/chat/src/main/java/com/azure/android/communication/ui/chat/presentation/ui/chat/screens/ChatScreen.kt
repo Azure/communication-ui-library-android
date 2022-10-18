@@ -7,6 +7,7 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
@@ -58,11 +59,11 @@ internal fun ChatScreen(
                 MessageListView(
                     modifier = Modifier.padding(paddingValues),
                     messages = viewModel.messages,
-                    scrollState = LazyListState(),
+                    scrollState = rememberLazyListState(),
                 )
             }
 
-            TypingIndicatorView(viewModel.typingParticipants.toList())
+            //TypingIndicatorView(viewModel.typingParticipants.toList())
         },
         bottomBar = {
             BottomBarView(
