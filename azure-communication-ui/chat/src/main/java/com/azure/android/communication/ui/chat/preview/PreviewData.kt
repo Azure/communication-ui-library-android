@@ -75,5 +75,15 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
         ),
 
-    )
+        MessageInfoModel(
+            senderCommunicationIdentifier = userA_ID,
+            senderDisplayName = userA_Display,
+            content = "<B> Hey!! </B> Check this link <A href=\"https://www.microsoft.com\">microsoft</A>",
+            messageType = ChatMessageType.HTML,
+            id = null,
+            internalId = null,
+            createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+        ),
+
+        )
 }

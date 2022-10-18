@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
+import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
@@ -103,13 +106,29 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                             }
                         }
                     }
-                    BasicText(
-                        text = viewModel.message.content ?: "Empty"
-                    )
+                    if (viewModel.message.messageType == ChatMessageType.HTML) {
+                        HtmlText(html = viewModel.message.content ?: "Empty")
+                    } else {
+                        BasicText(
+                            text = viewModel.message.content ?: "Empty"
+                        )
+
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+fun HtmlText(html: String, modifier: Modifier = Modifier) {
+    AndroidView(modifier = Modifier,
+    factory = {
+        context -> TextView(context)
+    },
+    update = {
+        it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+    })
 }
 
 @Preview
