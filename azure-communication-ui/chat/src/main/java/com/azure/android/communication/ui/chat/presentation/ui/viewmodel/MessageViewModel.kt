@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.core.rest.annotation.Immutable
 
@@ -26,7 +27,8 @@ private class InfoModelToViewModelAdapter(
 
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
-        val lastMessage = messages[index - 1]
+
+        val lastMessage = if (index-1 == -1)  EMPTY_MESSAGE_INFO_MODEL else messages[index - 1]
         val thisMessage = messages[index]
         val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier
         return MessageViewModel(
