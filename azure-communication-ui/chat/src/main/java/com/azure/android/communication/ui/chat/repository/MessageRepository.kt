@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import java.util.Collections
 
 internal class MessageRepository : MessageRepositoryListInterface(), MessageRepositoryMiddlewareInterface {

@@ -96,7 +96,6 @@ internal class ChatContainer(
             addTypedBuilder { chatComposite }
             addTypedBuilder<List<MessageInfoModel>> { messageRepositoryStorage }
 
-
             addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
 
             addTypedBuilder { remoteOptions }

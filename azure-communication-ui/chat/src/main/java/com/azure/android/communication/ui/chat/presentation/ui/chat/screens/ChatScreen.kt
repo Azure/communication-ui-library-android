@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.CircularProgressIndicator
@@ -24,7 +23,6 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenSt
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
@@ -63,7 +61,7 @@ internal fun ChatScreen(
                 )
             }
 
-            //TypingIndicatorView(viewModel.typingParticipants.toList())
+            // TypingIndicatorView(viewModel.typingParticipants.toList())
         },
         bottomBar = {
             BottomBarView(
