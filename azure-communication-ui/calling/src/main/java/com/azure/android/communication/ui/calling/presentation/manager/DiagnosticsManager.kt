@@ -25,7 +25,9 @@ internal class DiagnosticsManagerImpl(
     override fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
             store.getStateFlow().collect {
-                diagnosticsInfo.setCallId(it.callState.callId)
+                if (!it.callState.callId.isNullOrEmpty()) {
+                    diagnosticsInfo.setCallId(it.callState.callId)
+                }
             }
         }
     }
