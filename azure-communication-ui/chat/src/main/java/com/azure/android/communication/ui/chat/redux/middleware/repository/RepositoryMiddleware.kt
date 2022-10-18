@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.chat.redux.action.NetworkAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddlewareInterface
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddleware
 
 internal interface RepositoryMiddleware
 
@@ -22,7 +22,7 @@ internal interface RepositoryMiddleware
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
 internal class RepositoryMiddlewareImpl(
-    private val messageRepository: MessageRepositoryMiddlewareInterface
+    private val messageRepository: MessageRepositoryMiddleware,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware,
@@ -58,7 +58,7 @@ internal class RepositoryMiddlewareImpl(
 
     private fun processNewMessage(
         action: ChatAction.MessageReceived,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
         messageRepository.addServerMessage(action.message)
         notifyUpdate(dispatch)
@@ -66,7 +66,7 @@ internal class RepositoryMiddlewareImpl(
 
     private fun processPageReceived(
         action: ChatAction.MessagesPageReceived,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
         messageRepository.addPage(action.messages.reversed())
         notifyUpdate(dispatch)

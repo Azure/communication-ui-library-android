@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 internal class AppReduxState(
     threadID: String,
     localParticipantIdentifier: String,
-    localParticipantDisplayName: String?
+    localParticipantDisplayName: String?,
 ) : ReduxState {
     override var chatState: ChatState = ChatState(
         chatStatus = ChatStatus.NONE,
