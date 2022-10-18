@@ -44,7 +44,7 @@ internal class ChatSDKWrapper(
     private val context: Context,
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
-    private val chatEventHandler: ChatEventHandler
+    private val chatEventHandler: ChatEventHandler,
 ) : ChatSDK {
 
     companion object {

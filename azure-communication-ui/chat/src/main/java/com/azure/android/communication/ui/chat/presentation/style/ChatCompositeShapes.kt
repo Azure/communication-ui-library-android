@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 
 @Immutable
 data class ChatCompositeShapes(
-    val messageBubble: Shape
+    val messageBubble: Shape,
 )
 
 val LocalChatCompositeShapes = staticCompositionLocalOf {

@@ -28,7 +28,7 @@ import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeT
 internal fun ActionBarView(
     participantCount: Int,
     topic: String,
-    onBackButtonPressed: () -> Unit = { }
+    onBackButtonPressed: () -> Unit = { },
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         TopAppBar(

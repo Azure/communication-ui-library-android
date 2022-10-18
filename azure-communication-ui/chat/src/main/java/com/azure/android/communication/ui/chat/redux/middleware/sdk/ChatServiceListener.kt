@@ -62,7 +62,7 @@ internal class ChatServiceListener(
 
     private fun onMessagesPageModelReceived(
         messagesPageModel: MessagesPageModel,
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
 
         messagesPageModel.throwable?.let {
