@@ -36,7 +36,8 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-            participants = listOf(userOne, userTwo).associateBy({ it.userIdentifier.id })
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = hashSetOf(userOne.displayName!!, userTwo.displayName!!)
         )
         val action = ParticipantAction.ParticipantsAdded(participants = listOf(userThree, userFour))
 
@@ -55,7 +56,8 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-            participants = listOf(userOne, userTwo).associateBy({ it.userIdentifier.id })
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = hashSetOf(userOne.displayName!!, userTwo.displayName!!)
         )
         val userTwo_duplicate = RemoteParticipantInfoModel(
             userIdentifier = CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
@@ -84,7 +86,8 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-            participants = listOf(userOne, userTwo).associateBy({ it.userIdentifier.id })
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = hashSetOf(userOne.displayName!!, userTwo.displayName!!)
         )
         val userOne_duplicate = RemoteParticipantInfoModel(
             userIdentifier = CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
@@ -113,12 +116,9 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-            participants = listOf(
-                userOne,
-                userTwo,
-                userThree,
-                userFour
-            ).associateBy({ it.userIdentifier.id })
+
+            participants = listOf(userOne, userTwo, userThree, userFour).associateBy { it.userIdentifier.id },
+            participantTyping = hashSetOf(userOne.displayName!!, userTwo.displayName!!)
         )
         val action =
             ParticipantAction.ParticipantsRemoved(participants = listOf(userThree, userFour))
@@ -129,7 +129,7 @@ class ParticipantsReducerUnitTest {
         // assert
         Assert.assertEquals(
             newState.participants,
-            listOf(userOne, userTwo).associateBy({ it.userIdentifier.id })
+            listOf(userOne, userTwo).associateBy { it.userIdentifier.id }
         )
     }
 }
