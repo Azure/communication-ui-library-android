@@ -40,7 +40,7 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
             builder = { store ->
                 buildChatScreenViewModel(
                     store = store,
-                    repository = locator.locate(),
+                    messages = locator.locate(),
                     localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity
                 )
             },
