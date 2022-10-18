@@ -7,7 +7,8 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 
 internal class MessageRepository(
     val readerDelegate: MessageRepositoryReader,
-    val writerDelegate: MessageRepositoryWriter) : MessageRepositoryReader(), MessageRepositoryWriter {
+    val writerDelegate: MessageRepositoryWriter
+) : MessageRepositoryReader(), MessageRepositoryWriter {
 
     override val size: Int get() = readerDelegate.size
     override fun get(index: Int): MessageInfoModel = readerDelegate[index]

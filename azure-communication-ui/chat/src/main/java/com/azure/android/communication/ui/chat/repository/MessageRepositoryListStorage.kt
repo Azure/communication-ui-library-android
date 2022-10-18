@@ -4,7 +4,6 @@ import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import java.util.Collections
 
-
 internal class MessageRepositoryListWriter : MessageRepositoryWriter {
     // Simple List for now
     val messages: MutableList<MessageInfoModel> = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
