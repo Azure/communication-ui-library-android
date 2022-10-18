@@ -65,6 +65,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     CallingSDK {
     private val coroutineScope = CoroutineScope(coroutineContextProvider.Default)
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
+    private var callIdSharedFlow = MutableSharedFlow<String?>()
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private var isMutedSharedFlow = MutableSharedFlow<Boolean>()
@@ -191,6 +192,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             startCallCompletableFuture.complete(null)
             callStarted.compareAndSet(false, true)
             callingStateWrapperSharedFlow.emit(CallingStateWrapper(CallState.CONNECTED, 0, 0))
+            callIdSharedFlow.emit("callid")
             emitRemoteParticipantFlow()
         }
         return startCallCompletableFuture
@@ -241,6 +243,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> {
         return callingStateWrapperSharedFlow
     }
+
+    override fun getCallIdSharedFlow(): SharedFlow<String?> = callIdSharedFlow
 
     override fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> {
         coroutineScope.launch {
