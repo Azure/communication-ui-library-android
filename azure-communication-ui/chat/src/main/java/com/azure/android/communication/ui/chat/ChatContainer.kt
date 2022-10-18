@@ -14,7 +14,7 @@ import com.azure.android.communication.ui.chat.presentation.manager.NetworkManag
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.middleware.repository.RepositoryMiddlewareImpl
+import com.azure.android.communication.ui.chat.redux.middleware.repository.MessageRepositoryMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatServiceListener
@@ -30,6 +30,8 @@ import com.azure.android.communication.ui.chat.redux.reducer.RepositoryReducerIm
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryListReader
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryListWriter
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
@@ -91,10 +93,12 @@ internal class ChatContainer(
         ServiceLocator.getInstance(instanceId = instanceId).apply {
             addTypedBuilder { CoroutineContextProvider() }
 
-            val messageRepositoryStorage = MessageRepository()
+            val writer = MessageRepositoryListWriter()
+            val reader = MessageRepositoryListReader(writer)
+            val messageRepository = MessageRepository(writerDelegate = writer, readerDelegate = reader)
 
             addTypedBuilder { chatComposite }
-            addTypedBuilder<List<MessageInfoModel>> { messageRepositoryStorage }
+            addTypedBuilder<List<MessageInfoModel>> { messageRepository }
 
             addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
 
@@ -142,7 +146,7 @@ internal class ChatContainer(
                                 coroutineContextProvider = locate()
                             )
                         ),
-                        RepositoryMiddlewareImpl(messageRepositoryStorage)
+                        MessageRepositoryMiddlewareImpl(messageRepository)
                     ),
                     dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
                 )
