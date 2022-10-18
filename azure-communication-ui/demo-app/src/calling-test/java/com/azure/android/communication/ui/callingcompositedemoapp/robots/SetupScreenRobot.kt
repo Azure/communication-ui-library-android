@@ -64,7 +64,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         selectAudioDevice(
             R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled,
             "Speaker",
-            false
+            isSelected
         )
         return this
     }
@@ -121,6 +121,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
             idlingResource.waitUntilViewIsDisplayed {
                 checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_start_call_button_text)
             }
+            Thread.sleep(2000)
             clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
         }
         if (waitForProgress) {
