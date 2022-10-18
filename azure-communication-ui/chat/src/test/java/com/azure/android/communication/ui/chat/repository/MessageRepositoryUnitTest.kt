@@ -18,8 +18,12 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_addPage_test() {
-
-        val messageRepository = MessageRepository()
+        val writer = MessageRepositoryListWriter()
+        val reader = MessageRepositoryListReader(writer)
+        val messageRepository = MessageRepository(
+            readerDelegate = reader,
+            writerDelegate = writer
+        )
 
         val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
         val numberOfTestMessages = 51
@@ -44,7 +48,12 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_removeMessage_test() {
-        val messageRepository = MessageRepository()
+        val writer = MessageRepositoryListWriter()
+        val reader = MessageRepositoryListReader(writer)
+        val messageRepository = MessageRepository(
+            readerDelegate = reader,
+            writerDelegate = writer
+        )
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -64,7 +73,12 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_editMessage_test() {
-        val messageRepository = MessageRepository()
+        val writer = MessageRepositoryListWriter()
+        val reader = MessageRepositoryListReader(writer)
+        val messageRepository = MessageRepository(
+            readerDelegate = reader,
+            writerDelegate = writer
+        )
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -90,7 +104,12 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_Reorder_test() {
-        val messageRepository = MessageRepository()
+        val writer = MessageRepositoryListWriter()
+        val reader = MessageRepositoryListReader(writer)
+        val messageRepository = MessageRepository(
+            readerDelegate = reader,
+            writerDelegate = writer
+        )
 
         val messages = mutableListOf<MessageInfoModel>()
 
@@ -123,7 +142,7 @@ internal class MessageRepositoryUnitTest {
             )
         }
 
-        messageRepository.reorder()
+        writer.reorder()
 
         Assert.assertEquals("1", messages[0].id)
     }
