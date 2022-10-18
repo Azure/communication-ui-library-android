@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
+import com.azure.android.communication.ui.chat.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -16,14 +17,15 @@ import com.azure.android.communication.ui.chat.redux.middleware.repository.Repos
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatServiceListener
-import com.azure.android.communication.ui.chat.redux.reducer.RepositoryReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.LifecycleReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.NavigationReducerImpl
+import com.azure.android.communication.ui.chat.redux.reducer.NetworkReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ParticipantsReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.Reducer
+import com.azure.android.communication.ui.chat.redux.reducer.RepositoryReducerImpl
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryView
@@ -32,6 +34,7 @@ import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddl
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
+import com.azure.android.communication.ui.chat.service.sdk.ChatFetchNotificationHandler
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 
 internal class ChatContainer(
@@ -72,7 +75,10 @@ internal class ChatContainer(
                 remoteOptions,
                 context
             )
-                .apply { locate<Dispatch>()(ChatAction.StartChat()) }
+                .apply {
+                    locate<Dispatch>()(ChatAction.StartChat())
+                    locate<NetworkManager>().start(context)
+                }
         }
     }
 
@@ -99,13 +105,16 @@ internal class ChatContainer(
 
             addTypedBuilder { ChatEventHandler() }
 
+            addTypedBuilder { ChatFetchNotificationHandler(coroutineContextProvider = locate()) }
+
             addTypedBuilder {
                 ChatService(
                     chatSDK = ChatSDKWrapper(
                         context = context,
                         chatConfig = configuration.chatConfig!!,
                         coroutineContextProvider = locate(),
-                        chatEventHandler = locate()
+                        chatEventHandler = locate(),
+                        chatFetchNotificationHandler = locate()
                     )
                 )
             }
@@ -123,7 +132,8 @@ internal class ChatContainer(
                         lifecycleReducer = LifecycleReducerImpl(),
                         errorReducer = ErrorReducerImpl(),
                         navigationReducer = NavigationReducerImpl(),
-                        repositoryReducer = RepositoryReducerImpl()
+                        repositoryReducer = RepositoryReducerImpl(),
+                        networkReducer = NetworkReducerImpl()
                     ) as Reducer<ReduxState>,
                     middlewares = mutableListOf(
                         ChatMiddlewareImpl(
@@ -142,9 +152,12 @@ internal class ChatContainer(
             }
 
             addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
+
+            addTypedBuilder { NetworkManager(dispatch = locate()) }
         }
 
     fun stop() {
+        locator?.locate<NetworkManager>()?.stop()
         locator?.clear()
     }
 }

@@ -50,6 +50,8 @@ internal class MessageRepositoryList : MessageStorage {
         reorder()
     }
 
+    override fun getLastMessage(): MessageInfoModel? = messages?.last()
+
     // List Implementation
     // Important parts of a list to implement
     override fun size() = messages.size
