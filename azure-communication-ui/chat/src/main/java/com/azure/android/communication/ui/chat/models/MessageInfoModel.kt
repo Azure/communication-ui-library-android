@@ -84,12 +84,11 @@ internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent
     )
 }
 
-
 internal val EMPTY_MESSAGE_INFO_MODEL = MessageInfoModel(
     id = "",
     messageType = null,
     content = "",
-    internalId ="",
+    internalId = "",
     version = "",
     senderDisplayName = "",
     createdOn = null,

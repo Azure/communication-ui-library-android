@@ -28,7 +28,7 @@ private class InfoModelToViewModelAdapter(
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
 
-        val lastMessage = if (index-1 == -1)  EMPTY_MESSAGE_INFO_MODEL else messages[index - 1]
+        val lastMessage = if (index - 1 == -1) EMPTY_MESSAGE_INFO_MODEL else messages[index - 1]
         val thisMessage = messages[index]
         val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier
         return MessageViewModel(
