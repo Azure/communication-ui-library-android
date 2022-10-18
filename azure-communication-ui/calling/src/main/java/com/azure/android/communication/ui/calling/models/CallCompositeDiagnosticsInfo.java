@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * A Call Composite Diagnostics information.
  */
-public class CallCompositeDiagnosticsInfo {
+public final class CallCompositeDiagnosticsInfo {
 
     private String lastKnownCallId;
 
