@@ -19,7 +19,7 @@ internal interface ChatMiddleware
 // ChatActionHandler (Redux -> Service)
 internal class ChatMiddlewareImpl(
     private val chatServiceListener: ChatServiceListener,
-    private val chatActionHandler: ChatActionHandler
+    private val chatActionHandler: ChatActionHandler,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware {
@@ -37,7 +37,11 @@ internal class ChatMiddlewareImpl(
             }
 
             // Forward Actions to ChatActionHandler
-            chatActionHandler.onAction(action = action, dispatch = store::dispatch)
+            chatActionHandler.onAction(
+                action = action,
+                dispatch = store::dispatch,
+                state = store.getCurrentState()
+            )
 
             // Pass Action down the chain
             next(action)

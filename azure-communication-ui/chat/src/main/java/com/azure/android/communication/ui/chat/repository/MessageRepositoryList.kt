@@ -14,22 +14,7 @@ private val emptyMessage = MessageInfoModel(
     messageType = ChatMessageType.TEXT
 )
 
-// Interface for Message Repository Middleware to use
-// I.e.
-// - addLocalMessage
-// - messageRetrieved,
-// - pageRetrieved
-// - messageEdited
-// - messageDeleted
-internal interface MessageRepositoryMiddlewareInterface {
-    fun addLocalMessage(messageInfoModel: MessageInfoModel)
-    fun addPage(page: List<MessageInfoModel>)
-    fun addServerMessage(message: MessageInfoModel)
-    fun removeMessage(message: MessageInfoModel)
-    fun editMessage(message: MessageInfoModel)
-}
-
-internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
+internal class MessageRepositoryList : MessageStorage {
     // Simple List for now
     private val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
 
@@ -65,9 +50,11 @@ internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMidd
         reorder()
     }
 
+    override fun getLastMessage(): MessageInfoModel? = messages?.last()
+
     // List Implementation
     // Important parts of a list to implement
-    override val size get() = messages.size
+    override fun size() = messages.size
     override fun indexOf(element: MessageInfoModel) = messages.indexOf(element)
     override fun get(index: Int): MessageInfoModel = try {
         messages[index]

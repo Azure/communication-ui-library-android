@@ -10,4 +10,5 @@ internal interface ReduxState {
     var errorState: ErrorState
     var navigationState: NavigationState
     var repositoryState: RepositoryState
+    var networkState: NetworkState
 }

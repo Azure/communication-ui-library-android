@@ -25,7 +25,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.B
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
-import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
+import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
@@ -33,7 +33,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.Communication
 @Composable
 internal fun ChatScreen(
     viewModel: ChatScreenViewModel,
-    stateViewModel: ChatScreenStateViewModel = viewModel()
+    stateViewModel: ChatScreenStateViewModel = viewModel(),
 ) {
 
     Scaffold(
@@ -83,31 +83,37 @@ internal fun ChatScreenPreview() {
         ChatScreen(
             viewModel = ChatScreenViewModel(
                 listOf(
-                    MessageInfoModel(
-                        messageType = ChatMessageType.TEXT,
-                        content = "Test Message",
-                        internalId = null,
-                        id = null,
-                        senderDisplayName = "John Doe"
+                    MessageViewModel(
+                        MessageInfoModel(
+                            messageType = ChatMessageType.TEXT,
+                            content = "Test Message",
+                            internalId = null,
+                            id = null,
+                            senderDisplayName = "John Doe"
+                        )
                     ),
 
-                    MessageInfoModel(
-                        messageType = ChatMessageType.TEXT,
-                        content = "Test Message 2 ",
-                        internalId = null,
-                        id = null,
-                        senderDisplayName = "John Doe Junior"
+                    MessageViewModel(
+                        MessageInfoModel(
+                            messageType = ChatMessageType.TEXT,
+                            content = "Test Message 2 ",
+                            internalId = null,
+                            id = null,
+                            senderDisplayName = "John Doe Junior"
+                        )
                     ),
 
-                    MessageInfoModel(
-                        messageType = ChatMessageType.TEXT,
-                        content = "Test Message 3",
-                        internalId = null,
-                        id = null,
-                        senderDisplayName = "Elliott Red"
+                    MessageViewModel(
+                        MessageInfoModel(
+                            messageType = ChatMessageType.TEXT,
+                            content = "Test Message 3",
+                            internalId = null,
+                            id = null,
+                            senderDisplayName = "Elliott Red"
+                        )
                     ),
 
-                ).toViewModelList(),
+                ),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 postAction = {},
