@@ -19,7 +19,7 @@ import com.azure.android.communication.ui.calling.presentation.navigation.Naviga
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.service.DiagnosticsManager
+import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager
 import com.azure.android.communication.ui.calling.service.NotificationService
 
 // Dependency Container for the Call Composite Activity

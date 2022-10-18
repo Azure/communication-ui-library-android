@@ -15,7 +15,7 @@ public class CallCompositeDiagnosticsInfo {
      * @param lastKnownCallId last known call id.
      * @return {@link CallCompositeDiagnosticsInfo}
      */
-    public CallCompositeDiagnosticsInfo setLastKnownCallId(final String lastKnownCallId) {
+    CallCompositeDiagnosticsInfo setLastKnownCallId(final String lastKnownCallId) {
         this.lastKnownCallId = lastKnownCallId;
         return this;
     }

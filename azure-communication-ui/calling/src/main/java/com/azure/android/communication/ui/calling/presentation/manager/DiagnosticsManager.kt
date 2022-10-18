@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.service
+package com.azure.android.communication.ui.calling.presentation.manager
 
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfo
+import com.azure.android.communication.ui.calling.models.setCallId
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
@@ -24,7 +25,7 @@ internal class DiagnosticsManagerImpl(
     override fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
             store.getStateFlow().collect {
-                diagnosticsInfo.lastKnownCallId = it.callState.callId
+                diagnosticsInfo.setCallId(it.callState.callId)
             }
         }
     }

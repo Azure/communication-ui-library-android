@@ -29,8 +29,8 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
-    private final Callable<String> tokenRefresher;
     private static CallComposite callComposite;
+    private final Callable<String> tokenRefresher;
 
     public CallingCompositeJavaLauncher(final Callable<String> tokenRefresher) {
         this.tokenRefresher = tokenRefresher;

@@ -43,8 +43,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.service.DiagnosticsManager
-import com.azure.android.communication.ui.calling.service.DiagnosticsManagerImpl
+import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager
+import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManagerImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
