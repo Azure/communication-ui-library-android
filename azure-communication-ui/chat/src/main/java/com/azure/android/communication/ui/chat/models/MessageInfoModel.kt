@@ -6,8 +6,10 @@ package com.azure.android.communication.ui.chat.models
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
+import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
 
+@Immutable
 internal data class MessageInfoModel(
     val id: String?,
     val internalId: String? = null,
@@ -81,3 +83,16 @@ internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent
         editedOn = null
     )
 }
+
+internal val EMPTY_MESSAGE_INFO_MODEL = MessageInfoModel(
+    id = "",
+    messageType = null,
+    content = "",
+    internalId = "",
+    version = "",
+    senderDisplayName = "",
+    createdOn = null,
+    senderCommunicationIdentifier = null,
+    deletedOn = null,
+    editedOn = null,
+)

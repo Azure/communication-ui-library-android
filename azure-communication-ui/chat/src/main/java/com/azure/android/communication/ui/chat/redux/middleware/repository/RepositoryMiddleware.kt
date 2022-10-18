@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.chat.redux.action.NetworkAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddleware
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddlewareInterface
 
 internal interface RepositoryMiddleware
 
@@ -22,7 +22,7 @@ internal interface RepositoryMiddleware
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
 internal class RepositoryMiddlewareImpl(
-    private val messageRepository: MessageRepositoryMiddleware,
+    private val messageRepository: MessageRepositoryMiddlewareInterface,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware,

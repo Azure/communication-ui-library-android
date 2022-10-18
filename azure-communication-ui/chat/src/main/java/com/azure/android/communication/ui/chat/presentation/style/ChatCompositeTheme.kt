@@ -59,8 +59,10 @@ internal fun ChatCompositeTheme(
 }
 
 // Usage: ChatCompositeTheme.typography.body
-object ChatCompositeTheme {
-
+internal object ChatCompositeTheme {
+    val dimensions: ChatCompositeDimensions
+        @Composable
+        get() = LocalChatCompositeDimensions.current
     val typography: ChatCompositeTypography
         @Composable
         get() = LocalChatCompositeTypography.current
