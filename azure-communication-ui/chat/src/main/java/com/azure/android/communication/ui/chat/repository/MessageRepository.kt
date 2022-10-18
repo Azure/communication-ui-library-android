@@ -3,16 +3,10 @@
 
 package com.azure.android.communication.ui.chat.repository
 
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import java.util.Collections
-
-private val emptyMessage = MessageInfoModel(
-    content = null,
-    id = null,
-    internalId = null,
-    messageType = ChatMessageType.TEXT
-)
 
 internal class MessageRepository : MessageRepositoryListInterface(), MessageRepositoryMiddlewareInterface {
     // Simple List for now
@@ -55,7 +49,7 @@ internal class MessageRepository : MessageRepositoryListInterface(), MessageRepo
     override fun get(index: Int): MessageInfoModel = try {
         messages[index]
     } catch (exception: Exception) {
-        emptyMessage
+        EMPTY_MESSAGE_INFO_MODEL
     }
 
     override fun isEmpty() = messages.isEmpty()
