@@ -121,6 +121,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
             idlingResource.waitUntilViewIsDisplayed {
                 checkViewIdIsDisplayed(R.id.azure_communication_ui_setup_start_call_button_text)
             }
+            Thread.sleep(2000)
             clickViewWithId(R.id.azure_communication_ui_setup_join_call_button)
         }
         if (waitForProgress) {
