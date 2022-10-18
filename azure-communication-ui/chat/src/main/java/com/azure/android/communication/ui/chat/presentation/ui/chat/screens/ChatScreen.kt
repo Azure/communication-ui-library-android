@@ -138,7 +138,7 @@ internal fun ChatScreenPreview() {
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
                 // )
-            ) {},
+            ),
 
         )
     }
