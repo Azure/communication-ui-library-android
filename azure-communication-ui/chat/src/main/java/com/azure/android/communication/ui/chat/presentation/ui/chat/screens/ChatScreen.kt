@@ -46,7 +46,7 @@ internal fun ChatScreen(
                 dispatcher?.onBackPressed()
             }
         },
-        content = {
+        content = { paddingValues ->
             if (viewModel.showError) {
                 Column {
                     BasicText("ERROR")
@@ -56,15 +56,13 @@ internal fun ChatScreen(
                 CircularProgressIndicator()
             } else {
                 MessageListView(
-                    modifier = Modifier.padding(it),
+                    modifier = Modifier.padding(paddingValues),
                     messages = viewModel.messages,
                     scrollState = LazyListState(),
                 )
             }
 
-            viewModel.participants.also { remoteParticipants ->
-                TypingIndicatorView(participants = remoteParticipants.values)
-            }
+            TypingIndicatorView(viewModel.typingParticipants.toList())
         },
         bottomBar = {
             BottomBarView(
@@ -82,7 +80,7 @@ internal fun ChatScreenPreview() {
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                listOf(
+                messages = listOf(
                     MessageViewModel(
                         MessageInfoModel(
                             messageType = ChatMessageType.TEXT,
@@ -116,6 +114,7 @@ internal fun ChatScreenPreview() {
                 ),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
+                typingParticipants = setOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(
                     RemoteParticipantInfoModel(
@@ -143,7 +142,8 @@ internal fun ChatScreenPreview() {
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED
                 // )
-            )
+            ) {},
+
         )
     }
 }
