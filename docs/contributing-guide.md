@@ -34,7 +34,7 @@ You can send pull requests to fix the open issues. For any pull request, it's re
 
 We recommend making small and simple pull requests. Avoid making the implementation complicated when there is a simple, small alternative.
 
-Please fork the repository and submit pull requests to `develop/beta` branch. For details on how to set up a fork of this repository and keep it up-to-date see [Fork a Repo - GitHub Help](https://help.github.com/en/github/getting-started-with-github/fork-a-repo).
+Please fork the repository and submit pull requests to `develop` branch. For details on how to set up a fork of this repository and keep it up-to-date see [Fork a Repo - GitHub Help](https://help.github.com/en/github/getting-started-with-github/fork-a-repo).
 
 ### Writing unit tests
 
@@ -43,7 +43,7 @@ When submitting a pull request, please add relevant tests and ensure your change
 
 ### Running unit tests
 
-Unit tests are located in the `/azure-communication-ui/azure-communication-ui/src/test` directory. 
+Unit tests are located in the `/azure-communication-ui/{calling/chat/call-with-chat}/src/test` directory. 
 
 ### Style Guidelines
 
