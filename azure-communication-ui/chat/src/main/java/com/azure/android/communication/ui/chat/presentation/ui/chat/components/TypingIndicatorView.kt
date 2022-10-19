@@ -7,7 +7,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -48,9 +47,9 @@ internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>) {
                 }
                 else -> {
                     val size = typingParticipantsDisplayName.size - 2
-                    val othersMessage = if (size == 1) "other is" else "others are"
+                    val othersMessage = if (size == 1) "other" else "others"
                     val secondName = typingParticipantsDisplayName[1].substringBefore(" ")
-                    "$firstName, $secondName, and $size $othersMessage typing"
+                    "$firstName, $secondName, and $size $othersMessage are typing"
                 }
             }
             Text(
