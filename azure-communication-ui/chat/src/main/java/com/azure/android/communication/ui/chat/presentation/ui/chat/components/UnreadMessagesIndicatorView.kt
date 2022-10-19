@@ -16,7 +16,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
-import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import kotlinx.coroutines.launch
 
 /**
@@ -34,7 +33,8 @@ internal fun UnreadMessagesIndicatorView(
         Box(
             Modifier
                 .fillMaxWidth()
-                .background(color = ChatCompositeTheme.colors.component)) {
+                .background(color = ChatCompositeTheme.colors.component)
+        ) {
             BasicText(
                 text = "View $unreadCount new messages",
                 modifier = Modifier.clickable {
@@ -45,8 +45,6 @@ internal fun UnreadMessagesIndicatorView(
             )
         }
     }
-
-
 }
 
 @Preview
