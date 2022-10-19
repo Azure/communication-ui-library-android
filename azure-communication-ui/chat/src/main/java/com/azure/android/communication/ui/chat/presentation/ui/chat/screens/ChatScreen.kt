@@ -7,12 +7,17 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,20 +31,25 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.A
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
+import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 
 @Composable
 internal fun ChatScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
 ) {
+    val scaffoldState = rememberScaffoldState()
+    val listState = rememberLazyListState()
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             ActionBarView(
@@ -56,12 +66,14 @@ internal fun ChatScreen(
                     BasicText(viewModel.errorMessage)
                 }
             } else if (viewModel.isLoading) {
-                CircularProgressIndicator()
+                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
             } else {
                 MessageListView(
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier.padding(paddingValues).fillMaxWidth(),
                     messages = viewModel.messages,
-                    scrollState = rememberLazyListState(),
+                    scrollState = listState,
                 )
             }
         },
@@ -69,6 +81,13 @@ internal fun ChatScreen(
             Column {
                 TypingIndicatorView(viewModel.typingParticipants.toList())
                 Spacer(modifier = Modifier.height(20.dp))
+                UnreadMessagesIndicatorView(
+                    scrollState = listState,
+                    visible = listState.outOfViewItemCount() > 0,
+                    unreadCount = 0,
+                    totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
+                )
+
                 BottomBarView(
                     messageInputTextState = stateViewModel.messageInputTextState,
                     chatStatus = viewModel.chatStatus,
