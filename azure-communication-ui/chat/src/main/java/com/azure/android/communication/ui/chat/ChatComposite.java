@@ -161,4 +161,13 @@ public class ChatComposite {
             showCompositeUI(context);
         }
     }
+
+    void launchTest(final Context context,
+                    final ChatCompositeRemoteOptions remoteOptions,
+                    final ChatCompositeLocalOptions localOptions) {
+        chatContainer.start(context, remoteOptions, localOptions);
+        if (localOptions.getIsLaunchingWithUI()) {
+            showCompositeUI(context);
+        }
+    }
 }
