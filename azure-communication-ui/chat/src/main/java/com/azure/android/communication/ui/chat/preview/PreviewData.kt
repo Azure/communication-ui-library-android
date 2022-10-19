@@ -44,7 +44,7 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             content = null,
             messageType = ChatMessageType.PARTICIPANT_ADDED,
             senderCommunicationIdentifier = userC_ID,
-            participants = listOf(userC_Display),
+            participants = listOf(userC_Display, userA_Display),
             senderDisplayName = null,
             id = null,
             internalId = null
