@@ -1,22 +1,12 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 package com.azure.android.communication.ui.chat.repository
 
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import java.util.Collections
 
-private val emptyMessage = MessageInfoModel(
-    content = null,
-    id = null,
-    internalId = null,
-    messageType = ChatMessageType.TEXT
-)
-
-internal class MessageRepositoryList : MessageStorage {
+internal class MessageRepositoryListWriter : MessageRepositoryWriter {
     // Simple List for now
-    private val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
+    val messages: MutableList<MessageInfoModel> = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
 
     // Middleware Interface
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
@@ -52,32 +42,6 @@ internal class MessageRepositoryList : MessageStorage {
 
     override fun getLastMessage(): MessageInfoModel? = messages?.last()
 
-    // List Implementation
-    // Important parts of a list to implement
-    override fun size() = messages.size
-    override fun indexOf(element: MessageInfoModel) = messages.indexOf(element)
-    override fun get(index: Int): MessageInfoModel = try {
-        messages[index]
-    } catch (exception: Exception) {
-        emptyMessage
-    }
-
-    override fun isEmpty() = messages.isEmpty()
-
-    // Less Important, but should be easy to implement
-    override fun contains(element: MessageInfoModel) = messages.contains(element)
-
-    // Less or Not important parts of the List Interface
-    // Don't hesitate to not support them if the internal implementation changes
-    override fun containsAll(elements: Collection<MessageInfoModel>) =
-        messages.containsAll(elements)
-
-    override fun iterator(): Iterator<MessageInfoModel> = messages.iterator()
-    override fun lastIndexOf(element: MessageInfoModel) = messages.lastIndexOf(element)
-    override fun listIterator() = messages.listIterator()
-    override fun listIterator(index: Int) = messages.listIterator(index)
-    override fun subList(fromIndex: Int, toIndex: Int) = messages.subList(fromIndex, toIndex)
-
     fun reorder() {
         // TODO: Will need to update with repository stable algorithm implementation
         messages.sortBy {
@@ -100,4 +64,14 @@ internal class MessageRepositoryList : MessageStorage {
         )
         messages[idx] = newMessage
     }
+}
+
+internal class MessageRepositoryListReader(private val writer: MessageRepositoryListWriter) : MessageRepositoryReader() {
+    override fun get(index: Int): MessageInfoModel = try {
+        writer.messages[index]
+    } catch (exception: Exception) {
+        EMPTY_MESSAGE_INFO_MODEL
+    }
+
+    override val size: Int get() = writer.messages.size
 }

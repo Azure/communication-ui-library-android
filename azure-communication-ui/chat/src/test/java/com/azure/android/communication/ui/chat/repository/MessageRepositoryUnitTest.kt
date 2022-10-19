@@ -18,8 +18,7 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_addPage_test() {
-
-        val messageRepository = MessageRepositoryList()
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
         val numberOfTestMessages = 51
@@ -35,16 +34,16 @@ internal class MessageRepositoryUnitTest {
 
         messageRepository.addPage(messages)
 
-        Assert.assertEquals(numberOfTestMessages, messageRepository.size())
+        Assert.assertEquals(numberOfTestMessages, messageRepository.size)
 
         for (i in 0..50) {
-            Assert.assertEquals("Message $i", messageRepository.get(i).content)
+            Assert.assertEquals("Message $i", messageRepository[i].content)
         }
     }
 
     @Test
     fun messageRepository_removeMessage_test() {
-        val messageRepository = MessageRepositoryList()
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -59,12 +58,12 @@ internal class MessageRepositoryUnitTest {
 
         messageRepository.removeMessage(messageRepository.get(0))
 
-        Assert.assertEquals(numberOfTestMessages, messageRepository.size())
+        Assert.assertEquals(numberOfTestMessages, messageRepository.size)
     }
 
     @Test
     fun messageRepository_editMessage_test() {
-        val messageRepository = MessageRepositoryList()
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -90,9 +89,8 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_Reorder_test() {
-        val messageRepository = MessageRepositoryList()
-
-        val messages = mutableListOf<MessageInfoModel>()
+        val writer = MessageRepositoryListWriter()
+        val messages = writer.messages
 
         for (i in 1..3) {
             messages.add(
@@ -123,7 +121,7 @@ internal class MessageRepositoryUnitTest {
             )
         }
 
-        messageRepository.reorder()
+        writer.reorder()
 
         Assert.assertEquals("1", messages[0].id)
     }

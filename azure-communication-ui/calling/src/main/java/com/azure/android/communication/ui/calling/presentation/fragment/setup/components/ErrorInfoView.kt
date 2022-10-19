@@ -32,24 +32,26 @@ internal class ErrorInfoView(private val rootView: View) {
         initSnackBar()
         viewLifecycleOwner.lifecycleScope.launch {
             snackBarViewModel.getCallStateErrorStateFlow().collect {
-                if (it == null) {
+                if (it == null && snackBarViewModel.callCompositeErrorFlow.value == null) {
                     snackBar.dismiss()
                 } else {
-                    displaySnackBar(it, "")
+                    it?.let { displaySnackBar(it, "") }
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             snackBarViewModel.callCompositeErrorFlow.collect {
-                if (it == null) {
+                if (it == null && snackBarViewModel.getCallStateErrorStateFlow().value == null) {
                     snackBar.dismiss()
                 } else {
-                    displaySnackBar(
-                        null,
-                        rootView.context.getText(R.string.azure_communication_ui_calling_call_video_fails_error)
-                            .toString()
-                    )
+                    it?.let {
+                        displaySnackBar(
+                            null,
+                            rootView.context.getText(R.string.azure_communication_ui_calling_call_video_fails_error)
+                                .toString()
+                        )
+                    }
                 }
             }
         }

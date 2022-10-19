@@ -12,21 +12,21 @@ import com.azure.android.communication.ui.chat.redux.action.NetworkAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddleware
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
 
-internal interface RepositoryMiddleware
+internal interface MessageRepositoryMiddleware
 
 // MessagesRepositoryMiddleware
 //
 // Manages
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
-internal class RepositoryMiddlewareImpl(
-    private val messageRepository: MessageRepositoryMiddleware,
+internal class MessageRepositoryMiddlewareImpl(
+    private val messageRepository: MessageRepositoryWriter,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware,
-    RepositoryMiddleware {
+    MessageRepositoryMiddleware {
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
