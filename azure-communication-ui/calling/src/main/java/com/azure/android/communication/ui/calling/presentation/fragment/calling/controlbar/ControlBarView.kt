@@ -16,11 +16,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
+import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -33,8 +38,15 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
-    private lateinit var requestCallEndCallback: () -> Unit
-    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
+    private lateinit var moreButton: ImageButton
+
+//    private lateinit var recyclerView: RecyclerView
+//    private lateinit var moreMenuDrawer: DrawerDialog
+//    private lateinit var bottomCellAdapter: BottomCellAdapter
+
+//    init {
+//        inflate(context, R.layout.azure_communication_ui_calling_listview, this)
+//    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -42,18 +54,26 @@ internal class ControlBarView : ConstraintLayout {
         cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
+        moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
+
+//        recyclerView = findViewById(R.id.bottom_drawer_table)
+//        moreMenuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+//        bottomCellAdapter = BottomCellAdapter()
+//        bottomCellAdapter.setBottomCellItems(bottomCellItems)
+//        recyclerView.adapter = bottomCellAdapter
+//        moreMenuDrawer.setContentView(this)
+//        moreMenuDrawer.setOnDismissListener {
+////            viewModel.closeAudioDeviceSelectionMenu()
+//        }
+
         subscribeClickListener()
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
-        requestCallEnd: () -> Unit,
-        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         this.viewModel = viewModel
-        this.requestCallEndCallback = requestCallEnd
-        this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -95,6 +115,8 @@ internal class ControlBarView : ConstraintLayout {
                 }
             }
         }
+
+
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
@@ -200,7 +222,7 @@ internal class ControlBarView : ConstraintLayout {
 
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
-            requestCallEndCallback()
+            viewModel.requestCallEnd()
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {
@@ -217,7 +239,37 @@ internal class ControlBarView : ConstraintLayout {
             }
         }
         callAudioDeviceButton.setOnClickListener {
-            openAudioDeviceSelectionMenuCallback()
+            viewModel.openAudioDeviceSelectionMenu()
+        }
+        moreButton.setOnClickListener {
+            viewModel.openMoreMenu()
         }
     }
+
+//
+//    private val bottomCellItems: List<BottomCellItem>
+//        get() {
+//            val bottomCellItems = listOf(
+//                    // Receiver (default)
+//                    BottomCellItem(
+//                            icon = ContextCompat.getDrawable(
+//                                    context,
+//                                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
+//                            ),
+//                            title = context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone),
+//                            contentDescription = null,
+//                            accessoryImage = ContextCompat.getDrawable(context, R.drawable.ms_ic_checkmark_24_filled),
+//                            accessoryColor = null,
+//                            accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
+//                            enabled = true,
+//                            participantViewData = null,
+//                            isOnHold = false,
+//                            itemType = BottomCellItemType.BottomMenuAction
+//                    ) {
+//
+//                    },
+//            )
+//
+//            return bottomCellItems
+//        }
 }

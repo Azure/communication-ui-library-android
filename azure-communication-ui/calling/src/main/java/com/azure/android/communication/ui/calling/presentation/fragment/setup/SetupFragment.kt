@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
+import com.azure.android.communication.ui.calling.presentation.fragment.common.controlbarmore.ControlBarMoreMenuView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningView
@@ -39,6 +40,7 @@ internal class SetupFragment :
     private lateinit var participantAvatarView: SetupParticipantAvatarView
     private lateinit var localParticipantRendererView: PreviewAreaView
     private lateinit var audioDeviceListView: AudioDeviceListView
+    private lateinit var controlBarMoreMenuView: ControlBarMoreMenuView
     private lateinit var setupGradientView: SetupGradientView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
@@ -55,51 +57,57 @@ internal class SetupFragment :
         setActionBarTitle()
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
-        setupGradientView.start(viewLifecycleOwner, viewModel.getSetupGradientViewViewModel())
+        setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
 
         setupJoinCallButtonHolderView =
             view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
-            viewModel.getJoinCallButtonHolderViewModel(),
+            viewModel.joinCallButtonHolderViewModel,
             networkManager
         )
 
         participantAvatarView = view.findViewById(R.id.azure_communication_ui_setup_default_avatar)
         participantAvatarView.start(
             viewLifecycleOwner,
-            viewModel.getParticipantAvatarViewModel(),
+            viewModel.participantAvatarViewModel,
             avatarViewManager.callCompositeLocalOptions?.participantViewData,
         )
 
         warningsView = view.findViewById(R.id.azure_communication_ui_setup_permission_info)
         warningsView.start(
             viewLifecycleOwner,
-            viewModel.getWarningsViewModel(),
+            viewModel.warningsViewModel,
         )
 
         localParticipantRendererView =
             view.findViewById(R.id.azure_communication_ui_setup_local_video_holder)
         localParticipantRendererView.start(
             viewLifecycleOwner,
-            viewModel.getLocalParticipantRendererViewModel(),
+            viewModel.localParticipantRendererViewModel,
             videoViewManager,
         )
 
         audioDeviceListView =
-            AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
+            AudioDeviceListView(viewModel.audioDeviceListViewModel, this.requireContext())
         audioDeviceListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
+        controlBarMoreMenuView = ControlBarMoreMenuView(this.requireContext(),
+                viewModel.controlBarMoreMenuViewModel)
+        controlBarMoreMenuView.layoutDirection =
+                activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+        controlBarMoreMenuView.start(viewLifecycleOwner)
+
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)
         setupControlsView.start(
             viewLifecycleOwner,
-            viewModel.getSetupControlsViewModel()
+            viewModel.setupControlsViewModel,
         )
 
         errorInfoView = ErrorInfoView(view)
-        errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
+        errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
         viewModel.setupCall()
     }
@@ -107,6 +115,7 @@ internal class SetupFragment :
     override fun onDestroy() {
         super.onDestroy()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
+        if (this::controlBarMoreMenuView.isInitialized) controlBarMoreMenuView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
     }
 

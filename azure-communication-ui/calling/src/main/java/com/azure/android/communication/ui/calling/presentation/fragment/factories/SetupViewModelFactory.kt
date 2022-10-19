@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.common.controlbarmore.ControlBarMoreMenuViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningViewModel
@@ -47,5 +48,9 @@ internal class SetupViewModelFactory(
 
     val joinCallButtonHolderViewModel by lazy {
         JoinCallButtonHolderViewModel(store::dispatch)
+    }
+
+    val controlBarMoreMenuViewModel by lazy {
+        ControlBarMoreMenuViewModel()
     }
 }

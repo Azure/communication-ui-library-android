@@ -29,6 +29,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
+import com.azure.android.communication.ui.calling.presentation.fragment.common.controlbarmore.ControlBarMoreMenuView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
@@ -63,13 +64,14 @@ internal class CallingFragment :
     private lateinit var powerManager: PowerManager
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
+    private lateinit var controlBarMoreMenuView: ControlBarMoreMenuView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
         confirmLeaveOverlayView =
-            LeaveConfirmView(viewModel.getConfirmLeaveOverlayViewModel(), this.requireContext())
+            LeaveConfirmView(viewModel.confirmLeaveOverlayViewModel, this.requireContext())
         confirmLeaveOverlayView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         confirmLeaveOverlayView.start(
@@ -77,17 +79,12 @@ internal class CallingFragment :
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
-        controlBarView.start(
-            viewLifecycleOwner,
-            viewModel.getControlBarViewModel(),
-            this::requestCallEnd,
-            this::openAudioDeviceSelectionMenu
-        )
+        controlBarView.start(viewLifecycleOwner, viewModel.controlBarViewModel)
 
         participantGridView =
             view.findViewById(R.id.azure_communication_ui_call_participant_container)
         participantGridView.start(
-            viewModel.getParticipantGridViewModel(),
+            viewModel.participantGridViewModel,
             videoViewManager,
             viewLifecycleOwner,
             this::switchFloatingHeader,
@@ -95,15 +92,15 @@ internal class CallingFragment :
         )
 
         lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
-        lobbyOverlay.start(viewLifecycleOwner, viewModel.getLobbyOverlayViewModel())
+        lobbyOverlay.start(viewLifecycleOwner, viewModel.lobbyOverlayViewModel)
 
         holdOverlay = view.findViewById(R.id.azure_communication_ui_call_hold_overlay)
-        holdOverlay.start(viewLifecycleOwner, viewModel.getHoldOverlayViewModel())
+        holdOverlay.start(viewLifecycleOwner, viewModel.holdOverlayViewModel)
 
         localParticipantView = view.findViewById(R.id.azure_communication_ui_call_local_user_view)
         localParticipantView.start(
             viewLifecycleOwner,
-            viewModel.getLocalParticipantViewModel(),
+            viewModel.localParticipantViewModel,
             videoViewManager,
             avatarViewManager,
         )
@@ -113,19 +110,19 @@ internal class CallingFragment :
         infoHeaderView = view.findViewById(R.id.azure_communication_ui_call_floating_header)
         infoHeaderView.start(
             viewLifecycleOwner,
-            viewModel.getFloatingHeaderViewModel(),
+            viewModel.floatingHeaderViewModel,
             this::displayParticipantList,
             accessibilityManager.isEnabled
         )
 
         audioDeviceListView =
-            AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
+            AudioDeviceListView(viewModel.audioDeviceListViewModel, this.requireContext())
         audioDeviceListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         participantListView = ParticipantListView(
-            viewModel.getParticipantListViewModel(),
+            viewModel.participantListViewModel,
             this.requireContext(),
             avatarViewManager,
         )
@@ -135,7 +132,7 @@ internal class CallingFragment :
 
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
         bannerView.start(
-            viewModel.getBannerViewModel(),
+            viewModel.bannerViewModel,
             viewLifecycleOwner,
         )
         participantGridView.setOnClickListener {
@@ -143,7 +140,13 @@ internal class CallingFragment :
         }
 
         errorInfoView = ErrorInfoView(view)
-        errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
+        errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
+
+        controlBarMoreMenuView = ControlBarMoreMenuView(this.requireContext(),
+                viewModel.controlBarMoreMenuViewModel)
+        controlBarMoreMenuView.layoutDirection =
+                activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+        controlBarMoreMenuView.start(viewLifecycleOwner)
     }
 
     override fun onResume() {
@@ -181,7 +184,7 @@ internal class CallingFragment :
                 // Covers edge case where Android tries to recreate call activity after process death
                 // (e.g. due to revoked permission).
                 // If no configs are detected we can just exit without cleanup.
-                viewModel.getBannerViewModel().dismissBanner()
+                viewModel.bannerViewModel.dismissBanner()
             }
         }
         if (this::localParticipantView.isInitialized) localParticipantView.stop()
@@ -190,6 +193,7 @@ internal class CallingFragment :
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
+        if (this::controlBarMoreMenuView.isInitialized) controlBarMoreMenuView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
@@ -215,9 +219,9 @@ internal class CallingFragment :
 
     override fun onSaveInstanceState(outState: Bundle) {
         mapOf(
-            LEAVE_CONFIRM_VIEW_KEY to viewModel.getConfirmLeaveOverlayViewModel().getShouldDisplayLeaveConfirmFlow(),
-            AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenuStateFlow,
-            PARTICIPANT_LIST_VIEW_KEY to viewModel.getParticipantListViewModel().getDisplayParticipantListStateFlow()
+            LEAVE_CONFIRM_VIEW_KEY to viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow(),
+            AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.audioDeviceListViewModel.displayAudioDeviceSelectionMenuStateFlow,
+            PARTICIPANT_LIST_VIEW_KEY to viewModel.participantListViewModel.getDisplayParticipantListStateFlow()
         ).forEach { (key, element) -> outState.putBoolean(key, element.value) }
         super.onSaveInstanceState(outState)
     }
@@ -227,9 +231,9 @@ internal class CallingFragment :
 
         savedInstanceState?.let {
             mapOf(
-                LEAVE_CONFIRM_VIEW_KEY to viewModel.getConfirmLeaveOverlayViewModel()::requestExitConfirmation,
-                AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.getAudioDeviceListViewModel()::displayAudioDeviceSelectionMenu,
-                PARTICIPANT_LIST_VIEW_KEY to viewModel.getParticipantListViewModel()::displayParticipantList
+                LEAVE_CONFIRM_VIEW_KEY to viewModel.confirmLeaveOverlayViewModel::requestExitConfirmation,
+                AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
+                PARTICIPANT_LIST_VIEW_KEY to viewModel.participantListViewModel::displayParticipantList
             ).forEach { (key, showDialog) -> if (it.getBoolean(key)) showDialog() }
         }
     }
@@ -238,12 +242,9 @@ internal class CallingFragment :
         viewModel.requestCallEnd()
     }
 
-    private fun openAudioDeviceSelectionMenu() {
-        viewModel.getAudioDeviceListViewModel().displayAudioDeviceSelectionMenu()
-    }
 
     private fun displayParticipantList() {
-        viewModel.getParticipantListViewModel().displayParticipantList()
+        viewModel.participantListViewModel.displayParticipantList()
     }
 
     private fun switchFloatingHeader() {
