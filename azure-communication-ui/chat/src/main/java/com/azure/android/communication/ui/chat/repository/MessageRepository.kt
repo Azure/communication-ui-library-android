@@ -43,7 +43,7 @@ internal class MessageRepository : MessageRepositoryListInterface(), MessageRepo
         reorder()
     }
 
-    override fun getLastMessage(): MessageInfoModel? = messages?.last()
+    override fun getLastMessage(): MessageInfoModel? = messages.last()
 
     override fun get(index: Int): MessageInfoModel = try {
         messages[index]
@@ -73,7 +73,8 @@ internal class MessageRepository : MessageRepositoryListInterface(), MessageRepo
             createdOn = messages[idx].createdOn,
             editedOn = messages[idx].editedOn,
             deletedOn = messages[idx].deletedOn,
-            senderCommunicationIdentifier = messages[idx].senderCommunicationIdentifier
+            senderCommunicationIdentifier = messages[idx].senderCommunicationIdentifier,
+            isCurrentUser = messages[idx].isCurrentUser
         )
         messages[idx] = newMessage
     }
