@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,23 +29,10 @@ internal fun MessageListView(
     messages: List<MessageViewModel>,
     scrollState: LazyListState,
 ) {
-    val scope = rememberCoroutineScope()
-
-    LazyColumn(modifier = modifier.fillMaxHeight()) {
+    LazyColumn(modifier = modifier.fillMaxHeight(),
+    state = scrollState) {
         items(messages) { message ->
             MessageView(message)
-        }
-    }
-
-    Box {
-        AnimatedVisibility(visible = scrollState.outOfViewItemCount() > 0) {
-            UnreadMessagesIndicatorView(
-                unreadCount = scrollState.outOfViewItemCount()
-            ) {
-                scope.launch {
-                    scrollState.animateScrollToItem(messages.size)
-                }
-            }
         }
     }
 }
