@@ -1,0 +1,34 @@
+package com.azure.android.communication.ui.chat.redux.middleware.sdk
+
+import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
+import com.azure.android.communication.ui.chat.redux.Dispatch
+import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
+import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+internal class DispatchTypingIndicatorReceived(
+    private val participantTimestampInfoModel: ParticipantTimestampInfoModel,
+    private val dispatch: Dispatch,
+    private val coroutineContextProvider: CoroutineContextProvider
+) {
+    private lateinit var timeoutScope: CoroutineScope
+
+    fun dispatch() {
+        dispatch(ParticipantAction.TypingIndicatorReceived(participantTimestampInfoModel))
+        if (::timeoutScope.isInitialized) {
+            timeoutScope.cancel()
+        }
+        timeoutScope = CoroutineScope((coroutineContextProvider.Default))
+        timeoutScope.launch {
+            delay(TYPING_INDICATOR_TIMEOUT)
+            dispatch(ParticipantAction.TypingIndicatorCleared(participantTimestampInfoModel))
+        }
+    }
+
+    companion object {
+        private const val TYPING_INDICATOR_TIMEOUT = 20000L
+    }
+}

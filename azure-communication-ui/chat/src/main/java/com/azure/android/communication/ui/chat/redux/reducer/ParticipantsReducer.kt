@@ -28,6 +28,12 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 }
                 state.copy(participantTyping = participantsTyping)
             }
+            is ParticipantAction.TypingIndicatorCleared -> {
+                val participantsTyping = HashSet<String>()
+                participantsTyping.addAll(state.participantTyping)
+                participantsTyping.remove(action.message.userIdentifier.id)
+                state.copy(participantTyping = participantsTyping)
+            }
             else -> state
         }
 }

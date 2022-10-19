@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 // Service -> Redux
 internal class ChatServiceListener(
     private val chatService: ChatService,
-    coroutineContextProvider: CoroutineContextProvider,
+    private val coroutineContextProvider: CoroutineContextProvider,
 ) {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
@@ -102,6 +102,11 @@ internal class ChatServiceListener(
                 when (it.eventType) {
                     ChatEventType.TYPING_INDICATOR_RECEIVED -> {
                         dispatch(ParticipantAction.TypingIndicatorReceived(message = it.infoModel))
+                        /*DispatchTypingIndicatorReceived(
+                            it.infoModel,
+                            dispatch,
+                            coroutineContextProvider
+                        ).dispatch()*/
                     }
                     ChatEventType.READ_RECEIPT_RECEIVED -> {
                         val model = it.infoModel
