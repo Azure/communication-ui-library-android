@@ -91,27 +91,6 @@ internal class MessageRepositoryUnitTest {
     fun messageRepositoryOutOfOrderTest() {
         val repository = MessageRepository.createListBackedRepository()
 
-        // Add IDs [1-3]
-        for (i in 1..3) {
-            repository.addServerMessage(
-                MessageInfoModel(
-                    id = "$i",
-                    content = "Message $i",
-                    messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
-                )
-            )
-        }
-        // Add ID 0 out of Order in middle
-        repository.addServerMessage(
-            MessageInfoModel(
-                id = "0",
-                content = "Message 0",
-                messageType = ChatMessageType.TEXT,
-                createdOn = OffsetDateTime.of(1980, 3, 26, 0, 0, 0, 0, ZoneOffset.ofHours(2))
-            )
-        )
-
         // Add ID 4..7
         for (i in 4..7) {
             repository.addServerMessage(
@@ -124,7 +103,38 @@ internal class MessageRepositoryUnitTest {
             )
         }
 
+        // Add ID 0 out of Order in middle
+        repository.addServerMessage(
+            MessageInfoModel(
+                id = "0",
+                content = "Message 0",
+                messageType = ChatMessageType.TEXT,
+                createdOn = OffsetDateTime.of(1980, 3, 26, 0, 0, 0, 0, ZoneOffset.ofHours(2))
+            )
+        )
+
+        // Add IDs [1-3]
+        for (i in 1..3) {
+            repository.addServerMessage(
+                MessageInfoModel(
+                    id = "$i",
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT,
+                    createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
+                )
+            )
+        }
+
+
+
         // Expect that first message is ID 0
         Assert.assertEquals("0", repository[0].id)
+        Assert.assertEquals("1", repository[1].id)
+        Assert.assertEquals("2", repository[2].id)
+        Assert.assertEquals("3", repository[3].id)
+        Assert.assertEquals("4", repository[4].id)
+        Assert.assertEquals("5", repository[5].id)
+        Assert.assertEquals("6", repository[6].id)
+        Assert.assertEquals("7", repository[7].id)
     }
 }
