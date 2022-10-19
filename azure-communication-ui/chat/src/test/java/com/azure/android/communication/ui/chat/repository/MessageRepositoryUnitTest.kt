@@ -98,7 +98,7 @@ internal class MessageRepositoryUnitTest {
                     id = "$i",
                     content = "Message $i",
                     messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(2000, 3, 26, i + 1, 0, 0, 0, ZoneOffset.ofHours(2))
+                    createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
                 )
             )
         }
@@ -119,7 +119,7 @@ internal class MessageRepositoryUnitTest {
                     id = "$i",
                     content = "Message $i",
                     messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(2001, 3, 26, i + 1, 0, i, 0, ZoneOffset.ofHours(2))
+                    createdOn = OffsetDateTime.of(2001, 3, 26, i, 0, i, 0, ZoneOffset.ofHours(2))
                 )
             )
         }
