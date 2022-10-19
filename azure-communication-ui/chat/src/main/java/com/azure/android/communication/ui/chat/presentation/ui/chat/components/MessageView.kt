@@ -47,18 +47,32 @@ internal fun MessageView(viewModel: MessageViewModel) {
 
 @Composable
 private fun UserJoinedMessage(viewModel: MessageViewModel) {
-    BasicText(
-        "${viewModel.message.senderDisplayName} joined the chat",
-        style = ChatCompositeTheme.typography.systemMessage
-    )
+    if (viewModel.message.participants.size <= 1) {
+        BasicText(
+            "${viewModel.message.participants.firstOrNull() ?: "Unknown"} joined the chat",
+            style = ChatCompositeTheme.typography.systemMessage
+        )
+    } else {
+        BasicText(
+            "${viewModel.message.participants.joinToString(", ")} joined the chat",
+            style = ChatCompositeTheme.typography.systemMessage
+        )
+    }
 }
 
 @Composable
 private fun UserLeftMessage(viewModel: MessageViewModel) {
-    BasicText(
-        "${viewModel.message.senderDisplayName} left the chat",
-        style = ChatCompositeTheme.typography.systemMessage
-    )
+    if (viewModel.message.participants.size <= 1) {
+        BasicText(
+            "${viewModel.message.participants.firstOrNull() ?: "Unknown"} left the chat",
+            style = ChatCompositeTheme.typography.systemMessage
+        )
+    } else {
+        BasicText(
+            "${viewModel.message.participants.joinToString(", ")} left the chat",
+            style = ChatCompositeTheme.typography.systemMessage
+        )
+    }
 }
 
 @Composable
