@@ -89,12 +89,11 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepositoryOutOfOrderTest() {
-        val writer = MessageRepositoryListWriter()
-        val reader = MessageRepositoryListReader(writer)
+        val repository = MessageRepository.createListBackedRepository()
 
         // Add IDs [1-3]
         for (i in 1..3) {
-            writer.addServerMessage(
+            repository.addServerMessage(
                 MessageInfoModel(
                     id = "$i",
                     content = "Message $i",
@@ -104,7 +103,7 @@ internal class MessageRepositoryUnitTest {
             )
         }
         // Add ID 0 out of Order in middle
-        writer.addServerMessage(
+        repository.addServerMessage(
             MessageInfoModel(
                 id = "0",
                 content = "Message 0",
@@ -115,7 +114,7 @@ internal class MessageRepositoryUnitTest {
 
         // Add ID 4..7
         for (i in 4..7) {
-            writer.addServerMessage(
+            repository.addServerMessage(
                 MessageInfoModel(
                     id = "$i",
                     content = "Message $i",
@@ -126,6 +125,6 @@ internal class MessageRepositoryUnitTest {
         }
 
         // Expect that first message is ID 0
-        Assert.assertEquals("0", reader[0].id)
+        Assert.assertEquals("0", repository[0].id)
     }
 }
