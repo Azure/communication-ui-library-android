@@ -112,7 +112,6 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                         BasicText(
                             text = viewModel.message.content ?: "Empty"
                         )
-
                     }
                 }
             }
@@ -122,13 +121,16 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
 
 @Composable
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
-    AndroidView(modifier = Modifier,
-    factory = {
-        context -> TextView(context)
-    },
-    update = {
-        it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
-    })
+    AndroidView(
+        modifier = Modifier,
+        factory = {
+            context ->
+            TextView(context)
+        },
+        update = {
+            it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+    )
 }
 
 @Preview
