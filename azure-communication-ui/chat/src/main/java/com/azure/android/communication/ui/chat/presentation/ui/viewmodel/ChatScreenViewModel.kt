@@ -45,7 +45,7 @@ internal fun buildChatScreenViewModel(
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,
-        typingParticipants = store.getCurrentState().participantState.participantTyping,
+        typingParticipants = hashSetOf("John doe", "Mary Jane"), //store.getCurrentState().participantState.participantTyping,
         postAction = dispatchers!!::postAction,
         participants = store.getCurrentState().participantState.participants,
     )

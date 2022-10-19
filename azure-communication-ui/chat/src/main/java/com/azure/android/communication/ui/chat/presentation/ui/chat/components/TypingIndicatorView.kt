@@ -27,7 +27,7 @@ internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>) {
         modifier = Modifier.padding(horizontal = 10.dp)
             .height(25.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy((-12).dp)
+        horizontalArrangement = Arrangement.spacedBy((-10).dp)
     ) {
 
         typingParticipantsDisplayName.forEach { name ->
@@ -48,8 +48,9 @@ internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>) {
                 }
                 else -> {
                     val size = typingParticipantsDisplayName.size - 2
+                    val othersMessage = if (size == 1) "other is" else "others are"
                     val secondName = typingParticipantsDisplayName[1].substringBefore(" ")
-                    "$firstName, $secondName, and $size others are typing"
+                    "$firstName, $secondName, and $size $othersMessage typing"
                 }
             }
             Text(
