@@ -78,7 +78,7 @@ internal fun ChatScreen(
             }
         },
         bottomBar = {
-            Column {
+            Column() {
                 TypingIndicatorView(viewModel.typingParticipants.toList())
                 Spacer(modifier = Modifier.height(20.dp))
                 UnreadMessagesIndicatorView(
