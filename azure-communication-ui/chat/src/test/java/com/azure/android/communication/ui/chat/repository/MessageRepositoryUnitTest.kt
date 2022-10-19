@@ -88,21 +88,23 @@ internal class MessageRepositoryUnitTest {
     }
 
     @Test
-    fun messageRepository_Reorder_test() {
+    fun messageRepositoryOutOfOrderTest() {
         val writer = MessageRepositoryListWriter()
-        val messages = writer.messages
+        val reader = MessageRepositoryListReader(writer)
 
+        // Add IDs [1-3]
         for (i in 1..3) {
-            messages.add(
+            writer.addServerMessage(
                 MessageInfoModel(
-                    id = i.toString(),
+                    id = "$i",
                     content = "Message $i",
                     messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
+                    createdOn = OffsetDateTime.of(2000, 3, 26, i + 1, 0, 0, 0, ZoneOffset.ofHours(2))
                 )
             )
         }
-        messages.add(
+        // Add ID 0 out of Order in middle
+        writer.addServerMessage(
             MessageInfoModel(
                 id = "0",
                 content = "Message 0",
@@ -110,19 +112,20 @@ internal class MessageRepositoryUnitTest {
                 createdOn = OffsetDateTime.of(1980, 3, 26, 0, 0, 0, 0, ZoneOffset.ofHours(2))
             )
         )
+
+        // Add ID 4..7
         for (i in 4..7) {
-            messages.add(
+            writer.addServerMessage(
                 MessageInfoModel(
-                    id = i.toString(),
+                    id = "$i",
                     content = "Message $i",
                     messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(2001, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
+                    createdOn = OffsetDateTime.of(2001, 3, 26, i + 1, 0, i, 0, ZoneOffset.ofHours(2))
                 )
             )
         }
 
-        writer.reorder()
-
-        Assert.assertEquals("1", messages[0].id)
+        // Expect that first message is ID 0
+        Assert.assertEquals("0", reader[0].id)
     }
 }
