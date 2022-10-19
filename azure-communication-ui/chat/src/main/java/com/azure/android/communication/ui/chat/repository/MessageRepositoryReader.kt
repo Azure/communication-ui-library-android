@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.repository
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import java.lang.RuntimeException
 
-internal abstract class MessageRepositoryListInterface : List<MessageInfoModel> {
+internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
 
     // Note:
     //  While we use List<MessageInfoModel> on the MessageRepository
@@ -15,6 +15,9 @@ internal abstract class MessageRepositoryListInterface : List<MessageInfoModel> 
     //
     //  Methods not defined here from List will pass through to the implementor
 
+    override fun isEmpty(): Boolean {
+        return size == 0
+    }
     final override fun contains(element: MessageInfoModel): Boolean {
         throw RuntimeException("Not implemented on the Message Repository")
     }
