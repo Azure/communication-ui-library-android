@@ -31,7 +31,7 @@ internal class MessageRepositoryMiddlewareImpl(
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
             when (action) {
-                is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
+                is ChatAction.SendMessage -> notifyUpdate(store::dispatch)
                 is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
                 is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
@@ -69,11 +69,6 @@ internal class MessageRepositoryMiddlewareImpl(
         dispatch: Dispatch,
     ) {
         messageRepository.addPage(action.messages.reversed())
-        notifyUpdate(dispatch)
-    }
-
-    private fun processSendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
-        messageRepository.addLocalMessage(action.messageInfoModel)
         notifyUpdate(dispatch)
     }
 

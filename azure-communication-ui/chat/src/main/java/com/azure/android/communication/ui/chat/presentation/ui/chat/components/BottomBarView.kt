@@ -49,7 +49,8 @@ internal fun BottomBarView(
                         id = null,
                         messageType = ChatMessageType.TEXT,
                         internalId = null,
-                        content = messageInputTextState.value
+                        content = messageInputTextState.value,
+                        isCurrentUser = true
                     )
                 )
             )
