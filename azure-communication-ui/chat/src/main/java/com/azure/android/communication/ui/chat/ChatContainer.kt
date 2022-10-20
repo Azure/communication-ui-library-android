@@ -35,6 +35,7 @@ import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
 import com.azure.android.communication.ui.chat.service.sdk.ChatFetchNotificationHandler
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
+import com.azure.android.communication.ui.chat.utilities.TestHelper
 
 internal class ChatContainer(
     private val chatComposite: ChatComposite,
@@ -89,7 +90,7 @@ internal class ChatContainer(
         context: Context,
     ) =
         ServiceLocator.getInstance(instanceId = instanceId).apply {
-            addTypedBuilder { CoroutineContextProvider() }
+            addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
 
             val messageRepository = MessageRepository.createListBackedRepository()
 
@@ -106,7 +107,7 @@ internal class ChatContainer(
 
             addTypedBuilder {
                 ChatService(
-                    chatSDK = ChatSDKWrapper(
+                    chatSDK = TestHelper.chatSDK ?: ChatSDKWrapper(
                         context = context,
                         chatConfig = configuration.chatConfig!!,
                         coroutineContextProvider = locate(),

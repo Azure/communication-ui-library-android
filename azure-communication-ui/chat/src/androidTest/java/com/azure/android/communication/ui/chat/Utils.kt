@@ -19,10 +19,14 @@ internal fun launchChatComposite() {
     val communicationTokenCredential =
         CommunicationTokenCredential(communicationTokenRefreshOptions)
     val remoteOptions =
-        ChatCompositeRemoteOptions(ChatCompositeJoinLocator("19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2",
-                                                            "https://acs-ui-dev.communication.azure.com/"),
-                                   communicationTokenCredential,
-                                   "test")
-    
+        ChatCompositeRemoteOptions(
+            ChatCompositeJoinLocator(
+                "19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2",
+                "https://acs-ui-dev.communication.azure.com/"
+            ),
+            communicationTokenCredential,
+            "test"
+        )
+
     chatComposite.launchTest(appContext, remoteOptions, null)
 }
