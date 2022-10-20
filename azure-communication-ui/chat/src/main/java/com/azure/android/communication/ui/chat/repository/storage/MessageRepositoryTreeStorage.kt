@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.repository.storage
 
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryReader
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
@@ -109,7 +110,9 @@ internal class MessageRepositoryTreeReader(private val writer: MessageRepository
     override val size: Int
         get() = writer.size
 
-    override fun get(index: Int): MessageInfoModel {
-        return writer.searchItem(index + 1)
+    override fun get(index: Int): MessageInfoModel = try {
+        writer.searchItem(index + 1)
+    } catch (exception: Exception) {
+        EMPTY_MESSAGE_INFO_MODEL
     }
 }
