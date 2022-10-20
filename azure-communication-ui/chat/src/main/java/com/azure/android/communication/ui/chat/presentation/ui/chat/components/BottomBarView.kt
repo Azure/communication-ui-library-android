@@ -12,7 +12,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -32,12 +34,15 @@ internal fun BottomBarView(
     ) {
 
         MessageInputView(
-            contentDescription = "Message Input Field",
+            contentDescription = stringResource(R.string.azure_communication_ui_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction
         )
 
-        SendMessageButtonView("Send Message Button", chatStatus = chatStatus) {
+        SendMessageButtonView(
+            contentDescription = stringResource(R.string.azure_communication_ui_message_send_button_content_description),
+            chatStatus = chatStatus
+        ) {
             postAction(
                 ChatAction.SendMessage(
                     MessageInfoModel(
