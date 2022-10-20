@@ -16,8 +16,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.azure.android.communication.ui.chat.R
 import com.microsoft.fluentui.persona.AvatarSize
 
 @Composable
@@ -39,17 +42,33 @@ internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>) {
 
         if (typingParticipantsDisplayName.isNotEmpty()) {
             val firstName = typingParticipantsDisplayName.first().substringBefore(" ")
+            val context = LocalContext.current
             val typingMessage: String = when (typingParticipantsDisplayName.size) {
-                1 -> "$firstName is typing"
+                1 -> context.getString(
+                        R.string.azure_communication_ui_chat_first_name_is_typing,
+                        firstName
+                    )
                 2 -> {
                     val secondName = typingParticipantsDisplayName[1].substringBefore(" ")
-                    "$firstName and $secondName are typing"
+                    context.getString(
+                        R.string.azure_communication_ui_chat_two_names_are_typing,
+                        firstName,
+                        secondName
+                    )
                 }
                 else -> {
                     val size = typingParticipantsDisplayName.size - 2
-                    val othersMessage = if (size == 1) "other" else "others"
+                    val othersMessage = if (size == 1)
+                        stringResource(R.string.azure_communication_ui_chat_other)
+                    else stringResource(R.string.azure_communication_ui_chat_others)
                     val secondName = typingParticipantsDisplayName[1].substringBefore(" ")
-                    "$firstName, $secondName, and $size $othersMessage are typing"
+                    context.getString(
+                        R.string.azure_communication_ui_chat_three_or_more_are_typing,
+                        firstName,
+                        secondName,
+                        size,
+                        othersMessage
+                    )
                 }
             }
             Text(
