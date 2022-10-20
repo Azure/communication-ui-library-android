@@ -33,7 +33,8 @@ internal fun BottomBarView(
 
         MessageInputView(
             contentDescription = "Message Input Field",
-            messageInputTextState = messageInputTextState
+            messageInputTextState = messageInputTextState,
+            postAction = postAction
         )
 
         SendMessageButtonView("Send Message Button", chatStatus = chatStatus) {
