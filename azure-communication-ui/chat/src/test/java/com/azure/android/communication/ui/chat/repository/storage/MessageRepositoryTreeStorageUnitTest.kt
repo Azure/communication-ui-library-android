@@ -17,7 +17,29 @@ import org.threeten.bp.ZoneOffset
 class MessageRepositoryTreeStorageUnitTest {
 
     @Test
-    fun messageStorage_addPage_test() {
+    fun messageRepositoryTreeStorage_addPage_test() {
+
+        val storage = MessageRepository.createTreeBackedRepository()
+        val numberOfTestMessages = 170
+        for (i in 1..numberOfTestMessages) {
+            storage.addLocalMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        }
+
+        Assert.assertEquals(numberOfTestMessages, storage.size)
+        for(i in 1..numberOfTestMessages) {
+            Assert.assertEquals("Message $i", storage[i-1].content)
+        }
+        //Assert.assertEquals("Message 16", storage[15].content)
+    }
+
+    @Test
+    fun messageRepositoryTreeStorage_removeMessage_test() {
 
         val storage = MessageRepository.createTreeBackedRepository()
         val numberOfTestMessages = 17
@@ -26,13 +48,37 @@ class MessageRepositoryTreeStorageUnitTest {
                 MessageInfoModel(
                     id = i.toString(),
                     content = "Message $i",
-                    createdOn = OffsetDateTime.of(2000, 3, 4, 5, i, 0, 0, ZoneOffset.ofHours(2)),
                     messageType = ChatMessageType.TEXT
                 )
             )
         }
 
-        Assert.assertEquals(numberOfTestMessages, storage.size)
-        Assert.assertEquals("Message 4", storage.get(3).content)
+        storage.removeMessage(
+            MessageInfoModel(
+                id = "17",
+                content = "Message 17",
+                messageType = ChatMessageType.TEXT
+            )
+        )
+
+        Assert.assertEquals(numberOfTestMessages-1, storage.size)
+        Assert.assertEquals(16, storage.getLastMessage()?.id?.toLong() ?: 0)
+    }
+
+    @Test
+    fun messageRepositoryTreeStorage_getLastMessage_test() {
+        val storage = MessageRepository.createTreeBackedRepository()
+        val numberOfTestMessages = 17
+        for (i in 1..numberOfTestMessages) {
+            storage.addLocalMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        }
+
+        storage.getLastMessage()?.id?.let { Assert.assertEquals(17, it.toLong()) }
     }
 }

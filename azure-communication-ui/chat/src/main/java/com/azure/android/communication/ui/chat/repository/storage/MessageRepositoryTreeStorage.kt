@@ -51,16 +51,17 @@ internal class MessageRepositoryTreeWriter: MessageRepositoryWriter {
     }
 
     override fun getLastMessage(): MessageInfoModel? {
-        return treeMapStorage.lastEntry().value
+        val key = treeMapStoragePointer.lastKey()
+        return treeMapStorage.get(treeMapStoragePointer.get(key))!!
     }
 
     fun searchItem(kth: Int): MessageInfoModel {
 
-        var highestKey = treeMapStoragePointer.lastKey()
+        var highestKey = treeMapStoragePointer.lastKey()+1
         var lowestKey = treeMapStoragePointer.firstKey()
         var elements = 0
         var midKey: Long = 0
-        while(lowestKey < highestKey) {
+        while(lowestKey <= highestKey) {
             midKey = (highestKey + lowestKey).div(2)
 
             elements = treeMapStoragePointer.headMap(midKey).size
@@ -79,7 +80,7 @@ internal class MessageRepositoryTreeWriter: MessageRepositoryWriter {
     }
 
     private fun getOrderId(message: MessageInfoModel): Long {
-        return message.createdOn?.toEpochSecond() ?: 0
+        return message.id?.toLong() ?: 0
     }
 
     private fun mergeWithPreviousMessage(previousMessage: MessageInfoModel,
