@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">스피커</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">헤드셋</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">전면 카메라 켜기, 뒤로 카메라로 전환</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">후면 카메라 켜기, 전면 카메라로 전환</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">전면 카메라로 전환</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">후면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">오디오 장치 %1$s 선택</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">오디오 장치 %1$s 선택됨</string>
     <!--    Setup View-->
@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">카메라를 사용하지 않도록 설정했습니다. 사용하도록 설정하려면 설정으로
         이동하여 액세스를 허용하세요.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">권한 필요</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settings">설정으로 이동</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">선택함</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">설정 그라데이션</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">카메라 전환</string>
@@ -88,8 +88,8 @@
     <string name="azure_communication_ui_calling_call_state_error_call_end">오류로 인해 통화에서 제외되었습니다.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">통화에서 제거되었습니다.</string>
-    <string name="azure_communication_ui_calling_no_connection_available">통화에 참가할 수 없습니다. 네트워크 연결을 확인하세요.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">카메라를 전환할 수 없습니다.</string>
+    <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Unable to switch cameras.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">진행 중인 통화</string>
