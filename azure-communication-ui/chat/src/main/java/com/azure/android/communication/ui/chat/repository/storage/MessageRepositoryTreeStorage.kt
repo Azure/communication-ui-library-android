@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.chat.repository.MessageRepositoryReade
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
 import java.util.TreeMap
 
-internal class MessageRepositoryTreeWriter: MessageRepositoryWriter {
+internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
 
     private val treeMapStoragePointer: TreeMap<Long, String> = TreeMap()
     private val treeMapStorage: TreeMap<String, MessageInfoModel> = TreeMap()
@@ -57,16 +57,16 @@ internal class MessageRepositoryTreeWriter: MessageRepositoryWriter {
 
     fun searchItem(kth: Int): MessageInfoModel {
 
-        var highestKey = treeMapStoragePointer.lastKey()+1
+        var highestKey = treeMapStoragePointer.lastKey() + 1
         var lowestKey = treeMapStoragePointer.firstKey()
         var elements = 0
         var midKey: Long = 0
-        while(lowestKey <= highestKey) {
+        while (lowestKey <= highestKey) {
             midKey = (highestKey + lowestKey).div(2)
 
             elements = treeMapStoragePointer.headMap(midKey).size
 
-            if(elements < kth) {
+            if (elements < kth) {
                 lowestKey = midKey + 1
             } else if (elements > kth) {
                 highestKey = midKey - 1
@@ -83,8 +83,10 @@ internal class MessageRepositoryTreeWriter: MessageRepositoryWriter {
         return message.id?.toLong() ?: 0
     }
 
-    private fun mergeWithPreviousMessage(previousMessage: MessageInfoModel,
-                                         message: MessageInfoModel): MessageInfoModel {
+    private fun mergeWithPreviousMessage(
+        previousMessage: MessageInfoModel,
+        message: MessageInfoModel
+    ): MessageInfoModel {
         var newMessage = MessageInfoModel(
             id = previousMessage.id,
             internalId = previousMessage.internalId,
@@ -95,19 +97,19 @@ internal class MessageRepositoryTreeWriter: MessageRepositoryWriter {
             createdOn = previousMessage.createdOn,
             editedOn = previousMessage.editedOn,
             deletedOn = previousMessage.deletedOn,
-            senderCommunicationIdentifier = previousMessage.senderCommunicationIdentifier
+            senderCommunicationIdentifier = previousMessage.senderCommunicationIdentifier,
+            isCurrentUser = previousMessage.isCurrentUser,
         )
         return newMessage
     }
-
 }
 
-internal class MessageRepositoryTreeReader(private val writer: MessageRepositoryTreeWriter): MessageRepositoryReader() {
+internal class MessageRepositoryTreeReader(private val writer: MessageRepositoryTreeWriter) : MessageRepositoryReader() {
 
     override val size: Int
         get() = writer.size
 
     override fun get(index: Int): MessageInfoModel {
-        return writer.searchItem(index+1)
+        return writer.searchItem(index + 1)
     }
 }

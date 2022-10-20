@@ -10,8 +10,6 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.ZoneOffset
 
 @RunWith(MockitoJUnitRunner::class)
 class MessageRepositoryTreeStorageUnitTest {
@@ -32,10 +30,10 @@ class MessageRepositoryTreeStorageUnitTest {
         }
 
         Assert.assertEquals(numberOfTestMessages, storage.size)
-        for(i in 1..numberOfTestMessages) {
-            Assert.assertEquals("Message $i", storage[i-1].content)
+        for (i in 1..numberOfTestMessages) {
+            Assert.assertEquals("Message $i", storage[i - 1].content)
         }
-        //Assert.assertEquals("Message 16", storage[15].content)
+        // Assert.assertEquals("Message 16", storage[15].content)
     }
 
     @Test
@@ -61,7 +59,7 @@ class MessageRepositoryTreeStorageUnitTest {
             )
         )
 
-        Assert.assertEquals(numberOfTestMessages-1, storage.size)
+        Assert.assertEquals(numberOfTestMessages - 1, storage.size)
         Assert.assertEquals(16, storage.getLastMessage()?.id?.toLong() ?: 0)
     }
 
