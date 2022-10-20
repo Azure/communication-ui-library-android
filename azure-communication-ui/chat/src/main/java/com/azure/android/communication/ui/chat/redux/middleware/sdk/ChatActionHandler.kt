@@ -144,7 +144,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
 
     private fun sendTypingIndicator(dispatch: Dispatch) {
         if (System.currentTimeMillis() - lastTypingIndicatorNotificationSent
-            <= SEND_TYPING_INDICATOR_INTERVAL_MILLIS
+            < SEND_TYPING_INDICATOR_INTERVAL_MILLIS
         ) {
             return
         }
