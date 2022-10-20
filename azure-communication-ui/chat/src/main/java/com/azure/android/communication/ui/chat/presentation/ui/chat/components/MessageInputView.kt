@@ -35,16 +35,22 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.testTag
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
+import com.azure.android.communication.ui.chat.redux.action.Action
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 
 @Composable
 internal fun MessageInputView(
     contentDescription: String,
     messageInputTextState: MutableState<String>,
+    postAction: (Action) -> Unit,
 ) {
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
-        onTextChanged = { messageInputTextState.value = it },
+        onTextChanged = {
+            messageInputTextState.value = it
+            postAction(ChatAction.TypingIndicator())
+        },
         textContent = messageInputTextState.value,
         onTextFieldFocused = { focusState = it },
         focusState = focusState,
@@ -117,5 +123,5 @@ internal fun MessageInput(
 @Preview
 @Composable
 internal fun PreviewMessageInputView() {
-    MessageInputView("Message Input Field", remember { mutableStateOf("") })
+    MessageInputView("Message Input Field", remember { mutableStateOf("") }) {}
 }
