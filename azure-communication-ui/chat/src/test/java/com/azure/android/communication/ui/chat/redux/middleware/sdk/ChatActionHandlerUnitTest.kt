@@ -565,10 +565,10 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
 
-            val mockChatSDK: ChatSDK = mock {
+            val mockChatService: ChatService = mock {
                 on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
             }
-            val chatHandler = ChatActionHandler(ChatService(mockChatSDK))
+            val chatHandler = ChatActionHandler(mockChatService)
 
             val action = ChatAction.TypingIndicator()
 
@@ -580,7 +580,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             sendTypingIndicatorCompletableFuture.complete(null)
 
             // assert
-            verify(mockChatSDK, times(1)).sendTypingIndicator()
+            verify(mockChatService, times(1)).sendTypingIndicator()
         }
 
     @ExperimentalCoroutinesApi
