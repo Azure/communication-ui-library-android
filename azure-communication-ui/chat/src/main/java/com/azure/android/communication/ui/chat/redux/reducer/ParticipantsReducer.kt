@@ -21,7 +21,11 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             is ParticipantAction.TypingIndicatorReceived -> {
                 val participantsTyping = HashSet<String>()
                 participantsTyping.addAll(state.participantTyping)
-                participantsTyping.add(action.message.userIdentifier.id)
+                state.participants.forEach {
+                    if (it.value.userIdentifier.id == action.message.userIdentifier.id) {
+                        participantsTyping.add(it.value.displayName ?: "Unknown")
+                    }
+                }
                 state.copy(participantTyping = participantsTyping)
             }
             else -> state
