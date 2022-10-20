@@ -2,16 +2,4 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
-    <string name="azure_communication_ui_chat_chat_action_bar_title">Chat</string>
-    <string name="azure_communication_ui_chat_title_activity_compose_chat">ComposeChatActivity</string>
-    <string name="azure_communication_ui_chat_demo_app_title">Chat Composite Demo App</string>
-    <string name="azure_communication_ui_chat_enter_a_message">Hey, whats up?</string>
-    <string name="azure_communication_ui_chat_other">other</string>
-    <string name="azure_communication_ui_chat_others">others</string>
-    <string name="azure_communication_ui_chat_first_name_is_typing">%1$s is typing</string>
-    <string name="azure_communication_ui_chat_two_names_are_typing">%1$s and %2$s are typing"</string>
-    <string name="azure_communication_ui_chat_three_or_more_are_typing">%1$s, %2$s and %3$d %4$s are typing</string>
-    <string name="azure_communication_ui_message_input_view_content_description">Message Input Field</string>
-    <string name="azure_communication_ui_message_send_button_content_description">Send Message Button</string>
-</resources>
+<resources></resources>
