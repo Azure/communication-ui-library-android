@@ -199,6 +199,83 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun chatMiddlewareActionHandler_editMessage_then_dispatch_ChatActionEditMessage() =
+        runScopedTest {
+            // arrange
+            val messageInfoModel = MessageInfoModel(
+                id = "Message",
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
+            )
+
+            val editChatMessageCompletableFuture = CompletableFuture<Void>()
+
+            val mockChatService: ChatService = mock {
+                on { editMessage(messageInfoModel.id.toString(), messageInfoModel.content.toString()) } doReturn editChatMessageCompletableFuture
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+
+            val action = ChatAction.EditMessage(messageInfoModel)
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+            val mockAppState = mock<ReduxState> {}
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+
+            editChatMessageCompletableFuture.complete(any())
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ChatAction.MessageEdited
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_editMessage_then_dispatch_ChatStateErrorOccurred() =
+        runScopedTest {
+            // arrange
+            val messageInfoModel = MessageInfoModel(
+                id = "Message",
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
+            )
+
+            val error = Exception("test")
+            val editChatMessageCompletableFuture = CompletableFuture<Void>()
+            val mockChatService: ChatService = mock {
+                on { editMessage(messageInfoModel.id.toString(), messageInfoModel.content.toString()) } doReturn editChatMessageCompletableFuture
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+            val action = ChatAction.EditMessage(messageInfoModel)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+            val mockAppState = mock<ReduxState> {}
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+            editChatMessageCompletableFuture.completeExceptionally(error)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ErrorAction.ChatStateErrorOccurred
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun chatMiddlewareActionHandler_fetchMessage_then_call_chatServiceGetPreviousPage() =
         runScopedTest {
             // arrange

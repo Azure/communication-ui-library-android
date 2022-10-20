@@ -27,6 +27,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
             is ChatAction.FetchMessages -> fetchMessages()
+            is ChatAction.EditMessage -> editMessage(action = action, dispatch = dispatch)
             is ChatAction.DeleteMessage -> deleteMessage(action = action, dispatch = dispatch)
             is ChatAction.MessageRead -> sendReadReceipt(action = action, dispatch = dispatch)
             is ChatAction.TypingIndicator -> sendTypingIndicator(dispatch = dispatch)
@@ -95,6 +96,23 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 )
             }
         }
+    }
+
+    private fun editMessage(action: ChatAction.EditMessage, dispatch: Dispatch) {
+        chatService.editMessage(action.message.id ?: "", action.message.content ?: "")
+            .whenComplete { _, error ->
+                if (error != null) {
+                    dispatch(
+                        ErrorAction.ChatStateErrorOccurred(
+                            chatStateError = ChatStateError(
+                                errorCode = ErrorCode.CHAT_SEND_EDIT_MESSAGE_FAILED
+                            )
+                        )
+                    )
+                } else {
+                    dispatch(ChatAction.MessageEdited(action.message))
+                }
+            }
     }
 
     private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch) {
