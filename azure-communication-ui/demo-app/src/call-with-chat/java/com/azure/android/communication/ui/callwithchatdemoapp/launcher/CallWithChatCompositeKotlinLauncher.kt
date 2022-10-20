@@ -75,7 +75,9 @@ class CallWithChatCompositeKotlinLauncher(private val tokenRefresher: Callable<S
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
             .setSetupScreenViewData(
-                CallCompositeSetupScreenViewData().setTitleAndSubtitle(getTitle(), getSubtitle())
+                CallCompositeSetupScreenViewData()
+                    .setTitle(getTitle())
+                    .setSubtitle(getSubtitle())
             )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)

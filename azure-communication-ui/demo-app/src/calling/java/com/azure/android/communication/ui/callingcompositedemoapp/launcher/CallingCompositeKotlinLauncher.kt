@@ -77,7 +77,8 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
             .setSetupScreenViewData(
                 CallCompositeSetupScreenViewData()
-                    .setTitleAndSubtitle(getTitle(), getSubtitle())
+                    .setTitle(getTitle())
+                    .setSubtitle(getSubtitle())
             )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
