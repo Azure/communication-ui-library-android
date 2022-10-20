@@ -8,8 +8,8 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Динамик</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Гарнитура</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_front">Фронтальная камера включена, переключиться на заднюю камеру</string>
-    <string name="azure_communication_ui_calling_switch_camera_button_back">Задняя камера включена, переключиться на фронтальную камеру</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Переключиться на переднюю камеру</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Переключиться на заднюю камеру</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Выбрать звуковое устройство %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Выбрано аудиоустройство %1$s</string>
     <!--    Setup View-->
@@ -24,7 +24,7 @@
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры",
         чтобы разрешить доступ.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Требуются разрешения</string>
-    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Перейти к параметрам</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Go to Settings</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Выбрано</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Настройка градиента</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Переключение на другую камеру</string>
@@ -88,8 +88,8 @@
     <string name="azure_communication_ui_calling_call_state_error_call_end">Вы были удалены из звонка из-за ошибки.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из вызова.</string>
-    <string name="azure_communication_ui_calling_no_connection_available">Не удалось присоединиться к звонку. Проверьте сетевое подключение.</string>
-    <string name="azure_communication_ui_calling_call_video_fails_error">Не удалось переключить камеры.</string>
+    <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Unable to switch cameras.</string>
 
     <!--    Notification-->
     <string name="azure_communication_ui_calling_service_notification_title">Текущий вызов</string>
