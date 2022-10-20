@@ -45,7 +45,7 @@ internal class MessageRepositoryListWriter : MessageRepositoryWriter {
     fun reorder() {
         // TODO: Will need to update with repository stable algorithm implementation
         messages.sortBy {
-            it.createdOn?.toEpochSecond()
+            it.id?.toLong()
         }
     }
 

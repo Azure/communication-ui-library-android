@@ -125,8 +125,6 @@ internal class MessageRepositoryUnitTest {
             )
         }
 
-
-
         // Expect that first message is ID 0
         Assert.assertEquals("0", repository[0].id)
         Assert.assertEquals("1", repository[1].id)
