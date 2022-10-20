@@ -39,6 +39,20 @@ android {
             excludes += '/META-INF/*'
         }
     }
+    
+    testOptions {
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+        unitTests {
+            returnDefaultValues = true
+            all {
+                failFast = true
+            }
+        }
+    }
 
     ktlint {
         debug.set(false)
