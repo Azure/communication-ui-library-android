@@ -34,13 +34,13 @@ internal fun BottomBarView(
     ) {
 
         MessageInputView(
-            contentDescription = stringResource(R.string.azure_communication_ui_message_input_view_content_description),
+            contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction
         )
 
         SendMessageButtonView(
-            contentDescription = stringResource(R.string.azure_communication_ui_message_send_button_content_description),
+            contentDescription = stringResource(R.string.azure_communication_ui_chat_message_send_button_content_description),
             chatStatus = chatStatus
         ) {
             postAction(
