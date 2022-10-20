@@ -18,11 +18,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
             '**/Manifest*.*'
     ]
     def javaClasses = fileTree(
-            dir: "$buildDir/intermediates/javac/callingDebug",
+            dir: "$buildDir/intermediates/javac/chatDebug",
             excludes: fileFilter
     )
     def kotlinClasses = fileTree(
-            dir: "$buildDir/tmp/kotlin-classes/callingDebug",
+            dir: "$buildDir/tmp/kotlin-classes/chatDebug",
             excludes: fileFilter
     )
     classDirectories.setFrom(files([javaClasses], [kotlinClasses]))
