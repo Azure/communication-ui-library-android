@@ -18,8 +18,7 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_addPage_test() {
-
-        val messageRepository = MessageRepository()
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
         val numberOfTestMessages = 51
@@ -44,7 +43,7 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_removeMessage_test() {
-        val messageRepository = MessageRepository()
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -64,7 +63,7 @@ internal class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_editMessage_test() {
-        val messageRepository = MessageRepository()
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -89,22 +88,23 @@ internal class MessageRepositoryUnitTest {
     }
 
     @Test
-    fun messageRepository_Reorder_test() {
-        val messageRepository = MessageRepository()
+    fun messageRepositoryOutOfOrderTest() {
+        val repository = MessageRepository.createListBackedRepository()
 
-        val messages = mutableListOf<MessageInfoModel>()
-
-        for (i in 1..3) {
-            messages.add(
+        // Add ID 4..7
+        for (i in 4..7) {
+            repository.addServerMessage(
                 MessageInfoModel(
-                    id = i.toString(),
+                    id = "$i",
                     content = "Message $i",
                     messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
+                    createdOn = OffsetDateTime.of(2001, 3, 26, i, 0, i, 0, ZoneOffset.ofHours(2))
                 )
             )
         }
-        messages.add(
+
+        // Add ID 0 out of Order in middle
+        repository.addServerMessage(
             MessageInfoModel(
                 id = "0",
                 content = "Message 0",
@@ -112,19 +112,27 @@ internal class MessageRepositoryUnitTest {
                 createdOn = OffsetDateTime.of(1980, 3, 26, 0, 0, 0, 0, ZoneOffset.ofHours(2))
             )
         )
-        for (i in 4..7) {
-            messages.add(
+
+        // Add IDs [1-3]
+        for (i in 1..3) {
+            repository.addServerMessage(
                 MessageInfoModel(
-                    id = i.toString(),
+                    id = "$i",
                     content = "Message $i",
                     messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(2001, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
+                    createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
                 )
             )
         }
 
-        messageRepository.reorder()
-
-        Assert.assertEquals("1", messages[0].id)
+        // Expect that first message is ID 0
+        Assert.assertEquals("0", repository[0].id)
+        Assert.assertEquals("1", repository[1].id)
+        Assert.assertEquals("2", repository[2].id)
+        Assert.assertEquals("3", repository[3].id)
+        Assert.assertEquals("4", repository[4].id)
+        Assert.assertEquals("5", repository[5].id)
+        Assert.assertEquals("6", repository[6].id)
+        Assert.assertEquals("7", repository[7].id)
     }
 }

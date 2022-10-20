@@ -14,7 +14,7 @@ import com.azure.android.communication.ui.chat.presentation.manager.NetworkManag
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.middleware.repository.RepositoryMiddlewareImpl
+import com.azure.android.communication.ui.chat.redux.middleware.repository.MessageRepositoryMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatServiceListener
@@ -91,10 +91,10 @@ internal class ChatContainer(
         ServiceLocator.getInstance(instanceId = instanceId).apply {
             addTypedBuilder { CoroutineContextProvider() }
 
-            val messageRepositoryStorage = MessageRepository()
+            val messageRepository = MessageRepository.createListBackedRepository()
 
             addTypedBuilder { chatComposite }
-            addTypedBuilder<List<MessageInfoModel>> { messageRepositoryStorage }
+            addTypedBuilder<List<MessageInfoModel>> { messageRepository }
 
             addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
 
@@ -142,7 +142,7 @@ internal class ChatContainer(
                                 coroutineContextProvider = locate()
                             )
                         ),
-                        RepositoryMiddlewareImpl(messageRepositoryStorage)
+                        MessageRepositoryMiddlewareImpl(messageRepository)
                     ),
                     dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
                 )

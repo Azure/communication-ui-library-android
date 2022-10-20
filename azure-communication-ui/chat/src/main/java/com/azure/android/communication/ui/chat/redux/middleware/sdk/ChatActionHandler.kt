@@ -18,6 +18,13 @@ import com.azure.android.communication.ui.chat.service.ChatService
 // Redux -> Service
 internal class ChatActionHandler(private val chatService: ChatService) {
 
+    companion object {
+        const val SEND_TYPING_INDICATOR_INTERVAL_MILLIS = 8000
+    }
+
+    private var lastTypingIndicatorNotificationSent =
+        System.currentTimeMillis() - SEND_TYPING_INDICATOR_INTERVAL_MILLIS
+
     fun onAction(action: Action, dispatch: Dispatch, state: ReduxState) {
         when (action) {
             is ChatAction.StartChat -> initialization(dispatch = dispatch)
@@ -27,6 +34,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
             is ChatAction.FetchMessages -> fetchMessages()
+            is ChatAction.EditMessage -> editMessage(action = action, dispatch = dispatch)
             is ChatAction.DeleteMessage -> deleteMessage(action = action, dispatch = dispatch)
             is ChatAction.MessageRead -> sendReadReceipt(action = action, dispatch = dispatch)
             is ChatAction.TypingIndicator -> sendTypingIndicator(dispatch = dispatch)
@@ -97,6 +105,23 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         }
     }
 
+    private fun editMessage(action: ChatAction.EditMessage, dispatch: Dispatch) {
+        chatService.editMessage(action.message.id ?: "", action.message.content ?: "")
+            .whenComplete { _, error ->
+                if (error != null) {
+                    dispatch(
+                        ErrorAction.ChatStateErrorOccurred(
+                            chatStateError = ChatStateError(
+                                errorCode = ErrorCode.CHAT_SEND_EDIT_MESSAGE_FAILED
+                            )
+                        )
+                    )
+                } else {
+                    dispatch(ChatAction.MessageEdited(action.message))
+                }
+            }
+    }
+
     private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch) {
         chatService.sendReadReceipt(action.messageId).whenComplete { _, error ->
             if (error != null) {
@@ -118,6 +143,12 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun sendTypingIndicator(dispatch: Dispatch) {
+        if (System.currentTimeMillis() - lastTypingIndicatorNotificationSent
+            < SEND_TYPING_INDICATOR_INTERVAL_MILLIS
+        ) {
+            return
+        }
+        lastTypingIndicatorNotificationSent = System.currentTimeMillis()
         chatService.sendTypingIndicator().whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
@@ -128,10 +159,6 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                             errorCode = ErrorCode.CHAT_SEND_TYPING_INDICATOR_FAILED
                         )
                     )
-                )
-            } else {
-                dispatch(
-                    ChatAction.TypingIndicator()
                 )
             }
         }
