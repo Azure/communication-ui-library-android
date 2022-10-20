@@ -60,7 +60,8 @@ internal class MessageRepositoryListWriter : MessageRepositoryWriter {
             createdOn = messages[idx].createdOn,
             editedOn = messages[idx].editedOn,
             deletedOn = messages[idx].deletedOn,
-            senderCommunicationIdentifier = messages[idx].senderCommunicationIdentifier
+            senderCommunicationIdentifier = messages[idx].senderCommunicationIdentifier,
+            isCurrentUser = messages[idx].isCurrentUser
         )
         messages[idx] = newMessage
     }
