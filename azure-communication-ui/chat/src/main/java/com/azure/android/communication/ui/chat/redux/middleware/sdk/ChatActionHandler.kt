@@ -18,6 +18,13 @@ import com.azure.android.communication.ui.chat.service.ChatService
 // Redux -> Service
 internal class ChatActionHandler(private val chatService: ChatService) {
 
+    companion object {
+        const val SEND_TYPING_INDICATOR_INTERVAL_MILLIS = 8000
+    }
+
+    private var lastTypingIndicatorNotificationSent =
+        System.currentTimeMillis() - SEND_TYPING_INDICATOR_INTERVAL_MILLIS
+
     fun onAction(action: Action, dispatch: Dispatch, state: ReduxState) {
         when (action) {
             is ChatAction.StartChat -> initialization(dispatch = dispatch)
@@ -136,6 +143,12 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun sendTypingIndicator(dispatch: Dispatch) {
+        if (System.currentTimeMillis() - lastTypingIndicatorNotificationSent
+            <= SEND_TYPING_INDICATOR_INTERVAL_MILLIS
+        ) {
+            return
+        }
+        lastTypingIndicatorNotificationSent = System.currentTimeMillis()
         chatService.sendTypingIndicator().whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
