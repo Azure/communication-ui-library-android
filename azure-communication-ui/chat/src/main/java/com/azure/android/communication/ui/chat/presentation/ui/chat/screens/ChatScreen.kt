@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -27,6 +28,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenSt
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
@@ -62,27 +64,35 @@ internal fun ChatScreen(
                     BasicText(viewModel.errorMessage)
                 }
             } else if (viewModel.isLoading) {
-                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
             } else {
                 MessageListView(
-                    modifier = Modifier.padding(paddingValues).fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxWidth(),
                     messages = viewModel.messages,
                     scrollState = listState,
                 )
             }
-
-            // TypingIndicatorView(viewModel.typingParticipants.toList())
         },
         bottomBar = {
-            Column() {
+            Column {
                 UnreadMessagesIndicatorView(
                     scrollState = listState,
                     visible = listState.outOfViewItemCount() > 0,
                     unreadCount = 0,
                     totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
                 )
+
+                Box(modifier = Modifier.fillMaxWidth().height(ChatCompositeTheme.dimensions.typingIndicatorAreaHeight), contentAlignment = Alignment.CenterStart) {
+                    TypingIndicatorView(viewModel.typingParticipants.toList())
+                }
 
                 BottomBarView(
                     messageInputTextState = stateViewModel.messageInputTextState,
