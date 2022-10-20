@@ -169,10 +169,10 @@ public class ChatComposite {
         showTestCompositeUI(context);
     }
 
-    void showTestCompositeUI(final Context context) {
-        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
-        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
-        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(launchIntent);
-    }
+   private void showTestCompositeUI(final Context context) {
+       final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
+       launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
+       launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+       context.startActivity(launchIntent);
+   }
 }
