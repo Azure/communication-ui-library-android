@@ -560,7 +560,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun chatMiddlewareActionHandler_sendTypingIndicator_then_dispatch_ChatActionSendTypingIndicator() =
+    fun chatMiddlewareActionHandler_on_actionTypingIndicator_then_sendTypingIndicator() =
         runScopedTest {
             // arrange
             val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
@@ -616,7 +616,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun chatMiddlewareActionHandler_sendTypingIndicatorWithInInterval_then_dispatch_ChatActionSendTypingIndicatorOnce() =
+    fun chatMiddlewareActionHandler_on_actionsTypingIndicator_then_sendTypingIndicatorOnce() =
         runScopedTest {
             // arrange
 
@@ -644,7 +644,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun chatMiddlewareActionHandler_sendTypingIndicatorAfterInterval_then_dispatch_ChatActionSendTypingIndicatorTwice() =
+    fun chatMiddlewareActionHandler_on_actionsTypingIndicatorAfterInterval_then_sendTypingIndicatorTwice() =
         runScopedTest {
             // arrange
 
