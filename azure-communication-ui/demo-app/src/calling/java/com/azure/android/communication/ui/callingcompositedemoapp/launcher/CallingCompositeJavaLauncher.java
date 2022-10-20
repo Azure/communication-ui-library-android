@@ -82,7 +82,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                         .getParticipantViewData(callLauncherActivity.getApplicationContext()))
                 .setSetupScreenViewData(
                         new CallCompositeSetupScreenViewData()
-                            .setTitleAndSubtitle(SettingsFeatures.getTitle(), SettingsFeatures.getSubtitle()));
+                            .setTitle(SettingsFeatures.getTitle())
+                            .setSubtitle(SettingsFeatures.getSubtitle()));
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
     }
