@@ -641,33 +641,4 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockChatService, times(1)).sendTypingIndicator()
         }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun chatMiddlewareActionHandler_on_actionsTypingIndicatorAfterInterval_then_sendTypingIndicatorTwice() =
-        runScopedTest {
-            // arrange
-
-            val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
-
-            val mockChatService: ChatService = mock {
-                on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
-            }
-
-            val chatHandler = ChatActionHandler(mockChatService)
-
-            val action = ChatAction.TypingIndicator()
-
-            val mockAppStore = mock<AppStore<ReduxState>> { }
-            val mockAppState = mock<ReduxState> {}
-
-            // act
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            Thread.sleep(ChatActionHandler.SEND_TYPING_INDICATOR_INTERVAL_MILLIS.toLong())
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.complete(null)
-
-            // assert
-            verify(mockChatService, times(2)).sendTypingIndicator()
-        }
 }
