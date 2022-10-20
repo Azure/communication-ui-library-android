@@ -21,6 +21,8 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -199,6 +201,93 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun chatMiddlewareActionHandler_editMessage_then_dispatch_ChatActionEditMessage() =
+        runScopedTest {
+            // arrange
+            val messageInfoModel = MessageInfoModel(
+                id = "Message",
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
+            )
+
+            val editChatMessageCompletableFuture = CompletableFuture<Void>()
+
+            val mockChatService: ChatService = mock {
+                on {
+                    editMessage(
+                        messageInfoModel.id.toString(),
+                        messageInfoModel.content.toString()
+                    )
+                } doReturn editChatMessageCompletableFuture
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+
+            val action = ChatAction.EditMessage(messageInfoModel)
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+            val mockAppState = mock<ReduxState> {}
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+
+            editChatMessageCompletableFuture.complete(any())
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ChatAction.MessageEdited
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun chatMiddlewareActionHandler_editMessage_then_dispatch_ChatStateErrorOccurred() =
+        runScopedTest {
+            // arrange
+            val messageInfoModel = MessageInfoModel(
+                id = "Message",
+                internalId = "54321",
+                messageType = ChatMessageType.TEXT,
+                content = "hello, world!"
+            )
+
+            val error = Exception("test")
+            val editChatMessageCompletableFuture = CompletableFuture<Void>()
+            val mockChatService: ChatService = mock {
+                on {
+                    editMessage(
+                        messageInfoModel.id.toString(),
+                        messageInfoModel.content.toString()
+                    )
+                } doReturn editChatMessageCompletableFuture
+            }
+
+            val chatHandler = ChatActionHandler(mockChatService)
+            val action = ChatAction.EditMessage(messageInfoModel)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+            val mockAppState = mock<ReduxState> {}
+
+            // act
+            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+            editChatMessageCompletableFuture.completeExceptionally(error)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ErrorAction.ChatStateErrorOccurred
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun chatMiddlewareActionHandler_fetchMessage_then_call_chatServiceGetPreviousPage() =
         runScopedTest {
             // arrange
@@ -362,6 +451,8 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockChatSDK, times(1)).fetchMessages(offsetTimeStamp)
         }
 
+    @ExperimentalCoroutinesApi
+    @Test
     fun chatMiddlewareActionHandler_sendReadReceipt_then_dispatch_ChatActionSendReadReceipt() =
         runScopedTest {
             // arrange
@@ -471,71 +562,112 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
         }
 
-    @ExperimentalCoroutinesApi
     @Test
-    fun chatMiddlewareActionHandler_sendTypingIndicator_then_dispatch_ChatActionSendTypingIndicator() =
-        runScopedTest {
-            // arrange
+    fun chatMiddlewareActionHandler_on_actionTypingIndicator_then_sendTypingIndicator() {
+        // arrange
+        val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
 
-            val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
+        val mockChatService: ChatService = mock {
+            on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
+        }
+        val chatHandler = ChatActionHandler(mockChatService)
 
-            val mockChatService: ChatService = mock {
-                on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
-            }
+        val action = ChatAction.TypingIndicator()
 
-            val chatHandler = ChatActionHandler(mockChatService)
+        val mockAppStore = mock<AppStore<ReduxState>> { }
+        val mockAppState = mock<ReduxState> {}
 
-            val action = ChatAction.TypingIndicator()
+        // act
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        sendTypingIndicatorCompletableFuture.complete(null)
 
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
-            val mockAppState = mock<ReduxState> {}
+        // assert
+        verify(mockChatService, times(1)).sendTypingIndicator()
+    }
 
-            // act
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.complete(any())
+    @Test
+    fun chatMiddlewareActionHandler_sendTypingIndicator_then_ChatStateErrorOccurred() {
+        // arrange
 
-            // assert
-            verify(mockAppStore, times(1)).dispatch(
-                argThat { action ->
-                    action is ChatAction.TypingIndicator
-                }
-            )
+        val error = Exception("test")
+
+        val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
+
+        val mockChatService: ChatService = mock {
+            on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
         }
 
+        val chatHandler = ChatActionHandler(mockChatService)
+
+        val action = ChatAction.TypingIndicator()
+
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+        val mockAppState = mock<ReduxState> {}
+
+        // act
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        sendTypingIndicatorCompletableFuture.completeExceptionally(error)
+
+        // assert
+        verify(mockChatService, times(1)).sendTypingIndicator()
+    }
+
+    @Test
+    fun chatMiddlewareActionHandler_on_actionsTypingIndicator_then_sendTypingIndicatorOnce() {
+        // arrange
+
+        val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
+
+        val mockChatService: ChatService = mock {
+            on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
+        }
+
+        val chatHandler = ChatActionHandler(mockChatService)
+
+        val action = ChatAction.TypingIndicator()
+
+        val mockAppStore = mock<AppStore<ReduxState>> { }
+        val mockAppState = mock<ReduxState> {}
+
+        // act
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        sendTypingIndicatorCompletableFuture.complete(null)
+
+        // assert
+        verify(mockChatService, times(1)).sendTypingIndicator()
+    }
+
     @ExperimentalCoroutinesApi
     @Test
-    fun chatMiddlewareActionHandler_sendTypingIndicator_then_ChatStateErrorOccurred() =
+    fun chatMiddlewareActionHandler_on_actionsTypingIndicatorAfterInterval_then_sendTypingIndicatorTwice() =
         runScopedTest {
-            // arrange
+            runBlocking {
+                // arrange
 
-            val error = Exception("test")
+                val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
 
-            val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
-
-            val mockChatService: ChatService = mock {
-                on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
-            }
-
-            val chatHandler = ChatActionHandler(mockChatService)
-
-            val action = ChatAction.TypingIndicator()
-
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
-            val mockAppState = mock<ReduxState> {}
-
-            // act
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.completeExceptionally(error)
-
-            // assert
-            verify(mockAppStore, times(1)).dispatch(
-                argThat { action ->
-                    action is ErrorAction.ChatStateErrorOccurred
+                val mockChatService: ChatService = mock {
+                    on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
                 }
-            )
+
+                val chatHandler = ChatActionHandler(mockChatService)
+
+                val action = ChatAction.TypingIndicator()
+
+                val mockAppStore = mock<AppStore<ReduxState>> { }
+                val mockAppState = mock<ReduxState> {}
+
+                // act
+                chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+                delay(ChatActionHandler.SEND_TYPING_INDICATOR_INTERVAL_MILLIS.toLong())
+                chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+                sendTypingIndicatorCompletableFuture.complete(null)
+
+                // assert
+                verify(mockChatService, times(2)).sendTypingIndicator()
+            }
         }
 }
