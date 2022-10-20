@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.di
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
@@ -24,6 +25,8 @@ import com.azure.android.communication.ui.calling.service.NotificationService
 // For implementation
 // @see: {@link DependencyInjectionContainerImpl}
 internal interface DependencyInjectionContainer {
+    val logger: Logger
+
     // Redux Store
     val appStore: Store<ReduxState>
     val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
