@@ -66,23 +66,48 @@ internal class TestChatSDK(
     }
 
     override fun deleteMessage(id: String): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            future.complete(null)
+        }
+        return future
     }
 
     override fun editMessage(id: String, content: String): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            future.complete(null)
+        }
+        return future
     }
 
     override fun sendTypingIndicator(): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            future.complete(null)
+        }
+        return future
     }
 
     override fun sendReadReceipt(id: String): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            future.complete(null)
+        }
+        return future
     }
 
     override fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            future.complete(null)
+        }
+        return future
     }
 
     override fun fetchMessages(from: OffsetDateTime?) {}
