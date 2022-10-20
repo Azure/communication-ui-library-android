@@ -45,9 +45,9 @@ internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>, mo
             val context = LocalContext.current
             val typingMessage: String = when (typingParticipantsDisplayName.size) {
                 1 -> context.getString(
-                        R.string.azure_communication_ui_chat_first_name_is_typing,
-                        firstName
-                    )
+                    R.string.azure_communication_ui_chat_first_name_is_typing,
+                    firstName
+                )
                 2 -> {
                     val secondName = typingParticipantsDisplayName[1].substringBefore(" ")
                     context.getString(
