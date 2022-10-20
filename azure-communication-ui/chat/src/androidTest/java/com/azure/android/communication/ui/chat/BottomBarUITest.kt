@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat
 
 import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -18,20 +20,6 @@ internal class BottomBarUITest : BaseUiTest() {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-
-    @Test
-    fun testSendButtonContentDescription() {
-        launchChatComposite()
-        // TODO: get strings from R.id
-        composeTestRule.onNode(hasContentDescription("Send Message Button"))
-    }
-
-    @Test
-    fun testInputLayoutContentDescription() {
-        launchChatComposite()
-        // TODO: get strings from R.id
-        composeTestRule.onNode(hasContentDescription("Message Input Field"))
-    }
 
     @Test
     fun testOnMessageSentInputViewIsCleared() = runTest {
