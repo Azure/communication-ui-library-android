@@ -6,7 +6,6 @@ jacoco {
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     def coverageSourceDirs = [
-            "src/main/java",
             "src/chat/java"
     ]
     def fileFilter = [
@@ -18,11 +17,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
             '**/Manifest*.*'
     ]
     def javaClasses = fileTree(
-            dir: "$buildDir/intermediates/javac/chatDebug",
+            dir: "$buildDir/intermediates/javac/debug",
             excludes: fileFilter
     )
     def kotlinClasses = fileTree(
-            dir: "$buildDir/tmp/kotlin-classes/chatDebug",
+            dir: "$buildDir/tmp/kotlin-classes/debug",
             excludes: fileFilter
     )
     classDirectories.setFrom(files([javaClasses], [kotlinClasses]))
