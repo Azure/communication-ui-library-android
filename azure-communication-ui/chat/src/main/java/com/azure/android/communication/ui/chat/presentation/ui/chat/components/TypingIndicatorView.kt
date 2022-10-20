@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.microsoft.fluentui.persona.AvatarSize
 
 @Composable
-internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>) {
+internal fun TypingIndicatorView(typingParticipantsDisplayName: List<String>, modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier.padding(horizontal = 10.dp)
+        modifier = modifier.padding(horizontal = 10.dp)
             .height(25.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy((-10).dp)
