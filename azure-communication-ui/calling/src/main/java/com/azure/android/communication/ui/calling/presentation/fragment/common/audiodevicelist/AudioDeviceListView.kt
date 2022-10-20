@@ -101,7 +101,7 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
                     ),
-                    when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
+                    if (isAndroidTV) "TV" else when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
                         true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
                         false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
                     },
@@ -124,7 +124,7 @@ internal class AudioDeviceListView(
 
             // Hide "Speaker" when on television
 
-            if (isAndroidTV) {
+            if (!isAndroidTV) {
                 bottomCellItems.add(
                     BottomCellItem(
                         ContextCompat.getDrawable(
@@ -201,4 +201,5 @@ internal class AudioDeviceListView(
                 audioState.bluetoothState.deviceName
         }
     }
+
 }
