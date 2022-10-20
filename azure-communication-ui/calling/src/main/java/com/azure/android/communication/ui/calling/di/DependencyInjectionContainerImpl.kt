@@ -55,7 +55,6 @@ internal class DependencyInjectionContainerImpl(
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : DependencyInjectionContainer {
-
     //region Overrides
     // These getters are required by the interface
     override val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
@@ -191,7 +190,7 @@ internal class DependencyInjectionContainerImpl(
     //region System
     private val applicationContext get() = parentContext.applicationContext
 
-    private val logger by lazy { DefaultLogger() }
+    override val logger by lazy { DefaultLogger() }
 
     private val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK
