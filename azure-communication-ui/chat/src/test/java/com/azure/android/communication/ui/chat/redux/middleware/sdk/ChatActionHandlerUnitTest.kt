@@ -451,6 +451,8 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockChatSDK, times(1)).fetchMessages(offsetTimeStamp)
         }
 
+    @ExperimentalCoroutinesApi
+    @Test
     fun chatMiddlewareActionHandler_sendReadReceipt_then_dispatch_ChatActionSendReadReceipt() =
         runScopedTest {
             // arrange
@@ -560,89 +562,83 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
         }
 
-    @ExperimentalCoroutinesApi
     @Test
-    fun chatMiddlewareActionHandler_on_actionTypingIndicator_then_sendTypingIndicator() =
-        runScopedTest {
-            // arrange
-            val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
+    fun chatMiddlewareActionHandler_on_actionTypingIndicator_then_sendTypingIndicator() {
+        // arrange
+        val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
 
-            val mockChatService: ChatService = mock {
-                on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
-            }
-            val chatHandler = ChatActionHandler(mockChatService)
+        val mockChatService: ChatService = mock {
+            on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
+        }
+        val chatHandler = ChatActionHandler(mockChatService)
 
-            val action = ChatAction.TypingIndicator()
+        val action = ChatAction.TypingIndicator()
 
-            val mockAppStore = mock<AppStore<ReduxState>> { }
-            val mockAppState = mock<ReduxState> {}
+        val mockAppStore = mock<AppStore<ReduxState>> { }
+        val mockAppState = mock<ReduxState> {}
 
-            // act
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.complete(null)
+        // act
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        sendTypingIndicatorCompletableFuture.complete(null)
 
-            // assert
-            verify(mockChatService, times(1)).sendTypingIndicator()
+        // assert
+        verify(mockChatService, times(1)).sendTypingIndicator()
+    }
+
+    @Test
+    fun chatMiddlewareActionHandler_sendTypingIndicator_then_ChatStateErrorOccurred() {
+        // arrange
+
+        val error = Exception("test")
+
+        val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
+
+        val mockChatService: ChatService = mock {
+            on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
         }
 
-    @ExperimentalCoroutinesApi
+        val chatHandler = ChatActionHandler(mockChatService)
+
+        val action = ChatAction.TypingIndicator()
+
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+        val mockAppState = mock<ReduxState> {}
+
+        // act
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        sendTypingIndicatorCompletableFuture.completeExceptionally(error)
+
+        // assert
+        verify(mockChatService, times(1)).sendTypingIndicator()
+    }
+
     @Test
-    fun chatMiddlewareActionHandler_sendTypingIndicator_then_ChatStateErrorOccurred() =
-        runScopedTest {
-            // arrange
+    fun chatMiddlewareActionHandler_on_actionsTypingIndicator_then_sendTypingIndicatorOnce() {
+        // arrange
 
-            val error = Exception("test")
+        val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
 
-            val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
-
-            val mockChatService: ChatService = mock {
-                on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
-            }
-
-            val chatHandler = ChatActionHandler(mockChatService)
-
-            val action = ChatAction.TypingIndicator()
-
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
-            val mockAppState = mock<ReduxState> {}
-
-            // act
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.completeExceptionally(error)
-
-            // assert
-            verify(mockChatService, times(1)).sendTypingIndicator()
+        val mockChatService: ChatService = mock {
+            on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
         }
 
-    @ExperimentalCoroutinesApi
-    @Test
-    fun chatMiddlewareActionHandler_on_actionsTypingIndicator_then_sendTypingIndicatorOnce() =
-        runScopedTest {
-            // arrange
+        val chatHandler = ChatActionHandler(mockChatService)
 
-            val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
+        val action = ChatAction.TypingIndicator()
 
-            val mockChatService: ChatService = mock {
-                on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
-            }
+        val mockAppStore = mock<AppStore<ReduxState>> { }
+        val mockAppState = mock<ReduxState> {}
 
-            val chatHandler = ChatActionHandler(mockChatService)
+        // act
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
+        sendTypingIndicatorCompletableFuture.complete(null)
 
-            val action = ChatAction.TypingIndicator()
-
-            val mockAppStore = mock<AppStore<ReduxState>> { }
-            val mockAppState = mock<ReduxState> {}
-
-            // act
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.complete(null)
-
-            // assert
-            verify(mockChatService, times(1)).sendTypingIndicator()
-        }
+        // assert
+        verify(mockChatService, times(1)).sendTypingIndicator()
+    }
 
     @ExperimentalCoroutinesApi
     @Test
