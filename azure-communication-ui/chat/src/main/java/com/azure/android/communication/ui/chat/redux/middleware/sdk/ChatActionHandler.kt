@@ -160,10 +160,6 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                         )
                     )
                 )
-            } else {
-                dispatch(
-                    ChatAction.TypingIndicator()
-                )
             }
         }
     }

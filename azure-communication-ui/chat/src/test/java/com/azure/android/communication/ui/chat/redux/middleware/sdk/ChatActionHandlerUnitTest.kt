@@ -563,32 +563,24 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun chatMiddlewareActionHandler_sendTypingIndicator_then_dispatch_ChatActionSendTypingIndicator() =
         runScopedTest {
             // arrange
-
             val sendTypingIndicatorCompletableFuture = CompletableFuture<Void>()
 
-            val mockChatService: ChatService = mock {
+            val mockChatSDK: ChatSDK = mock {
                 on { sendTypingIndicator() } doReturn sendTypingIndicatorCompletableFuture
             }
-
-            val chatHandler = ChatActionHandler(mockChatService)
+            val chatHandler = ChatActionHandler(ChatService(mockChatSDK))
 
             val action = ChatAction.TypingIndicator()
 
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore = mock<AppStore<ReduxState>> { }
             val mockAppState = mock<ReduxState> {}
 
             // act
             chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.complete(any())
+            sendTypingIndicatorCompletableFuture.complete(null)
 
             // assert
-            verify(mockAppStore, times(1)).dispatch(
-                argThat { action ->
-                    action is ChatAction.TypingIndicator
-                }
-            )
+            verify(mockChatSDK, times(1)).sendTypingIndicator()
         }
 
     @ExperimentalCoroutinesApi
@@ -619,11 +611,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             sendTypingIndicatorCompletableFuture.completeExceptionally(error)
 
             // assert
-            verify(mockAppStore, times(1)).dispatch(
-                argThat { action ->
-                    action is ErrorAction.ChatStateErrorOccurred
-                }
-            )
+            verify(mockChatService, times(1)).sendTypingIndicator()
         }
 
     @ExperimentalCoroutinesApi
@@ -642,22 +630,16 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val action = ChatAction.TypingIndicator()
 
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore = mock<AppStore<ReduxState>> { }
             val mockAppState = mock<ReduxState> {}
 
             // act
             chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
             chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.complete(any())
+            sendTypingIndicatorCompletableFuture.complete(null)
 
             // assert
-            verify(mockAppStore, times(1)).dispatch(
-                argThat { action ->
-                    action is ChatAction.TypingIndicator
-                }
-            )
+            verify(mockChatService, times(1)).sendTypingIndicator()
         }
 
     @ExperimentalCoroutinesApi
@@ -676,22 +658,16 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val action = ChatAction.TypingIndicator()
 
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore = mock<AppStore<ReduxState>> { }
             val mockAppState = mock<ReduxState> {}
 
             // act
             chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
             Thread.sleep(ChatActionHandler.SEND_TYPING_INDICATOR_INTERVAL_MILLIS.toLong())
             chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendTypingIndicatorCompletableFuture.complete(any())
+            sendTypingIndicatorCompletableFuture.complete(null)
 
             // assert
-            verify(mockAppStore, times(2)).dispatch(
-                argThat { action ->
-                    action is ChatAction.TypingIndicator
-                }
-            )
+            verify(mockChatService, times(2)).sendTypingIndicator()
         }
 }
