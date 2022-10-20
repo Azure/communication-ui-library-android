@@ -142,10 +142,12 @@ internal class CallingFragment :
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
-        controlBarMoreMenuView = ControlBarMoreMenuView(this.requireContext(),
-                viewModel.controlBarMoreMenuViewModel)
+        controlBarMoreMenuView = ControlBarMoreMenuView(
+            this.requireContext(),
+            viewModel.controlBarMoreMenuViewModel
+        )
         controlBarMoreMenuView.layoutDirection =
-                activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         controlBarMoreMenuView.start(viewLifecycleOwner)
     }
 
@@ -241,7 +243,6 @@ internal class CallingFragment :
     private fun requestCallEnd() {
         viewModel.requestCallEnd()
     }
-
 
     private fun displayParticipantList() {
         viewModel.participantListViewModel.displayParticipantList()

@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.manager
 
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfo
+import com.azure.android.communication.ui.calling.models.buildCallCompositeDiagnosticsInfo
 import com.azure.android.communication.ui.calling.models.setCallId
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -20,13 +21,15 @@ internal class DiagnosticsManagerImpl(
     private val store: Store<ReduxState>,
 ) : DiagnosticsManager {
 
-    override val diagnosticsInfo = CallCompositeDiagnosticsInfo()
+    override var diagnosticsInfo = buildCallCompositeDiagnosticsInfo()
 
     override fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
             store.getStateFlow().collect {
                 if (!it.callState.callId.isNullOrEmpty()) {
-                    diagnosticsInfo.setCallId(it.callState.callId)
+                    val newDiagnosticsInfo = buildCallCompositeDiagnosticsInfo()
+                    newDiagnosticsInfo.setCallId(it.callState.callId)
+                    diagnosticsInfo = newDiagnosticsInfo
                 }
             }
         }

@@ -27,7 +27,6 @@ internal class SetupViewModel(
     val joinCallButtonHolderViewModel = setupViewModelProvider.joinCallButtonHolderViewModel
     val controlBarMoreMenuViewModel = setupViewModelProvider.controlBarMoreMenuViewModel
 
-
     val displayName: String?
         get() = store.getCurrentState().localParticipantState.displayName
 

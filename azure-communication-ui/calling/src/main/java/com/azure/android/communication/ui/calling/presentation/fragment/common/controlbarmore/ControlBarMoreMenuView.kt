@@ -20,8 +20,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ControlBarMoreMenuView(
-        context: Context,
-        private val viewModel: ControlBarMoreMenuViewModel
+    context: Context,
+    private val viewModel: ControlBarMoreMenuViewModel
 ) : RelativeLayout(context) {
 
     private var deviceTable: RecyclerView
@@ -33,7 +33,6 @@ internal class ControlBarMoreMenuView(
         deviceTable = findViewById(R.id.bottom_drawer_table)
         this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
     }
-
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
         initializeDrawer()
@@ -70,27 +69,27 @@ internal class ControlBarMoreMenuView(
     private val bottomCellItems: List<BottomCellItem>
         get() {
             val bottomCellItems = listOf(
-                    // Receiver (default)
-                    BottomCellItem(
-                            icon = ContextCompat.getDrawable(
-                                    context,
-                                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
-                            ),
-                            title = "Call ID",
-                            contentDescription = null,
-                            accessoryImage = ContextCompat.getDrawable(
-                                    context,
-                                    R.drawable.ms_ic_checkmark_24_filled
-                            ),
-                            accessoryColor = null,
-                            accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                            enabled = true,
-                            participantViewData = null,
-                            isOnHold = false,
-                    ) {
+                // Receiver (default)
+                BottomCellItem(
+                    icon = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
+                    ),
+                    title = "Call ID",
+                    contentDescription = null,
+                    accessoryImage = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ms_ic_checkmark_24_filled
+                    ),
+                    accessoryColor = null,
+                    accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
+                    enabled = true,
+                    participantViewData = null,
+                    isOnHold = false,
+                ) {
 
-                        menuDrawer.dismiss()
-                    },
+                    menuDrawer.dismiss()
+                },
 
             )
 
@@ -101,10 +100,10 @@ internal class ControlBarMoreMenuView(
         if (this::bottomCellAdapter.isInitialized) {
             bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(audioState))
             announceForAccessibility(
-                    context.getString(
-                            R.string.azure_communication_ui_calling_selected_audio_device_announcement,
-                            getDeviceTypeName(audioState)
-                    )
+                context.getString(
+                    R.string.azure_communication_ui_calling_selected_audio_device_announcement,
+                    getDeviceTypeName(audioState)
+                )
             )
         }
     }

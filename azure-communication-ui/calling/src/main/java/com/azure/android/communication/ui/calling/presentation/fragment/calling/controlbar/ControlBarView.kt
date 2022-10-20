@@ -16,16 +16,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
-import com.azure.android.communication.ui.calling.utilities.BottomCellItem
-import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
-import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -63,7 +58,7 @@ internal class ControlBarView : ConstraintLayout {
 //        recyclerView.adapter = bottomCellAdapter
 //        moreMenuDrawer.setContentView(this)
 //        moreMenuDrawer.setOnDismissListener {
-////            viewModel.closeAudioDeviceSelectionMenu()
+// //            viewModel.closeAudioDeviceSelectionMenu()
 //        }
 
         subscribeClickListener()
@@ -115,8 +110,6 @@ internal class ControlBarView : ConstraintLayout {
                 }
             }
         }
-
-
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)

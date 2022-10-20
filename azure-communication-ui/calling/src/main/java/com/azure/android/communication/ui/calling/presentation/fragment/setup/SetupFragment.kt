@@ -94,10 +94,12 @@ internal class SetupFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
-        controlBarMoreMenuView = ControlBarMoreMenuView(this.requireContext(),
-                viewModel.controlBarMoreMenuViewModel)
+        controlBarMoreMenuView = ControlBarMoreMenuView(
+            this.requireContext(),
+            viewModel.controlBarMoreMenuViewModel
+        )
         controlBarMoreMenuView.layoutDirection =
-                activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         controlBarMoreMenuView.start(viewLifecycleOwner)
 
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)

@@ -4,17 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.common.controlbarmore.ControlBarMoreMenuViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
