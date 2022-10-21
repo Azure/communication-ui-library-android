@@ -378,12 +378,9 @@ internal class CallingSDKWrapper(
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
             getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager?, _: Throwable? ->
-
                 completeCamerasInitializedCompletableFuture()
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
-                        camerasCountStateFlow.value =
-                            getDeviceManagerCompletableFuture().get().cameras.size
                         completeCamerasInitializedCompletableFuture()
                     }
                 deviceManager?.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)
@@ -396,6 +393,8 @@ internal class CallingSDKWrapper(
     private fun cameraExist() = getDeviceManagerCompletableFuture().get().cameras.isNotEmpty()
 
     private fun completeCamerasInitializedCompletableFuture() {
+        camerasCountStateFlow.value =
+            getDeviceManagerCompletableFuture().get().cameras.size
         if ((isAndroidTV && cameraExist()) || doFrontAndBackCamerasExist()) {
             camerasInitializedCompletableFuture?.complete(null)
         }
