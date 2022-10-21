@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -28,16 +27,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs += [
-                "-Xopt-in=kotlin.RequiresOptIn",
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xuse-experimental=kotlinx.coroutines.ObsoleteCoroutinesApi"
-        ]
     }
     buildFeatures {
         compose true
-        buildConfig = false
-        resValues = false
     }
     composeOptions {
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
