@@ -2062,7 +2062,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
-                on { turnCameraOn() } doReturn cameraStateCompletableFuture
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
             }
 
