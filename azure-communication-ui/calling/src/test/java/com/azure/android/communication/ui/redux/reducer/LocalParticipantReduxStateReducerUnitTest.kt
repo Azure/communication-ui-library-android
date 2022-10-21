@@ -170,6 +170,35 @@ internal class LocalParticipantReduxStateReducerUnitTest {
     }
 
     @Test
+    fun deviceStateReducer_reduce_when_CamerasCountTriggered_then_changeState() {
+
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.ON,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL,
+                4,
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = null,
+            displayName = null
+        )
+        val action = LocalParticipantAction.CamerasCountUpdated(8)
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(8, newState.cameraState.camerasCount)
+    }
+
+    @Test
     fun deviceStateReducer_reduce_when_CameraOffSucceeded_then_changeState() {
 
         // arrange

@@ -206,6 +206,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeIsRecordingUpdate(store)
         subscribeIsTranscribingUpdate(store)
         subscribeCallInfoModelEventUpdate(store)
+        subscribeCamerasCountUpdate(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -286,6 +287,14 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     )
                 }
+            }
+        }
+    }
+
+    private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCamerasCountStateFlow().collect {
+                store.dispatch(LocalParticipantAction.CamerasCountUpdated(it))
             }
         }
     }
