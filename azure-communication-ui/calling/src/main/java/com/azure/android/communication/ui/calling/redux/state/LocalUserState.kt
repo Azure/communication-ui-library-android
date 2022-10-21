@@ -47,6 +47,7 @@ internal data class CameraState(
     val operation: CameraOperationalStatus,
     val device: CameraDeviceSelectionStatus,
     val transmission: CameraTransmissionStatus,
+    val camerasCount: Int = 0,
     val error: CallCompositeError? = null,
 )
 

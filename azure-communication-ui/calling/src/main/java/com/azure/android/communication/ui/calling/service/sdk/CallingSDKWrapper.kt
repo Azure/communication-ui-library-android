@@ -34,6 +34,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class CallingSDKWrapper(
     private val instanceId: Int,
@@ -53,6 +54,7 @@ internal class CallingSDKWrapper(
 
     private val configuration get() = CallCompositeConfiguration.getConfig(instanceId)
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
+    private var camerasCountStateFlow = MutableStateFlow(0)
 
     private val callConfig: CallConfiguration
         get() {
@@ -83,6 +85,8 @@ internal class CallingSDKWrapper(
 
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
         callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
+
+    override fun getCamerasCountStateFlow() = camerasCountStateFlow
 
     override fun getCallingStateWrapperSharedFlow() =
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()
@@ -378,6 +382,8 @@ internal class CallingSDKWrapper(
                 completeCamerasInitializedCompletableFuture()
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
+                        camerasCountStateFlow.value =
+                            getDeviceManagerCompletableFuture().get().cameras.size
                         completeCamerasInitializedCompletableFuture()
                     }
                 deviceManager?.addOnCamerasUpdatedListener(videoDevicesUpdatedListener)

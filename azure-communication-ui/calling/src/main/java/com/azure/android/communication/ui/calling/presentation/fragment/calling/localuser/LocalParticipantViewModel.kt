@@ -47,6 +47,7 @@ internal class LocalParticipantViewModel(
         numberOfRemoteParticipants: Int,
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
+        camerasCount: Int
     ) {
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
@@ -61,7 +62,7 @@ internal class LocalParticipantViewModel(
         displaySwitchCameraButtonFlow.value =
             displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN
         displayPipSwitchCameraButtonFlow.value =
-            displayVideo && viewMode == LocalParticipantViewMode.PIP
+            displayVideo && viewMode == LocalParticipantViewMode.PIP && camerasCount > 1
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING &&
             callingState != CallingStatus.LOCAL_HOLD
@@ -80,6 +81,7 @@ internal class LocalParticipantViewModel(
         numberOfRemoteParticipants: Int,
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
+        camerasCount: Int
     ) {
 
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
@@ -96,7 +98,7 @@ internal class LocalParticipantViewModel(
         displaySwitchCameraButtonFlow =
             MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN)
         displayPipSwitchCameraButtonFlow =
-            MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.PIP)
+            MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.PIP && camerasCount > 1)
         enableCameraSwitchFlow = MutableStateFlow(
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         )
