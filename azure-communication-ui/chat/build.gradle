@@ -41,7 +41,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
-        kotlinCompilerVersion androidx_core_ktx_version
     }
     packagingOptions {
         resources {
