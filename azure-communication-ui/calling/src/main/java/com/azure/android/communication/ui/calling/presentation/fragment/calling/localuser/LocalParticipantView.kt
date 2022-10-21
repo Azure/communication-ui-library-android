@@ -86,7 +86,6 @@ internal class LocalParticipantView : ConstraintLayout {
             pipAvatar.avatarSize = AvatarSize.MEDIUM
             guideline.setGuidelinePercent(0.9f)
         }
-
     }
 
     fun stop() {
