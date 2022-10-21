@@ -20,6 +20,7 @@
         <activity
             android:name="com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity"
             android:exported="true"
+            android:label="@string/azure_communication_ui_chat_demo_app_title"
             android:theme="@style/Launcher.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
