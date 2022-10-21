@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-    <application android:hardwareAccelerated="true">
+    <application>
         <activity
             android:name=".presentation.ChatCompositeActivity"
             android:exported="false"
