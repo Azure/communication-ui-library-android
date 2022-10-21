@@ -88,6 +88,9 @@ internal class ChatServiceListener(
                 when (it.eventType) {
                     ChatEventType.CHAT_MESSAGE_RECEIVED -> {
                         dispatch(ChatAction.MessageReceived(message = it.infoModel))
+                        dispatch(ParticipantAction.TypingIndicatorCleared(
+                            ParticipantTimestampInfoModel.fromMessageInfoModel(it.infoModel)
+                        ))
                     }
                     ChatEventType.CHAT_MESSAGE_EDITED -> {
                         dispatch(ChatAction.MessageEdited(message = it.infoModel))
@@ -101,12 +104,11 @@ internal class ChatServiceListener(
             is ParticipantTimestampInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.TYPING_INDICATOR_RECEIVED -> {
-                        dispatch(ParticipantAction.TypingIndicatorReceived(message = it.infoModel))
-                        /*DispatchTypingIndicatorReceived(
+                        DispatchTypingIndicatorReceived(
                             it.infoModel,
                             dispatch,
                             coroutineContextProvider
-                        ).dispatch()*/
+                        ).dispatch()
                     }
                     ChatEventType.READ_RECEIPT_RECEIVED -> {
                         val model = it.infoModel
@@ -134,6 +136,9 @@ internal class ChatServiceListener(
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
                         dispatch(ParticipantAction.ParticipantsRemoved(participants = it.infoModel.participants))
+                        dispatch(ParticipantAction.TypingIndicatorClearedForMultiple(
+                            ParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it.infoModel.participants)
+                        ))
                     }
                     else -> {}
                 }

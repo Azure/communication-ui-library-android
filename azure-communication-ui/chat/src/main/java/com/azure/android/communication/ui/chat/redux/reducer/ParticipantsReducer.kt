@@ -31,7 +31,25 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             is ParticipantAction.TypingIndicatorCleared -> {
                 val participantsTyping = HashSet<String>()
                 participantsTyping.addAll(state.participantTyping)
-                participantsTyping.remove(action.message.userIdentifier.id)
+                state.participants.forEach {
+                    if (it.value.userIdentifier.id == action.message.userIdentifier.id) {
+                        participantsTyping.remove(it.value.displayName ?: "Unknown")
+                    }
+                }
+                state.copy(participantTyping = participantsTyping)
+            }
+            is ParticipantAction.TypingIndicatorClearedForMultiple -> {
+                val participantsTyping = HashSet<String>()
+                participantsTyping.addAll(state.participantTyping)
+                action.message.forEach { remoteParticipant ->
+
+                    state.participants.forEach { participant ->
+                        if (participant.value.userIdentifier.id == remoteParticipant.userIdentifier.id) {
+                            participantsTyping.remove(participant.value.displayName ?: "Unknown")
+                        }
+                    }
+                }
+
                 state.copy(participantTyping = participantsTyping)
             }
             else -> state

@@ -9,4 +9,26 @@ import org.threeten.bp.OffsetDateTime
 internal data class ParticipantTimestampInfoModel(
     val userIdentifier: CommunicationIdentifier,
     val receivedOn: OffsetDateTime,
-) : BaseInfoModel
+) : BaseInfoModel {
+    companion object {
+        fun fromMessageInfoModel(infoModel: MessageInfoModel): ParticipantTimestampInfoModel =
+            ParticipantTimestampInfoModel(
+                userIdentifier = infoModel.senderCommunicationIdentifier!!,
+                receivedOn = infoModel.createdOn!!
+            )
+
+        fun fromRemoteParticipantsInfoModel(
+            infoModel: List<RemoteParticipantInfoModel>
+        ): List<ParticipantTimestampInfoModel> {
+            val list = ArrayList<ParticipantTimestampInfoModel>(infoModel.size)
+            infoModel.forEach {
+                val participant = ParticipantTimestampInfoModel(
+                    userIdentifier = it.userIdentifier,
+                    receivedOn = OffsetDateTime.now()
+                )
+                list.add(participant)
+            }
+            return list
+        }
+    }
+}

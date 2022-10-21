@@ -13,4 +13,5 @@ internal sealed class ParticipantAction : Action {
         ParticipantAction()
     class TypingIndicatorReceived(val message: ParticipantTimestampInfoModel) : ParticipantAction()
     class TypingIndicatorCleared(val message: ParticipantTimestampInfoModel) : ParticipantAction()
+    class TypingIndicatorClearedForMultiple(val message: List<ParticipantTimestampInfoModel>) : ParticipantAction()
 }
