@@ -34,7 +34,6 @@ internal fun MessageListView(
 ) {
 
     requestPages(scrollState, messages, dispatchers)
-    // autoScroll(scrollState, messages)
 
     LazyColumn(
         modifier = modifier.fillMaxHeight(),
