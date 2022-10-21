@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.presentation.fragment.common.controlbarmore
+package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more
 
 import android.content.Context
+import android.content.Intent
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -11,8 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
@@ -24,13 +23,13 @@ internal class ControlBarMoreMenuView(
     private val viewModel: ControlBarMoreMenuViewModel
 ) : RelativeLayout(context) {
 
-    private var deviceTable: RecyclerView
+    private var recyclerView: RecyclerView
     private lateinit var menuDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
 
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
-        deviceTable = findViewById(R.id.bottom_drawer_table)
+        recyclerView = findViewById(R.id.bottom_drawer_table)
         this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
     }
 
@@ -47,7 +46,7 @@ internal class ControlBarMoreMenuView(
 
     fun stop() {
         bottomCellAdapter.setBottomCellItems(mutableListOf())
-        deviceTable.layoutManager = null
+        recyclerView.layoutManager = null
         menuDrawer.dismiss()
         menuDrawer.dismissDialog()
         this.removeAllViews()
@@ -62,33 +61,29 @@ internal class ControlBarMoreMenuView(
 
         bottomCellAdapter = BottomCellAdapter()
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
-        deviceTable.adapter = bottomCellAdapter
-        deviceTable.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = bottomCellAdapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
     private val bottomCellItems: List<BottomCellItem>
         get() {
             val bottomCellItems = listOf(
-                // Receiver (default)
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
+                        R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
                     ),
-                    title = "Call ID",
+                    title = context.getString(R.string.azure_communication_ui_calling_share_diagnostics),
                     contentDescription = null,
-                    accessoryImage = ContextCompat.getDrawable(
-                        context,
-                        R.drawable.ms_ic_checkmark_24_filled
-                    ),
+                    accessoryImage = null,
                     accessoryColor = null,
-                    accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                    enabled = true,
+                    accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_share_diagnostics),
+                    enabled = false,
                     participantViewData = null,
                     isOnHold = false,
                 ) {
-
                     menuDrawer.dismiss()
+                    shareDiagnosticsInfo()
                 },
 
             )
@@ -96,26 +91,17 @@ internal class ControlBarMoreMenuView(
             return bottomCellItems
         }
 
-    private fun updateSelectedAudioDevice(audioState: AudioState) {
-        if (this::bottomCellAdapter.isInitialized) {
-            bottomCellAdapter.enableBottomCellItem(getDeviceTypeName(audioState))
-            announceForAccessibility(
-                context.getString(
-                    R.string.azure_communication_ui_calling_selected_audio_device_announcement,
-                    getDeviceTypeName(audioState)
-                )
-            )
-        }
-    }
+    private fun shareDiagnosticsInfo() {
 
-    private fun getDeviceTypeName(audioState: AudioState): String {
-        return when (audioState.device) {
-            AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_SELECTED ->
-                context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
-            AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.SPEAKER_SELECTED ->
-                context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker)
-            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED ->
-                audioState.bluetoothState.deviceName
-        }
+        val share = Intent.createChooser(
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "Call ID: \"${viewModel.callId}\"")
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TITLE, context.getString(R.string.azure_communication_ui_calling_share_diagnostics_title))
+            },
+            null
+        )
+        context.startActivity(share)
     }
 }

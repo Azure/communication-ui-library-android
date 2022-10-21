@@ -124,7 +124,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF,
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                ),
+                    {},
+                    {},
+                    {},
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -208,7 +211,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF,
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                ),
+                {},
+                    {},
+                    {},
             )
 
             val flowJob = launch {
@@ -296,7 +302,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF,
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                ),
+                {},
+                    {},
+                    {},
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
@@ -377,7 +386,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF,
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                ),
+                    {},
+                    {},
+                    {},
             )
 
             val resultListFromOnHoldCallStatusStateFlow = mutableListOf<Boolean>()

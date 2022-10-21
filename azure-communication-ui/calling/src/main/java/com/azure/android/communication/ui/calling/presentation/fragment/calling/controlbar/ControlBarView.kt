@@ -35,14 +35,6 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var callAudioDeviceButton: ImageButton
     private lateinit var moreButton: ImageButton
 
-//    private lateinit var recyclerView: RecyclerView
-//    private lateinit var moreMenuDrawer: DrawerDialog
-//    private lateinit var bottomCellAdapter: BottomCellAdapter
-
-//    init {
-//        inflate(context, R.layout.azure_communication_ui_calling_listview, this)
-//    }
-
     override fun onFinishInflate() {
         super.onFinishInflate()
         endCallButton = findViewById(R.id.azure_communication_ui_call_end_call_button)
@@ -50,16 +42,6 @@ internal class ControlBarView : ConstraintLayout {
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
         moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
-
-//        recyclerView = findViewById(R.id.bottom_drawer_table)
-//        moreMenuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
-//        bottomCellAdapter = BottomCellAdapter()
-//        bottomCellAdapter.setBottomCellItems(bottomCellItems)
-//        recyclerView.adapter = bottomCellAdapter
-//        moreMenuDrawer.setContentView(this)
-//        moreMenuDrawer.setOnDismissListener {
-// //            viewModel.closeAudioDeviceSelectionMenu()
-//        }
 
         subscribeClickListener()
     }
@@ -238,31 +220,4 @@ internal class ControlBarView : ConstraintLayout {
             viewModel.openMoreMenu()
         }
     }
-
-//
-//    private val bottomCellItems: List<BottomCellItem>
-//        get() {
-//            val bottomCellItems = listOf(
-//                    // Receiver (default)
-//                    BottomCellItem(
-//                            icon = ContextCompat.getDrawable(
-//                                    context,
-//                                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
-//                            ),
-//                            title = context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone),
-//                            contentDescription = null,
-//                            accessoryImage = ContextCompat.getDrawable(context, R.drawable.ms_ic_checkmark_24_filled),
-//                            accessoryColor = null,
-//                            accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-//                            enabled = true,
-//                            participantViewData = null,
-//                            isOnHold = false,
-//                            itemType = BottomCellItemType.BottomMenuAction
-//                    ) {
-//
-//                    },
-//            )
-//
-//            return bottomCellItems
-//        }
 }

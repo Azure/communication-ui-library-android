@@ -79,6 +79,7 @@ internal class CallingViewModel(
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
+        controlBarMoreMenuViewModel.init(state.callState.callId)
 
         super.init(coroutineScope)
     }
@@ -155,6 +156,7 @@ internal class CallingViewModel(
             }
         }
         updateOverlayDisplayedState(state.callState.callingStatus)
+        controlBarMoreMenuViewModel.update(state.callState.callId)
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =

@@ -19,7 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
-import com.azure.android.communication.ui.calling.presentation.fragment.common.controlbarmore.ControlBarMoreMenuView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.ControlBarMoreMenuView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningView
