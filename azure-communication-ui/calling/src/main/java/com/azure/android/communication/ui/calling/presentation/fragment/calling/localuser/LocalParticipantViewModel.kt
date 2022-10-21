@@ -60,7 +60,7 @@ internal class LocalParticipantViewModel(
         localUserMutedStateFlow.value = audioOperationalStatus == AudioOperationalStatus.OFF
         displayFullScreenAvatarFlow.value = displayFullScreenAvatar
         displaySwitchCameraButtonFlow.value =
-            displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN
+            displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1
         displayPipSwitchCameraButtonFlow.value =
             displayVideo && viewMode == LocalParticipantViewMode.PIP && camerasCount > 1
         enableCameraSwitchFlow.value =
@@ -96,7 +96,7 @@ internal class LocalParticipantViewModel(
             MutableStateFlow(audioOperationalStatus == AudioOperationalStatus.OFF)
         displayFullScreenAvatarFlow = MutableStateFlow(displayFullScreenAvatar)
         displaySwitchCameraButtonFlow =
-            MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN)
+            MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1)
         displayPipSwitchCameraButtonFlow =
             MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.PIP && camerasCount > 1)
         enableCameraSwitchFlow = MutableStateFlow(

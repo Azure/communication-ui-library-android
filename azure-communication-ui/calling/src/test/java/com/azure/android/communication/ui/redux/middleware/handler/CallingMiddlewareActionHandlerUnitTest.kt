@@ -2022,6 +2022,74 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
         }
 
+    @Test
+    fun callingMiddlewareActionHandler_onSubscribeCamerasCountChangeUpdate_then_dispatch_camerasCountUpdated() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("")
+            appState.localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.PAUSED,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL,
+                    2,
+                    null
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                videoStreamID = null,
+                displayName = "username"
+            )
+            appState.callState = CallingState(CallingStatus.LOCAL_HOLD)
+
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow =
+                MutableStateFlow(CallInfoModel(CallingStatus.LOCAL_HOLD, null))
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val cameraStateCompletableFuture = CompletableFuture<String>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { turnCameraOn() } doReturn cameraStateCompletableFuture
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            cameraStateCompletableFuture.complete("1345")
+            camerasCountUpdatedStateFlow.value = 8
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is LocalParticipantAction.CamerasCountUpdated &&
+                        action.count == 8
+                }
+            )
+        }
+
     private fun provideAppStore(): AppStore<ReduxState> {
         val appState = AppReduxState("CallingMiddleWareActionHandlerUnitTest")
         return mock {

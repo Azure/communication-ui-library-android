@@ -391,4 +391,94 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
 
             displayLobbyJob.cancel()
         }
+
+    @Test
+    fun localParticipantViewModel_update_when_cameraCountChange_Then_enableCameraSwitchUpdated() =
+        runScopedTest {
+
+            // arrange
+            val displayName = "username"
+            val audioState = AudioOperationalStatus.ON
+            val videoStreamID = "123"
+
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val viewModel =
+                LocalParticipantViewModel(
+                    mockAppStore::dispatch,
+                )
+
+            viewModel.init(
+                displayName = displayName,
+                audioState,
+                videoStreamID = videoStreamID,
+                numberOfRemoteParticipants = 2,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                0
+            )
+
+            val getDisplayPipSwitchCameraButtonFlow = mutableListOf<Boolean>()
+            val getDisplaySwitchCameraButtonFlow = mutableListOf<Boolean>()
+
+            val displayPipSwitchCameraButtonFlow = launch {
+                viewModel.getDisplayPipSwitchCameraButtonFlow().toList(getDisplayPipSwitchCameraButtonFlow)
+            }
+
+            val displaySwitchCameraButtonFlow = launch {
+                viewModel.getDisplaySwitchCameraButtonFlow().toList(getDisplaySwitchCameraButtonFlow)
+            }
+
+            // act
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                2,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                2
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                2,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                0
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                0,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                2
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                0,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                0
+            )
+
+            // assert
+            Assert.assertEquals(3, getDisplaySwitchCameraButtonFlow.count())
+            Assert.assertEquals(false, getDisplaySwitchCameraButtonFlow[0])
+            Assert.assertEquals(true, getDisplaySwitchCameraButtonFlow[1])
+            Assert.assertEquals(false, getDisplaySwitchCameraButtonFlow[2])
+
+            Assert.assertEquals(3, getDisplayPipSwitchCameraButtonFlow.count())
+            Assert.assertEquals(false, getDisplayPipSwitchCameraButtonFlow[0])
+            Assert.assertEquals(true, getDisplayPipSwitchCameraButtonFlow[1])
+            Assert.assertEquals(false, getDisplayPipSwitchCameraButtonFlow[2])
+
+            displayPipSwitchCameraButtonFlow.cancel()
+            displaySwitchCameraButtonFlow.cancel()
+        }
 }
