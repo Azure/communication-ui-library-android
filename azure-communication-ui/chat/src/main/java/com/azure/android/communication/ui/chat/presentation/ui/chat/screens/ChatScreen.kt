@@ -28,12 +28,14 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenSt
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ParticipantsListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
+import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
@@ -52,10 +54,20 @@ internal fun ChatScreen(
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             ActionBarView(
                 participantCount = viewModel.participants.count(),
-                topic = viewModel.chatTopic ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
-            ) {
-                dispatcher?.onBackPressed()
-            }
+                topic = viewModel.chatTopic ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title),
+                onBackButtonPressed = {
+                    when {
+                        viewModel.isShowingParticipants -> {
+                            viewModel.postAction(
+                                ParticipantAction.ParticipantsListVisibilityChanged(visible = false)
+                            )
+                        }
+                        else -> dispatcher?.onBackPressed()
+                    }
+                },
+                isShowingParticipants = viewModel.isShowingParticipants,
+                postAction = viewModel.postAction,
+            )
         },
         content = { paddingValues ->
             if (viewModel.showError) {
@@ -71,6 +83,8 @@ internal fun ChatScreen(
                 ) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
+            } else if (viewModel.isShowingParticipants) {
+                ParticipantsListView(participants = viewModel.participants.values.toList())
             } else {
                 MessageListView(
                     modifier = Modifier
@@ -91,7 +105,12 @@ internal fun ChatScreen(
                     totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
                 )
 
-                Box(modifier = Modifier.fillMaxWidth().height(ChatCompositeTheme.dimensions.typingIndicatorAreaHeight), contentAlignment = Alignment.CenterStart) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(ChatCompositeTheme.dimensions.typingIndicatorAreaHeight),
+                    contentAlignment = Alignment.CenterStart
+                ) {
                     TypingIndicatorView(viewModel.typingParticipants.toList())
                 }
 

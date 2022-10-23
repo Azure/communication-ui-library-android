@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,12 +24,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.azure.android.communication.ui.chat.redux.action.Action
+import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 
 @Composable
 internal fun ActionBarView(
     participantCount: Int,
     topic: String,
+    isShowingParticipants: Boolean = false,
     onBackButtonPressed: () -> Unit = { },
+    postAction: (Action) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         TopAppBar(
@@ -47,7 +52,11 @@ internal fun ActionBarView(
             backgroundColor = Color.White,
             title = {
                 Column(
-                    modifier = Modifier.padding(start = 90.dp),
+                    modifier = Modifier.padding(start = 90.dp).clickable {
+                        postAction(
+                            ParticipantAction.ParticipantsListVisibilityChanged(visible = !isShowingParticipants)
+                        )
+                    },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(

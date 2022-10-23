@@ -21,6 +21,7 @@ internal data class ChatScreenViewModel(
     private val error: ChatStateError? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
+    val isShowingParticipants: Boolean = false,
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -48,7 +49,8 @@ internal fun buildChatScreenViewModel(
         typingParticipants = store.getCurrentState().participantState.participantTyping,
         postAction = dispatchers!!::postAction,
         participants = store.getCurrentState().participantState.participants,
-        chatTopic = store.getCurrentState().chatState.chatInfoModel.topic
+        chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
+        isShowingParticipants = store.getCurrentState().participantState.participantsListVisible,
     )
 }
 
