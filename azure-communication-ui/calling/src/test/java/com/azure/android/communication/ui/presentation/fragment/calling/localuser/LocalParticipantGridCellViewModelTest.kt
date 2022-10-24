@@ -39,7 +39,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             val isMutedFlow = mutableListOf<Boolean>()
@@ -54,7 +55,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             viewModel.update(
@@ -63,7 +65,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             viewModel.update(
@@ -72,7 +75,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             viewModel.update(
@@ -81,7 +85,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             // assert
@@ -110,7 +115,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             val displayNameFlow = mutableListOf<String?>()
@@ -125,7 +131,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             // assert
@@ -152,7 +159,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             val modelFlow = mutableListOf<LocalParticipantViewModel.VideoModel>()
@@ -167,7 +175,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = "videoStreamID",
                 numberOfRemoteParticipants = 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             viewModel.update(
@@ -176,7 +185,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = "videoStreamID",
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             viewModel.update(
@@ -185,7 +195,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 numberOfRemoteParticipants = 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             // assert
@@ -227,7 +238,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = videoStreamID,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -242,7 +254,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
             viewModel.update(
                 displayName,
@@ -250,7 +263,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 1,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
             viewModel.update(
                 displayName,
@@ -258,7 +272,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 2,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
             viewModel.update(
                 displayName,
@@ -266,7 +281,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             // assert
@@ -300,7 +316,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID = videoStreamID,
                 numberOfRemoteParticipants = 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -315,7 +332,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
             viewModel.update(
                 displayName,
@@ -323,7 +341,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.SWITCHING
+                CameraDeviceSelectionStatus.SWITCHING,
+                2
             )
             viewModel.update(
                 displayName,
@@ -331,7 +350,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
             viewModel.update(
                 displayName,
@@ -339,7 +359,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.SWITCHING
+                CameraDeviceSelectionStatus.SWITCHING,
+                2
             )
             viewModel.update(
                 displayName,
@@ -347,7 +368,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
             viewModel.update(
                 displayName,
@@ -355,7 +377,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 videoStreamID,
                 0,
                 CallingStatus.CONNECTED,
-                CameraDeviceSelectionStatus.FRONT
+                CameraDeviceSelectionStatus.FRONT,
+                2
             )
 
             // assert
@@ -367,5 +390,95 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(true, modelFlow[4])
 
             displayLobbyJob.cancel()
+        }
+
+    @Test
+    fun localParticipantViewModel_update_when_cameraCountChange_Then_enableCameraSwitchUpdated() =
+        runScopedTest {
+
+            // arrange
+            val displayName = "username"
+            val audioState = AudioOperationalStatus.ON
+            val videoStreamID = "123"
+
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val viewModel =
+                LocalParticipantViewModel(
+                    mockAppStore::dispatch,
+                )
+
+            viewModel.init(
+                displayName = displayName,
+                audioState,
+                videoStreamID = videoStreamID,
+                numberOfRemoteParticipants = 2,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                0
+            )
+
+            val getDisplayPipSwitchCameraButtonFlow = mutableListOf<Boolean>()
+            val getDisplaySwitchCameraButtonFlow = mutableListOf<Boolean>()
+
+            val displayPipSwitchCameraButtonFlow = launch {
+                viewModel.getDisplayPipSwitchCameraButtonFlow().toList(getDisplayPipSwitchCameraButtonFlow)
+            }
+
+            val displaySwitchCameraButtonFlow = launch {
+                viewModel.getDisplaySwitchCameraButtonFlow().toList(getDisplaySwitchCameraButtonFlow)
+            }
+
+            // act
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                2,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                2
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                2,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                0
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                0,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                2
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                0,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                0
+            )
+
+            // assert
+            Assert.assertEquals(3, getDisplaySwitchCameraButtonFlow.count())
+            Assert.assertEquals(false, getDisplaySwitchCameraButtonFlow[0])
+            Assert.assertEquals(true, getDisplaySwitchCameraButtonFlow[1])
+            Assert.assertEquals(false, getDisplaySwitchCameraButtonFlow[2])
+
+            Assert.assertEquals(3, getDisplayPipSwitchCameraButtonFlow.count())
+            Assert.assertEquals(false, getDisplayPipSwitchCameraButtonFlow[0])
+            Assert.assertEquals(true, getDisplayPipSwitchCameraButtonFlow[1])
+            Assert.assertEquals(false, getDisplayPipSwitchCameraButtonFlow[2])
+
+            displayPipSwitchCameraButtonFlow.cancel()
+            displaySwitchCameraButtonFlow.cancel()
         }
 }
