@@ -95,6 +95,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 CameraState(
                     CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.REMOTE,
+                    2,
                     CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
                 ),
                 AudioState(
