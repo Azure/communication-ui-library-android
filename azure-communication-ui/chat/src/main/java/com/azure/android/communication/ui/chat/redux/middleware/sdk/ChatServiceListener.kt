@@ -90,9 +90,11 @@ internal class ChatServiceListener(
                 when (it.eventType) {
                     ChatEventType.CHAT_MESSAGE_RECEIVED -> {
                         dispatch(ChatAction.MessageReceived(message = it.infoModel))
-                        dispatch(ParticipantAction.TypingIndicatorCleared(
-                            ParticipantTimestampInfoModel.fromMessageInfoModel(it.infoModel)
-                        ))
+                        dispatch(
+                            ParticipantAction.TypingIndicatorClear(
+                                ParticipantTimestampInfoModel.fromMessageInfoModel(it.infoModel)
+                            )
+                        )
                     }
                     ChatEventType.CHAT_MESSAGE_EDITED -> {
                         dispatch(ChatAction.MessageEdited(message = it.infoModel))
@@ -141,9 +143,11 @@ internal class ChatServiceListener(
                     ChatEventType.PARTICIPANTS_REMOVED -> {
                         dispatch(ParticipantAction.ParticipantsRemoved(participants = it.infoModel.participants))
                         it.infoModel.participants.forEach {
-                            dispatch(ParticipantAction.TypingIndicatorCleared(
-                                ParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it)
-                            ))
+                            dispatch(
+                                ParticipantAction.TypingIndicatorClear(
+                                    ParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it)
+                                )
+                            )
                         }
                     }
                     else -> {}

@@ -14,7 +14,7 @@ import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
-    val typingParticipants: Set<String>,
+    val typingParticipants: List<String>,
     val messages: List<MessageViewModel>,
     val chatStatus: ChatStatus,
     var buildCount: Int,

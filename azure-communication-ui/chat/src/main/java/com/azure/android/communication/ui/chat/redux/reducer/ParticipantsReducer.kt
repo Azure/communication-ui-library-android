@@ -19,21 +19,21 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 state.copy(participants = state.participants - action.participants.map { it.userIdentifier.id })
             }
             is ParticipantAction.TypingIndicatorReceived -> {
-                val participantsTyping = HashSet<String>()
+                val participantsTyping = ArrayList<String>()
                 participantsTyping.addAll(state.participantTyping)
-                state.participants.forEach {
-                    if (it.value.userIdentifier.id == action.message.userIdentifier.id) {
-                        participantsTyping.add(it.value.displayName ?: "Unknown")
+                state.participants.forEach { participant ->
+                    if (participant.value.userIdentifier.id == action.message.userIdentifier.id) {
+                        participantsTyping.add(participant.value.displayName ?: "Unknown")
                     }
                 }
                 state.copy(participantTyping = participantsTyping)
             }
-            is ParticipantAction.TypingIndicatorCleared -> {
-                val participantsTyping = HashSet<String>()
+            is ParticipantAction.TypingIndicatorClear -> {
+                val participantsTyping = ArrayList<String>()
                 participantsTyping.addAll(state.participantTyping)
-                state.participants.forEach {
-                    if (it.value.userIdentifier.id == action.message.userIdentifier.id) {
-                        participantsTyping.remove(it.value.displayName ?: "Unknown")
+                state.participants.forEach { participant ->
+                    if (participant.value.userIdentifier.id == action.message.userIdentifier.id) {
+                        participantsTyping.remove(participant.value.displayName ?: "Unknown")
                     }
                 }
                 state.copy(participantTyping = participantsTyping)

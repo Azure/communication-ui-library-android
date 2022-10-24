@@ -19,8 +19,8 @@ internal data class ParticipantTimestampInfoModel(
 
         fun fromRemoteParticipantsInfoModel(infoModel: RemoteParticipantInfoModel) =
             ParticipantTimestampInfoModel(
-            userIdentifier = infoModel.userIdentifier,
-            receivedOn = OffsetDateTime.now()
-        )
+                userIdentifier = infoModel.userIdentifier,
+                receivedOn = OffsetDateTime.now()
+            )
     }
 }

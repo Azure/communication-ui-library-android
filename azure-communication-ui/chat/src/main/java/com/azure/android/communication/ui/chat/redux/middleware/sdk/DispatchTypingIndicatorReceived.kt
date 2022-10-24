@@ -23,7 +23,7 @@ internal class DispatchTypingIndicatorReceived(
         timeoutScope = CoroutineScope((coroutineContextProvider.Default))
         timeoutScope.launch {
             delay(TYPING_INDICATOR_TIMEOUT)
-            dispatch(ParticipantAction.TypingIndicatorCleared(participantTimestampInfoModel))
+            dispatch(ParticipantAction.TypingIndicatorClear(participantTimestampInfoModel))
         }
     }
 

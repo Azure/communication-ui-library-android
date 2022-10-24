@@ -11,7 +11,7 @@ import com.microsoft.fluentui.persona.AvatarGroupView
 import com.microsoft.fluentui.persona.IAvatar
 
 @Composable
-internal fun  AvatarGroup(typingParticipantsDisplayNames: List<String>) {
+internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
     val avatarList = ArrayList<IAvatar>(typingParticipantsDisplayNames.size)
     typingParticipantsDisplayNames.forEach { displayName ->
         val data = AvatarData(displayName)
@@ -34,4 +34,4 @@ data class AvatarData(
     override var avatarImageResourceId: Int? = -1,
     override var avatarImageUri: Uri? = null,
     override var email: String = ""
-): IAvatar
+) : IAvatar

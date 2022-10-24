@@ -113,7 +113,7 @@ internal fun ChatScreenPreview() {
                 messages = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
-                typingParticipants = setOf("John Doe", "Mary Sue"),
+                typingParticipants = listOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(
                     RemoteParticipantInfoModel(
