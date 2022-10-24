@@ -9,13 +9,23 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
+import com.azure.android.communication.ui.chat.redux.action.NetworkAction
+import com.azure.android.communication.ui.chat.redux.state.NetworkStatus
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
 
 // Converts Redux Actions into SDK Calls
 // Redux -> Service
 internal class ChatActionHandler(private val chatService: ChatService) {
 
-    fun onAction(action: Action, dispatch: Dispatch) {
+    companion object {
+        const val SEND_TYPING_INDICATOR_INTERVAL_MILLIS = 8000
+    }
+
+    private var lastTypingIndicatorNotificationSent =
+        System.currentTimeMillis() - SEND_TYPING_INDICATOR_INTERVAL_MILLIS
+
+    fun onAction(action: Action, dispatch: Dispatch, state: ReduxState) {
         when (action) {
             is ChatAction.StartChat -> initialization(dispatch = dispatch)
             is ChatAction.Initialized -> onChatInitialized(
@@ -24,10 +34,18 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
             is ChatAction.FetchMessages -> fetchMessages()
+            is ChatAction.EditMessage -> editMessage(action = action, dispatch = dispatch)
             is ChatAction.DeleteMessage -> deleteMessage(action = action, dispatch = dispatch)
             is ChatAction.MessageRead -> sendReadReceipt(action = action, dispatch = dispatch)
             is ChatAction.TypingIndicator -> sendTypingIndicator(dispatch = dispatch)
             is ChatAction.EndChat -> endChat()
+            is NetworkAction.Connected -> {
+                // this check will help prevent false fetch messages when library starts
+                // as state is updated later, once action go through middlewares
+                if (state.networkState.networkStatus == NetworkStatus.DISCONNECTED) {
+                    chatService.fetchMessages(from = state.networkState.disconnectOffsetDateTime)
+                }
+            }
         }
     }
 
@@ -87,6 +105,23 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         }
     }
 
+    private fun editMessage(action: ChatAction.EditMessage, dispatch: Dispatch) {
+        chatService.editMessage(action.message.id ?: "", action.message.content ?: "")
+            .whenComplete { _, error ->
+                if (error != null) {
+                    dispatch(
+                        ErrorAction.ChatStateErrorOccurred(
+                            chatStateError = ChatStateError(
+                                errorCode = ErrorCode.CHAT_SEND_EDIT_MESSAGE_FAILED
+                            )
+                        )
+                    )
+                } else {
+                    dispatch(ChatAction.MessageEdited(action.message))
+                }
+            }
+    }
+
     private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch) {
         chatService.sendReadReceipt(action.messageId).whenComplete { _, error ->
             if (error != null) {
@@ -108,6 +143,12 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun sendTypingIndicator(dispatch: Dispatch) {
+        if (System.currentTimeMillis() - lastTypingIndicatorNotificationSent
+            < SEND_TYPING_INDICATOR_INTERVAL_MILLIS
+        ) {
+            return
+        }
+        lastTypingIndicatorNotificationSent = System.currentTimeMillis()
         chatService.sendTypingIndicator().whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
@@ -118,10 +159,6 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                             errorCode = ErrorCode.CHAT_SEND_TYPING_INDICATOR_FAILED
                         )
                     )
-                )
-            } else {
-                dispatch(
-                    ChatAction.TypingIndicator()
                 )
             }
         }
@@ -150,35 +187,5 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             val error = ChatStateError(errorCode = ErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
         }
-// test code
-/*sendMessage(
-
-// TODO: remove test code
-
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-chatService.getPreviousPage()
-
-sendMessage(
-    action = ChatAction.SendMessage(
-        MessageInfoModel(
-            "123",
-            "456",
-            ChatMessageType.TEXT,
-            "hello"
-        )
-    ),
-    dispatch = dispatch
-)*/
     }
 }

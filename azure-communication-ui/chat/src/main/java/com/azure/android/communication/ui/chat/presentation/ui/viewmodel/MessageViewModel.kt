@@ -3,26 +3,52 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryView
+import com.azure.android.core.rest.annotation.Immutable
 
-internal class MessageViewModel(val message: MessageInfoModel)
+@Immutable
+internal class MessageViewModel(
+    val message: MessageInfoModel,
+    val showUsername: Boolean,
+    val showTime: Boolean,
+    val showDateHeader: Boolean,
+    val isLocalUser: Boolean,
+)
 
-internal fun MessageRepositoryView.toViewModelList() =
-    InfoModelToViewModelAdapter(this) as List<MessageViewModel>
+internal fun List<MessageInfoModel>.toViewModelList(localUserIdentifier: String) =
+    InfoModelToViewModelAdapter(this, localUserIdentifier) as List<MessageViewModel>
 
-private class InfoModelToViewModelAdapter(private val messages: MessageRepositoryView) :
+private class InfoModelToViewModelAdapter(
+    private val messages: List<MessageInfoModel>,
+    private val localUserIdentifier: String
+) :
     List<MessageViewModel> {
 
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
+
+        val lastMessage = if (index - 1 == -1) EMPTY_MESSAGE_INFO_MODEL else messages[index - 1]
+        val thisMessage = messages[index]
+        val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier
         return MessageViewModel(
-            messages.get(index)
+
+            messages[index],
+            showUsername = !isLocalUser &&
+                (lastMessage.senderCommunicationIdentifier?.id ?: "")
+                != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
+
+            showTime =
+            (lastMessage.senderCommunicationIdentifier?.id ?: "")
+                != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
+
+            showDateHeader = lastMessage.createdOn?.dayOfYear != thisMessage.createdOn?.dayOfYear,
+            isLocalUser = isLocalUser
         )
     }
 
     // Rest of List Implementation
-    override val size = messages.size()
+    override val size = messages.size
     override fun contains(element: MessageViewModel) = messages.contains(element.message)
 
     override fun containsAll(elements: Collection<MessageViewModel>) =

@@ -82,7 +82,11 @@ class RemoteParticipantJoinedHandler(
                         R.drawable.image_koala,
                         R.drawable.image_monkey,
                         R.drawable.image_mouse,
-                        R.drawable.image_octopus
+                        R.drawable.image_octopus,
+                        R.drawable.image_cat,
+                        R.drawable.image_fox,
+                        R.drawable.image_koala,
+                        R.drawable.image_monkey,
                     )
                     images[number].let {
                         val bitMap =

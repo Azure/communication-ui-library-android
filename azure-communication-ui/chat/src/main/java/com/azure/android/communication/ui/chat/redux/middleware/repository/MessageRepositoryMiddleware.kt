@@ -8,37 +8,51 @@ import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.action.NetworkAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryMiddleware
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
 
-internal interface RepositoryMiddleware
+internal interface MessageRepositoryMiddleware
 
 // MessagesRepositoryMiddleware
 //
 // Manages
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
-internal class RepositoryMiddlewareImpl(
-    private val messageRepository: MessageRepositoryMiddleware,
+internal class MessageRepositoryMiddlewareImpl(
+    private val messageRepository: MessageRepositoryWriter,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware,
-    RepositoryMiddleware {
+    MessageRepositoryMiddleware {
 
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
             when (action) {
-                is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
+                is ChatAction.SendMessage -> notifyUpdate(store::dispatch)
                 is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
                 is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
                 is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
+                is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
             }
 
             // Pass Action down the chain
             next(action)
+        }
+    }
+
+    private fun processNetworkDisconnected(
+        dispatch: Dispatch
+    ) {
+        messageRepository.getLastMessage()?.let { messageInfoModel ->
+            val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
+                ?: messageInfoModel.createdOn
+            offsetDateTime?.let {
+                dispatch(NetworkAction.SetDisconnectedOffset(it))
+            }
         }
     }
 
@@ -55,11 +69,6 @@ internal class RepositoryMiddlewareImpl(
         dispatch: Dispatch,
     ) {
         messageRepository.addPage(action.messages.reversed())
-        notifyUpdate(dispatch)
-    }
-
-    private fun processSendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
-        messageRepository.addLocalMessage(action.messageInfoModel)
         notifyUpdate(dispatch)
     }
 

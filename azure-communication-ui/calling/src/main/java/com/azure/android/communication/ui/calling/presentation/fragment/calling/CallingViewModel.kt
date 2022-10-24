@@ -57,6 +57,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.camerasCount,
         )
 
         floatingHeaderViewModel.init(
@@ -106,6 +107,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.camerasCount,
         )
 
         audioDeviceListViewModel.update(
@@ -131,6 +133,7 @@ internal class CallingViewModel(
                 0,
                 state.callState.callingStatus,
                 state.localParticipantState.cameraState.device,
+                state.localParticipantState.cameraState.camerasCount,
             )
         }
 

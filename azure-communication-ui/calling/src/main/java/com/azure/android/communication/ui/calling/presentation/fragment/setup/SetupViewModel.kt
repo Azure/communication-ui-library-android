@@ -63,8 +63,11 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
             state.permissionState,
         )
-
-        joinCallButtonHolderViewModel.init(state.permissionState.audioPermissionState)
+        joinCallButtonHolderViewModel.init(
+            state.permissionState.audioPermissionState,
+            state.permissionState.cameraPermissionState,
+            state.localParticipantState.cameraState.operation
+        )
 
         super.init(coroutineScope)
     }
@@ -97,7 +100,9 @@ internal class SetupViewModel(
         )
         joinCallButtonHolderViewModel.update(
             state.permissionState.audioPermissionState,
-            state.callState
+            state.callState,
+            state.permissionState.cameraPermissionState,
+            state.localParticipantState.cameraState.operation
         )
     }
 }

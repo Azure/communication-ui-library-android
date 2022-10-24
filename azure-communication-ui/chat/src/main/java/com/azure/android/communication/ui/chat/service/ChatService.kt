@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat.service
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDK
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
+import org.threeten.bp.OffsetDateTime
 
 internal class ChatService(private val chatSDK: ChatSDK) {
     fun initialize() = chatSDK.initialization()
@@ -30,4 +31,6 @@ internal class ChatService(private val chatSDK: ChatSDK) {
     fun sendReadReceipt(id: String) = chatSDK.sendReadReceipt(id = id)
     fun removeParticipant(communicationIdentifier: CommunicationIdentifier) =
         chatSDK.removeParticipant(communicationIdentifier = communicationIdentifier)
+
+    fun fetchMessages(from: OffsetDateTime?) = chatSDK.fetchMessages(from = from)
 }

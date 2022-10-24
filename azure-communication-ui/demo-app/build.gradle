@@ -9,11 +9,11 @@ if (project.rootProject.file('local.properties').canRead()) {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode ui_library_version_code
         versionName "$ui_library_version_name"
 

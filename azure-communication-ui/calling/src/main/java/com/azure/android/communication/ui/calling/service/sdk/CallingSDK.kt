@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * An interface that describes our interactions with the underlying calling SDK.
@@ -47,6 +48,7 @@ internal interface CallingSDK {
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
     fun getCallIdSharedFlow(): SharedFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
+    fun getCamerasCountStateFlow(): StateFlow<Int>
 }
 
 internal interface RemoteParticipant {

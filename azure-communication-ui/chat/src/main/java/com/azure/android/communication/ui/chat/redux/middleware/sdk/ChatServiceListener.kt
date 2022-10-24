@@ -49,7 +49,7 @@ internal class ChatServiceListener(
         }
 
         coroutineScope.launch {
-            chatService.getChatEventSharedFlow()?.collect {
+            chatService.getChatEventSharedFlow().collect {
                 handleInfoModel(it, dispatch)
             }
         }
@@ -101,7 +101,7 @@ internal class ChatServiceListener(
             is ParticipantTimestampInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.TYPING_INDICATOR_RECEIVED -> {
-                        val model = it.infoModel
+                        dispatch(ParticipantAction.TypingIndicatorReceived(message = it.infoModel))
                     }
                     ChatEventType.READ_RECEIPT_RECEIVED -> {
                         val model = it.infoModel

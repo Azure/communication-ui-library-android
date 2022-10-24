@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Identity.IDENTITY
 import android.view.Menu
 import android.view.MenuItem
+import android.webkit.URLUtil
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeature
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
+import com.azure.android.communication.ui.chatdemoapp.launcher.TeamsUrlParser
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -174,9 +175,14 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun launch(launcher: ChatCompositeLauncher) {
+        val inputChatJoinId = binding.chatThreadID.text.toString()
+        val threadId = if (URLUtil.isValidUrl(inputChatJoinId))
+            TeamsUrlParser.getThreadId(inputChatJoinId)
+        else inputChatJoinId
+
         launcher.launch(
             this@ChatLauncherActivity,
-            binding.chatThreadID.text.toString(),
+            threadId,
             binding.endPointURL.text.toString(),
             binding.userNameText.text.toString(),
             binding.identity.text.toString()
