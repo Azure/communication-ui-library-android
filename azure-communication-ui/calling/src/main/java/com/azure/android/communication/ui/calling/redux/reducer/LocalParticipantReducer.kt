@@ -134,6 +134,11 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     videoStreamID = null
                 )
             }
+            is LocalParticipantAction.CamerasCountUpdated -> {
+                localUserState.copy(
+                    cameraState = localUserState.cameraState.copy(camerasCount = action.count)
+                )
+            }
 
             is LocalParticipantAction.MicPreviewOffTriggered -> {
                 localUserState.copy(audioState = localUserState.audioState.copy(operation = AudioOperationalStatus.OFF))

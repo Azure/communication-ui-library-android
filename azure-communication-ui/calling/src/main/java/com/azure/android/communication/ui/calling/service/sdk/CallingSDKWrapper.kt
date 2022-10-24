@@ -34,6 +34,7 @@ import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -49,8 +50,10 @@ internal class CallingSDKWrapper(
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
+    private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
+    private var camerasCountStateFlow = MutableStateFlow(0)
 
     private val callConfig: CallConfiguration
         get() {
@@ -73,8 +76,16 @@ internal class CallingSDKWrapper(
             }
         }
 
+    private val isAndroidTV by lazy {
+        val uiModeManager =
+            context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
+        uiModeManager.currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
+    }
+
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
         callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
+
+    override fun getCamerasCountStateFlow() = camerasCountStateFlow
 
     override fun getCallingStateWrapperSharedFlow() =
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()
@@ -144,7 +155,6 @@ internal class CallingSDKWrapper(
             }
             callClient = CallClient(callClientOptions)
         }
-        val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
         createDeviceManager().handle { _, error: Throwable? ->
             if (error != null) {
                 setupCallCompletableFuture.completeExceptionally(error)
@@ -164,25 +174,32 @@ internal class CallingSDKWrapper(
         createCallAgent().thenAccept { agent: CallAgent ->
             val audioOptions = AudioOptions()
             audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
-
-            var videoOptions: VideoOptions? = null
-            if (cameraState.operation == CameraOperationalStatus.ON) {
-                val localVideoStreams =
-                    arrayOf(getLocalVideoStream().get().native as NativeLocalVideoStream)
-                videoOptions = VideoOptions(localVideoStreams)
-            }
-
             val callLocator: JoinMeetingLocator = when (callConfig.callType) {
                 CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
                 CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
             }
-            joinCall(agent, audioOptions, videoOptions, callLocator)
+            var videoOptions: VideoOptions? = null
+            // it is possible to have camera state not on, (Example: waiting for local video stream)
+            // if camera on is in progress, the waiting will make sure for starting call with right state
+            if (cameraState.operation != CameraOperationalStatus.OFF) {
+                getLocalVideoStream().whenComplete { videoStream, error ->
+                    if (error == null) {
+                        val localVideoStreams =
+                            arrayOf(videoStream.native as NativeLocalVideoStream)
+                        videoOptions = VideoOptions(localVideoStreams)
+                    }
+                    joinCall(agent, audioOptions, videoOptions, callLocator)
+                }.exceptionally { error ->
+                    onJoinCallFailed(startCallCompletableFuture, error)
+                }
+            } else {
+                joinCall(agent, audioOptions, videoOptions, callLocator)
+            }
 
             startCallCompletableFuture.complete(null)
         }
             .exceptionally { error ->
-                startCallCompletableFuture.completeExceptionally(error)
-                null
+                onJoinCallFailed(startCallCompletableFuture, error)
             }
 
         return startCallCompletableFuture
@@ -223,61 +240,17 @@ internal class CallingSDKWrapper(
                     }
             }
             .exceptionally { error ->
-                result.completeExceptionally(error)
-                null
+                onJoinCallFailed(result, error)
             }
         return result
     }
 
     override fun switchCameraAsync(): CompletableFuture<CameraDeviceSelectionStatus> {
-        val result = CompletableFuture<CameraDeviceSelectionStatus>()
-        this.getLocalVideoStream()
-            .thenAccept { videoStream: LocalVideoStream ->
-                val desiredCameraState = when (videoStream.source.cameraFacing) {
-                    CameraFacing.FRONT -> CameraFacing.BACK
-                    else -> CameraFacing.FRONT
-                }
-
-                initializeCameras().thenAccept {
-
-                    val desiredCamera =
-                        getCamera(
-                            desiredCameraState,
-                        )
-
-                    if (desiredCamera == null) {
-                        result.completeExceptionally(null)
-                    } else {
-                        videoStream.switchSource(desiredCamera.into())
-                            .exceptionally {
-                                result.completeExceptionally(it)
-                                null
-                            }.thenRun {
-                                val cameraDeviceSelectionStatus =
-                                    when (desiredCamera.cameraFacing) {
-                                        CameraFacing.FRONT -> CameraDeviceSelectionStatus.FRONT
-                                        CameraFacing.BACK -> CameraDeviceSelectionStatus.BACK
-                                        else -> null
-                                    }
-
-                                when (cameraDeviceSelectionStatus) {
-                                    null -> result.completeExceptionally(
-                                        Throwable(
-                                            "Not supported camera facing type"
-                                        )
-                                    )
-                                    else -> result.complete(cameraDeviceSelectionStatus)
-                                }
-                            }
-                    }
-                }
-            }
-            .exceptionally { error ->
-                result.completeExceptionally(error)
-                null
-            }
-
-        return result
+        return if (isAndroidTV) {
+            switchCameraAsyncAndroidTV()
+        } else {
+            switchCameraAsyncMobile()
+        }
     }
 
     override fun turnOnMicAsync(): CompletableFuture<Void> {
@@ -290,27 +263,39 @@ internal class CallingSDKWrapper(
 
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
         val result = CompletableFuture<LocalVideoStream>()
+        setupCallCompletableFuture.whenComplete { _, error ->
+            if (error == null) {
+                val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
 
-        val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
-
-        if (localVideoStreamCompletableFuture.isDone) {
-            result.complete(localVideoStreamCompletableFuture.get())
-        } else if (!canCreateLocalVideostream()) {
-            // cleanUpResources() could have been called before this, so we need to check if it's still
-            // alright to call initializeCameras()
-            result.complete(null)
-        } else {
-            initializeCameras().whenComplete { _, error ->
-                if (error != null) {
-                    localVideoStreamCompletableFuture.completeExceptionally(error)
-                    result.completeExceptionally(error)
-                } else {
-                    val desiredCamera = getCamera(CameraFacing.FRONT)
-
-                    localVideoStreamCompletableFuture.complete(
-                        LocalVideoStreamWrapper(NativeLocalVideoStream(desiredCamera, context))
-                    )
+                if (localVideoStreamCompletableFuture.isDone) {
                     result.complete(localVideoStreamCompletableFuture.get())
+                } else if (!canCreateLocalVideoStream()) {
+                    // cleanUpResources() could have been called before this, so we need to check if it's still
+                    // alright to call initializeCameras()
+                    result.complete(null)
+                } else {
+                    initializeCameras().whenComplete { _, error ->
+                        if (error != null) {
+                            localVideoStreamCompletableFuture.completeExceptionally(error)
+                            result.completeExceptionally(error)
+                        } else {
+                            val desiredCamera = if (isAndroidTV) {
+                                getCameraByFacingTypeSelection()
+                            } else {
+                                getCamera(CameraFacing.FRONT)
+                            }
+
+                            localVideoStreamCompletableFuture.complete(
+                                LocalVideoStreamWrapper(
+                                    NativeLocalVideoStream(
+                                        desiredCamera,
+                                        context
+                                    )
+                                )
+                            )
+                            result.complete(localVideoStreamCompletableFuture.get())
+                        }
+                    }
                 }
             }
         }
@@ -369,7 +354,6 @@ internal class CallingSDKWrapper(
 
     private fun createDeviceManager(): CompletableFuture<DeviceManager> {
         val deviceManagerCompletableFuture = getDeviceManagerCompletableFuture()
-
         if (deviceManagerCompletableFuture.isCompletedExceptionally ||
             !deviceManagerCompletableFuture.isDone
         ) {
@@ -394,8 +378,7 @@ internal class CallingSDKWrapper(
     private fun initializeCameras(): CompletableFuture<Void> {
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
-            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager?, error: Throwable? ->
-
+            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager?, _: Throwable? ->
                 completeCamerasInitializedCompletableFuture()
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
@@ -408,10 +391,33 @@ internal class CallingSDKWrapper(
         return camerasInitializedCompletableFuture!!
     }
 
+    private fun cameraExist() = getDeviceManagerCompletableFuture().get().cameras.isNotEmpty()
+
     private fun completeCamerasInitializedCompletableFuture() {
-        if (doFrontAndBackCamerasExist()) {
+        camerasCountStateFlow.value =
+            getDeviceManagerCompletableFuture().get().cameras.size
+        if ((isAndroidTV && cameraExist()) || doFrontAndBackCamerasExist()) {
             camerasInitializedCompletableFuture?.complete(null)
         }
+    }
+
+    // predefined order to return camera
+    private fun getCameraByFacingTypeSelection(): com.azure.android.communication.calling.VideoDeviceInfo? {
+        listOf(
+            CameraFacing.FRONT,
+            CameraFacing.BACK,
+            CameraFacing.EXTERNAL,
+            CameraFacing.PANORAMIC,
+            CameraFacing.LEFT_FRONT,
+            CameraFacing.RIGHT_FRONT,
+            CameraFacing.UNKNOWN
+        ).forEach {
+            val camera = getCamera(it)
+            if (camera != null) {
+                return camera
+            }
+        }
+        return null
     }
 
     private fun doFrontAndBackCamerasExist(): Boolean {
@@ -426,6 +432,16 @@ internal class CallingSDKWrapper(
             cameraFacing.name,
             ignoreCase = true
         )
+    }
+
+    private fun getNextCamera(deviceId: String): com.azure.android.communication.calling.VideoDeviceInfo? {
+        val cameras = getDeviceManagerCompletableFuture().get().cameras
+        val deviceIndex = cameras?.indexOfFirst { it.id == deviceId }
+        deviceIndex?.let {
+            val nextCameraIndex = (deviceIndex + 1) % cameras.size
+            return cameras[nextCameraIndex]
+        }
+        return null
     }
 
     private fun getLocalVideoStreamCompletableFuture(): CompletableFuture<LocalVideoStream> {
@@ -451,6 +467,111 @@ internal class CallingSDKWrapper(
         endCallCompletableFuture?.complete(null)
     }
 
-    private fun canCreateLocalVideostream() =
+    private fun canCreateLocalVideoStream() =
         deviceManagerCompletableFuture != null || callClient != null
+
+    private fun switchCameraAsyncAndroidTV(): CompletableFuture<CameraDeviceSelectionStatus> {
+        val result = CompletableFuture<CameraDeviceSelectionStatus>()
+        this.getLocalVideoStream()
+            .thenAccept { videoStream: LocalVideoStream ->
+                initializeCameras().thenAccept {
+                    val desiredCamera = getNextCamera(videoStream.source.id)
+                    if (desiredCamera == null) {
+                        result.completeExceptionally(null)
+                    } else {
+                        videoStream.switchSource(desiredCamera.into())
+                            .exceptionally {
+                                result.completeExceptionally(it)
+                                null
+                            }.thenRun {
+                                val cameraDeviceSelectionStatus =
+                                    when (desiredCamera.cameraFacing) {
+                                        CameraFacing.FRONT -> CameraDeviceSelectionStatus.FRONT
+                                        CameraFacing.BACK -> CameraDeviceSelectionStatus.BACK
+                                        CameraFacing.UNKNOWN -> CameraDeviceSelectionStatus.UNKNOWN
+                                        CameraFacing.RIGHT_FRONT -> CameraDeviceSelectionStatus.RIGHT_FRONT
+                                        CameraFacing.LEFT_FRONT -> CameraDeviceSelectionStatus.LEFT_FRONT
+                                        CameraFacing.PANORAMIC -> CameraDeviceSelectionStatus.PANORAMIC
+                                        CameraFacing.EXTERNAL -> CameraDeviceSelectionStatus.EXTERNAL
+                                        else -> null
+                                    }
+
+                                when (cameraDeviceSelectionStatus) {
+                                    null -> result.completeExceptionally(
+                                        Throwable(
+                                            "Not supported camera facing type"
+                                        )
+                                    )
+                                    else -> result.complete(cameraDeviceSelectionStatus)
+                                }
+                            }
+                    }
+                }
+            }
+            .exceptionally { error ->
+                result.completeExceptionally(error)
+                null
+            }
+
+        return result
+    }
+
+    private fun switchCameraAsyncMobile(): CompletableFuture<CameraDeviceSelectionStatus> {
+        val result = CompletableFuture<CameraDeviceSelectionStatus>()
+        this.getLocalVideoStream()
+            .thenAccept { videoStream: LocalVideoStream ->
+                val desiredCameraState = when (videoStream.source.cameraFacing) {
+                    CameraFacing.FRONT -> CameraFacing.BACK
+                    else -> CameraFacing.FRONT
+                }
+
+                initializeCameras().thenAccept {
+
+                    val desiredCamera =
+                        getCamera(
+                            desiredCameraState,
+                        )
+
+                    if (desiredCamera == null) {
+                        result.completeExceptionally(null)
+                    } else {
+                        videoStream.switchSource(desiredCamera.into())
+                            .exceptionally {
+                                result.completeExceptionally(it)
+                                null
+                            }.thenRun {
+                                val cameraDeviceSelectionStatus =
+                                    when (desiredCamera.cameraFacing) {
+                                        CameraFacing.FRONT -> CameraDeviceSelectionStatus.FRONT
+                                        CameraFacing.BACK -> CameraDeviceSelectionStatus.BACK
+                                        else -> null
+                                    }
+
+                                when (cameraDeviceSelectionStatus) {
+                                    null -> result.completeExceptionally(
+                                        Throwable(
+                                            "Not supported camera facing type"
+                                        )
+                                    )
+                                    else -> result.complete(cameraDeviceSelectionStatus)
+                                }
+                            }
+                    }
+                }
+            }
+            .exceptionally { error ->
+                result.completeExceptionally(error)
+                null
+            }
+
+        return result
+    }
+
+    private fun onJoinCallFailed(
+        startCallCompletableFuture: CompletableFuture<Void>,
+        error: Throwable?,
+    ): Nothing? {
+        startCallCompletableFuture.completeExceptionally(error)
+        return null
+    }
 }

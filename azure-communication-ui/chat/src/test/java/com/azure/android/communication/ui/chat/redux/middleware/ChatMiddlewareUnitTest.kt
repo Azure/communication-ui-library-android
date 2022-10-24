@@ -58,6 +58,7 @@ internal class ChatMiddlewareUnitTest {
 
         val mockChatMiddlewareActionHandler = mock<ChatActionHandler>()
         val mockChatServiceListener = mock<ChatServiceListener> {}
+        val mockAppState = mock<ReduxState> {}
 
         val chatMiddlewareImplementation =
             ChatMiddlewareImpl(
@@ -70,14 +71,19 @@ internal class ChatMiddlewareUnitTest {
         // act
         chatMiddlewareImplementation.invoke(mockAppStore)(
             fun(action) {
-                mockChatMiddlewareActionHandler.onAction(action, mockAppStore::dispatch)
+                mockChatMiddlewareActionHandler.onAction(
+                    action,
+                    mockAppStore::dispatch,
+                    mockAppState
+                )
             }
         )(actionToDispatch)
 
         // assert
         verify(mockChatMiddlewareActionHandler, times(1)).onAction(
             actionToDispatch,
-            mockAppStore::dispatch
+            mockAppStore::dispatch,
+            mockAppState
         )
     }
 }
