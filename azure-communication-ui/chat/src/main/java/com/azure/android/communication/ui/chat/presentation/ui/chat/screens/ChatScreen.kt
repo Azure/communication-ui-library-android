@@ -78,6 +78,7 @@ internal fun ChatScreen(
                         .fillMaxWidth(),
                     messages = viewModel.messages,
                     scrollState = listState,
+                    viewModel.postAction
                 )
             }
         },

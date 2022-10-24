@@ -15,6 +15,11 @@ internal enum class CameraOperationalStatus {
 internal enum class CameraDeviceSelectionStatus {
     FRONT,
     BACK,
+    UNKNOWN,
+    RIGHT_FRONT,
+    LEFT_FRONT,
+    PANORAMIC,
+    EXTERNAL,
     SWITCHING,
 }
 
@@ -42,6 +47,7 @@ internal data class CameraState(
     val operation: CameraOperationalStatus,
     val device: CameraDeviceSelectionStatus,
     val transmission: CameraTransmissionStatus,
+    val camerasCount: Int = 0,
     val error: CallCompositeError? = null,
 )
 

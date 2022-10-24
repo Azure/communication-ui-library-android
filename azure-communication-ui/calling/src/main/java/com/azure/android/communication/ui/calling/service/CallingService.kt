@@ -90,6 +90,8 @@ internal class CallingService(
         return isTranscribingSharedFlow
     }
 
+    fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
+
     fun endCall(): CompletableFuture<Void> {
         return callingSdk.endCall()
     }
