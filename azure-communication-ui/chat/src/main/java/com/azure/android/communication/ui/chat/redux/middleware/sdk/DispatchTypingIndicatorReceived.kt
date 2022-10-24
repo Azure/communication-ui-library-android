@@ -10,13 +10,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 internal class DispatchTypingIndicatorReceived(
-    private val participantTimestampInfoModel: ParticipantTimestampInfoModel,
     private val dispatch: Dispatch,
     private val coroutineContextProvider: CoroutineContextProvider
 ) {
     private lateinit var timeoutScope: CoroutineScope
 
-    fun dispatch() {
+    fun dispatch(participantTimestampInfoModel: ParticipantTimestampInfoModel) {
         dispatch(ParticipantAction.TypingIndicatorReceived(participantTimestampInfoModel))
         if (::timeoutScope.isInitialized) {
             timeoutScope.cancel()
@@ -28,7 +27,9 @@ internal class DispatchTypingIndicatorReceived(
         }
     }
 
+    fun cancel() = timeoutScope.cancel()
+
     companion object {
-        private const val TYPING_INDICATOR_TIMEOUT = 20000L
+        private const val TYPING_INDICATOR_TIMEOUT = 10000L
     }
 }

@@ -30,6 +30,7 @@ internal class ChatServiceListener(
     private val coroutineContextProvider: CoroutineContextProvider,
 ) {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
+    private lateinit var dispatchTypingIndicator: DispatchTypingIndicatorReceived
 
     fun subscribe(dispatch: Dispatch) {
         coroutineScope.launch {
@@ -57,6 +58,7 @@ internal class ChatServiceListener(
 
     fun unsubscribe() {
         chatService.stopEventNotifications()
+        dispatchTypingIndicator.cancel()
         coroutineScope.cancel()
     }
 
@@ -104,11 +106,13 @@ internal class ChatServiceListener(
             is ParticipantTimestampInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.TYPING_INDICATOR_RECEIVED -> {
-                        DispatchTypingIndicatorReceived(
-                            it.infoModel,
-                            dispatch,
-                            coroutineContextProvider
-                        ).dispatch()
+                        if (!::dispatchTypingIndicator.isInitialized) {
+                            dispatchTypingIndicator = DispatchTypingIndicatorReceived(
+                                dispatch,
+                                coroutineContextProvider
+                            )
+                        }
+                        dispatchTypingIndicator.dispatch(it.infoModel)
                     }
                     ChatEventType.READ_RECEIPT_RECEIVED -> {
                         val model = it.infoModel
@@ -136,9 +140,11 @@ internal class ChatServiceListener(
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
                         dispatch(ParticipantAction.ParticipantsRemoved(participants = it.infoModel.participants))
-                        dispatch(ParticipantAction.TypingIndicatorClearedForMultiple(
-                            ParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it.infoModel.participants)
-                        ))
+                        it.infoModel.participants.forEach {
+                            dispatch(ParticipantAction.TypingIndicatorCleared(
+                                ParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it)
+                            ))
+                        }
                     }
                     else -> {}
                 }

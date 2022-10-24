@@ -11,24 +11,16 @@ internal data class ParticipantTimestampInfoModel(
     val receivedOn: OffsetDateTime,
 ) : BaseInfoModel {
     companion object {
-        fun fromMessageInfoModel(infoModel: MessageInfoModel): ParticipantTimestampInfoModel =
+        fun fromMessageInfoModel(infoModel: MessageInfoModel) =
             ParticipantTimestampInfoModel(
                 userIdentifier = infoModel.senderCommunicationIdentifier!!,
                 receivedOn = infoModel.createdOn!!
             )
 
-        fun fromRemoteParticipantsInfoModel(
-            infoModel: List<RemoteParticipantInfoModel>
-        ): List<ParticipantTimestampInfoModel> {
-            val list = ArrayList<ParticipantTimestampInfoModel>(infoModel.size)
-            infoModel.forEach {
-                val participant = ParticipantTimestampInfoModel(
-                    userIdentifier = it.userIdentifier,
-                    receivedOn = OffsetDateTime.now()
-                )
-                list.add(participant)
-            }
-            return list
-        }
+        fun fromRemoteParticipantsInfoModel(infoModel: RemoteParticipantInfoModel) =
+            ParticipantTimestampInfoModel(
+            userIdentifier = infoModel.userIdentifier,
+            receivedOn = OffsetDateTime.now()
+        )
     }
 }
