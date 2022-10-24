@@ -40,7 +40,6 @@ internal class SetupFragment :
     private lateinit var participantAvatarView: SetupParticipantAvatarView
     private lateinit var localParticipantRendererView: PreviewAreaView
     private lateinit var audioDeviceListView: AudioDeviceListView
-    private lateinit var controlBarMoreMenuView: ControlBarMoreMenuView
     private lateinit var setupGradientView: SetupGradientView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
@@ -94,14 +93,6 @@ internal class SetupFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
-        controlBarMoreMenuView = ControlBarMoreMenuView(
-            this.requireContext(),
-            viewModel.controlBarMoreMenuViewModel
-        )
-        controlBarMoreMenuView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-        controlBarMoreMenuView.start(viewLifecycleOwner)
-
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)
         setupControlsView.start(
             viewLifecycleOwner,
@@ -117,7 +108,6 @@ internal class SetupFragment :
     override fun onDestroy() {
         super.onDestroy()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
-        if (this::controlBarMoreMenuView.isInitialized) controlBarMoreMenuView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
     }
 
