@@ -16,6 +16,7 @@ internal data class ChatCompositeColors(
     val outlineColor: Color = Color(0xFFE1E1E1),
     val messageBackground: Color = Color(0xFFF1F1F1),
     val messageBackgroundSelf: Color = Color(0xFFDEECF9),
+    val unreadMessageIndicatorBackground: Color = Color(0xFF0078D4)
 )
 
 internal val ChatCompositeColorPalette = staticCompositionLocalOf {

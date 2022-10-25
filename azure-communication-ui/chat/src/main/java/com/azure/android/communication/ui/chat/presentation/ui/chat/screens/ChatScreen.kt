@@ -4,11 +4,10 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
@@ -36,7 +35,6 @@ import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
-import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 
 @Composable
 internal fun ChatScreen(
@@ -83,15 +81,15 @@ internal fun ChatScreen(
             }
         },
         bottomBar = {
-            Column {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 UnreadMessagesIndicatorView(
                     scrollState = listState,
-                    visible = listState.outOfViewItemCount() > 0,
-                    unreadCount = 0,
+                    visible = viewModel.unreadMessagesIndicatorVisibility,
+                    unreadCount = viewModel.unreadMessagesCount,
                     totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
                 )
 
-                Box(modifier = Modifier.fillMaxWidth().height(ChatCompositeTheme.dimensions.typingIndicatorAreaHeight), contentAlignment = Alignment.CenterStart) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
                     TypingIndicatorView(viewModel.typingParticipants.toList())
                 }
 

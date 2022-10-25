@@ -25,6 +25,9 @@ internal data class ChatScreenViewModel(
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
     val isLoading get() = chatStatus != ChatStatus.INITIALIZED && !showError
+    //TODO add logic with last read message
+    val unreadMessagesCount: Int = 0
+    val unreadMessagesIndicatorVisibility = unreadMessagesCount > 0
 }
 
 // Internal counter for early debugging
