@@ -24,7 +24,8 @@ import com.azure.android.communication.ui.chat.R
 @Composable
 internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier.padding(horizontal = 10.dp)
+        modifier = modifier
+            .padding(horizontal = 10.dp)
             .height(30.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy((-10).dp)
@@ -35,44 +36,45 @@ internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Mod
             enter = expandHorizontally(),
             exit = shrinkHorizontally()
         ) {
-            AvatarGroup(typingParticipants)
-            if (typingParticipants.isNotEmpty()) {
-                val firstName = typingParticipants.first().substringBefore(" ")
-                val context = LocalContext.current
-                val typingMessage: String = when (typingParticipants.size) {
-                    1 -> context.getString(
-                        R.string.azure_communication_ui_chat_first_name_is_typing,
-                        firstName
+            Row {
+                AvatarGroup(typingParticipants)
+                if (typingParticipants.isNotEmpty()) {
+                    val firstName = typingParticipants.first().substringBefore(" ")
+                    val context = LocalContext.current
+                    val typingMessage: String = when (typingParticipants.size) {
+                        1 -> context.getString(
+                            R.string.azure_communication_ui_chat_first_name_is_typing,
+                            firstName
+                        )
+                        2 -> {
+                            val secondName = typingParticipants[1].substringBefore(" ")
+                            context.getString(
+                                R.string.azure_communication_ui_chat_two_names_are_typing,
+                                firstName,
+                                secondName
+                            )
+                        }
+                        else -> {
+                            val size = typingParticipants.size - 2
+                            val othersMessage = if (size == 1)
+                                stringResource(R.string.azure_communication_ui_chat_other)
+                            else stringResource(R.string.azure_communication_ui_chat_others)
+                            val secondName = typingParticipants[1].substringBefore(" ")
+                            context.getString(
+                                R.string.azure_communication_ui_chat_three_or_more_are_typing,
+                                firstName,
+                                secondName,
+                                size,
+                                othersMessage
+                            )
+                        }
+                    }
+                    Text(
+                        typingMessage,
+                        Modifier
+                            .align(alignment = Alignment.CenterVertically)
                     )
-                    2 -> {
-                        val secondName = typingParticipants[1].substringBefore(" ")
-                        context.getString(
-                            R.string.azure_communication_ui_chat_two_names_are_typing,
-                            firstName,
-                            secondName
-                        )
-                    }
-                    else -> {
-                        val size = typingParticipants.size - 2
-                        val othersMessage = if (size == 1)
-                            stringResource(R.string.azure_communication_ui_chat_other)
-                        else stringResource(R.string.azure_communication_ui_chat_others)
-                        val secondName = typingParticipants[1].substringBefore(" ")
-                        context.getString(
-                            R.string.azure_communication_ui_chat_three_or_more_are_typing,
-                            firstName,
-                            secondName,
-                            size,
-                            othersMessage
-                        )
-                    }
                 }
-                Text(
-                    typingMessage,
-                    Modifier
-                        .padding(start = 40.dp, top = 5.dp)
-                        .align(alignment = Alignment.CenterVertically)
-                )
             }
         }
     }
