@@ -21,7 +21,7 @@ internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
     AndroidView(factory = {
         AvatarGroupView(it).apply {
             avatarSize = AvatarSize.SMALL
-            maxDisplayedAvatars = 3
+            maxDisplayedAvatars = 2
             setAvatars(avatarList)
             contentDescription = "Typing participants: " + typingParticipantsDisplayNames.joinToString()
         }

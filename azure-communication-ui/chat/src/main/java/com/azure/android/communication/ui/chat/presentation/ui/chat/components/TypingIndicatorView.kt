@@ -82,6 +82,6 @@ internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Mod
 @Composable
 internal fun PreviewTypingIndicatorView() {
     TypingIndicatorView(
-        typingParticipants = listOf("User A", "User B",),
+        typingParticipants = listOf("User A", "User B", "User C", "User D"),
     )
 }
