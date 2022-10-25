@@ -162,6 +162,32 @@ class ParticipantsReducerUnitTest {
     }
 
     @Test
+    fun participantsReducer_reduce_when_TypingIndicatorReceived_but_not_participant() {
+        // arrange
+        val reducer = ParticipantsReducerImpl()
+        val previousState = ParticipantsState(
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = listOf()
+        )
+        val action = ParticipantAction.TypingIndicatorReceived(
+            message = ParticipantTimestampInfoModel(
+                userIdentifier = userFour.userIdentifier,
+                receivedOn = OffsetDateTime.MIN
+            )
+        )
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertEquals(
+            "invalid participantTyping: ${newState.participantTyping}",
+            listOf<String>(),
+            newState.participantTyping
+        )
+    }
+
+    @Test
     fun participantsReducer_reduce_when_actionTypingIndicatorReceived_for_dupe_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
@@ -209,6 +235,32 @@ class ParticipantsReducerUnitTest {
         Assert.assertEquals(
             "invalid participantTyping: ${newState.participantTyping}",
             listOf<String>(),
+            newState.participantTyping
+        )
+    }
+
+    @Test
+    fun participantsReducer_reduce_when_actionTypingIndicatorCleared_rcvd_but_not_participant() {
+        // arrange
+        val reducer = ParticipantsReducerImpl()
+        val previousState = ParticipantsState(
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = listOf(userOne.displayName!!)
+        )
+        val action = ParticipantAction.TypingIndicatorClear(
+            message = ParticipantTimestampInfoModel(
+                userIdentifier = userFour.userIdentifier,
+                receivedOn = OffsetDateTime.MIN
+            )
+        )
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertEquals(
+            "invalid participantTyping: ${newState.participantTyping}",
+            previousState.participantTyping,
             newState.participantTyping
         )
     }
