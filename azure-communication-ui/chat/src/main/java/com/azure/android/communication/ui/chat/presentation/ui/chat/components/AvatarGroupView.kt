@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
 import com.microsoft.fluentui.persona.AvatarGroupView
+import com.microsoft.fluentui.persona.AvatarSize
 import com.microsoft.fluentui.persona.IAvatar
 
 @Composable
@@ -19,8 +20,10 @@ internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
     }
     AndroidView(factory = {
         AvatarGroupView(it).apply {
+            avatarSize = AvatarSize.SMALL
             maxDisplayedAvatars = 3
             setAvatars(avatarList)
+            contentDescription = "Typing participants: " + typingParticipantsDisplayNames.joinToString()
         }
     })
 }

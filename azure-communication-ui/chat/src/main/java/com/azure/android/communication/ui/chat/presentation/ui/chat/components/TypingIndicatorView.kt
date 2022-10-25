@@ -25,7 +25,7 @@ import com.azure.android.communication.ui.chat.R
 internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier.padding(horizontal = 10.dp)
-            .height(25.dp)
+            .height(30.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy((-10).dp)
     ) {
@@ -70,7 +70,7 @@ internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Mod
                 Text(
                     typingMessage,
                     Modifier
-                        .padding(start = 15.dp)
+                        .padding(start = 40.dp, top = 5.dp)
                         .align(alignment = Alignment.CenterVertically)
                 )
             }

@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
+import com.azure.android.communication.ui.chat.models.ConvertToParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
@@ -92,7 +93,7 @@ internal class ChatServiceListener(
                         dispatch(ChatAction.MessageReceived(message = it.infoModel))
                         dispatch(
                             ParticipantAction.TypingIndicatorClear(
-                                ParticipantTimestampInfoModel.fromMessageInfoModel(it.infoModel)
+                                ConvertToParticipantTimestampInfoModel.fromMessageInfoModel(it.infoModel)
                             )
                         )
                     }
@@ -145,7 +146,7 @@ internal class ChatServiceListener(
                         it.infoModel.participants.forEach {
                             dispatch(
                                 ParticipantAction.TypingIndicatorClear(
-                                    ParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it)
+                                    ConvertToParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it)
                                 )
                             )
                         }
