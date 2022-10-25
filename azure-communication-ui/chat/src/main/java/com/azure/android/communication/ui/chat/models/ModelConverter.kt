@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.chat.models
 
 import org.threeten.bp.OffsetDateTime
 
-internal object ConvertToParticipantTimestampInfoModel {
+internal object ModelConverter {
 
     fun fromMessageInfoModel(infoModel: MessageInfoModel) =
         ParticipantTimestampInfoModel(

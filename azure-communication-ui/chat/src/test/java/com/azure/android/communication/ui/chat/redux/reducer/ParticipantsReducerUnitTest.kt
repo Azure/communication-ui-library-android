@@ -143,7 +143,7 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = listOf()
         )
-        val action = ParticipantAction.TypingIndicatorReceived(
+        val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userOne.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
@@ -169,7 +169,7 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = listOf()
         )
-        val action = ParticipantAction.TypingIndicatorReceived(
+        val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userFour.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
@@ -195,7 +195,7 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = listOf(userOne.displayName!!)
         )
-        val action = ParticipantAction.TypingIndicatorReceived(
+        val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userOne.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
@@ -221,7 +221,7 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = listOf(userOne.displayName!!)
         )
-        val action = ParticipantAction.TypingIndicatorClear(
+        val action = ParticipantAction.RemoveParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userOne.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
@@ -247,7 +247,7 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = listOf(userOne.displayName!!)
         )
-        val action = ParticipantAction.TypingIndicatorClear(
+        val action = ParticipantAction.RemoveParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userFour.userIdentifier,
                 receivedOn = OffsetDateTime.MIN

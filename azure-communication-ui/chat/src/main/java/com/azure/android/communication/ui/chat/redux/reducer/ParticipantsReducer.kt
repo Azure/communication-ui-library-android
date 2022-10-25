@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.reducer
 
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
@@ -19,14 +20,19 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 state.copy(participants = state.participants - action.participants.map { it.userIdentifier.id })
                 state.copy(participantTyping = state.participantTyping - action.participants.map { it.userIdentifier.id })
             }
-            is ParticipantAction.TypingIndicatorReceived -> {
+            is ParticipantAction.AddParticipantTyping -> {
                 val id = action.infoModel.userIdentifier.id
-                // TODO: for localization create const and compare in UI to replace
-                val displayName = state.participants[id]?.displayName ?: "unknown"
-                state.copy(participantTyping = state.participantTyping + Pair(id, displayName))
+                val displayName =
+                    state.participants[id]?.displayName ?: ChatCompositeActivity.UNKNOWN_USER_NAME
+                // if participant is already typing, remove and add with new timestamp
+                state.copy(
+                    participantTyping = state.participantTyping -
+                        state.participantTyping.keys.filter { it.contains(id) } +
+                        Pair(id + action.infoModel.receivedOn, displayName)
+                )
             }
-            is ParticipantAction.TypingIndicatorClear -> {
-                state.copy(participantTyping = state.participantTyping - action.infoModel.userIdentifier.id)
+            is ParticipantAction.RemoveParticipantTyping -> {
+                state.copy(participantTyping = state.participantTyping - (action.infoModel.userIdentifier.id + action.infoModel.receivedOn))
             }
             else -> state
         }

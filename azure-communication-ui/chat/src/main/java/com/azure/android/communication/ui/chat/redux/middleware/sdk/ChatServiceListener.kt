@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
-import com.azure.android.communication.ui.chat.models.ConvertToParticipantTimestampInfoModel
+import com.azure.android.communication.ui.chat.models.ModelConverter
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
@@ -22,16 +22,16 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // Listens to Events from SDK and Dispatches actions
 // Service -> Redux
 internal class ChatServiceListener(
     private val chatService: ChatService,
-    private val coroutineContextProvider: CoroutineContextProvider,
+    coroutineContextProvider: CoroutineContextProvider,
 ) {
     private val coroutineScope = CoroutineScope(coroutineContextProvider.Default)
-    private lateinit var dispatchTypingIndicator: DispatchTypingIndicatorReceived
 
     fun subscribe(dispatch: Dispatch) {
         coroutineScope.launch {
@@ -59,7 +59,6 @@ internal class ChatServiceListener(
 
     fun unsubscribe() {
         chatService.stopEventNotifications()
-        dispatchTypingIndicator.cancel()
         coroutineScope.cancel()
     }
 
@@ -76,7 +75,6 @@ internal class ChatServiceListener(
         }
 
         messagesPageModel.messages?.let {
-            it.filter { it != null }
             dispatch(ChatAction.MessagesPageReceived(messages = it))
         }
 
@@ -90,12 +88,17 @@ internal class ChatServiceListener(
             is MessageInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.CHAT_MESSAGE_RECEIVED -> {
-                        dispatch(ChatAction.MessageReceived(message = it.infoModel))
-                        dispatch(
-                            ParticipantAction.TypingIndicatorClear(
-                                ConvertToParticipantTimestampInfoModel.fromMessageInfoModel(it.infoModel)
+                        val infoModel = it.infoModel
+                        dispatch(ChatAction.MessageReceived(message = infoModel))
+                        it.infoModel.senderCommunicationIdentifier?.let {
+                            dispatch(
+                                ParticipantAction.RemoveParticipantTyping(
+                                    infoModel = ModelConverter.fromMessageInfoModel(
+                                        infoModel
+                                    )
+                                )
                             )
-                        )
+                        }
                     }
                     ChatEventType.CHAT_MESSAGE_EDITED -> {
                         dispatch(ChatAction.MessageEdited(message = it.infoModel))
@@ -109,16 +112,17 @@ internal class ChatServiceListener(
             is ParticipantTimestampInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.TYPING_INDICATOR_RECEIVED -> {
-                        if (!::dispatchTypingIndicator.isInitialized) {
-                            dispatchTypingIndicator = DispatchTypingIndicatorReceived(
-                                dispatch,
-                                coroutineContextProvider
+                        val infoModel = it.infoModel
+                        dispatch(ParticipantAction.AddParticipantTyping(infoModel = infoModel))
+                        coroutineScope.launch {
+                            delay(10000)
+                            dispatch(
+                                ParticipantAction.RemoveParticipantTyping(infoModel = infoModel)
                             )
                         }
-                        dispatchTypingIndicator.dispatch(it.infoModel)
                     }
                     ChatEventType.READ_RECEIPT_RECEIVED -> {
-                        val model = it.infoModel
+                        // val model = it.infoModel
                     }
                     else -> {}
                 }
