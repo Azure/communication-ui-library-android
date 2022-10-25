@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -91,7 +90,7 @@ internal fun ChatScreen(
                     totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
                 )
 
-                Box(modifier = Modifier.fillMaxWidth().height(ChatCompositeTheme.dimensions.typingIndicatorAreaHeight), contentAlignment = Alignment.CenterStart) {
+                Box(contentAlignment = Alignment.CenterStart) {
                     TypingIndicatorView(viewModel.typingParticipants.toList())
                 }
 
