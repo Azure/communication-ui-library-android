@@ -30,7 +30,7 @@ internal class ChatServiceListener(
     private val chatService: ChatService,
     private val coroutineContextProvider: CoroutineContextProvider,
 ) {
-    private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
+    private val coroutineScope = CoroutineScope(coroutineContextProvider.Default)
     private lateinit var dispatchTypingIndicator: DispatchTypingIndicatorReceived
 
     fun subscribe(dispatch: Dispatch) {
