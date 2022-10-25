@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.ControlBarMoreMenuView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
@@ -64,7 +64,7 @@ internal class CallingFragment :
     private lateinit var powerManager: PowerManager
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
-    private lateinit var controlBarMoreMenuView: ControlBarMoreMenuView
+    private lateinit var moreCallOptionsListView: MoreCallOptionsListView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -142,13 +142,13 @@ internal class CallingFragment :
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
-        controlBarMoreMenuView = ControlBarMoreMenuView(
+        moreCallOptionsListView = MoreCallOptionsListView(
             this.requireContext(),
-            viewModel.controlBarMoreMenuViewModel
+            viewModel.moreCallOptionsListViewModel
         )
-        controlBarMoreMenuView.layoutDirection =
+        moreCallOptionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-        controlBarMoreMenuView.start(viewLifecycleOwner)
+        moreCallOptionsListView.start(viewLifecycleOwner)
     }
 
     override fun onResume() {
@@ -195,7 +195,7 @@ internal class CallingFragment :
         if (this::confirmLeaveOverlayView.isInitialized) confirmLeaveOverlayView.stop()
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
-        if (this::controlBarMoreMenuView.isInitialized) controlBarMoreMenuView.stop()
+        if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

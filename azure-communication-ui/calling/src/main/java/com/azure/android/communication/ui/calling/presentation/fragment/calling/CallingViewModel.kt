@@ -17,7 +17,7 @@ internal class CallingViewModel(
 ) :
     BaseViewModel(store) {
 
-    val controlBarMoreMenuViewModel = callingViewModelProvider.controlBarMoreMenuViewModel
+    val moreCallOptionsListViewModel = callingViewModelProvider.moreCallOptionsListViewModel
     val participantGridViewModel = callingViewModelProvider.participantGridViewModel
     val controlBarViewModel = callingViewModelProvider.controlBarViewModel
     val confirmLeaveOverlayViewModel = callingViewModelProvider.confirmLeaveOverlayViewModel
@@ -47,7 +47,7 @@ internal class CallingViewModel(
             state.localParticipantState.audioState,
             this::requestCallEnd,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-            controlBarMoreMenuViewModel::display,
+            moreCallOptionsListViewModel::display,
         )
 
         localParticipantViewModel.init(
@@ -80,7 +80,7 @@ internal class CallingViewModel(
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
-        controlBarMoreMenuViewModel.init(state.callState.callId)
+        moreCallOptionsListViewModel.init(coroutineScope)
 
         super.init(coroutineScope)
     }
@@ -159,7 +159,6 @@ internal class CallingViewModel(
             }
         }
         updateOverlayDisplayedState(state.callState.callingStatus)
-        controlBarMoreMenuViewModel.update(state.callState.callId)
     }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =

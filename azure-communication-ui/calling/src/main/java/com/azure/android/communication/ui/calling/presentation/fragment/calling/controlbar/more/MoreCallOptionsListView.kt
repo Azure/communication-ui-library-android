@@ -18,9 +18,9 @@ import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class ControlBarMoreMenuView(
+internal class MoreCallOptionsListView(
     context: Context,
-    private val viewModel: ControlBarMoreMenuViewModel
+    private val viewModel: MoreCallOptionsListViewModel
 ) : RelativeLayout(context) {
 
     private var recyclerView: RecyclerView
@@ -96,7 +96,7 @@ internal class ControlBarMoreMenuView(
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Call ID: \"${viewModel.callId}\"")
+                putExtra(Intent.EXTRA_TEXT, viewModel.callId)
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TITLE, context.getString(R.string.azure_communication_ui_calling_share_diagnostics_title))
             },
