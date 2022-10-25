@@ -17,7 +17,6 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,21 +39,21 @@ internal fun MessageView(viewModel: MessageViewModel) {
     when (viewModel.message.messageType) {
         ChatMessageType.TEXT -> BasicChatMessage(viewModel)
         ChatMessageType.HTML -> BasicChatMessage(viewModel)
-        ChatMessageType.TOPIC_UPDATED ->  SystemMessage(
-            viewModel = viewModel,
+        ChatMessageType.TOPIC_UPDATED -> SystemMessage(
             icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled, /* TODO: update icon */
             stringResource = R.string.azure_communication_ui_chat_topic_updated,
-            substitution = listOf(viewModel.message.topic ?: "Unknown"))
+            substitution = listOf(viewModel.message.topic ?: "Unknown")
+        )
         ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
-            viewModel = viewModel,
             icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
             stringResource = R.string.azure_communication_ui_chat_joined_chat,
-            substitution = viewModel.message.participants)
+            substitution = viewModel.message.participants
+        )
         ChatMessageType.PARTICIPANT_REMOVED -> SystemMessage(
-            viewModel = viewModel,
             icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
             stringResource = R.string.azure_communication_ui_chat_left_chat,
-            substitution = viewModel.message.participants)
+            substitution = viewModel.message.participants
+        )
         else -> {
             BasicText(
                 text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
@@ -64,21 +63,21 @@ internal fun MessageView(viewModel: MessageViewModel) {
 }
 
 @Composable
-private fun SystemMessage(viewModel: MessageViewModel, icon: Int, stringResource : Int, substitution: List<String>) {
+private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<String>) {
 
     val text = LocalContext.current.getString(stringResource, substitution.joinToString(", "))
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(painter = painterResource(id = icon),
+        Icon(
+            painter = painterResource(id = icon),
             contentDescription = "Participant Added",
             modifier = Modifier.padding(
                 ChatCompositeTheme.dimensions.systemMessagePadding
             ),
-        tint= ChatCompositeTheme.colors.systemIconColor)
+            tint = ChatCompositeTheme.colors.systemIconColor
+        )
         BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
     }
-
 }
-
 
 @Composable
 private fun BasicChatMessage(viewModel: MessageViewModel) {
