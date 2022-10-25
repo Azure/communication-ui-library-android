@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class MessageRepositoryTreeStorageUnitTest {
 
     @Test
-    fun messageRepositoryTreeStorage_addPage_test() {
+    fun messageRepositoryTreeStorage_addMessage_test() {
 
         val storage = MessageRepository.createTreeBackedRepository()
         val numberOfTestMessages = 170
@@ -78,5 +78,46 @@ class MessageRepositoryTreeStorageUnitTest {
         }
 
         storage.getLastMessage()?.id?.let { Assert.assertEquals(17, it.toLong()) }
+    }
+
+    @Test
+    fun messageRepositoryTreeStorage_editMessage_test() {
+        val storage = MessageRepository.createTreeBackedRepository()
+        val numberOfTestMessages = 17
+        for (i in 1..numberOfTestMessages) {
+            storage.addLocalMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        }
+
+        storage.editMessage(MessageInfoModel(
+            id = "5",
+            content = "Message 55",
+            messageType = ChatMessageType.TEXT
+        ))
+
+        Assert.assertEquals("Message 55", storage[4].content)
+    }
+
+    @Test
+    fun messageRepositoryTreeStorage_addPage_test() {
+        val storage = MessageRepository.createTreeBackedRepository()
+        val numberOfTestMessages = 50
+        val messageList = mutableListOf<MessageInfoModel>()
+        for (i in 1..numberOfTestMessages) {
+            messageList.add(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        }
+        storage.addPage(messageList)
+        Assert.assertEquals(numberOfTestMessages, storage.size)
     }
 }

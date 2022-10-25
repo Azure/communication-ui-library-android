@@ -1,9 +1,14 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/*
+ * *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *
+ */
 
-package com.azure.android.communication.ui.chat.repository
+package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import org.junit.Assert
 import org.junit.Test
@@ -14,10 +19,10 @@ import org.threeten.bp.ZoneOffset
 import java.util.Collections
 
 @RunWith(MockitoJUnitRunner::class)
-internal class MessageRepositoryUnitTest {
+internal class MessageRepositoryListStorageUnitTest {
 
     @Test
-    fun messageRepository_addPage_test() {
+    fun messageRepositoryListStorage_addPage_test() {
         val messageRepository = MessageRepository.createListBackedRepository()
 
         val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
@@ -42,7 +47,7 @@ internal class MessageRepositoryUnitTest {
     }
 
     @Test
-    fun messageRepository_removeMessage_test() {
+    fun messageRepositoryListStorage_removeMessage_test() {
         val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
@@ -62,7 +67,7 @@ internal class MessageRepositoryUnitTest {
     }
 
     @Test
-    fun messageRepository_editMessage_test() {
+    fun messageRepositoryListStorage_editMessage_test() {
         val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
@@ -88,7 +93,31 @@ internal class MessageRepositoryUnitTest {
     }
 
     @Test
-    fun messageRepositoryOutOfOrderTest() {
+    fun messageRepositoryListStorage_removeMessageTest() {
+        val storage = MessageRepository.createListBackedRepository()
+
+        val numberOfTestMessages = 50
+        for (i in 1..numberOfTestMessages) {
+            storage.addLocalMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        }
+
+        storage.removeMessage(MessageInfoModel(
+            id = "5",
+            content = "Message $5",
+            messageType = ChatMessageType.TEXT
+        ))
+
+        Assert.assertEquals(numberOfTestMessages-1, storage.size)
+    }
+
+    @Test
+    fun messageRepositoryListStorage_OutOfOrderTest() {
         val repository = MessageRepository.createListBackedRepository()
 
         // Add ID 4..7
