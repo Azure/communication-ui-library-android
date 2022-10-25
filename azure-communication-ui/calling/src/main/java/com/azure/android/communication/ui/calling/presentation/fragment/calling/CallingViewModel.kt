@@ -80,7 +80,6 @@ internal class CallingViewModel(
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
-        moreCallOptionsListViewModel.init(coroutineScope)
 
         super.init(coroutineScope)
     }

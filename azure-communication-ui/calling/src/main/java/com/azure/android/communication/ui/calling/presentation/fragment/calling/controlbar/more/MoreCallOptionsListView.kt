@@ -85,14 +85,12 @@ internal class MoreCallOptionsListView(
                     menuDrawer.dismiss()
                     shareDiagnosticsInfo()
                 },
-
             )
 
             return bottomCellItems
         }
 
     private fun shareDiagnosticsInfo() {
-
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND

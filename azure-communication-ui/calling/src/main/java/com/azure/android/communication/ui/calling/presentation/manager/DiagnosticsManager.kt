@@ -9,15 +9,12 @@ import com.azure.android.communication.ui.calling.models.buildCallCompositeDiagn
 import com.azure.android.communication.ui.calling.models.setCallId
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal interface DiagnosticsManager {
     fun start(lifecycleScope: LifecycleCoroutineScope)
     val diagnosticsInfo: CallCompositeDiagnosticsInfo
-    val diagnosticsInfoFlow: SharedFlow<CallCompositeDiagnosticsInfo>
 }
 
 internal class DiagnosticsManagerImpl(
@@ -26,8 +23,6 @@ internal class DiagnosticsManagerImpl(
 
     override var diagnosticsInfo = buildCallCompositeDiagnosticsInfo()
 
-    override val diagnosticsInfoFlow = MutableSharedFlow<CallCompositeDiagnosticsInfo>()
-
     override fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
             store.getStateFlow().collect {
@@ -35,7 +30,6 @@ internal class DiagnosticsManagerImpl(
                     val newDiagnosticsInfo = buildCallCompositeDiagnosticsInfo()
                     newDiagnosticsInfo.setCallId(it.callState.callId)
                     diagnosticsInfo = newDiagnosticsInfo
-                    diagnosticsInfoFlow.emit(newDiagnosticsInfo)
                 }
             }
         }
