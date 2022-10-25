@@ -68,7 +68,6 @@ internal fun MessageView(viewModel: MessageViewModel) {
             }
         }
     }
-
 }
 
 @Composable

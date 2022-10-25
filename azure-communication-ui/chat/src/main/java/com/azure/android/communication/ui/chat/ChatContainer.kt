@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat
 
 import android.content.Context
-import androidx.compose.ui.platform.LocalContext
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
