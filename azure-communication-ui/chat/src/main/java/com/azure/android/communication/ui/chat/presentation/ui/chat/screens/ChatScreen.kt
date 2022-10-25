@@ -18,6 +18,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,6 +38,7 @@ import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 @Composable
 internal fun ChatScreen(
@@ -108,10 +110,11 @@ internal fun ChatScreen(
 @Preview
 @Composable
 internal fun ChatScreenPreview() {
+    AndroidThreeTen.init(LocalContext.current)
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                messages = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID),
+                messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 typingParticipants = setOf("John Doe", "Mary Sue"),
