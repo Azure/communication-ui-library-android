@@ -49,14 +49,12 @@ private class InfoModelToViewModelAdapter(
 
             dateHeaderText = buildDateHeader(
                 lastMessage.createdOn!!,
-                thisMessage.createdOn!!),
+                thisMessage.createdOn!!
+            ),
 
             isLocalUser = isLocalUser
         )
     }
-
-
-
 
     private fun buildDateHeader(
         lastMessageDate: OffsetDateTime,
@@ -65,7 +63,6 @@ private class InfoModelToViewModelAdapter(
         val today = OffsetDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0)
         val yesterday = today.minusDays(1)
         val weekAgo = today.minusWeeks(1)
-
 
         if (lastMessageDate.dayOfYear != thisMessageDate.dayOfYear) {
             if (thisMessageDate.isAfter(today)) {

@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,10 +30,12 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
 internal fun MessageView(viewModel: MessageViewModel) {
 
     if (viewModel.dateHeaderText != null) {
-        Box(contentAlignment= Alignment.Center,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxWidth().padding(
                 ChatCompositeTheme.dimensions.dateHeaderPadding
-            )) {
+            )
+        ) {
             BasicText(viewModel.dateHeaderText, style = ChatCompositeTheme.typography.messageHeaderDate)
         }
     }
