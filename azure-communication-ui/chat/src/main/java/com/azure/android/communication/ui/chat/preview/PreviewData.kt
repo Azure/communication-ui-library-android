@@ -7,6 +7,7 @@ import org.threeten.bp.OffsetDateTime
 
 internal val MOCK_LOCAL_USER_ID = "Local"
 internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
+
     val userA_ID = CommunicationIdentifier.UnknownIdentifier("Peter")
     val userA_Display = "Peter Terry"
 
@@ -23,11 +24,20 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
         MessageInfoModel(
             senderCommunicationIdentifier = userA_ID,
             senderDisplayName = userA_Display,
+            content = "I'll message in 2 weeks",
+            messageType = ChatMessageType.TEXT,
+            id = null,
+            internalId = null,
+            createdOn = OffsetDateTime.now().minusWeeks(2).minusMinutes(10)
+        ),
+        MessageInfoModel(
+            senderCommunicationIdentifier = userA_ID,
+            senderDisplayName = userA_Display,
             content = "Hey!!",
             messageType = ChatMessageType.TEXT,
             id = null,
             internalId = null,
-            createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+            createdOn = OffsetDateTime.now().minusDays(2).minusMinutes(10)
         ),
 
         MessageInfoModel(
@@ -37,7 +47,7 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             messageType = ChatMessageType.TEXT,
             id = null,
             internalId = null,
-            createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+            createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(12)
         ),
 
         MessageInfoModel(
@@ -47,7 +57,8 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             participants = listOf(userC_Display, userA_Display),
             senderDisplayName = null,
             id = null,
-            internalId = null
+            internalId = null,
+            createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10)
         ),
         MessageInfoModel(
             senderCommunicationIdentifier = userA_ID,
@@ -56,7 +67,7 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             messageType = ChatMessageType.TEXT,
             id = null,
             internalId = null,
-            createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+            createdOn = OffsetDateTime.now().minusMinutes(20)
         ),
         MessageInfoModel(
             content = null,
@@ -65,7 +76,8 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             senderDisplayName = null,
             participants = listOf(userD_Display),
             id = null,
-            internalId = null
+            internalId = null,
+            createdOn = OffsetDateTime.now().minusMinutes(10)
         ),
         MessageInfoModel(
             senderCommunicationIdentifier = userA_ID,
@@ -74,7 +86,7 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             messageType = ChatMessageType.TEXT,
             id = null,
             internalId = null,
-            createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+            createdOn = OffsetDateTime.now().minusMinutes(5)
         ),
 
         MessageInfoModel(
@@ -84,7 +96,7 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             messageType = ChatMessageType.HTML,
             id = null,
             internalId = null,
-            createdOn = OffsetDateTime.parse("2007-12-23T10:15:30+01:00")
+            createdOn = OffsetDateTime.now()
         ),
 
     )
