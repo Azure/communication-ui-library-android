@@ -9,6 +9,8 @@ import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
+private val timeFormatShort = DateTimeFormatter.ofPattern("EEEE")
+private val timeFormatLong = DateTimeFormatter.ofPattern("EEEE MMMM dd")
 
 @Immutable
 internal class MessageViewModel(
@@ -53,8 +55,6 @@ private class InfoModelToViewModelAdapter(
         )
     }
 
-    val timeFormatShort = DateTimeFormatter.ofPattern("EEEE")
-    val timeFormatLong = DateTimeFormatter.ofPattern("EEEE MMMM dd")
 
 
 
