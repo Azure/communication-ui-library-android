@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
@@ -47,32 +49,25 @@ internal fun MessageView(viewModel: MessageViewModel) {
 
 @Composable
 private fun UserJoinedMessage(viewModel: MessageViewModel) {
-    if (viewModel.message.participants.size <= 1) {
-        BasicText(
-            "${viewModel.message.participants.firstOrNull() ?: "Unknown"} joined the chat",
-            style = ChatCompositeTheme.typography.systemMessage
-        )
+    val participants = if (viewModel.message.participants.size <= 1) {
+        viewModel.message.participants.firstOrNull() ?: "Unknown"
     } else {
-        BasicText(
-            "${viewModel.message.participants.joinToString(", ")} joined the chat",
-            style = ChatCompositeTheme.typography.systemMessage
-        )
+        viewModel.message.participants.joinToString(", ")
     }
+    val text = LocalContext.current.getString(R.string.azure_communication_ui_chat_joined_chat, participants)
+    BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
 }
 
 @Composable
 private fun UserLeftMessage(viewModel: MessageViewModel) {
-    if (viewModel.message.participants.size <= 1) {
-        BasicText(
-            "${viewModel.message.participants.firstOrNull() ?: "Unknown"} left the chat",
-            style = ChatCompositeTheme.typography.systemMessage
-        )
+    val participants = if (viewModel.message.participants.size <= 1) {
+        viewModel.message.participants.firstOrNull() ?: "Unknown"
     } else {
-        BasicText(
-            "${viewModel.message.participants.joinToString(", ")} left the chat",
-            style = ChatCompositeTheme.typography.systemMessage
-        )
+        viewModel.message.participants.joinToString(", ")
     }
+    val text = LocalContext.current.getString(R.string.azure_communication_ui_chat_left_chat, participants)
+    BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
+
 }
 
 @Composable
