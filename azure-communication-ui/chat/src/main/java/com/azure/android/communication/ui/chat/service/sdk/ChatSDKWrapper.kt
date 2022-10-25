@@ -46,7 +46,7 @@ internal class ChatSDKWrapper(
     chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
     private val chatEventHandler: ChatEventHandler,
-    private val chatFetchNotificationHandler: ChatFetchNotificationHandler
+    private val chatFetchNotificationHandler: ChatFetchNotificationHandler,
 ) : ChatSDK {
 
     companion object {
@@ -67,6 +67,7 @@ internal class ChatSDKWrapper(
     private val sdkVersion = chatConfig.sdkVersion
     private val threadId = chatConfig.threadId
     private val senderDisplayName = chatConfig.senderDisplayName
+    private val localParticipantIdentifier = chatConfig.identity
     private var startedEventNotifications = false
 
     private val options = ListChatMessagesOptions().apply { maxPageSize = PAGE_MESSAGES_SIZE }
@@ -295,6 +296,7 @@ internal class ChatSDKWrapper(
         chatEventHandler.start(
             chatClient = chatClient,
             threadID = threadId,
+            localParticipantIdentifier = localParticipantIdentifier,
             eventSubscriber = this::onChatEventReceived
         )
         chatFetchNotificationHandler.start(
