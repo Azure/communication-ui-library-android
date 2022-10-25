@@ -5,16 +5,13 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import android.widget.TextView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -25,12 +22,23 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewM
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.format.DateTimeFormatter
 
 val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
+
+    if (viewModel.dateHeaderText != null) {
+        Box(contentAlignment= Alignment.Center,
+            modifier = Modifier.fillMaxWidth().padding(
+                ChatCompositeTheme.dimensions.dateHeaderPadding
+            )) {
+            BasicText(viewModel.dateHeaderText, style = ChatCompositeTheme.typography.messageHeaderDate)
+        }
+    }
+
     when (viewModel.message.messageType) {
         ChatMessageType.TEXT -> BasicChatMessage(viewModel)
         ChatMessageType.HTML -> BasicChatMessage(viewModel)
@@ -150,6 +158,7 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 internal fun PreviewChatCompositeMessage() {
+    AndroidThreeTen.init(LocalContext.current)
     Column(
         modifier = Modifier
             .width(500.dp)

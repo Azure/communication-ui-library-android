@@ -6,13 +6,16 @@ package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.core.rest.annotation.Immutable
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
+
 
 @Immutable
 internal class MessageViewModel(
     val message: MessageInfoModel,
     val showUsername: Boolean,
     val showTime: Boolean,
-    val showDateHeader: Boolean,
+    val dateHeaderText: String?,
     val isLocalUser: Boolean,
 )
 
@@ -28,7 +31,7 @@ private class InfoModelToViewModelAdapter(
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
 
-        val lastMessage = if (index - 1 == -1) EMPTY_MESSAGE_INFO_MODEL else messages[index - 1]
+        val lastMessage = try { messages[index - 1] } catch (e: IndexOutOfBoundsException) { EMPTY_MESSAGE_INFO_MODEL }
         val thisMessage = messages[index]
         val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier
         return MessageViewModel(
@@ -42,9 +45,40 @@ private class InfoModelToViewModelAdapter(
             (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
 
-            showDateHeader = lastMessage.createdOn?.dayOfYear != thisMessage.createdOn?.dayOfYear,
+            dateHeaderText = buildDateHeader(
+                lastMessage.createdOn!!,
+                thisMessage.createdOn!!),
+
             isLocalUser = isLocalUser
         )
+    }
+
+    val timeFormatShort = DateTimeFormatter.ofPattern("EEEE")
+    val timeFormatLong = DateTimeFormatter.ofPattern("EEEE MMMM dd")
+
+
+
+    private fun buildDateHeader(
+        lastMessageDate: OffsetDateTime,
+        thisMessageDate: OffsetDateTime
+    ): String? {
+        val today = OffsetDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0)
+        val yesterday = today.minusDays(1)
+        val weekAgo = today.minusWeeks(1)
+
+
+        if (lastMessageDate.dayOfYear != thisMessageDate.dayOfYear) {
+            if (thisMessageDate.isAfter(today)) {
+                return "Today"
+            } else if (thisMessageDate.isAfter(yesterday)) {
+                return "Yesterday"
+            } else if (thisMessageDate.isAfter(weekAgo)) {
+                return thisMessageDate.format(timeFormatShort)
+            }
+            return thisMessageDate.format(timeFormatLong)
+        } else {
+            return null
+        }
     }
 
     // Rest of List Implementation
