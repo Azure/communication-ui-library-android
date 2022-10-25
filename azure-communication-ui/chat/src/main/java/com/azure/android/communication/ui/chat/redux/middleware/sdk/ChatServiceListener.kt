@@ -35,7 +35,7 @@ internal class ChatServiceListener(
 
     fun subscribe(dispatch: Dispatch) {
         coroutineScope.launch {
-            chatService.getChatStatusStateFlow()?.collect {
+            chatService.getChatStatusStateFlow().collect {
                 when (it) {
                     ChatStatus.INITIALIZATION -> dispatch(ChatAction.Initialization())
                     ChatStatus.INITIALIZED -> dispatch(ChatAction.Initialized())
@@ -45,7 +45,7 @@ internal class ChatServiceListener(
         }
 
         coroutineScope.launch {
-            chatService.getMessagesPageSharedFlow()?.collect {
+            chatService.getMessagesPageSharedFlow().collect {
                 onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch)
             }
         }
@@ -143,13 +143,6 @@ internal class ChatServiceListener(
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
                         dispatch(ParticipantAction.ParticipantsRemoved(participants = it.infoModel.participants))
-                        it.infoModel.participants.forEach {
-                            dispatch(
-                                ParticipantAction.TypingIndicatorClear(
-                                    ConvertToParticipantTimestampInfoModel.fromRemoteParticipantsInfoModel(it)
-                                )
-                            )
-                        }
                     }
                     else -> {}
                 }

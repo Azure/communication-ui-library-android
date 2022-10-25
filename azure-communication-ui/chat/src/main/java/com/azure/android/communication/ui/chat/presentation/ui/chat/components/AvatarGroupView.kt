@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
 import com.microsoft.fluentui.persona.AvatarGroupView
 import com.microsoft.fluentui.persona.AvatarSize
@@ -13,19 +15,28 @@ import com.microsoft.fluentui.persona.IAvatar
 
 @Composable
 internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
-    val avatarList = ArrayList<IAvatar>(typingParticipantsDisplayNames.size)
+
+    val stateList = remember { mutableStateListOf<IAvatar>() }
+    stateList.clear()
     typingParticipantsDisplayNames.forEach { displayName ->
         val data = AvatarData(displayName)
-        avatarList.add(data)
+        stateList.add(data)
     }
-    AndroidView(factory = {
-        AvatarGroupView(it).apply {
-            avatarSize = AvatarSize.SMALL
-            maxDisplayedAvatars = 2
-            setAvatars(avatarList)
-            contentDescription = "Typing participants: " + typingParticipantsDisplayNames.joinToString()
+
+    AndroidView(
+        factory = {
+            AvatarGroupView(it).apply {
+                avatarSize = AvatarSize.SMALL
+                maxDisplayedAvatars = 2
+                setAvatars(stateList)
+                contentDescription =
+                    "Typing participants: " + typingParticipantsDisplayNames.joinToString()
+            }
+        },
+        update = {
+            it.setAvatars(stateList)
         }
-    })
+    )
 }
 
 data class AvatarData(
@@ -36,5 +47,5 @@ data class AvatarData(
     override var avatarImageDrawable: Drawable? = null,
     override var avatarImageResourceId: Int? = -1,
     override var avatarImageUri: Uri? = null,
-    override var email: String = ""
+    override var email: String = "",
 ) : IAvatar

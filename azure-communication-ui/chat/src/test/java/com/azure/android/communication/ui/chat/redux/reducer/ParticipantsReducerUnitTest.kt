@@ -144,7 +144,7 @@ class ParticipantsReducerUnitTest {
             participantTyping = listOf()
         )
         val action = ParticipantAction.TypingIndicatorReceived(
-            message = ParticipantTimestampInfoModel(
+            infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userOne.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
             )
@@ -170,7 +170,7 @@ class ParticipantsReducerUnitTest {
             participantTyping = listOf()
         )
         val action = ParticipantAction.TypingIndicatorReceived(
-            message = ParticipantTimestampInfoModel(
+            infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userFour.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
             )
@@ -196,7 +196,7 @@ class ParticipantsReducerUnitTest {
             participantTyping = listOf(userOne.displayName!!)
         )
         val action = ParticipantAction.TypingIndicatorReceived(
-            message = ParticipantTimestampInfoModel(
+            infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userOne.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
             )
@@ -222,7 +222,7 @@ class ParticipantsReducerUnitTest {
             participantTyping = listOf(userOne.displayName!!)
         )
         val action = ParticipantAction.TypingIndicatorClear(
-            message = ParticipantTimestampInfoModel(
+            infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userOne.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
             )
@@ -248,7 +248,7 @@ class ParticipantsReducerUnitTest {
             participantTyping = listOf(userOne.displayName!!)
         )
         val action = ParticipantAction.TypingIndicatorClear(
-            message = ParticipantTimestampInfoModel(
+            infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userFour.userIdentifier,
                 receivedOn = OffsetDateTime.MIN
             )

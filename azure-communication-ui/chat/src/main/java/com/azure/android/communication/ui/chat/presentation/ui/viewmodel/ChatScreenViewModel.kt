@@ -45,7 +45,7 @@ internal fun buildChatScreenViewModel(
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,
-        typingParticipants = store.getCurrentState().participantState.participantTyping,
+        typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
         postAction = dispatchers!!::postAction,
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic

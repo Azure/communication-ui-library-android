@@ -11,6 +11,6 @@ internal sealed class ParticipantAction : Action {
         ParticipantAction()
     class ParticipantsRemoved(val participants: List<RemoteParticipantInfoModel>) :
         ParticipantAction()
-    class TypingIndicatorReceived(val message: ParticipantTimestampInfoModel) : ParticipantAction()
-    class TypingIndicatorClear(val message: ParticipantTimestampInfoModel) : ParticipantAction()
+    class TypingIndicatorReceived(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
+    class TypingIndicatorClear(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
 }

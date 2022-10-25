@@ -17,26 +17,16 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.ParticipantsRemoved -> {
                 state.copy(participants = state.participants - action.participants.map { it.userIdentifier.id })
+                state.copy(participantTyping = state.participantTyping - action.participants.map { it.userIdentifier.id })
             }
             is ParticipantAction.TypingIndicatorReceived -> {
-                val participantsTyping = ArrayList<String>()
-                participantsTyping.addAll(state.participantTyping)
-                state.participants.forEach { participant ->
-                    if (participant.value.userIdentifier.id == action.message.userIdentifier.id) {
-                        participantsTyping.add(participant.value.displayName ?: "Unknown")
-                    }
-                }
-                state.copy(participantTyping = participantsTyping)
+                val id = action.infoModel.userIdentifier.id
+                // TODO: for localization create const and compare in UI to replace
+                val displayName = state.participants[id]?.displayName ?: "unknown"
+                state.copy(participantTyping = state.participantTyping + Pair(id, displayName))
             }
             is ParticipantAction.TypingIndicatorClear -> {
-                val participantsTyping = ArrayList<String>()
-                participantsTyping.addAll(state.participantTyping)
-                state.participants.forEach { participant ->
-                    if (participant.value.userIdentifier.id == action.message.userIdentifier.id) {
-                        participantsTyping.remove(participant.value.displayName ?: "Unknown")
-                    }
-                }
-                state.copy(participantTyping = participantsTyping)
+                state.copy(participantTyping = state.participantTyping - action.infoModel.userIdentifier.id)
             }
             else -> state
         }

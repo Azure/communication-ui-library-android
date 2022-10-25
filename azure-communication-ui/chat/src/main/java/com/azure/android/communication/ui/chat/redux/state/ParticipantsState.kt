@@ -7,5 +7,5 @@ import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 
 internal data class ParticipantsState(
     val participants: Map<String, RemoteParticipantInfoModel>,
-    val participantTyping: List<String>
+    val participantTyping: Map<String, String>
 )
