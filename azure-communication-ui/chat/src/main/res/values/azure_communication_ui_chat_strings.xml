@@ -15,4 +15,6 @@
     <string name="azure_communication_ui_chat_joined_chat">%1$s joined the chat</string>
     <string name="azure_communication_ui_chat_left_chat">%1$s left the chat</string>
     <string name="azure_communication_ui_chat_topic_updated">Topic Updated: %1$s</string>
+    <string name="azure_communication_ui_chat_message_today">Today</string>
+    <string name="azure_communication_ui_chat_message_yesterday">Yesterday</string>
 </resources>
