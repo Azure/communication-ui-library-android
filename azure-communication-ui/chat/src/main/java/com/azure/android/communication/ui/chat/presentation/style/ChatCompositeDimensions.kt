@@ -17,8 +17,11 @@ internal data class ChatCompositeDimensions(
     val messageAvatarSize: Dp = 24.dp,
     val messageUsernamePaddingEnd: Dp = 8.dp,
     val messagePadding: PaddingValues = PaddingValues(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp),
+    val systemMessagePadding: PaddingValues = PaddingValues(start = 20.dp, end = 5.dp, top = 10.dp, bottom = 10.dp),
     val typingIndicatorAreaHeight: Dp = 36.dp,
-)
+) {
+
+}
 
 internal val LocalChatCompositeDimensions = staticCompositionLocalOf {
     ChatCompositeDimensions()
