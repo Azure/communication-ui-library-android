@@ -39,6 +39,7 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
         reduxViewModelGenerator = ReduxViewModelGenerator(
             builder = { store ->
                 buildChatScreenViewModel(
+                    context = context,
                     store = store,
                     messages = locator.locate(),
                     localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity

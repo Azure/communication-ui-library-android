@@ -36,6 +36,7 @@ import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
 import com.azure.android.communication.ui.chat.service.sdk.ChatFetchNotificationHandler
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.chat.utilities.TestHelper
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 internal class ChatContainer(
     private val chatComposite: ChatComposite,
@@ -57,6 +58,7 @@ internal class ChatContainer(
     ) {
         // currently only single instance is supported
         if (!started) {
+            AndroidThreeTen.init(context)
             started = true
             configuration.chatConfig =
                 ChatConfiguration(
