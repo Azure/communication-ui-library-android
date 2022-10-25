@@ -5,7 +5,15 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import android.widget.TextView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.width
+
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,7 +56,7 @@ internal fun MessageView(viewModel: MessageViewModel) {
         ChatMessageType.PARTICIPANT_REMOVED -> UserLeftMessage(viewModel)
         else -> {
             BasicText(
-                text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
+                text = "${viewModel.message.content} !TYPE NOT DETECTED!"
             )
         }
     }
@@ -145,7 +153,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
 @Composable
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
     AndroidView(
-        modifier = Modifier,
+        modifier = modifier,
         factory = {
             context ->
             TextView(context)
@@ -165,7 +173,7 @@ internal fun PreviewChatCompositeMessage() {
             .width(500.dp)
             .background(color = ChatCompositeTheme.colors.background)
     ) {
-        val vms = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID)
+        val vms = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID)
         for (a in 0 until vms.size) {
             MessageView(vms[a])
         }

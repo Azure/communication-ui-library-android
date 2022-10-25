@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
@@ -78,7 +79,7 @@ private fun requestPages(
 internal fun PreviewMessageListView() {
     MessageListView(
         modifier = Modifier.padding(0.dp),
-        messages = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID),
+        messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
         scrollState = LazyListState(),
     ) {}
 }

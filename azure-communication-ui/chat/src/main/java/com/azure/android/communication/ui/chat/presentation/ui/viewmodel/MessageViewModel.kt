@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
+import android.content.Context
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.core.rest.annotation.Immutable
@@ -21,10 +23,11 @@ internal class MessageViewModel(
     val isLocalUser: Boolean,
 )
 
-internal fun List<MessageInfoModel>.toViewModelList(localUserIdentifier: String) =
-    InfoModelToViewModelAdapter(this, localUserIdentifier) as List<MessageViewModel>
+internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserIdentifier: String) =
+    InfoModelToViewModelAdapter(context, this, localUserIdentifier) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
+    private val context: Context,
     private val messages: List<MessageInfoModel>,
     private val localUserIdentifier: String
 ) :
@@ -66,9 +69,9 @@ private class InfoModelToViewModelAdapter(
 
         if (lastMessageDate.dayOfYear != thisMessageDate.dayOfYear) {
             if (thisMessageDate.isAfter(today)) {
-                return "Today"
+                return context.getString(R.string.azure_communication_ui_chat_message_today)
             } else if (thisMessageDate.isAfter(yesterday)) {
-                return "Yesterday"
+                return context.getString(R.string.azure_communication_ui_chat_message_yesterday)
             } else if (thisMessageDate.isAfter(weekAgo)) {
                 return thisMessageDate.format(timeFormatShort)
             }
