@@ -54,9 +54,17 @@ internal fun ChatScreen(
         scaffoldState = scaffoldState,
         topBar = {
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            val topic = when {
+                viewModel.isShowingParticipants -> stringResource(id = R.string.azure_communication_ui_chat_people)
+                viewModel.chatTopic != null -> viewModel.chatTopic
+                else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+            }
+            val subTitle = if (viewModel.isShowingParticipants) { viewModel.chatTopic ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title) } else {
+                stringResource(id = R.string.azure_communication_ui_chat_count_people, viewModel.participants.count())
+            }
             ActionBarView(
-                participantCount = viewModel.participants.count(),
-                topic = viewModel.chatTopic ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title),
+                title = topic,
+                subTitle = subTitle,
                 onBackButtonPressed = {
                     when {
                         viewModel.isShowingParticipants -> {
