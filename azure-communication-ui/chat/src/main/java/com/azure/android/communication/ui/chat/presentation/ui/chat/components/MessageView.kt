@@ -37,29 +37,38 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
 
-    if (viewModel.dateHeaderText != null) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxWidth().padding(
-                ChatCompositeTheme.dimensions.dateHeaderPadding
-            )
-        ) {
-            BasicText(viewModel.dateHeaderText, style = ChatCompositeTheme.typography.messageHeaderDate)
+    Column {
+
+        if (viewModel.dateHeaderText != null) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        ChatCompositeTheme.dimensions.dateHeaderPadding
+                    )
+            ) {
+                BasicText(
+                    viewModel.dateHeaderText,
+                    style = ChatCompositeTheme.typography.messageHeaderDate
+                )
+            }
+        }
+
+        when (viewModel.message.messageType) {
+            ChatMessageType.TEXT -> BasicChatMessage(viewModel)
+            ChatMessageType.HTML -> BasicChatMessage(viewModel)
+            ChatMessageType.TOPIC_UPDATED -> BasicText("Topic Updated")
+            ChatMessageType.PARTICIPANT_ADDED -> UserJoinedMessage(viewModel)
+            ChatMessageType.PARTICIPANT_REMOVED -> UserLeftMessage(viewModel)
+            else -> {
+                BasicText(
+                    text = "${viewModel.message.content} !TYPE NOT DETECTED!"
+                )
+            }
         }
     }
 
-    when (viewModel.message.messageType) {
-        ChatMessageType.TEXT -> BasicChatMessage(viewModel)
-        ChatMessageType.HTML -> BasicChatMessage(viewModel)
-        ChatMessageType.TOPIC_UPDATED -> BasicText("Topic Updated")
-        ChatMessageType.PARTICIPANT_ADDED -> UserJoinedMessage(viewModel)
-        ChatMessageType.PARTICIPANT_REMOVED -> UserLeftMessage(viewModel)
-        else -> {
-            BasicText(
-                text = "${viewModel.message.content} !TYPE NOT DETECTED!"
-            )
-        }
-    }
 }
 
 @Composable
@@ -154,8 +163,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
     AndroidView(
         modifier = modifier,
-        factory = {
-            context ->
+        factory = { context ->
             TextView(context)
         },
         update = {

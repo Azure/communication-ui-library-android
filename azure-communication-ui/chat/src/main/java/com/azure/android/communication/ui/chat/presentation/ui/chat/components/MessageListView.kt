@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 const val MESSAGE_LIST_LOAD_MORE_THRESHOLD = 40
 
@@ -77,6 +78,7 @@ private fun requestPages(
 @Preview
 @Composable
 internal fun PreviewMessageListView() {
+    AndroidThreeTen.init(LocalContext.current)
     MessageListView(
         modifier = Modifier.padding(0.dp),
         messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),

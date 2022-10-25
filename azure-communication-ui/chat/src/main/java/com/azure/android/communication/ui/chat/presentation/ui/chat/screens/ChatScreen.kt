@@ -38,6 +38,7 @@ import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 @Composable
 internal fun ChatScreen(
@@ -109,6 +110,7 @@ internal fun ChatScreen(
 @Preview
 @Composable
 internal fun ChatScreenPreview() {
+    AndroidThreeTen.init(LocalContext.current)
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
