@@ -29,7 +29,9 @@ class ChatCompositeActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        chatComposite.stop()
+        if (isFinishing) {
+            chatComposite.stop()
+        }
     }
 
     companion object {

@@ -16,12 +16,14 @@ import com.azure.android.communication.ui.chat.redux.state.ReduxState
 internal data class ChatScreenViewModel(
     val typingParticipants: Set<String>,
     val messages: List<MessageViewModel>,
+    val areMessagesLoading: Boolean,
     val chatStatus: ChatStatus,
     var buildCount: Int,
     val postAction: (Action) -> Unit,
     private val error: ChatStateError? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
+
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -44,6 +46,7 @@ internal fun buildChatScreenViewModel(
     }
     return ChatScreenViewModel(
         messages = messages.toViewModelList(context, localUserIdentifier),
+        areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,
