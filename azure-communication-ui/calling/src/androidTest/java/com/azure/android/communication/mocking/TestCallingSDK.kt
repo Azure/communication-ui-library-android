@@ -33,6 +33,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -70,6 +72,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+    private var getCameraCountStateFlow = MutableStateFlow(2)
 
     @GuardedBy("this")
     private val remoteParticipantsMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
@@ -249,6 +252,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
         return remoteParticipantsInfoModelSharedFlow
     }
+
+    override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
         return VideoStreamModel(

@@ -1,7 +1,12 @@
-package com.azure.android.communication.ui.chat.repository
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryReader
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
 import java.util.Collections
 
 internal class MessageRepositoryListWriter : MessageRepositoryWriter {
@@ -60,7 +65,8 @@ internal class MessageRepositoryListWriter : MessageRepositoryWriter {
             createdOn = messages[idx].createdOn,
             editedOn = messages[idx].editedOn,
             deletedOn = messages[idx].deletedOn,
-            senderCommunicationIdentifier = messages[idx].senderCommunicationIdentifier
+            senderCommunicationIdentifier = messages[idx].senderCommunicationIdentifier,
+            isCurrentUser = messages[idx].isCurrentUser
         )
         messages[idx] = newMessage
     }

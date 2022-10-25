@@ -52,7 +52,7 @@ internal fun ChatScreen(
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             ActionBarView(
                 participantCount = viewModel.participants.count(),
-                topic = stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                topic = viewModel.chatTopic ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
             ) {
                 dispatcher?.onBackPressed()
             }
@@ -78,6 +78,7 @@ internal fun ChatScreen(
                         .fillMaxWidth(),
                     messages = viewModel.messages,
                     scrollState = listState,
+                    viewModel.postAction
                 )
             }
         },

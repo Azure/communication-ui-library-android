@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
-
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 // View Model for the Chat Screen
@@ -21,6 +20,7 @@ internal data class ChatScreenViewModel(
     val postAction: (Action) -> Unit,
     private val error: ChatStateError? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
+    val chatTopic: String? = null,
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -48,6 +48,7 @@ internal fun buildChatScreenViewModel(
         typingParticipants = store.getCurrentState().participantState.participantTyping,
         postAction = dispatchers!!::postAction,
         participants = store.getCurrentState().participantState.participants,
+        chatTopic = store.getCurrentState().chatState.chatInfoModel.topic
     )
 }
 

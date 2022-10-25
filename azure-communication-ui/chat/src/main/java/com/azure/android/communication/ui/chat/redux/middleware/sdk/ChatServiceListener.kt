@@ -51,7 +51,7 @@ internal class ChatServiceListener(
         }
 
         coroutineScope.launch {
-            chatService.getChatEventSharedFlow()?.collect {
+            chatService.getChatEventSharedFlow().collect {
                 handleInfoModel(it, dispatch)
             }
         }
