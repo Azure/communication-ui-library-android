@@ -32,6 +32,7 @@ internal class ChatServiceListener(
     coroutineContextProvider: CoroutineContextProvider,
 ) {
     private val coroutineScope = CoroutineScope(coroutineContextProvider.Default)
+    private val typingIndicatorDuration = 8000L
 
     fun subscribe(dispatch: Dispatch) {
         coroutineScope.launch {
@@ -115,7 +116,7 @@ internal class ChatServiceListener(
                         val infoModel = it.infoModel
                         dispatch(ParticipantAction.AddParticipantTyping(infoModel = infoModel))
                         coroutineScope.launch {
-                            delay(10000)
+                            delay(typingIndicatorDuration)
                             dispatch(
                                 ParticipantAction.RemoveParticipantTyping(infoModel = infoModel)
                             )
