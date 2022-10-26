@@ -17,7 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import kotlinx.coroutines.launch
@@ -52,7 +54,8 @@ internal fun UnreadMessagesIndicatorView(
                     text = when (unreadCount) {
                         1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages)
                         else -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages, unreadCount.toString())
-                    }
+                    },
+                    fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize
                 )
             },
             onClick = {

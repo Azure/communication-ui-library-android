@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Immutable
 internal data class ChatCompositeDimensions(
@@ -23,6 +25,7 @@ internal data class ChatCompositeDimensions(
     val unreadMessagesIndicatorIconHeight: Dp = 18.dp,
     val unreadMessagesIndicatorIconPaddingStart: Dp = 10.dp,
     val unreadMessagesIndicatorIconPaddingTop: Dp = 2.dp,
+    val unreadMessagesIndicatorTextFontSize: TextUnit = 16.sp,
     val dateHeaderPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 16.dp, bottom = 0.dp)
 )
 
