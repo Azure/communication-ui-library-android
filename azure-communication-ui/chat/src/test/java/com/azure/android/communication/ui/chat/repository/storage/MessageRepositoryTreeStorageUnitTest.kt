@@ -94,11 +94,13 @@ class MessageRepositoryTreeStorageUnitTest {
             )
         }
 
-        storage.editMessage(MessageInfoModel(
-            id = "5",
-            content = "Message 55",
-            messageType = ChatMessageType.TEXT
-        ))
+        storage.editMessage(
+            MessageInfoModel(
+                id = "5",
+                content = "Message 55",
+                messageType = ChatMessageType.TEXT
+            )
+        )
 
         Assert.assertEquals("Message 55", storage[4].content)
     }

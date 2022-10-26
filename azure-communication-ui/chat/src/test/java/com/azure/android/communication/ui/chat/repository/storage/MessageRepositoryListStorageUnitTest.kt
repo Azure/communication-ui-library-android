@@ -107,13 +107,15 @@ internal class MessageRepositoryListStorageUnitTest {
             )
         }
 
-        storage.removeMessage(MessageInfoModel(
-            id = "5",
-            content = "Message $5",
-            messageType = ChatMessageType.TEXT
-        ))
+        storage.removeMessage(
+            MessageInfoModel(
+                id = "5",
+                content = "Message $5",
+                messageType = ChatMessageType.TEXT
+            )
+        )
 
-        Assert.assertEquals(numberOfTestMessages-1, storage.size)
+        Assert.assertEquals(numberOfTestMessages - 1, storage.size)
     }
 
     @Test

@@ -21,10 +21,10 @@ class MessageRepositoryUnitTest {
         val listStorage: MessageRepository = MessageRepository.createListBackedRepository()
         val messageStorageWriter = MessageRepositoryListWriter()
         Assert.assertEquals(true, listStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
-        Assert.assertEquals(true,
+        Assert.assertEquals(
+            true,
             listStorage.readerDelegate.javaClass.isInstance(MessageRepositoryListReader(messageStorageWriter))
         )
-
     }
 
     @Test
@@ -32,9 +32,9 @@ class MessageRepositoryUnitTest {
         val treeStorage: MessageRepository = MessageRepository.createTreeBackedRepository()
         val messageStorageWriter = MessageRepositoryTreeWriter()
         Assert.assertEquals(true, treeStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
-        Assert.assertEquals(true,
+        Assert.assertEquals(
+            true,
             treeStorage.readerDelegate.javaClass.isInstance(MessageRepositoryTreeReader(messageStorageWriter))
         )
     }
-
 }
