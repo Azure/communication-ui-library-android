@@ -11,17 +11,14 @@ import java.util.TreeMap
 
 internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
 
-    private val treeMapStoragePointer: TreeMap<Long, String> = TreeMap()
-    private val treeMapStorage: TreeMap<String, MessageInfoModel> = TreeMap()
+    private val treeMapStorage: TreeMap<Long, MessageInfoModel> = TreeMap()
 
     val size: Int
         get() = treeMapStorage.size
 
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
         val orderId: Long = getOrderId(messageInfoModel)
-
-        messageInfoModel.id?.let { treeMapStoragePointer.put(orderId, it) }
-        messageInfoModel.id?.let { treeMapStorage.put(it, messageInfoModel) }
+        treeMapStorage.put(orderId, messageInfoModel)
     }
 
     override fun addPage(page: List<MessageInfoModel>) {
@@ -35,37 +32,41 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
     override fun removeMessage(message: MessageInfoModel) {
         val orderId = getOrderId(message)
 
-        if (treeMapStoragePointer.contains(orderId)) {
-            treeMapStoragePointer.remove(orderId)
-            treeMapStorage.remove(message.id)
+        if (treeMapStorage.contains(orderId)) {
+            treeMapStorage.remove(orderId)
         }
     }
 
     override fun editMessage(message: MessageInfoModel) {
         val orderId = getOrderId(message)
 
-        if (treeMapStoragePointer.contains(orderId)) {
-            treeMapStorage.get(message.id)?.let { mergeWithPreviousMessage(it, message) }
+        if (treeMapStorage.contains(orderId)) {
+            treeMapStorage.get(orderId)?.let {
+                mergeWithPreviousMessage(
+                    it,
+                    message
+                )
+            }?.let { treeMapStorage.put(orderId, it) }
         } else {
             addLocalMessage(message)
         }
     }
 
     override fun getLastMessage(): MessageInfoModel? {
-        val key = treeMapStoragePointer.lastKey()
-        return treeMapStorage.get(treeMapStoragePointer.get(key))!!
+        val key = treeMapStorage.lastKey()
+        return treeMapStorage.get(key)!!
     }
 
     fun searchItem(kth: Int): MessageInfoModel {
 
-        var highestKey = treeMapStoragePointer.lastKey() + 1
-        var lowestKey = treeMapStoragePointer.firstKey()
+        var highestKey = treeMapStorage.lastKey() + 1
+        var lowestKey = treeMapStorage.firstKey()
         var elements = 0
         var midKey: Long = 0
         while (lowestKey <= highestKey) {
             midKey = (highestKey + lowestKey).div(2)
 
-            elements = treeMapStoragePointer.headMap(midKey).size
+            elements = treeMapStorage.headMap(midKey).size
 
             if (elements < kth) {
                 lowestKey = midKey + 1
@@ -76,8 +77,8 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
             }
         }
 
-        val key = treeMapStoragePointer.headMap(midKey).lastKey()
-        return treeMapStorage.get(treeMapStoragePointer.get(key))!!
+        val key = treeMapStorage.headMap(midKey).lastKey()
+        return treeMapStorage.get(key)!!
     }
 
     private fun getOrderId(message: MessageInfoModel): Long {
