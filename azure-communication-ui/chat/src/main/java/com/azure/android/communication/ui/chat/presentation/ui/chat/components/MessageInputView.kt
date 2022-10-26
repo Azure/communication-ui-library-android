@@ -82,7 +82,7 @@ internal fun MessageInput(
     BasicTextField(
         modifier = Modifier
             .fillMaxWidth(fraction = 0.9f)
-            .padding(6.dp)
+            .padding(5.dp)
             .heightIn(52.dp, maxInputHeight)
             .onFocusChanged { onTextFieldFocused(it.isFocused) }
             .testTag(UITestTags.MESSAGE_INPUT_BOX)
