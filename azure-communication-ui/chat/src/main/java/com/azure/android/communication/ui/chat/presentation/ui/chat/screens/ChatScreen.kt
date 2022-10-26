@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -27,6 +26,7 @@ import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeT
 import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenStateViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.FluentCircularIndicator
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
@@ -67,9 +67,10 @@ internal fun ChatScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight()
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    FluentCircularIndicator()
                 }
             } else {
                 MessageListView(
@@ -78,7 +79,8 @@ internal fun ChatScreen(
                         .fillMaxWidth(),
                     messages = viewModel.messages,
                     scrollState = listState,
-                    viewModel.postAction
+                    showLoading = viewModel.areMessagesLoading,
+                    dispatchers = viewModel.postAction
                 )
             }
         },
@@ -115,7 +117,8 @@ internal fun ChatScreenPreview() {
                 messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
-                typingParticipants = listOf("John Doe", "Mary Sue"),
+                areMessagesLoading = true,
+                typingParticipants = setOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(
                     RemoteParticipantInfoModel(

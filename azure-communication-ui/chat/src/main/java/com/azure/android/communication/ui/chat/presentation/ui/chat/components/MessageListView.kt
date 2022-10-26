@@ -3,7 +3,10 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -11,8 +14,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,12 +36,11 @@ const val MESSAGE_LIST_LOAD_MORE_THRESHOLD = 40
 internal fun MessageListView(
     modifier: Modifier,
     messages: List<MessageViewModel>,
+    showLoading: Boolean,
     scrollState: LazyListState,
     dispatchers: Dispatch
 ) {
-
     requestPages(scrollState, messages, dispatchers)
-
     LazyColumn(
         modifier = modifier.fillMaxHeight(),
         state = scrollState,
@@ -44,6 +48,16 @@ internal fun MessageListView(
     ) {
         items(messages.asReversed()) { message ->
             MessageView(message)
+        }
+        if (messages.isNotEmpty() && showLoading) {
+            item {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    FluentCircularIndicator()
+                }
+            }
         }
     }
 }
@@ -79,9 +93,12 @@ private fun requestPages(
 @Composable
 internal fun PreviewMessageListView() {
     AndroidThreeTen.init(LocalContext.current)
-    MessageListView(
-        modifier = Modifier.padding(0.dp),
-        messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
-        scrollState = LazyListState(),
-    ) {}
+    Box(modifier = Modifier.background(Color.White)) {
+        MessageListView(
+            showLoading = false,
+            modifier = Modifier.padding(0.dp),
+            messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
+            scrollState = LazyListState(),
+        ) {}
+    }
 }
