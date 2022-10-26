@@ -47,7 +47,6 @@ internal fun ParticipantScreen(
                 onBackButtonPressed = {
                     viewModel.postAction(NavigationAction.Pop())
                 },
-                isShowingParticipants = viewModel.isShowingParticipants,
                 postAction = viewModel.postAction,
                 onTitleClicked = null
             )

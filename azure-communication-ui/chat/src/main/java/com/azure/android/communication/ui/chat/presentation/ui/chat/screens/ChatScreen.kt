@@ -68,7 +68,6 @@ internal fun ChatScreen(
                 onBackButtonPressed = {
                     dispatcher?.onBackPressed()
                 },
-                isShowingParticipants = viewModel.isShowingParticipants,
                 postAction = viewModel.postAction,
             )
         },

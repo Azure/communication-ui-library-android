@@ -32,7 +32,6 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 internal fun ActionBarView(
     title: String,
     subTitle: String?,
-    isShowingParticipants: Boolean = false,
     onTitleClicked: (() -> Unit)? = null,
     onBackButtonPressed: () -> Unit = { },
     postAction: (Action) -> Unit
