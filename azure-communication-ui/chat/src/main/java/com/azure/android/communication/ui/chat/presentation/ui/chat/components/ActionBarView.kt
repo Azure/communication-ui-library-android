@@ -27,13 +27,13 @@ import androidx.core.graphics.toColorInt
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.redux.action.Action
-import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 
 @Composable
 internal fun ActionBarView(
     title: String,
     subTitle: String?,
     isShowingParticipants: Boolean = false,
+    onTitleClicked: (() -> Unit)? = null,
     onBackButtonPressed: () -> Unit = { },
     postAction: (Action) -> Unit
 ) {
@@ -53,16 +53,13 @@ internal fun ActionBarView(
             },
             backgroundColor = Color.White,
             title = {
+                var modifier = Modifier.padding(start = 90.dp)
+                if (onTitleClicked != null) {
+                    modifier = modifier.clickable { onTitleClicked() }
+                }
+
                 Column(
-                    modifier = Modifier
-                        .padding(start = 90.dp)
-                        .clickable {
-                            if (!isShowingParticipants) {
-                                postAction(
-                                    ParticipantAction.ParticipantsListVisibilityChanged(visible = true)
-                                )
-                            }
-                        },
+                    modifier = modifier,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -94,6 +91,7 @@ internal fun ActionBarView(
 internal fun PreviewActionBarView() {
     ActionBarView(
         subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, 4),
-        title = "Topic"
+        title = "Topic",
+        onTitleClicked = {}
     ) {}
 }

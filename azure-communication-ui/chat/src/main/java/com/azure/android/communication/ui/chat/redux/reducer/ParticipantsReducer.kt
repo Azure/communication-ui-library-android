@@ -28,9 +28,6 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 }
                 state.copy(participantTyping = participantsTyping)
             }
-            is ParticipantAction.ParticipantsListVisibilityChanged -> {
-                state.copy(participantsListVisible = action.visible)
-            }
             else -> state
         }
 }

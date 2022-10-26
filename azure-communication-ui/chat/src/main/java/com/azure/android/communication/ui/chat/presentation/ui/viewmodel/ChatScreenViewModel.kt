@@ -8,8 +8,10 @@ import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
+import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
+import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 // View Model for the Chat Screen
@@ -22,6 +24,7 @@ internal data class ChatScreenViewModel(
     private val error: ChatStateError? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
+    val navigationStatus: NavigationStatus = NavigationStatus.NONE,
     val isShowingParticipants: Boolean = false,
 ) {
     val showError get() = error != null
@@ -38,28 +41,21 @@ internal fun buildChatScreenViewModel(
     store: AppStore<ReduxState>,
     messages: List<MessageInfoModel>,
     localUserIdentifier: String,
+    dispatch: Dispatch,
 ): ChatScreenViewModel {
 
-    if (dispatchers == null) {
-        dispatchers = Dispatchers(store)
-    }
     return ChatScreenViewModel(
         messages = messages.toViewModelList(context, localUserIdentifier),
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,
         typingParticipants = store.getCurrentState().participantState.participantTyping,
-        postAction = dispatchers!!::postAction,
+        postAction = dispatch,
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
+        navigationStatus = store.getCurrentState().navigationState.navigationStatus,
         isShowingParticipants = store.getCurrentState().participantState.participantsListVisible,
     )
 }
 
-internal var dispatchers: Dispatchers? = null
 
-internal class Dispatchers(val store: AppStore<ReduxState>) {
-    fun postAction(action: Action) {
-        store.dispatch(action)
-    }
-}
