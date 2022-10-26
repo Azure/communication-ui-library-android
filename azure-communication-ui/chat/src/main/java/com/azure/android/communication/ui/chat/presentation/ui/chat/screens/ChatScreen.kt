@@ -63,7 +63,7 @@ internal fun ChatScreen(
                 title = topic,
                 subTitle = subTitle,
                 onTitleClicked = {
-                                 viewModel.postAction(NavigationAction.GotoParticipants())
+                    viewModel.postAction(NavigationAction.GotoParticipants())
                 },
                 onBackButtonPressed = {
                     dispatcher?.onBackPressed()
@@ -123,10 +123,7 @@ internal fun ChatScreen(
             }
         }
     )
-
 }
-
-
 
 @Preview
 @Composable

@@ -63,5 +63,3 @@ internal fun buildChatScreenViewModel(
         isShowingParticipants = store.getCurrentState().participantState.participantsListVisible,
     )
 }
-
-

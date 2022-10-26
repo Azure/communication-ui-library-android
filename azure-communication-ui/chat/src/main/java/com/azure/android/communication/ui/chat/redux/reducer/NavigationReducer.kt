@@ -4,9 +4,7 @@
 package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.redux.action.Action
-import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.NavigationAction
-import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 

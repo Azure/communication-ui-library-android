@@ -53,7 +53,7 @@ internal fun ParticipantScreen(
             )
         },
         content = { paddingValues ->
-                ParticipantsListView(participants = viewModel.participants.values.toList(), modifier = Modifier.padding(paddingValues))
+            ParticipantsListView(participants = viewModel.participants.values.toList(), modifier = Modifier.padding(paddingValues))
         },
 
     )
