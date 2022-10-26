@@ -44,7 +44,7 @@ internal fun buildChatScreenViewModel(
     if (dispatchers == null) {
         dispatchers = Dispatchers(store)
     }
-    
+
     // TODO add logic with last read message
     var unreadMessagesCount: Int = 0
     return ChatScreenViewModel(
