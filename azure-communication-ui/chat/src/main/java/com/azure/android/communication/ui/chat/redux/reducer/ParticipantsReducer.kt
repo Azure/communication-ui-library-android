@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.redux.action.Action
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
 
@@ -16,9 +17,17 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 state.copy(participants = state.participants + action.participants.associateBy { it.userIdentifier.id })
             }
             is ParticipantAction.ParticipantsRemoved -> {
+                val participantTypingKeys = state.participantTyping.keys
+                val removedParticipants = action.participants.map { it.userIdentifier.id }
+                var participantTyping = state.participantTyping
+                // TODO: improve this logic
+                removedParticipants.forEach { id ->
+                    participantTyping =
+                        participantTyping - participantTypingKeys.filter { it.contains(id) }
+                }
                 state.copy(
-                    participants = state.participants - action.participants.map { it.userIdentifier.id },
-                    participantTyping = state.participantTyping - action.participants.map { it.userIdentifier.id }
+                    participants = state.participants - removedParticipants,
+                    participantTyping = participantTyping
                 )
             }
             is ParticipantAction.AddParticipantTyping -> {
@@ -37,6 +46,21 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.RemoveParticipantTyping -> {
                 state.copy(participantTyping = state.participantTyping - (action.infoModel.userIdentifier.id + action.infoModel.receivedOn))
+            }
+            is ChatAction.MessageReceived -> {
+                val id = action.message.senderCommunicationIdentifier?.id
+                // as the participant is added with timestamp
+                // on new message remove if id exists
+                // no need to worry about timestamp
+                if (id != null) {
+                    val participantsTyping =
+                        state.participantTyping - state.participantTyping.keys.filter {
+                            it.contains(id)
+                        }
+                    state.copy(participantTyping = participantsTyping)
+                } else {
+                    state
+                }
             }
             else -> state
         }

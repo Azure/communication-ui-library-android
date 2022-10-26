@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
-import com.azure.android.communication.ui.chat.models.ModelConverter
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
@@ -36,7 +35,7 @@ internal class ChatServiceListener(
 
     fun subscribe(dispatch: Dispatch) {
         coroutineScope.launch {
-            chatService.getChatStatusStateFlow()?.collect {
+            chatService.getChatStatusStateFlow().collect {
                 when (it) {
                     ChatStatus.INITIALIZATION -> dispatch(ChatAction.Initialization())
                     ChatStatus.INITIALIZED -> dispatch(ChatAction.Initialized())
@@ -46,13 +45,13 @@ internal class ChatServiceListener(
         }
 
         coroutineScope.launch {
-            chatService.getMessagesPageSharedFlow()?.collect {
+            chatService.getMessagesPageSharedFlow().collect {
                 onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch)
             }
         }
 
         coroutineScope.launch {
-            chatService.getChatEventSharedFlow()?.collect {
+            chatService.getChatEventSharedFlow().collect {
                 handleInfoModel(it, dispatch)
             }
         }
@@ -91,15 +90,6 @@ internal class ChatServiceListener(
                     ChatEventType.CHAT_MESSAGE_RECEIVED -> {
                         val infoModel = it.infoModel
                         dispatch(ChatAction.MessageReceived(message = infoModel))
-                        it.infoModel.senderCommunicationIdentifier?.let {
-                            dispatch(
-                                ParticipantAction.RemoveParticipantTyping(
-                                    infoModel = ModelConverter.fromMessageInfoModel(
-                                        infoModel
-                                    )
-                                )
-                            )
-                        }
                     }
                     ChatEventType.CHAT_MESSAGE_EDITED -> {
                         dispatch(ChatAction.MessageEdited(message = it.infoModel))
