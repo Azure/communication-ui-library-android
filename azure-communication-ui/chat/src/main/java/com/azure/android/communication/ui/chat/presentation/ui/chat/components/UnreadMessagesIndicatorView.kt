@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExtendedFloatingActionButton
@@ -17,7 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import kotlinx.coroutines.launch
@@ -39,7 +39,11 @@ internal fun UnreadMessagesIndicatorView(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_down_16_filled),
-                    modifier = Modifier.height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight),
+                    modifier = Modifier.height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
+                        .padding(
+                            start = ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPaddingStart,
+                            top = ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPaddingTop
+                        ),
                     contentDescription = null
                 )
             },
