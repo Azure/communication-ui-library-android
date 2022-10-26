@@ -45,6 +45,7 @@ internal fun ChatCompositeTheme(
     )
     val acsChatShapes = ChatCompositeShapes(
         messageBubble = RoundedCornerShape(4.dp),
+        unreadMessagesIndicator = RoundedCornerShape(100.dp)
     )
 
     CompositionLocalProvider(
