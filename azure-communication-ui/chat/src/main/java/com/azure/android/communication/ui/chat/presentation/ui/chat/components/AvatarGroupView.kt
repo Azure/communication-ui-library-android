@@ -32,11 +32,10 @@ internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
                 contentDescription =
                     "Typing participants: " + typingParticipantsDisplayNames.joinToString()
             }
-        },
-        update = {
-            it.setAvatars(stateList)
         }
-    )
+    ) { groupView ->
+        groupView.setAvatars(stateList)
+    }
 }
 
 data class AvatarData(
