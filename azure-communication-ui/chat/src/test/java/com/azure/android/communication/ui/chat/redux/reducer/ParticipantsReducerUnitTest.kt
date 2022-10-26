@@ -325,4 +325,42 @@ class ParticipantsReducerUnitTest {
             newState.participantTyping
         )
     }
+
+    @Test
+    fun participantsReducer_reduce_when_actionAddParticipantTyping_sameUserDifferentTimeStamp_participantIsUpdated() {
+        // arrange
+        val reducer = ParticipantsReducerImpl()
+        val previousState = ParticipantsState(
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = mapOf(
+                Pair(
+                    userOne.userIdentifier.id +
+                        OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, ZoneOffset.ofHours(2)),
+                    userOne.displayName!!
+                )
+            )
+        )
+        val action = ParticipantAction.AddParticipantTyping(
+            infoModel = ParticipantTimestampInfoModel(
+                userIdentifier = userOne.userIdentifier,
+                receivedOn = OffsetDateTime.of(2001, 3, 28, 1, 0, 1, 0, ZoneOffset.ofHours(2))
+            )
+        )
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertEquals(
+            "invalid participantTyping: ${newState.participantTyping}",
+            newState.participantTyping,
+            mapOf(
+                Pair(
+                    userOne.userIdentifier.id +
+                        OffsetDateTime.of(2001, 3, 28, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.displayName!!
+                )
+            )
+        )
+    }
 }
