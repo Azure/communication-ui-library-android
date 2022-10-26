@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScr
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
+import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
@@ -31,6 +33,9 @@ internal fun NavigatableBaseScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
 ) {
+    BackHandler(enabled = viewModel.navigationStatus != NavigationStatus.NONE, onBack = {
+        viewModel.postAction(NavigationAction.Pop())
+    })
     Box(
         modifier = Modifier
             .fillMaxWidth()
