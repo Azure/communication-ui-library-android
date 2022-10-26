@@ -66,6 +66,7 @@ internal fun ParticipantScreenPreview() {
         ParticipantScreen(
             viewModel = ChatScreenViewModel(
                 messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
+                areMessagesLoading = false,
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 typingParticipants = setOf("John Doe", "Mary Sue"),

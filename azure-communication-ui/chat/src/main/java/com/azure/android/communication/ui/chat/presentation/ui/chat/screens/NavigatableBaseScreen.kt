@@ -52,6 +52,7 @@ internal fun NavigatableBaseScreenPreview() {
         NavigatableBaseScreen(
             viewModel = ChatScreenViewModel(
                 messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
+                areMessagesLoading = false,
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 // Uncomment to verify nav
