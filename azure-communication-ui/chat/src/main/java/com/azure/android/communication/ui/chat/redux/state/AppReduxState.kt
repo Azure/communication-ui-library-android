@@ -28,7 +28,6 @@ internal class AppReduxState(
     override var participantState: ParticipantsState = ParticipantsState(
         participants = mapOf(),
         participantTyping = setOf(),
-        participantsListVisible = false,
     )
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
