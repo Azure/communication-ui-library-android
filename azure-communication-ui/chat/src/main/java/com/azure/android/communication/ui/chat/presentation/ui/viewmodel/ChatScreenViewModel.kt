@@ -18,6 +18,7 @@ internal data class ChatScreenViewModel(
     val messages: List<MessageViewModel>,
     val chatStatus: ChatStatus,
     var buildCount: Int,
+    var unreadMessagesCount: Int = 0,
     val postAction: (Action) -> Unit,
     private val error: ChatStateError? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
@@ -27,6 +28,7 @@ internal data class ChatScreenViewModel(
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
     val isLoading get() = chatStatus != ChatStatus.INITIALIZED && !showError
+    val unreadMessagesIndicatorVisibility = unreadMessagesCount > 0
 }
 
 // Internal counter for early debugging
@@ -43,10 +45,14 @@ internal fun buildChatScreenViewModel(
     if (dispatchers == null) {
         dispatchers = Dispatchers(store)
     }
+
+    // TODO add logic with last read message
+    var unreadMessagesCount: Int = 0
     return ChatScreenViewModel(
         messages = messages.toViewModelList(context, localUserIdentifier),
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
+        unreadMessagesCount = unreadMessagesCount,
         error = store.getCurrentState().errorState.chatStateError,
         typingParticipants = store.getCurrentState().participantState.participantTyping,
         postAction = dispatchers!!::postAction,
