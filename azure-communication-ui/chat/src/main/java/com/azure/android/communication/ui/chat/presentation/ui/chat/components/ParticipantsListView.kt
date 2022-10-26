@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
@@ -18,8 +19,9 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.Communication
 @Composable
 internal fun ParticipantsListView(
     participants: List<RemoteParticipantInfoModel>,
+    modifier: Modifier = Modifier,
 ) {
-    Column() {
+    Column(modifier = modifier) {
         ListSubHeaderView(text = stringResource(id = R.string.azure_communication_ui_chat_in_this_chat_count, participants.count()))
         LazyColumn() {
             items(items = participants, key = { it.userIdentifier.id }, itemContent = { it -> ParticipantView(participant = it) })

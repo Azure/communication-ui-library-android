@@ -36,6 +36,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScr
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
+import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
@@ -43,7 +44,7 @@ import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 @Composable
-internal fun ChatScreen(
+internal fun ParticipantScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
 ) {
@@ -53,83 +54,33 @@ internal fun ChatScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val topic = when {
-                viewModel.chatTopic != null -> viewModel.chatTopic
-                else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
-            }
-
-            val subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, viewModel.participants.count())
+            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            val topic = stringResource(id = R.string.azure_communication_ui_chat_people)
+            val subTitle = viewModel.chatTopic ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
 
             ActionBarView(
                 title = topic,
                 subTitle = subTitle,
                 onBackButtonPressed = {
-                    dispatcher?.onBackPressed()
+                    viewModel.postAction(NavigationAction.Pop())
                 },
                 isShowingParticipants = viewModel.isShowingParticipants,
                 postAction = viewModel.postAction,
             )
         },
         content = { paddingValues ->
-            if (viewModel.showError) {
-                Column {
-                    BasicText("ERROR")
-                    BasicText(viewModel.errorMessage)
-                }
-            } else if (viewModel.isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
-            } else {
-                MessageListView(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxWidth(),
-                    messages = viewModel.messages,
-                    scrollState = listState,
-                    viewModel.postAction
-                )
-            }
+                ParticipantsListView(participants = viewModel.participants.values.toList(), modifier = Modifier.padding(paddingValues))
         },
-        bottomBar = {
-            Column {
-                UnreadMessagesIndicatorView(
-                    scrollState = listState,
-                    visible = listState.outOfViewItemCount() > 0,
-                    unreadCount = 0,
-                    totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
-                )
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(ChatCompositeTheme.dimensions.typingIndicatorAreaHeight),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    TypingIndicatorView(viewModel.typingParticipants.toList())
-                }
-
-                BottomBarView(
-                    messageInputTextState = stateViewModel.messageInputTextState,
-                    chatStatus = viewModel.chatStatus,
-                    postAction = viewModel.postAction
-                )
-            }
-        }
     )
 }
 
 @Preview
 @Composable
-internal fun ChatScreenPreview() {
+internal fun ParticipantScreenPreview() {
     AndroidThreeTen.init(LocalContext.current)
     ChatCompositeTheme {
-        ChatScreen(
+        ParticipantScreen(
             viewModel = ChatScreenViewModel(
                 messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
                 chatStatus = ChatStatus.INITIALIZED,
