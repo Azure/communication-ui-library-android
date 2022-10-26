@@ -3,10 +3,13 @@
 
 package com.azure.android.communication.ui.chat.redux.reducer
 
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import org.junit.Assert
 import org.junit.Test
@@ -43,11 +46,25 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 ),
                 Pair(
-                    userTwo.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userTwo.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userTwo.displayName!!
                 )
             )
@@ -72,11 +89,25 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 ),
                 Pair(
-                    userTwo.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userTwo.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userTwo.displayName!!
                 )
             )
@@ -111,11 +142,25 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 ),
                 Pair(
-                    userTwo.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userTwo.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userTwo.displayName!!
                 )
             )
@@ -148,14 +193,31 @@ class ParticipantsReducerUnitTest {
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
 
-            participants = listOf(userOne, userTwo, userThree, userFour).associateBy { it.userIdentifier.id },
+            participants = listOf(userOne,
+                userTwo,
+                userThree,
+                userFour).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 ),
                 Pair(
-                    userTwo.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userTwo.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userTwo.displayName!!
                 )
             )
@@ -197,7 +259,14 @@ class ParticipantsReducerUnitTest {
             "invalid participantTyping: ${newState.participantTyping}",
             mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.userIdentifier.id + OffsetDateTime.of(2001,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 )
             ),
@@ -216,7 +285,14 @@ class ParticipantsReducerUnitTest {
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userFour.userIdentifier,
-                receivedOn = OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2))
+                receivedOn = OffsetDateTime.of(2001,
+                    3,
+                    26,
+                    1,
+                    0,
+                    1,
+                    0,
+                    org.threeten.bp.ZoneOffset.ofHours(2))
             )
         )
 
@@ -238,7 +314,14 @@ class ParticipantsReducerUnitTest {
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
-                Pair(userOne.userIdentifier.id + OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, ZoneOffset.ofHours(2)), userOne.displayName!!)
+                Pair(userOne.userIdentifier.id + OffsetDateTime.of(2001,
+                    3,
+                    26,
+                    1,
+                    0,
+                    1,
+                    0,
+                    ZoneOffset.ofHours(2)), userOne.displayName!!)
             )
         )
         val action = ParticipantAction.AddParticipantTyping(
@@ -257,8 +340,15 @@ class ParticipantsReducerUnitTest {
             newState.participantTyping,
             mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
-                    userOne.displayName!!
+                    userOne.userIdentifier.id + OffsetDateTime.of(2001,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.displayName
                 )
             )
         )
@@ -272,7 +362,14 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 )
             )
@@ -280,7 +377,14 @@ class ParticipantsReducerUnitTest {
         val action = ParticipantAction.RemoveParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
                 userIdentifier = userOne.userIdentifier,
-                receivedOn = OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2))
+                receivedOn = OffsetDateTime.of(2022,
+                    3,
+                    26,
+                    1,
+                    0,
+                    1,
+                    0,
+                    org.threeten.bp.ZoneOffset.ofHours(2))
             )
         )
 
@@ -303,7 +407,14 @@ class ParticipantsReducerUnitTest {
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
                 Pair(
-                    userOne.userIdentifier.id + OffsetDateTime.of(2022, 3, 26, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.userIdentifier.id + OffsetDateTime.of(2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 )
             )
@@ -357,8 +468,103 @@ class ParticipantsReducerUnitTest {
             mapOf(
                 Pair(
                     userOne.userIdentifier.id +
-                        OffsetDateTime.of(2001, 3, 28, 1, 0, 1, 0, org.threeten.bp.ZoneOffset.ofHours(2)),
+                        OffsetDateTime.of(2001,
+                            3,
+                            28,
+                            1,
+                            0,
+                            1,
+                            0,
+                            org.threeten.bp.ZoneOffset.ofHours(2)),
+                    userOne.displayName
+                )
+            )
+        )
+    }
+
+    @Test
+    fun participantsReducer_reduce_when_actionChatMessage_typingUserIsRemoved() {
+        // arrange
+        val reducer = ParticipantsReducerImpl()
+        val previousState = ParticipantsState(
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = mapOf(
+                Pair(
+                    userOne.userIdentifier.id +
+                        OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, ZoneOffset.ofHours(2)),
                     userOne.displayName!!
+                )
+            )
+        )
+
+        val messageInfoModel = MessageInfoModel(
+            id = null,
+            internalId = "54321",
+            messageType = ChatMessageType.TEXT,
+            content = "hello, world!",
+            senderCommunicationIdentifier = userOne.userIdentifier,
+        )
+
+        val action = ChatAction.MessageReceived(
+            message = messageInfoModel
+        )
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertEquals(
+            "invalid participantTyping: ${newState.participantTyping}",
+            newState.participantTyping, mapOf<String, String>()
+        )
+    }
+
+    @Test
+    fun participantsReducer_reduce_when_actionChatMessage_typingUserIsNotRemoved() {
+        // arrange
+        val reducer = ParticipantsReducerImpl()
+        val previousState = ParticipantsState(
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = mapOf(
+                Pair(
+                    userOne.userIdentifier.id +
+                        OffsetDateTime.of(2001, 3, 28, 1, 0, 1, 0, ZoneOffset.ofHours(2)),
+                    userOne.displayName!!
+                )
+            )
+        )
+
+        val messageInfoModel = MessageInfoModel(
+            id = null,
+            internalId = "54321",
+            messageType = ChatMessageType.TEXT,
+            content = "hello, world!",
+            senderCommunicationIdentifier = userTwo.userIdentifier,
+        )
+
+        val action = ChatAction.MessageReceived(
+            message = messageInfoModel
+        )
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertEquals(
+            "invalid participantTyping: ${newState.participantTyping}",
+            newState.participantTyping,
+            mapOf(
+                Pair(
+                    userOne.userIdentifier.id +
+                        OffsetDateTime.of(2001,
+                            3,
+                            28,
+                            1,
+                            0,
+                            1,
+                            0,
+                            ZoneOffset.ofHours(2)),
+                    userOne.displayName
                 )
             )
         )
