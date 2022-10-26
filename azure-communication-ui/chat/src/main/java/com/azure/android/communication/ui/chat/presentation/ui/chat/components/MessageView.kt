@@ -61,7 +61,7 @@ internal fun MessageView(viewModel: MessageViewModel) {
             ChatMessageType.TEXT -> BasicChatMessage(viewModel)
             ChatMessageType.HTML -> BasicChatMessage(viewModel)
             ChatMessageType.TOPIC_UPDATED -> SystemMessage(
-                icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled, /* TODO: update icon */
+                icon = R.drawable.azure_communication_ui_chat_ic_topic_changed_filled, /* TODO: update icon */
                 stringResource = R.string.azure_communication_ui_chat_topic_updated,
                 substitution = listOf(viewModel.message.topic ?: "Unknown")
             )

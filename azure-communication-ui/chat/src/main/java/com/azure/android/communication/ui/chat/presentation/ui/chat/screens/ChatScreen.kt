@@ -38,7 +38,6 @@ import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
-import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 @Composable
@@ -99,11 +98,11 @@ internal fun ChatScreen(
             }
         },
         bottomBar = {
-            Column {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 UnreadMessagesIndicatorView(
                     scrollState = listState,
-                    visible = listState.outOfViewItemCount() > 0,
-                    unreadCount = 0,
+                    visible = viewModel.unreadMessagesIndicatorVisibility,
+                    unreadCount = viewModel.unreadMessagesCount,
                     totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
                 )
 
