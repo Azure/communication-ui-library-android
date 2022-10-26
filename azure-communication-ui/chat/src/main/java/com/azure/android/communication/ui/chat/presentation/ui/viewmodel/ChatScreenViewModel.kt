@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
+import android.content.Context
 import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
@@ -35,6 +36,7 @@ private var buildCount = 0
 
 // Methods to Build the Chat Screen View Model from the Store
 internal fun buildChatScreenViewModel(
+    context: Context,
     store: AppStore<ReduxState>,
     messages: List<MessageInfoModel>,
     localUserIdentifier: String,
@@ -44,7 +46,7 @@ internal fun buildChatScreenViewModel(
         dispatchers = Dispatchers(store)
     }
     return ChatScreenViewModel(
-        messages = messages.toViewModelList(localUserIdentifier),
+        messages = messages.toViewModelList(context, localUserIdentifier),
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         error = store.getCurrentState().errorState.chatStateError,

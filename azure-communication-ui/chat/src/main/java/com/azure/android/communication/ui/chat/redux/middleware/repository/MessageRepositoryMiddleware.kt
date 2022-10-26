@@ -3,16 +3,20 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.NetworkAction
+import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import org.threeten.bp.OffsetDateTime
 
 internal interface MessageRepositoryMiddleware
 
@@ -36,6 +40,8 @@ internal class MessageRepositoryMiddlewareImpl(
                 is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
                 is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
+                is ParticipantAction.ParticipantsAdded -> processParticipantsAdded(action, store::dispatch)
+                is ParticipantAction.ParticipantsRemoved -> processParticipantsRemoved(action, store::dispatch)
                 is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
             }
 
@@ -69,6 +75,42 @@ internal class MessageRepositoryMiddlewareImpl(
         dispatch: Dispatch,
     ) {
         messageRepository.addPage(action.messages.reversed())
+        notifyUpdate(dispatch)
+    }
+
+    var skipFirstParticipantsAddedMessage = true
+    // Fake a message for Participant Added
+    private fun processParticipantsAdded(action: ParticipantAction.ParticipantsAdded, dispatch: Dispatch) {
+        // This comes through at start, but we don't want to pass it through
+        // since it's also in the historical messages
+        if (skipFirstParticipantsAddedMessage) {
+            skipFirstParticipantsAddedMessage = false
+            return
+        }
+        messageRepository.addLocalMessage(
+            MessageInfoModel(
+                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
+                participants = action.participants.map { it.displayName ?: "" },
+                content = null,
+                createdOn = OffsetDateTime.now(),
+                senderDisplayName = null,
+                messageType = ChatMessageType.PARTICIPANT_ADDED
+            )
+        )
+        notifyUpdate(dispatch)
+    }
+
+    private fun processParticipantsRemoved(action: ParticipantAction.ParticipantsRemoved, dispatch: Dispatch) {
+        messageRepository.addLocalMessage(
+            MessageInfoModel(
+                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
+                participants = action.participants.map { it.displayName ?: "" },
+                content = null,
+                createdOn = OffsetDateTime.now(),
+                senderDisplayName = null,
+                messageType = ChatMessageType.PARTICIPANT_REMOVED
+            )
+        )
         notifyUpdate(dispatch)
     }
 
