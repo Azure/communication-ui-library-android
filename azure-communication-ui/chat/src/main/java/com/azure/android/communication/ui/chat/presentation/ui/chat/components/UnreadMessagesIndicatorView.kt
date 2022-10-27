@@ -4,17 +4,21 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import kotlinx.coroutines.launch
 
@@ -29,21 +33,37 @@ internal fun UnreadMessagesIndicatorView(
     totalMessages: Int,
 ) {
     val scope = rememberCoroutineScope()
+    val content = LocalContext.current
     AnimatedVisibility(visible = visible) {
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .background(color = ChatCompositeTheme.colors.component)
-        ) {
-            BasicText(
-                text = "View $unreadCount new messages",
-                modifier = Modifier.clickable {
-                    scope.launch {
-                        scrollState.animateScrollToItem(totalMessages - 1)
-                    }
+        ExtendedFloatingActionButton(
+            icon = {
+                Icon(
+                    painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_down_16_filled),
+                    modifier = Modifier.height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
+                        .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPadding),
+                    contentDescription = null
+                )
+            },
+            text = {
+                Text(
+                    text = when (unreadCount) {
+                        1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages)
+                        else -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages, unreadCount.toString())
+                    },
+                    fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize
+                )
+            },
+            onClick = {
+                scope.launch {
+                    scrollState.animateScrollToItem(totalMessages)
                 }
-            )
-        }
+            },
+            backgroundColor = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
+            contentColor = ChatCompositeTheme.colors.background,
+            modifier = Modifier
+                .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorHeight)
+                .clip(ChatCompositeTheme.shapes.unreadMessagesIndicator)
+        )
     }
 }
 

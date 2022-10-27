@@ -29,10 +29,13 @@ class ChatCompositeActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        chatComposite.stop()
+        if (isFinishing) {
+            chatComposite.stop()
+        }
     }
 
     companion object {
         const val KEY_INSTANCE_ID = "ChatCompositeActivity.InstanceID"
+        const val UNKNOWN_USER_NAME = "unknown"
     }
 }

@@ -33,6 +33,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.testTag
+import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 
@@ -80,9 +82,10 @@ internal fun MessageInput(
     BasicTextField(
         modifier = Modifier
             .fillMaxWidth(fraction = 0.9f)
-            .padding(6.dp)
+            .padding(5.dp)
             .heightIn(52.dp, maxInputHeight)
             .onFocusChanged { onTextFieldFocused(it.isFocused) }
+            .testTag(UITestTags.MESSAGE_INPUT_BOX)
             .then(semantics),
 
         value = textContent,

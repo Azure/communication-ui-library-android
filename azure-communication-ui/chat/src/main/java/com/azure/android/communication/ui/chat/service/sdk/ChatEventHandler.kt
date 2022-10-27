@@ -48,16 +48,19 @@ internal class ChatEventHandler {
         ChatEventWrapper(ChatEventType.PARTICIPANTS_REMOVED, eventReceiver)
 
     private lateinit var chatThreadID: String
+    private lateinit var localParticipantIdentifier: String
     private lateinit var eventSubscriber: (ChatEventModel) -> Unit
 
     fun start(
         chatClient: ChatClient,
         threadID: String,
+        localParticipantIdentifier: String,
         eventSubscriber: (ChatEventModel) -> Unit,
     ) {
 
         this.chatThreadID = threadID
         this.eventSubscriber = eventSubscriber
+        this.localParticipantIdentifier = localParticipantIdentifier
 
         chatClient.addEventHandler(ChatEventType.CHAT_MESSAGE_RECEIVED, messageReceivedEvent)
         chatClient.addEventHandler(ChatEventType.CHAT_MESSAGE_EDITED, messageEditedEvent)
@@ -131,6 +134,9 @@ internal class ChatEventHandler {
             }
             ChatEventType.TYPING_INDICATOR_RECEIVED -> {
                 val event = chatEvent as TypingIndicatorReceivedEvent
+                if (this.localParticipantIdentifier == event.sender.into().id) {
+                    return
+                }
                 val model = ParticipantTimestampInfoModel(
                     userIdentifier = event.sender.into(),
                     receivedOn = event.receivedOn

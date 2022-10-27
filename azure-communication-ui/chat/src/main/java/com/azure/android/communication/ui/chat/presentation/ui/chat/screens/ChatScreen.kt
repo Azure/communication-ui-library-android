@@ -5,19 +5,18 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,6 +26,7 @@ import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeT
 import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenStateViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.FluentCircularIndicator
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
@@ -36,7 +36,7 @@ import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
-import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 @Composable
 internal fun ChatScreen(
@@ -67,9 +67,10 @@ internal fun ChatScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight()
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    FluentCircularIndicator()
                 }
             } else {
                 MessageListView(
@@ -78,20 +79,21 @@ internal fun ChatScreen(
                         .fillMaxWidth(),
                     messages = viewModel.messages,
                     scrollState = listState,
-                    viewModel.postAction
+                    showLoading = viewModel.areMessagesLoading,
+                    dispatchers = viewModel.postAction
                 )
             }
         },
         bottomBar = {
-            Column {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 UnreadMessagesIndicatorView(
                     scrollState = listState,
-                    visible = listState.outOfViewItemCount() > 0,
-                    unreadCount = 0,
+                    visible = viewModel.unreadMessagesIndicatorVisibility,
+                    unreadCount = viewModel.unreadMessagesCount,
                     totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
                 )
 
-                Box(modifier = Modifier.fillMaxWidth().height(ChatCompositeTheme.dimensions.typingIndicatorAreaHeight), contentAlignment = Alignment.CenterStart) {
+                Box(contentAlignment = Alignment.CenterStart) {
                     TypingIndicatorView(viewModel.typingParticipants.toList())
                 }
 
@@ -108,13 +110,15 @@ internal fun ChatScreen(
 @Preview
 @Composable
 internal fun ChatScreenPreview() {
+    AndroidThreeTen.init(LocalContext.current)
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                messages = MOCK_MESSAGES.toViewModelList(MOCK_LOCAL_USER_ID),
+                messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
-                typingParticipants = setOf("John Doe", "Mary Sue"),
+                areMessagesLoading = true,
+                typingParticipants = listOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(
                     RemoteParticipantInfoModel(
