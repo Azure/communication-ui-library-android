@@ -41,6 +41,7 @@ internal class MessageRepositoryListStorageUnitTest {
         for (i in 0..50) {
             Assert.assertEquals("Message $i", messageRepository[i].content)
         }
+        MessageRepository.tearDown()
     }
 
     @Test
@@ -61,6 +62,7 @@ internal class MessageRepositoryListStorageUnitTest {
         messageRepository.removeMessage(messageRepository.get(0))
 
         Assert.assertEquals(numberOfTestMessages, messageRepository.size)
+        MessageRepository.tearDown()
     }
 
     @Test
@@ -87,6 +89,7 @@ internal class MessageRepositoryListStorageUnitTest {
         messageRepository.editMessage(newMessage)
 
         Assert.assertEquals("Edited Message 0", messageRepository.get(0).content)
+        MessageRepository.tearDown()
     }
 
     @Test
@@ -113,6 +116,7 @@ internal class MessageRepositoryListStorageUnitTest {
         )
 
         Assert.assertEquals(numberOfTestMessages - 1, storage.size)
+        MessageRepository.tearDown()
     }
 
     @Test
@@ -162,5 +166,6 @@ internal class MessageRepositoryListStorageUnitTest {
         Assert.assertEquals("5", repository[5].id)
         Assert.assertEquals("6", repository[6].id)
         Assert.assertEquals("7", repository[7].id)
+        MessageRepository.tearDown()
     }
 }

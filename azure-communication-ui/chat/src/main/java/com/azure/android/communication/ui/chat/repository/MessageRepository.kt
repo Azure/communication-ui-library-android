@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.chat.repository.storage.MessageReposit
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListWriter
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeReader
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeWriter
+import org.jetbrains.annotations.TestOnly
 
 internal enum class MessageRepositoryType {
     SYNCHRONIZED_LIST,
@@ -53,6 +54,11 @@ internal class MessageRepository private constructor(
                     }
                     ) as MessageRepository
             }
+        }
+
+        @TestOnly
+        fun tearDown() {
+            instance = null
         }
 
         private fun createListBackedRepository(): MessageRepository {

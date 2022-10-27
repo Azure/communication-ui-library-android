@@ -23,6 +23,7 @@ class MessageRepositoryUnitTest {
         )
         val newStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
         Assert.assertEquals(false, newStorage.writerDelegate.javaClass.isInstance(MessageRepositoryTreeWriter()))
+        MessageRepository.tearDown()
     }
 
     @Test
@@ -34,5 +35,8 @@ class MessageRepositoryUnitTest {
             true,
             treeStorage.readerDelegate.javaClass.isInstance(MessageRepositoryTreeReader(messageStorageWriter))
         )
+        val newStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
+        Assert.assertEquals(false, newStorage.writerDelegate.javaClass.isInstance(MessageRepositoryListWriter()))
+        MessageRepository.tearDown()
     }
 }
