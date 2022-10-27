@@ -9,6 +9,12 @@ import com.azure.android.communication.ui.chat.repository.storage.MessageReposit
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeReader
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeWriter
 
+internal enum class MessageRepositoryType {
+    SYNCHRONIZED_LIST,
+    TREEMAP,
+    SKIP_LIST
+}
+
 internal class MessageRepository private constructor(
     val readerDelegate: MessageRepositoryReader,
     val writerDelegate: MessageRepositoryWriter
@@ -27,7 +33,29 @@ internal class MessageRepository private constructor(
     override fun getLastMessage(): MessageInfoModel? = writerDelegate.getLastMessage()
 
     companion object {
-        fun createListBackedRepository(): MessageRepository {
+
+        private var instance: MessageRepository? = null
+
+        fun getInstance(type: MessageRepositoryType): MessageRepository {
+
+            return synchronized(this) {
+                (
+                    if (instance != null) {
+                        instance
+                    } else {
+                        when (type) {
+                            MessageRepositoryType.SYNCHRONIZED_LIST -> instance = createListBackedRepository()
+                            MessageRepositoryType.TREEMAP -> instance = createTreeBackedRepository()
+                            else -> {
+                            }
+                        }
+                        instance
+                    }
+                    ) as MessageRepository
+            }
+        }
+
+        private fun createListBackedRepository(): MessageRepository {
             val writer = MessageRepositoryListWriter()
             val reader = MessageRepositoryListReader(writer)
             return MessageRepository(
@@ -36,7 +64,7 @@ internal class MessageRepository private constructor(
             )
         }
 
-        fun createTreeBackedRepository(): MessageRepository {
+        private fun createTreeBackedRepository(): MessageRepository {
             val writer = MessageRepositoryTreeWriter()
             val reader = MessageRepositoryTreeReader(writer)
             return MessageRepository(

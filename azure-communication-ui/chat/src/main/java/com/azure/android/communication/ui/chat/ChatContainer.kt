@@ -30,6 +30,7 @@ import com.azure.android.communication.ui.chat.redux.reducer.RepositoryReducerIm
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryType
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
@@ -94,7 +95,7 @@ internal class ChatContainer(
         ServiceLocator.getInstance(instanceId = instanceId).apply {
             addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
 
-            val messageRepository = MessageRepository.createTreeBackedRepository()
+            val messageRepository = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
 
             addTypedBuilder { chatComposite }
             addTypedBuilder<List<MessageInfoModel>> { messageRepository }

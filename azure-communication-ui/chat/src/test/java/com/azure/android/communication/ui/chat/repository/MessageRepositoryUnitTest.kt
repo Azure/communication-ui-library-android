@@ -1,9 +1,5 @@
-/*
- * *
- *  * Copyright (c) Microsoft Corporation. All rights reserved.
- *  * Licensed under the MIT License.
- *
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 package com.azure.android.communication.ui.chat.repository
 
@@ -18,18 +14,20 @@ class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_createListStorage_unitTest() {
-        val listStorage: MessageRepository = MessageRepository.createListBackedRepository()
+        val listStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
         val messageStorageWriter = MessageRepositoryListWriter()
         Assert.assertEquals(true, listStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
         Assert.assertEquals(
             true,
             listStorage.readerDelegate.javaClass.isInstance(MessageRepositoryListReader(messageStorageWriter))
         )
+        val newStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        Assert.assertEquals(false, newStorage.writerDelegate.javaClass.isInstance(MessageRepositoryTreeWriter()))
     }
 
     @Test
     fun messageRepository_createTreeStorage_unitTest() {
-        val treeStorage: MessageRepository = MessageRepository.createTreeBackedRepository()
+        val treeStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
         val messageStorageWriter = MessageRepositoryTreeWriter()
         Assert.assertEquals(true, treeStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
         Assert.assertEquals(
