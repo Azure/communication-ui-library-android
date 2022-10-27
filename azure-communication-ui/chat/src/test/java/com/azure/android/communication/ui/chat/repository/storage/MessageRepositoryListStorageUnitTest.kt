@@ -1,14 +1,11 @@
-/*
- * *
- *  * Copyright (c) Microsoft Corporation. All rights reserved.
- *  * Licensed under the MIT License.
- *
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepositoryType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import org.junit.Assert
 import org.junit.Test
@@ -23,7 +20,7 @@ internal class MessageRepositoryListStorageUnitTest {
 
     @Test
     fun messageRepositoryListStorage_addPage_test() {
-        val messageRepository = MessageRepository.createListBackedRepository()
+        val messageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
 
         val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
         val numberOfTestMessages = 51
@@ -48,7 +45,7 @@ internal class MessageRepositoryListStorageUnitTest {
 
     @Test
     fun messageRepositoryListStorage_removeMessage_test() {
-        val messageRepository = MessageRepository.createListBackedRepository()
+        val messageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -68,7 +65,7 @@ internal class MessageRepositoryListStorageUnitTest {
 
     @Test
     fun messageRepositoryListStorage_editMessage_test() {
-        val messageRepository = MessageRepository.createListBackedRepository()
+        val messageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -94,7 +91,7 @@ internal class MessageRepositoryListStorageUnitTest {
 
     @Test
     fun messageRepositoryListStorage_removeMessageTest() {
-        val storage = MessageRepository.createListBackedRepository()
+        val storage = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
 
         val numberOfTestMessages = 50
         for (i in 1..numberOfTestMessages) {
@@ -120,7 +117,7 @@ internal class MessageRepositoryListStorageUnitTest {
 
     @Test
     fun messageRepositoryListStorage_OutOfOrderTest() {
-        val repository = MessageRepository.createListBackedRepository()
+        val repository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
 
         // Add ID 4..7
         for (i in 4..7) {
