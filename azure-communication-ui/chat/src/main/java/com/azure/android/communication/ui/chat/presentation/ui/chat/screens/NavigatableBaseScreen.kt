@@ -62,7 +62,7 @@ internal fun NavigatableBaseScreenPreview() {
                 buildCount = 2,
                 // Uncomment to verify nav
                 // navigationStatus = NavigationStatus.PARTICIPANTS,
-                typingParticipants = setOf("John Doe", "Mary Sue"),
+                typingParticipants = listOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(
                     RemoteParticipantInfoModel(

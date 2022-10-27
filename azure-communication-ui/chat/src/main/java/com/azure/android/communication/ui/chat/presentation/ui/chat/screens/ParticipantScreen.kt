@@ -69,7 +69,7 @@ internal fun ParticipantScreenPreview() {
                 areMessagesLoading = false,
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
-                typingParticipants = setOf("John Doe", "Mary Sue"),
+                typingParticipants = listOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(
                     RemoteParticipantInfoModel(
