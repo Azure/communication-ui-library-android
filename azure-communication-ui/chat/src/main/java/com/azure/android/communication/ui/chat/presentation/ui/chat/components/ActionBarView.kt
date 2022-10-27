@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,17 +19,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.azure.android.communication.ui.chat.redux.action.Action
 
 @Composable
 internal fun ActionBarView(
-    participantCount: Int,
-    topic: String,
+    title: String,
+    subTitle: String?,
+    onTitleClicked: (() -> Unit)? = null,
     onBackButtonPressed: () -> Unit = { },
+    postAction: (Action) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         TopAppBar(
@@ -46,24 +52,23 @@ internal fun ActionBarView(
             },
             backgroundColor = Color.White,
             title = {
+                var modifier = Modifier.padding(start = 90.dp)
+                if (onTitleClicked != null) {
+                    modifier = modifier.clickable { onTitleClicked() }
+                }
+
                 Column(
-                    modifier = Modifier.padding(start = 90.dp),
+                    modifier = modifier,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = topic,
+                        text = title,
                         textAlign = TextAlign.Center,
                         style = ChatCompositeTheme.typography.title
                     )
-                    if (participantCount == 1) {
+                    if (subTitle != null) {
                         Text(
-                            text = "$participantCount Participant",
-                            textAlign = TextAlign.Center,
-                            style = ChatCompositeTheme.typography.body
-                        )
-                    } else {
-                        Text(
-                            text = "$participantCount Participants",
+                            text = subTitle,
                             textAlign = TextAlign.Center,
                             style = ChatCompositeTheme.typography.body
                         )
@@ -84,7 +89,8 @@ internal fun ActionBarView(
 @Composable
 internal fun PreviewActionBarView() {
     ActionBarView(
-        participantCount = 4,
-        topic = "Topic"
+        subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, 4),
+        title = "Topic",
+        onTitleClicked = {}
     ) {}
 }

@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
-import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
+import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.NavigatableBaseScreen
 import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.buildChatScreenViewModel
@@ -21,9 +21,9 @@ import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 internal class ChatView(context: Context, private val instanceId: Int) : FrameLayout(context) {
     private val composeView = ComposeView(context)
-    private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
     private val locator get() = ServiceLocator.getInstance(instanceId)
     private val dispatch: Dispatch by lazy { locator.locate() }
+    private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
 
     init {
         addView(composeView)
@@ -42,13 +42,14 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
                     context = context,
                     store = store,
                     messages = locator.locate(),
-                    localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity
+                    localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
+                    dispatch = locator.locate()
                 )
             },
             onChanged = {
                 composeView.setContent {
                     ChatCompositeTheme {
-                        ChatScreen(viewModel = it)
+                        NavigatableBaseScreen(viewModel = it)
                     }
                 }
             },
