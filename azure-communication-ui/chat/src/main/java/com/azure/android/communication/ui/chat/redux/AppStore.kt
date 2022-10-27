@@ -58,7 +58,8 @@ internal class AppStore<S>(
     }
 
     private fun reduce(action: Action) {
-        stateFlow.value = reducer.reduce(stateFlow.value, action)
+        val newState = reducer.reduce(stateFlow.value, action)
+        stateFlow.value = newState
     }
 
     private fun compose(functions: List<(Dispatch) -> Dispatch>): (Dispatch) -> Dispatch =
