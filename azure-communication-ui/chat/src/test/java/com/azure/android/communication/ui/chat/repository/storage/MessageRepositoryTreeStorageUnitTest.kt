@@ -33,7 +33,6 @@ class MessageRepositoryTreeStorageUnitTest {
         for (i in 1..numberOfTestMessages) {
             Assert.assertEquals("Message $i", storage[i - 1].content)
         }
-        // MessageRepository.tearDown()
     }
 
     @Test
@@ -61,7 +60,6 @@ class MessageRepositoryTreeStorageUnitTest {
 
         Assert.assertEquals(numberOfTestMessages - 1, storage.size)
         Assert.assertEquals(16, storage.getLastMessage()?.id?.toLong() ?: 0)
-        // MessageRepository.tearDown()
     }
 
     @Test
@@ -79,7 +77,6 @@ class MessageRepositoryTreeStorageUnitTest {
         }
 
         storage.getLastMessage()?.id?.let { Assert.assertEquals(17, it.toLong()) }
-        // MessageRepository.tearDown()
     }
 
     @Test
@@ -105,7 +102,6 @@ class MessageRepositoryTreeStorageUnitTest {
         )
 
         Assert.assertEquals("Message 55", storage[4].content)
-        // MessageRepository.tearDown()
     }
 
     @Test
@@ -124,7 +120,6 @@ class MessageRepositoryTreeStorageUnitTest {
         }
         storage.addPage(messageList)
         Assert.assertEquals(numberOfTestMessages, storage.size)
-        // MessageRepository.tearDown()
     }
 
     @Test
@@ -176,6 +171,5 @@ class MessageRepositoryTreeStorageUnitTest {
         println("---------- ExecutionTime ------------")
 
         Assert.assertEquals(true, startTime <endTime)
-        // MessageRepository.tearDown()
     }
 }

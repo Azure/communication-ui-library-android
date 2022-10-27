@@ -68,7 +68,6 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
             midKey = (highestKey + lowestKey).div(2)
 
             elements = treeMapStorage.subMap(lowestKey, midKey + 1).size
-            // println("Midkey: $midKey ----- Elements: $elements ----- Kth: $items ----- LowestKey: $lowestKey ------ HighestKey: $highestKey")
             if (elements < items) {
                 items -= elements
                 lowestKey = midKey + 1
