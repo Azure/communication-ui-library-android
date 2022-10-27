@@ -21,4 +21,8 @@
     <string name="azure_communication_ui_chat_topic_updated">Topic was updated to \"%1$s\"</string>
     <string name="azure_communication_ui_chat_message_today">Today</string>
     <string name="azure_communication_ui_chat_message_yesterday">Yesterday</string>
+    <string name="azure_communication_ui_chat_unnamed_participant">Unnamed Participant</string>
+    <string name="azure_communication_ui_chat_in_this_chat_count">In this chat (%1$d)</string>
+    <string name="azure_communication_ui_chat_people">People</string>
+    <string name="azure_communication_ui_chat_count_people">%1$d people</string>
 </resources>

@@ -59,30 +59,31 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
 
     fun searchItem(kth: Int): MessageInfoModel {
 
-        var highestKey = treeMapStorage.lastKey() + 1
+        var highestKey = treeMapStorage.lastKey()
         var lowestKey = treeMapStorage.firstKey()
         var elements = 0
         var midKey: Long = 0
+        var items = kth
         while (lowestKey <= highestKey) {
             midKey = (highestKey + lowestKey).div(2)
 
-            elements = treeMapStorage.headMap(midKey).size
-
-            if (elements < kth) {
+            elements = treeMapStorage.subMap(lowestKey, midKey + 1).size
+            if (elements < items) {
+                items -= elements
                 lowestKey = midKey + 1
-            } else if (elements > kth) {
+            } else if (elements > items) {
                 highestKey = midKey - 1
             } else {
                 break
             }
         }
 
-        val key = treeMapStorage.headMap(midKey).lastKey()
+        val key = treeMapStorage.subMap(lowestKey, midKey + 1).lastKey()
         return treeMapStorage.get(key)!!
     }
 
     private fun getOrderId(message: MessageInfoModel): Long {
-        return message.id?.toLong() ?: 0
+        return message.id?.toLong() ?: 0L
     }
 
     private fun mergeWithPreviousMessage(
