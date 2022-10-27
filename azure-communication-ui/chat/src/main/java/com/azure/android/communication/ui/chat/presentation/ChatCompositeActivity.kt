@@ -36,5 +36,6 @@ class ChatCompositeActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_INSTANCE_ID = "ChatCompositeActivity.InstanceID"
+        const val UNKNOWN_USER_NAME = "unknown"
     }
 }
