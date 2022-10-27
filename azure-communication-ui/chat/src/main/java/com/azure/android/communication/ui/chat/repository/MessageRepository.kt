@@ -27,6 +27,7 @@ internal class MessageRepository private constructor(
     override fun getLastMessage(): MessageInfoModel? = writerDelegate.getLastMessage()
 
     companion object {
+
         fun createListBackedRepository(): MessageRepository {
             val writer = MessageRepositoryListWriter()
             val reader = MessageRepositoryListReader(writer)
