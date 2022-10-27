@@ -14,29 +14,23 @@ class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_createListStorage_unitTest() {
-        val listStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
+        val listStorage: MessageRepository = MessageRepository.createListBackedRepository()
         val messageStorageWriter = MessageRepositoryListWriter()
         Assert.assertEquals(true, listStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
         Assert.assertEquals(
             true,
             listStorage.readerDelegate.javaClass.isInstance(MessageRepositoryListReader(messageStorageWriter))
         )
-        val newStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
-        Assert.assertEquals(false, newStorage.writerDelegate.javaClass.isInstance(MessageRepositoryTreeWriter()))
-        MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepository_createTreeStorage_unitTest() {
-        val treeStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        val treeStorage: MessageRepository = MessageRepository.createTreeBackedRepository()
         val messageStorageWriter = MessageRepositoryTreeWriter()
         Assert.assertEquals(true, treeStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
         Assert.assertEquals(
             true,
             treeStorage.readerDelegate.javaClass.isInstance(MessageRepositoryTreeReader(messageStorageWriter))
         )
-        val newStorage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
-        Assert.assertEquals(false, newStorage.writerDelegate.javaClass.isInstance(MessageRepositoryListWriter()))
-        MessageRepository.tearDown()
     }
 }

@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepository
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import org.junit.Assert
 import org.junit.Test
@@ -20,7 +19,7 @@ internal class MessageRepositoryListStorageUnitTest {
 
     @Test
     fun messageRepositoryListStorage_addPage_test() {
-        val messageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
         val numberOfTestMessages = 51
@@ -41,12 +40,11 @@ internal class MessageRepositoryListStorageUnitTest {
         for (i in 0..50) {
             Assert.assertEquals("Message $i", messageRepository[i].content)
         }
-        MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryListStorage_removeMessage_test() {
-        val messageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -62,12 +60,11 @@ internal class MessageRepositoryListStorageUnitTest {
         messageRepository.removeMessage(messageRepository.get(0))
 
         Assert.assertEquals(numberOfTestMessages, messageRepository.size)
-        MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryListStorage_editMessage_test() {
-        val messageRepository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
+        val messageRepository = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 51
         for (i in 0..numberOfTestMessages) {
@@ -89,12 +86,11 @@ internal class MessageRepositoryListStorageUnitTest {
         messageRepository.editMessage(newMessage)
 
         Assert.assertEquals("Edited Message 0", messageRepository.get(0).content)
-        MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryListStorage_removeMessageTest() {
-        val storage = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
+        val storage = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 50
         for (i in 1..numberOfTestMessages) {
@@ -116,12 +112,11 @@ internal class MessageRepositoryListStorageUnitTest {
         )
 
         Assert.assertEquals(numberOfTestMessages - 1, storage.size)
-        MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryListStorage_OutOfOrderTest() {
-        val repository = MessageRepository.getInstance(MessageRepositoryType.SYNCHRONIZED_LIST)
+        val repository = MessageRepository.createListBackedRepository()
 
         // Add ID 4..7
         for (i in 4..7) {
@@ -166,6 +161,5 @@ internal class MessageRepositoryListStorageUnitTest {
         Assert.assertEquals("5", repository[5].id)
         Assert.assertEquals("6", repository[6].id)
         Assert.assertEquals("7", repository[7].id)
-        MessageRepository.tearDown()
     }
 }

@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepository
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import org.junit.Assert
 import org.junit.Test
@@ -18,7 +17,7 @@ class MessageRepositoryTreeStorageUnitTest {
     @Test
     fun messageRepositoryTreeStorage_addMessage_test() {
 
-        val storage = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        val storage = MessageRepository.createTreeBackedRepository()
         val numberOfTestMessages = 170
         for (i in 1..numberOfTestMessages) {
             storage.addLocalMessage(
@@ -34,13 +33,13 @@ class MessageRepositoryTreeStorageUnitTest {
         for (i in 1..numberOfTestMessages) {
             Assert.assertEquals("Message $i", storage[i - 1].content)
         }
-        MessageRepository.tearDown()
+        // MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryTreeStorage_removeMessage_test() {
 
-        val storage = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        val storage = MessageRepository.createTreeBackedRepository()
         val numberOfTestMessages = 17
         for (i in 1..numberOfTestMessages) {
             storage.addLocalMessage(
@@ -62,12 +61,12 @@ class MessageRepositoryTreeStorageUnitTest {
 
         Assert.assertEquals(numberOfTestMessages - 1, storage.size)
         Assert.assertEquals(16, storage.getLastMessage()?.id?.toLong() ?: 0)
-        MessageRepository.tearDown()
+        // MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryTreeStorage_getLastMessage_test() {
-        val storage = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        val storage = MessageRepository.createTreeBackedRepository()
         val numberOfTestMessages = 17
         for (i in 1..numberOfTestMessages) {
             storage.addLocalMessage(
@@ -80,12 +79,12 @@ class MessageRepositoryTreeStorageUnitTest {
         }
 
         storage.getLastMessage()?.id?.let { Assert.assertEquals(17, it.toLong()) }
-        MessageRepository.tearDown()
+        // MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryTreeStorage_editMessage_test() {
-        val storage = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        val storage = MessageRepository.createTreeBackedRepository()
         val numberOfTestMessages = 17
         for (i in 1..numberOfTestMessages) {
             storage.addLocalMessage(
@@ -106,12 +105,12 @@ class MessageRepositoryTreeStorageUnitTest {
         )
 
         Assert.assertEquals("Message 55", storage[4].content)
-        MessageRepository.tearDown()
+        // MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryTreeStorage_addPage_test() {
-        val storage = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        val storage = MessageRepository.createTreeBackedRepository()
         val numberOfTestMessages = 50
         val messageList = mutableListOf<MessageInfoModel>()
         for (i in 1..numberOfTestMessages) {
@@ -125,17 +124,17 @@ class MessageRepositoryTreeStorageUnitTest {
         }
         storage.addPage(messageList)
         Assert.assertEquals(numberOfTestMessages, storage.size)
-        MessageRepository.tearDown()
+        // MessageRepository.tearDown()
     }
 
     @Test
     fun messageRepositoryTreeStorage_PerformanceTest() {
-        val storage: MessageRepository = MessageRepository.getInstance(MessageRepositoryType.TREEMAP)
+        val storage = MessageRepository.createTreeBackedRepository()
 
         val startTime = System.nanoTime()
 
         // Increase decrease the number of messages to find out the execution time
-        var numberOfTestMessages = 10000
+        var numberOfTestMessages = 20000
         for (i in 1..numberOfTestMessages) {
             storage.addServerMessage(
                 MessageInfoModel(
@@ -177,6 +176,6 @@ class MessageRepositoryTreeStorageUnitTest {
         println("---------- ExecutionTime ------------")
 
         Assert.assertEquals(true, startTime <endTime)
-        MessageRepository.tearDown()
+        // MessageRepository.tearDown()
     }
 }
