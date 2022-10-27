@@ -161,4 +161,18 @@ public class ChatComposite {
             showCompositeUI(context);
         }
     }
+
+    void launchTest(final Context context,
+                    final ChatCompositeRemoteOptions remoteOptions,
+                    final ChatCompositeLocalOptions localOptions) {
+        chatContainer.start(context, remoteOptions, localOptions);
+        showTestCompositeUI(context);
+    }
+
+    private void showTestCompositeUI(final Context context) {
+        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
+        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
+        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(launchIntent);
+    }
 }
