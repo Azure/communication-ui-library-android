@@ -14,7 +14,11 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
     override fun reduce(state: ParticipantsState, action: Action): ParticipantsState =
         when (action) {
             is ParticipantAction.ParticipantsAdded -> {
-                state.copy(participants = state.participants + action.participants.associateBy { it.userIdentifier.id })
+                state.copy(
+                    participants = state.participants + action.participants.associateBy { it.userIdentifier.id },
+                    participantsReadReceiptMap = state.participantsReadReceiptMap +
+                        action.participants.map { Pair(it.userIdentifier.id, state.latestReadMessageTimestamp) }
+                )
             }
             is ParticipantAction.ParticipantsRemoved -> {
                 val participantTypingKeys = state.participantTyping.keys
@@ -27,7 +31,9 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 }
                 state.copy(
                     participants = state.participants - removedParticipants,
-                    participantTyping = participantTyping
+                    participantTyping = participantTyping,
+                    participantsReadReceiptMap =
+                    state.participantsReadReceiptMap - action.participants.map { it.userIdentifier.id }
                 )
             }
             is ParticipantAction.AddParticipantTyping -> {
@@ -61,6 +67,15 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 } else {
                     state
                 }
+            }
+            is ParticipantAction.ReadReceiptReceived -> {
+                val participantsReadReceiptMap = state.participantsReadReceiptMap.toMutableMap()
+                participantsReadReceiptMap[action.infoModel.userIdentifier.id] = action.infoModel.receivedOn
+                val latestReadMessageTimestamp = participantsReadReceiptMap.values.min()
+                state.copy(
+                    participantsReadReceiptMap = participantsReadReceiptMap,
+                    latestReadMessageTimestamp = latestReadMessageTimestamp
+                )
             }
             else -> state
         }

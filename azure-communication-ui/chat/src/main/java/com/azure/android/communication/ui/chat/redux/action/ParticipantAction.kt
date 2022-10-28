@@ -13,4 +13,5 @@ internal sealed class ParticipantAction : Action {
         ParticipantAction()
     class AddParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
     class RemoveParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
+    class ReadReceiptReceived(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
 }

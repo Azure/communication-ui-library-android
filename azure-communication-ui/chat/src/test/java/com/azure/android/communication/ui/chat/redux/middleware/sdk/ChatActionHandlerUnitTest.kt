@@ -453,7 +453,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun chatMiddlewareActionHandler_sendReadReceipt_then_dispatch_ChatActionSendReadReceipt() =
+    fun chatMiddlewareActionHandler_sendReadReceipt_then_send_ChatActionSendReadReceipt() =
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
@@ -463,33 +463,26 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 content = "hello, world!"
             )
 
-            val returnMessageId = "test"
+            val testId = "test"
 
             val sendReadReceiptCompletableFuture = CompletableFuture<Void>()
 
             val mockChatService: ChatService = mock {
                 on { sendReadReceipt(messageInfoModel.id.toString()) } doReturn sendReadReceiptCompletableFuture
             }
-
             val chatHandler = ChatActionHandler(mockChatService)
 
             val action = ChatAction.MessageRead(messageInfoModel.id.toString())
 
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore = mock<AppStore<ReduxState>> { }
             val mockAppState = mock<ReduxState> {}
 
             // act
             chatHandler.onAction(action, mockAppStore::dispatch, mockAppState)
-            sendReadReceiptCompletableFuture.complete(any())
+            sendReadReceiptCompletableFuture.complete(null)
 
             // assert
-            verify(mockAppStore, times(1)).dispatch(
-                argThat { action ->
-                    action is ChatAction.MessageRead && action.messageId == returnMessageId
-                }
-            )
+            verify(mockChatService, times(1)).sendReadReceipt(testId)
         }
 
     @ExperimentalCoroutinesApi
