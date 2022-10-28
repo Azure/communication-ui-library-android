@@ -33,7 +33,6 @@ class MessageRepositoryTreeStorageUnitTest {
         for (i in 1..numberOfTestMessages) {
             Assert.assertEquals("Message $i", storage[i - 1].content)
         }
-        // Assert.assertEquals("Message 16", storage[15].content)
     }
 
     @Test
@@ -121,5 +120,56 @@ class MessageRepositoryTreeStorageUnitTest {
         }
         storage.addPage(messageList)
         Assert.assertEquals(numberOfTestMessages, storage.size)
+    }
+
+    @Test
+    fun messageRepositoryTreeStorage_PerformanceTest() {
+        val storage = MessageRepository.createTreeBackedRepository()
+
+        val startTime = System.nanoTime()
+
+        // Increase decrease the number of messages to find out the execution time
+        var numberOfTestMessages = 20000
+        for (i in 1..numberOfTestMessages) {
+            storage.addServerMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT,
+                    topic = "chat",
+                    participants = emptyList(),
+                    senderDisplayName = "display name of sender"
+                )
+            )
+        }
+
+        // Edit Messages
+        for (i in 1..numberOfTestMessages) {
+            storage.editMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message ${i * 2}",
+                    messageType = ChatMessageType.TEXT,
+                    topic = "chat",
+                    participants = emptyList(),
+                    senderDisplayName = "display name of sender"
+                )
+            )
+        }
+
+        // delete messages
+        for (i in 1..numberOfTestMessages) {
+            storage.removeMessage(storage.get(storage.size - 1))
+        }
+
+        var endTime = System.nanoTime()
+        var executionTime: Double = (endTime - startTime).toDouble().div(1000000000.0)
+
+        println("---------- ExecutionTime ------------")
+        println("Time: $executionTime")
+        println("Time: ${endTime - startTime}")
+        println("---------- ExecutionTime ------------")
+
+        Assert.assertEquals(true, startTime <endTime)
     }
 }
