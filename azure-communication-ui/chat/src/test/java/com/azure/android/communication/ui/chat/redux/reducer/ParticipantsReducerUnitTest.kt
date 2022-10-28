@@ -71,6 +71,31 @@ class ParticipantsReducerUnitTest {
                     ),
                     userTwo.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val action = ParticipantAction.ParticipantsAdded(participants = listOf(userThree, userFour))
@@ -118,6 +143,31 @@ class ParticipantsReducerUnitTest {
                     ),
                     userTwo.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val userTwo_duplicate = RemoteParticipantInfoModel(
@@ -175,6 +225,31 @@ class ParticipantsReducerUnitTest {
                     ),
                     userTwo.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val userOne_duplicate = RemoteParticipantInfoModel(
@@ -238,6 +313,31 @@ class ParticipantsReducerUnitTest {
                     ),
                     userTwo.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val action =
@@ -260,7 +360,9 @@ class ParticipantsReducerUnitTest {
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
-            participantTyping = mapOf()
+            participantTyping = mapOf(),
+            participantsReadReceiptMap = mapOf(),
+            latestReadMessageTimestamp = OffsetDateTime.MIN
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -300,7 +402,9 @@ class ParticipantsReducerUnitTest {
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
-            participantTyping = mapOf()
+            participantTyping = mapOf(),
+            participantsReadReceiptMap = mapOf(),
+            latestReadMessageTimestamp = OffsetDateTime.MIN
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -349,6 +453,31 @@ class ParticipantsReducerUnitTest {
                     ),
                     userOne.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val action = ParticipantAction.AddParticipantTyping(
@@ -403,6 +532,31 @@ class ParticipantsReducerUnitTest {
                     ),
                     userOne.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val action = ParticipantAction.RemoveParticipantTyping(
@@ -452,6 +606,31 @@ class ParticipantsReducerUnitTest {
                     ),
                     userOne.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val action = ParticipantAction.RemoveParticipantTyping(
@@ -484,6 +663,31 @@ class ParticipantsReducerUnitTest {
                         OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
         val action = ParticipantAction.AddParticipantTyping(
@@ -531,6 +735,31 @@ class ParticipantsReducerUnitTest {
                         OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
 
@@ -568,6 +797,31 @@ class ParticipantsReducerUnitTest {
                         OffsetDateTime.of(2001, 3, 28, 1, 0, 1, 0, ZoneOffset.ofHours(2)),
                     userOne.displayName!!
                 )
+            ),
+            participantsReadReceiptMap = mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2022,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            latestReadMessageTimestamp = OffsetDateTime.of(
+                2022,
+                3,
+                26,
+                1,
+                0,
+                1,
+                0,
+                org.threeten.bp.ZoneOffset.ofHours(2)
             )
         )
 
@@ -606,6 +860,47 @@ class ParticipantsReducerUnitTest {
                     userOne.displayName
                 )
             )
+        )
+    }
+
+    @Test
+    fun participantsReducer_reduce_when_actionReadReceiptReceived_then_changeParticipantStateParticipants() {
+        // arrange
+        val reducer = ParticipantsReducerImpl()
+        val previousState = ParticipantsState(
+            participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
+            participantTyping = mapOf(),
+            participantsReadReceiptMap = mapOf(),
+            latestReadMessageTimestamp = OffsetDateTime.MIN
+        )
+        val action = ParticipantAction.ReadReceiptReceived(
+            infoModel = ParticipantTimestampInfoModel(
+                userIdentifier = userOne.userIdentifier,
+                receivedOn = OffsetDateTime.of(2001, 3, 26, 1, 0, 1, 0, ZoneOffset.ofHours(2))
+            )
+        )
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertEquals(
+            mapOf(
+                Pair(
+                    userOne.userIdentifier.id,
+                    OffsetDateTime.of(
+                        2001,
+                        3,
+                        26,
+                        1,
+                        0,
+                        1,
+                        0,
+                        org.threeten.bp.ZoneOffset.ofHours(2)
+                    )
+                )
+            ),
+            newState.participantsReadReceiptMap
         )
     }
 }
