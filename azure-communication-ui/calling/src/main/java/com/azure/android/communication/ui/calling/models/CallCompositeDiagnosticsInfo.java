@@ -10,6 +10,8 @@ public final class CallCompositeDiagnosticsInfo {
 
     private String lastKnownCallId;
 
+    CallCompositeDiagnosticsInfo() { }
+
     /**
      * Set last known call id.
      * @param lastKnownCallId last known call id.

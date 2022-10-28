@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeeti
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager;
 
+import static com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfoExtensionsKt.buildCallCompositeDiagnosticsInfo;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
@@ -216,7 +217,7 @@ public final class CallComposite {
         final DiagnosticsManager diagnosticsManager = getDiagnosticsManger();
         return diagnosticsManager != null
                 ? diagnosticsManager.getDiagnosticsInfo()
-                : new CallCompositeDiagnosticsInfo();
+                : buildCallCompositeDiagnosticsInfo();
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {

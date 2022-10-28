@@ -109,10 +109,11 @@ internal class DependencyInjectionContainerImpl(
             applicationContext,
         )
     }
-    override val diagnosticsManager: DiagnosticsManager
-        get() = DiagnosticsManagerImpl(
+    override val diagnosticsManager: DiagnosticsManager by lazy {
+        DiagnosticsManagerImpl(
             appStore,
         )
+    }
 
     override val avatarViewManager by lazy {
         AvatarViewManager(

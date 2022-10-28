@@ -1521,10 +1521,12 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val cameraStateCompletableFuture = CompletableFuture<String>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val callIdFlow = MutableSharedFlow<String>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
@@ -2087,10 +2089,12 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val cameraStateCompletableFuture = CompletableFuture<String>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val callIdFlow = MutableSharedFlow<String>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCallIdSharedFlow() } doReturn callIdFlow
                 on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
