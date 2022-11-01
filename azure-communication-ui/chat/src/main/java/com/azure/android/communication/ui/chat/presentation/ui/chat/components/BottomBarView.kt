@@ -44,7 +44,7 @@ internal fun BottomBarView(
         )
 
         SendMessageButtonView(
-            contentDescription = stringResource(R.string.azure_communication_ui_chat_message_send_button_content_description),
+            contentDescription = stringResource(R.string.azure_communication_ui_chat_message_send_button_content_description, messageInputTextState.value),
             chatStatus = chatStatus
         ) {
             sendButtonOnclick(postAction, messageInputTextState)
