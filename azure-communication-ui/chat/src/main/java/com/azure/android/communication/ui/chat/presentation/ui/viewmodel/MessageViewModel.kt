@@ -52,7 +52,7 @@ private class InfoModelToViewModelAdapter(
 
             dateHeaderText = buildDateHeader(
                 lastMessage.createdOn!!,
-                thisMessage.createdOn!!
+                thisMessage.createdOn ?: OffsetDateTime.now()
             ),
 
             isLocalUser = isLocalUser
