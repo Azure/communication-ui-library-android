@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -36,27 +37,34 @@ internal fun BottomBarView(
         MessageInputView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
-            postAction = postAction
+            postAction = postAction,
+            keyboardActions = KeyboardActions(onSend = {
+                sendButtonOnclick(postAction, messageInputTextState)
+            })
         )
 
         SendMessageButtonView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_send_button_content_description),
             chatStatus = chatStatus
         ) {
-            postAction(
-                ChatAction.SendMessage(
-                    MessageInfoModel(
-                        id = null,
-                        messageType = ChatMessageType.TEXT,
-                        internalId = null,
-                        content = messageInputTextState.value,
-                        isCurrentUser = true
-                    )
-                )
-            )
-            messageInputTextState.value = ""
+            sendButtonOnclick(postAction, messageInputTextState)
         }
     }
+}
+
+private fun sendButtonOnclick(postAction: (Action) -> Unit, messageInputTextState: MutableState<String>) {
+    postAction(
+        ChatAction.SendMessage(
+            MessageInfoModel(
+                id = null,
+                messageType = ChatMessageType.TEXT,
+                internalId = null,
+                content = messageInputTextState.value,
+                isCurrentUser = true
+            )
+        )
+    )
+    messageInputTextState.value = ""
 }
 
 @Preview
