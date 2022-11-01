@@ -58,7 +58,9 @@ public final class CallCompositeRemoteOptions {
     public CallCompositeRemoteOptions(
             final CallCompositeJoinLocator locator,
             final CommunicationTokenCredential credential,
-            final String displayName) {
+            final String displayName,
+            final String fireBaseDeviceID,
+            final List<identity, displayName> callParticipants) {
 
         this.credential = credential;
         this.displayName = displayName;

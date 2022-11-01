@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -30,7 +31,6 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
-    private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +57,6 @@ class ChatLauncherActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
-            if (savedInstanceState.getBoolean(isTokenFunctionOptionSelected)) {
-                chatLauncherViewModel.useTokenFunction()
-            } else {
-                chatLauncherViewModel.useAcsToken()
-            }
-
             if (savedInstanceState.getBoolean(isKotlinLauncherOptionSelected)) {
                 chatLauncherViewModel.setKotlinLauncher()
             } else {
@@ -70,45 +64,54 @@ class ChatLauncherActivity : AppCompatActivity() {
             }
         }
 
-        // Use: https://acs-ui-dev-test.azurewebsites.net/api/Chat to setup
-        // Install in local.properties
-        // THREAD_ID
-        // END_POINT_URL
-        // IDENTITY
-        // ACS_TOKEN
+        val data: Uri? = intent?.data
+        val endpointurl = data?.getQueryParameter("endpointurl")
+        val threadid = data?.getQueryParameter("threadid")
+        val acstoken = data?.getQueryParameter("acstoken")
+        val userid = data?.getQueryParameter("userid")
+        val name = data?.getQueryParameter("name")
+
         binding.run {
-            tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
-            acsTokenText.setText(BuildConfig.ACS_TOKEN)
-            userNameText.setText(BuildConfig.USER_NAME)
-            chatThreadID.setText(BuildConfig.THREAD_ID)
-            endPointURL.setText(BuildConfig.END_POINT_URL)
-            identity.setText(BuildConfig.IDENTITY)
+
+            if(endpointurl.isNullOrEmpty()) {
+                endPointURL.setText(BuildConfig.END_POINT_URL)
+            } else {
+                endPointURL.setText(endpointurl)
+            }
+
+            if(acstoken.isNullOrEmpty()) {
+                acsTokenText.setText(BuildConfig.ACS_TOKEN)
+            } else {
+                acsTokenText.setText(acstoken)
+            }
+
+            if(name.isNullOrEmpty()) {
+                userNameText.setText(BuildConfig.USER_NAME)
+            } else {
+                userNameText.setText(name)
+            }
+
+            if(threadid.isNullOrEmpty()) {
+                chatThreadID.setText(BuildConfig.THREAD_ID)
+            } else {
+                chatThreadID.setText(threadid)
+            }
+
+            if(userid.isNullOrEmpty()) {
+                identity.setText(BuildConfig.IDENTITY)
+            } else {
+                identity.setText(userid)
+            }
+
 
             launchButton.setOnClickListener {
                 chatLauncherViewModel.doLaunch(
-                    tokenFunctionUrlText.text.toString(),
                     acsTokenText.text.toString()
                 )
             }
 
-            tokenFunctionRadioButton.setOnClickListener {
-                if (tokenFunctionRadioButton.isChecked) {
-                    tokenFunctionUrlText.requestFocus()
-                    tokenFunctionUrlText.isEnabled = true
-                    acsTokenText.isEnabled = false
-                    acsTokenRadioButton.isChecked = false
-                    chatLauncherViewModel.useTokenFunction()
-                }
-            }
-            acsTokenRadioButton.setOnClickListener {
-                if (acsTokenRadioButton.isChecked) {
-                    acsTokenText.requestFocus()
-                    acsTokenText.isEnabled = true
-                    tokenFunctionUrlText.isEnabled = false
-                    tokenFunctionRadioButton.isChecked = false
-                    chatLauncherViewModel.useAcsToken()
-                }
-            }
+            acsTokenText.requestFocus()
+            acsTokenText.isEnabled = true
 
             javaButton.setOnClickListener {
                 chatLauncherViewModel.setJavaLauncher()
