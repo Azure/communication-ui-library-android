@@ -7,6 +7,8 @@ import android.content.Context
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
+import com.azure.android.communication.ui.chat.logger.DefaultLogger
+import com.azure.android.communication.ui.chat.logger.Logger
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
@@ -114,7 +116,8 @@ internal class ChatContainer(
                         chatConfig = configuration.chatConfig!!,
                         coroutineContextProvider = locate(),
                         chatEventHandler = locate(),
-                        chatFetchNotificationHandler = locate()
+                        chatFetchNotificationHandler = locate(),
+                        logger = locate()
                     )
                 )
             }
@@ -154,6 +157,8 @@ internal class ChatContainer(
             addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
 
             addTypedBuilder { NetworkManager(dispatch = locate()) }
+
+            addTypedBuilder<Logger> { DefaultLogger() }
         }
 
     fun stop() {

@@ -4,65 +4,34 @@
 package com.azure.android.communication.ui.chatdemoapp
 
 import android.webkit.URLUtil
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeJavaLauncher
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotlinLauncher
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
+import com.azure.android.communication.ui.chat.ChatComposite
+import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
     private var token: String? = null
-    private val fetchResultInternal = MutableLiveData<Result<ChatCompositeLauncher?>>()
 
-    val fetchResult: LiveData<Result<ChatCompositeLauncher?>> = fetchResultInternal
-    var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
 
-    private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
-        ChatCompositeKotlinLauncher(tokenRefresher)
-    } else {
-        ChatCompositeJavaLauncher(tokenRefresher)
-    }
+    val chatComposite: ChatComposite by lazy { ChatCompositeBuilder().build() }
 
-    fun destroy() {
-        fetchResultInternal.value = Result.success(null)
-    }
-
-    fun setJavaLauncher() {
-        isKotlinLauncher = false
-    }
-
-    fun setKotlinLauncher() {
-        isKotlinLauncher = true
-    }
-
-    fun doLaunch(tokenFunctionURL: String, acsToken: String) {
-        when {
+    fun getTokenFetcher(tokenFunctionURL: String, acsToken: String): Callable<String> {
+        val tokenRefresher = when {
             isTokenFunctionOptionSelected && urlIsValid(tokenFunctionURL) -> {
                 token = null
-                fetchResultInternal.postValue(
-                    Result.success(
-                        launcher(
-                            UrlTokenFetcher(tokenFunctionURL)
-                        )
-                    )
-                )
+                UrlTokenFetcher(tokenFunctionURL)
             }
             acsToken.isNotBlank() -> {
                 token = acsToken
-                fetchResultInternal.postValue(
-                    Result.success(launcher(CachedTokenFetcher(acsToken)))
-                )
+                CachedTokenFetcher(acsToken)
             }
             else -> {
-                fetchResultInternal.postValue(
-                    Result.failure(IllegalStateException("Invalid Token function URL or acs Token"))
-                )
+                throw IllegalStateException("Invalid Token function URL or acs Token")
             }
         }
+        return tokenRefresher
     }
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())

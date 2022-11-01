@@ -81,25 +81,6 @@ public class ChatComposite {
     }
 
     /**
-     * To show full composite default view
-     *
-     * @param context The android context used to start the Composite.
-     */
-    public void showCompositeUI(final Context context) {
-        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
-        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
-        context.startActivity(launchIntent);
-    }
-
-    /**
-     * To hide full composite view
-     *
-     * @param context The android context used to start the Composite.
-     */
-    public void hideCompositeUI(final Context context) {
-    }
-
-    /**
      * Add {@link ChatCompositeEventHandler}.
      *
      * @param handler The {@link ChatCompositeEventHandler}.
@@ -157,11 +138,10 @@ public class ChatComposite {
                                  final ChatCompositeLocalOptions localOptions,
                                  final boolean isTest) {
         chatContainer.start(context, remoteOptions, localOptions);
-        if (localOptions.getIsLaunchingWithUI()) {
-            showCompositeUI(context);
-        }
     }
 
+    // TODO: remove this method. Test should provide it's own UI host and call
+    //  launch() then getCompositeUIView()
     void launchTest(final Context context,
                     final ChatCompositeRemoteOptions remoteOptions,
                     final ChatCompositeLocalOptions localOptions) {

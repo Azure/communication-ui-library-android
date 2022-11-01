@@ -3,13 +3,14 @@
 
 package com.azure.android.communication.ui.chatdemoapp.launcher;
 
+import android.content.Context;
+
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
 import com.azure.android.communication.ui.chat.ChatComposite;
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder;
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
-import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity;
 
 import java.util.concurrent.Callable;
 
@@ -22,7 +23,7 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
     }
 
     @Override
-    public void launch(final ChatLauncherActivity chatLauncherActivity,
+    public void launch(final Context context,
                        final String threadID,
                        final String endPointURL,
                        final String displayName,
@@ -38,6 +39,7 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
                 new ChatCompositeJoinLocator(threadID, endPointURL);
         final ChatCompositeRemoteOptions remoteOptions =
                 new ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName);
-        chatComposite.launch(chatLauncherActivity, remoteOptions, null);
+        chatComposite.launch(context, remoteOptions, null);
+
     }
 }

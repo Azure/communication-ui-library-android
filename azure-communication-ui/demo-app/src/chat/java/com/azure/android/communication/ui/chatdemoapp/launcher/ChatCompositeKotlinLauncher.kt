@@ -9,14 +9,14 @@ import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity
+import android.content.Context
 import java.util.concurrent.Callable
 
 class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :
     ChatCompositeLauncher {
 
     override fun launch(
-        chatLauncherActivity: ChatLauncherActivity?,
+        context: Context,
         threadID: String?,
         endPointURL: String?,
         displayName: String?,
@@ -30,6 +30,6 @@ class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) 
         val locator = ChatCompositeJoinLocator(threadID, endPointURL)
         val remoteOptions =
             ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName)
-        chatComposite.launch(chatLauncherActivity, remoteOptions, ChatCompositeLocalOptions())
+        chatComposite.launch(context, remoteOptions, ChatCompositeLocalOptions())
     }
 }
