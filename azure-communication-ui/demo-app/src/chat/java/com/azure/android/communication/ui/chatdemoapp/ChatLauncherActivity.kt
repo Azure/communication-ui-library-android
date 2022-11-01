@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
 import androidx.activity.viewModels
@@ -20,6 +19,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
+import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
@@ -36,7 +36,8 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
 
-    private var chatView : View? = null
+    private var chatView : ChatView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (shouldFinish()) {
@@ -99,15 +100,21 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
 
-    override fun onBackPressed() {
-        if (chatView != null) {
-            chatView?.parent?.let {
-                (it as ViewGroup).removeView(chatView)
-            }
-            chatView = null
-        } else {
-            super.onBackPressed()
+    /// When a request is made to close the view, lets do that here
+    private fun onChatCompositeExitRequested() {
+        chatView?.parent?.let {
+            (it as ViewGroup).removeView(chatView)
+
         }
+        chatView = null
+
+    }
+    override fun onBackPressed() {
+
+        if (chatView?.tryPop() == true) {
+            return
+        }
+        super.onBackPressed()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -170,7 +177,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         chatComposite.launch(this, remoteOptions)
 
-        chatView = chatComposite.getCompositeUIView(this)
+        chatView = chatComposite.getCompositeUIView(this, this::onChatCompositeExitRequested)
 
         addContentView(
             chatView,

@@ -50,7 +50,7 @@ internal fun ChatScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
             val topic = when {
                 viewModel.chatTopic != null -> viewModel.chatTopic
                 else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
@@ -65,7 +65,7 @@ internal fun ChatScreen(
                     viewModel.postAction(NavigationAction.GotoParticipants())
                 },
                 onBackButtonPressed = {
-                    dispatcher?.onBackPressed()
+                    viewModel.requestExit.run()
                 },
                 postAction = viewModel.postAction,
             )

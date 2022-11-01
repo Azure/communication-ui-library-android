@@ -27,6 +27,7 @@ internal data class ChatScreenViewModel(
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
+    val requestExit: Runnable = Runnable { }
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -44,6 +45,7 @@ internal fun buildChatScreenViewModel(
     messages: List<MessageInfoModel>,
     localUserIdentifier: String,
     dispatch: Dispatch,
+    requestExit: Runnable
 ): ChatScreenViewModel {
 
     // TODO add logic with last read message
@@ -61,5 +63,6 @@ internal fun buildChatScreenViewModel(
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
+        requestExit = requestExit,
     )
 }

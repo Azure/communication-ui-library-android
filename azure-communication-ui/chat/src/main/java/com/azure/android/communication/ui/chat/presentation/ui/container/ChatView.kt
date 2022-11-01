@@ -15,11 +15,15 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.Navi
 import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.buildChatScreenViewModel
+import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
+import com.azure.android.communication.ui.chat.redux.action.NavigationAction
+import com.azure.android.communication.ui.chat.redux.state.AppReduxState
+import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatView(context: Context, private val instanceId: Int) : FrameLayout(context) {
+class ChatView(context: Context, private val instanceId: Int, private val exitRequested: Runnable) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private val locator get() = ServiceLocator.getInstance(instanceId)
     private val dispatch: Dispatch by lazy { locator.locate() }
@@ -43,7 +47,8 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
                     store = store,
                     messages = locator.locate(),
                     localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
-                    dispatch = locator.locate()
+                    dispatch = locator.locate(),
+                    requestExit = exitRequested
                 )
             },
             onChanged = {
@@ -65,6 +70,17 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
         if (count == 0) {
             dispatch(LifecycleAction.EnterBackground)
         }
+    }
+
+    fun tryPop(): Boolean {
+        val store = locator.locate<AppStore<AppReduxState>>()
+        val state = store.getCurrentState()
+        val canPop = state.navigationState.navigationStatus != NavigationStatus.NONE
+        if (canPop) {
+            store.dispatch(NavigationAction.Pop())
+            return true
+        }
+        return false
     }
 
     companion object {

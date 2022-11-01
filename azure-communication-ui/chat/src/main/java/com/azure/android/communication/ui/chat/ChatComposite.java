@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat;
 import static com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifierKt.into;
 
 import android.content.Context;
-import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
@@ -72,10 +71,11 @@ public class ChatComposite {
      * Get Composite UI view
      *
      * @param context The android context used to start the Composite.\
+     * @param exitRequested
      * @return View ChatComposite UI view
      */
-    public View getCompositeUIView(final Context context) {
-        return new ChatView(context, instanceId);
+    public ChatView getCompositeUIView(final Context context, final Runnable exitRequested) {
+        return new ChatView(context, instanceId, exitRequested);
     }
 
     /**
@@ -146,5 +146,4 @@ public class ChatComposite {
         chatContainer.start(context, remoteOptions, localOptions);
         //showTestCompositeUI(context);
     }
-
 }
