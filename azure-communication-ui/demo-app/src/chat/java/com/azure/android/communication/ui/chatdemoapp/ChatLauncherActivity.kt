@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -96,13 +97,13 @@ class ChatLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
-    }
 
-    override fun onBackPressed() {
-        if (binding.chatContainer.childCount > 0) {
-            binding.chatContainer.removeAllViews()
-        } else {
-            super.onBackPressed()
+        this.onBackPressedDispatcher.addCallback {
+            if (binding.chatContainer.childCount > 0) {
+                binding.chatContainer.removeAllViews()
+            } else {
+                this.handleOnBackPressed()
+            }
         }
     }
 
