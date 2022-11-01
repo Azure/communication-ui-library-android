@@ -21,7 +21,9 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 
@@ -38,7 +40,7 @@ internal class CallingSDKEventHandler(
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
-    private var callIdSharedFlow = MutableSharedFlow<String?>()
+    private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
 
@@ -60,7 +62,7 @@ internal class CallingSDKEventHandler(
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
         callingStateWrapperSharedFlow
 
-    fun getCallIdSharedFlow(): SharedFlow<String?> = callIdSharedFlow
+    fun getCallIdStateFlow(): StateFlow<String?> = callIdSharedFlow
 
     fun getIsMutedSharedFlow(): SharedFlow<Boolean> = isMutedSharedFlow
 
@@ -344,7 +346,7 @@ internal class CallingSDKEventHandler(
         isRecordingSharedFlow = MutableSharedFlow()
         isTranscribingSharedFlow = MutableSharedFlow()
         callingStateWrapperSharedFlow = MutableSharedFlow()
-        callIdSharedFlow = MutableSharedFlow()
+        callIdSharedFlow = MutableStateFlow(null)
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
     }
 }

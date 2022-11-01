@@ -393,7 +393,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeCallIdUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getCallIdSharedFlow().collect {
+            callingService.getCallIdStateFlow().collect {
                 store.dispatch(CallingAction.CallIdUpdated(it))
             }
         }

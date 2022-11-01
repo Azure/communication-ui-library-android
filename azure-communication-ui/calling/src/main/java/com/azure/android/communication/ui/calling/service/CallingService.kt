@@ -18,6 +18,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -37,7 +38,7 @@ internal class CallingService(
     private val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
-    private var callIdSharedFlow = MutableSharedFlow<String?>()
+    private var callIdStateFlow = MutableStateFlow<String?>(null)
     private var callingStatus: CallingStatus = CallingStatus.NONE
 
     fun turnCameraOn(): CompletableFuture<String> {
@@ -87,7 +88,7 @@ internal class CallingService(
 
     fun getCallInfoModelEventSharedFlow(): SharedFlow<CallInfoModel> = callInfoModelSharedFlow
 
-    fun getCallIdSharedFlow(): SharedFlow<String?> = callIdSharedFlow
+    fun getCallIdStateFlow(): SharedFlow<String?> = callIdStateFlow
 
     fun getIsTranscribingSharedFlow(): Flow<Boolean> {
         return isTranscribingSharedFlow
@@ -127,8 +128,8 @@ internal class CallingService(
         }
 
         coroutineScope.launch {
-            callingSdk.getCallIdSharedFlow().collect {
-                callIdSharedFlow.emit(it)
+            callingSdk.getCallIdStateFlow().collect {
+                callIdStateFlow.emit(it)
             }
         }
 
