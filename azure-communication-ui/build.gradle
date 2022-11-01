@@ -31,7 +31,7 @@ buildscript {
             azure_calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
         }
         else {
-            azure_calling_sdk_version = '2.2.0'
+            azure_calling_sdk_version = '2.2.1'
         }
 
         jetbrains_kotlinx_coroutines_test_version = '1.6.0-native-mt'
