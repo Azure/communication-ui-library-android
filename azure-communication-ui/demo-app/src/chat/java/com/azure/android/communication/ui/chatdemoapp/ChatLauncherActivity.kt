@@ -10,9 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -100,6 +97,7 @@ class ChatLauncherActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onBackPressed() {
         if (chatView != null) {
