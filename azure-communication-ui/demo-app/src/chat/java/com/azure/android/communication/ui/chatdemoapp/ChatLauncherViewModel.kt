@@ -3,14 +3,12 @@
 
 package com.azure.android.communication.ui.chatdemoapp
 
-import android.webkit.URLUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeJavaLauncher
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotlinLauncher
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
-import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
@@ -39,18 +37,8 @@ class ChatLauncherViewModel : ViewModel() {
         isKotlinLauncher = true
     }
 
-    fun doLaunch(tokenFunctionURL: String, acsToken: String) {
+    fun doLaunch(acsToken: String) {
         when {
-            isTokenFunctionOptionSelected && urlIsValid(tokenFunctionURL) -> {
-                token = null
-                fetchResultInternal.postValue(
-                    Result.success(
-                        launcher(
-                            UrlTokenFetcher(tokenFunctionURL)
-                        )
-                    )
-                )
-            }
             acsToken.isNotBlank() -> {
                 token = acsToken
                 fetchResultInternal.postValue(
@@ -63,15 +51,5 @@ class ChatLauncherViewModel : ViewModel() {
                 )
             }
         }
-    }
-
-    private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
-
-    fun useTokenFunction() {
-        isTokenFunctionOptionSelected = true
-    }
-
-    fun useAcsToken() {
-        isTokenFunctionOptionSelected = false
     }
 }
