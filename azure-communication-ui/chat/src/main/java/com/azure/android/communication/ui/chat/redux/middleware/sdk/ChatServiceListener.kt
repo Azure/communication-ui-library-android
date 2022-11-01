@@ -113,7 +113,8 @@ internal class ChatServiceListener(
                         }
                     }
                     ChatEventType.READ_RECEIPT_RECEIVED -> {
-                        // val model = it.infoModel
+                        val infoModel = it.infoModel
+                        dispatch(ParticipantAction.ReadReceiptReceived(infoModel = infoModel))
                     }
                     else -> {}
                 }
