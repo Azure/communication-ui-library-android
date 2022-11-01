@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat;
 import static com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifierKt.into;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
@@ -16,7 +15,6 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantVi
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
-import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity;
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView;
 
 
@@ -146,13 +144,7 @@ public class ChatComposite {
                     final ChatCompositeRemoteOptions remoteOptions,
                     final ChatCompositeLocalOptions localOptions) {
         chatContainer.start(context, remoteOptions, localOptions);
-        showTestCompositeUI(context);
+        //showTestCompositeUI(context);
     }
 
-    private void showTestCompositeUI(final Context context) {
-        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
-        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
-        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(launchIntent);
-    }
 }

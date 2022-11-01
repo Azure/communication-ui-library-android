@@ -10,7 +10,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +39,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
 
+    private var chatView : View? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (shouldFinish()) {
@@ -99,8 +102,11 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (binding.chatContainer.childCount > 0) {
-            binding.chatContainer.removeAllViews()
+        if (chatView != null) {
+            chatView?.parent?.let {
+                (it as ViewGroup).removeView(chatView)
+            }
+            chatView = null
         } else {
             super.onBackPressed()
         }
@@ -163,20 +169,19 @@ class ChatLauncherActivity : AppCompatActivity() {
         )
 
         val chatComposite = chatLauncherViewModel.chatComposite
+
         chatComposite.launch(this, remoteOptions)
 
-        val chatView = chatComposite.getCompositeUIView(this)
+        chatView = chatComposite.getCompositeUIView(this)
 
-        setChatView(chatView)
-    }
+        addContentView(
+            chatView,
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
 
-    private fun setChatView(chatView: View) {
-        chatView.parent?.let { (it as ViewGroup).removeView(it) }
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        params.setMargins(0, 0, 0, 0)
-        chatView.layoutParams = params
-
-        binding.chatContainer.addView(chatView, 0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

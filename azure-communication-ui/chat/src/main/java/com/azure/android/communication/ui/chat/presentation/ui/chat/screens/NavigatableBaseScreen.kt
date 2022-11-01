@@ -61,7 +61,7 @@ internal fun NavigatableBaseScreenPreview() {
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 // Uncomment to verify nav
-                // navigationStatus = NavigationStatus.PARTICIPANTS,
+                navigationStatus = NavigationStatus.PARTICIPANTS,
                 typingParticipants = listOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(
