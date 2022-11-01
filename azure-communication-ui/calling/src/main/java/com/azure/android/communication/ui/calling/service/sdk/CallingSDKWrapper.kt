@@ -318,7 +318,6 @@ internal class CallingSDKWrapper(
                         callAgentCompletableFuture!!.completeExceptionally(error)
                     } else {
                         callAgentCompletableFuture!!.complete(callAgent)
-                        callAgent.registerPushNotification("")
                     }
                 }
             } catch (error: Throwable) {

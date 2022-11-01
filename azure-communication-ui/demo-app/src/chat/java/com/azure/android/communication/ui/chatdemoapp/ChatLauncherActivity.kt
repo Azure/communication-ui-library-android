@@ -73,36 +73,35 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         binding.run {
 
-            if(endpointurl.isNullOrEmpty()) {
+            if (endpointurl.isNullOrEmpty()) {
                 endPointURL.setText(BuildConfig.END_POINT_URL)
             } else {
                 endPointURL.setText(endpointurl)
             }
 
-            if(acstoken.isNullOrEmpty()) {
+            if (acstoken.isNullOrEmpty()) {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
             } else {
                 acsTokenText.setText(acstoken)
             }
 
-            if(name.isNullOrEmpty()) {
+            if (name.isNullOrEmpty()) {
                 userNameText.setText(BuildConfig.USER_NAME)
             } else {
                 userNameText.setText(name)
             }
 
-            if(threadid.isNullOrEmpty()) {
+            if (threadid.isNullOrEmpty()) {
                 chatThreadID.setText(BuildConfig.THREAD_ID)
             } else {
                 chatThreadID.setText(threadid)
             }
 
-            if(userid.isNullOrEmpty()) {
+            if (userid.isNullOrEmpty()) {
                 identity.setText(BuildConfig.IDENTITY)
             } else {
                 identity.setText(userid)
             }
-
 
             launchButton.setOnClickListener {
                 chatLauncherViewModel.doLaunch(
