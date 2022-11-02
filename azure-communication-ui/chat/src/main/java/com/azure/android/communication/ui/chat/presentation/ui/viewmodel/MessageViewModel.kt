@@ -7,6 +7,7 @@ import android.content.Context
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -21,6 +22,7 @@ internal class MessageViewModel(
     val showTime: Boolean,
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
+    val isRead: Boolean,
 )
 
 internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserIdentifier: String) =
@@ -29,7 +31,8 @@ internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserI
 private class InfoModelToViewModelAdapter(
     private val context: Context,
     private val messages: List<MessageInfoModel>,
-    private val localUserIdentifier: String
+    private val localUserIdentifier: String,
+    private val participantsState: ParticipantsState
 ) :
     List<MessageViewModel> {
 
@@ -55,7 +58,11 @@ private class InfoModelToViewModelAdapter(
                 thisMessage.createdOn!!
             ),
 
-            isLocalUser = isLocalUser
+            isLocalUser = isLocalUser,
+            isRead = !isLocalUser &&
+                    (lastMessage.senderCommunicationIdentifier?.id ?: "")
+                    == (thisMessage.senderCommunicationIdentifier?.id ?: "") &&
+                    participantsState.latestReadMessageTimestamp > lastMessage.createdOn
         )
     }
 

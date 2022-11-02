@@ -48,10 +48,6 @@ internal fun ChatScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val listState = rememberLazyListState()
-    val funtimer: Timer = Timer()
-    funtimer.schedule(
-        timerTask(){
-         }, 5000)
 
     Scaffold(
         scaffoldState = scaffoldState,

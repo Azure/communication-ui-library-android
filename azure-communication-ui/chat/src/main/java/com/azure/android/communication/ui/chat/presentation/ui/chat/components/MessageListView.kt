@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -27,6 +28,8 @@ import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.state.ChatState
+import com.azure.android.communication.ui.chat.utilities.isScrolledToEnd
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import com.jakewharton.threetenabp.AndroidThreeTen
 
@@ -40,7 +43,9 @@ internal fun MessageListView(
     scrollState: LazyListState,
     dispatchers: Dispatch
 ) {
+
     requestPages(scrollState, messages, dispatchers)
+    sendReadReceipt(scrollState, messages, dispatchers)
     LazyColumn(
         modifier = modifier.fillMaxHeight(),
         state = scrollState,
@@ -79,12 +84,33 @@ private fun requestPages(
     if (scrollState.layoutInfo.totalItemsCount == 0) return
 
     val currentLastMessage = messages.first()
+//    val currentLatestMessage = messages[messages.size - 1]
+//    if (currentLatestMessage.message.id != null
+//        && chatState.lastReadMessageId< currentLatestMessage.message.id) {
+//        dispatch(ChatAction.MessageRead((currentLatestMessage.message.id)))
+//    }
 
     if (scrollState.outOfViewItemCount() < MESSAGE_LIST_LOAD_MORE_THRESHOLD) {
         val lastTrigger = remember { mutableStateOf("0") }
         if (lastTrigger.value != currentLastMessage.message.id) {
             lastTrigger.value = currentLastMessage.message.id ?: "0"
             dispatch(ChatAction.FetchMessages())
+        }
+    }
+}
+
+@Composable
+private fun sendReadReceipt(
+    scrollState: LazyListState,
+    messages: List<MessageViewModel>,
+    dispatch: Dispatch
+) {
+    val currentBottomMessage = messages[scrollState.firstVisibleItemIndex]
+    if(!currentBottomMessage.isLocalUser) {
+        currentBottomMessage.message.id?.let {
+            LaunchedEffect(it){
+                dispatch(ChatAction.MessageRead(it))
+            }
         }
     }
 }
@@ -98,7 +124,7 @@ internal fun PreviewMessageListView() {
             showLoading = false,
             modifier = Modifier.padding(0.dp),
             messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
-            scrollState = LazyListState(),
+            scrollState = LazyListState()
         ) {}
     }
 }
