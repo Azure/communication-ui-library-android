@@ -29,7 +29,7 @@ internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserI
 private class InfoModelToViewModelAdapter(
     private val context: Context,
     private val messages: List<MessageInfoModel>,
-    private val localUserIdentifier: String,
+    private val localUserIdentifier: String
 ) :
     List<MessageViewModel> {
 
@@ -55,7 +55,7 @@ private class InfoModelToViewModelAdapter(
                 thisMessage.createdOn!!
             ),
 
-            isLocalUser = isLocalUser,
+            isLocalUser = isLocalUser
         )
     }
 
