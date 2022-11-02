@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import org.threeten.bp.OffsetDateTime
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -27,6 +28,7 @@ internal data class ChatScreenViewModel(
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
+    val latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.now()
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -61,5 +63,6 @@ internal fun buildChatScreenViewModel(
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
+        latestReadMessageTimestamp = store.getCurrentState().participantState.latestReadMessageTimestamp
     )
 }
