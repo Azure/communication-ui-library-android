@@ -17,6 +17,7 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity;
+import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView;
 
 
 /**
@@ -33,7 +34,7 @@ public class ChatComposite {
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
         this.configuration = configuration;
-        chatContainer = new ChatContainer(configuration, instanceId);
+        chatContainer = new ChatContainer(this, configuration, instanceId);
     }
 
     /**
@@ -76,7 +77,7 @@ public class ChatComposite {
      * @return View ChatComposite UI view
      */
     public View getCompositeUIView(final Context context) {
-        return null;
+        return new ChatView(context, instanceId);
     }
 
     /**
@@ -85,6 +86,9 @@ public class ChatComposite {
      * @param context The android context used to start the Composite.
      */
     public void showCompositeUI(final Context context) {
+        final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
+        launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
+        context.startActivity(launchIntent);
     }
 
     /**
@@ -153,8 +157,22 @@ public class ChatComposite {
                                  final ChatCompositeLocalOptions localOptions,
                                  final boolean isTest) {
         chatContainer.start(context, remoteOptions, localOptions);
+        if (localOptions.getIsLaunchingWithUI()) {
+            showCompositeUI(context);
+        }
+    }
+
+    void launchTest(final Context context,
+                    final ChatCompositeRemoteOptions remoteOptions,
+                    final ChatCompositeLocalOptions localOptions) {
+        chatContainer.start(context, remoteOptions, localOptions);
+        showTestCompositeUI(context);
+    }
+
+    private void showTestCompositeUI(final Context context) {
         final Intent launchIntent = new Intent(context, ChatCompositeActivity.class);
         launchIntent.putExtra(ChatCompositeActivity.KEY_INSTANCE_ID, instanceId);
+        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(launchIntent);
     }
 }

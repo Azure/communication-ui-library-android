@@ -38,11 +38,14 @@ internal fun ChatCompositeTheme(
         content = Color(0xFFDD0D3C),
         component = Color(0xFFC20029),
         background = Color.White,
+        textColor = Color(0xFF212121),
+        outlineColor = Color(0xFFE1E1E1),
         messageBackgroundSelf = Color(0xFFDEECF9),
         messageBackground = Color(primaryColor),
     )
     val acsChatShapes = ChatCompositeShapes(
         messageBubble = RoundedCornerShape(4.dp),
+        unreadMessagesIndicator = RoundedCornerShape(100.dp)
     )
 
     CompositionLocalProvider(
@@ -57,8 +60,10 @@ internal fun ChatCompositeTheme(
 }
 
 // Usage: ChatCompositeTheme.typography.body
-object ChatCompositeTheme {
-
+internal object ChatCompositeTheme {
+    val dimensions: ChatCompositeDimensions
+        @Composable
+        get() = LocalChatCompositeDimensions.current
     val typography: ChatCompositeTypography
         @Composable
         get() = LocalChatCompositeTypography.current

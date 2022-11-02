@@ -9,38 +9,65 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
+import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
-import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ChatScreen
-import com.azure.android.communication.ui.chat.presentation.ui.reduxviewmodelgenerator.ReduxViewModelGenerator
+import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.NavigatableBaseScreen
+import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
+import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.buildChatScreenViewModel
+import com.azure.android.communication.ui.chat.redux.Dispatch
+import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
+import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 internal class ChatView(context: Context, private val instanceId: Int) : FrameLayout(context) {
     private val composeView = ComposeView(context)
-
     private val locator get() = ServiceLocator.getInstance(instanceId)
+    private val dispatch: Dispatch by lazy { locator.locate() }
+    private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
 
     init {
         addView(composeView)
+        count = 0
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        ReduxViewModelGenerator(
+        count++
+        if (count == 1) {
+            dispatch(LifecycleAction.EnterForeground)
+        }
+        reduxViewModelGenerator = ReduxViewModelGenerator(
             builder = { store ->
                 buildChatScreenViewModel(
+                    context = context,
                     store = store,
-                    repository = locator.locate()
+                    messages = locator.locate(),
+                    localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
+                    dispatch = locator.locate()
                 )
             },
             onChanged = {
                 composeView.setContent {
                     ChatCompositeTheme {
-                        ChatScreen(viewModel = it)
+                        NavigatableBaseScreen(viewModel = it)
                     }
                 }
             },
             coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
             store = locator.locate()
         )
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        count--
+        reduxViewModelGenerator.stop()
+        if (count == 0) {
+            dispatch(LifecycleAction.EnterBackground)
+        }
+    }
+
+    companion object {
+        internal var count = 0
     }
 }

@@ -4,58 +4,46 @@
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListReader
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListWriter
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeReader
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeWriter
 
-private val emptyMessage = MessageInfoModel(
-    content = null,
-    id = null,
-    internalId = null,
-    messageType = ChatMessageType.TEXT
-)
+internal class MessageRepository private constructor(
+    val readerDelegate: MessageRepositoryReader,
+    val writerDelegate: MessageRepositoryWriter
+) : MessageRepositoryReader(), MessageRepositoryWriter {
 
-// Interface for Message Repository Middleware to use
-// I.e.
-// - addLocalMessage
-// - messageRetrieved,
-// - pageRetrieved
-// - messageEdited
-// - messageDeleted
-internal interface MessageRepositoryMiddlewareInterface {
-    fun addLocalMessage(messageInfoModel: MessageInfoModel)
-}
+    override val size: Int get() = readerDelegate.size
+    override fun get(index: Int): MessageInfoModel = readerDelegate[index]
+    override fun addLocalMessage(messageInfoModel: MessageInfoModel) = writerDelegate.addLocalMessage(messageInfoModel)
+    override fun addPage(page: List<MessageInfoModel>) = writerDelegate.addPage(page)
+    override fun addServerMessage(message: MessageInfoModel) = writerDelegate.addServerMessage(message = message)
+    override fun removeMessage(message: MessageInfoModel) = writerDelegate.removeMessage(message = message)
+    override fun editMessage(message: MessageInfoModel) = writerDelegate.editMessage(message = message)
 
-internal class MessageRepository : List<MessageInfoModel>, MessageRepositoryMiddlewareInterface {
-    // Simple List for now
-    private val messages = mutableListOf<MessageInfoModel>()
+    // TODO: We should be using read interface to get last message in list
+    // This isn't a write message
+    override fun getLastMessage(): MessageInfoModel? = writerDelegate.getLastMessage()
 
-    // Middleware Interface
-    override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
-        messages.add(messageInfoModel)
+    companion object {
+
+        fun createListBackedRepository(): MessageRepository {
+            val writer = MessageRepositoryListWriter()
+            val reader = MessageRepositoryListReader(writer)
+            return MessageRepository(
+                readerDelegate = reader,
+                writerDelegate = writer
+            )
+        }
+
+        fun createTreeBackedRepository(): MessageRepository {
+            val writer = MessageRepositoryTreeWriter()
+            val reader = MessageRepositoryTreeReader(writer)
+            return MessageRepository(
+                readerDelegate = reader,
+                writerDelegate = writer
+            )
+        }
     }
-
-    // List Implementation
-    // Important parts of a list to implement
-    override val size get() = messages.size
-    override fun indexOf(element: MessageInfoModel) = messages.indexOf(element)
-    override fun get(index: Int): MessageInfoModel = try {
-        messages[index]
-    } catch (exception: Exception) {
-        emptyMessage
-    }
-
-    override fun isEmpty() = messages.isEmpty()
-
-    // Less Important, but should be easy to implement
-    override fun contains(element: MessageInfoModel) = messages.contains(element)
-
-    // Less or Not important parts of the List Interface
-    // Don't hesitate to not support them if the internal implementation changes
-    override fun containsAll(elements: Collection<MessageInfoModel>) =
-        messages.containsAll(elements)
-
-    override fun iterator(): Iterator<MessageInfoModel> = messages.iterator()
-    override fun lastIndexOf(element: MessageInfoModel) = messages.lastIndexOf(element)
-    override fun listIterator() = messages.listIterator()
-    override fun listIterator(index: Int) = messages.listIterator(index)
-    override fun subList(fromIndex: Int, toIndex: Int) = messages.subList(fromIndex, toIndex)
 }

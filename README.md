@@ -34,10 +34,12 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:+'
+    implementation 'com.azure.android:azure-communication-ui-calling:<latest stable release version>'
     ...
 }
 ```
+
+Please make sure to pick latest stable release version from our [Github Releases](https://github.com/Azure/communication-ui-library-android/releases) 
 
 In your project gradle scripts add following lines to `repositories`. For `Android Studio (2020.*)` the `repositories` are in `settings.gradle` `dependencyResolutionManagement(Gradle version 6.8 or greater)`. If you are using old versions of `Android Studio (4.*)` then the `repositories` will be in project level `build.gradle` `allprojects{}`.
 
@@ -56,7 +58,7 @@ Sync project with gradle files. (Android Studio -> File -> Sync Project With Gra
 
 ### Quick Sample 
 
-Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group ID for your call, `<DISPLAY_NAME>` with your name, and  `<USER_ACCESS_TOKEN>` with your token.
+Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group ID for your call, `<DISPLAY_NAME>` with your name, and  `<USER_ACCESS_TOKEN>` with your token. For full instructions check out our [quickstart](https://docs.microsoft.com/azure/communication-services/quickstarts/ui-library/get-started-composites?tabs=kotlin&pivots=platform-android) or get the completed [sample](https://github.com/Azure-Samples/communication-services-android-quickstarts/tree/main/ui-library-quick-start).
 
 #### [Kotlin](#tab/kotlin)
 
@@ -122,6 +124,10 @@ If you find a bug or have a feature request, please raise the issue on [GitHub I
 ## Known Issues
 
 Please refer to the [wiki](https://github.com/Azure/communication-ui-library-android/wiki/Known-Issues) for known issues related to the library.
+
+## Ongoing work
+
+The chat experience is a work in progress, please be aware that chat and callwithchat components are not complete and may not be in a working state. No support or assurances are provided at this time.
 
 ## Further Reading
 

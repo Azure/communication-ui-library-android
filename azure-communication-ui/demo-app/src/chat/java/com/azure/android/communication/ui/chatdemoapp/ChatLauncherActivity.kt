@@ -4,10 +4,11 @@
 package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Identity.IDENTITY
 import android.view.Menu
 import android.view.MenuItem
+import android.webkit.URLUtil
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeature
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
+import com.azure.android.communication.ui.chatdemoapp.launcher.TeamsUrlParser
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -29,7 +31,6 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
     private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
-    private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,12 +57,6 @@ class ChatLauncherActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
-            if (savedInstanceState.getBoolean(isTokenFunctionOptionSelected)) {
-                chatLauncherViewModel.useTokenFunction()
-            } else {
-                chatLauncherViewModel.useAcsToken()
-            }
-
             if (savedInstanceState.getBoolean(isKotlinLauncherOptionSelected)) {
                 chatLauncherViewModel.setKotlinLauncher()
             } else {
@@ -69,39 +64,53 @@ class ChatLauncherActivity : AppCompatActivity() {
             }
         }
 
+        val data: Uri? = intent?.data
+        val endpointurl = data?.getQueryParameter("endpointurl")
+        val threadid = data?.getQueryParameter("threadid")
+        val acstoken = data?.getQueryParameter("acstoken")
+        val userid = data?.getQueryParameter("userid")
+        val name = data?.getQueryParameter("name")
+
         binding.run {
-            tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
-            acsTokenText.setText(BuildConfig.ACS_TOKEN)
-            userNameText.setText(BuildConfig.USER_NAME)
-            chatThreadID.setText(BuildConfig.THREAD_ID)
-            endPointURL.setText(BuildConfig.END_POINT_URL)
-            identity.setText(BuildConfig.IDENTITY)
+
+            if (endpointurl.isNullOrEmpty()) {
+                endPointURL.setText(BuildConfig.END_POINT_URL)
+            } else {
+                endPointURL.setText(endpointurl)
+            }
+
+            if (acstoken.isNullOrEmpty()) {
+                acsTokenText.setText(BuildConfig.ACS_TOKEN)
+            } else {
+                acsTokenText.setText(acstoken)
+            }
+
+            if (name.isNullOrEmpty()) {
+                userNameText.setText(BuildConfig.USER_NAME)
+            } else {
+                userNameText.setText(name)
+            }
+
+            if (threadid.isNullOrEmpty()) {
+                chatThreadID.setText(BuildConfig.THREAD_ID)
+            } else {
+                chatThreadID.setText(threadid)
+            }
+
+            if (userid.isNullOrEmpty()) {
+                identity.setText(BuildConfig.IDENTITY)
+            } else {
+                identity.setText(userid)
+            }
 
             launchButton.setOnClickListener {
                 chatLauncherViewModel.doLaunch(
-                    tokenFunctionUrlText.text.toString(),
                     acsTokenText.text.toString()
                 )
             }
 
-            tokenFunctionRadioButton.setOnClickListener {
-                if (tokenFunctionRadioButton.isChecked) {
-                    tokenFunctionUrlText.requestFocus()
-                    tokenFunctionUrlText.isEnabled = true
-                    acsTokenText.isEnabled = false
-                    acsTokenRadioButton.isChecked = false
-                    chatLauncherViewModel.useTokenFunction()
-                }
-            }
-            acsTokenRadioButton.setOnClickListener {
-                if (acsTokenRadioButton.isChecked) {
-                    acsTokenText.requestFocus()
-                    acsTokenText.isEnabled = true
-                    tokenFunctionUrlText.isEnabled = false
-                    tokenFunctionRadioButton.isChecked = false
-                    chatLauncherViewModel.useAcsToken()
-                }
-            }
+            acsTokenText.requestFocus()
+            acsTokenText.isEnabled = true
 
             javaButton.setOnClickListener {
                 chatLauncherViewModel.setJavaLauncher()
@@ -135,7 +144,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
-    fun showAlert(message: String) {
+    private fun showAlert(message: String) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
                 setMessage(message)
@@ -168,9 +177,14 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun launch(launcher: ChatCompositeLauncher) {
+        val inputChatJoinId = binding.chatThreadID.text.toString()
+        val threadId = if (URLUtil.isValidUrl(inputChatJoinId))
+            TeamsUrlParser.getThreadId(inputChatJoinId)
+        else inputChatJoinId
+
         launcher.launch(
             this@ChatLauncherActivity,
-            binding.chatThreadID.text.toString(),
+            threadId,
             binding.endPointURL.text.toString(),
             binding.userNameText.text.toString(),
             binding.identity.text.toString()

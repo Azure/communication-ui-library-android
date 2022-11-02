@@ -14,13 +14,14 @@ internal class AppStateReducer(
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
     private val repositoryReducer: RepositoryReducer,
+    private val networkReducer: NetworkReducer,
 ) :
     Reducer<ReduxState> {
     override fun reduce(state: ReduxState, action: Action): ReduxState {
         val appState = AppReduxState(
             threadID = state.chatState.chatInfoModel.threadId,
             localParticipantIdentifier = state.chatState.localParticipantInfoModel.userIdentifier,
-            localParticipantDisplayName = state.chatState.localParticipantInfoModel.displayName
+            localParticipantDisplayName = state.chatState.localParticipantInfoModel.displayName,
         )
 
         appState.chatState = chatReducer.reduce(
@@ -45,6 +46,10 @@ internal class AppStateReducer(
         )
         appState.repositoryState = repositoryReducer.reduce(
             state = state.repositoryState,
+            action = action
+        )
+        appState.networkState = networkReducer.reduce(
+            state = state.networkState,
             action = action
         )
         return appState

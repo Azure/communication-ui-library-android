@@ -52,7 +52,8 @@ class RemoteParticipantJoinedHandler(
                     val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
                     val result = composite.setRemoteParticipantViewData(
-                        communicationIdentifier, CallWithChatCompositeParticipantViewData().setAvatarBitmap(bitMap)
+                        communicationIdentifier,
+                        CallWithChatCompositeParticipantViewData().setAvatarBitmap(bitMap)
                     )
 
                     if (result == CallWithChatCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {

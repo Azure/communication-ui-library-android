@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.isDisconnected
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,15 +30,31 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
         disableJoinCallButtonFlow.value = true
     }
 
-    fun init(audioPermissionState: PermissionStatus) {
+    fun init(
+        audioPermissionState: PermissionStatus,
+        cameraPermissionState: PermissionStatus,
+        cameraOperationalStatus: CameraOperationalStatus
+    ) {
         joinCallButtonEnabledFlow =
-            MutableStateFlow(audioPermissionState == PermissionStatus.GRANTED)
+            MutableStateFlow(
+                audioPermissionState == PermissionStatus.GRANTED &&
+                    cameraPermissionState != PermissionStatus.UNKNOWN &&
+                    cameraOperationalStatus != CameraOperationalStatus.PENDING
+            )
         disableJoinCallButtonFlow.value = false
     }
 
-    fun update(audioPermissionState: PermissionStatus, callingState: CallingState) {
+    fun update(
+        audioPermissionState: PermissionStatus,
+        callingState: CallingState,
+        cameraPermissionState: PermissionStatus,
+        cameraOperationalStatus: CameraOperationalStatus
+    ) {
         disableJoinCallButtonFlow.value = callingState.callingStatus != CallingStatus.NONE
-        joinCallButtonEnabledFlow.value = audioPermissionState == PermissionStatus.GRANTED
+        joinCallButtonEnabledFlow.value =
+            audioPermissionState == PermissionStatus.GRANTED &&
+            cameraPermissionState != PermissionStatus.UNKNOWN &&
+            cameraOperationalStatus != CameraOperationalStatus.PENDING
         if (callingState.isDisconnected()) {
             disableJoinCallButtonFlow.value = false
         } else {

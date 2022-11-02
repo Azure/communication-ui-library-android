@@ -11,11 +11,12 @@ import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 internal enum class ChatStatus {
     NONE,
     INITIALIZATION,
-    INITIALIZED,
+    INITIALIZED
 }
 
 internal data class ChatState(
     val chatStatus: ChatStatus,
     val localParticipantInfoModel: LocalParticipantInfoModel,
     val chatInfoModel: ChatInfoModel,
+    val lastReadMessageId: String,
 )
