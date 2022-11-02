@@ -10,6 +10,8 @@ import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
+import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -20,9 +22,12 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
+import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager;
 
+import static com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfoExtensionsKt.buildCallCompositeDiagnosticsInfo;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
+import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 /**
@@ -50,6 +55,7 @@ public final class CallComposite {
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
+    private WeakReference<DependencyInjectionContainer> diContainer;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -202,6 +208,26 @@ public final class CallComposite {
                 .setParticipantViewData(into(identifier), participantViewData);
     }
 
+    /**
+     * Get Call Composite Diagnostics information.
+     *
+     * @return {@link CallCompositeDiagnosticsInfo}
+     */
+    public CallCompositeDiagnosticsInfo getDiagnosticsInfo() {
+        final DiagnosticsManager diagnosticsManager = getDiagnosticsManger();
+        return diagnosticsManager != null
+                ? diagnosticsManager.getDiagnosticsInfo()
+                : buildCallCompositeDiagnosticsInfo();
+    }
+
+    void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
+        this.diContainer = new WeakReference<DependencyInjectionContainer>(diContainer);
+    }
+
+    private DiagnosticsManager getDiagnosticsManger() {
+        return diContainer != null ? diContainer.get().getDiagnosticsManager() : null;
+    }
+
     private void launchComposite(final Context context,
                             final CallCompositeRemoteOptions remoteOptions,
                             final CallCompositeLocalOptions localOptions,
@@ -231,7 +257,7 @@ public final class CallComposite {
             configuration.setCallCompositeLocalOptions(localOptions);
         }
 
-        CallCompositeConfiguration.Companion.putConfig(instanceId, configuration);
+        CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
@@ -239,6 +265,10 @@ public final class CallComposite {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(intent);
+    }
+
+    CallCompositeConfiguration getConfiguration() {
+        return this.configuration;
     }
 
     void launchTest(final Context context,
