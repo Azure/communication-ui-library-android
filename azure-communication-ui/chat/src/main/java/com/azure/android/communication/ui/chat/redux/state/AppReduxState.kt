@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.redux.state
 
 import com.azure.android.communication.ui.chat.models.ChatInfoModel
 import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
+import org.threeten.bp.OffsetDateTime
 
 internal class AppReduxState(
     threadID: String,
@@ -22,12 +23,15 @@ internal class AppReduxState(
             topic = null,
             allMessagesFetched = false,
             isThreadDeleted = false
-        )
+        ),
+        lastReadMessageId = ""
     )
 
     override var participantState: ParticipantsState = ParticipantsState(
         participants = mapOf(),
-        participantTyping = mapOf()
+        participantTyping = mapOf(),
+        participantsReadReceiptMap = mapOf(),
+        latestReadMessageTimestamp = OffsetDateTime.MIN
     )
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
