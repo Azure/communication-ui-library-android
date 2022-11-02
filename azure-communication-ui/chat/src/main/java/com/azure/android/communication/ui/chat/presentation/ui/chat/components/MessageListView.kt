@@ -95,11 +95,14 @@ private fun sendReadReceipt(
     messages: List<MessageViewModel>,
     dispatch: Dispatch
 ) {
-    val currentBottomMessage = messages[scrollState.firstVisibleItemIndex]
+    val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
+    val currentBottomMessage = messages[messages.count() - firstVisibleItemIndex - 1]
     if (!currentBottomMessage.isLocalUser) {
         currentBottomMessage.message.id?.let {
-            LaunchedEffect(it) {
-                dispatch(ChatAction.MessageRead(it))
+            if (it.isNotEmpty()) {
+                LaunchedEffect(it) {
+                    dispatch(ChatAction.MessageRead(it))
+                }
             }
         }
     }
