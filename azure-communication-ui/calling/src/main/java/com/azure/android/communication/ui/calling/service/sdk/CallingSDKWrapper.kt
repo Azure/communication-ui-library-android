@@ -31,6 +31,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -75,12 +76,6 @@ internal class CallingSDKWrapper(
                 throw CallCompositeException("Call is not started", IllegalStateException())
             }
         }
-
-    private val isAndroidTV by lazy {
-        val uiModeManager =
-            context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
-        uiModeManager.currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
-    }
 
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
         callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
@@ -246,7 +241,7 @@ internal class CallingSDKWrapper(
     }
 
     override fun switchCameraAsync(): CompletableFuture<CameraDeviceSelectionStatus> {
-        return if (isAndroidTV) {
+        return if (isAndroidTV(context)) {
             switchCameraAsyncAndroidTV()
         } else {
             switchCameraAsyncMobile()
@@ -279,7 +274,7 @@ internal class CallingSDKWrapper(
                             localVideoStreamCompletableFuture.completeExceptionally(error)
                             result.completeExceptionally(error)
                         } else {
-                            val desiredCamera = if (isAndroidTV) {
+                            val desiredCamera = if (isAndroidTV(context)) {
                                 getCameraByFacingTypeSelection()
                             } else {
                                 getCamera(CameraFacing.FRONT)
@@ -396,7 +391,7 @@ internal class CallingSDKWrapper(
     private fun completeCamerasInitializedCompletableFuture() {
         camerasCountStateFlow.value =
             getDeviceManagerCompletableFuture().get().cameras.size
-        if ((isAndroidTV && cameraExist()) || doFrontAndBackCamerasExist()) {
+        if ((isAndroidTV(context) && cameraExist()) || doFrontAndBackCamerasExist()) {
             camerasInitializedCompletableFuture?.complete(null)
         }
     }
