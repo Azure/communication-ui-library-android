@@ -60,6 +60,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
         val callingStateWrapperStateFlow =
             MutableStateFlow(CallingStateWrapper(callState, 0))
+        val callIdFlow = MutableStateFlow<String?>(null)
         val isMutedSharedFlow = MutableSharedFlow<Boolean>()
         val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
         val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -68,6 +69,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             .thenReturn(remoteParticipantsInfoModelSharedFlow)
         Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
             .thenReturn(callingStateWrapperStateFlow)
+        Mockito.`when`(mockCallingGateway.getCallIdStateFlow())
+            .thenReturn(callIdFlow)
         Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
             .thenReturn(isMutedSharedFlow)
         Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
@@ -273,6 +276,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             val callingStateWrapperStateFlow =
                 MutableStateFlow(CallingStateWrapper(CallState.NONE, 0))
+            val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -281,7 +285,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 .thenReturn(remoteParticipantsInfoModelSharedFlow)
             Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
                 .thenReturn(remoteParticipantsInfoModelSharedFlow)
-
+            Mockito.`when`(mockCallingGateway.getCallIdStateFlow())
+                .thenReturn(callIdFlow)
             Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
                 .thenReturn(callingStateWrapperStateFlow)
             Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
