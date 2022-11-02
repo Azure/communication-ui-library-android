@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.chat.ChatComposite
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
+import java.util.*
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
@@ -15,7 +16,16 @@ class ChatLauncherViewModel : ViewModel() {
 
     var isTokenFunctionOptionSelected = false; private set
 
-    val chatComposite: ChatComposite by lazy { ChatCompositeBuilder().build() }
+    private var chatComposite: ChatComposite? = null
+    private val lock = Object()
+
+    fun getChatComposite(): ChatComposite {
+        synchronized(lock) {
+            if (chatComposite == null)
+                chatComposite = ChatCompositeBuilder().build()
+            return chatComposite!!
+        }
+    }
 
     fun getTokenFetcher(tokenFunctionURL: String, acsToken: String): Callable<String> {
         val tokenRefresher = when {
@@ -43,4 +53,11 @@ class ChatLauncherViewModel : ViewModel() {
     fun useAcsToken() {
         isTokenFunctionOptionSelected = false
     }
+
+    fun closeChatComposite() {
+        chatComposite?.stop()
+        chatComposite = null
+    }
+
+    var isChatRunning: Boolean = false
 }

@@ -23,7 +23,7 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-class ChatView(context: Context, private val instanceId: Int, private val exitRequested: Runnable) : FrameLayout(context) {
+internal class ChatView(context: Context, private val instanceId: Int, private val exitRequested: Runnable) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private val locator get() = ServiceLocator.getInstance(instanceId)
     private val dispatch: Dispatch by lazy { locator.locate() }
@@ -64,6 +64,7 @@ class ChatView(context: Context, private val instanceId: Int, private val exitRe
     }
 
     override fun onDetachedFromWindow() {
+        tryPop()
         super.onDetachedFromWindow()
         count--
         reduxViewModelGenerator.stop()
@@ -72,7 +73,7 @@ class ChatView(context: Context, private val instanceId: Int, private val exitRe
         }
     }
 
-    fun tryPop(): Boolean {
+    private fun tryPop(): Boolean {
         val store = locator.locate<AppStore<AppReduxState>>()
         val state = store.getCurrentState()
         val canPop = state.navigationState.navigationStatus != NavigationStatus.NONE

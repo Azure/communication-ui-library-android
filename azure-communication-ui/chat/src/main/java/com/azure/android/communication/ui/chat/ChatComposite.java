@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat;
 import static com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifierKt.into;
 
 import android.content.Context;
+import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
@@ -28,6 +29,7 @@ public class ChatComposite {
     private final ChatContainer chatContainer;
     private final ChatCompositeConfiguration configuration;
     private final Integer instanceId = instanceIdCounter++;
+    private Runnable closeUIRequestHandler;
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -71,11 +73,10 @@ public class ChatComposite {
      * Get Composite UI view
      *
      * @param context The android context used to start the Composite.\
-     * @param exitRequested
      * @return View ChatComposite UI view
      */
-    public ChatView getCompositeUIView(final Context context, final Runnable exitRequested) {
-        return new ChatView(context, instanceId, exitRequested);
+    public View getCompositeUIView(final Context context) {
+        return new ChatView(context, instanceId, closeUIRequestHandler);
     }
 
     /**
@@ -83,7 +84,13 @@ public class ChatComposite {
      *
      * @param handler The {@link ChatCompositeEventHandler}.
      */
-    public void addOnViewClosedEventHandler(final ChatCompositeEventHandler<Object> handler) {
+    public void addOnCompositeViewCloseRequestedEventHandler(final ChatCompositeEventHandler<Object> handler) {
+        closeUIRequestHandler = new Runnable() {
+            @Override
+            public void run() {
+                handler.handle(null);
+            }
+        };
     }
 
     /**

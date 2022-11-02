@@ -2,19 +2,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.azure.android.communication.ui.chat"
     >
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-
-    <application>
-        <activity
-            android:name=".presentation.ChatCompositeActivity"
-            android:exported="false"
-            android:label="@string/azure_communication_ui_chat_title_activity_compose_chat"
-            android:theme="@style/AzureCommunicationUIChat.Theme"
-            />
-    </application>
-
 </manifest>

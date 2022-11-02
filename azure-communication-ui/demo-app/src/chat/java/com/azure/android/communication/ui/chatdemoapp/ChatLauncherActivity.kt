@@ -7,8 +7,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +21,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
@@ -36,7 +37,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
 
-    private var chatView : ChatView? = null
+    private var chatView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +72,17 @@ class ChatLauncherActivity : AppCompatActivity() {
             identity.setText(BuildConfig.IDENTITY)
 
             launchButton.setOnClickListener {
-                launch()
+                if (chatLauncherViewModel.isChatRunning)
+                    openChatUI()
+                else
+                    launch()
+            }
+
+            openChatUIButton.setOnClickListener {
+                openChatUI()
+            }
+            stopChatCompositeButton.setOnClickListener {
+                stopChatComposite()
             }
 
             tokenFunctionRadioButton.setOnClickListener {
@@ -97,24 +108,22 @@ class ChatLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+
+        this.onBackPressedDispatcher.addCallback {
+            if (chatView != null) {
+                onChatCompositeExitRequested()
+            } else {
+                this.handleOnBackPressed()
+            }
+        }
     }
 
-
-    /// When a request is made to close the view, lets do that here
+    // / When a request is made to close the view, lets do that here
     private fun onChatCompositeExitRequested() {
         chatView?.parent?.let {
             (it as ViewGroup).removeView(chatView)
-
         }
         chatView = null
-
-    }
-    override fun onBackPressed() {
-
-        if (chatView?.tryPop() == true) {
-            return
-        }
-        super.onBackPressed()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -153,6 +162,21 @@ class ChatLauncherActivity : AppCompatActivity() {
         }
     }
 
+    private fun openChatUI() {
+        val chatComposite = chatLauncherViewModel.getChatComposite()
+        chatView = chatComposite.getCompositeUIView(this)
+
+        addContentView(
+                chatView,
+                ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                )
+        )
+
+        binding.launchButton.visibility = View.GONE
+    }
+
     private fun launch() {
         val inputChatJoinId = binding.chatThreadID.text.toString()
         val threadId = if (URLUtil.isValidUrl(inputChatJoinId))
@@ -173,20 +197,27 @@ class ChatLauncherActivity : AppCompatActivity() {
             binding.userNameText.text.toString()
         )
 
-        val chatComposite = chatLauncherViewModel.chatComposite
+        val chatComposite = chatLauncherViewModel.getChatComposite()
+        chatComposite.addOnCompositeViewCloseRequestedEventHandler {
+            onChatCompositeExitRequested()
+        }
 
         chatComposite.launch(this, remoteOptions)
 
-        chatView = chatComposite.getCompositeUIView(this, this::onChatCompositeExitRequested)
+        openChatUI()
 
-        addContentView(
-            chatView,
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-        )
+        binding.run {
+            launchButton.visibility = View.GONE
+            openChatUIButton.visibility = View.VISIBLE
+            stopChatCompositeButton.visibility = View.VISIBLE
+        }
+    }
 
+    fun stopChatComposite() {
+        chatLauncherViewModel.closeChatComposite()
+        binding.launchButton.visibility = View.VISIBLE
+        binding.openChatUIButton.visibility = View.GONE
+        binding.stopChatCompositeButton.visibility = View.GONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
