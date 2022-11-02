@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
@@ -18,6 +19,7 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.microsoft.fluentui.persona.AvatarSize
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -42,9 +44,17 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var micImage: ImageView
     private lateinit var dragTouchListener: DragTouchListener
     private lateinit var accessibilityManager: AccessibilityManager
+    private lateinit var guideline: Guideline
+
+    private val isAndroidTV by lazy {
+        val uiModeManager =
+            context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
+        uiModeManager.currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        guideline = findViewById(R.id.azure_communication_ui_guideline)
         localParticipantFullCameraHolder =
             findViewById(R.id.azure_communication_ui_call_local_full_video_holder)
         localParticipantPip =
@@ -71,6 +81,11 @@ internal class LocalParticipantView : ConstraintLayout {
         switchCameraButton.setOnClickListener { viewModel.switchCamera() }
         pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
         dragTouchListener = DragTouchListener()
+
+        if (isAndroidTV) {
+            pipAvatar.avatarSize = AvatarSize.MEDIUM
+            guideline.setGuidelinePercent(0.9f)
+        }
     }
 
     fun stop() {
