@@ -28,8 +28,6 @@ import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.state.ChatState
-import com.azure.android.communication.ui.chat.utilities.isScrolledToEnd
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import com.jakewharton.threetenabp.AndroidThreeTen
 
@@ -43,7 +41,6 @@ internal fun MessageListView(
     scrollState: LazyListState,
     dispatchers: Dispatch
 ) {
-
     requestPages(scrollState, messages, dispatchers)
     sendReadReceipt(scrollState, messages, dispatchers)
     LazyColumn(
@@ -82,14 +79,7 @@ private fun requestPages(
     dispatch: Dispatch
 ) {
     if (scrollState.layoutInfo.totalItemsCount == 0) return
-
     val currentLastMessage = messages.first()
-//    val currentLatestMessage = messages[messages.size - 1]
-//    if (currentLatestMessage.message.id != null
-//        && chatState.lastReadMessageId< currentLatestMessage.message.id) {
-//        dispatch(ChatAction.MessageRead((currentLatestMessage.message.id)))
-//    }
-
     if (scrollState.outOfViewItemCount() < MESSAGE_LIST_LOAD_MORE_THRESHOLD) {
         val lastTrigger = remember { mutableStateOf("0") }
         if (lastTrigger.value != currentLastMessage.message.id) {
@@ -106,9 +96,9 @@ private fun sendReadReceipt(
     dispatch: Dispatch
 ) {
     val currentBottomMessage = messages[scrollState.firstVisibleItemIndex]
-    if(!currentBottomMessage.isLocalUser) {
+    if (!currentBottomMessage.isLocalUser) {
         currentBottomMessage.message.id?.let {
-            LaunchedEffect(it){
+            LaunchedEffect(it) {
                 dispatch(ChatAction.MessageRead(it))
             }
         }

@@ -38,8 +38,6 @@ import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
-import java.util.*
-import kotlin.concurrent.timerTask
 
 @Composable
 internal fun ChatScreen(
