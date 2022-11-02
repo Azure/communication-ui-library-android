@@ -78,8 +78,6 @@ internal class CallingSDKWrapper(
             }
         }
 
-
-
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
         callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
 

@@ -2,5 +2,5 @@ package com.azure.android.communication.ui.calling.utilities
 
 import android.content.Context
 
-internal fun isAndroidTV(context:Context) =
+internal fun isAndroidTV(context: Context) =
     (context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager).currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
