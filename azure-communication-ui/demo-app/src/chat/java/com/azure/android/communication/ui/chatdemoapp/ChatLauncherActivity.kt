@@ -167,11 +167,11 @@ class ChatLauncherActivity : AppCompatActivity() {
         chatView = chatComposite.getCompositeUIView(this)
 
         addContentView(
-                chatView,
-                ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                )
+            chatView,
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
         )
 
         binding.launchButton.visibility = View.GONE
