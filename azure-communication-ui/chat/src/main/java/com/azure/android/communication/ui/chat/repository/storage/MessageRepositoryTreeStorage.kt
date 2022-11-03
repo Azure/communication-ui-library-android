@@ -18,7 +18,7 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
 
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
         val orderId: Long = getOrderId(messageInfoModel)
-        treeMapStorage.put(orderId, messageInfoModel)
+        treeMapStorage[orderId] = messageInfoModel
     }
 
     override fun addPage(page: List<MessageInfoModel>) {

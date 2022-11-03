@@ -32,8 +32,7 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
-    private lateinit var requestCallEndCallback: () -> Unit
-    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
+    private lateinit var moreButton: ImageButton
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -41,18 +40,16 @@ internal class ControlBarView : ConstraintLayout {
         cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
+        moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
+
         subscribeClickListener()
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
-        requestCallEnd: () -> Unit,
-        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         this.viewModel = viewModel
-        this.requestCallEndCallback = requestCallEnd
-        this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -197,7 +194,7 @@ internal class ControlBarView : ConstraintLayout {
 
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
-            requestCallEndCallback()
+            viewModel.requestCallEnd()
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {
@@ -214,7 +211,10 @@ internal class ControlBarView : ConstraintLayout {
             }
         }
         callAudioDeviceButton.setOnClickListener {
-            openAudioDeviceSelectionMenuCallback()
+            viewModel.openAudioDeviceSelectionMenu()
+        }
+        moreButton.setOnClickListener {
+            viewModel.openMoreMenu()
         }
     }
 }
