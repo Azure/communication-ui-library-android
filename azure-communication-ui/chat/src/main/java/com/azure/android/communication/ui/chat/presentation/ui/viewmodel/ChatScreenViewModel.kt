@@ -46,6 +46,25 @@ internal fun buildChatScreenViewModel(
     dispatch: Dispatch,
 ): ChatScreenViewModel {
 
+    return ChatScreenViewModel(
+        messages = messages.toViewModelList(context, localUserIdentifier),
+        areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
+        chatStatus = store.getCurrentState().chatState.chatStatus,
+        buildCount = buildCount++,
+        unreadMessagesCount = getUnReadMessagesCount(store, messages),
+        error = store.getCurrentState().errorState.chatStateError,
+        postAction = dispatch,
+        typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
+        participants = store.getCurrentState().participantState.participants,
+        chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
+        navigationStatus = store.getCurrentState().navigationState.navigationStatus,
+    )
+}
+
+private fun getUnReadMessagesCount(
+    store: AppStore<ReduxState>,
+    messages: List<MessageInfoModel>,
+): Int {
     var unreadMessagesCount = 0
 
     val lastReadId = store.getCurrentState().chatState.lastReadMessageId
@@ -59,26 +78,11 @@ internal fun buildChatScreenViewModel(
             itr++
             continue
         }
-        if (messages[itr].id!! > lastReadId &&
-            !messages[itr].isCurrentUser &&
-            messages[itr].id!! > lastSendId
-        ) {
+        if (messages[itr].id!! > lastReadId && !messages[itr].isCurrentUser && messages[itr].id!! > lastSendId) {
             unreadMessagesCount++
         }
         itr++
     }
 
-    return ChatScreenViewModel(
-        messages = messages.toViewModelList(context, localUserIdentifier),
-        areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
-        chatStatus = store.getCurrentState().chatState.chatStatus,
-        buildCount = buildCount++,
-        unreadMessagesCount = unreadMessagesCount,
-        error = store.getCurrentState().errorState.chatStateError,
-        postAction = dispatch,
-        typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
-        participants = store.getCurrentState().participantState.participants,
-        chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
-        navigationStatus = store.getCurrentState().navigationState.navigationStatus,
-    )
+    return unreadMessagesCount
 }
