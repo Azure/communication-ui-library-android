@@ -1,6 +1,5 @@
 # Azure Communication UI Calling Release History
 
-
 ## 1.2.0-beta.1 (FUTURE)
 
 ### Features
@@ -11,7 +10,6 @@
 - N/A
 
 ## 1.1.0-beta.1 (2022-10-03)
-
 ### Features
 - Setting up Call Title and Subtitle is now availble by customizing `CallCompositeLocalOptions` with `CallCompositeSetupScreenViewData`.
 - Implemented new error message `cameraFailure` that can be sent to developers when initiating or turning on camera fails.

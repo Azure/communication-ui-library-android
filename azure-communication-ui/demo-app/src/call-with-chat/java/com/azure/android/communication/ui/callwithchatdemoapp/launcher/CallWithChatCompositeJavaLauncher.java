@@ -13,7 +13,6 @@ import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompos
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeJoinLocator;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalOptions;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalizationOptions;
-import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeNavigationBarViewData;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.callwithchatdemoapp.AlertHandler;
@@ -76,11 +75,7 @@ public class CallWithChatCompositeJavaLauncher implements CallWithChatCompositeL
 
         final CallWithChatCompositeLocalOptions localOptions = new CallWithChatCompositeLocalOptions()
                 .setParticipantViewData(
-                        SettingsFeatures.getParticipantViewData(context))
-                .setNavigationBarViewData(
-                        new CallWithChatCompositeNavigationBarViewData()
-                                .setCallTitle(SettingsFeatures.getTitle())
-                                .setCallSubtitle(SettingsFeatures.getSubtitle()));
+                        SettingsFeatures.getParticipantViewData(context));
 
         composite.launch(context, remoteOptions, localOptions);
     }
