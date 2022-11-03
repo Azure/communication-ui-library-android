@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
+import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
@@ -164,7 +165,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private fun openChatUI() {
         val chatComposite = chatLauncherViewModel.getChatComposite()
-        chatView = chatComposite.getCompositeUIView(this)
+        chatView = ChatCompositeView(this, chatComposite)
 
         addContentView(
             chatView,

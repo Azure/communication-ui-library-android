@@ -54,7 +54,6 @@ class ChatLauncherViewModel : ViewModel() {
     }
 
     fun closeChatComposite() {
-        chatComposite?.stop()
         chatComposite = null
     }
 

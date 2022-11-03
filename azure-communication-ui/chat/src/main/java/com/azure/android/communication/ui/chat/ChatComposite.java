@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat;
 import static com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifierKt.into;
 
 import android.content.Context;
-import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
@@ -15,7 +14,6 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantVi
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
-import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView;
 
 
 /**
@@ -28,7 +26,7 @@ public class ChatComposite {
     private static int instanceIdCounter = 0;
     private final ChatContainer chatContainer;
     private final ChatCompositeConfiguration configuration;
-    private final Integer instanceId = instanceIdCounter++;
+    final Integer instanceId = instanceIdCounter++;
     private Runnable closeUIRequestHandler;
 
     ChatComposite(final ChatCompositeConfiguration configuration) {
@@ -62,22 +60,22 @@ public class ChatComposite {
         launchComposite(context, remoteOptions, localOptions, false);
     }
 
-    /**
-     * Stop the ChatComposite. Destroy the UI if in foreground mode. Destroy service layer.
-     */
-    public void stop() {
-        chatContainer.stop();
-    }
+//    /**
+//     * Stop the ChatComposite. Destroy the UI if in foreground mode. Destroy service layer.
+//     */
+//    public void stop() {
+//        chatContainer.stop();
+//    }
 
-    /**
-     * Get Composite UI view
-     *
-     * @param context The android context used to start the Composite.\
-     * @return View ChatComposite UI view
-     */
-    public View getCompositeUIView(final Context context) {
-        return new ChatView(context, instanceId, closeUIRequestHandler);
-    }
+//    /**
+//     * Get Composite UI view
+//     *
+//     * @param context The android context used to start the Composite.\
+//     * @return View ChatComposite UI view
+//     */
+//    public View getCompositeUIView(final Context context) {
+//        return new ChatView(context, instanceId, closeUIRequestHandler);
+//    }
 
     /**
      * Add {@link ChatCompositeEventHandler}.
