@@ -55,7 +55,7 @@ internal fun UnreadMessagesIndicatorView(
             },
             onClick = {
                 scope.launch {
-                    scrollState.animateScrollToItem(totalMessages)
+                    scrollState.animateScrollToItem(0)
                 }
             },
             backgroundColor = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
