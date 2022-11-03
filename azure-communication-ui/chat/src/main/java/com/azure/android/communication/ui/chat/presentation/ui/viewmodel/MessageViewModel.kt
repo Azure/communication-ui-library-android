@@ -24,9 +24,7 @@ internal class MessageViewModel(
     val isRead: Boolean
 )
 
-internal fun List<MessageInfoModel>.toViewModelList(context: Context
-                                                    , localUserIdentifier: String
-                                                    , latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN) =
+internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserIdentifier: String, latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN) =
     InfoModelToViewModelAdapter(context, this, localUserIdentifier, latestReadMessageTimestamp) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(

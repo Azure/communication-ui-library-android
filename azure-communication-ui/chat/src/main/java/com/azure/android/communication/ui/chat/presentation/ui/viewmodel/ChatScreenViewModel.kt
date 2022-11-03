@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
-import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 // View Model for the Chat Screen
