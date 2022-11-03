@@ -30,7 +30,6 @@ internal fun UnreadMessagesIndicatorView(
     scrollState: LazyListState,
     visible: Boolean,
     unreadCount: Int,
-    totalMessages: Int,
 ) {
     val scope = rememberCoroutineScope()
     val content = LocalContext.current
@@ -47,7 +46,7 @@ internal fun UnreadMessagesIndicatorView(
             text = {
                 Text(
                     text = when (unreadCount) {
-                        1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages)
+                        1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_message)
                         else -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages, unreadCount.toString())
                     },
                     fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize
@@ -74,6 +73,5 @@ internal fun PreviewUnreadMessagesIndicatorView() {
         rememberLazyListState(),
         visible = true,
         unreadCount = 20,
-        totalMessages = 30,
     )
 }

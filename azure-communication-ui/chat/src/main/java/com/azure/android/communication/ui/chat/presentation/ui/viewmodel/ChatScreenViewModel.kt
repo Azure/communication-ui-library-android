@@ -46,7 +46,7 @@ internal fun buildChatScreenViewModel(
     dispatch: Dispatch,
 ): ChatScreenViewModel {
 
-    var unreadMessagesCount = messages.size
+    var unreadMessagesCount = messages.size - 1
     
     val lastReadId = store.getCurrentState().chatState.lastReadMessageId
     var itr = 0

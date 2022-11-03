@@ -103,7 +103,6 @@ internal fun ChatScreen(
                     scrollState = listState,
                     visible = viewModel.unreadMessagesIndicatorVisibility,
                     unreadCount = viewModel.unreadMessagesCount,
-                    totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
                 )
 
                 Box(contentAlignment = Alignment.CenterStart) {
