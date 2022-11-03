@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.utilities
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,10 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
         return when (bottomCellType) {
             BottomCellItemType.BottomMenuAction -> {
                 val view = inflater.inflate(R.layout.azure_communication_ui_calling_bottom_drawer_cell, parent, false)
+                view.setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) v.setBackgroundColor(v.context.resources.getColor(R.color.azure_communication_ui_calling_color_focus_tint))
+                    else v.setBackgroundColor(Color.TRANSPARENT)
+                }
                 BottomCellActionViewHolder(view)
             }
             BottomCellItemType.BottomMenuTitle -> {
