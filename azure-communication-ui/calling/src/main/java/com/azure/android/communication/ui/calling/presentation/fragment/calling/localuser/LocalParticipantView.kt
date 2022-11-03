@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.persona.AvatarSize
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
@@ -45,12 +46,6 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var dragTouchListener: DragTouchListener
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var guideline: Guideline
-
-    private val isAndroidTV by lazy {
-        val uiModeManager =
-            context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
-        uiModeManager.currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
-    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -82,7 +77,7 @@ internal class LocalParticipantView : ConstraintLayout {
         pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
         dragTouchListener = DragTouchListener()
 
-        if (isAndroidTV) {
+        if (isAndroidTV(context)) {
             pipAvatar.avatarSize = AvatarSize.MEDIUM
             guideline.setGuidelinePercent(0.9f)
         }

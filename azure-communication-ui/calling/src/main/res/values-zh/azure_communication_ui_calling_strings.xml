@@ -60,9 +60,9 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">切换视频</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">切换音频</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">设备选项</string>
-    <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">More</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics">Share diagnostics info</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostics info</string>
+    <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">更多</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics">共享诊断信息</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_title">诊断信息</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已开始。</b>加入即表示你

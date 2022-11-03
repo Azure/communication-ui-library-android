@@ -60,9 +60,9 @@
     <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Activer/désactiver la vidéo</string>
     <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Activer/désactiver l’audio</string>
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Options du périphérique</string>
-    <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">More</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics">Share diagnostics info</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostics info</string>
+    <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Plus</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics">Partager les informations de diagnostic</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informations de diagnostic</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La transcription a démarré.</b> En participant, vous
