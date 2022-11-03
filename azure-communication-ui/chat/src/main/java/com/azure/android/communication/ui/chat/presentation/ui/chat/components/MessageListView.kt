@@ -42,7 +42,7 @@ internal fun MessageListView(
     dispatchers: Dispatch
 ) {
     requestPages(scrollState, messages, dispatchers)
-    if(messages.isNotEmpty()) {
+    if (messages.isNotEmpty()) {
         sendReadReceipt(scrollState, messages, dispatchers)
     }
     LazyColumn(
