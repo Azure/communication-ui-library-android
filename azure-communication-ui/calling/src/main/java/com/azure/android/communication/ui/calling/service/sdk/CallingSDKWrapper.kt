@@ -263,7 +263,6 @@ internal class CallingSDKWrapper(
                 val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
 
                 if (localVideoStreamCompletableFuture.isDone) {
-
                     result.complete(localVideoStreamCompletableFuture.get())
                 } else if (!canCreateLocalVideoStream()) {
                     // cleanUpResources() could have been called before this, so we need to check if it's still
@@ -563,6 +562,7 @@ internal class CallingSDKWrapper(
 
         return result
     }
+
     private fun onJoinCallFailed(
         startCallCompletableFuture: CompletableFuture<Void>,
         error: Throwable?,

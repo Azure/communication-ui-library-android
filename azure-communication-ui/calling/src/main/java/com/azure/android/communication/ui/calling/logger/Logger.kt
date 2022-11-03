@@ -7,5 +7,5 @@ internal interface Logger {
     fun info(message: String)
     fun debug(message: String)
     fun warning(message: String)
-    fun error(message: String, error: Throwable?)
+    fun error(message: String, error: Throwable? = null)
 }

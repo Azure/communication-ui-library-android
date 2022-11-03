@@ -47,13 +47,13 @@ public final class CallCompositeSetupScreenViewData {
     }
 
     /**
-     * Set the title and subtitle of the call setup screen to the supplied String.
-     * @param title title of the call.
+     * <p>Set subtitle of the call setup screen to the supplied String.</p>
+     * <p>Title is required to be set as well for subtitle to appear on the screen.</p>
+     *
      * @param subtitle subtitle of the call.
      * @return The current {@link CallCompositeSetupScreenViewData}.
      */
-    public CallCompositeSetupScreenViewData setTitleAndSubtitle(final String title, final String subtitle) {
-        this.title = title;
+    public CallCompositeSetupScreenViewData setSubtitle(final String subtitle) {
         this.subtitle = subtitle;
         return this;
     }

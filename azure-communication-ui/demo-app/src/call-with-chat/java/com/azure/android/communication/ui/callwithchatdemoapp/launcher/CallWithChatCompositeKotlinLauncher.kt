@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompos
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeJoinLocator
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalOptions
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalizationOptions
-import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeNavigationBarViewData
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callwithchatdemoapp.AlertHandler
@@ -21,8 +20,6 @@ import com.azure.android.communication.ui.callwithchatdemoapp.RemoteParticipantJ
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getLayoutDirection
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getParticipantViewData
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getRemoteParticipantPersonaInjectionSelection
-import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getSubtitle
-import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.getTitle
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.initialize
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.language
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures.Companion.locale
@@ -81,11 +78,6 @@ internal class CallWithChatCompositeKotlinLauncher :
 
         val localOptions = CallWithChatCompositeLocalOptions()
             .setParticipantViewData(getParticipantViewData(context))
-            .setNavigationBarViewData(
-                CallWithChatCompositeNavigationBarViewData()
-                    .setCallTitle(getTitle())
-                    .setCallSubtitle(getSubtitle())
-            )
 
         composite.launch(context, remoteOptions, localOptions)
     }
