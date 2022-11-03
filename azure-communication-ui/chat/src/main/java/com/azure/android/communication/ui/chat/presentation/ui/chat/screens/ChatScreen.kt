@@ -93,7 +93,7 @@ internal fun ChatScreen(
                     messages = viewModel.messages,
                     scrollState = listState,
                     showLoading = viewModel.areMessagesLoading,
-                    dispatchers = viewModel.postAction,
+                    dispatchers = viewModel.postAction
                 )
             }
         },

@@ -40,8 +40,7 @@ internal fun MessageListView(
     messages: List<MessageViewModel>,
     showLoading: Boolean,
     scrollState: LazyListState,
-    dispatchers: Dispatch,
-    latestReadMessageTimestamp: OffsetDateTime
+    dispatchers: Dispatch
 ) {
     requestPages(scrollState, messages, dispatchers)
     if (messages.isNotEmpty()) {
@@ -121,8 +120,7 @@ internal fun PreviewMessageListView() {
             showLoading = false,
             modifier = Modifier.padding(0.dp),
             messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
-            scrollState = LazyListState(),
-            latestReadMessageTimestamp = OffsetDateTime.now()
+            scrollState = LazyListState()
         ) {}
     }
 }
