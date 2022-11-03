@@ -9,12 +9,11 @@ if (project.rootProject.file('local.properties').canRead()) {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode ui_library_version_code
         versionName "$ui_library_version_name"
 
@@ -28,7 +27,10 @@ android {
         buildConfigField 'String', 'APP_SECRET', properties.getProperty('APP_SECRET', '""')
         buildConfigField 'String', 'REMOTE_PARTICIPANT_AVATAR_TEST_URL', properties.getProperty('REMOTE_PARTICIPANT_AVATAR_TEST_URL', '""')
         buildConfigField 'String', 'ACS_TOKEN_EXPIRED', properties.getProperty('ACS_TOKEN_EXPIRED', '""')
+        buildConfigField 'String', 'IDENTITY', properties.getProperty('IDENTITY', '""')
         buildConfigField 'boolean', 'CHECK_TASK_ROOT', String.valueOf(!shouldNotCheckTaskRoot())
+        buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
+        buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
     }
 
     signingConfigs {
@@ -55,17 +57,19 @@ android {
             minifyEnabled true
             shrinkResources true
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher",
+                    appIcon     : "@mipmap/ic_launcher",
                     appIconRound: "@mipmap/ic_launcher_round"
             ]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
-            signingConfig signingConfigs.release
+            if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
+                signingConfig signingConfigs.release
+            }
         }
 
         debug {
             applicationIdSuffix = ".debug"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher_debug",
+                    appIcon     : "@mipmap/ic_launcher_debug",
                     appIconRound: "@mipmap/ic_launcher_debug_round"
             ]
         }
@@ -97,21 +101,21 @@ android {
 
     sourceSets {
         calling {
-            java.srcDirs = ['src/main/java','src/calling/java']
-            res.srcDirs = ['src/main/res','src/calling/res']
+            java.srcDirs = ['src/main/java', 'src/calling/java']
+            res.srcDirs = ['src/main/res', 'src/calling/res']
             manifest.srcFile 'src/calling/AndroidManifest.xml'
             androidTest {
                 java.srcDirs = ['src/calling-test/java']
             }
         }
         chat {
-            java.srcDirs = ['src/main/java','src/chat/java']
-            res.srcDirs = ['src/main/res','src/chat/res']
+            java.srcDirs = ['src/main/java', 'src/chat/java']
+            res.srcDirs = ['src/main/res', 'src/chat/res']
             manifest.srcFile 'src/chat/AndroidManifest.xml'
         }
         callwithchat {
-            java.srcDirs = ['src/main/java','src/call-with-chat/java']
-            res.srcDirs = ['src/main/res','src/call-with-chat/res']
+            java.srcDirs = ['src/main/java', 'src/call-with-chat/java']
+            res.srcDirs = ['src/main/res', 'src/call-with-chat/res']
             manifest.srcFile 'src/call-with-chat/AndroidManifest.xml'
         }
     }
@@ -120,14 +124,17 @@ android {
     productFlavors {
 
         calling {
+            minSdkVersion 21
             dimension "product"
             matchingFallbacks = ["calling"]
         }
         chat {
+            minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["chat"]
         }
         callwithchat {
+            minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["callwithchat"]
         }

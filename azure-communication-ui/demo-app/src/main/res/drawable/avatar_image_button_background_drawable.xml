@@ -3,13 +3,11 @@
    Licensed under the MIT License.
   -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval"
-    >
+    android:shape="oval">
 
     <solid android:color="@color/app_primary_color" />
 
     <size
         android:width="42dp"
-        android:height="42dp"
-        />
+        android:height="42dp" />
 </shape>

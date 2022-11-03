@@ -3,4 +3,12 @@
 
 package com.azure.android.communication.ui.chat.redux.state
 
-internal interface ReduxState
+internal interface ReduxState {
+    var chatState: ChatState
+    var participantState: ParticipantsState
+    var lifecycleState: LifecycleState
+    var errorState: ErrorState
+    var navigationState: NavigationState
+    var repositoryState: RepositoryState
+    var networkState: NetworkState
+}

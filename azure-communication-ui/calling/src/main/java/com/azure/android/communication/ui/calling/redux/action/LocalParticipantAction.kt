@@ -39,6 +39,8 @@ internal sealed class LocalParticipantAction : Action {
     class CameraPauseSucceeded : LocalParticipantAction()
     class CameraPauseFailed(val error: CallCompositeError) : LocalParticipantAction()
 
+    class CamerasCountUpdated(val count: Int) : LocalParticipantAction()
+
     class MicPreviewOnTriggered : LocalParticipantAction()
     class MicPreviewOffTriggered : LocalParticipantAction()
 

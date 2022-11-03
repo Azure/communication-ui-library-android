@@ -24,6 +24,9 @@ internal class CallStateReducerImpl : CallStateReducer {
             is CallingAction.CallStartRequested -> {
                 callingState.copy(joinCallIsRequested = true)
             }
+            is CallingAction.CallIdUpdated -> {
+                callingState.copy(callId = action.callId)
+            }
             else -> callingState
         }
     }

@@ -71,7 +71,7 @@ class CallingCompositeLocalizationTest : BaseUiTest() {
 enum class Localize(
     val language: String,
     val videoOffText: String,
-    val micText: String
+    val micText: String,
 ) {
 
     French(Locale.FRENCH.displayName, "Video désactivé", "Microphone désactivé"),

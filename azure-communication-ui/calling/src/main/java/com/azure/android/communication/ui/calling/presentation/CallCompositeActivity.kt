@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
@@ -30,6 +30,7 @@ import com.azure.android.communication.ui.calling.presentation.navigation.BackNa
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -37,7 +38,6 @@ import java.lang.IllegalArgumentException
 import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
-
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
@@ -61,6 +61,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
+    private val diagnosticsService get() = container.diagnosticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +117,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
 
         notificationService.start(lifecycleScope)
+        diagnosticsService.start(lifecycleScope)
     }
 
     override fun onStart() {
@@ -139,12 +141,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // Covers edge case where Android tries to recreate call activity after process death
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
-        if (CallCompositeConfiguration.hasConfig(instanceId)) {
+        if (CallCompositeInstanceManager.hasCallComposite(instanceId)) {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
-                CallCompositeConfiguration.putConfig(instanceId, null)
+                CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
         super.onDestroy()
@@ -242,9 +244,16 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                requestedOrientation = if (isAndroidTV(this)) {
+
+                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                }
+
                 launchFragment(SetupFragment::class.java.name)
             }
+            else -> {}
         }
     }
 

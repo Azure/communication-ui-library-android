@@ -7,7 +7,7 @@
     android:id="@+id/azure_communication_ui_call_local_user_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
+    android:focusable="false"
     android:accessibilityTraversalAfter="@id/azure_communication_ui_call_floating_header"
     android:padding="4dp"
     >

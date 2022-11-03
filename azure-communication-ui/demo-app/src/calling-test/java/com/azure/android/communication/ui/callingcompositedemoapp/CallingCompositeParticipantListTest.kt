@@ -20,7 +20,10 @@ class CallingCompositeParticipantListTest : BaseUiTest() {
     @Test
     fun testLocalUserName() {
         val userName = UiTestUtils.getTextFromEdittextView(R.id.userNameText)
-        Assert.assertTrue("Invalid user: ${BuildConfig.USER_NAME}", BuildConfig.USER_NAME == "Test User")
+        Assert.assertTrue(
+            "Invalid user: ${BuildConfig.USER_NAME}",
+            BuildConfig.USER_NAME == "Test User"
+        )
         Assert.assertTrue("Invalid user: $userName", BuildConfig.USER_NAME == userName)
     }
 
