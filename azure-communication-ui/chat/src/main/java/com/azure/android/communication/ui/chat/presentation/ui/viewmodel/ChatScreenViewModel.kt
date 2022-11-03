@@ -46,16 +46,26 @@ internal fun buildChatScreenViewModel(
     dispatch: Dispatch,
 ): ChatScreenViewModel {
 
-    var unreadMessagesCount = messages.size - 1
+    var unreadMessagesCount = 0
 
     val lastReadId = store.getCurrentState().chatState.lastReadMessageId
+    val lastSendId = store.getCurrentState().chatState.lastSendMessageId
     var itr = 0
     while (itr < messages.size) {
-        if (messages[itr].id == lastReadId) {
+        if (lastReadId.isEmpty()) {
             break
         }
+        if (messages[itr].isCurrentUser) {
+            itr++
+            continue
+        }
+        if (messages[itr].id!! > lastReadId &&
+            !messages[itr].isCurrentUser &&
+            messages[itr].id!! > lastSendId
+        ) {
+            unreadMessagesCount++
+        }
         itr++
-        unreadMessagesCount--
     }
 
     return ChatScreenViewModel(

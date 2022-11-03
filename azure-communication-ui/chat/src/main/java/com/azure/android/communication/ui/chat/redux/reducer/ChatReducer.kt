@@ -29,7 +29,7 @@ internal class ChatReducerImpl : ChatReducer {
                 state.copy(chatInfoModel = state.chatInfoModel.copy(isThreadDeleted = true))
             }
             is ChatAction.MessageSent -> {
-                state.copy(lastReadMessageId = action.messageInfoModel.id ?: "")
+                state.copy(lastSendMessageId = action.messageInfoModel.id ?: "")
             }
             is ChatAction.MessageRead -> {
                 state.copy(
