@@ -154,6 +154,18 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                         )
                     }
                 }
+                Column{
+                    if (viewModel.isRead) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_message_read_10_filled),
+                            contentDescription = "Message Read",
+                            modifier = Modifier.padding(
+                                ChatCompositeTheme.dimensions.messageRead
+                            ),
+                            // tint = ChatCompositeTheme.colors.systemIconColor
+                        )
+                    }
+                }
             }
         }
     }

@@ -30,6 +30,7 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import com.jakewharton.threetenabp.AndroidThreeTen
+import org.threeten.bp.OffsetDateTime
 
 const val MESSAGE_LIST_LOAD_MORE_THRESHOLD = 40
 
@@ -39,7 +40,8 @@ internal fun MessageListView(
     messages: List<MessageViewModel>,
     showLoading: Boolean,
     scrollState: LazyListState,
-    dispatchers: Dispatch
+    dispatchers: Dispatch,
+    latestReadMessageTimestamp: OffsetDateTime
 ) {
     requestPages(scrollState, messages, dispatchers)
     if (messages.isNotEmpty()) {
@@ -119,7 +121,8 @@ internal fun PreviewMessageListView() {
             showLoading = false,
             modifier = Modifier.padding(0.dp),
             messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
-            scrollState = LazyListState()
+            scrollState = LazyListState(),
+            latestReadMessageTimestamp = OffsetDateTime.now()
         ) {}
     }
 }

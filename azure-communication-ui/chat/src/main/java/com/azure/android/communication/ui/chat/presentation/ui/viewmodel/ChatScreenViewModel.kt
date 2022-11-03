@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
+import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
 // View Model for the Chat Screen
@@ -50,7 +51,7 @@ internal fun buildChatScreenViewModel(
     var unreadMessagesCount: Int = 0
 
     return ChatScreenViewModel(
-        messages = messages.toViewModelList(context, localUserIdentifier),
+        messages = messages.toViewModelList(context, localUserIdentifier, store.getCurrentState().participantState.latestReadMessageTimestamp),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
