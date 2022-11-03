@@ -42,7 +42,9 @@ internal fun MessageListView(
     dispatchers: Dispatch
 ) {
     requestPages(scrollState, messages, dispatchers)
-    sendReadReceipt(scrollState, messages, dispatchers)
+    if(messages.isNotEmpty()) {
+        sendReadReceipt(scrollState, messages, dispatchers)
+    }
     LazyColumn(
         modifier = modifier.fillMaxHeight(),
         state = scrollState,
