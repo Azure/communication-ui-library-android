@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable

@@ -201,5 +201,4 @@ internal class AudioDeviceListView(
                 audioState.bluetoothState.deviceName
         }
     }
-
 }
