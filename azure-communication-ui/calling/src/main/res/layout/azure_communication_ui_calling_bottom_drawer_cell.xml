@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
-    android:background="@color/azure_communication_ui_calling_bottom_cell_list_selector"
+    app:background="@color/azure_communication_ui_calling_bottom_cell_list_selector"
     >
 
     <ImageView
