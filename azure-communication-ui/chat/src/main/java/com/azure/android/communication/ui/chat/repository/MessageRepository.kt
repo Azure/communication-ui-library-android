@@ -4,8 +4,10 @@
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.repository.storage.*
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListReader
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListWriter
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListWriter
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeReader
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeWriter
 
@@ -40,6 +42,15 @@ internal class MessageRepository private constructor(
         fun createTreeBackedRepository(): MessageRepository {
             val writer = MessageRepositoryTreeWriter()
             val reader = MessageRepositoryTreeReader(writer)
+            return MessageRepository(
+                readerDelegate = reader,
+                writerDelegate = writer
+            )
+        }
+
+        fun createSkipListBackedRepository(): MessageRepository {
+            val writer = MessageRepositorySkipListWriter()
+            val reader = MessageRepositorySkipListReader(writer)
             return MessageRepository(
                 readerDelegate = reader,
                 writerDelegate = writer
