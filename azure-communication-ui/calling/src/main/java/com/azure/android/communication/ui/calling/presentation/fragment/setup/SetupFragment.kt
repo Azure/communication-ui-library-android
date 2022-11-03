@@ -144,12 +144,16 @@ internal class SetupFragment :
         callCompositeActivity.supportActionBar?.title = titleSpan
 
         // Only set the subtitle if the title has also been set
-        if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title) &&
-            !TextUtils.isEmpty(localOptions?.setupScreenViewData?.subtitle)
-        ) {
-            val subtitleSpan = SpannableString(localOptions?.setupScreenViewData?.subtitle)
-            setActionbarTextColor(subtitleSpan, R.color.azure_communication_ui_calling_color_action_bar_subtext)
-            callCompositeActivity.supportActionBar?.subtitle = subtitleSpan
+        if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.subtitle)) {
+            if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
+                val subtitleSpan = SpannableString(localOptions?.setupScreenViewData?.subtitle)
+                setActionbarTextColor(subtitleSpan, R.color.azure_communication_ui_calling_color_action_bar_subtext)
+                callCompositeActivity.supportActionBar?.subtitle = subtitleSpan
+            } else {
+                holder.container.logger.error(
+                    "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed."
+                )
+            }
         }
     }
 }
