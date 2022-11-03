@@ -43,7 +43,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(localParticipantIdentifier: String): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
