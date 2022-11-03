@@ -1,5 +1,15 @@
 # Azure Communication UI Calling Release History
 
+
+## 1.2.0-beta.1 (FUTURE)
+
+### Features
+- Call Diagnostics information is available on the UI and on API via `CallComposite.getDiagnosticsInfo()`
+- Enhancements for TV Devices (Smaller PIP, Focus Navigation, Label improvements)
+
+### Bug Fixes
+- N/A
+
 ## 1.1.0-beta.1 (2022-10-03)
 
 ### Features
