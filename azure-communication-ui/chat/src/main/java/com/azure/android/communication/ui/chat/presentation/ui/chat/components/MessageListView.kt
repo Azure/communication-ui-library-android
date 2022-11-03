@@ -13,10 +13,9 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -99,12 +98,10 @@ private fun sendReadReceipt(
 ) {
     val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
     val currentBottomMessage = messages[messages.count() - firstVisibleItemIndex - 1]
-    if (!currentBottomMessage.isLocalUser) {
-        currentBottomMessage.message.id?.let {
-            if (it.isNotEmpty()) {
-                LaunchedEffect(it) {
-                    dispatch(ChatAction.MessageRead(it))
-                }
+    currentBottomMessage.message.id?.let {
+        if (it.isNotEmpty()) {
+            LaunchedEffect(it) {
+                dispatch(ChatAction.MessageRead(it))
             }
         }
     }

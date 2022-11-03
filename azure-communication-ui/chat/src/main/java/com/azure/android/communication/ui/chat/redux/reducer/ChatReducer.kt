@@ -30,7 +30,7 @@ internal class ChatReducerImpl : ChatReducer {
             }
             is ChatAction.MessageRead -> {
                 state.copy(
-                    lastReadMessageId = if (state.lastReadMessageId> action.messageId) state.lastReadMessageId
+                    lastReadMessageId = if (state.lastReadMessageId > action.messageId) state.lastReadMessageId
                     else action.messageId
                 )
             }
