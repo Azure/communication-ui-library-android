@@ -3,8 +3,12 @@
 
 package com.azure.android.communication.ui.chat;
 
+import android.content.Context;
+
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
+import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
+import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 
 /**
  * Builder for creating {@link ChatComposite}.
@@ -15,6 +19,9 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationO
 public final class ChatCompositeBuilder {
 
     private ChatCompositeLocalizationOptions localizationConfig = null;
+    private ChatCompositeRemoteOptions remoteOptions;
+    private ChatCompositeLocalOptions localOptions;
+    private Context context;
 
     /**
      * Sets an optional localization for chat-composite to use by {@link ChatComposite}.
@@ -27,6 +34,22 @@ public final class ChatCompositeBuilder {
         return this;
     }
 
+    public ChatCompositeBuilder context(final Context context) {
+        this.context = context;
+        return this;
+    }
+
+    public ChatCompositeBuilder remoteOptions(final ChatCompositeRemoteOptions remoteOptions) {
+        this.remoteOptions = remoteOptions;
+        return this;
+    }
+
+    public ChatCompositeBuilder localOptions(final ChatCompositeLocalOptions localOptions) {
+        this.localOptions = localOptions;
+        return this;
+    }
+
+
     /**
      * Builds the ChatCompositeClass {@link ChatComposite}.
      *
@@ -35,6 +58,6 @@ public final class ChatCompositeBuilder {
     public ChatComposite build() {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
         config.setLocalizationConfig(localizationConfig);
-        return new ChatComposite(config);
+        return new ChatComposite(context, config, localOptions, remoteOptions);
     }
 }

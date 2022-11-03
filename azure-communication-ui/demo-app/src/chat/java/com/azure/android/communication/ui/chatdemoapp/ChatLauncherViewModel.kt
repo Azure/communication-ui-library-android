@@ -15,16 +15,16 @@ class ChatLauncherViewModel : ViewModel() {
 
     var isTokenFunctionOptionSelected = false; private set
 
-    private var chatComposite: ChatComposite? = null
+    var chatComposite: ChatComposite? = null
     private val lock = Object()
 
-    fun getChatComposite(): ChatComposite {
-        synchronized(lock) {
-            if (chatComposite == null)
-                chatComposite = ChatCompositeBuilder().build()
-            return chatComposite!!
-        }
-    }
+//    fun getChatComposite(): ChatComposite {
+//        synchronized(lock) {
+//            if (chatComposite == null)
+//                chatComposite = ChatCompositeBuilder().build()
+//            return chatComposite!!
+//        }
+//    }
 
     fun getTokenFetcher(tokenFunctionURL: String, acsToken: String): Callable<String> {
         val tokenRefresher = when {

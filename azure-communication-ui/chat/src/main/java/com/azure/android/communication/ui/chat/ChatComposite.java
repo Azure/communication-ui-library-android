@@ -29,36 +29,41 @@ public class ChatComposite {
     final Integer instanceId = instanceIdCounter++;
     private Runnable closeUIRequestHandler;
 
-    ChatComposite(final ChatCompositeConfiguration configuration) {
+    ChatComposite(final Context context,
+                  final ChatCompositeConfiguration configuration,
+                  final ChatCompositeLocalOptions localOptions,
+                  final ChatCompositeRemoteOptions remoteOptions) {
         this.configuration = configuration;
         chatContainer = new ChatContainer(this, configuration, instanceId);
-    }
 
-    /**
-     * Launch group chat composite.
-     *
-     * @param context       The android context used to start the Composite.
-     * @param remoteOptions The {@link ChatCompositeRemoteOptions} has remote parameters to
-     *                      launch group chat experience.
-     */
-    public void launch(final Context context, final ChatCompositeRemoteOptions remoteOptions) {
-        launch(context, remoteOptions, null);
-    }
-
-    /**
-     * Launch group chat composite.
-     *
-     * @param context       The android context used to start the Composite.
-     * @param remoteOptions The {@link ChatCompositeRemoteOptions} has remote parameters to
-     *                      launch group chat experience.
-     * @param localOptions  The {@link ChatCompositeLocalOptions} has local parameters to
-     *                      launch group chat experience.
-     */
-    public void launch(final Context context,
-                       final ChatCompositeRemoteOptions remoteOptions,
-                       final ChatCompositeLocalOptions localOptions) {
         launchComposite(context, remoteOptions, localOptions, false);
     }
+
+//    /**
+//     * Launch group chat composite.
+//     *
+//     * @param context       The android context used to start the Composite.
+//     * @param remoteOptions The {@link ChatCompositeRemoteOptions} has remote parameters to
+//     *                      launch group chat experience.
+//     */
+//    public void launch(final Context context, final ChatCompositeRemoteOptions remoteOptions) {
+//        launch(context, remoteOptions, null);
+//    }
+//
+//    /**
+//     * Launch group chat composite.
+//     *
+//     * @param context       The android context used to start the Composite.
+//     * @param remoteOptions The {@link ChatCompositeRemoteOptions} has remote parameters to
+//     *                      launch group chat experience.
+//     * @param localOptions  The {@link ChatCompositeLocalOptions} has local parameters to
+//     *                      launch group chat experience.
+//     */
+//    public void launch(final Context context,
+//                       final ChatCompositeRemoteOptions remoteOptions,
+//                       final ChatCompositeLocalOptions localOptions) {
+//        launchComposite(context, remoteOptions, localOptions, false);
+//    }
 
 //    /**
 //     * Stop the ChatComposite. Destroy the UI if in foreground mode. Destroy service layer.

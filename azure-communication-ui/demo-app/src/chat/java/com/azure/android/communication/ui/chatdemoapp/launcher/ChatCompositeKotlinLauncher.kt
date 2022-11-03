@@ -22,14 +22,14 @@ class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) 
         displayName: String?,
         identity: String?,
     ) {
-        val chatComposite = ChatCompositeBuilder().build()
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions(tokenRefresher, true)
-        val communicationTokenCredential =
-            CommunicationTokenCredential(communicationTokenRefreshOptions)
-        val locator = ChatCompositeJoinLocator(threadID, endPointURL)
-        val remoteOptions =
-            ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName)
-        chatComposite.launch(context, remoteOptions, ChatCompositeLocalOptions())
+//        val chatComposite = ChatCompositeBuilder().build()
+//        val communicationTokenRefreshOptions =
+//            CommunicationTokenRefreshOptions(tokenRefresher, true)
+//        val communicationTokenCredential =
+//            CommunicationTokenCredential(communicationTokenRefreshOptions)
+//        val locator = ChatCompositeJoinLocator(threadID, endPointURL)
+//        val remoteOptions =
+//            ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName)
+//        chatComposite.launch(context, remoteOptions, ChatCompositeLocalOptions())
     }
 }

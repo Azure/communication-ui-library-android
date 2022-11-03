@@ -19,6 +19,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
+import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeView
@@ -164,7 +165,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun openChatUI() {
-        val chatComposite = chatLauncherViewModel.getChatComposite()
+        val chatComposite = chatLauncherViewModel.chatComposite!!
         chatView = ChatCompositeView(this, chatComposite)
 
         addContentView(
@@ -198,12 +199,17 @@ class ChatLauncherActivity : AppCompatActivity() {
             binding.userNameText.text.toString()
         )
 
-        val chatComposite = chatLauncherViewModel.getChatComposite()
+        // TODO: move it to view model
+        val chatComposite = ChatCompositeBuilder()
+            .context(this)
+            .remoteOptions(remoteOptions)
+            .build()
+
+        chatLauncherViewModel.chatComposite = chatComposite
+
         chatComposite.addOnCompositeViewCloseRequestedEventHandler {
             onChatCompositeExitRequested()
         }
-
-        chatComposite.launch(this, remoteOptions)
 
         openChatUI()
 
