@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryReader
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
-import java.util.TreeMap
 import java.util.concurrent.ConcurrentSkipListMap
 
 internal class MessageRepositorySkipListWriter : MessageRepositoryWriter {
