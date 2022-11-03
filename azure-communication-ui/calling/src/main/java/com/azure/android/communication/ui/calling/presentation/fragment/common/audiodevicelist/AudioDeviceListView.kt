@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -23,12 +24,6 @@ internal class AudioDeviceListView(
     private val viewModel: AudioDeviceListViewModel,
     context: Context,
 ) : RelativeLayout(context) {
-
-    private val isAndroidTV by lazy {
-        val uiModeManager =
-            context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
-        uiModeManager.currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
-    }
 
     private var deviceTable: RecyclerView
     private lateinit var audioDeviceDrawer: DrawerDialog
@@ -101,7 +96,7 @@ internal class AudioDeviceListView(
                         context,
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
                     ),
-                    if (isAndroidTV) "TV" else when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
+                    if (isAndroidTV(context)) "TV" else when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
                         true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
                         false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
                     },
@@ -124,7 +119,7 @@ internal class AudioDeviceListView(
 
             // Hide "Speaker" when on television
 
-            if (!isAndroidTV) {
+            if (!isAndroidTV(context)) {
                 bottomCellItems.add(
                     BottomCellItem(
                         ContextCompat.getDrawable(

@@ -13,18 +13,13 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class InfoHeaderView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-
-    private val isAndroidTV by lazy {
-        val uiModeManager =
-            context.getSystemService(Context.UI_MODE_SERVICE) as android.app.UiModeManager
-        uiModeManager.currentModeType == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION
-    }
 
     private lateinit var floatingHeader: ConstraintLayout
     private lateinit var headerView: View
@@ -62,7 +57,7 @@ internal class InfoHeaderView : ConstraintLayout {
                 infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
                     floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
                     // If we are on television, set the focus to the participants button
-                    if (it && isAndroidTV) {
+                    if (it && isAndroidTV(context)) {
                         displayParticipantsImageButton.requestFocus()
                     }
                 }
