@@ -38,7 +38,6 @@ import java.lang.IllegalArgumentException
 import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
-
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
@@ -246,6 +245,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 notificationService.removeNotification()
                 supportActionBar?.show()
                 requestedOrientation = if (isAndroidTV(this)) {
+
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

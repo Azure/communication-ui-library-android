@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_people_24_regular"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_people_24_selector"
         />
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView>
 

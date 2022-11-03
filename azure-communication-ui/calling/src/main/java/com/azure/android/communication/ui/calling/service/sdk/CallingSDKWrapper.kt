@@ -263,6 +263,7 @@ internal class CallingSDKWrapper(
                 val localVideoStreamCompletableFuture = getLocalVideoStreamCompletableFuture()
 
                 if (localVideoStreamCompletableFuture.isDone) {
+
                     result.complete(localVideoStreamCompletableFuture.get())
                 } else if (!canCreateLocalVideoStream()) {
                     // cleanUpResources() could have been called before this, so we need to check if it's still
@@ -374,6 +375,7 @@ internal class CallingSDKWrapper(
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
             getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager?, _: Throwable? ->
+
                 completeCamerasInitializedCompletableFuture()
                 videoDevicesUpdatedListener =
                     VideoDevicesUpdatedListener {
@@ -561,7 +563,6 @@ internal class CallingSDKWrapper(
 
         return result
     }
-
     private fun onJoinCallFailed(
         startCallCompletableFuture: CompletableFuture<Void>,
         error: Throwable?,
