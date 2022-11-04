@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
+import com.azure.android.communication.ui.chat.models.INVALID_INDEX
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryReader
 import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
@@ -82,6 +83,25 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
         return treeMapStorage.get(key)!!
     }
 
+    fun searchIndexByID(messageId: Long): Int {
+        var highestKey = treeMapStorage.lastKey()
+        var lowestKey = treeMapStorage.firstKey()
+        var midKey: Long = 0
+
+        while (lowestKey <= highestKey) {
+            midKey = (lowestKey + highestKey).div(2)
+
+            if (messageId < midKey) {
+                highestKey = midKey - 1
+            } else if (messageId > midKey) {
+                lowestKey = midKey + 1
+            } else {
+                break
+            }
+        }
+        return treeMapStorage.headMap(midKey).size
+    }
+
     private fun getOrderId(message: MessageInfoModel): Long {
         return message.id?.toLong() ?: 0L
     }
@@ -116,5 +136,11 @@ internal class MessageRepositoryTreeReader(private val writer: MessageRepository
         writer.searchItem(index + 1)
     } catch (exception: Exception) {
         EMPTY_MESSAGE_INFO_MODEL
+    }
+
+    override fun indexOf(element: MessageInfoModel): Int = try {
+        writer.searchIndexByID(element.id!!.toLong())
+    } catch (exception: Exception) {
+        INVALID_INDEX
     }
 }

@@ -162,4 +162,31 @@ internal class MessageRepositoryListStorageUnitTest {
         Assert.assertEquals("6", repository[6].id)
         Assert.assertEquals("7", repository[7].id)
     }
+
+    @Test
+    fun messageRepositoryListStorage_indexOfTest() {
+        val storage = MessageRepository.createListBackedRepository()
+
+        val numberOfTestMessages = 50
+        for (i in 1..numberOfTestMessages) {
+            storage.addLocalMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        }
+
+        Assert.assertEquals(
+            1,
+            storage.indexOf(
+                MessageInfoModel(
+                    id = "2",
+                    content = "",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        )
+    }
 }
