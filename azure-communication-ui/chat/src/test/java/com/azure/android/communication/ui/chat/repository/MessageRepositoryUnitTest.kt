@@ -7,6 +7,8 @@ import com.azure.android.communication.ui.chat.repository.storage.MessageReposit
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListWriter
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeReader
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeWriter
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListReader
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListWriter
 import org.junit.Assert
 import org.junit.Test
 
@@ -31,6 +33,17 @@ class MessageRepositoryUnitTest {
         Assert.assertEquals(
             true,
             treeStorage.readerDelegate.javaClass.isInstance(MessageRepositoryTreeReader(messageStorageWriter))
+        )
+    }
+
+    @Test
+    fun messageRepository_createSkipListStorage_unitTest() {
+        val skipListStorage: MessageRepository = MessageRepository.createSkipListBackedRepository()
+        val messageStorageWriter = MessageRepositorySkipListWriter()
+        Assert.assertEquals(true, skipListStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
+        Assert.assertEquals(
+            true,
+            skipListStorage.readerDelegate.javaClass.isInstance(MessageRepositorySkipListReader(messageStorageWriter))
         )
     }
 }

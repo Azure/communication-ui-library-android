@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -33,8 +32,7 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
-    private lateinit var requestCallEndCallback: () -> Unit
-    private lateinit var openAudioDeviceSelectionMenuCallback: () -> Unit
+    private lateinit var moreButton: ImageButton
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -42,18 +40,16 @@ internal class ControlBarView : ConstraintLayout {
         cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
+        moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
+
         subscribeClickListener()
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ControlBarViewModel,
-        requestCallEnd: () -> Unit,
-        openAudioDeviceSelectionMenu: () -> Unit,
     ) {
         this.viewModel = viewModel
-        this.requestCallEndCallback = requestCallEnd
-        this.openAudioDeviceSelectionMenuCallback = openAudioDeviceSelectionMenu
 
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -86,12 +82,10 @@ internal class ControlBarView : ConstraintLayout {
                     cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
-                    callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic))
                 } else {
                     updateCamera(viewModel.getCameraStateFlow().value)
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
-                    callAudioDeviceButton.drawable.setTint(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
                 }
             }
         }
@@ -180,18 +174,18 @@ internal class ControlBarView : ConstraintLayout {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
+                    R.drawable.azure_communication_ui_calling_speaker_speakerphone_selector
                 )
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
+                    R.drawable.azure_communication_ui_calling_speaker_receiver_selector
                 )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
                     // Needs an icon
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular
+                    R.drawable.azure_communication_ui_calling_speaker_bluetooth_selector
                 )
             }
             else -> {}
@@ -200,7 +194,7 @@ internal class ControlBarView : ConstraintLayout {
 
     private fun subscribeClickListener() {
         endCallButton.setOnClickListener {
-            requestCallEndCallback()
+            viewModel.requestCallEnd()
         }
         micToggle.setOnClickListener {
             if (micToggle.isSelected) {
@@ -217,7 +211,10 @@ internal class ControlBarView : ConstraintLayout {
             }
         }
         callAudioDeviceButton.setOnClickListener {
-            openAudioDeviceSelectionMenuCallback()
+            viewModel.openAudioDeviceSelectionMenu()
+        }
+        moreButton.setOnClickListener {
+            viewModel.openMoreMenu()
         }
     }
 }

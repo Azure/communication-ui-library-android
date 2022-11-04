@@ -22,6 +22,10 @@ internal class DefaultLogger : Logger {
     }
 
     override fun error(message: String, error: Throwable?) {
-        Log.e(tag, message, error)
+        if (error != null) {
+            Log.e(tag, message, error)
+        } else {
+            Log.e(tag, message)
+        }
     }
 }

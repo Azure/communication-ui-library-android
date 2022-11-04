@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -55,6 +56,10 @@ internal class InfoHeaderView : ConstraintLayout {
             } else {
                 infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
                     floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
+                    // If we are on television, set the focus to the participants button
+                    if (it && isAndroidTV(context)) {
+                        displayParticipantsImageButton.requestFocus()
+                    }
                 }
             }
         }
