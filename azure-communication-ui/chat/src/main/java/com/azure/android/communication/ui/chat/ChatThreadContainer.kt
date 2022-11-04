@@ -38,17 +38,13 @@ import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvide
 import com.azure.android.communication.ui.chat.utilities.TestHelper
 import com.jakewharton.threetenabp.AndroidThreeTen
 
-internal class ChatContainer(
-    private val chatComposite: ChatComposite,
+internal class ChatThreadContainer(
+    private val chatManager: ChatManager,
     private val configuration: ChatCompositeConfiguration,
-    private val instanceId: Int,
 ) {
-    companion object {
-        lateinit var locator: ServiceLocator
-    }
-
+    internal val locator = ServiceLocator()
     private var started = false
-    private var locator: ServiceLocator? = null
+
 
     fun start(
         context: Context,
@@ -72,8 +68,7 @@ internal class ChatContainer(
                     senderDisplayName = remoteOptions.displayName
                 )
 
-            locator = initializeServiceLocator(
-                instanceId,
+            initializeServiceLocator(
                 localOptions,
                 remoteOptions,
                 context
@@ -86,17 +81,17 @@ internal class ChatContainer(
     }
 
     private fun initializeServiceLocator(
-        instanceId: Int,
+
         localOptions: ChatCompositeLocalOptions?,
         remoteOptions: ChatCompositeRemoteOptions,
         context: Context,
     ) =
-        ServiceLocator.getInstance(instanceId = instanceId).apply {
+        locator.apply {
             addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
 
             val messageRepository = MessageRepository.createSkipListBackedRepository()
 
-            addTypedBuilder { chatComposite }
+            addTypedBuilder { chatManager }
             addTypedBuilder<List<MessageInfoModel>> { messageRepository }
 
             addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }

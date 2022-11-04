@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.callwithchat;
 
+import android.content.Context;
+
 import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalizationOptions;
 import com.azure.android.communication.ui.callwithchat.service.CallWithChatService;
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatManager;
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder;
 
 public class CallWithChatCompositeBuilder {
@@ -45,9 +47,9 @@ public class CallWithChatCompositeBuilder {
      *
      * @return {@link CallWithChatComposite}
      */
-    public CallWithChatComposite build() {
+    public CallWithChatComposite build(final Context context) {
         final ChatCompositeBuilder chatCompositeBuilder = new ChatCompositeBuilder();
-        final ChatComposite chatComposite = chatCompositeBuilder.build();
+        final ChatManager chatComposite = chatCompositeBuilder.build(context);
 
         final CallCompositeBuilder callCompositeBuilder = new CallCompositeBuilder();
 

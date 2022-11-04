@@ -4,14 +4,14 @@
 package com.azure.android.communication.ui.chat.models;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatManager;
 import com.azure.android.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
 /**
  * Result values for
- * {@link ChatComposite#setRemoteParticipantViewData(CommunicationIdentifier, ChatCompositeParticipantViewData)}.
+ * {@link ChatManager#setRemoteParticipantViewData(CommunicationIdentifier, ChatCompositeParticipantViewData)}.
  */
 public final class ChatCompositeSetParticipantViewDataResult
         extends ExpandableStringEnum<ChatCompositeSetParticipantViewDataResult> {

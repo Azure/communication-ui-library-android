@@ -98,15 +98,4 @@ internal class ServiceLocator {
             implementations[it] = builders[it]?.invoke() as Any
         }
     }
-
-    companion object {
-        private val locatorMap = HashMap<Int, ServiceLocator>()
-        fun getInstance(instanceId: Int): ServiceLocator {
-            if (locatorMap.containsKey(instanceId)) {
-                return locatorMap[instanceId]!!
-            }
-            locatorMap[instanceId] = ServiceLocator()
-            return locatorMap[instanceId]!!
-        }
-    }
 }

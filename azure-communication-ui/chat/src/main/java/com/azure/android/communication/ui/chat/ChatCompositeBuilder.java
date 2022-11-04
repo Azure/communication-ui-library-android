@@ -3,13 +3,15 @@
 
 package com.azure.android.communication.ui.chat;
 
+import android.content.Context;
+
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
 
 /**
- * Builder for creating {@link ChatComposite}.
+ * Builder for creating {@link ChatManager}.
  *
- * <p>Used to build a {@link ChatComposite} which is then used to start a chat.</p>
+ * <p>Used to build a {@link ChatManager} which is then used to start a chat.</p>
  * <p>This class can be used to specify a locale to be used by the Chat Composite</p>
  */
 public final class ChatCompositeBuilder {
@@ -17,7 +19,7 @@ public final class ChatCompositeBuilder {
     private ChatCompositeLocalizationOptions localizationConfig = null;
 
     /**
-     * Sets an optional localization for chat-composite to use by {@link ChatComposite}.
+     * Sets an optional localization for chat-composite to use by {@link ChatManager}.
      *
      * @param localization {@link ChatCompositeLocalizationOptions}.
      * @return {@link ChatCompositeBuilder} for chaining options
@@ -28,13 +30,14 @@ public final class ChatCompositeBuilder {
     }
 
     /**
-     * Builds the ChatCompositeClass {@link ChatComposite}.
+     * Builds the ChatCompositeClass {@link ChatManager}.
      *
-     * @return {@link ChatComposite}
+     * @param context
+     * @return {@link ChatManager}
      */
-    public ChatComposite build() {
+    public ChatManager build(final Context context) {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
         config.setLocalizationConfig(localizationConfig);
-        return new ChatComposite(config);
+        return new ChatManager(context.getApplicationContext(), config);
     }
 }

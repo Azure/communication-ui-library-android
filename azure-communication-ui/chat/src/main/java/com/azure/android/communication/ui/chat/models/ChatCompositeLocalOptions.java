@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.chat.models;
 
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatManager;
 
 /**
  * ChatCompositeLocalOptions for ChatComposite.launch.
@@ -28,10 +28,9 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  * chatComposite.launch&#40;.., .., localOptions&#41
  * </pre>
  *
- * @see ChatComposite
+ * @see ChatManager
  */
 public final class ChatCompositeLocalOptions {
-    private boolean isLaunchingWithUI = true;
     private ChatCompositeParticipantViewData participantViewData;
 
     /**
@@ -58,24 +57,5 @@ public final class ChatCompositeLocalOptions {
      */
     public ChatCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
-    }
-
-    /**
-     * Get is launching with UI boolean
-     *
-     * @return boolean isLaunchingWithUI;
-     */
-    public boolean getIsLaunchingWithUI() {
-        return isLaunchingWithUI;
-    }
-
-    /**
-     * Set is launching with UI boolean
-     *
-     * @return The {@link ChatCompositeLocalOptions };
-     */
-    public ChatCompositeLocalOptions setLaunchingWithUI(final boolean isLaunchingWithUI) {
-        this.isLaunchingWithUI = isLaunchingWithUI;
-        return this;
     }
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.chat.presentation.ui.container
+package com.azure.android.communication.ui.chat
 
 import android.content.Context
 import android.widget.FrameLayout
@@ -19,19 +19,40 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatView(context: Context, private val instanceId: Int) : FrameLayout(context) {
+internal class ChatView(context: Context) : FrameLayout(context) {
     private val composeView = ComposeView(context)
-    private val locator get() = ServiceLocator.getInstance(instanceId)
-    private val dispatch: Dispatch by lazy { locator.locate() }
     private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
+    private var chatThreadManager : ChatThreadManager? = null
+    val dispatch : Dispatch get() = chatThreadManager?.container?.locator?.locate()!!
+    val locator : ServiceLocator get() = chatThreadManager?.container?.locator!!
 
     init {
         addView(composeView)
+        // TODO: We need to re-assess this state
         count = 0
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        start()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        stop()
+    }
+
+    private fun stop() {
+        if (chatThreadManager == null) return
+        count--
+        reduxViewModelGenerator.stop()
+        if (count == 0) {
+            dispatch(LifecycleAction.EnterBackground)
+        }
+    }
+
+    private fun start() {
+        if (chatThreadManager == null) return
         count++
         if (count == 1) {
             dispatch(LifecycleAction.EnterForeground)
@@ -58,12 +79,14 @@ internal class ChatView(context: Context, private val instanceId: Int) : FrameLa
         )
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        count--
-        reduxViewModelGenerator.stop()
-        if (count == 0) {
-            dispatch(LifecycleAction.EnterBackground)
+    fun setChatThreadManager(chatThreadManager: ChatThreadManager) {
+        if (chatThreadManager != null) {
+            chatThreadManager.stop()
+            this.chatThreadManager = null
+        }
+        this.chatThreadManager = chatThreadManager
+        if (isAttachedToWindow) {
+            start()
         }
     }
 

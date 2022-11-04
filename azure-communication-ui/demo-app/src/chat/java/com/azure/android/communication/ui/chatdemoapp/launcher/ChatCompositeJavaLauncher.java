@@ -5,10 +5,11 @@ package com.azure.android.communication.ui.chatdemoapp.launcher;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatManager;
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder;
 import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity;
 import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity;
 
 import java.util.concurrent.Callable;
@@ -27,7 +28,7 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
                        final String endPointURL,
                        final String displayName,
                        final String identity) {
-        final ChatComposite chatComposite = new ChatCompositeBuilder().build();
+        final ChatManager chatComposite = new ChatCompositeBuilder().build(chatLauncherActivity);
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
                 new CommunicationTokenRefreshOptions(tokenRefresher, true);
@@ -38,6 +39,10 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
                 new ChatCompositeJoinLocator(threadID, endPointURL);
         final ChatCompositeRemoteOptions remoteOptions =
                 new ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName);
-        chatComposite.launch(chatLauncherActivity, remoteOptions, null);
+
+        ChatCompositeActivity.startForChatThread(
+                chatLauncherActivity,
+                chatComposite.connectToChatThread(remoteOptions, null)
+        );
     }
 }
