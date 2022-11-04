@@ -199,7 +199,7 @@ internal class DependencyInjectionContainerImpl(
     //region System
     private val applicationContext get() = parentContext.applicationContext
 
-    private val logger by lazy { DefaultLogger() }
+    override val logger by lazy { DefaultLogger() }
 
     private val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK
