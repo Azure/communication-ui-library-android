@@ -25,9 +25,7 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-
-
-class ChatCompositeView(context: Context, private val chatComposite: ChatComposite): FrameLayout(context) {
+class ChatCompositeView(context: Context, private val chatComposite: ChatComposite) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private val locator get() = ServiceLocator.getInstance(chatComposite.instanceIdAccessor())
     private val dispatch: Dispatch by lazy { locator.locate() }

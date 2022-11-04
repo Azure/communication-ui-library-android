@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply from: file('publish.gradle')
+
 android {
     compileSdkVersion 33
     resourcePrefix 'azure_communication_ui_chat_'

@@ -4,12 +4,6 @@
 package com.azure.android.communication.ui.chatdemoapp.launcher
 
 import android.content.Context
-import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.ui.chat.ChatCompositeBuilder
-import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
-import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
-import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import java.util.concurrent.Callable
 
 class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :

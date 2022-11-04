@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chatdemoapp
 import android.webkit.URLUtil
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.ui.chat.ChatComposite
-import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
