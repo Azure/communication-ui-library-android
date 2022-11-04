@@ -164,7 +164,7 @@ internal class MessageRepositoryListStorageUnitTest {
     }
 
     @Test
-    fun messageRepositoryListStorage_getInternalIndexText() {
+    fun messageRepositoryListStorage_indexOfTest() {
         val storage = MessageRepository.createListBackedRepository()
 
         val numberOfTestMessages = 50
@@ -178,6 +178,15 @@ internal class MessageRepositoryListStorageUnitTest {
             )
         }
 
-        Assert.assertEquals(1, storage.getInternalIndex(2))
+        Assert.assertEquals(
+            1,
+            storage.indexOf(
+                MessageInfoModel(
+                    id = "2",
+                    content = "",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        )
     }
 }

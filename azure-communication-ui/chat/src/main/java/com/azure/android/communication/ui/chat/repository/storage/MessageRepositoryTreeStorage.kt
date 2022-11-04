@@ -138,8 +138,8 @@ internal class MessageRepositoryTreeReader(private val writer: MessageRepository
         EMPTY_MESSAGE_INFO_MODEL
     }
 
-    override fun getInternalIndex(messageId: Long): Int = try {
-        writer.searchIndexByID(messageId)
+    override fun indexOf(element: MessageInfoModel): Int = try {
+        writer.searchIndexByID(element.id!!.toLong())
     } catch (exception: Exception) {
         INVALID_INDEX
     }

@@ -171,7 +171,7 @@ internal class MessageRepositorySkipListStorageUnitTest {
     }
 
     @Test
-    fun messageRepositorySkipListStoragee_getInternalIndexText() {
+    fun messageRepositorySkipListStorage_indexOfTest() {
         val storage = MessageRepository.createSkipListBackedRepository()
 
         val numberOfTestMessages = 50
@@ -185,6 +185,15 @@ internal class MessageRepositorySkipListStorageUnitTest {
             )
         }
 
-        Assert.assertEquals(1, storage.getInternalIndex(2))
+        Assert.assertEquals(
+            1,
+            storage.indexOf(
+                MessageInfoModel(
+                    id = "2",
+                    content = "",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        )
     }
 }

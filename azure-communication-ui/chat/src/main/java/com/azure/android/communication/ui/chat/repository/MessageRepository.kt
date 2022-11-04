@@ -23,7 +23,7 @@ internal class MessageRepository private constructor(
     override fun addServerMessage(message: MessageInfoModel) = writerDelegate.addServerMessage(message = message)
     override fun removeMessage(message: MessageInfoModel) = writerDelegate.removeMessage(message = message)
     override fun editMessage(message: MessageInfoModel) = writerDelegate.editMessage(message = message)
-    override fun getInternalIndex(messageId: Long) = readerDelegate.getInternalIndex(messageId)
+    override fun indexOf(element: MessageInfoModel) = readerDelegate.indexOf(element)
 
     // TODO: We should be using read interface to get last message in list
     // This isn't a write message

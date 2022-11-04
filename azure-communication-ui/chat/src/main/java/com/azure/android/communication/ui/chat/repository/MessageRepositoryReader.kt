@@ -27,10 +27,6 @@ internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
         throw RuntimeException("Not implemented on the Message Repository")
     }
 
-    final override fun indexOf(element: MessageInfoModel): Int {
-        throw RuntimeException("Not implemented on the Message Repository")
-    }
-
     final override fun iterator(): Iterator<MessageInfoModel> {
         throw RuntimeException("Not implemented on the Message Repository")
     }
@@ -50,6 +46,4 @@ internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
     final override fun subList(fromIndex: Int, toIndex: Int): List<MessageInfoModel> {
         throw RuntimeException("Not implemented on the Message Repository")
     }
-
-    abstract fun getInternalIndex(messageId: Long): Int
 }

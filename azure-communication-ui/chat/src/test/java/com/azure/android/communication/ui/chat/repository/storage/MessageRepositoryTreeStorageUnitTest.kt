@@ -174,7 +174,7 @@ class MessageRepositoryTreeStorageUnitTest {
     }
 
     @Test
-    fun messageRepositoryTreeStoragee_getInternalIndexText() {
+    fun messageRepositoryTreeStorage_indexOfTest() {
         val storage = MessageRepository.createTreeBackedRepository()
 
         val numberOfTestMessages = 50
@@ -188,6 +188,15 @@ class MessageRepositoryTreeStorageUnitTest {
             )
         }
 
-        Assert.assertEquals(1, storage.getInternalIndex(2))
+        Assert.assertEquals(
+            1,
+            storage.indexOf(
+                MessageInfoModel(
+                    id = "2",
+                    content = "",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        )
     }
 }
