@@ -118,7 +118,7 @@ internal class MessageRepositoryMiddlewareImpl(
     ) {
         val isLocalParticipantEvicted =
             action.participants.count { it.userIdentifier.id == localParticipant.userIdentifier } !=
-            action.participants.count()
+                action.participants.count()
         messageRepository.addLocalMessage(
             MessageInfoModel(
                 id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
@@ -130,16 +130,17 @@ internal class MessageRepositoryMiddlewareImpl(
             )
         )
         if (isLocalParticipantEvicted) {
-            dispatch(ErrorAction.ChatStateErrorOccurred(
-                chatStateError = ChatStateError(
-                    errorCode = ErrorCode.CHAT_LOCAL_PARTICIPANT_EVICTED,
-                    chatCompositeEventCode = CHAT_EVICTED
+            dispatch(
+                ErrorAction.ChatStateErrorOccurred(
+                    chatStateError = ChatStateError(
+                        errorCode = ErrorCode.CHAT_LOCAL_PARTICIPANT_EVICTED,
+                        chatCompositeEventCode = CHAT_EVICTED
+                    )
                 )
-            ))
+            )
         } else {
             notifyUpdate(dispatch)
         }
-
     }
 
     private fun processDeletedMessage(action: ChatAction.MessageDeleted, dispatch: Dispatch) {

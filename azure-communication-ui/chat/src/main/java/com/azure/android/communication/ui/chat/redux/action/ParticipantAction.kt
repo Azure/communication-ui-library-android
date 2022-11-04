@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.redux.action
 
-import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 
