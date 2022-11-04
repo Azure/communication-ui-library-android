@@ -99,7 +99,7 @@ internal fun ChatScreen(
                         showLoading = viewModel.areMessagesLoading,
                         dispatchers = viewModel.postAction
                     )
-                    Box(modifier = Modifier.padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding)) {
+                    Box(modifier = Modifier.padding(paddingValues)) {
                         UnreadMessagesIndicatorView(
                             scrollState = listState,
                             visible = viewModel.unreadMessagesIndicatorVisibility,
