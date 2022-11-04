@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
+import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
@@ -41,7 +42,13 @@ internal class MessageRepositoryMiddlewareImpl(
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
                 is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
                 is ParticipantAction.ParticipantsAdded -> processParticipantsAdded(action, store::dispatch)
-                is ParticipantAction.ParticipantsRemoved -> processParticipantsRemoved(action, store::dispatch)
+                is ParticipantAction.ParticipantsRemoved -> {
+                    processParticipantsRemoved(
+                        action,
+                        store::dispatch,
+                        store.getCurrentState().chatState.localParticipantInfoModel
+                    )
+                }
                 is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
             }
 
@@ -100,18 +107,30 @@ internal class MessageRepositoryMiddlewareImpl(
         notifyUpdate(dispatch)
     }
 
-    private fun processParticipantsRemoved(action: ParticipantAction.ParticipantsRemoved, dispatch: Dispatch) {
-        messageRepository.addLocalMessage(
-            MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
-                participants = action.participants.map { it.displayName ?: "" },
-                content = null,
-                createdOn = OffsetDateTime.now(),
-                senderDisplayName = null,
-                messageType = ChatMessageType.PARTICIPANT_REMOVED
+    private fun processParticipantsRemoved(
+        action: ParticipantAction.ParticipantsRemoved,
+        dispatch: Dispatch,
+        localParticipant: LocalParticipantInfoModel
+    ) {
+        val isSelfWasRemoved =
+            action.participants.count { it.userIdentifier.id == localParticipant.userIdentifier } !=
+            action.participants.count()
+        if (isSelfWasRemoved) {
+            dispatch(ParticipantAction.LocalParticipantRemoved(localParticipant))
+        } else {
+            messageRepository.addLocalMessage(
+                MessageInfoModel(
+                    id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
+                    participants = action.participants.map { it.displayName ?: "" },
+                    content = null,
+                    createdOn = OffsetDateTime.now(),
+                    senderDisplayName = null,
+                    messageType = ChatMessageType.PARTICIPANT_REMOVED
+                )
             )
-        )
-        notifyUpdate(dispatch)
+            notifyUpdate(dispatch)
+        }
+
     }
 
     private fun processDeletedMessage(action: ChatAction.MessageDeleted, dispatch: Dispatch) {

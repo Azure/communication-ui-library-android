@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.action
 
+import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 
@@ -10,6 +11,8 @@ internal sealed class ParticipantAction : Action {
     class ParticipantsAdded(val participants: List<RemoteParticipantInfoModel>) :
         ParticipantAction()
     class ParticipantsRemoved(val participants: List<RemoteParticipantInfoModel>) :
+        ParticipantAction()
+    class LocalParticipantRemoved(val participant: LocalParticipantInfoModel) :
         ParticipantAction()
     class AddParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
     class RemoveParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
