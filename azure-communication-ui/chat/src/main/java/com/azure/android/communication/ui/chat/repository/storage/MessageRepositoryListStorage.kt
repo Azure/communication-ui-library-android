@@ -80,4 +80,16 @@ internal class MessageRepositoryListReader(private val writer: MessageRepository
     }
 
     override val size: Int get() = writer.messages.size
+
+    override fun getInternalIndex(messageId: Long): Int {
+        var index = 0
+        for (message in writer.messages) {
+            if (messageId == message.id!!.toLong()) {
+                break
+            }
+            index++
+        }
+        println("found index in $index")
+        return index
+    }
 }

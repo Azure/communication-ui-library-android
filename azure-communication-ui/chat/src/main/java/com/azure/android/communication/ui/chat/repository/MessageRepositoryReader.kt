@@ -18,6 +18,7 @@ internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
     override fun isEmpty(): Boolean {
         return size == 0
     }
+
     final override fun contains(element: MessageInfoModel): Boolean {
         throw RuntimeException("Not implemented on the Message Repository")
     }
@@ -49,4 +50,6 @@ internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
     final override fun subList(fromIndex: Int, toIndex: Int): List<MessageInfoModel> {
         throw RuntimeException("Not implemented on the Message Repository")
     }
+
+    abstract fun getInternalIndex(messageId: Long): Int
 }
