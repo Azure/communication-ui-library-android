@@ -12,8 +12,6 @@ internal sealed class ParticipantAction : Action {
         ParticipantAction()
     class ParticipantsRemoved(val participants: List<RemoteParticipantInfoModel>) :
         ParticipantAction()
-    class LocalParticipantRemoved(val participant: LocalParticipantInfoModel) :
-        ParticipantAction()
     class AddParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
     class RemoveParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
     class ReadReceiptReceived(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
