@@ -80,8 +80,8 @@ internal class ChatView(context: Context) : FrameLayout(context) {
     }
 
     fun setChatThreadManager(chatThreadManager: ChatThreadManager) {
-        if (chatThreadManager != null) {
-            chatThreadManager.stop()
+        if (this.chatThreadManager != null) {
+            this.chatThreadManager?.stop()
             this.chatThreadManager = null
         }
         this.chatThreadManager = chatThreadManager

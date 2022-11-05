@@ -152,7 +152,7 @@ internal class ChatThreadContainer(
         }
 
     fun stop() {
-        locator?.locate<NetworkManager>()?.stop()
-        locator?.clear()
+        locator.locate<NetworkManager>()?.stop()
+        locator.clear()
     }
 }
