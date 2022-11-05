@@ -108,3 +108,5 @@ internal val EMPTY_MESSAGE_INFO_MODEL = MessageInfoModel(
     editedOn = null,
     isCurrentUser = false
 )
+
+internal const val INVALID_INDEX = -1
