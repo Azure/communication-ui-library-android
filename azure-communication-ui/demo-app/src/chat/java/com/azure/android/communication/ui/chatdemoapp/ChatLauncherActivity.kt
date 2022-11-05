@@ -169,6 +169,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         val viewMode = chatLauncherViewModel.chatViewMode.value
         if (viewMode == ChatViewMode.None) {
             binding.viewContainer.visibility = View.GONE
+            binding.viewTarget.removeAllViews()
         } else {
             binding.viewContainer.visibility = View.VISIBLE
             var view =
@@ -184,7 +185,6 @@ class ChatLauncherActivity : AppCompatActivity() {
                     tv
                 }
             }
-            binding.viewTarget.removeAllViews()
             binding.viewTarget.addView(view, FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT))

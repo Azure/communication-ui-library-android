@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat.utilities
 import com.azure.android.communication.ui.chat.redux.AppStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
@@ -29,10 +30,11 @@ internal class ReduxViewModelGenerator<T, M : Any>(
     private val coroutineScope: CoroutineScope,
     private val store: AppStore<T>,
 ) {
+    private lateinit var job: Job
     lateinit var viewModel: M
 
     init {
-        coroutineScope.launch(Dispatchers.Default) {
+        job = coroutineScope.launch(Dispatchers.Default) {
             store.getStateFlow().collect {
                 rebuild(store)
             }
@@ -40,7 +42,7 @@ internal class ReduxViewModelGenerator<T, M : Any>(
     }
 
     fun stop() {
-        coroutineScope.cancel()
+        job.cancel()
     }
 
     // Rebuild the View Model
