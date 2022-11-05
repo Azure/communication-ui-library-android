@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat
 
+import android.app.Activity
 import android.content.Context
 import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
@@ -19,12 +20,12 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatView(context: Context) : FrameLayout(context) {
+class ChatView(context: Context) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
     private var chatThreadManager : ChatThreadManager? = null
-    val dispatch : Dispatch get() = chatThreadManager?.container?.locator?.locate()!!
-    val locator : ServiceLocator get() = chatThreadManager?.container?.locator!!
+    private val dispatch : Dispatch get() = chatThreadManager?.container?.locator?.locate()!!
+    private val locator : ServiceLocator get() = chatThreadManager?.container?.locator!!
 
     init {
         addView(composeView)
@@ -53,6 +54,8 @@ internal class ChatView(context: Context) : FrameLayout(context) {
 
     private fun start() {
         if (chatThreadManager == null) return
+
+
         count++
         if (count == 1) {
             dispatch(LifecycleAction.EnterForeground)

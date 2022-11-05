@@ -12,6 +12,10 @@ import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotl
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
 import java.util.concurrent.Callable
 
+enum class ChatViewMode{
+    None,
+    ChatView,
+}
 class ChatLauncherViewModel : ViewModel() {
     private var token: String? = null
     private val fetchResultInternal = MutableLiveData<Result<ChatCompositeLauncher?>>()
@@ -19,7 +23,8 @@ class ChatLauncherViewModel : ViewModel() {
     val fetchResult: LiveData<Result<ChatCompositeLauncher?>> = fetchResultInternal
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
-    var chatThreadManager : MutableLiveData<ChatThreadManager> = MutableLiveData()
+    val chatThreadManager : MutableLiveData<ChatThreadManager> = MutableLiveData()
+    val chatViewMode : MutableLiveData<ChatViewMode> = MutableLiveData(ChatViewMode.None)
     val isConnected get() = chatThreadManager.value != null
 
     private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {

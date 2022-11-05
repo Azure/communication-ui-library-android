@@ -8,7 +8,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.webkit.URLUtil
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +19,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.ChatThreadManager
+import com.azure.android.communication.ui.chat.ChatView
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
@@ -74,16 +78,16 @@ class ChatLauncherActivity : AppCompatActivity() {
         val name = data?.getQueryParameter("name")
 
         chatLauncherViewModel.chatThreadManager.observe(this) {
-            binding.run {
-                launchFullScreen.isEnabled = it != null
-                launchChatView.isEnabled = it != null
-                launchParticipantView.isEnabled = it != null
-            }
+            bindViewButtons()
         }
+
+        chatLauncherViewModel.chatViewMode.observe(this) {
+            bindPopupView()
+
+        }
+
         binding.run {
-            launchFullScreen.isEnabled = chatLauncherViewModel.chatThreadManager.value != null
-            launchChatView.isEnabled = chatLauncherViewModel.chatThreadManager.value != null
-            launchParticipantView.isEnabled = chatLauncherViewModel.chatThreadManager.value != null
+            bindViewButtons()
 
             if (endpointurl.isNullOrEmpty()) {
                 endPointURL.setText(BuildConfig.END_POINT_URL)
@@ -136,6 +140,14 @@ class ChatLauncherActivity : AppCompatActivity() {
                 ChatCompositeActivity.startForChatThread(it.context, chatLauncherViewModel.chatThreadManager.value!!)
             }
 
+            launchChatView.setOnClickListener {
+                chatLauncherViewModel.chatViewMode.value = ChatViewMode.ChatView
+            }
+
+            viewContainer.setOnClickListener {
+                chatLauncherViewModel.chatViewMode.value = ChatViewMode.None
+            }
+
             if (!BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
@@ -146,6 +158,38 @@ class ChatLauncherActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindViewButtons() {
+        val it = chatLauncherViewModel.chatThreadManager.value
+        binding.launchFullScreen.isEnabled = it != null
+        binding.launchChatView.isEnabled = it != null
+        binding.launchParticipantView.isEnabled = it != null
+    }
+
+    private fun bindPopupView() {
+        val viewMode = chatLauncherViewModel.chatViewMode.value
+        if (viewMode == ChatViewMode.None) {
+            binding.viewContainer.visibility = View.GONE
+        } else {
+            binding.viewContainer.visibility = View.VISIBLE
+            var view =
+            when (viewMode) {
+                ChatViewMode.ChatView -> {
+                    val chatView = ChatView(this)
+                    chatView.setChatThreadManager(chatLauncherViewModel.chatThreadManager.value!!)
+                    chatView
+                }
+                else -> {
+                    val tv = TextView(this)
+                    tv.text = "View Not Implemented"
+                    tv
+                }
+            }
+            binding.viewTarget.removeAllViews()
+            binding.viewTarget.addView(view, FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT))
+        }
+    }
     override fun onDestroy() {
         chatLauncherViewModel.destroy()
         super.onDestroy()

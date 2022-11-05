@@ -11,8 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
+
         tools:context=".ChatLauncherActivity">
 
         <EditText
@@ -164,5 +163,26 @@
                 android:text="@string/debug"
                 android:textSize="14sp" />
         </LinearLayout>
+        <FrameLayout
+            android:id="@+id/view_container"
+            android:visibility="gone"
+            android:elevation="2dp"
+            android:background="#5000"
+            android:focusable="true"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp">
+            <FrameLayout
+                android:elevation="3dp"
+                android:id="@+id/view_target"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                />
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
