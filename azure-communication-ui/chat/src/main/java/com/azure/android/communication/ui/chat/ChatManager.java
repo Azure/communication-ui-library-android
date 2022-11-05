@@ -31,7 +31,6 @@ public class ChatManager {
     ChatManager(final Context context, final ChatCompositeConfiguration configuration) {
         this.context = context;
         this.configuration = configuration;
-
     }
 
     /**
@@ -81,7 +80,7 @@ public class ChatManager {
                              final ChatCompositeRemoteOptions remoteOptions,
                              final ChatCompositeLocalOptions localOptions,
                              final boolean isTest) {
-        final ChatThreadManager result = new ChatThreadManager(new ChatThreadContainer(this, configuration));
+        final ChatThreadManager result = new ChatThreadManager(new ChatThreadContainer(configuration));
         result.start(context, remoteOptions, localOptions);
         return result;
     }

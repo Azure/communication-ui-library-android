@@ -6,10 +6,8 @@ package com.azure.android.communication.ui.chat
 import android.content.Context
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
-import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
@@ -39,12 +37,20 @@ import com.azure.android.communication.ui.chat.utilities.TestHelper
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 internal class ChatThreadContainer(
-    private val chatManager: ChatManager,
     private val configuration: ChatCompositeConfiguration,
 ) {
-    internal val locator = ServiceLocator()
-    private var started = false
+    internal lateinit var appStore: AppStore<ReduxState>
+    internal lateinit var remoteOptions: ChatCompositeRemoteOptions
+    internal lateinit var messageRepository: MessageRepository
+    internal lateinit var coroutineContextProvider: CoroutineContextProvider
+    internal lateinit var dispatch : Dispatch
 
+    private var started = false
+    private lateinit var localOptions: ChatCompositeLocalOptions
+    private lateinit var networkManager : NetworkManager
+    private lateinit var chatService: ChatService
+    private lateinit var chatFetchNotificationHandler: ChatFetchNotificationHandler
+    private lateinit var chatEventHandler: ChatEventHandler
 
     fun start(
         context: Context,
@@ -68,53 +74,44 @@ internal class ChatThreadContainer(
                     senderDisplayName = remoteOptions.displayName
                 )
 
-            initializeServiceLocator(
+            initialize(
                 localOptions,
                 remoteOptions,
                 context
             )
-                .apply {
-                    locate<Dispatch>()(ChatAction.StartChat())
-                    locate<NetworkManager>().start(context)
-                }
+            dispatch(ChatAction.StartChat())
+            networkManager.start(context)
+
         }
     }
 
-    private fun initializeServiceLocator(
+    private fun initialize(
 
         localOptions: ChatCompositeLocalOptions?,
         remoteOptions: ChatCompositeRemoteOptions,
         context: Context,
-    ) =
-        locator.apply {
-            addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
+    )
+        {
+            this.coroutineContextProvider = TestHelper.coroutineContextProvider ?: CoroutineContextProvider()
+            this.messageRepository = MessageRepository.createSkipListBackedRepository()
+            this.localOptions = localOptions ?: ChatCompositeLocalOptions()
+            this.remoteOptions = remoteOptions
+            this.chatEventHandler = ChatEventHandler()
+            this.chatFetchNotificationHandler = ChatFetchNotificationHandler(coroutineContextProvider = coroutineContextProvider)
 
-            val messageRepository = MessageRepository.createSkipListBackedRepository()
-
-            addTypedBuilder { chatManager }
-            addTypedBuilder<List<MessageInfoModel>> { messageRepository }
-
-            addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
-
-            addTypedBuilder { remoteOptions }
-
-            addTypedBuilder { ChatEventHandler() }
-
-            addTypedBuilder { ChatFetchNotificationHandler(coroutineContextProvider = locate()) }
-
-            addTypedBuilder {
+            this.chatService =
                 ChatService(
                     chatSDK = TestHelper.chatSDK ?: ChatSDKWrapper(
                         context = context,
                         chatConfig = configuration.chatConfig!!,
-                        coroutineContextProvider = locate(),
-                        chatEventHandler = locate(),
-                        chatFetchNotificationHandler = locate()
+                        coroutineContextProvider = coroutineContextProvider,
+                        chatEventHandler = chatEventHandler,
+                        chatFetchNotificationHandler = chatFetchNotificationHandler
                     )
                 )
-            }
 
-            addTypedBuilder {
+
+            this.appStore =
                 AppStore(
                     initialState = AppReduxState(
                         configuration.chatConfig!!.threadId,
@@ -133,26 +130,24 @@ internal class ChatThreadContainer(
                     middlewares = mutableListOf(
                         ChatMiddlewareImpl(
                             chatActionHandler = ChatActionHandler(
-                                chatService = locate()
+                                chatService = chatService
                             ),
                             chatServiceListener = ChatServiceListener(
-                                chatService = locate(),
-                                coroutineContextProvider = locate()
+                                chatService = chatService,
+                                coroutineContextProvider = coroutineContextProvider
                             )
                         ),
                         MessageRepositoryMiddlewareImpl(messageRepository)
                     ),
-                    dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
+                    dispatcher = coroutineContextProvider.SingleThreaded
                 )
-            }
 
-            addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
 
-            addTypedBuilder { NetworkManager(dispatch = locate()) }
+            this.dispatch = appStore::dispatch
+            this.networkManager = NetworkManager(appStore::dispatch)
         }
 
     fun stop() {
-        locator.locate<NetworkManager>()?.stop()
-        locator.clear()
+        networkManager.stop()
     }
 }

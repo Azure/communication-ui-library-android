@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.NavigatableBaseScreen
@@ -23,8 +22,7 @@ class ChatCompositeView(context: Context) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
     private var chatThreadManager : ChatThreadManager? = null
-    private val dispatch : Dispatch get() = chatThreadManager?.container?.locator?.locate()!!
-    private val locator : ServiceLocator get() = chatThreadManager?.container?.locator!!
+    private val dispatch : Dispatch get() = chatThreadManager?.container?.dispatch!!
 
     init {
         addView(composeView)
@@ -64,9 +62,9 @@ class ChatCompositeView(context: Context) : FrameLayout(context) {
                 buildChatScreenViewModel(
                     context = context,
                     store = store,
-                    messages = locator.locate(),
-                    localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
-                    dispatch = locator.locate()
+                    messages = chatThreadManager?.container?.messageRepository!!,
+                    localUserIdentifier = chatThreadManager?.container?.remoteOptions?.identity!!,
+                    dispatch = chatThreadManager?.container?.dispatch!!
                 )
             },
             onChanged = {
@@ -77,7 +75,7 @@ class ChatCompositeView(context: Context) : FrameLayout(context) {
                 }
             },
             coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
-            store = locator.locate()
+            store = chatThreadManager?.container?.appStore!!
         )
     }
 

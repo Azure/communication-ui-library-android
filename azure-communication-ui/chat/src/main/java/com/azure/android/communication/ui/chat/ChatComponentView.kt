@@ -5,23 +5,17 @@ package com.azure.android.communication.ui.chat
 
 import android.content.Context
 import android.widget.FrameLayout
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenStateViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ParticipantsListView
-import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.NavigatableBaseScreen
-import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.ParticipantScreen
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.chatScaffoldBody
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.chatScreenBottomBar
 import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
@@ -48,8 +42,7 @@ abstract class ChatComponentView(context: Context) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
     private var chatThreadManager: ChatThreadManager? = null
-    private val dispatch: Dispatch get() = chatThreadManager?.container?.locator?.locate()!!
-    private val locator: ServiceLocator get() = chatThreadManager?.container?.locator!!
+    private val dispatch: Dispatch get() = chatThreadManager?.container?.dispatch!!
 
     internal abstract val component: ChatComponent
 
@@ -91,9 +84,9 @@ abstract class ChatComponentView(context: Context) : FrameLayout(context) {
                 buildChatScreenViewModel(
                     context = context,
                     store = store,
-                    messages = locator.locate(),
-                    localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
-                    dispatch = locator.locate()
+                    messages = chatThreadManager?.container?.messageRepository!!,
+                    localUserIdentifier = chatThreadManager?.container?.remoteOptions?.identity!!,
+                    dispatch = chatThreadManager?.container?.dispatch!!
                 )
             },
             onChanged = {
@@ -132,7 +125,7 @@ abstract class ChatComponentView(context: Context) : FrameLayout(context) {
                 }
             },
             coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
-            store = locator.locate()
+            store = chatThreadManager?.container?.appStore!!
         )
     }
 

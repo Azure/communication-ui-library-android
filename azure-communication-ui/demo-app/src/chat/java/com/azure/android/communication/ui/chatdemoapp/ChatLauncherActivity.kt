@@ -278,7 +278,6 @@ class ChatLauncherActivity : AppCompatActivity() {
         outState?.putBoolean(isKotlinLauncherOptionSelected, chatLauncherViewModel.isKotlinLauncher)
     }
 
-
     fun setThread(chatThread: ChatThreadManager?) {
         chatLauncherViewModel.chatThreadManager.value?.stop()
         chatLauncherViewModel.chatThreadManager.value = chatThread
