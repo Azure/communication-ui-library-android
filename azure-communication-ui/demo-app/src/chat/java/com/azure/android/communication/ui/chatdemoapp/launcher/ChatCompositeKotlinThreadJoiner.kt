@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivit
 import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity
 import java.util.concurrent.Callable
 
-class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :
+class ChatCompositeKotlinThreadJoiner(private val tokenRefresher: Callable<String>) :
     ChatCompositeLauncher {
 
     override fun launch(
@@ -32,6 +32,7 @@ class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) 
         val remoteOptions =
             ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName)
         val chatThread = chatComposite.connectToChatThread(remoteOptions)
-        ChatCompositeActivity.startForChatThread(chatLauncherActivity, chatThread)
+        chatLauncherActivity.setThread(chatThread)
+
     }
 }

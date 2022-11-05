@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
+import com.azure.android.communication.ui.chat.ChatThreadManager
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
@@ -71,7 +73,17 @@ class ChatLauncherActivity : AppCompatActivity() {
         val userid = data?.getQueryParameter("userid")
         val name = data?.getQueryParameter("name")
 
+        chatLauncherViewModel.chatThreadManager.observe(this) {
+            binding.run {
+                launchFullScreen.isEnabled = it != null
+                launchChatView.isEnabled = it != null
+                launchParticipantView.isEnabled = it != null
+            }
+        }
         binding.run {
+            launchFullScreen.isEnabled = chatLauncherViewModel.chatThreadManager.value != null
+            launchChatView.isEnabled = chatLauncherViewModel.chatThreadManager.value != null
+            launchParticipantView.isEnabled = chatLauncherViewModel.chatThreadManager.value != null
 
             if (endpointurl.isNullOrEmpty()) {
                 endPointURL.setText(BuildConfig.END_POINT_URL)
@@ -103,7 +115,7 @@ class ChatLauncherActivity : AppCompatActivity() {
                 identity.setText(userid)
             }
 
-            launchButton.setOnClickListener {
+            connectToThreadButton.setOnClickListener {
                 chatLauncherViewModel.doLaunch(
                     acsTokenText.text.toString()
                 )
@@ -118,6 +130,10 @@ class ChatLauncherActivity : AppCompatActivity() {
 
             kotlinButton.setOnClickListener {
                 chatLauncherViewModel.setKotlinLauncher()
+            }
+
+            launchFullScreen.setOnClickListener {
+                ChatCompositeActivity.startForChatThread(it.context, chatLauncherViewModel.chatThreadManager.value!!)
             }
 
             if (!BuildConfig.DEBUG) {
@@ -162,7 +178,7 @@ class ChatLauncherActivity : AppCompatActivity() {
                 if (it.message != null) {
                     val causeMessage = it.cause?.message ?: ""
                     showAlert(it.toString() + causeMessage)
-                    binding.launchButton.isEnabled = true
+                    binding.connectToThreadButton.isEnabled = true
                 } else {
                     showAlert("Unknown error")
                 }
@@ -171,7 +187,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         if (result.isSuccess) {
             result.getOrNull()?.let { launcherObject ->
                 launch(launcherObject)
-                binding.launchButton.isEnabled = true
+                binding.connectToThreadButton.isEnabled = true
             }
         }
     }
@@ -207,5 +223,11 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private fun saveState(outState: Bundle?) {
         outState?.putBoolean(isKotlinLauncherOptionSelected, chatLauncherViewModel.isKotlinLauncher)
+    }
+
+
+    fun setThread(chatThread: ChatThreadManager?) {
+        chatLauncherViewModel.chatThreadManager.value?.stop()
+        chatLauncherViewModel.chatThreadManager.value = chatThread
     }
 }

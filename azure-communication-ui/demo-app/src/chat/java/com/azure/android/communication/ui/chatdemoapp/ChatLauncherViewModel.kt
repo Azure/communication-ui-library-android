@@ -6,8 +6,9 @@ package com.azure.android.communication.ui.chatdemoapp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.azure.android.communication.ui.chat.ChatThreadManager
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeJavaLauncher
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotlinLauncher
+import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotlinThreadJoiner
 import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
 import java.util.concurrent.Callable
 
@@ -18,9 +19,11 @@ class ChatLauncherViewModel : ViewModel() {
     val fetchResult: LiveData<Result<ChatCompositeLauncher?>> = fetchResultInternal
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
+    var chatThreadManager : MutableLiveData<ChatThreadManager> = MutableLiveData()
+    val isConnected get() = chatThreadManager.value != null
 
     private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
-        ChatCompositeKotlinLauncher(tokenRefresher)
+        ChatCompositeKotlinThreadJoiner(tokenRefresher)
     } else {
         ChatCompositeJavaLauncher(tokenRefresher)
     }

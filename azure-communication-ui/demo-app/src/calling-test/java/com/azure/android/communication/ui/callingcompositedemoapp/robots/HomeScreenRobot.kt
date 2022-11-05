@@ -64,8 +64,8 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
     }
 
     fun clickLaunchButton(): SetupScreenRobot {
-        waitUntilViewIdIsDisplayed(R.id.launchButton)
-        UiTestUtils.clickViewWithId(R.id.launchButton)
+        waitUntilViewIdIsDisplayed(R.id.connectToThreadButton)
+        UiTestUtils.clickViewWithId(R.id.connectToThreadButton)
         return SetupScreenRobot()
     }
 
