@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -45,84 +46,111 @@ internal fun ChatScreen(
     stateViewModel: ChatScreenStateViewModel = viewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
-    val listState = rememberLazyListState()
+
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val topic = when {
-                viewModel.chatTopic != null -> viewModel.chatTopic
-                else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
-            }
-
-            val subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, viewModel.participants.count())
-
-            ActionBarView(
-                title = topic,
-                subTitle = subTitle,
-                onTitleClicked = {
-                    viewModel.postAction(NavigationAction.GotoParticipants())
-                },
-                onBackButtonPressed = {
-                    dispatcher?.onBackPressed()
-                },
-                postAction = viewModel.postAction,
-            )
+            chatScreenTopBar(viewModel)
         },
         content = { paddingValues ->
-            if (viewModel.showError) {
-                Column {
-                    BasicText("ERROR")
-                    BasicText(viewModel.errorMessage)
-                }
-            } else if (viewModel.isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    FluentCircularIndicator()
-                }
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    MessageListView(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .fillMaxWidth(),
-                        messages = viewModel.messages,
-                        scrollState = listState,
-                        showLoading = viewModel.areMessagesLoading,
-                        dispatchers = viewModel.postAction
-                    )
-                    Box(modifier = Modifier.padding(paddingValues)) {
-                        UnreadMessagesIndicatorView(
-                            scrollState = listState,
-                            visible = viewModel.unreadMessagesIndicatorVisibility,
-                            unreadCount = viewModel.unreadMessagesCount,
-                        )
-                    }
-                }
-            }
+            chatScaffoldBody(viewModel, paddingValues)
         },
         bottomBar = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(contentAlignment = Alignment.CenterStart) {
-                    TypingIndicatorView(viewModel.typingParticipants.toList())
-                }
+            chatScreenBottomBar(viewModel, stateViewModel)
+        }
+    )
+}
 
-                BottomBarView(
-                    messageInputTextState = stateViewModel.messageInputTextState,
-                    chatStatus = viewModel.chatStatus,
-                    postAction = viewModel.postAction
+@Composable
+internal fun chatScreenBottomBar(
+    viewModel: ChatScreenViewModel,
+    stateViewModel: ChatScreenStateViewModel
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(contentAlignment = Alignment.CenterStart) {
+            TypingIndicatorView(viewModel.typingParticipants.toList())
+        }
+
+        BottomBarView(
+            messageInputTextState = stateViewModel.messageInputTextState,
+            chatStatus = viewModel.chatStatus,
+            postAction = viewModel.postAction
+        )
+    }
+}
+
+@Composable
+internal fun chatScreenTopBar(
+    viewModel: ChatScreenViewModel,
+) {
+    val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val topic = when {
+        viewModel.chatTopic != null -> viewModel.chatTopic
+        else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+    }
+
+    val subTitle = stringResource(
+        id = R.string.azure_communication_ui_chat_count_people,
+        viewModel.participants.count()
+    )
+
+    ActionBarView(
+        title = topic,
+        subTitle = subTitle,
+        onTitleClicked = {
+            viewModel.postAction(NavigationAction.GotoParticipants())
+        },
+        onBackButtonPressed = {
+            dispatcher?.onBackPressed()
+        },
+        postAction = viewModel.postAction,
+    )
+}
+
+@Composable
+internal fun chatScaffoldBody(
+    viewModel: ChatScreenViewModel,
+    paddingValues: PaddingValues
+) {
+    val listState = rememberLazyListState()
+    if (viewModel.showError) {
+        Column {
+            BasicText("ERROR")
+            BasicText(viewModel.errorMessage)
+        }
+    } else if (viewModel.isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            contentAlignment = Alignment.Center
+        ) {
+            FluentCircularIndicator()
+        }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            MessageListView(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxWidth(),
+                messages = viewModel.messages,
+                scrollState = listState,
+                showLoading = viewModel.areMessagesLoading,
+                dispatchers = viewModel.postAction
+            )
+            Box(modifier = Modifier.padding(paddingValues)) {
+                UnreadMessagesIndicatorView(
+                    scrollState = listState,
+                    visible = viewModel.unreadMessagesIndicatorVisibility,
+                    unreadCount = viewModel.unreadMessagesCount,
                 )
             }
         }
-    )
+    }
 }
 
 @Preview

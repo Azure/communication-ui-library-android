@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat
 
-import android.app.Activity
 import android.content.Context
 import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
@@ -20,7 +19,7 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.LifecycleAction
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-class ChatView(context: Context) : FrameLayout(context) {
+class ChatCompositeView(context: Context) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
     private var chatThreadManager : ChatThreadManager? = null

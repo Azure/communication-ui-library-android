@@ -18,8 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
+import com.azure.android.communication.ui.chat.ChatParticipantView
 import com.azure.android.communication.ui.chat.ChatThreadManager
-import com.azure.android.communication.ui.chat.ChatView
+import com.azure.android.communication.ui.chat.ChatThreadView
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
@@ -144,6 +145,9 @@ class ChatLauncherActivity : AppCompatActivity() {
                 chatLauncherViewModel.chatViewMode.value = ChatViewMode.ChatView
             }
 
+            launchParticipantView.setOnClickListener {
+                chatLauncherViewModel.chatViewMode.value = ChatViewMode.Participants
+            }
             viewContainer.setOnClickListener {
                 chatLauncherViewModel.chatViewMode.value = ChatViewMode.None
             }
@@ -175,9 +179,14 @@ class ChatLauncherActivity : AppCompatActivity() {
             var view =
             when (viewMode) {
                 ChatViewMode.ChatView -> {
-                    val chatView = ChatView(this)
-                    chatView.setChatThreadManager(chatLauncherViewModel.chatThreadManager.value!!)
-                    chatView
+                    val chatThreadView = ChatThreadView(this)
+                    chatThreadView.setChatThreadManager(chatLauncherViewModel.chatThreadManager.value!!)
+                    chatThreadView
+                }
+                ChatViewMode.Participants -> {
+                    val participantsView = ChatParticipantView(this)
+                    participantsView.setChatThreadManager(chatLauncherViewModel.chatThreadManager.value!!)
+                    participantsView
                 }
                 else -> {
                     val tv = TextView(this)

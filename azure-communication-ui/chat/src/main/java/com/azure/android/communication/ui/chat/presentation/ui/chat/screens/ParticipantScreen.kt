@@ -32,9 +32,9 @@ internal fun ParticipantScreen(
     viewModel: ChatScreenViewModel,
 ) {
     val scaffoldState = rememberScaffoldState()
-    val listState = rememberLazyListState()
 
     Scaffold(
+
         scaffoldState = scaffoldState,
         topBar = {
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher

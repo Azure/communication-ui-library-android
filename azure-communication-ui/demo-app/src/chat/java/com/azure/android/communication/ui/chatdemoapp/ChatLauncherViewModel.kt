@@ -15,6 +15,7 @@ import java.util.concurrent.Callable
 enum class ChatViewMode{
     None,
     ChatView,
+    Participants,
 }
 class ChatLauncherViewModel : ViewModel() {
     private var token: String? = null

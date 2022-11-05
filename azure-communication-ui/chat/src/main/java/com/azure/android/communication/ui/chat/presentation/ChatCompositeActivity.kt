@@ -10,12 +10,9 @@ import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.azure.android.communication.ui.chat.ChatManager
 import com.azure.android.communication.ui.chat.ChatThreadManager
-import com.azure.android.communication.ui.chat.ChatView
-import com.azure.android.communication.ui.chat.locator.ServiceLocator
+import com.azure.android.communication.ui.chat.ChatCompositeView
 import java.lang.Exception
-import java.lang.RuntimeException
 
 class ChatCompositeActivity : AppCompatActivity() {
     private var instanceID : Long = -1L
@@ -31,10 +28,10 @@ class ChatCompositeActivity : AppCompatActivity() {
         // hide the existing action bar, it will be replaced with ChatCompositeActionBar
         supportActionBar?.hide()
 
-        val chatView = ChatView(this)
+        val chatCompositeView = ChatCompositeView(this)
 
         try {
-            chatView.setChatThreadManager(instanceMap[instanceID]!!)
+            chatCompositeView.setChatThreadManager(instanceMap[instanceID]!!)
         } catch (exception: Exception) {
             Log.e("ChatCompositeActivity", "Could not find a ChatThreadManager")
             setResult(RESULT_CANCELED)
@@ -42,7 +39,7 @@ class ChatCompositeActivity : AppCompatActivity() {
         }
 
         addContentView(
-            chatView,
+            chatCompositeView,
             ViewGroup.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
