@@ -3,9 +3,11 @@
 
 package com.azure.android.communication.ui.calling.di
 
+import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
@@ -18,15 +20,20 @@ import com.azure.android.communication.ui.calling.presentation.navigation.Naviga
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager
 import com.azure.android.communication.ui.calling.service.NotificationService
 
 // Dependency Container for the Call Composite Activity
 // For implementation
 // @see: {@link DependencyInjectionContainerImpl}
 internal interface DependencyInjectionContainer {
+    val logger: Logger
+
     // Redux Store
     val appStore: Store<ReduxState>
     val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
+
+    val callComposite: CallComposite
 
     // Config
     val configuration: CallCompositeConfiguration
@@ -43,6 +50,7 @@ internal interface DependencyInjectionContainer {
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager
     val networkManager: NetworkManager
+    val diagnosticsManager: DiagnosticsManager
 
     // UI
     val videoViewManager: VideoViewManager

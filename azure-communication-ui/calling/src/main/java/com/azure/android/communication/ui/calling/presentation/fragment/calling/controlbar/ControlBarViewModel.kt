@@ -21,11 +21,17 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
     private lateinit var shouldEnableMicButtonStateFlow: MutableStateFlow<Boolean>
     private lateinit var onHoldCallStatusStateFlow: MutableStateFlow<Boolean>
+    lateinit var requestCallEnd: () -> Unit
+    lateinit var openAudioDeviceSelectionMenu: () -> Unit
+    lateinit var openMoreMenu: () -> Unit
 
     fun init(
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
+        requestCallEndCallback: () -> Unit,
+        openAudioDeviceSelectionMenuCallback: () -> Unit,
+        openMoreMenuCallback: () -> Unit
     ) {
         cameraStateFlow =
             MutableStateFlow(CameraModel(permissionState.cameraPermissionState, cameraState))
@@ -34,6 +40,9 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         shouldEnableMicButtonStateFlow =
             MutableStateFlow(shouldEnableMicButton(audioState))
         onHoldCallStatusStateFlow = MutableStateFlow(false)
+        requestCallEnd = requestCallEndCallback
+        openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
+        openMoreMenu = openMoreMenuCallback
     }
 
     fun update(

@@ -44,7 +44,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         val selectedLanguage = language()
         val locale = selectedLanguage?.let { locale(it) }
 
-        val callComposite: CallComposite =
+        val callComposite =
             if (AdditionalFeatures.secondaryThemeFeature.active)
                 CallCompositeBuilder().theme(R.style.MyCompany_Theme_Calling)
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
@@ -54,7 +54,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                     .localization(CallCompositeLocalizationOptions(locale!!, getLayoutDirection()))
                     .build()
 
-        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(callLauncherActivity))
+        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(callComposite, callLauncherActivity))
 
         if (getRemoteParticipantPersonaInjectionSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
@@ -78,9 +78,17 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
             .setParticipantViewData(getParticipantViewData(callLauncherActivity.applicationContext))
             .setSetupScreenViewData(
                 CallCompositeSetupScreenViewData()
-                    .setTitleAndSubtitle(getTitle(), getSubtitle())
+                    .setTitle(getTitle())
+                    .setSubtitle(getSubtitle())
             )
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
+
+        // For test purposes we will keep a static ref to CallComposite
+        CallingCompositeKotlinLauncher.callComposite = callComposite
+    }
+
+    companion object {
+        var callComposite: CallComposite? = null
     }
 }

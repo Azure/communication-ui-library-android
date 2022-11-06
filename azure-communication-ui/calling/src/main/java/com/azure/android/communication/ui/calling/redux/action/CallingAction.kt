@@ -14,4 +14,5 @@ internal sealed class CallingAction : Action {
     class StateUpdated(val callingState: CallingStatus) : CallingAction()
     class IsRecordingUpdated(val isRecording: Boolean) : CallingAction()
     class IsTranscribingUpdated(val isTranscribing: Boolean) : CallingAction()
+    class CallIdUpdated(val callId: String?) : CallingAction()
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -41,6 +42,9 @@ internal fun MessageListView(
     dispatchers: Dispatch
 ) {
     requestPages(scrollState, messages, dispatchers)
+    if (messages.isNotEmpty()) {
+        sendReadReceipt(scrollState, messages, dispatchers)
+    }
     LazyColumn(
         modifier = modifier.fillMaxHeight(),
         state = scrollState,
@@ -77,14 +81,31 @@ private fun requestPages(
     dispatch: Dispatch
 ) {
     if (scrollState.layoutInfo.totalItemsCount == 0) return
-
     val currentLastMessage = messages.first()
-
     if (scrollState.outOfViewItemCount() < MESSAGE_LIST_LOAD_MORE_THRESHOLD) {
         val lastTrigger = remember { mutableStateOf("0") }
         if (lastTrigger.value != currentLastMessage.message.id) {
             lastTrigger.value = currentLastMessage.message.id ?: "0"
             dispatch(ChatAction.FetchMessages())
+        }
+    }
+}
+
+@Composable
+private fun sendReadReceipt(
+    scrollState: LazyListState,
+    messages: List<MessageViewModel>,
+    dispatch: Dispatch
+) {
+    val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
+    val currentBottomMessage = messages[messages.count() - firstVisibleItemIndex - 1]
+    if (!currentBottomMessage.isLocalUser) {
+        currentBottomMessage.message.id?.let {
+            if (it.isNotEmpty()) {
+                LaunchedEffect(it) {
+                    dispatch(ChatAction.MessageRead(it))
+                }
+            }
         }
     }
 }
@@ -98,7 +119,7 @@ internal fun PreviewMessageListView() {
             showLoading = false,
             modifier = Modifier.padding(0.dp),
             messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
-            scrollState = LazyListState(),
+            scrollState = LazyListState()
         ) {}
     }
 }
