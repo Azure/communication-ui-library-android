@@ -200,11 +200,11 @@ class ChatLauncherActivity : AppCompatActivity() {
         val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         val remoteOptions = ChatCompositeRemoteOptions(
-                endpoint,
-                threadId,
-                communicationTokenCredential,
-                acsIdentity,
-                userName
+            endpoint,
+            threadId,
+            communicationTokenCredential,
+            acsIdentity,
+            userName
         )
 
         val chatComposite = ChatCompositeBuilder()
@@ -221,7 +221,6 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         chatComposite.connect()
         chatLauncherViewModel.chatComposite = chatComposite
-
 
         openChatUI()
 

@@ -23,7 +23,6 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenStateViewModel
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.ActionBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.BottomBarView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.FluentCircularIndicator
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
@@ -33,7 +32,6 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScr
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
-import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
