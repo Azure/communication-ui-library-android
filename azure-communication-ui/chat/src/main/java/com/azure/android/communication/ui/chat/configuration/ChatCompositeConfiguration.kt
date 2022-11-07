@@ -10,4 +10,5 @@ internal class ChatCompositeConfiguration {
     var chatConfig: ChatConfiguration? = null
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration =
         RemoteParticipantsConfiguration()
+    val chatCompositeEventsHandler = ChatCompositeEventsHandler()
 }

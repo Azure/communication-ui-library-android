@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantViewData;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
@@ -132,6 +133,40 @@ public class ChatComposite {
     public void removeOnUnreadMessagesChangedEventHandler(
             final ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent> handler) {
 
+    }
+
+    /**
+     * Add {@link ChatCompositeEventHandler}.
+     *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.calling.models.ChatCompositeErrorEvent} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add error handler
+     * callComposite.addOnErrorEventHandler&#40;event -> {
+     *     &#47;&#47; Process error event
+     *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param errorHandler The {@link ChatCompositeEventHandler}.
+     */
+    public void addOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+        configuration.getChatCompositeEventsHandler().addOnErrorEventHandler(errorHandler);
+    }
+
+    /**
+     * Remove {@link ChatCompositeEventHandler}.
+     *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.calling.models.ChatCompositeErrorEvent} for values.</p>
+     *
+     * @param errorHandler The {@link ChatCompositeEventHandler}.
+     */
+    public void removeOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+        configuration.getChatCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
     }
 
     /**

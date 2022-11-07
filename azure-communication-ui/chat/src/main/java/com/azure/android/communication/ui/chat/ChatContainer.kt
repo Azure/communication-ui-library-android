@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat
 import android.content.Context
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.error.ErrorHandler
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
@@ -81,6 +82,7 @@ internal class ChatContainer(
                 .apply {
                     locate<Dispatch>()(ChatAction.StartChat())
                     locate<NetworkManager>().start(context)
+                    locate<ErrorHandler>().start()
                 }
         }
     }
@@ -154,9 +156,18 @@ internal class ChatContainer(
             addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
 
             addTypedBuilder { NetworkManager(dispatch = locate()) }
+
+            addTypedBuilder {
+                ErrorHandler(
+                    coroutineContextProvider = locate(),
+                    store = locate(),
+                    configuration.chatCompositeEventsHandler
+                )
+            }
         }
 
     fun stop() {
+        locator?.locate<ErrorHandler>()?.stop()
         locator?.locate<NetworkManager>()?.stop()
         locator?.clear()
     }
