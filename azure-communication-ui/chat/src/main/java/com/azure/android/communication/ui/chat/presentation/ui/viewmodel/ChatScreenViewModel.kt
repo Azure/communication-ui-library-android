@@ -72,7 +72,7 @@ private fun getUnReadMessagesCount(
     val internalLastReadIndex = messages.indexOf(MessageInfoModel(id = lastReadId))
     val internalLastSendIndex = messages.indexOf(MessageInfoModel(id = lastSendId))
 
-    val internalLastReadId = max(internalLastReadIndex, internalLastSendIndex)
+    val internalLastIndex = max(internalLastReadIndex, internalLastSendIndex)
 
-    return if (internalLastReadId == -1) 0 else messages.size - internalLastReadId - 1
+    return if (internalLastIndex == -1) 0 else messages.size - internalLastIndex - 1
 }
