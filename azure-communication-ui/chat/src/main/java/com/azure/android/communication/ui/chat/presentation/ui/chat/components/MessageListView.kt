@@ -4,14 +4,12 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,13 +48,12 @@ internal fun MessageListView(
         autoScrollToBottom(scrollState, messages)
     }
 
-
     LazyColumn(
         modifier = modifier.fillMaxHeight().padding(ChatCompositeTheme.dimensions.messageListPadding),
         state = scrollState,
         reverseLayout = true,
     ) {
-        itemsIndexed(messages.asReversed(), key = {index, item -> item.message.id?:""}) { index, message ->
+        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: "" }) { index, message ->
             MessageView(message)
         }
         if (messages.isNotEmpty() && showLoading) {
@@ -71,7 +68,6 @@ internal fun MessageListView(
         }
     }
 }
-
 
 // Handle paging request
 //
@@ -101,8 +97,9 @@ private fun requestPages(
 @Composable
 private fun autoScrollToBottom(
     scrollState: LazyListState,
-    messages: List<MessageViewModel>) {
-    val wasAtEnd = remember { mutableStateOf( scrollState.firstVisibleItemIndex )}
+    messages: List<MessageViewModel>
+) {
+    val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
     val isAtEnd = scrollState.firstVisibleItemIndex
     if (wasAtEnd.value == 0 && wasAtEnd.value != isAtEnd) {
         LaunchedEffect(messages.last()) {
@@ -110,7 +107,6 @@ private fun autoScrollToBottom(
         }
     }
     wasAtEnd.value = isAtEnd
-
 }
 
 @Composable
