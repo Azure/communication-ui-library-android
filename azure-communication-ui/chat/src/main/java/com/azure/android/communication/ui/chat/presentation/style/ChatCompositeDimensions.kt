@@ -23,6 +23,7 @@ internal data class ChatCompositeDimensions(
     val typingIndicatorAreaHeight: Dp = 36.dp,
     val unreadMessagesIndicatorHeight: Dp = 48.dp,
     val unreadMessagesIndicatorIconHeight: Dp = 18.dp,
+    val unreadMessagesIndicatorPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 4.dp),
     val unreadMessagesIndicatorIconPadding: PaddingValues = PaddingValues(start = 10.dp, end = 0.dp, top = 0.dp, bottom = 0.dp),
     val unreadMessagesIndicatorTextFontSize: TextUnit = 16.sp,
     val dateHeaderPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 16.dp, bottom = 0.dp)
