@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -43,6 +44,7 @@ internal fun MessageInputView(
     contentDescription: String,
     messageInputTextState: MutableState<String>,
     postAction: (Action) -> Unit,
+    keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
     var focusState by rememberSaveable { mutableStateOf(false) }
 
@@ -54,7 +56,8 @@ internal fun MessageInputView(
         textContent = messageInputTextState.value,
         onTextFieldFocused = { focusState = it },
         focusState = focusState,
-        contentDescription = contentDescription
+        contentDescription = contentDescription,
+        keyboardActions = keyboardActions
     )
 }
 
@@ -66,6 +69,7 @@ internal fun MessageInput(
     onTextFieldFocused: (Boolean) -> Unit,
     focusState: Boolean,
     contentDescription: String,
+    keyboardActions: KeyboardActions,
 ) {
 
     val outlineColor = ChatCompositeTheme.colors.outlineColor
@@ -97,6 +101,7 @@ internal fun MessageInput(
             keyboardType = keyboardType,
             imeAction = ImeAction.Send
         ),
+        keyboardActions = keyboardActions,
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
@@ -123,5 +128,5 @@ internal fun MessageInput(
 @Preview
 @Composable
 internal fun PreviewMessageInputView() {
-    MessageInputView("Message Input Field", remember { mutableStateOf("") }) {}
+    MessageInputView("Message Input Field", remember { mutableStateOf("") }, {})
 }

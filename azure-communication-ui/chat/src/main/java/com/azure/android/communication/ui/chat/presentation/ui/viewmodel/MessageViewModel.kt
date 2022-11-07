@@ -38,7 +38,7 @@ private class InfoModelToViewModelAdapter(
 
         val lastMessage = try { messages[index - 1] } catch (e: IndexOutOfBoundsException) { EMPTY_MESSAGE_INFO_MODEL }
         val thisMessage = messages[index]
-        val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier
+        val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
         return MessageViewModel(
 
             messages[index],
@@ -52,7 +52,7 @@ private class InfoModelToViewModelAdapter(
 
             dateHeaderText = buildDateHeader(
                 lastMessage.createdOn!!,
-                thisMessage.createdOn!!
+                thisMessage.createdOn ?: OffsetDateTime.now()
             ),
 
             isLocalUser = isLocalUser

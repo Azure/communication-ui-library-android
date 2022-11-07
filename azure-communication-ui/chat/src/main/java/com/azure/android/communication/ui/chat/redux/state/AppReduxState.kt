@@ -24,7 +24,8 @@ internal class AppReduxState(
             allMessagesFetched = false,
             isThreadDeleted = false
         ),
-        lastReadMessageId = ""
+        lastReadMessageId = "",
+        lastSendMessageId = "",
     )
 
     override var participantState: ParticipantsState = ParticipantsState(
