@@ -172,4 +172,31 @@ class MessageRepositoryTreeStorageUnitTest {
 
         Assert.assertEquals(true, startTime <endTime)
     }
+
+    @Test
+    fun messageRepositoryTreeStorage_indexOfTest() {
+        val storage = MessageRepository.createTreeBackedRepository()
+
+        val numberOfTestMessages = 50
+        for (i in 1..numberOfTestMessages) {
+            storage.addLocalMessage(
+                MessageInfoModel(
+                    id = i.toString(),
+                    content = "Message $i",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        }
+
+        Assert.assertEquals(
+            1,
+            storage.indexOf(
+                MessageInfoModel(
+                    id = "2",
+                    content = "",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+        )
+    }
 }

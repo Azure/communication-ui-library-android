@@ -8,6 +8,8 @@ import com.azure.android.communication.ui.chat.repository.storage.MessageReposit
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListWriter
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeReader
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeWriter
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListReader
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListWriter
 
 internal class MessageRepository private constructor(
     val readerDelegate: MessageRepositoryReader,
@@ -21,6 +23,7 @@ internal class MessageRepository private constructor(
     override fun addServerMessage(message: MessageInfoModel) = writerDelegate.addServerMessage(message = message)
     override fun removeMessage(message: MessageInfoModel) = writerDelegate.removeMessage(message = message)
     override fun editMessage(message: MessageInfoModel) = writerDelegate.editMessage(message = message)
+    override fun indexOf(element: MessageInfoModel) = readerDelegate.indexOf(element)
 
     // TODO: We should be using read interface to get last message in list
     // This isn't a write message
@@ -40,6 +43,15 @@ internal class MessageRepository private constructor(
         fun createTreeBackedRepository(): MessageRepository {
             val writer = MessageRepositoryTreeWriter()
             val reader = MessageRepositoryTreeReader(writer)
+            return MessageRepository(
+                readerDelegate = reader,
+                writerDelegate = writer
+            )
+        }
+
+        fun createSkipListBackedRepository(): MessageRepository {
+            val writer = MessageRepositorySkipListWriter()
+            val reader = MessageRepositorySkipListReader(writer)
             return MessageRepository(
                 readerDelegate = reader,
                 writerDelegate = writer

@@ -13,7 +13,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
+import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
@@ -21,7 +23,12 @@ internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
+    private val diagnosticsManager: DiagnosticsManager
 ) {
+
+    val moreCallOptionsListViewModel by lazy {
+        MoreCallOptionsListViewModel(diagnosticsManager)
+    }
 
     val participantGridViewModel by lazy {
         ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)

@@ -48,15 +48,12 @@ internal fun buildChatScreenViewModel(
     requestExit: Runnable
 ): ChatScreenViewModel {
 
-    // TODO add logic with last read message
-    var unreadMessagesCount: Int = 0
-
     return ChatScreenViewModel(
         messages = messages.toViewModelList(context, localUserIdentifier),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
-        unreadMessagesCount = unreadMessagesCount,
+        unreadMessagesCount = getUnReadMessagesCount(store, messages),
         error = store.getCurrentState().errorState.chatStateError,
         postAction = dispatch,
         typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
@@ -65,4 +62,30 @@ internal fun buildChatScreenViewModel(
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
         requestExit = requestExit,
     )
+}
+
+private fun getUnReadMessagesCount(
+    store: AppStore<ReduxState>,
+    messages: List<MessageInfoModel>,
+): Int {
+    var unreadMessagesCount = 0
+
+    val lastReadId = store.getCurrentState().chatState.lastReadMessageId
+    val lastSendId = store.getCurrentState().chatState.lastSendMessageId
+    var itr = 0
+    while (itr < messages.size) {
+        if (lastReadId.isEmpty()) {
+            break
+        }
+        if (messages[itr].isCurrentUser) {
+            itr++
+            continue
+        }
+        if (messages[itr].id!! > lastReadId && !messages[itr].isCurrentUser && messages[itr].id!! > lastSendId) {
+            unreadMessagesCount++
+        }
+        itr++
+    }
+
+    return unreadMessagesCount
 }

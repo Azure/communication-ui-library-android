@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -65,13 +66,19 @@ class ChatLauncherActivity : AppCompatActivity() {
         binding = ActivityChatLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val data: Uri? = intent?.data
+        val endpointurl = data?.getQueryParameter("endpointurl") ?: BuildConfig.END_POINT_URL
+        val threadid = data?.getQueryParameter("threadid") ?: BuildConfig.THREAD_ID
+        val acstoken = data?.getQueryParameter("acstoken") ?: BuildConfig.ACS_TOKEN
+        val userid = data?.getQueryParameter("userid") ?: BuildConfig.IDENTITY
+        val name = data?.getQueryParameter("name") ?: BuildConfig.USER_NAME
+
         binding.run {
-            tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
-            acsTokenText.setText(BuildConfig.ACS_TOKEN)
-            userNameText.setText(BuildConfig.USER_NAME)
-            chatThreadID.setText(BuildConfig.THREAD_ID)
-            endPointURL.setText(BuildConfig.END_POINT_URL)
-            identity.setText(BuildConfig.IDENTITY)
+            endPointURL.setText(endpointurl)
+            acsTokenText.setText(acstoken)
+            userNameText.setText(name)
+            chatThreadID.setText(threadid)
+            identity.setText(userid)
 
             launchButton.setOnClickListener {
                 if (chatLauncherViewModel.isChatRunning)
@@ -87,24 +94,8 @@ class ChatLauncherActivity : AppCompatActivity() {
                 stopChatComposite()
             }
 
-            tokenFunctionRadioButton.setOnClickListener {
-                if (tokenFunctionRadioButton.isChecked) {
-                    tokenFunctionUrlText.requestFocus()
-                    tokenFunctionUrlText.isEnabled = true
-                    acsTokenText.isEnabled = false
-                    acsTokenRadioButton.isChecked = false
-                    chatLauncherViewModel.useTokenFunction()
-                }
-            }
-            acsTokenRadioButton.setOnClickListener {
-                if (acsTokenRadioButton.isChecked) {
-                    acsTokenText.requestFocus()
-                    acsTokenText.isEnabled = true
-                    tokenFunctionUrlText.isEnabled = false
-                    tokenFunctionRadioButton.isChecked = false
-                    chatLauncherViewModel.useAcsToken()
-                }
-            }
+            acsTokenText.requestFocus()
+            acsTokenText.isEnabled = true
 
             if (!BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"

@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
@@ -16,10 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.ChatScreenStateViewModel
@@ -46,27 +44,6 @@ internal fun ChatScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = {
-
-            val topic = when {
-                viewModel.chatTopic != null -> viewModel.chatTopic
-                else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
-            }
-
-            val subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, viewModel.participants.count())
-
-//            ActionBarView(
-//                title = topic,
-//                subTitle = subTitle,
-//                onTitleClicked = {
-//                    viewModel.postAction(NavigationAction.GotoParticipants())
-//                },
-//                onBackButtonPressed = {
-//                    viewModel.requestExit.run()
-//                },
-//                postAction = viewModel.postAction,
-//            )
-        },
         content = { paddingValues ->
             if (viewModel.showError) {
                 Column {
@@ -83,26 +60,31 @@ internal fun ChatScreen(
                     FluentCircularIndicator()
                 }
             } else {
-                MessageListView(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxWidth(),
-                    messages = viewModel.messages,
-                    scrollState = listState,
-                    showLoading = viewModel.areMessagesLoading,
-                    dispatchers = viewModel.postAction
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    MessageListView(
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .fillMaxWidth(),
+                        messages = viewModel.messages,
+                        scrollState = listState,
+                        showLoading = viewModel.areMessagesLoading,
+                        dispatchers = viewModel.postAction
+                    )
+                    Box(modifier = Modifier.padding(paddingValues)) {
+                        UnreadMessagesIndicatorView(
+                            scrollState = listState,
+                            visible = viewModel.unreadMessagesIndicatorVisibility,
+                            unreadCount = viewModel.unreadMessagesCount,
+                        )
+                    }
+                }
             }
         },
         bottomBar = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                UnreadMessagesIndicatorView(
-                    scrollState = listState,
-                    visible = viewModel.unreadMessagesIndicatorVisibility,
-                    unreadCount = viewModel.unreadMessagesCount,
-                    totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
-                )
-
                 Box(contentAlignment = Alignment.CenterStart) {
                     TypingIndicatorView(viewModel.typingParticipants.toList())
                 }

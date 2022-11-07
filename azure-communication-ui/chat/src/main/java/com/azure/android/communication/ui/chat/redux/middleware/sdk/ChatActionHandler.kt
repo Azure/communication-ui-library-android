@@ -134,10 +134,6 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                         )
                     )
                 )
-            } else {
-                dispatch(
-                    ChatAction.MessageRead(action.messageId)
-                )
             }
         }
     }
