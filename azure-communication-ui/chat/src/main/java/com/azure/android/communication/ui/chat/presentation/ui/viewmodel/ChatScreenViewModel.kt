@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import kotlin.math.max
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -65,24 +66,13 @@ private fun getUnReadMessagesCount(
     store: AppStore<ReduxState>,
     messages: List<MessageInfoModel>,
 ): Int {
-    var unreadMessagesCount = 0
-
     val lastReadId = store.getCurrentState().chatState.lastReadMessageId
     val lastSendId = store.getCurrentState().chatState.lastSendMessageId
-    var itr = 0
-    while (itr < messages.size) {
-        if (lastReadId.isEmpty()) {
-            break
-        }
-        if (messages[itr].isCurrentUser) {
-            itr++
-            continue
-        }
-        if (messages[itr].id!! > lastReadId && !messages[itr].isCurrentUser && messages[itr].id!! > lastSendId) {
-            unreadMessagesCount++
-        }
-        itr++
-    }
 
-    return unreadMessagesCount
+    val internalLastReadIndex = messages.indexOf(MessageInfoModel(id = lastReadId))
+    val internalLastSendIndex = messages.indexOf(MessageInfoModel(id = lastSendId))
+
+    val internalLastReadId = max(internalLastReadIndex, internalLastSendIndex)
+
+    return if (internalLastReadId == -1) 0 else messages.size - internalLastReadId - 1
 }
