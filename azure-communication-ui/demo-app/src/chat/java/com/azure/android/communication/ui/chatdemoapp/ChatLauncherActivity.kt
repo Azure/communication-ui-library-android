@@ -212,10 +212,14 @@ class ChatLauncherActivity : AppCompatActivity() {
             .remoteOptions(remoteOptions)
             .build()
 
+        chatComposite.addOnErrorEventHandler { eventArgs ->
+            Log.e("", "Error received from ChatComposite ${eventArgs.errorCode}")
+        }
         chatComposite.addOnUnreadMessagesChangedEventHandler { eventArgs ->
             Log.d("", "There is a '${eventArgs.count}' new messages in the ${eventArgs.threadID} thread!")
         }
 
+        chatComposite.connect()
         chatLauncherViewModel.chatComposite = chatComposite
 
 
