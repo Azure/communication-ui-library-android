@@ -18,4 +18,8 @@ public class ChatCompositeUnreadMessageChangedEvent {
     public int getCount() {
         return count;
     }
+
+    public String getThreadID() {
+        return "";
+    }
 }

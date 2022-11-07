@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,7 +21,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder
-import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
@@ -122,6 +122,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     // / When a request is made to close the view, lets do that here
     private fun onChatCompositeExitRequested() {
+        // Remove chat view from screen
         chatView?.parent?.let {
             (it as ViewGroup).removeView(chatView)
         }
@@ -166,8 +167,11 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private fun openChatUI() {
         val chatComposite = chatLauncherViewModel.chatComposite!!
+
+        // Create Chat Composite View
         chatView = ChatCompositeView(this, chatComposite)
 
+        // Place it as a child element to any UI I have on the screen
         addContentView(
             chatView,
             ViewGroup.LayoutParams(
@@ -185,31 +189,35 @@ class ChatLauncherActivity : AppCompatActivity() {
             TeamsUrlParser.getThreadId(inputChatJoinId)
         else inputChatJoinId
 
+        val endpoint = binding.endPointURL.text.toString()
+        val acsIdentity = binding.identity.text.toString()
+        val userName = binding.userNameText.text.toString()
+
         val tokenRefresher = getTokenFetcher() ?: return
 
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions(tokenRefresher, true)
-        val communicationTokenCredential =
-            CommunicationTokenCredential(communicationTokenRefreshOptions)
-        val locator = ChatCompositeJoinLocator(threadId, binding.endPointURL.text.toString())
+        // Create ChatComposite(Adaptor)
+        val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
+        val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
+
         val remoteOptions = ChatCompositeRemoteOptions(
-            locator,
-            communicationTokenCredential,
-            binding.identity.text.toString(),
-            binding.userNameText.text.toString()
+                endpoint,
+                threadId,
+                communicationTokenCredential,
+                acsIdentity,
+                userName
         )
 
-        // TODO: move it to view model
         val chatComposite = ChatCompositeBuilder()
             .context(this)
             .remoteOptions(remoteOptions)
             .build()
 
+        chatComposite.addOnUnreadMessagesChangedEventHandler { eventArgs ->
+            Log.d("", "There is a '${eventArgs.count}' new messages in the ${eventArgs.threadID} thread!")
+        }
+
         chatLauncherViewModel.chatComposite = chatComposite
 
-        chatComposite.addOnCompositeViewCloseRequestedEventHandler {
-            onChatCompositeExitRequested()
-        }
 
         openChatUI()
 

@@ -7,43 +7,57 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 
 public class ChatCompositeRemoteOptions {
 
+    private final String endpointUrl;
+    private final String[] threadIds;
     private final CommunicationTokenCredential credential;
-    private final ChatCompositeJoinLocator locator;
     private final String displayName;
     private final String identity;
 
     /**
      * Create {@link ChatCompositeRemoteOptions}.
      *
-     * @param locator    {@link ChatCompositeJoinLocator}
+     *
      * @param credential {@link CommunicationTokenCredential}.
      * @param identity   {@link String}
      */
     public ChatCompositeRemoteOptions(
-            final ChatCompositeJoinLocator locator,
+            final String endpointUrl,
+            final String threadId,
             final CommunicationTokenCredential credential,
             final String identity) {
-        this(locator, credential, identity, "");
+        this(endpointUrl, threadId, credential, identity, "");
     }
 
     /**
      * Create {@link ChatCompositeRemoteOptions}.
      *
-     * @param locator     {@link ChatCompositeJoinLocator}
+     *
      * @param credential  {@link CommunicationTokenCredential}
      * @param identity    {@link String}
      * @param displayName User display name other participants will see.
      */
     public ChatCompositeRemoteOptions(
-            final ChatCompositeJoinLocator locator,
+            final String endpointUrl,
+            final String threadId,
             final CommunicationTokenCredential credential,
             final String identity,
             final String displayName) {
 
+        this(endpointUrl, new String[]{threadId}, credential, identity, displayName);
+    }
+
+    public ChatCompositeRemoteOptions(
+            final String endpointUrl,
+            final String[] threadIds,
+            final CommunicationTokenCredential credential,
+            final String identity,
+            final String displayName) {
+
+        this.endpointUrl = endpointUrl;
+        this.threadIds = threadIds;
         this.credential = credential;
         this.identity = identity;
         this.displayName = displayName;
-        this.locator = locator;
     }
 
     /**
@@ -53,15 +67,6 @@ public class ChatCompositeRemoteOptions {
      */
     public CommunicationTokenCredential getCredential() {
         return credential;
-    }
-
-    /**
-     * Get chat locator.
-     *
-     * @return {@link ChatCompositeJoinLocator}.
-     */
-    public ChatCompositeJoinLocator getLocator() {
-        return locator;
     }
 
     /**
@@ -81,4 +86,20 @@ public class ChatCompositeRemoteOptions {
     public String getIdentity() {
         return identity;
     }
+
+    // it does not correspond with current single ThreadID constructor.
+    public String[] getThreadIDs() {
+        return threadIds;
+    }
+
+    // it does not correspond with current multiple ThreadID constructor.
+    public String getThreadId() {
+        return threadIds[0];
+    }
+
+    public String getEndpointUrl() {
+        return endpointUrl;
+    }
+
+
 }

@@ -64,13 +64,13 @@ internal class ChatContainer(
             started = true
             configuration.chatConfig =
                 ChatConfiguration(
-                    endPointURL = remoteOptions.locator.endpointURL,
+                    endPointURL = remoteOptions.endpointUrl,
                     identity = remoteOptions.identity,
                     credential = remoteOptions.credential,
                     applicationID = "azure_communication_ui", // TODO: modify while working on diagnostics config < 24
                     sdkName = "com.azure.android:azure-communication-chat",
                     sdkVersion = "2.0.0",
-                    threadId = remoteOptions.locator.chatThreadId,
+                    threadId = remoteOptions.threadId,
                     senderDisplayName = remoteOptions.displayName
                 )
 

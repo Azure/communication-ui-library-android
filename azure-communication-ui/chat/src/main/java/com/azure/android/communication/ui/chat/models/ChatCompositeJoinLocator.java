@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.chat.ChatComposite;
 /**
  * Chat locator to join chat experience using {@link ChatComposite}.
  */
-public final class ChatCompositeJoinLocator {
+final class ChatCompositeJoinLocator {
 
     private final String chatThreadId;
     private final String endpointURL;
@@ -19,7 +19,7 @@ public final class ChatCompositeJoinLocator {
      * @param chatThreadId Chat thread id.
      * @param endpointURL  Chat end point URL.
      */
-    public ChatCompositeJoinLocator(final String chatThreadId, final String endpointURL) {
+    ChatCompositeJoinLocator(final String chatThreadId, final String endpointURL) {
         this.chatThreadId = chatThreadId;
         this.endpointURL = endpointURL;
     }

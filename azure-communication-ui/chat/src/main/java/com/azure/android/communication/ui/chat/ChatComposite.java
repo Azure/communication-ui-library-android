@@ -27,7 +27,7 @@ public class ChatComposite {
     private final ChatContainer chatContainer;
     private final ChatCompositeConfiguration configuration;
     final Integer instanceId = instanceIdCounter++;
-    private Runnable closeUIRequestHandler;
+//    private Runnable closeUIRequestHandler;
 
     ChatComposite(final Context context,
                   final ChatCompositeConfiguration configuration,
@@ -82,27 +82,27 @@ public class ChatComposite {
 //        return new ChatView(context, instanceId, closeUIRequestHandler);
 //    }
 
-    /**
-     * Add {@link ChatCompositeEventHandler}.
-     *
-     * @param handler The {@link ChatCompositeEventHandler}.
-     */
-    public void addOnCompositeViewCloseRequestedEventHandler(final ChatCompositeEventHandler<Object> handler) {
-        closeUIRequestHandler = new Runnable() {
-            @Override
-            public void run() {
-                handler.handle(null);
-            }
-        };
-    }
-
-    /**
-     * Remove {@link ChatCompositeEventHandler}.
-     *
-     * @param handler The {@link ChatCompositeEventHandler}.
-     */
-    public void removeOnViewClosedEventHandler(final ChatCompositeEventHandler<Object> handler) {
-    }
+//    /**
+//     * Add {@link ChatCompositeEventHandler}.
+//     *
+//     * @param handler The {@link ChatCompositeEventHandler}.
+//     */
+//    public void addOnCompositeViewCloseRequestedEventHandler(final ChatCompositeEventHandler<Object> handler) {
+//        closeUIRequestHandler = new Runnable() {
+//            @Override
+//            public void run() {
+//                handler.handle(null);
+//            }
+//        };
+//    }
+//
+//    /**
+//     * Remove {@link ChatCompositeEventHandler}.
+//     *
+//     * @param handler The {@link ChatCompositeEventHandler}.
+//     */
+//    public void removeOnViewClosedEventHandler(final ChatCompositeEventHandler<Object> handler) {
+//    }
 
     /**
      * Add {@link ChatCompositeEventHandler} with {@link ChatCompositeUnreadMessageChangedEvent}.

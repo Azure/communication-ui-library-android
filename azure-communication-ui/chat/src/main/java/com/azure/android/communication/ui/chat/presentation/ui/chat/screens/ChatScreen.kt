@@ -57,17 +57,17 @@ internal fun ChatScreen(
 
             val subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, viewModel.participants.count())
 
-            ActionBarView(
-                title = topic,
-                subTitle = subTitle,
-                onTitleClicked = {
-                    viewModel.postAction(NavigationAction.GotoParticipants())
-                },
-                onBackButtonPressed = {
-                    viewModel.requestExit.run()
-                },
-                postAction = viewModel.postAction,
-            )
+//            ActionBarView(
+//                title = topic,
+//                subTitle = subTitle,
+//                onTitleClicked = {
+//                    viewModel.postAction(NavigationAction.GotoParticipants())
+//                },
+//                onBackButtonPressed = {
+//                    viewModel.requestExit.run()
+//                },
+//                postAction = viewModel.postAction,
+//            )
         },
         content = { paddingValues ->
             if (viewModel.showError) {
