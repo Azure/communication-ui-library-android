@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -44,13 +45,15 @@ internal fun MessageListView(
     requestPages(scrollState, messages, dispatchers)
     if (messages.isNotEmpty()) {
         sendReadReceipt(scrollState, messages, dispatchers)
+        autoScrollToBottom(scrollState, messages)
     }
+
     LazyColumn(
-        modifier = modifier.fillMaxHeight(),
+        modifier = modifier.fillMaxHeight().padding(ChatCompositeTheme.dimensions.messageListPadding),
         state = scrollState,
         reverseLayout = true,
     ) {
-        items(messages.asReversed()) { message ->
+        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: "" }) { index, message ->
             MessageView(message)
         }
         if (messages.isNotEmpty() && showLoading) {
@@ -89,6 +92,21 @@ private fun requestPages(
             dispatch(ChatAction.FetchMessages())
         }
     }
+}
+
+@Composable
+private fun autoScrollToBottom(
+    scrollState: LazyListState,
+    messages: List<MessageViewModel>
+) {
+    val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
+    val isAtEnd = scrollState.firstVisibleItemIndex
+    if (wasAtEnd.value == 0 && wasAtEnd.value != isAtEnd) {
+        LaunchedEffect(messages.last()) {
+            scrollState.scrollToItem(0)
+        }
+    }
+    wasAtEnd.value = isAtEnd
 }
 
 @Composable
