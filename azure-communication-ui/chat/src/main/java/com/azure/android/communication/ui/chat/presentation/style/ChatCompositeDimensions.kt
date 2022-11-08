@@ -27,7 +27,8 @@ internal data class ChatCompositeDimensions(
     val unreadMessagesIndicatorPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 4.dp),
     val unreadMessagesIndicatorIconPadding: PaddingValues = PaddingValues(start = 10.dp, end = 0.dp, top = 0.dp, bottom = 0.dp),
     val unreadMessagesIndicatorTextFontSize: TextUnit = 16.sp,
-    val dateHeaderPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 16.dp, bottom = 0.dp)
+    val dateHeaderPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 16.dp, bottom = 0.dp),
+    val messageRead: PaddingValues = PaddingValues(start = 3.dp, end = 4.99.dp, top = 3.dp, bottom = 3.dp)
 )
 
 internal val LocalChatCompositeDimensions = staticCompositionLocalOf {

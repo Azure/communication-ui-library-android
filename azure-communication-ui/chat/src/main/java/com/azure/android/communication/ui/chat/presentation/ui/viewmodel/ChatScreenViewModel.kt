@@ -48,7 +48,7 @@ internal fun buildChatScreenViewModel(
 ): ChatScreenViewModel {
 
     return ChatScreenViewModel(
-        messages = messages.toViewModelList(context, localUserIdentifier),
+        messages = messages.toViewModelList(context, localUserIdentifier, store.getCurrentState().participantState.latestReadMessageTimestamp),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,

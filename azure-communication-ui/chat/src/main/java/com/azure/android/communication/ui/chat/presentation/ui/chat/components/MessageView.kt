@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import android.widget.TextView
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Box
@@ -33,6 +34,7 @@ import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
+import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
@@ -77,7 +79,7 @@ internal fun MessageView(viewModel: MessageViewModel) {
             )
             else -> {
                 BasicText(
-                    text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
+                    text = "${viewModel.message.content} !TYPE NOT DETECTED!"
                 )
             }
         }
@@ -114,46 +116,64 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                 AvatarView(name = viewModel.message.senderDisplayName)
             }
         }
-        Box(
-            Modifier.background(
-                color = when (viewModel.isLocalUser) {
-                    true -> ChatCompositeTheme.colors.messageBackgroundSelf
-                    false -> ChatCompositeTheme.colors.messageBackground
-                },
-
-                shape = ChatCompositeTheme.shapes.messageBubble
-            )
+        Row(
+            verticalAlignment = Alignment.Bottom,
         ) {
             Box(
-                modifier = Modifier.padding(ChatCompositeTheme.dimensions.messagePadding)
+                Modifier.background(
+                    color = when (viewModel.isLocalUser) {
+                        true -> ChatCompositeTheme.colors.messageBackgroundSelf
+                        false -> ChatCompositeTheme.colors.messageBackground
+                    },
+
+                    shape = ChatCompositeTheme.shapes.messageBubble
+                )
             ) {
-                Column {
-                    if (viewModel.showUsername || viewModel.showTime) {
-                        Row {
-                            if (viewModel.showUsername) {
-                                BasicText(
-                                    viewModel.message.senderDisplayName ?: "Unknown Sender",
-                                    style = ChatCompositeTheme.typography.messageHeader,
-                                    modifier = Modifier.padding(PaddingValues(end = ChatCompositeTheme.dimensions.messageUsernamePaddingEnd))
-                                )
-                            }
-                            if (viewModel.showTime) {
-                                BasicText(
-                                    viewModel.message.createdOn?.format(timeFormat)
-                                        ?: "Unknown Time",
-                                    style = ChatCompositeTheme.typography.messageHeaderDate,
-                                )
+                Box(
+                    modifier = Modifier.padding(ChatCompositeTheme.dimensions.messagePadding)
+                ) {
+                    Column {
+                        if (viewModel.showUsername || viewModel.showTime) {
+                            Row {
+                                if (viewModel.showUsername) {
+                                    BasicText(
+                                        viewModel.message.senderDisplayName ?: "Unknown Sender",
+                                        style = ChatCompositeTheme.typography.messageHeader,
+                                        modifier = Modifier.padding(PaddingValues(end = ChatCompositeTheme.dimensions.messageUsernamePaddingEnd))
+                                    )
+                                }
+                                if (viewModel.showTime) {
+                                    BasicText(
+                                        viewModel.message.createdOn?.format(timeFormat)
+                                            ?: "Unknown Time",
+                                        style = ChatCompositeTheme.typography.messageHeaderDate,
+                                    )
+                                }
                             }
                         }
-                    }
-                    if (viewModel.message.messageType == ChatMessageType.HTML) {
-                        HtmlText(html = viewModel.message.content ?: "Empty")
-                    } else {
-                        BasicText(
-                            text = viewModel.message.content ?: "Empty"
-                        )
+                        if (viewModel.message.messageType == ChatMessageType.HTML) {
+                            HtmlText(html = viewModel.message.content ?: "Empty")
+                        } else {
+                            BasicText(
+                                text = viewModel.message.content ?: "Empty"
+                            )
+                        }
                     }
                 }
+            }
+            androidx.compose.animation.AnimatedVisibility(visible = viewModel.isRead) {
+                Icon(
+                    painter =
+                    painterResource(
+                        id =
+                        R.drawable.azure_communication_ui_chat_ic_fluent_message_read_10_filled
+                    ),
+                    contentDescription = "Message Read",
+                    modifier = Modifier.padding(
+                        ChatCompositeTheme.dimensions.messageRead
+                    ),
+                    tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground
+                )
             }
         }
     }
@@ -181,7 +201,11 @@ internal fun PreviewChatCompositeMessage() {
             .width(500.dp)
             .background(color = ChatCompositeTheme.colors.background)
     ) {
-        val vms = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID)
+        val vms = MOCK_MESSAGES.toViewModelList(
+            LocalContext.current,
+            MOCK_LOCAL_USER_ID,
+            OffsetDateTime.now()
+        )
         for (a in 0 until vms.size) {
             MessageView(vms[a])
         }
