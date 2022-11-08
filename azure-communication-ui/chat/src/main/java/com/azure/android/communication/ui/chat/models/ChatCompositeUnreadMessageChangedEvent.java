@@ -3,10 +3,13 @@
 
 package com.azure.android.communication.ui.chat.models;
 
-public class ChatCompositeUnreadMessageChangedEvent {
+/**
+ * Unread message count changed event.
+ */
+public final class ChatCompositeUnreadMessageChangedEvent {
     private final int count;
 
-    public ChatCompositeUnreadMessageChangedEvent(final int count) {
+    ChatCompositeUnreadMessageChangedEvent(final int count) {
         this.count = count;
     }
 
@@ -19,7 +22,7 @@ public class ChatCompositeUnreadMessageChangedEvent {
         return count;
     }
 
-    public String getThreadID() {
+    String getThreadID() {
         return "";
     }
 }

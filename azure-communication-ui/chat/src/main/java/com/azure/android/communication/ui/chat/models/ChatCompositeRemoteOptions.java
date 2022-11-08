@@ -5,6 +5,11 @@ package com.azure.android.communication.ui.chat.models;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 
+/**
+ * Contains set of options to connect to chat thread.
+ *
+ * @see com.azure.android.communication.ui.chat.ChatComposite
+ */
 public final class ChatCompositeRemoteOptions {
 
     private final String endpointUrl;
@@ -47,7 +52,7 @@ public final class ChatCompositeRemoteOptions {
 
         this(endpointUrl, new String[]{threadId}, credential, identity, displayName);
     }
-    
+
     ChatCompositeRemoteOptions(
             final String endpointUrl,
             final String[] threadIds,

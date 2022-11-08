@@ -27,6 +27,10 @@ public final class ChatCompositeSetParticipantViewDataResult
     public static final ChatCompositeSetParticipantViewDataResult PARTICIPANT_NOT_IN_CHAT
             = fromString("participantNotInChat");
 
+    ChatCompositeSetParticipantViewDataResult() {
+
+    }
+
     /**
      * Creates or finds a {@link ChatCompositeSetParticipantViewDataResult} from it's string representation.
      *

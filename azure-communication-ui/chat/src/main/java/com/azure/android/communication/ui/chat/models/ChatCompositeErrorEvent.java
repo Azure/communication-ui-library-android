@@ -16,7 +16,7 @@ public final class ChatCompositeErrorEvent {
      * @param code  Error code {@link ChatCompositeErrorCode}.
      * @param cause Throwable that caused an exception.
      */
-    public ChatCompositeErrorEvent(final ChatCompositeErrorCode code, final Throwable cause) {
+    ChatCompositeErrorEvent(final ChatCompositeErrorCode code, final Throwable cause) {
         this.cause = cause;
         this.code = code;
     }

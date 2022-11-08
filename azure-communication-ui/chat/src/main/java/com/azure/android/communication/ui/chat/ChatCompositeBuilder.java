@@ -34,24 +34,38 @@ public final class ChatCompositeBuilder {
         return this;
     }
 
+    /**
+     * The android context used to create the composite.
+     * @param context
+     * @return
+     */
     public ChatCompositeBuilder context(final Context context) {
         this.context = context;
         return this;
     }
 
+    /**
+     * The {@link ChatCompositeRemoteOptions} has remote parameters to connect to chat thread.
+     * @param remoteOptions
+     * @return
+     */
     public ChatCompositeBuilder remoteOptions(final ChatCompositeRemoteOptions remoteOptions) {
         this.remoteOptions = remoteOptions;
         return this;
     }
 
+    /**
+     * The {@link ChatCompositeLocalOptions} has local parameters for ChatComposite.
+     * @param localOptions
+     * @return
+     */
     public ChatCompositeBuilder localOptions(final ChatCompositeLocalOptions localOptions) {
         this.localOptions = localOptions;
         return this;
     }
 
-
     /**
-     * Builds the ChatCompositeClass {@link ChatComposite}.
+     * Builds the {@link ChatComposite} class.
      *
      * @return {@link ChatComposite}
      */

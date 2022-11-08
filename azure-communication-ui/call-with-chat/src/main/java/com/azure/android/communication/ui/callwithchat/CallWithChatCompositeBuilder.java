@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.callwithchat.service.CallWithChatServi
 import com.azure.android.communication.ui.chat.ChatComposite;
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder;
 
-public class CallWithChatCompositeBuilder {
+public final class CallWithChatCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallWithChatCompositeLocalizationOptions localizationConfig = null;
