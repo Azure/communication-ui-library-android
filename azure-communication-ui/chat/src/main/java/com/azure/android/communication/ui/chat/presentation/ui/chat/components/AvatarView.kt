@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,8 +20,11 @@ internal fun AvatarView(
     avatarSize: AvatarSize = AvatarSize.LARGE,
     @DrawableRes image: Int = -1,
     isGrouped: Boolean = false,
+    modifier: Modifier = Modifier
 ) {
-    AndroidView(factory = {
+    AndroidView(
+        modifier = modifier,
+        factory = {
         val view = AvatarView(it)
         view.name = name ?: ""
         view.avatarSize = avatarSize

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.width
 
@@ -33,6 +32,7 @@ import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.microsoft.fluentui.persona.AvatarSize
 import org.threeten.bp.format.DateTimeFormatter
 
 val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
@@ -40,8 +40,9 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
 
-    Column {
+    Column (modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding)){
 
+        // Date Header Part
         if (viewModel.dateHeaderText != null) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -88,13 +89,11 @@ internal fun MessageView(viewModel: MessageViewModel) {
 private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<String>) {
 
     val text = LocalContext.current.getString(stringResource, substitution.joinToString(", "))
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(verticalAlignment = Alignment.CenterVertically,
+    modifier = Modifier.padding(ChatCompositeTheme.dimensions.systemMessagePadding)) {
         Icon(
             painter = painterResource(id = icon),
-            contentDescription = "Participant Added",
-            modifier = Modifier.padding(
-                ChatCompositeTheme.dimensions.systemMessagePadding
-            ),
+            contentDescription = text,
             tint = ChatCompositeTheme.colors.systemIconColor
         )
         BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
@@ -103,17 +102,25 @@ private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<Str
 
 @Composable
 private fun BasicChatMessage(viewModel: MessageViewModel) {
-    Row(
-        Modifier.padding(2.dp),
-    ) {
+    Row{
+        // Push to right with a empty box
         if (viewModel.isLocalUser) {
             Box(modifier = Modifier.weight(1.0f))
         }
-        Box(modifier = Modifier.size(ChatCompositeTheme.dimensions.messageBubbleLeftSpacing)) {
+
+        // Avatar Rail (Left Padding)
+        Box(modifier = Modifier.width(ChatCompositeTheme.dimensions.messageAvatarRailWidth)) {
+        // Display the Avatar
             if (viewModel.showUsername) {
-                AvatarView(name = viewModel.message.senderDisplayName)
+                AvatarView(
+                    name = viewModel.message.senderDisplayName,
+                    avatarSize = AvatarSize.SMALL,
+                    modifier = Modifier.align(alignment = Alignment.TopEnd).padding(ChatCompositeTheme.dimensions.messageAvatarPadding)
+                )
             }
         }
+
+
         Box(
             Modifier.background(
                 color = when (viewModel.isLocalUser) {
@@ -124,36 +131,41 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                 shape = ChatCompositeTheme.shapes.messageBubble
             )
         ) {
-            Box(
-                modifier = Modifier.padding(ChatCompositeTheme.dimensions.messagePadding)
-            ) {
-                Column {
-                    if (viewModel.showUsername || viewModel.showTime) {
-                        Row {
-                            if (viewModel.showUsername) {
-                                BasicText(
-                                    viewModel.message.senderDisplayName ?: "Unknown Sender",
-                                    style = ChatCompositeTheme.typography.messageHeader,
-                                    modifier = Modifier.padding(PaddingValues(end = ChatCompositeTheme.dimensions.messageUsernamePaddingEnd))
-                                )
-                            }
-                            if (viewModel.showTime) {
-                                BasicText(
-                                    viewModel.message.createdOn?.format(timeFormat)
-                                        ?: "Unknown Time",
-                                    style = ChatCompositeTheme.typography.messageHeaderDate,
-                                )
-                            }
-                        }
-                    }
-                    if (viewModel.message.messageType == ChatMessageType.HTML) {
-                        HtmlText(html = viewModel.message.content ?: "Empty")
-                    } else {
+            messageContent(viewModel)
+        }
+    }
+}
+
+@Composable
+private fun messageContent(viewModel: MessageViewModel) {
+    Box(
+        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageInnerPadding)
+    ) {
+        Column {
+            if (viewModel.showUsername || viewModel.showTime) {
+                Row {
+                    if (viewModel.showUsername) {
                         BasicText(
-                            text = viewModel.message.content ?: "Empty"
+                            viewModel.message.senderDisplayName ?: "Unknown Sender",
+                            style = ChatCompositeTheme.typography.messageHeader,
+                            modifier = Modifier.padding(PaddingValues(end = ChatCompositeTheme.dimensions.messageUsernamePaddingEnd))
+                        )
+                    }
+                    if (viewModel.showTime) {
+                        BasicText(
+                            viewModel.message.createdOn?.format(timeFormat)
+                                ?: "Unknown Time",
+                            style = ChatCompositeTheme.typography.messageHeaderDate,
                         )
                     }
                 }
+            }
+            if (viewModel.message.messageType == ChatMessageType.HTML) {
+                HtmlText(html = viewModel.message.content ?: "Empty")
+            } else {
+                BasicText(
+                    text = viewModel.message.content ?: "Empty"
+                )
             }
         }
     }
