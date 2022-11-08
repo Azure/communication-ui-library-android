@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 1.1.0 (2022-11-XX)
+## 1.1.0 (2022-11-09)
 - This version is the public GA release with Calling UI Library
 
 ### Bug Fixes
