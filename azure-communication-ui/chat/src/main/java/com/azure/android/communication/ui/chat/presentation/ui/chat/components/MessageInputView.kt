@@ -33,6 +33,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -110,7 +112,7 @@ internal fun MessageInput(
 
                 if (textContent.isEmpty() && !focusState) {
                     BasicText(
-                        text = "",
+                        text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
                         style = TextStyle(
                             color = textColor
                         )
