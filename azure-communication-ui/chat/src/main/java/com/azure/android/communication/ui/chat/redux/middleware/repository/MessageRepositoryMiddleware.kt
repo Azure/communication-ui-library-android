@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
-import com.azure.android.communication.ui.chat.error.ChatStateError
-import com.azure.android.communication.ui.chat.error.ErrorCode
-import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode.Companion.CHAT_EVICTED
 import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
@@ -13,7 +10,6 @@ import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.action.NetworkAction
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
@@ -127,26 +123,19 @@ internal class MessageRepositoryMiddlewareImpl(
         val isLocalParticipantEvicted =
             action.participants.count { it.userIdentifier.id == localParticipant.userIdentifier } !=
                 action.participants.count()
-        messageRepository.addLocalMessage(
-            MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
-                participants = action.participants.map { it.displayName ?: "" },
-                content = null,
-                createdOn = OffsetDateTime.now(),
-                senderDisplayName = null,
-                messageType = ChatMessageType.PARTICIPANT_REMOVED
-            )
-        )
         if (isLocalParticipantEvicted) {
-            dispatch(
-                ErrorAction.ChatStateErrorOccurred(
-                    chatStateError = ChatStateError(
-                        errorCode = ErrorCode.CHAT_LOCAL_PARTICIPANT_EVICTED,
-                        chatCompositeEventCode = CHAT_EVICTED
-                    )
+            dispatch(ParticipantAction.LocalUserRemoved())
+        } else {
+            messageRepository.addLocalMessage(
+                MessageInfoModel(
+                    id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
+                    participants = action.participants.map { it.displayName ?: "" },
+                    content = null,
+                    createdOn = OffsetDateTime.now(),
+                    senderDisplayName = null,
+                    messageType = ChatMessageType.PARTICIPANT_REMOVED
                 )
             )
-        } else {
             notifyUpdate(dispatch)
         }
     }
