@@ -80,4 +80,16 @@ internal class MessageRepositoryListReader(private val writer: MessageRepository
     }
 
     override val size: Int get() = writer.messages.size
+
+    override fun indexOf(element: MessageInfoModel): Int {
+        val messageId = element.id!!.toLong()
+        var index = 0
+        for (message in writer.messages) {
+            if (messageId == message.id!!.toLong()) {
+                break
+            }
+            index++
+        }
+        return index
+    }
 }
