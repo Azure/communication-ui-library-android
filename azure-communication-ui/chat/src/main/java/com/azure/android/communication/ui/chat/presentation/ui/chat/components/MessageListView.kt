@@ -53,7 +53,7 @@ internal fun MessageListView(
         state = scrollState,
         reverseLayout = true,
     ) {
-        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: "" }) { index, message ->
+        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: index }) { index, message ->
             MessageView(message)
         }
         if (messages.isNotEmpty() && showLoading) {

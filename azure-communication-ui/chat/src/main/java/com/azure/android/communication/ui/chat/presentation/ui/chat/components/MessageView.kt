@@ -35,7 +35,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.format.DateTimeFormatter
 
-val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
+val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
