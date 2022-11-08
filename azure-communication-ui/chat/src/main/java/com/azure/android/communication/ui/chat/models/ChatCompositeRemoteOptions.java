@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.chat.models;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 
-public class ChatCompositeRemoteOptions {
+public final class ChatCompositeRemoteOptions {
 
     private final String endpointUrl;
     private final String[] threadIds;
@@ -16,9 +16,10 @@ public class ChatCompositeRemoteOptions {
     /**
      * Create {@link ChatCompositeRemoteOptions}.
      *
-     *
-     * @param credential {@link CommunicationTokenCredential}.
-     * @param identity   {@link String}
+     * @param endpointUrl
+     * @param threadId
+     * @param credential User credentials {@link CommunicationTokenCredential}.
+     * @param identity   ACS user identity.
      */
     public ChatCompositeRemoteOptions(
             final String endpointUrl,
@@ -31,7 +32,8 @@ public class ChatCompositeRemoteOptions {
     /**
      * Create {@link ChatCompositeRemoteOptions}.
      *
-     *
+     * @param endpointUrl  ACS endpoint URL.
+     * @param threadId    The chat thread ID.
      * @param credential  {@link CommunicationTokenCredential}
      * @param identity    {@link String}
      * @param displayName User display name other participants will see.
@@ -45,8 +47,8 @@ public class ChatCompositeRemoteOptions {
 
         this(endpointUrl, new String[]{threadId}, credential, identity, displayName);
     }
-
-    public ChatCompositeRemoteOptions(
+    
+    ChatCompositeRemoteOptions(
             final String endpointUrl,
             final String[] threadIds,
             final CommunicationTokenCredential credential,
@@ -88,18 +90,23 @@ public class ChatCompositeRemoteOptions {
     }
 
     // it does not correspond with current single ThreadID constructor.
-    public String[] getThreadIDs() {
+    String[] getThreadIDs() {
         return threadIds;
     }
 
-    // it does not correspond with current multiple ThreadID constructor.
+    /**
+     * Get chat thread ID.
+     * @return
+     */
     public String getThreadId() {
         return threadIds[0];
     }
 
+    /**
+     * Get ACS endpoint URL.
+     * @return
+     */
     public String getEndpointUrl() {
         return endpointUrl;
     }
-
-
 }
