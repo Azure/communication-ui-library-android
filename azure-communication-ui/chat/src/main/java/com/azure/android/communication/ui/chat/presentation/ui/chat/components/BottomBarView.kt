@@ -53,7 +53,7 @@ internal fun BottomBarView(
 }
 
 private fun sendButtonOnclick(postAction: (Action) -> Unit, messageInputTextState: MutableState<String>) {
-   if (messageInputTextState.value.isBlank()) return
+    if (messageInputTextState.value.isBlank()) return
     postAction(
         ChatAction.SendMessage(
             MessageInfoModel(
