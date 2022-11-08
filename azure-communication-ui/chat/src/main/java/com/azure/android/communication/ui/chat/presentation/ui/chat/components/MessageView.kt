@@ -171,7 +171,8 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                     contentDescription = "Message Read",
                     modifier = Modifier.padding(
                         ChatCompositeTheme.dimensions.messageRead
-                    )
+                    ),
+                    tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground
                 )
             }
         }

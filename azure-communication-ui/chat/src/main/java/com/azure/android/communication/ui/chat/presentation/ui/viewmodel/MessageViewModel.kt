@@ -42,6 +42,7 @@ private class InfoModelToViewModelAdapter(
 //        val lastLocalUserMessage =
         val thisMessage = messages[index]
         val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
+        val currentMessageTime = thisMessage.editedOn ?: thisMessage.createdOn
         return MessageViewModel(
 
             messages[index],
@@ -59,7 +60,7 @@ private class InfoModelToViewModelAdapter(
             ),
 
             isLocalUser = isLocalUser,
-            isRead = isLocalUser && (thisMessage.id == latestReadMessageTimestamp.toString())
+            isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
         )
     }
 
