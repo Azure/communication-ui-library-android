@@ -207,7 +207,7 @@ class ChatLauncherActivity : AppCompatActivity() {
             Log.e("", "Error received from ChatComposite ${eventArgs.errorCode}")
         }
         chatComposite.addOnUnreadMessagesChangedEventHandler { eventArgs ->
-            Log.d("", "There is a '${eventArgs.count}' new messages in the ${eventArgs.threadID} thread!")
+            Log.d("", "There is a '${eventArgs.count}' new messages.")
         }
 
         chatComposite.connect()
