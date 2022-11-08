@@ -112,7 +112,7 @@ internal fun MessageInput(
 
                 if (textContent.isEmpty() && !focusState) {
                     BasicText(
-                        text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
+                        text = "",
                         style = TextStyle(
                             color = textColor
                         )
