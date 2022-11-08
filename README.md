@@ -34,12 +34,10 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:<latest stable release version>'
+    implementation 'com.azure.android:azure-communication-ui-calling:1.1.0'
     ...
 }
 ```
-
-Please make sure to pick latest stable release version from our [Github Releases](https://github.com/Azure/communication-ui-library-android/releases) 
 
 In your project gradle scripts add following lines to `repositories`. For `Android Studio (2020.*)` the `repositories` are in `settings.gradle` `dependencyResolutionManagement(Gradle version 6.8 or greater)`. If you are using old versions of `Android Studio (4.*)` then the `repositories` will be in project level `build.gradle` `allprojects{}`.
 
@@ -58,7 +56,7 @@ Sync project with gradle files. (Android Studio -> File -> Sync Project With Gra
 
 ### Quick Sample 
 
-Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group ID for your call, `<DISPLAY_NAME>` with your name, and  `<USER_ACCESS_TOKEN>` with your token.
+Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group ID for your call, `<DISPLAY_NAME>` with your name, and  `<USER_ACCESS_TOKEN>` with your token. For full instructions check out our [quickstart](https://docs.microsoft.com/azure/communication-services/quickstarts/ui-library/get-started-composites?tabs=kotlin&pivots=platform-android) or get the completed [sample](https://github.com/Azure-Samples/communication-services-android-quickstarts/tree/main/ui-library-quick-start).
 
 #### [Kotlin](#tab/kotlin)
 
@@ -113,9 +111,9 @@ The snackbar on setup screen with error message may take more time to show up.
 ## Contributing to the Library
 
 Before developing and contributing to Communication Mobile UI Library, check out our [making a contribution guide](docs/contributing-guide.md).  
-Included in this repository is a demo of using Mobile UI Library to start a call. You can find the detail of using and developing the UI Library in the [Demo Guide](azure-communication-ui/azure-communication-ui-demo-app).
+Included in this repository is a demo of using Mobile UI Library to start a call. You can find the detail of using and developing the UI Library in the [Demo Guide](azure-communication-ui/demo-app).
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments. Also, please check our [Contribution Policy](CONTRIBUTING.md). 
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments. Also, please check our [Contribution Policy](docs/contributing-guide.md). 
 
 ## Community Help and Support
 
@@ -136,3 +134,5 @@ The chat experience is a work in progress, please be aware that chat and callwit
 * [Azure Communication Client and Server Architecture](https://docs.microsoft.com/en-us/azure/communication-services/concepts/client-and-server-architecture)
 * [Azure Communication Authentication](https://docs.microsoft.com/en-us/azure/communication-services/concepts/authentication)
 * [Azure Communication Service Troubleshooting](https://docs.microsoft.com/en-us/azure/communication-services/concepts/troubleshooting-info)
+* [Azure Communication Service UI Calling Library Maven Releases](https://search.maven.org/artifact/com.azure.android/azure-communication-ui-calling)
+* [Azure Communication Service Android Calling Hero Sample](https://github.com/Azure-Samples/communication-services-android-calling-hero)
