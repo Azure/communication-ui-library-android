@@ -45,7 +45,8 @@ internal fun BottomBarView(
 
         SendMessageButtonView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_send_button_content_description, messageInputTextState.value),
-            chatStatus = chatStatus
+            chatStatus = chatStatus,
+            clickable = messageInputTextState.value.isNotBlank()
         ) {
             sendButtonOnclick(postAction, messageInputTextState)
         }
@@ -53,7 +54,6 @@ internal fun BottomBarView(
 }
 
 private fun sendButtonOnclick(postAction: (Action) -> Unit, messageInputTextState: MutableState<String>) {
-    if (messageInputTextState.value.isBlank()) return
     postAction(
         ChatAction.SendMessage(
             MessageInfoModel(
