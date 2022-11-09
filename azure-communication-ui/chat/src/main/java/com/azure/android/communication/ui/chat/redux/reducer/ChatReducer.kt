@@ -3,6 +3,11 @@
 
 package com.azure.android.communication.ui.chat.redux.reducer
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.models.MenuItemModel
+import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatState
@@ -36,6 +41,26 @@ internal class ChatReducerImpl : ChatReducer {
                     lastReadMessageId = if (state.lastReadMessageId> action.messageId) state.lastReadMessageId
                     else action.messageId
                 )
+            }
+            is ChatAction.ShowMessageContextMenu -> {
+                state.copy(
+                    messageContextMenu = MessageContextMenuModel(
+                        messageInfoModel = action.message,
+                        menuItems = listOf(
+                            MenuItemModel(
+                                R.string.azure_communication_ui_chat_copy,
+                                R.drawable.azure_communication_ui_chat_ic_fluent_copy_20_regular,
+                                onClickAction = { context ->
+                                    val clipboardManager = context.getSystemService(ClipboardManager::class.java)
+                                    clipboardManager.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.azure_communication_ui_chat_message), action.message.content))
+                                }
+                            ),
+                        )
+                    )
+                )
+            }
+            is ChatAction.HideMessageContextMenu -> {
+                state.copy(messageContextMenu = null)
             }
             else -> state
         }

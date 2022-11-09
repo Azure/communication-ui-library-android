@@ -5,6 +5,13 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -43,7 +50,13 @@ internal fun NavigatableBaseScreen(
     ) {
         ChatScreen(viewModel = viewModel, stateViewModel = stateViewModel)
 
-        AnimatedVisibility(visible = viewModel.navigationStatus == NavigationStatus.PARTICIPANTS) {
+        AnimatedVisibility(
+            visible = viewModel.navigationStatus == NavigationStatus.PARTICIPANTS,
+            enter = slideInHorizontally(animationSpec = tween(durationMillis = 200)) { fullWidth -> fullWidth / 3 } +
+                fadeIn(animationSpec = tween(durationMillis = 200)),
+            exit = slideOutHorizontally(animationSpec = spring(stiffness = Spring.StiffnessHigh)) { 200 } +
+                fadeOut(animationSpec = tween(durationMillis = 200))
+        ) {
             ParticipantScreen(viewModel = viewModel)
         }
     }
