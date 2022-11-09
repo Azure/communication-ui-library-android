@@ -1,14 +1,23 @@
 # Azure Communication UI Calling Release History
 
 ## 1.1.0 (2022-11-09)
-- This version is the public GA release with Calling UI Library
+
+### New Features
+- `CallCompositeSetupScreenViewData` introduced for setting up call title and subtitle.
+- New error message `cameraFailure` added to address camera related errors.
+- Joining call is prevented with a new Error message now when network is not available.
+- Added permission setting capability to allow user to quickly navigate to app's info page when permissions are denied.
 
 ### Bug Fixes
-- Error banner color for Dark theme corrected
+- Fixed Error banner and banner text color for dark theme.
+- Display DrawerDialog across screen rotation.
+- Fix ANR when trying to hang up call on hold.
+- Fix edge case with multiple activity instances.
+- Fix display name not getting truncated in participant list when they are too long.
 
 ## 1.1.0-beta.1 (2022-10-03)
 
-### Features
+### New Features
 - Setting up Call Title and Subtitle is now availble by customizing `CallCompositeLocalOptions` with `CallCompositeSetupScreenViewData`.
 - Implemented new error message `cameraFailure` that can be sent to developers when initiating or turning on camera fails.
 - Error message now shown when network is not available before joining a call.
@@ -18,7 +27,7 @@
 - Display DrawerDialog across screen rotation.
 - Fix ANR when trying to hang up call on hold.
 - Fix edge case with multiple activity instances.
-- Fix display name not getting truncated in participant list when they are too long (https://github.com/Azure/communication-ui-library-android/pull/370).
+- Fix display name not getting truncated in participant list when they are too long
 
 ## 1.0.0 (2022-06-20)
 - This version is the public GA release with Calling UI Library
