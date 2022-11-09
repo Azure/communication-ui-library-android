@@ -10,7 +10,6 @@ import android.content.Context;
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent;
-import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantViewData;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeSetParticipantViewDataResult;
@@ -26,18 +25,15 @@ public final class ChatComposite {
 
     private static int instanceIdCounter = 0;
     private final ChatContainer chatContainer;
-    private final ChatCompositeLocalOptions localOptions;
     private final ChatCompositeRemoteOptions remoteOptions;
     private final ChatCompositeConfiguration configuration;
     final Integer instanceId = instanceIdCounter++;
 
     ChatComposite(final ChatCompositeConfiguration configuration,
-                  final ChatCompositeLocalOptions localOptions,
                   final ChatCompositeRemoteOptions remoteOptions) {
         this.configuration = configuration;
         chatContainer = new ChatContainer(this, configuration, instanceId);
 
-        this.localOptions = localOptions;
         this.remoteOptions = remoteOptions;
     }
 
@@ -45,7 +41,7 @@ public final class ChatComposite {
      * Connects to backend services.
      */
     public void connect(final Context context) {
-        launchComposite(context, remoteOptions, localOptions, false);
+        launchComposite(context, remoteOptions, false);
     }
 
     /**
@@ -119,17 +115,15 @@ public final class ChatComposite {
 
     private void launchComposite(final Context context,
                                  final ChatCompositeRemoteOptions remoteOptions,
-                                 final ChatCompositeLocalOptions localOptions,
                                  final boolean isTest) {
-        chatContainer.start(context, remoteOptions, localOptions);
+        chatContainer.start(context, remoteOptions);
     }
 
     // TODO: remove this method. Test should provide it's own UI host and call
     //  launch() then getCompositeUIView()
     void launchTest(final Context context,
-                    final ChatCompositeRemoteOptions remoteOptions,
-                    final ChatCompositeLocalOptions localOptions) {
-        chatContainer.start(context, remoteOptions, localOptions);
+                    final ChatCompositeRemoteOptions remoteOptions) {
+        chatContainer.start(context, remoteOptions);
         //showTestCompositeUI(context);
     }
 }

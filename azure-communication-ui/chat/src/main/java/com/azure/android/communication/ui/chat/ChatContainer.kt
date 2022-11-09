@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.logger.DefaultLogger
 import com.azure.android.communication.ui.chat.logger.Logger
-import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.manager.NetworkManager
@@ -55,8 +54,6 @@ internal class ChatContainer(
     fun start(
         context: Context,
         remoteOptions: ChatCompositeRemoteOptions,
-        localOptions: ChatCompositeLocalOptions?,
-
     ) {
         // currently only single instance is supported
         if (!started) {
@@ -76,7 +73,6 @@ internal class ChatContainer(
 
             locator = initializeServiceLocator(
                 instanceId,
-                localOptions,
                 remoteOptions,
                 context
             )
@@ -89,7 +85,6 @@ internal class ChatContainer(
 
     private fun initializeServiceLocator(
         instanceId: Int,
-        localOptions: ChatCompositeLocalOptions?,
         remoteOptions: ChatCompositeRemoteOptions,
         context: Context,
     ) =
@@ -100,8 +95,6 @@ internal class ChatContainer(
 
             addTypedBuilder { chatComposite }
             addTypedBuilder<List<MessageInfoModel>> { messageRepository }
-
-            addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
 
             addTypedBuilder { remoteOptions }
 
