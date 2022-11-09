@@ -1,7 +1,9 @@
 # Azure Communication UI Calling Release History
 
 ## 1.1.0 (2022-11-09)
-- This update includes the fix for Error banner and banner text color for dark theme
+
+### Bug Fixes
+- The update includes the fix for Error banner and banner text color for dark theme [#490](https://github.com/Azure/communication-ui-library-android/pull/490)
 
 ## 1.1.0-beta.1 (2022-10-03)
 
