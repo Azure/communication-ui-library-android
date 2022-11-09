@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.chat;
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
-import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 
 /**
  * Builder for creating {@link ChatComposite}.
@@ -16,7 +15,6 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 public final class ChatCompositeBuilder {
 
     private ChatCompositeLocalizationOptions localizationConfig = null;
-    private ChatCompositeRemoteOptions remoteOptions;
 
     /**
      * Sets an optional localization for chat-composite to use by {@link ChatComposite}.
@@ -30,16 +28,6 @@ public final class ChatCompositeBuilder {
     }
 
     /**
-     * The {@link ChatCompositeRemoteOptions} has remote parameters to connect to chat thread.
-     * @param remoteOptions
-     * @return
-     */
-    public ChatCompositeBuilder remoteOptions(final ChatCompositeRemoteOptions remoteOptions) {
-        this.remoteOptions = remoteOptions;
-        return this;
-    }
-
-    /**
      * Builds the {@link ChatComposite} class.
      *
      * @return {@link ChatComposite}
@@ -47,6 +35,6 @@ public final class ChatCompositeBuilder {
     public ChatComposite build() {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
         config.setLocalizationConfig(localizationConfig);
-        return new ChatComposite(config, remoteOptions);
+        return new ChatComposite(config);
     }
 }

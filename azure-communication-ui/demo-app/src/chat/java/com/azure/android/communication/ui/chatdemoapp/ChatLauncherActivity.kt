@@ -199,7 +199,6 @@ class ChatLauncherActivity : AppCompatActivity() {
         )
 
         val chatComposite = ChatCompositeBuilder()
-            .remoteOptions(remoteOptions)
             .build()
 
         chatComposite.addOnErrorEventHandler { eventArgs ->
@@ -209,7 +208,7 @@ class ChatLauncherActivity : AppCompatActivity() {
             Log.d("", "There is a '${eventArgs.count}' new messages.")
         }
 
-        chatComposite.connect(this)
+        chatComposite.connect(this, remoteOptions).get()
         chatLauncherViewModel.chatComposite = chatComposite
 
         openChatUI()

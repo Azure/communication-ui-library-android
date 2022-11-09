@@ -14,7 +14,7 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantVi
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.chat.models.ChatCompositeUnreadMessageChangedEvent;
-
+import java9.util.concurrent.CompletableFuture;
 
 /**
  * Azure android communication chat composite component.
@@ -25,23 +25,24 @@ public final class ChatComposite {
 
     private static int instanceIdCounter = 0;
     private final ChatContainer chatContainer;
-    private final ChatCompositeRemoteOptions remoteOptions;
     private final ChatCompositeConfiguration configuration;
     final Integer instanceId = instanceIdCounter++;
 
-    ChatComposite(final ChatCompositeConfiguration configuration,
-                  final ChatCompositeRemoteOptions remoteOptions) {
+    ChatComposite(final ChatCompositeConfiguration configuration) {
         this.configuration = configuration;
         chatContainer = new ChatContainer(this, configuration, instanceId);
-
-        this.remoteOptions = remoteOptions;
     }
 
     /**
      * Connects to backend services.
      */
-    public void connect(final Context context) {
+    public CompletableFuture<Void> connect(
+            final Context context,
+            final ChatCompositeRemoteOptions remoteOptions) {
         launchComposite(context, remoteOptions, false);
+        final CompletableFuture<Void> result = new CompletableFuture<>();
+        result.complete(null);
+        return result;
     }
 
     /**
