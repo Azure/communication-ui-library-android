@@ -88,7 +88,7 @@ internal fun ChatScreen(
                 }
             } else {
                 Box(
-                    Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     MessageListView(
