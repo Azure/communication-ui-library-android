@@ -33,6 +33,7 @@ import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
+import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
@@ -72,6 +73,7 @@ internal fun MessageView(viewModel: MessageViewModel) {
                     icon = R.drawable.azure_communication_ui_chat_ic_topic_changed_filled, /* TODO: update icon */
                     stringResource = R.string.azure_communication_ui_chat_topic_updated,
                     substitution = listOf(viewModel.message.topic ?: "Unknown")
+
                 )
                 ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
                     icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
@@ -148,7 +150,20 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                     .align(alignment = Alignment.Bottom)
             ) {
                 // Display the Read Receipt
-                BasicText(".")
+                androidx.compose.animation.AnimatedVisibility(visible = viewModel.isRead) {
+                    Icon(
+                        painter =
+                        painterResource(
+                            id =
+                            R.drawable.azure_communication_ui_chat_ic_fluent_message_read_10_filled
+                        ),
+                        contentDescription = "Message Read",
+                        modifier = Modifier.padding(
+                            ChatCompositeTheme.dimensions.messageRead
+                        ),
+                        tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground)
+
+                }
             }
         }
     }
@@ -211,7 +226,11 @@ internal fun PreviewChatCompositeMessage() {
             .width(500.dp)
             .background(color = ChatCompositeTheme.colors.background)
     ) {
-        val vms = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID)
+        val vms = MOCK_MESSAGES.toViewModelList(
+            LocalContext.current,
+            MOCK_LOCAL_USER_ID,
+            OffsetDateTime.now()
+        )
         for (a in 0 until vms.size) {
             MessageView(vms[a])
         }
