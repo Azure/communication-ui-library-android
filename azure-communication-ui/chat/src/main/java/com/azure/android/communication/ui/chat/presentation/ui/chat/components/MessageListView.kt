@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -49,11 +48,11 @@ internal fun MessageListView(
     }
 
     LazyColumn(
-        modifier = modifier.fillMaxHeight().padding(ChatCompositeTheme.dimensions.messageListPadding),
+        modifier = modifier.fillMaxHeight(),
         state = scrollState,
         reverseLayout = true,
     ) {
-        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: "" }) { index, message ->
+        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: index }) { index, message ->
             MessageView(message)
         }
         if (messages.isNotEmpty() && showLoading) {
