@@ -21,8 +21,10 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
+import com.azure.android.communication.ui.chat.ChatComposite
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
@@ -84,7 +86,7 @@ class ChatLauncherActivity : AppCompatActivity() {
                 if (chatLauncherViewModel.isChatRunning)
                     openChatUI()
                 else
-                    launch()
+                    launchActivity()
             }
 
             openChatUIButton.setOnClickListener {
@@ -174,7 +176,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         binding.launchButton.visibility = View.GONE
     }
 
-    private fun launch() {
+    private fun createChatComposite(): ChatComposite {
         val inputChatJoinId = binding.chatThreadID.text.toString()
         val threadId = if (URLUtil.isValidUrl(inputChatJoinId))
             TeamsUrlParser.getThreadId(inputChatJoinId)
@@ -184,7 +186,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         val acsIdentity = binding.identity.text.toString()
         val userName = binding.userNameText.text.toString()
 
-        val tokenRefresher = getTokenFetcher() ?: return
+        val tokenRefresher = getTokenFetcher()
 
         // Create ChatComposite(Adaptor)
         val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
@@ -208,10 +210,14 @@ class ChatLauncherActivity : AppCompatActivity() {
         chatComposite.addOnUnreadMessagesChangedEventHandler { eventArgs ->
             Log.d("", "There is a '${eventArgs.count}' new messages.")
         }
-
-        chatComposite.connect(this)
         chatLauncherViewModel.chatComposite = chatComposite
+        return chatComposite
+    }
 
+    private fun launch() {
+        createChatComposite()
+        val chatComposite = chatLauncherViewModel.chatComposite!!
+        chatComposite.connect(this)
         openChatUI()
 
         binding.run {
@@ -221,7 +227,13 @@ class ChatLauncherActivity : AppCompatActivity() {
         }
     }
 
-    fun stopChatComposite() {
+    private fun launchActivity() {
+        val chatComposite: ChatComposite = createChatComposite()
+        chatComposite.connect(this)
+        ChatCompositeActivity(this).launch(chatComposite)
+    }
+
+    private fun stopChatComposite() {
         chatLauncherViewModel.closeChatComposite()
         binding.launchButton.visibility = View.VISIBLE
         binding.openChatUIButton.visibility = View.GONE
