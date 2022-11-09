@@ -17,6 +17,7 @@ internal data class ChatCompositeDimensions(
     @Dimension
     val messageBubbleLeftSpacing: Dp = 48.dp,
     val messageAvatarSize: Dp = 24.dp,
+    val messageListMaxWidth: Dp = 560.dp,
     val messageUsernamePaddingEnd: Dp = 8.dp,
     val messagePadding: PaddingValues = PaddingValues(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp),
     val messageListPadding: PaddingValues = PaddingValues(start = 10.dp, end = 10.dp, top = 0.dp, bottom = 0.dp),
