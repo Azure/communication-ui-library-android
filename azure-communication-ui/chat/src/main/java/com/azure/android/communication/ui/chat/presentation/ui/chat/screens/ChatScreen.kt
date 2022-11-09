@@ -87,7 +87,10 @@ internal fun ChatScreen(
                     FluentCircularIndicator()
                 }
             } else {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(
+                    Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
                     MessageListView(
                         modifier = Modifier
                             .padding(paddingValues)
