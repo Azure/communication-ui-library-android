@@ -16,12 +16,11 @@ import androidx.compose.ui.unit.sp
 internal data class ChatCompositeDimensions(
     @Dimension
     // Left Rail where Avatar is
-    val messageAvatarRailWidth: Dp = 36.dp,
-    val messageReceiptRailWidth: Dp = 12.dp,
+    val messageAvatarRailWidth: Dp = 32.dp,
+    val messageReceiptRailWidth: Dp = 20.dp,
     val messageUsernamePaddingEnd: Dp = 8.dp,
     val messageOuterPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 1.dp, bottom = 1.dp),
     val messageInnerPadding: PaddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
-    val messageListPadding: PaddingValues = PaddingValues(start = 10.dp, end = 10.dp, top = 0.dp, bottom = 0.dp),
     val systemMessagePadding: PaddingValues = PaddingValues(start = 20.dp, end = 5.dp, top = 8.dp, bottom = 8.dp),
     val typingIndicatorAreaHeight: Dp = 36.dp,
     val unreadMessagesIndicatorHeight: Dp = 48.dp,

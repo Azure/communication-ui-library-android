@@ -18,6 +18,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,11 +41,6 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
 
         Column(
             modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
@@ -92,7 +88,6 @@ internal fun MessageView(viewModel: MessageViewModel) {
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -158,10 +153,11 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                             R.drawable.azure_communication_ui_chat_ic_fluent_message_read_10_filled
                         ),
                         contentDescription = "Message Read",
-                        modifier = Modifier.padding(
-                            ChatCompositeTheme.dimensions.messageRead
-                        ),
-                        tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground)
+                        tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
+                    modifier = Modifier.padding(start = 4.dp)
+                    )
+
+
 
                 }
             }

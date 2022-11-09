@@ -49,7 +49,7 @@ internal fun MessageListView(
     }
 
     LazyColumn(
-        modifier = modifier.fillMaxHeight().padding(ChatCompositeTheme.dimensions.messageListPadding),
+        modifier = modifier.fillMaxHeight(),
         state = scrollState,
         reverseLayout = true,
     ) {
