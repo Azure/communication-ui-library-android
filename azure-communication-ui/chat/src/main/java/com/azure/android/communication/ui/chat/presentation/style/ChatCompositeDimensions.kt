@@ -17,6 +17,7 @@ internal data class ChatCompositeDimensions(
     @Dimension
     // Left Rail where Avatar is
     val messageAvatarRailWidth: Dp = 36.dp,
+    val messageReceiptRailWidth: Dp = 12.dp,
     val messageUsernamePaddingEnd: Dp = 8.dp,
     val messageOuterPadding: PaddingValues = PaddingValues(start = 0.dp, end = 0.dp, top = 1.dp, bottom = 1.dp),
     val messageInnerPadding: PaddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),

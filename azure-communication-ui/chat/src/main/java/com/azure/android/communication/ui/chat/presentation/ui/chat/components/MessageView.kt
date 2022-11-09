@@ -18,6 +18,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,7 +41,16 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 @Composable
 internal fun MessageView(viewModel: MessageViewModel) {
 
-    Column (modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding)){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+
+
+    Column (
+        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
+    ){
+
 
         // Date Header Part
         if (viewModel.dateHeaderText != null) {
@@ -82,6 +92,8 @@ internal fun MessageView(viewModel: MessageViewModel) {
                 )
             }
         }
+
+    }
     }
 }
 
@@ -102,36 +114,47 @@ private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<Str
 
 @Composable
 private fun BasicChatMessage(viewModel: MessageViewModel) {
-    Row{
-        // Push to right with a empty box
-        if (viewModel.isLocalUser) {
-            Box(modifier = Modifier.weight(1.0f))
-        }
-
-        // Avatar Rail (Left Padding)
-        Box(modifier = Modifier.width(ChatCompositeTheme.dimensions.messageAvatarRailWidth)) {
-        // Display the Avatar
-            if (viewModel.showUsername) {
-                AvatarView(
-                    name = viewModel.message.senderDisplayName,
-                    avatarSize = AvatarSize.SMALL,
-                    modifier = Modifier.align(alignment = Alignment.TopEnd).padding(ChatCompositeTheme.dimensions.messageAvatarPadding)
-                )
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.align(alignment = if (viewModel.isLocalUser) Alignment.TopEnd else Alignment.TopStart)) {
+            // Avatar Rail (Left Padding)
+            Box(modifier = Modifier.width(ChatCompositeTheme.dimensions.messageAvatarRailWidth)) {
+                // Display the Avatar
+                if (viewModel.showUsername) {
+                    AvatarView(
+                        name = viewModel.message.senderDisplayName,
+                        avatarSize = AvatarSize.SMALL,
+                        modifier = Modifier
+                            .align(alignment = Alignment.TopEnd)
+                            .padding(ChatCompositeTheme.dimensions.messageAvatarPadding)
+                    )
+                }
             }
-        }
 
 
-        Box(
-            Modifier.background(
-                color = when (viewModel.isLocalUser) {
-                    true -> ChatCompositeTheme.colors.messageBackgroundSelf
-                    false -> ChatCompositeTheme.colors.messageBackground
-                },
 
-                shape = ChatCompositeTheme.shapes.messageBubble
-            )
-        ) {
-            messageContent(viewModel)
+            Box(modifier = Modifier.weight(1.0f)) {
+                Box(
+                    Modifier.background(
+                        color = when (viewModel.isLocalUser) {
+                            true -> ChatCompositeTheme.colors.messageBackgroundSelf
+                            false -> ChatCompositeTheme.colors.messageBackground
+                        },
+                        shape = ChatCompositeTheme.shapes.messageBubble,
+                    ).align(alignment = if (viewModel.isLocalUser) Alignment.TopEnd else Alignment.TopStart)
+                ) {
+                    messageContent(viewModel)
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .width(ChatCompositeTheme.dimensions.messageReceiptRailWidth)
+                    .align(alignment = Alignment.Bottom)
+            ) {
+                // Display the Read Receipt
+                BasicText(".")
+            }
+
         }
     }
 }
