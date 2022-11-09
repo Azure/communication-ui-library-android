@@ -18,7 +18,6 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,54 +45,51 @@ internal fun MessageView(viewModel: MessageViewModel) {
             .fillMaxWidth()
     ) {
 
+        Column(
+            modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
+        ) {
 
-    Column (
-        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
-    ){
-
-
-        // Date Header Part
-        if (viewModel.dateHeaderText != null) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        ChatCompositeTheme.dimensions.dateHeaderPadding
+            // Date Header Part
+            if (viewModel.dateHeaderText != null) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            ChatCompositeTheme.dimensions.dateHeaderPadding
+                        )
+                ) {
+                    BasicText(
+                        viewModel.dateHeaderText,
+                        style = ChatCompositeTheme.typography.messageHeaderDate
                     )
-            ) {
-                BasicText(
-                    viewModel.dateHeaderText,
-                    style = ChatCompositeTheme.typography.messageHeaderDate
+                }
+            }
+            when (viewModel.message.messageType) {
+                ChatMessageType.TEXT -> BasicChatMessage(viewModel)
+                ChatMessageType.HTML -> BasicChatMessage(viewModel)
+                ChatMessageType.TOPIC_UPDATED -> SystemMessage(
+                    icon = R.drawable.azure_communication_ui_chat_ic_topic_changed_filled, /* TODO: update icon */
+                    stringResource = R.string.azure_communication_ui_chat_topic_updated,
+                    substitution = listOf(viewModel.message.topic ?: "Unknown")
                 )
+                ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
+                    icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
+                    stringResource = R.string.azure_communication_ui_chat_joined_chat,
+                    substitution = viewModel.message.participants
+                )
+                ChatMessageType.PARTICIPANT_REMOVED -> SystemMessage(
+                    icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
+                    stringResource = R.string.azure_communication_ui_chat_left_chat,
+                    substitution = viewModel.message.participants
+                )
+                else -> {
+                    BasicText(
+                        text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
+                    )
+                }
             }
         }
-        when (viewModel.message.messageType) {
-            ChatMessageType.TEXT -> BasicChatMessage(viewModel)
-            ChatMessageType.HTML -> BasicChatMessage(viewModel)
-            ChatMessageType.TOPIC_UPDATED -> SystemMessage(
-                icon = R.drawable.azure_communication_ui_chat_ic_topic_changed_filled, /* TODO: update icon */
-                stringResource = R.string.azure_communication_ui_chat_topic_updated,
-                substitution = listOf(viewModel.message.topic ?: "Unknown")
-            )
-            ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
-                icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
-                stringResource = R.string.azure_communication_ui_chat_joined_chat,
-                substitution = viewModel.message.participants
-            )
-            ChatMessageType.PARTICIPANT_REMOVED -> SystemMessage(
-                icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
-                stringResource = R.string.azure_communication_ui_chat_left_chat,
-                substitution = viewModel.message.participants
-            )
-            else -> {
-                BasicText(
-                    text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
-                )
-            }
-        }
-
-    }
     }
 }
 
@@ -101,8 +97,10 @@ internal fun MessageView(viewModel: MessageViewModel) {
 private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<String>) {
 
     val text = LocalContext.current.getString(stringResource, substitution.joinToString(", "))
-    Row(verticalAlignment = Alignment.CenterVertically,
-    modifier = Modifier.padding(ChatCompositeTheme.dimensions.systemMessagePadding)) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(ChatCompositeTheme.dimensions.systemMessagePadding)
+    ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = text,
@@ -130,8 +128,6 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                 }
             }
 
-
-
             Box(modifier = Modifier.weight(1.0f)) {
                 Box(
                     Modifier.background(
@@ -154,7 +150,6 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                 // Display the Read Receipt
                 BasicText(".")
             }
-
         }
     }
 }
