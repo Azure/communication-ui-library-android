@@ -28,15 +28,12 @@ public final class ChatComposite {
     private final ChatContainer chatContainer;
     private final ChatCompositeLocalOptions localOptions;
     private final ChatCompositeRemoteOptions remoteOptions;
-    private final Context context;
     private final ChatCompositeConfiguration configuration;
     final Integer instanceId = instanceIdCounter++;
 
-    ChatComposite(final Context context,
-                  final ChatCompositeConfiguration configuration,
+    ChatComposite(final ChatCompositeConfiguration configuration,
                   final ChatCompositeLocalOptions localOptions,
                   final ChatCompositeRemoteOptions remoteOptions) {
-        this.context = context;
         this.configuration = configuration;
         chatContainer = new ChatContainer(this, configuration, instanceId);
 
@@ -47,7 +44,7 @@ public final class ChatComposite {
     /**
      * Connects to backend services.
      */
-    public void connect() {
+    public void connect(final Context context) {
         launchComposite(context, remoteOptions, localOptions, false);
     }
 

@@ -23,7 +23,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeView
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
@@ -199,7 +199,6 @@ class ChatLauncherActivity : AppCompatActivity() {
         )
 
         val chatComposite = ChatCompositeBuilder()
-            .context(this)
             .remoteOptions(remoteOptions)
             .build()
 
@@ -210,7 +209,7 @@ class ChatLauncherActivity : AppCompatActivity() {
             Log.d("", "There is a '${eventArgs.count}' new messages.")
         }
 
-        chatComposite.connect()
+        chatComposite.connect(this)
         chatLauncherViewModel.chatComposite = chatComposite
 
         openChatUI()
