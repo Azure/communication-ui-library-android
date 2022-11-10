@@ -26,7 +26,6 @@ internal class VideoViewManager(
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val isAndroidTV = isAndroidTV(context)
-    private var isFitModeForcedForFirstParticipant = false
 
     private class VideoRenderer(
         var rendererView: VideoStreamRendererView?,
@@ -35,23 +34,14 @@ internal class VideoViewManager(
     )
 
     fun updateScalingForRemoteStream() {
-        // for Android TV, for first participant video(not screen share) the stream mode for video is fit to avoid blurry stream
-        // on second participant (add/remove), as video size is reduced for first participant, mode changed back to crop
         val remoteParticipants = callingSDKWrapper.getRemoteParticipantsMap()
-
-        if (isAndroidTV && (
-            isFitModeForcedForFirstParticipant ||
-                remoteParticipants.size == 1
-            )
-        ) {
-            remoteParticipantVideoRendererMap.values.map { videoRenderer ->
-                destroyVideoRenderer(videoRenderer)
+        // for TV, on new participant join, change first remote participant scaling from fit to crop
+        if (isAndroidTV && remoteParticipants.size > 1 && remoteParticipantVideoRendererMap.size == 1) {
+            if (!remoteParticipantVideoRendererMap.values.first().isScreenShareView) {
+                remoteParticipantVideoRendererMap.values.first().rendererView?.let {
+                    it.updateScalingMode(ScalingMode.CROP)
+                }
             }
-            remoteParticipantVideoRendererMap.clear()
-            // native calling sdk has known issue
-            // quickly destroying/recreating stream fails randomly
-            Thread.sleep(1000)
-            isFitModeForcedForFirstParticipant = false
         }
     }
 
@@ -79,6 +69,19 @@ internal class VideoViewManager(
         userVideoStreams: List<Pair<String, String>>,
     ) {
         removeRemoteParticipantRenderer(userVideoStreams)
+        val remoteParticipants = callingSDKWrapper.getRemoteParticipantsMap()
+
+        // for TV, for last participant, change last remote participant scaling from crop to fit
+        if (isAndroidTV && userVideoStreams.isNotEmpty() &&
+            remoteParticipantVideoRendererMap.size == 1 &&
+            remoteParticipants.size == 1
+        ) {
+            if (!remoteParticipantVideoRendererMap.values.first().isScreenShareView) {
+                remoteParticipantVideoRendererMap.values.first().rendererView?.let {
+                    it.updateScalingMode(ScalingMode.FIT)
+                }
+            }
+        }
     }
 
     fun updateLocalVideoRenderer(videoStreamID: String?) {
@@ -158,7 +161,6 @@ internal class VideoViewManager(
                         )
 
                     val forceFitMode = isAndroidTV && !isScreenShare && remoteParticipants.size <= 1
-                    isFitModeForcedForFirstParticipant = forceFitMode
 
                     val rendererView =
                         if (isScreenShare || forceFitMode) videoStreamRenderer.createView(
