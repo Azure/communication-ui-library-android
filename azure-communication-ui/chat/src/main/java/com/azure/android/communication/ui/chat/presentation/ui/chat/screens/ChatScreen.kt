@@ -105,7 +105,8 @@ internal fun ChatScreen(
                         modifier = Modifier
                             .width(ChatCompositeTheme.dimensions.messageListMaxWidth)
                             .padding(paddingValues)
-                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding)
+                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding),
+                        contentAlignment = Alignment.BottomCenter
                     ) {
                         UnreadMessagesIndicatorView(
                             scrollState = listState,
