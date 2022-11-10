@@ -171,6 +171,7 @@ internal class ParticipantGridView : GridLayout {
     private fun updateGrid(
         displayedRemoteParticipantsViewModel: List<ParticipantGridCellViewModel>,
     ) {
+        videoViewManager.updateScalingForRemoteStream()
         removeAllViews()
         displayedRemoteParticipantsView = mutableListOf()
         displayedRemoteParticipantsViewModel.forEach {
