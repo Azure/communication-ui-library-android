@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.configuration
 
-import com.azure.android.communication.ui.chat.ChatCompositeException
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions
 
 internal class ChatCompositeConfiguration {
