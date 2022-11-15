@@ -6,6 +6,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -23,7 +24,7 @@ internal fun ParticipantsListView(
 ) {
     Column(modifier = modifier) {
         ListSubHeaderView(text = stringResource(id = R.string.azure_communication_ui_chat_in_this_chat_count, participants.count()))
-        LazyColumn() {
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(items = participants, key = { it.userIdentifier.id }, itemContent = { it -> ParticipantView(participant = it) })
         }
     }
