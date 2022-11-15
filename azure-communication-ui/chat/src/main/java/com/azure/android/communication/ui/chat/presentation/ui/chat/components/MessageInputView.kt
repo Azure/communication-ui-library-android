@@ -51,7 +51,6 @@ internal fun MessageInputView(
     MessageInput(
         onTextChanged = {
             messageInputTextState.value = it
-            postAction(ChatAction.TypingIndicator())
         },
         textContent = messageInputTextState.value,
         onTextFieldFocused = { focusState = it },
@@ -106,7 +105,7 @@ internal fun MessageInput(
             Box(
                 modifier = Modifier
                     .border(1.dp, outlineColor, RoundedCornerShape(10))
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp),
+                    .padding(6.dp, 6.dp, 6.dp, 6.dp),
                 contentAlignment = Alignment.CenterStart,
             ) {
 
