@@ -81,6 +81,7 @@ public class ChatComposite {
         return new ChatView(context, instanceId);
     }
 
+
     /**
      * To show full composite default view
      *
