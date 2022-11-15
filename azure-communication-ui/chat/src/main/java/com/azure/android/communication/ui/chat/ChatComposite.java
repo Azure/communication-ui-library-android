@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivit
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView;
 
 
+
 /**
  * Azure android communication chat composite component.
  *
