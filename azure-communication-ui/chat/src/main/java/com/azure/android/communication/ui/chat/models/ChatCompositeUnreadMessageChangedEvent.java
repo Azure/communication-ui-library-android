@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.models;
 /**
  * Unread message count changed event.
  */
-public final class ChatCompositeUnreadMessageChangedEvent {
+final class ChatCompositeUnreadMessageChangedEvent {
     private final int count;
 
     ChatCompositeUnreadMessageChangedEvent(final int count) {

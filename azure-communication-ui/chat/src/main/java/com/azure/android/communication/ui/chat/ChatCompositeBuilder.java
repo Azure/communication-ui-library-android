@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.chat;
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
-import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions;
-
 /**
  * Builder for creating {@link ChatComposite}.
  *
@@ -14,19 +12,6 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationO
  */
 public final class ChatCompositeBuilder {
 
-    private ChatCompositeLocalizationOptions localizationConfig = null;
-
-    /**
-     * Sets an optional localization for chat-composite to use by {@link ChatComposite}.
-     *
-     * @param localization {@link ChatCompositeLocalizationOptions}.
-     * @return {@link ChatCompositeBuilder} for chaining options
-     */
-    public ChatCompositeBuilder localization(final ChatCompositeLocalizationOptions localization) {
-        this.localizationConfig = localization;
-        return this;
-    }
-
     /**
      * Builds the {@link ChatComposite} class.
      *
@@ -34,7 +19,6 @@ public final class ChatCompositeBuilder {
      */
     public ChatComposite build() {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
-        config.setLocalizationConfig(localizationConfig);
         return new ChatComposite(config);
     }
 }

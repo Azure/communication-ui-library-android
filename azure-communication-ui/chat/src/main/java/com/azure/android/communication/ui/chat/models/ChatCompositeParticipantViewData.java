@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  *
  * @see ChatCompositeLocalOptions
  */
-public final class ChatCompositeParticipantViewData {
+final class ChatCompositeParticipantViewData {
     private Bitmap avatarBitmap;
     private String displayName;
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;

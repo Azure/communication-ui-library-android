@@ -8,7 +8,7 @@ import com.azure.android.core.util.ExpandableStringEnum;
 /**
  * Defines values for ChatCompositeErrorCode.
  */
-public final class ChatCompositeErrorCode extends ExpandableStringEnum<ChatCompositeErrorCode> {
+final class ChatCompositeErrorCode extends ExpandableStringEnum<ChatCompositeErrorCode> {
 
     /**
      * Dispatched when the ACS Token supplied is no longer valid (expired).

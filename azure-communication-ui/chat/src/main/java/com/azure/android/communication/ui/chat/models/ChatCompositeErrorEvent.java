@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.models;
 /**
  * Event with error type and caused throwable.
  */
-public final class ChatCompositeErrorEvent {
+final class ChatCompositeErrorEvent {
     private final Throwable cause;
     private final ChatCompositeErrorCode code;
 

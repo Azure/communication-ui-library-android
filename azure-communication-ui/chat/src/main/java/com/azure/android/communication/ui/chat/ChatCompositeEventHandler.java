@@ -10,7 +10,7 @@ package com.azure.android.communication.ui.chat;
  *
  * @param <T> The callback event Type.
  */
-public interface ChatCompositeEventHandler<T> {
+interface ChatCompositeEventHandler<T> {
     /**
      * A callback method to process error event of type T
      *

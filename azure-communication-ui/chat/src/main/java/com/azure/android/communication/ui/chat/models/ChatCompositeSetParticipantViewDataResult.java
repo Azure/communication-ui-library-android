@@ -13,7 +13,7 @@ import java.util.Collection;
  * Result values for
  * {@link ChatComposite#setRemoteParticipantViewData(CommunicationIdentifier, ChatCompositeParticipantViewData)}.
  */
-public final class ChatCompositeSetParticipantViewDataResult
+final class ChatCompositeSetParticipantViewDataResult
         extends ExpandableStringEnum<ChatCompositeSetParticipantViewDataResult> {
 
     /**
