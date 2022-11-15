@@ -12,7 +12,6 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.R
-import com.azure.android.communication.ui.chat.models.ChatCompositeSupportedLocale
 import com.azure.android.communication.ui.chatdemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
@@ -40,9 +39,6 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = ChatCompositeSupportedLocale.getSupportedLocales().map {
-            SettingsFeatures.displayLanguageName(it)
-        }
         setLanguageInSharedPrefForFirstTime()
     }
 

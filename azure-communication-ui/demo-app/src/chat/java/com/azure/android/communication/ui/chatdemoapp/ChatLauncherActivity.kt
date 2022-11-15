@@ -201,13 +201,6 @@ class ChatLauncherActivity : AppCompatActivity() {
         val chatComposite = ChatCompositeBuilder()
             .build()
 
-        chatComposite.addOnErrorEventHandler { eventArgs ->
-            Log.e("", "Error received from ChatComposite ${eventArgs.errorCode}")
-        }
-        chatComposite.addOnUnreadMessagesChangedEventHandler { eventArgs ->
-            Log.d("", "There is a '${eventArgs.count}' new messages.")
-        }
-
         chatComposite.connect(this, remoteOptions).get()
         chatLauncherViewModel.chatComposite = chatComposite
 
