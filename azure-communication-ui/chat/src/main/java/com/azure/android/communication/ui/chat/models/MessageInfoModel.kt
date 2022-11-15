@@ -13,8 +13,8 @@ import org.threeten.bp.OffsetDateTime
 internal data class MessageInfoModel(
     val id: String?,
     val internalId: String? = null,
-    val messageType: ChatMessageType?,
-    val content: String?,
+    val messageType: ChatMessageType? = null,
+    val content: String? = null,
     val topic: String? = null,
     val participants: List<String> = emptyList(),
     val version: String? = null,

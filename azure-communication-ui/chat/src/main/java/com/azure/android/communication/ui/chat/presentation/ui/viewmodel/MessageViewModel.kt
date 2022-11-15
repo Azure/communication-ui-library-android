@@ -21,15 +21,17 @@ internal class MessageViewModel(
     val showTime: Boolean,
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
+    val isRead: Boolean
 )
 
-internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserIdentifier: String) =
-    InfoModelToViewModelAdapter(context, this, localUserIdentifier) as List<MessageViewModel>
+internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserIdentifier: String, latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN) =
+    InfoModelToViewModelAdapter(context, this, localUserIdentifier, latestReadMessageTimestamp) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
     private val context: Context,
     private val messages: List<MessageInfoModel>,
-    private val localUserIdentifier: String
+    private val localUserIdentifier: String,
+    private val latestReadMessageTimestamp: OffsetDateTime
 ) :
     List<MessageViewModel> {
 
@@ -37,8 +39,10 @@ private class InfoModelToViewModelAdapter(
         // Generate Message View Model here
 
         val lastMessage = try { messages[index - 1] } catch (e: IndexOutOfBoundsException) { EMPTY_MESSAGE_INFO_MODEL }
+//        val lastLocalUserMessage =
         val thisMessage = messages[index]
         val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
+        val currentMessageTime = thisMessage.editedOn ?: thisMessage.createdOn
         return MessageViewModel(
 
             messages[index],
@@ -55,7 +59,8 @@ private class InfoModelToViewModelAdapter(
                 thisMessage.createdOn ?: OffsetDateTime.now()
             ),
 
-            isLocalUser = isLocalUser
+            isLocalUser = isLocalUser,
+            isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
         )
     }
 
