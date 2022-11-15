@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -44,13 +44,15 @@ internal fun MessageListView(
     requestPages(scrollState, messages, dispatchers)
     if (messages.isNotEmpty()) {
         sendReadReceipt(scrollState, messages, dispatchers)
+        autoScrollToBottom(scrollState, messages)
     }
+
     LazyColumn(
         modifier = modifier.fillMaxHeight(),
         state = scrollState,
         reverseLayout = true,
     ) {
-        items(messages.asReversed()) { message ->
+        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: index }) { index, message ->
             MessageView(message)
         }
         if (messages.isNotEmpty() && showLoading) {
@@ -89,6 +91,21 @@ private fun requestPages(
             dispatch(ChatAction.FetchMessages())
         }
     }
+}
+
+@Composable
+private fun autoScrollToBottom(
+    scrollState: LazyListState,
+    messages: List<MessageViewModel>
+) {
+    val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
+    val isAtEnd = scrollState.firstVisibleItemIndex
+    if (wasAtEnd.value == 0 && wasAtEnd.value != isAtEnd) {
+        LaunchedEffect(messages.last()) {
+            scrollState.scrollToItem(0)
+        }
+    }
+    wasAtEnd.value = isAtEnd
 }
 
 @Composable

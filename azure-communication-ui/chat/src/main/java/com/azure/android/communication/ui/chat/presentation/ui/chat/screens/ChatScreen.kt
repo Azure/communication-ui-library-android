@@ -4,10 +4,10 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
@@ -86,26 +86,36 @@ internal fun ChatScreen(
                     FluentCircularIndicator()
                 }
             } else {
-                MessageListView(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxWidth(),
-                    messages = viewModel.messages,
-                    scrollState = listState,
-                    showLoading = viewModel.areMessagesLoading,
-                    dispatchers = viewModel.postAction
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    MessageListView(
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .fillMaxWidth(),
+                        messages = viewModel.messages,
+                        scrollState = listState,
+                        showLoading = viewModel.areMessagesLoading,
+                        dispatchers = viewModel.postAction
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding)
+                    ) {
+                        UnreadMessagesIndicatorView(
+                            scrollState = listState,
+                            visible = viewModel.unreadMessagesIndicatorVisibility,
+                            unreadCount = viewModel.unreadMessagesCount,
+                        )
+                    }
+                }
             }
         },
         bottomBar = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                UnreadMessagesIndicatorView(
-                    scrollState = listState,
-                    visible = viewModel.unreadMessagesIndicatorVisibility,
-                    unreadCount = viewModel.unreadMessagesCount,
-                    totalMessages = viewModel.messages.size/* TODO ViewModelLogic */
-                )
-
                 Box(contentAlignment = Alignment.CenterStart) {
                     TypingIndicatorView(viewModel.typingParticipants.toList())
                 }

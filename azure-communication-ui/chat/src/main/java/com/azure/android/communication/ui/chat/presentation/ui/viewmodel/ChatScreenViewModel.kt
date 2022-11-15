@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import kotlin.math.max
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -46,15 +47,12 @@ internal fun buildChatScreenViewModel(
     dispatch: Dispatch,
 ): ChatScreenViewModel {
 
-    // TODO add logic with last read message
-    var unreadMessagesCount: Int = 0
-
     return ChatScreenViewModel(
-        messages = messages.toViewModelList(context, localUserIdentifier),
+        messages = messages.toViewModelList(context, localUserIdentifier, store.getCurrentState().participantState.latestReadMessageTimestamp),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
-        unreadMessagesCount = unreadMessagesCount,
+        unreadMessagesCount = getUnReadMessagesCount(store, messages),
         error = store.getCurrentState().errorState.chatStateError,
         postAction = dispatch,
         typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
@@ -62,4 +60,19 @@ internal fun buildChatScreenViewModel(
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
     )
+}
+
+private fun getUnReadMessagesCount(
+    store: AppStore<ReduxState>,
+    messages: List<MessageInfoModel>,
+): Int {
+    val lastReadId = store.getCurrentState().chatState.lastReadMessageId
+    val lastSendId = store.getCurrentState().chatState.lastSendMessageId
+
+    val internalLastReadIndex = messages.indexOf(MessageInfoModel(id = lastReadId))
+    val internalLastSendIndex = messages.indexOf(MessageInfoModel(id = lastSendId))
+
+    val internalLastIndex = max(internalLastReadIndex, internalLastSendIndex)
+
+    return if (internalLastIndex == -1) 0 else messages.size - internalLastIndex - 1
 }

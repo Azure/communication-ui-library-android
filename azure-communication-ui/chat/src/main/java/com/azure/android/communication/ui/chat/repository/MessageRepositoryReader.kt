@@ -18,15 +18,12 @@ internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
     override fun isEmpty(): Boolean {
         return size == 0
     }
+
     final override fun contains(element: MessageInfoModel): Boolean {
         throw RuntimeException("Not implemented on the Message Repository")
     }
 
     final override fun containsAll(elements: Collection<MessageInfoModel>): Boolean {
-        throw RuntimeException("Not implemented on the Message Repository")
-    }
-
-    final override fun indexOf(element: MessageInfoModel): Int {
         throw RuntimeException("Not implemented on the Message Repository")
     }
 

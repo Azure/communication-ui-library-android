@@ -45,9 +45,29 @@ internal val MOCK_MESSAGES get(): List<MessageInfoModel> {
             senderDisplayName = userB_Display,
             content = "Hi Peter, thanks for following up with me",
             messageType = ChatMessageType.TEXT,
-            id = null,
+            id = OffsetDateTime.now().toString(),
             internalId = null,
             createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(12)
+        ),
+
+        MessageInfoModel(
+            senderCommunicationIdentifier = userB_ID,
+            senderDisplayName = userB_Display,
+            content = "I like to type",
+            messageType = ChatMessageType.TEXT,
+            id = null,
+            internalId = null,
+            createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(11)
+        ),
+
+        MessageInfoModel(
+            senderCommunicationIdentifier = userB_ID,
+            senderDisplayName = userB_Display,
+            content = "a lot",
+            messageType = ChatMessageType.TEXT,
+            id = null,
+            internalId = null,
+            createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10)
         ),
 
         MessageInfoModel(

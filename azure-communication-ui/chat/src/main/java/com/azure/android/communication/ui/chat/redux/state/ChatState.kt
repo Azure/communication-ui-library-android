@@ -19,4 +19,5 @@ internal data class ChatState(
     val localParticipantInfoModel: LocalParticipantInfoModel,
     val chatInfoModel: ChatInfoModel,
     val lastReadMessageId: String,
+    val lastSendMessageId: String,
 )
