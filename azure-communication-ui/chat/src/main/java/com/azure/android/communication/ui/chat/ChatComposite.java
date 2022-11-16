@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivit
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatView;
 
 
+
 /**
  * Azure android communication chat composite component.
  *
@@ -79,6 +80,7 @@ public class ChatComposite {
     public View getCompositeUIView(final Context context) {
         return new ChatView(context, instanceId);
     }
+
 
     /**
      * To show full composite default view

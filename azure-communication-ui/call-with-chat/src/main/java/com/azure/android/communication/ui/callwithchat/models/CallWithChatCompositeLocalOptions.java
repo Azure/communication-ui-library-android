@@ -7,7 +7,7 @@ public final class CallWithChatCompositeLocalOptions {
     private CallWithChatCompositeParticipantViewData participantViewData;
 
     /**
-     * Create Local Options.
+     * Get {@link CallWithChatCompositeParticipantViewData}.
      *
      */
     public CallWithChatCompositeLocalOptions() {

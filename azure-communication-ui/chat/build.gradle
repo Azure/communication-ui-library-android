@@ -92,6 +92,9 @@ dependencies {
     debugImplementation "androidx.customview:customview:1.2.0-alpha01"
     debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 
+    api ("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
+    api ("com.azure.android:azure-communication-common:$azure_common_sdk_version")
+
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"

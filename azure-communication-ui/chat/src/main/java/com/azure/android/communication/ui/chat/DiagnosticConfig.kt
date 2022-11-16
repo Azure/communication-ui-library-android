@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling
+package com.azure.android.communication.ui.chat
 
 internal class DiagnosticConfig {
-    val tags: Array<String> by lazy { arrayOf(getApplicationId()) }
+    val tag: String by lazy { getApplicationId() }
 
     private fun getApplicationId(): String {
-        val callingCompositeVersionName = "1.2.0-beta.1"
+        val chatCompositeVersionName = "0.0.0"
         val baseTag = "ac"
         // Tag template is: acXYYY/<version>
         // Where:
@@ -19,6 +19,6 @@ internal class DiagnosticConfig {
         //          [0: undefined, 1: Call Composite, 2: Chat Composite, 3: CallWithChatComposite, 4: UI Components]
         //      Y[2] is reserved for implementation details,
         //          [0: undefined]
-        return "${baseTag}a110/$callingCompositeVersionName"
+        return "${baseTag}a120/$chatCompositeVersionName"
     }
 }
