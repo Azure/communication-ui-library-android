@@ -64,7 +64,7 @@ internal class ChatContainer(
                     endPointURL = remoteOptions.locator.endpointURL,
                     identity = remoteOptions.identity,
                     credential = remoteOptions.credential,
-                    applicationID = "azure_communication_ui", // TODO: modify while working on diagnostics config < 24
+                    applicationID = DiagnosticConfig().tag,
                     sdkName = "com.azure.android:azure-communication-chat",
                     sdkVersion = "2.0.0",
                     threadId = remoteOptions.locator.chatThreadId,
