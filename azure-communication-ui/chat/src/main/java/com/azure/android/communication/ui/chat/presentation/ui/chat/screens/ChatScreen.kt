@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
@@ -97,7 +98,7 @@ internal fun ChatScreen(
                     MessageListView(
                         modifier = Modifier
                             .padding(paddingValues)
-                            .fillMaxWidth(),
+                            .width(ChatCompositeTheme.dimensions.messageListMaxWidth),
                         messages = viewModel.messages,
                         scrollState = listState,
                         showLoading = viewModel.areMessagesLoading,
@@ -106,8 +107,10 @@ internal fun ChatScreen(
 
                     Box(
                         modifier = Modifier
+                            .width(ChatCompositeTheme.dimensions.messageListMaxWidth)
                             .padding(paddingValues)
-                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding)
+                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding),
+                        contentAlignment = Alignment.BottomCenter
                     ) {
                         UnreadMessagesIndicatorView(
                             scrollState = listState,
@@ -119,20 +122,20 @@ internal fun ChatScreen(
             }
         },
         bottomBar = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(
-                    modifier = Modifier
-                        .align(alignment = Alignment.Start)
-                        .padding(horizontal = 5.dp)
-                ) {
-                    TypingIndicatorView(viewModel.typingParticipants.toList())
-                }
 
-                BottomBarView(
-                    messageInputTextState = stateViewModel.messageInputTextState,
-                    chatStatus = viewModel.chatStatus,
-                    postAction = viewModel.postAction
-                )
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(Modifier.width(ChatCompositeTheme.dimensions.messageListMaxWidth)) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Box(modifier = Modifier.align(alignment = Alignment.Start).padding(horizontal = 5.dp)) {
+                            TypingIndicatorView(viewModel.typingParticipants.toList())
+                        }
+                        BottomBarView(
+                            messageInputTextState = stateViewModel.messageInputTextState,
+                            chatStatus = viewModel.chatStatus,
+                            postAction = viewModel.postAction
+                        )
+                    }
+                }
             }
         }
     )
