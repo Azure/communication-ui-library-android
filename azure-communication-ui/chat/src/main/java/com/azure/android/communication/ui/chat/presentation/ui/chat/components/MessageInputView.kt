@@ -86,8 +86,8 @@ internal fun MessageInput(
     BasicTextField(
         modifier = Modifier
             .fillMaxWidth(fraction = 0.9f)
-            .padding(5.dp)
-            .heightIn(52.dp, maxInputHeight)
+            .padding(6.dp)
+            .heightIn(40.dp, maxInputHeight)
             .onFocusChanged { onTextFieldFocused(it.isFocused) }
             .testTag(UITestTags.MESSAGE_INPUT_BOX)
             .then(semantics),
@@ -99,17 +99,16 @@ internal fun MessageInput(
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
-            imeAction = ImeAction.Send
+            imeAction = ImeAction.Default
         ),
         keyboardActions = keyboardActions,
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
                     .border(1.dp, outlineColor, RoundedCornerShape(10))
-                    .padding(6.dp, 6.dp, 6.dp, 6.dp),
+                    .padding(9.dp, 6.dp, 9.dp, 6.dp),
                 contentAlignment = Alignment.CenterStart,
             ) {
-
                 if (textContent.isEmpty() && !focusState) {
                     BasicText(
                         text = stringResource(R.string.azure_communication_ui_chat_enter_a_message),
