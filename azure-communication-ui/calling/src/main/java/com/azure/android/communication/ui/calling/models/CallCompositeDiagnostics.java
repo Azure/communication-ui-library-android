@@ -6,18 +6,18 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * A Call Composite Diagnostics information.
  */
-public final class CallCompositeDiagnosticsInfo {
+public final class CallCompositeDiagnostics {
 
     private String lastKnownCallId;
 
-    CallCompositeDiagnosticsInfo() { }
+    CallCompositeDiagnostics() { }
 
     /**
      * Set last known call id.
      * @param lastKnownCallId last known call id.
-     * @return {@link CallCompositeDiagnosticsInfo}
+     * @return {@link CallCompositeDiagnostics}
      */
-    CallCompositeDiagnosticsInfo setLastKnownCallId(final String lastKnownCallId) {
+    CallCompositeDiagnostics setLastKnownCallId(final String lastKnownCallId) {
         this.lastKnownCallId = lastKnownCallId;
         return this;
     }

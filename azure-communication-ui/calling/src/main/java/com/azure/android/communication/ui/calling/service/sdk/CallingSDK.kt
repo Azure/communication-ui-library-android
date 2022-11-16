@@ -11,6 +11,7 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.calling.CreateViewOptions
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -107,6 +108,7 @@ internal interface VideoStreamRenderer {
 internal interface VideoStreamRendererView {
     fun dispose()
     fun getView(): View?
+    fun updateScalingMode(scalingMode: ScalingMode)
 }
 
 internal data class StreamSize(val width: Int, val height: Int)
