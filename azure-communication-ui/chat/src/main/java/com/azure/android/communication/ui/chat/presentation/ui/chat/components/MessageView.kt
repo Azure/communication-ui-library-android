@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 import android.widget.TextView
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +32,6 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewM
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.Dispatch
-import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
@@ -138,9 +136,11 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                         },
                         shape = ChatCompositeTheme.shapes.messageBubble,
                     ).align(alignment = if (viewModel.isLocalUser) Alignment.TopEnd else Alignment.TopStart)
-                        .combinedClickable(onLongClick = {
-                            dispatch(ChatAction.ShowMessageContextMenu(viewModel.message))
-                        }, onClick = {})
+                    /* TODO: Add this block back in to add Context Menu Code
+                    .combinedClickable(onLongClick = {
+                        dispatch(ChatAction.ShowMessageContextMenu(viewModel.message))
+                    }, onClick = {})
+                    */
                 ) {
                     messageContent(viewModel)
                 }

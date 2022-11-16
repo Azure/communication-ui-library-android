@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat.redux.reducer
 import android.content.ClipData
 import android.content.ClipboardManager
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MenuItemModel
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.redux.action.Action
@@ -60,7 +61,9 @@ internal class ChatReducerImpl : ChatReducer {
                 )
             }
             is ChatAction.HideMessageContextMenu -> {
-                state.copy(messageContextMenu = null)
+                state.copy(
+                    messageContextMenu = MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, menuItems = emptyList())
+                )
             }
             else -> state
         }

@@ -11,20 +11,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
@@ -35,21 +33,15 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.F
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
+import com.azure.android.communication.ui.chat.presentation.ui.chat.components.messageContextMenu
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
-import com.azure.android.communication.ui.chat.redux.Dispatch
-import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.microsoft.fluentui.tokenized.drawer.Drawer
-import com.microsoft.fluentui.tokenized.drawer.rememberDrawerState
-import com.microsoft.fluentui.tokenized.listitem.ListItem
-import com.microsoft.fluentui.tokenized.listitem.TextIcons
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun ChatScreen(
@@ -124,14 +116,15 @@ internal fun ChatScreen(
                         )
                     }
                 }
-                if (viewModel.messageContextMenu != null) {
-                    showMessageContextMenu(viewModel.messageContextMenu, dispatch = viewModel.postAction)
-                }
             }
         },
         bottomBar = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(modifier = Modifier.align(alignment = Alignment.Start).padding(horizontal = 5.dp)) {
+                Box(
+                    modifier = Modifier
+                        .align(alignment = Alignment.Start)
+                        .padding(horizontal = 5.dp)
+                ) {
                     TypingIndicatorView(viewModel.typingParticipants.toList())
                 }
 
@@ -143,39 +136,12 @@ internal fun ChatScreen(
             }
         }
     )
-}
-@Composable
-internal fun showMessageContextMenu(menu: MessageContextMenuModel, dispatch: Dispatch) {
-    val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState()
-    val open: () -> Unit = { scope.launch { drawerState.open() } }
-    val close: () -> Unit = { scope.launch { drawerState.close() } }
-    Drawer(drawerState = drawerState, drawerContent = {
-        Column() {
-            menu.menuItems.map { item ->
-                val context = LocalContext.current
-                ListItem.Item(
-                    text = stringResource(id = item.title),
-                    primaryTextLeadingIcons = TextIcons({
-                        Icon(
-                            painter = painterResource(id = item.icon),
-                            contentDescription = null
-                        )
-                    }),
-                    onClick = {
-                        close()
-                        dispatch(ChatAction.HideMessageContextMenu())
-                        if (item.onClickAction != null) {
-                            item.onClickAction?.invoke(context)
-                        } else if (item.action != null) {
-                            dispatch(item.action)
-                        }
-                    }
-                )
-            }
-        }
-    })
-    open()
+
+    /* TODO: Add this Composable back in to support Context Menu (Copy)
+    messageContextMenu(
+        menu = viewModel.messageContextMenu,
+        dispatch = viewModel.postAction,)
+     */
 }
 
 @Preview
@@ -212,11 +178,11 @@ internal fun ChatScreenPreview() {
                         CommunicationIdentifier.UnknownIdentifier("DB75F1F0-65E4-46B0-A213-DA4F574659A5"),
                         "Henry Jones"
                     ),
-                ).associateBy({ it.userIdentifier.id })
-
-                // error = ChatStateError(
-                //    errorCode = ErrorCode.CHAT_JOIN_FAILED
-                // )
+                ).associateBy { it.userIdentifier.id },
+                messageContextMenu = MessageContextMenuModel(
+                    messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
+                    menuItems = emptyList()
+                )
             ),
 
         )
