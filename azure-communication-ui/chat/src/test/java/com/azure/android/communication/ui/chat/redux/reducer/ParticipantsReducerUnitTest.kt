@@ -279,7 +279,6 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
         val previousState = ParticipantsState(
-
             participants = listOf(
                 userOne,
                 userTwo,

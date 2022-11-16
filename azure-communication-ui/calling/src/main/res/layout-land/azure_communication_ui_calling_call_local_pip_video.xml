@@ -7,10 +7,10 @@
     android:id="@+id/azure_communication_ui_call_local_pip"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="4dp"
-    android:paddingEnd="4dp"
     android:paddingStart="4dp"
     android:paddingTop="4dp"
+    android:paddingEnd="4dp"
+    android:paddingBottom="4dp"
     >
 
     <androidx.constraintlayout.widget.Guideline
@@ -22,13 +22,13 @@
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/azure_communication_ui_call_local_pip_wrapper"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/azure_communication_ui_call_local_pip_wrapper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="16:9"
-        app:layout_constraintStart_toStartOf="@+id/azure_communication_ui_guideline"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/azure_communication_ui_guideline"
         >
 
         <LinearLayout
@@ -39,7 +39,6 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_min="68dp"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +67,6 @@
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_min="68dp"
             />
 
         <include

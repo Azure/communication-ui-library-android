@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
@@ -93,13 +95,20 @@ internal fun ChatScreen(
                     MessageListView(
                         modifier = Modifier
                             .padding(paddingValues)
-                            .fillMaxWidth(),
+                            .width(ChatCompositeTheme.dimensions.messageListMaxWidth),
                         messages = viewModel.messages,
                         scrollState = listState,
                         showLoading = viewModel.areMessagesLoading,
                         dispatchers = viewModel.postAction
                     )
-                    Box(modifier = Modifier.padding(paddingValues)) {
+
+                    Box(
+                        modifier = Modifier
+                            .width(ChatCompositeTheme.dimensions.messageListMaxWidth)
+                            .padding(paddingValues)
+                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
                         UnreadMessagesIndicatorView(
                             scrollState = listState,
                             visible = viewModel.unreadMessagesIndicatorVisibility,
@@ -110,16 +119,20 @@ internal fun ChatScreen(
             }
         },
         bottomBar = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(contentAlignment = Alignment.CenterStart) {
-                    TypingIndicatorView(viewModel.typingParticipants.toList())
-                }
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(Modifier.width(ChatCompositeTheme.dimensions.messageListMaxWidth)) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Box(modifier = Modifier.align(alignment = Alignment.Start).padding(horizontal = 5.dp)) {
+                            TypingIndicatorView(viewModel.typingParticipants.toList())
+                        }
 
-                BottomBarView(
-                    messageInputTextState = stateViewModel.messageInputTextState,
-                    chatStatus = viewModel.chatStatus,
-                    postAction = viewModel.postAction
-                )
+                        BottomBarView(
+                            messageInputTextState = stateViewModel.messageInputTextState,
+                            chatStatus = viewModel.chatStatus,
+                            postAction = viewModel.postAction
+                        )
+                    }
+                }
             }
         }
     )

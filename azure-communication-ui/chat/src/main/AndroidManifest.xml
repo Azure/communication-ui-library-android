@@ -14,6 +14,7 @@
             android:exported="false"
             android:label="@string/azure_communication_ui_chat_title_activity_compose_chat"
             android:theme="@style/AzureCommunicationUIChat.Theme"
+            android:windowSoftInputMode="adjustResize"
             />
     </application>
 
