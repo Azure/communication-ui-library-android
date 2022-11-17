@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat;
 import android.content.Context;
 import android.content.Intent;
 
+import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivityImpl;
@@ -34,7 +35,13 @@ public final class ChatComposite {
      */
     public CompletableFuture<Void> connect(
             final Context context,
-            final ChatCompositeRemoteOptions remoteOptions) {
+            final String endpointUrl,
+            final String threadId,
+            final CommunicationTokenCredential credential,
+            final String identity,
+            final String displayName) {
+        final ChatCompositeRemoteOptions remoteOptions =
+                new ChatCompositeRemoteOptions(endpointUrl, threadId, credential, identity, displayName);
         launchComposite(context, remoteOptions, false);
         final CompletableFuture<Void> result = new CompletableFuture<>();
         result.complete(null);

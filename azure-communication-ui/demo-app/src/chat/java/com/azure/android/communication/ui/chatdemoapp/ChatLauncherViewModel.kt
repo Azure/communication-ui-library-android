@@ -10,7 +10,6 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.chat.ChatComposite
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder
-import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
@@ -50,16 +49,15 @@ class ChatLauncherViewModel : ViewModel() {
         val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
         val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val remoteOptions = ChatCompositeRemoteOptions(
+        chatComposite = ChatCompositeBuilder().build()
+        chatComposite?.connect(
+            context,
             endpoint,
             threadId,
             communicationTokenCredential,
             acsIdentity,
             userName
-        )
-
-        chatComposite = ChatCompositeBuilder().build()
-        chatComposite?.connect(context, remoteOptions)?.get()
+        )?.get()
     }
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
