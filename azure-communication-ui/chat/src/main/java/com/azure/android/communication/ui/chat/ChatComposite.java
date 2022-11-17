@@ -4,9 +4,12 @@
 package com.azure.android.communication.ui.chat;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivityImpl;
+
 import java9.util.concurrent.CompletableFuture;
 
 /**
@@ -51,11 +54,16 @@ public final class ChatComposite {
         chatContainer.start(context, remoteOptions);
     }
 
-    // TODO: remove this method. Test should provide it's own UI host and call
-    //  launch() then getCompositeUIView()
     void launchTest(final Context context,
                     final ChatCompositeRemoteOptions remoteOptions) {
         chatContainer.start(context, remoteOptions);
-        //showTestCompositeUI(context);
+        showTestCompositeUI(context);
+    }
+
+    private void showTestCompositeUI(final Context context) {
+        final Intent intent = new Intent(context, ChatCompositeActivityImpl.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ChatCompositeActivityImpl.Companion.setChatComposite(this);
+        context.startActivity(intent);
     }
 }
