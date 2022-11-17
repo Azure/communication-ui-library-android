@@ -41,10 +41,10 @@ internal class AppReduxState(
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 
     override var errorState: ErrorState = ErrorState(
-            fatalError = null,
-            chatStateError = null,
-            chatStateEvent = null
-        )
+        fatalError = null,
+        chatStateError = null,
+        chatStateEvent = null
+    )
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 

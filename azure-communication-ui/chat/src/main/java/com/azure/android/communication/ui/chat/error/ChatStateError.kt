@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.error
 
-
 internal data class ChatStateError(
     val errorCode: ErrorCode
 )

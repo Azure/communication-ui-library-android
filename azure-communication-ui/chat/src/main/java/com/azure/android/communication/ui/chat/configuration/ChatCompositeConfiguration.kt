@@ -13,5 +13,4 @@ internal class ChatCompositeConfiguration {
         RemoteParticipantsConfiguration()
 
     var eventsHandler: ChatCompositeEventsHandlerRepository = ChatCompositeEventsHandlerRepository()
-
 }

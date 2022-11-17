@@ -17,14 +17,13 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
         val CHAT_SEND_READ_RECEIPT_FAILED = fromString("chatSendReadReceiptFailed")
         val CHAT_SEND_TYPING_INDICATOR_FAILED = fromString("chatSendTypingIndicatorFailed")
 
-
         private fun fromString(name: String): ErrorCode {
             return fromString(name, ErrorCode::class.java)
         }
     }
 }
 
-internal class EventCode: ExpandableStringEnum<EventCode?>() {
+internal class EventCode : ExpandableStringEnum<EventCode?>() {
     companion object {
         val CHAT_LOCAL_PARTICIPANT_REMOVED = fromString("chatLocalParticipantRemoved")
 

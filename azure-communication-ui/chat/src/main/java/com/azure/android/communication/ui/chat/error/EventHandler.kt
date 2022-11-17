@@ -48,7 +48,6 @@ internal class EventHandler(
         if (newChatStateEvent != null && newChatStateEvent != lastChatStateEvent) {
             function(newChatStateEvent)
             chatStateEventCallback(newChatStateEvent)
-
         }
     }
 
@@ -66,5 +65,4 @@ internal class EventHandler(
             // suppress any possible application errors
         }
     }
-
 }

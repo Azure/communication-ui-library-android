@@ -8,5 +8,4 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeEvent
 
 class ChatCompositeEventsHandlerRepository {
     var onLocalParticipantRemovedEventHandler: ChatCompositeEventHandler<ChatCompositeEvent>? = null
-
 }
