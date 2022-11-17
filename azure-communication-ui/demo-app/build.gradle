@@ -12,7 +12,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
+
         targetSdkVersion 33
         versionCode ui_library_version_code
         versionName "$ui_library_version_name"
@@ -103,6 +103,7 @@ android {
             minSdkVersion 21
             dimension "product"
             matchingFallbacks = ["calling"]
+            applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
             buildTypes {
                 release {
                     minifyEnabled true
@@ -130,6 +131,7 @@ android {
             minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["chat"]
+            applicationId "com.azure.android.communication.ui.chatcompositedemoapp"
             buildTypes {
                 release {
                     minifyEnabled false
@@ -156,6 +158,7 @@ android {
             minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["callwithchat"]
+            applicationId "com.azure.android.communication.ui.callwithchatcompositedemoapp"
             buildTypes {
                 release {
                     minifyEnabled false
