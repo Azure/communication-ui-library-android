@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 
 // Helper functions that access internal UI chat API.
@@ -20,13 +19,11 @@ internal fun launchChatComposite() {
         CommunicationTokenCredential(communicationTokenRefreshOptions)
     val remoteOptions =
         ChatCompositeRemoteOptions(
-            ChatCompositeJoinLocator(
-                "19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2",
-                "https://acs-ui-dev.communication.azure.com/"
-            ),
+            "https://acs-ui-dev.communication.azure.com/",
+            "19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2",
             communicationTokenCredential,
             "test"
         )
 
-    chatComposite.launchTest(appContext, remoteOptions, null)
+    chatComposite.launchTest(appContext, remoteOptions)
 }
