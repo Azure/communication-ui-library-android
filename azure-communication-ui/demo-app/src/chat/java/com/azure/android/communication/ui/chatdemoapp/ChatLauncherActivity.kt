@@ -6,23 +6,19 @@ package com.azure.android.communication.ui.chatdemoapp
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import android.widget.CompoundButton
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
-import com.azure.android.communication.ui.chat.ChatCompositeBuilder
-import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
@@ -33,7 +29,6 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import com.microsoft.appcenter.distribute.UpdateTrack
-import java.util.concurrent.Callable
 
 class ChatLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatLauncherBinding
@@ -67,28 +62,25 @@ class ChatLauncherActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val data: Uri? = intent?.data
-        val endpointurl = data?.getQueryParameter("endpointurl") ?: BuildConfig.END_POINT_URL
-        val threadid = data?.getQueryParameter("threadid") ?: BuildConfig.THREAD_ID
-        val acstoken = data?.getQueryParameter("acstoken") ?: BuildConfig.ACS_TOKEN
+        val endpointUrl = data?.getQueryParameter("endpointurl") ?: BuildConfig.END_POINT_URL
+        val threadId = data?.getQueryParameter("threadid") ?: BuildConfig.THREAD_ID
+        val acsToken = data?.getQueryParameter("acstoken") ?: BuildConfig.ACS_TOKEN
         val userid = data?.getQueryParameter("userid") ?: BuildConfig.IDENTITY
         val name = data?.getQueryParameter("name") ?: BuildConfig.USER_NAME
 
         binding.run {
-            endPointURL.setText(endpointurl)
-            acsTokenText.setText(acstoken)
+            endPointURL.setText(endpointUrl)
+            acsTokenText.setText(acsToken)
             userNameText.setText(name)
-            chatThreadID.setText(threadid)
+            chatThreadID.setText(threadId)
             identity.setText(userid)
 
             launchButton.setOnClickListener {
-                if (chatLauncherViewModel.isChatRunning)
-                    openChatUI()
-                else
-                    launch()
+                launch()
             }
 
             openChatUIButton.setOnClickListener {
-                openChatUI()
+                showChatUI()
             }
             stopChatCompositeButton.setOnClickListener {
                 stopChatComposite()
@@ -99,6 +91,16 @@ class ChatLauncherActivity : AppCompatActivity() {
 
             if (!BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            }
+
+            acsTokenRadioButton.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked)
+                    tokenFunctionRadioButton.isChecked = false
+            }
+
+            tokenFunctionRadioButton.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked)
+                    acsTokenRadioButton.isChecked = false
             }
         }
 
@@ -136,27 +138,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun getTokenFetcher(): Callable<String>? {
-        try {
-            val tokenFetcher = chatLauncherViewModel.getTokenFetcher(
-                binding.tokenFunctionUrlText.text.toString(),
-                binding.acsTokenText.text.toString()
-            )
-            binding.launchButton.isEnabled = true
-            return tokenFetcher
-        } catch (ex: Exception) {
-            if (ex.message != null) {
-                val causeMessage = ex.cause?.message ?: ""
-                showAlert(ex.toString() + causeMessage)
-                binding.launchButton.isEnabled = true
-            } else {
-                showAlert("Unknown error")
-            }
-            return null
-        }
-    }
-
-    private fun openChatUI() {
+    private fun showChatUI() {
         val chatComposite = chatLauncherViewModel.chatComposite!!
 
         // Create Chat Composite View
@@ -170,8 +152,6 @@ class ChatLauncherActivity : AppCompatActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
-
-        binding.launchButton.visibility = View.GONE
     }
 
     private fun launch() {
@@ -183,37 +163,42 @@ class ChatLauncherActivity : AppCompatActivity() {
         val endpoint = binding.endPointURL.text.toString()
         val acsIdentity = binding.identity.text.toString()
         val userName = binding.userNameText.text.toString()
+        val tokenFunctionUrl = if (binding.tokenFunctionRadioButton.isChecked)
+            binding.tokenFunctionUrlText.text.toString() else null
+        val acsToken = if (binding.acsTokenRadioButton.isChecked)
+            binding.acsTokenText.text.toString() else null
 
-        val tokenRefresher = getTokenFetcher() ?: return
+        try {
+            chatLauncherViewModel.launch(this,
+                    endpoint,
+                    acsIdentity,
+                    threadId,
+                    userName,
+                    tokenFunctionUrl,
+                    acsToken
+            )
+        } catch (ex: Exception) {
+            if (ex.message != null) {
+                val causeMessage = ex.cause?.message ?: ""
+                showAlert(ex.toString() + causeMessage)
+                binding.launchButton.isEnabled = true
+            } else {
+                showAlert("Unknown error")
+            }
+            return
+        }
 
-        // Create ChatComposite(Adaptor)
-        val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
-        val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
-
-        val remoteOptions = ChatCompositeRemoteOptions(
-            endpoint,
-            threadId,
-            communicationTokenCredential,
-            acsIdentity,
-            userName
-        )
-
-        val chatComposite = ChatCompositeBuilder()
-            .build()
-
-        chatComposite.connect(this, remoteOptions).get()
-        chatLauncherViewModel.chatComposite = chatComposite
-
-        openChatUI()
+        showChatUI()
 
         binding.run {
+            launchButton.isEnabled = true
             launchButton.visibility = View.GONE
             openChatUIButton.visibility = View.VISIBLE
             stopChatCompositeButton.visibility = View.VISIBLE
         }
     }
 
-    fun stopChatComposite() {
+    private fun stopChatComposite() {
         chatLauncherViewModel.closeChatComposite()
         binding.launchButton.visibility = View.VISIBLE
         binding.openChatUIButton.visibility = View.GONE
