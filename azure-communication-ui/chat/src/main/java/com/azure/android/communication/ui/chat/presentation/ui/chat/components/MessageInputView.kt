@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +20,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,8 +84,8 @@ internal fun MessageInput(
     BasicTextField(
         modifier = Modifier
             .fillMaxWidth(fraction = 0.9f)
-            .padding(5.dp)
-            .heightIn(52.dp, maxInputHeight)
+            .padding(6.dp)
+            .heightIn(40.dp, maxInputHeight)
             .onFocusChanged { onTextFieldFocused(it.isFocused) }
             .testTag(UITestTags.MESSAGE_INPUT_BOX)
             .then(semantics),
@@ -97,16 +95,13 @@ internal fun MessageInput(
         textStyle = TextStyle(
             color = textColor
         ),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = ImeAction.Send
-        ),
+        singleLine = false,
         keyboardActions = keyboardActions,
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
                     .border(1.dp, outlineColor, RoundedCornerShape(10))
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp),
+                    .padding(9.dp, 6.dp, 9.dp, 6.dp),
                 contentAlignment = Alignment.CenterStart,
             ) {
 

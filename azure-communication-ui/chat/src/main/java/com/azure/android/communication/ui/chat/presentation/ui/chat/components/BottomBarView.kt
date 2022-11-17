@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -38,9 +37,6 @@ internal fun BottomBarView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction,
-            keyboardActions = KeyboardActions(onSend = {
-                sendButtonOnclick(postAction, messageInputTextState)
-            })
         )
 
         SendMessageButtonView(
