@@ -120,13 +120,13 @@ internal class MessageRepositoryMiddlewareImpl(
         dispatch: Dispatch,
         localParticipant: LocalParticipantInfoModel
     ) {
-        val isLocalParticipantEvicted =
-            action.participants.count { it.userIdentifier.id == localParticipant.userIdentifier } !=
-                action.participants.count()
+        val isLocalParticipantEvicted = action.participants.any { removed->
+            removed.userIdentifier.id == localParticipant.userIdentifier
+        }
         if (isLocalParticipantEvicted) {
             val localUserRemovedSystemMessage = MessageInfoModel(
                 id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
-                participants = action.participants.map { it.displayName ?: "" },
+                participants = arrayListOf(localParticipant.displayName?: "Unknown Participant"),
                 content = null,
                 createdOn = OffsetDateTime.now(),
                 senderDisplayName = null,
