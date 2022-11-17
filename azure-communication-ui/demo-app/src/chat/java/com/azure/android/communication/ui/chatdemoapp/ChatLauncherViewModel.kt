@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Context
-import android.view.View
 import android.webkit.URLUtil
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
@@ -12,7 +11,6 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.chat.ChatComposite
 import com.azure.android.communication.ui.chat.ChatCompositeBuilder
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chatdemoapp.launcher.TeamsUrlParser
 import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
@@ -38,13 +36,14 @@ class ChatLauncherViewModel : ViewModel() {
         return tokenRefresher
     }
 
-    fun launch(context: Context,
-               endpoint: String,
-               acsIdentity: String,
-               threadId: String,
-               userName: String,
-               tokenFunctionURL: String?,
-               acsToken: String?,
+    fun launch(
+        context: Context,
+        endpoint: String,
+        acsIdentity: String,
+        threadId: String,
+        userName: String,
+        tokenFunctionURL: String?,
+        acsToken: String?,
     ) {
         val tokenRefresher = getTokenFetcher(tokenFunctionURL, acsToken)
 
@@ -52,11 +51,11 @@ class ChatLauncherViewModel : ViewModel() {
         val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         val remoteOptions = ChatCompositeRemoteOptions(
-                endpoint,
-                threadId,
-                communicationTokenCredential,
-                acsIdentity,
-                userName
+            endpoint,
+            threadId,
+            communicationTokenCredential,
+            acsIdentity,
+            userName
         )
 
         chatComposite = ChatCompositeBuilder().build()

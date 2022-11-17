@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
-import android.widget.CompoundButton
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -169,13 +168,14 @@ class ChatLauncherActivity : AppCompatActivity() {
             binding.acsTokenText.text.toString() else null
 
         try {
-            chatLauncherViewModel.launch(this,
-                    endpoint,
-                    acsIdentity,
-                    threadId,
-                    userName,
-                    tokenFunctionUrl,
-                    acsToken
+            chatLauncherViewModel.launch(
+                this,
+                endpoint,
+                acsIdentity,
+                threadId,
+                userName,
+                tokenFunctionUrl,
+                acsToken
             )
         } catch (ex: Exception) {
             if (ex.message != null) {
