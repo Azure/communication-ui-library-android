@@ -4,12 +4,10 @@
 package com.azure.android.communication.ui.chat.error
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
-import com.azure.android.communication.ui.chat.error.ErrorCode.Companion.CHAT_LOCAL_PARTICIPANT_EVICTED
+import com.azure.android.communication.ui.chat.error.EventCode.Companion.CHAT_LOCAL_PARTICIPANT_REMOVED
 import com.azure.android.communication.ui.chat.models.ChatCompositeEvent
-import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode
-import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode.Companion.CHAT_EVICTED
+import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode.Companion.CHAT_REMOVED
 import com.azure.android.communication.ui.chat.redux.AppStore
-import com.azure.android.communication.ui.chat.redux.state.ErrorState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -22,14 +20,13 @@ internal class EventHandler(
     private val store: AppStore<ReduxState>,
     private val configuration: ChatCompositeConfiguration,
 ) {
-    private var lastFatalError: FatalError? = null
-    private var lastChatStateError: ChatStateError? = null
+    private var lastChatStateEvent: ChatStateEvent? = null
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     fun start() {
         coroutineScope.launch(Dispatchers.Default) {
             store.getStateFlow().collect {
-                onErrorStateChanged(it.errorState)
+                onEventStateChanged(it.errorState.chatStateEvent)
             }
         }
     }
@@ -38,40 +35,36 @@ internal class EventHandler(
         coroutineScope.cancel()
     }
 
-    private fun onErrorStateChanged(errorState: ErrorState) {
-        checkIfCallStateErrorIsNewAndNotify(errorState.chatStateError, lastChatStateError,) {
-            lastChatStateError = it
+    private fun onEventStateChanged(chatStateEvent: ChatStateEvent?) {
+        checkIfCallStateErrorIsNewAndNotify(chatStateEvent, lastChatStateEvent) {
+            lastChatStateEvent = it
         }
     }
     private fun checkIfCallStateErrorIsNewAndNotify(
-        newCallStateError: ChatStateError?,
-        lastCallStateError: ChatStateError?,
-        function: (ChatStateError) -> Unit,
+        newChatStateEvent: ChatStateEvent?,
+        lastChatStateEvent: ChatStateEvent?,
+        function: (ChatStateEvent) -> Unit,
     ) {
-        if (newCallStateError != null && newCallStateError != lastCallStateError) {
-            if (shouldNotifyError(newCallStateError)) {
-                function(newCallStateError)
-                chatStateErrorCallback(newCallStateError)
-            }
+        if (newChatStateEvent != null && newChatStateEvent != lastChatStateEvent) {
+            function(newChatStateEvent)
+            chatStateEventCallback(newChatStateEvent)
+
         }
     }
 
-    private fun chatStateErrorCallback(chatStateError: ChatStateError) {
+    private fun chatStateEventCallback(chatStateEvent: ChatStateEvent) {
         try {
-            when (chatStateError.errorCode) {
-                CHAT_LOCAL_PARTICIPANT_EVICTED -> {
+            when (chatStateEvent.eventCode) {
+                CHAT_LOCAL_PARTICIPANT_REMOVED -> {
                     configuration.eventsHandler.onLocalParticipantRemovedEventHandler?.run {
-                        handle(ChatCompositeEvent(CHAT_EVICTED))
+                        handle(ChatCompositeEvent(CHAT_REMOVED))
                     }
                 }
-                else -> throw IllegalArgumentException("Unknown error code: ${chatStateError.errorCode}")
+                else -> throw IllegalArgumentException("Unknown error code: ${chatStateEvent.eventCode}")
             }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
     }
 
-
-    private fun shouldNotifyError(newCallStateError: ChatStateError) =
-        newCallStateError.errorCode != ErrorCode.CHAT_JOIN_FAILED
 }
