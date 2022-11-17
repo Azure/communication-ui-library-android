@@ -8,7 +8,6 @@ import android.os.Bundle
 import com.azure.android.communication.ui.chat.ChatComposite
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeViewImpl
 
-
 internal class ChatCompositeActivityImpl : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
