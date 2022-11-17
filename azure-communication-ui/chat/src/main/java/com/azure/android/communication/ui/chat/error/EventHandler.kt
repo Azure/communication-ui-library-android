@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat.error
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
-import com.azure.android.communication.ui.chat.error.EventCode.Companion.CHAT_LOCAL_PARTICIPANT_REMOVED
 import com.azure.android.communication.ui.chat.models.ChatCompositeEvent
 import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode.Companion.CHAT_REMOVED
 import com.azure.android.communication.ui.chat.redux.AppStore
@@ -20,13 +19,13 @@ internal class EventHandler(
     private val store: AppStore<ReduxState>,
     private val configuration: ChatCompositeConfiguration,
 ) {
-    private var lastChatStateEvent: ChatStateEvent? = null
+    private var localParticipantRemovedPreviousState = false
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     fun start() {
         coroutineScope.launch(Dispatchers.Default) {
             store.getStateFlow().collect {
-                onEventStateChanged(it.errorState.chatStateEvent)
+                onLocalParticipantRemoved(it.chatState.localParticipantInfoModel.isActiveChatThreadParticipant)
             }
         }
     }
@@ -35,34 +34,24 @@ internal class EventHandler(
         coroutineScope.cancel()
     }
 
-    private fun onEventStateChanged(chatStateEvent: ChatStateEvent?) {
-        checkIfCallStateErrorIsNewAndNotify(chatStateEvent, lastChatStateEvent) {
-            lastChatStateEvent = it
+    private fun onLocalParticipantRemoved(isLocalParticipantActive: Boolean) {
+        checkIfLocalParticipantRemovedEventIsNewAndNotify(
+            isLocalParticipantActive,
+            localParticipantRemovedPreviousState
+        ) {
+            localParticipantRemovedPreviousState = it
         }
     }
-    private fun checkIfCallStateErrorIsNewAndNotify(
-        newChatStateEvent: ChatStateEvent?,
-        lastChatStateEvent: ChatStateEvent?,
-        function: (ChatStateEvent) -> Unit,
+    private fun checkIfLocalParticipantRemovedEventIsNewAndNotify(
+        localParticipantActiveCurrent: Boolean,
+        localParticipantRemovedPrevious: Boolean,
+        function: (Boolean) -> Unit,
     ) {
-        if (newChatStateEvent != null && newChatStateEvent != lastChatStateEvent) {
-            function(newChatStateEvent)
-            chatStateEventCallback(newChatStateEvent)
-        }
-    }
-
-    private fun chatStateEventCallback(chatStateEvent: ChatStateEvent) {
-        try {
-            when (chatStateEvent.eventCode) {
-                CHAT_LOCAL_PARTICIPANT_REMOVED -> {
-                    configuration.eventsHandler.onLocalParticipantRemovedEventHandler?.run {
-                        handle(ChatCompositeEvent(CHAT_REMOVED))
-                    }
-                }
-                else -> throw IllegalArgumentException("Unknown error code: ${chatStateEvent.eventCode}")
+        if (localParticipantActiveCurrent != localParticipantRemovedPrevious && !localParticipantActiveCurrent) {
+            function(localParticipantActiveCurrent)
+            configuration.eventsHandler.onLocalParticipantRemovedEventHandler?.run {
+                handle(ChatCompositeEvent(CHAT_REMOVED))
             }
-        } catch (error: Throwable) {
-            // suppress any possible application errors
         }
     }
 }

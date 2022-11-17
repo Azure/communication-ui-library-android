@@ -22,13 +22,3 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
         }
     }
 }
-
-internal class EventCode : ExpandableStringEnum<EventCode?>() {
-    companion object {
-        val CHAT_LOCAL_PARTICIPANT_REMOVED = fromString("chatLocalParticipantRemoved")
-
-        private fun fromString(name: String): EventCode {
-            return fromString(name, EventCode::class.java)
-        }
-    }
-}

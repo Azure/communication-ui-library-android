@@ -65,6 +65,9 @@ internal class ChatReducerImpl : ChatReducer {
                     messageContextMenu = MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, menuItems = emptyList())
                 )
             }
+            is ChatAction.LocalUserRemoved -> {
+                state.copy(localParticipantInfoModel = state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false))
+            }
             else -> state
         }
     }

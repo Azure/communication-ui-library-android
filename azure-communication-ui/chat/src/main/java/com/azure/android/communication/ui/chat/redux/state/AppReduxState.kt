@@ -43,7 +43,6 @@ internal class AppReduxState(
     override var errorState: ErrorState = ErrorState(
         fatalError = null,
         chatStateError = null,
-        chatStateEvent = null
     )
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)

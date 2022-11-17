@@ -3,10 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.reducer
 
-import com.azure.android.communication.ui.chat.error.ChatStateEvent
-import com.azure.android.communication.ui.chat.error.EventCode
 import com.azure.android.communication.ui.chat.redux.action.Action
-import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.state.ErrorState
 
@@ -18,11 +15,6 @@ internal class ErrorReducerImpl : ErrorReducer {
             is ErrorAction.ChatStateErrorOccurred -> return state.copy(
                 chatStateError = action.chatStateError
             )
-            is ChatAction.LocalUserRemoved -> {
-                return state.copy(
-                    chatStateEvent = ChatStateEvent(EventCode.CHAT_LOCAL_PARTICIPANT_REMOVED)
-                )
-            }
         }
         return state
     }
