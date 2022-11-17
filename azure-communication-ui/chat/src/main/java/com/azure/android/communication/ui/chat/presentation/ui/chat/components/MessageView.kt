@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import android.widget.TextView
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.Message
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
+import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
@@ -39,7 +41,7 @@ import org.threeten.bp.format.DateTimeFormatter
 val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
-internal fun MessageView(viewModel: MessageViewModel) {
+internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
 
     Column(
         modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
@@ -62,8 +64,8 @@ internal fun MessageView(viewModel: MessageViewModel) {
             }
         }
         when (viewModel.message.messageType) {
-            ChatMessageType.TEXT -> BasicChatMessage(viewModel)
-            ChatMessageType.HTML -> BasicChatMessage(viewModel)
+            ChatMessageType.TEXT -> BasicChatMessage(viewModel, dispatch)
+            ChatMessageType.HTML -> BasicChatMessage(viewModel, dispatch)
             ChatMessageType.TOPIC_UPDATED -> SystemMessage(
                 icon = R.drawable.azure_communication_ui_chat_ic_topic_changed_filled, /* TODO: update icon */
                 stringResource = R.string.azure_communication_ui_chat_topic_updated,
@@ -114,8 +116,9 @@ private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<Str
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun BasicChatMessage(viewModel: MessageViewModel) {
+private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.align(alignment = if (viewModel.isLocalUser) Alignment.TopEnd else Alignment.TopStart)) {
             // Avatar Rail (Left Padding)
@@ -141,6 +144,11 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                         },
                         shape = ChatCompositeTheme.shapes.messageBubble,
                     ).align(alignment = if (viewModel.isLocalUser) Alignment.TopEnd else Alignment.TopStart)
+                    /* TODO: Add this block back in to add Context Menu Code
+                    .combinedClickable(onLongClick = {
+                        dispatch(ChatAction.ShowMessageContextMenu(viewModel.message))
+                    }, onClick = {})
+                    */
                 ) {
                     messageContent(viewModel)
                 }
@@ -232,7 +240,7 @@ internal fun PreviewChatCompositeMessage() {
             OffsetDateTime.now()
         )
         for (a in 0 until vms.size) {
-            MessageView(vms[a])
+            MessageView(vms[a]) { }
         }
     }
 }

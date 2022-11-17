@@ -27,4 +27,6 @@
     <string name="azure_communication_ui_chat_in_this_chat_count">In this chat (%1$d)</string>
     <string name="azure_communication_ui_chat_people">People</string>
     <string name="azure_communication_ui_chat_count_people">%1$d people</string>
+    <string name="azure_communication_ui_chat_copy">Copy</string>
+    <string name="azure_communication_ui_chat_message">Message</string>
 </resources>
