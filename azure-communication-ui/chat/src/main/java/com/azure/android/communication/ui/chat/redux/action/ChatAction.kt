@@ -24,4 +24,7 @@ internal sealed class ChatAction : Action {
     class MessageEdited(val message: MessageInfoModel) : ChatAction()
     class MessageRead(val messageId: String) : ChatAction()
     class TypingIndicator : ChatAction()
+    class ShowMessageContextMenu(val message: MessageInfoModel) : ChatAction()
+    class HideMessageContextMenu : ChatAction()
+    class CopyMessageText(val message: MessageInfoModel) : ChatAction()
 }

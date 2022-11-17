@@ -6,11 +6,12 @@
     <string name="azure_communication_ui_chat_chat_action_bar_title">Chat</string>
     <string name="azure_communication_ui_chat_title_activity_compose_chat">ComposeChatActivity</string>
     <string name="azure_communication_ui_chat_demo_app_title">Chat Composite Demo App</string>
-    <string name="azure_communication_ui_chat_enter_a_message">Hey, whats up?</string>
+    <string name="azure_communication_ui_chat_enter_a_message">Type a new message</string>
     <string name="azure_communication_ui_chat_other">other</string>
     <string name="azure_communication_ui_chat_others">others</string>
     <string name="azure_communication_ui_chat_unread_new_message">1 new message</string>
     <string name="azure_communication_ui_chat_unread_new_messages">%1$s new messages</string>
+    <string name="azure_communication_ui_chat_many_unread_new_messages">99+ new messages</string>
     <string name="azure_communication_ui_chat_first_name_is_typing">%1$s is typing</string>
     <string name="azure_communication_ui_chat_two_names_are_typing">%1$s and %2$s are typing"</string>
     <string name="azure_communication_ui_chat_three_or_more_are_typing">%1$s, %2$s and %3$d %4$s are typing</string>
@@ -25,4 +26,6 @@
     <string name="azure_communication_ui_chat_in_this_chat_count">In this chat (%1$d)</string>
     <string name="azure_communication_ui_chat_people">People</string>
     <string name="azure_communication_ui_chat_count_people">%1$d people</string>
+    <string name="azure_communication_ui_chat_copy">Copy</string>
+    <string name="azure_communication_ui_chat_message">Message</string>
 </resources>

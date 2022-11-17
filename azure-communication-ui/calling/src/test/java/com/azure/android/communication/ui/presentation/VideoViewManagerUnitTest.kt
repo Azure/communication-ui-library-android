@@ -51,7 +51,14 @@ internal class VideoViewManagerUnitTest {
             on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
+
         val mockLayout = mock<FrameLayout> {}
 
         val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
@@ -112,7 +119,13 @@ internal class VideoViewManagerUnitTest {
             on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
 
         val mockLayout = mock<FrameLayout> {}
 
@@ -162,7 +175,13 @@ internal class VideoViewManagerUnitTest {
             on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
 
         val mockLayout = mock<FrameLayout> {}
 
@@ -206,7 +225,13 @@ internal class VideoViewManagerUnitTest {
             on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
 
         val mockVideoStreamRendererHelper = mock<VideoStreamRendererFactory> {}
 

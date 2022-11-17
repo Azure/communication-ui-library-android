@@ -42,9 +42,9 @@ internal class DiagnosticsManagerTest : ACSBaseTestCoroutine() {
                 diagnosticsManager.start(coroutineScope = this)
             }
 
-            val diagnosticsInfo1 = diagnosticsManager.diagnosticsInfo
-            Assert.assertNotNull(diagnosticsInfo1)
-            Assert.assertNull(diagnosticsInfo1.lastKnownCallId)
+            val diagnostics1 = diagnosticsManager.diagnostics
+            Assert.assertNotNull(diagnostics1)
+            Assert.assertNull(diagnostics1.lastKnownCallId)
 
             // update state
             val appState2 = AppReduxState("")
@@ -52,10 +52,10 @@ internal class DiagnosticsManagerTest : ACSBaseTestCoroutine() {
             appState2.callState = CallingState(CallingStatus.CONNECTING, callID)
             stateFlow.value = appState2
 
-            val diagnosticsInfo2 = diagnosticsManager.diagnosticsInfo
-            Assert.assertNotSame(diagnosticsInfo1, diagnosticsInfo2)
-            Assert.assertNotNull(diagnosticsInfo2)
-            Assert.assertEquals(callID, diagnosticsInfo2.lastKnownCallId)
+            val diagnostics2 = diagnosticsManager.diagnostics
+            Assert.assertNotSame(diagnostics1, diagnostics2)
+            Assert.assertNotNull(diagnostics2)
+            Assert.assertEquals(callID, diagnostics2.lastKnownCallId)
 
             // redux state loosing CallID
 
@@ -64,10 +64,10 @@ internal class DiagnosticsManagerTest : ACSBaseTestCoroutine() {
             appState3.callState = CallingState(CallingStatus.CONNECTING, null)
             stateFlow.value = appState3
 
-            val diagnosticsInfo3 = diagnosticsManager.diagnosticsInfo
-            Assert.assertSame(diagnosticsInfo2, diagnosticsInfo3)
-            Assert.assertNotNull(diagnosticsInfo3)
-            Assert.assertEquals(callID, diagnosticsInfo3.lastKnownCallId)
+            val diagnostics3 = diagnosticsManager.diagnostics
+            Assert.assertSame(diagnostics2, diagnostics3)
+            Assert.assertNotNull(diagnostics3)
+            Assert.assertEquals(callID, diagnostics3.lastKnownCallId)
             flowJob.cancel()
         }
     }

@@ -1515,7 +1515,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow =
                 MutableStateFlow(CallInfoModel(CallingStatus.LOCAL_HOLD, null))
-
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1526,6 +1525,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
                 on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdStateFlow() } doReturn callIdFlow
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCallIdStateFlow() } doReturn callIdFlow
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow

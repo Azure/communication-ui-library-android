@@ -50,7 +50,6 @@ internal class ChatCompositeViewImpl(context: Context, private val chatComposite
                     messages = locator.locate(),
                     localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
                     dispatch = locator.locate(),
-                    requestExit = { }
                 )
             },
             onChanged = {

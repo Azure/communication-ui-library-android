@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
@@ -131,6 +132,9 @@ internal class TestVideoStreamRendererView(context: Context, videoType: VideoTyp
 
     override fun getView(): View {
         return v
+    }
+
+    override fun updateScalingMode(scalingMode: ScalingMode) {
     }
 
     fun switchVideoType(newVideoType: VideoType) {

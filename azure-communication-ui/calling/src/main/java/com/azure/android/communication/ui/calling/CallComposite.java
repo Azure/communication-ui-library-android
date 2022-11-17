@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfo;
+import com.azure.android.communication.ui.calling.models.CallCompositeDiagnostics;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -24,7 +24,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeeti
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager;
 
-import static com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsInfoExtensionsKt.buildCallCompositeDiagnosticsInfo;
+import static com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsExtensionsKt.buildCallCompositeDiagnostics;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
@@ -211,13 +211,13 @@ public final class CallComposite {
     /**
      * Get Call Composite Diagnostics information.
      *
-     * @return {@link CallCompositeDiagnosticsInfo}
+     * @return {@link CallCompositeDiagnostics}
      */
-    public CallCompositeDiagnosticsInfo getDiagnosticsInfo() {
+    public CallCompositeDiagnostics getDiagnostics() {
         final DiagnosticsManager diagnosticsManager = getDiagnosticsManger();
         return diagnosticsManager != null
-                ? diagnosticsManager.getDiagnosticsInfo()
-                : buildCallCompositeDiagnosticsInfo();
+                ? diagnosticsManager.getDiagnostics()
+                : buildCallCompositeDiagnostics();
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
