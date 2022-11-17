@@ -9,6 +9,6 @@ public interface ChatCompositeLauncher {
     void launch(ChatLauncherActivity chatLauncherActivity,
                 String threadID,
                 String endPointURL,
-                String toString,
+                String displayName,
                 String identity);
 }
