@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.chat.error
 
-import com.azure.android.communication.ui.chat.configuration.ChatCompositeEventsHandler
+import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.error.ErrorCode.Companion.CHAT_LOCAL_PARTICIPANT_EVICTED
-import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
+import com.azure.android.communication.ui.chat.models.ChatCompositeEvent
 import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode
 import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode.Companion.CHAT_EVICTED
 import com.azure.android.communication.ui.chat.redux.AppStore
@@ -17,10 +17,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-internal class ErrorHandler(
+internal class EventHandler(
     coroutineContextProvider: CoroutineContextProvider,
     private val store: AppStore<ReduxState>,
-    private val errorHandlers: ChatCompositeEventsHandler,
+    private val configuration: ChatCompositeConfiguration,
 ) {
     private var lastFatalError: FatalError? = null
     private var lastChatStateError: ChatStateError? = null
@@ -58,23 +58,19 @@ internal class ErrorHandler(
 
     private fun chatStateErrorCallback(chatStateError: ChatStateError) {
         try {
-            val eventArgs =
-                ChatCompositeErrorEvent(
-                    getChatCompositeErrorCode(chatStateError.errorCode),
-                    null,
-                )
-            errorHandlers.getOnErrorHandlers().forEach { it.handle(eventArgs) }
+            when (chatStateError.errorCode) {
+                CHAT_LOCAL_PARTICIPANT_EVICTED -> {
+                    configuration.eventsHandler.onLocalParticipantRemovedEventHandler?.run {
+                        handle(ChatCompositeEvent(CHAT_EVICTED))
+                    }
+                }
+                else -> throw IllegalArgumentException("Unknown error code: ${chatStateError.errorCode}")
+            }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
     }
 
-    private fun getChatCompositeErrorCode(errorCode: ErrorCode): ChatCompositeEventCode {
-        return when (errorCode) {
-            CHAT_LOCAL_PARTICIPANT_EVICTED -> CHAT_EVICTED
-            else -> throw IllegalArgumentException("Unknown error code: $errorCode")
-        }
-    }
 
     private fun shouldNotifyError(newCallStateError: ChatStateError) =
         newCallStateError.errorCode != ErrorCode.CHAT_JOIN_FAILED

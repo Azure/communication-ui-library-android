@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
 import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode
 import com.azure.android.communication.ui.chat.redux.action.Action
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ErrorState
@@ -19,7 +20,7 @@ internal class ErrorReducerImpl : ErrorReducer {
             is ErrorAction.ChatStateErrorOccurred -> return state.copy(
                 chatStateError = action.chatStateError
             )
-            is ParticipantAction.LocalUserRemoved -> {
+            is ChatAction.LocalUserRemoved -> {
                 return state.copy(
                     chatStateError = ChatStateError(
                         errorCode = ErrorCode.CHAT_LOCAL_PARTICIPANT_EVICTED,

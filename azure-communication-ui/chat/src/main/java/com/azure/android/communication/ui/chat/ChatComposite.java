@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
-import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent;
+import com.azure.android.communication.ui.chat.models.ChatCompositeEvent;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantViewData;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
@@ -139,8 +139,8 @@ public class ChatComposite {
     /**
      * Add {@link ChatCompositeEventHandler}.
      *
-     * <p> A callback for Call Composite Error Events.
-     * See {@link com.azure.android.communication.ui.calling.models.ChatCompositeErrorEvent} for values.</p>
+     * <p> A callback for Chat Composite  Events.
+     * See {@link com.azure.android.communication.ui.chat.models.ChatCompositeEvent} for values.</p>
      * <pre>
      *
      * &#47;&#47; add error handler
@@ -152,22 +152,25 @@ public class ChatComposite {
      *
      * </pre>
      *
-     * @param errorHandler The {@link ChatCompositeEventHandler}.
+     * @param eventHandler The {@link ChatCompositeEventHandler}.
      */
-    public void addOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
-        configuration.getChatCompositeEventsHandler().addOnErrorEventHandler(errorHandler);
+    public void addOnLocalParticipantRemovedEventHandler(
+            final ChatCompositeEventHandler<ChatCompositeEvent> eventHandler) {
+        configuration.getEventsHandler().setOnLocalParticipantRemovedEventHandler(eventHandler);
     }
 
     /**
      * Remove {@link ChatCompositeEventHandler}.
      *
      * <p> A callback for Call Composite Error Events.
-     * See {@link com.azure.android.communication.ui.calling.models.ChatCompositeErrorEvent} for values.</p>
+     * See {@link com.azure.android.communication.ui.chat.models.ChatCompositeEvent} for
+     * values.</p>
      *
-     * @param errorHandler The {@link ChatCompositeEventHandler}.
+     * @param eventHandler The {@link ChatCompositeEventHandler}.
      */
-    public void removeOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
-        configuration.getChatCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
+    public void removeOnLocalParticipantRemovedEventHandler(
+            final ChatCompositeEventHandler<ChatCompositeEvent> eventHandler) {
+        configuration.getEventsHandler().setOnLocalParticipantRemovedEventHandler(null);
     }
 
     /**
