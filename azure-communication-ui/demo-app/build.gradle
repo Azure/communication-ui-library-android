@@ -103,7 +103,6 @@ android {
             minSdkVersion 21
             dimension "product"
             matchingFallbacks = ["calling"]
-            applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
             buildTypes {
                 release {
                     minifyEnabled true
