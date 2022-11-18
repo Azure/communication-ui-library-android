@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.chat.models;
 
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 
 /**
- * Chat locator to join chat experience using {@link ChatComposite}.
+ * Chat locator to join chat experience using {@link ChatAdapter}.
  */
 final class ChatCompositeJoinLocator {
 

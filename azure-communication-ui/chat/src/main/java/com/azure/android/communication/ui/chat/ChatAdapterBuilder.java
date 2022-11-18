@@ -5,20 +5,20 @@ package com.azure.android.communication.ui.chat;
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 /**
- * Builder for creating {@link ChatComposite}.
+ * Builder for creating {@link ChatAdapter}.
  *
- * <p>Used to build a {@link ChatComposite} which is then used to start a chat.</p>
+ * <p>Used to build a {@link ChatAdapter} which is then used to start a chat.</p>
  * <p>This class can be used to specify a locale to be used by the Chat Composite</p>
  */
-public final class ChatCompositeBuilder {
+public final class ChatAdapterBuilder {
 
     /**
-     * Builds the {@link ChatComposite} class.
+     * Builds the {@link ChatAdapter} class.
      *
-     * @return {@link ChatComposite}
+     * @return {@link ChatAdapter}
      */
-    public ChatComposite build() {
+    public ChatAdapter build() {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
-        return new ChatComposite(config);
+        return new ChatAdapter(config);
     }
 }

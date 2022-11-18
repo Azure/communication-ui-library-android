@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.presentation;
 import android.content.Context;
 import android.content.Intent;
 
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 
 class ChatCompositeActivity {
     private final Context context;
@@ -15,9 +15,9 @@ class ChatCompositeActivity {
         this.context = context;
     }
 
-    public void launch(final ChatComposite chatComposite) {
+    public void launch(final ChatAdapter chatAdapter) {
         final Intent intent = new Intent(context, ChatCompositeActivityImpl.class);
-        ChatCompositeActivityImpl.Companion.setChatComposite(chatComposite);
+        ChatCompositeActivityImpl.Companion.setChatAdapter(chatAdapter);
         context.startActivity(intent);
     }
 }

@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.chat.ChatComposite
+import com.azure.android.communication.ui.chat.ChatAdapter
 import com.azure.android.communication.ui.chat.instanceIdAccessor
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
@@ -25,9 +25,9 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatCompositeViewImpl(context: Context, private val chatComposite: ChatComposite) : FrameLayout(context) {
+internal class ChatCompositeViewImpl(context: Context, private val chatAdapter: ChatAdapter) : FrameLayout(context) {
     private val composeView = ComposeView(context)
-    private val locator get() = ServiceLocator.getInstance(chatComposite.instanceIdAccessor())
+    private val locator get() = ServiceLocator.getInstance(chatAdapter.instanceIdAccessor())
     private val dispatch: Dispatch by lazy { locator.locate() }
     private lateinit var reduxViewModelGenerator: ReduxViewModelGenerator<ReduxState, ChatScreenViewModel>
 
