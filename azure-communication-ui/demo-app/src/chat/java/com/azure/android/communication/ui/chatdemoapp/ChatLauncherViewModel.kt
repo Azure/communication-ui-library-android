@@ -8,15 +8,15 @@ import android.webkit.URLUtil
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.ui.chat.ChatComposite
-import com.azure.android.communication.ui.chat.ChatCompositeBuilder
+import com.azure.android.communication.ui.chat.ChatAdapter
+import com.azure.android.communication.ui.chat.ChatAdapterBuilder
 import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
     private var token: String? = null
 
-    var chatComposite: ChatComposite? = null
+    var chatAdapter: ChatAdapter? = null
 
     private fun getTokenFetcher(tokenFunctionURL: String?, acsToken: String?): Callable<String> {
         val tokenRefresher = when {
@@ -49,8 +49,8 @@ class ChatLauncherViewModel : ViewModel() {
         val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
         val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        chatComposite = ChatCompositeBuilder().build()
-        chatComposite?.connect(
+        chatAdapter = ChatAdapterBuilder().build()
+        chatAdapter?.connect(
             context,
             endpoint,
             threadId,
@@ -63,7 +63,7 @@ class ChatLauncherViewModel : ViewModel() {
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
 
     fun closeChatComposite() {
-        chatComposite?.disconnect()
-        chatComposite = null
+        chatAdapter?.disconnect()
+        chatAdapter = null
     }
 }

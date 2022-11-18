@@ -40,7 +40,7 @@ import com.azure.android.communication.ui.chat.utilities.TestHelper
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 internal class ChatContainer(
-    private val chatComposite: ChatComposite,
+    private val chatAdapter: ChatAdapter,
     private val configuration: ChatCompositeConfiguration,
     private val instanceId: Int,
 ) {
@@ -93,7 +93,7 @@ internal class ChatContainer(
 
             val messageRepository = MessageRepository.createSkipListBackedRepository()
 
-            addTypedBuilder { chatComposite }
+            addTypedBuilder { chatAdapter }
             addTypedBuilder<List<MessageInfoModel>> { messageRepository }
 
             addTypedBuilder { remoteOptions }

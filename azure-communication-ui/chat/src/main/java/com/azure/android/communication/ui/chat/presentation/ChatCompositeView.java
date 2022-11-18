@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.presentation;
 import android.content.Context;
 import android.widget.FrameLayout;
 
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeViewImpl;
 
 /**
@@ -17,10 +17,10 @@ public final class ChatCompositeView extends FrameLayout {
     /**
      * Creates chat composite view
      * @param context
-     * @param chatComposite
+     * @param chatAdapter
      */
-    public ChatCompositeView(final Context context, final ChatComposite chatComposite) {
+    public ChatCompositeView(final Context context, final ChatAdapter chatAdapter) {
         super(context);
-        addView(new ChatCompositeViewImpl(context, chatComposite));
+        addView(new ChatCompositeViewImpl(context, chatAdapter));
     }
 }

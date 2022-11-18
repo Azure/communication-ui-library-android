@@ -18,14 +18,14 @@ import java9.util.concurrent.CompletableFuture;
  *
  * <p><strong>Instantiating Chat Composite</strong></p>
  */
-public final class ChatComposite {
+public final class ChatAdapter {
 
     private static int instanceIdCounter = 0;
     private final ChatContainer chatContainer;
     private final ChatCompositeConfiguration configuration;
     final Integer instanceId = instanceIdCounter++;
 
-    ChatComposite(final ChatCompositeConfiguration configuration) {
+    ChatAdapter(final ChatCompositeConfiguration configuration) {
         this.configuration = configuration;
         chatContainer = new ChatContainer(this, configuration, instanceId);
     }
@@ -70,7 +70,7 @@ public final class ChatComposite {
     private void showTestCompositeUI(final Context context) {
         final Intent intent = new Intent(context, ChatCompositeActivityImpl.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ChatCompositeActivityImpl.Companion.setChatComposite(this);
+        ChatCompositeActivityImpl.Companion.setChatAdapter(this);
         context.startActivity(intent);
     }
 }

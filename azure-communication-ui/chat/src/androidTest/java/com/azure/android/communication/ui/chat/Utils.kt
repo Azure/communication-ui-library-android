@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 
 internal fun launchChatComposite() {
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    val chatComposite = ChatCompositeBuilder().build()
+    val chatAdapter = ChatAdapterBuilder().build()
     val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ "token" }, true)
     val communicationTokenCredential =
         CommunicationTokenCredential(communicationTokenRefreshOptions)
@@ -25,5 +25,5 @@ internal fun launchChatComposite() {
             "test"
         )
 
-    chatComposite.launchTest(appContext, remoteOptions)
+    chatAdapter.launchTest(appContext, remoteOptions)
 }

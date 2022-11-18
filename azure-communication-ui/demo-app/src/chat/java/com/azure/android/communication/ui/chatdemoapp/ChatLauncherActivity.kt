@@ -138,10 +138,10 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun showChatUI() {
-        val chatComposite = chatLauncherViewModel.chatComposite!!
+        val chatAdapter = chatLauncherViewModel.chatAdapter!!
 
         // Create Chat Composite View
-        chatView = ChatCompositeView(this, chatComposite)
+        chatView = ChatCompositeView(this, chatAdapter)
 
         // Place it as a child element to any UI I have on the screen
         addContentView(
