@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -131,9 +130,11 @@ internal fun ChatScreen(
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Box(Modifier.width(ChatCompositeTheme.dimensions.messageListMaxWidth)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Box(modifier = Modifier
-                            .align(alignment = Alignment.Start)
-                            .padding(horizontal = 5.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .align(alignment = Alignment.Start)
+                                .padding(horizontal = 5.dp)
+                        ) {
                             TypingIndicatorView(viewModel.typingParticipants.toList())
                         }
                         BottomBarView(
