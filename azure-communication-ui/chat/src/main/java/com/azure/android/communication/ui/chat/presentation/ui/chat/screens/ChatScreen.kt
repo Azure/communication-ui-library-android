@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,6 +39,8 @@ import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun ChatScreen(
@@ -46,6 +49,7 @@ internal fun ChatScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -100,13 +104,22 @@ internal fun ChatScreen(
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Box(Modifier.width(ChatCompositeTheme.dimensions.messageListMaxWidth)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Box(modifier = Modifier.align(alignment = Alignment.Start).padding(horizontal = 5.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .align(alignment = Alignment.Start)
+                                .padding(horizontal = 5.dp)
+                        ) {
                             TypingIndicatorView(viewModel.typingParticipants.toList())
                         }
                         BottomBarView(
                             messageInputTextState = stateViewModel.messageInputTextState,
                             chatStatus = viewModel.chatStatus,
-                            postAction = viewModel.postAction
+                            postAction = {
+                                coroutineScope.launch {
+                                    listState.animateScrollToItem(0)
+                                }
+                                viewModel.postAction(it)
+                            }
                         )
                     }
                 }
