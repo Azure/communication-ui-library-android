@@ -34,7 +34,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
 
-    private var chatView: View? = null
+    private var chatView: ChatCompositeView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,7 +141,20 @@ class ChatLauncherActivity : AppCompatActivity() {
         val chatAdapter = chatLauncherViewModel.chatAdapter!!
 
         // Create Chat Composite View
-        chatView = ChatCompositeView(this, chatAdapter)
+        chatView = ChatCompositeView(this).apply {
+            val chatCompositeView = this
+
+            // Enable TitleBar
+            /*
+            javaClass.getDeclaredMethod("enableTitleBar").apply {
+                isAccessible = true
+                invoke(chatCompositeView)
+            }
+            */
+
+            setChatAdapter(chatAdapter)
+        }
+
 
         // Place it as a child element to any UI I have on the screen
         addContentView(

@@ -25,7 +25,7 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 
-internal class ChatCompositeViewImpl(context: Context, private val chatAdapter: ChatAdapter) : FrameLayout(context) {
+internal class ChatCompositeViewImpl(context: Context, private val chatAdapter: ChatAdapter, private val headerEnabled : Boolean) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private val locator get() = ServiceLocator.getInstance(chatAdapter.instanceIdAccessor())
     private val dispatch: Dispatch by lazy { locator.locate() }
@@ -55,7 +55,7 @@ internal class ChatCompositeViewImpl(context: Context, private val chatAdapter: 
             onChanged = {
                 composeView.setContent {
                     ChatCompositeTheme {
-                        NavigatableBaseScreen(viewModel = it)
+                        NavigatableBaseScreen(viewModel = it, showActionBar = headerEnabled)
                     }
                 }
             },

@@ -14,14 +14,10 @@ import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCom
  * Chat composite view.
  */
 public final class ChatCompositeView extends FrameLayout {
+    boolean titleBarEnabled = false;
 
     public ChatCompositeView(final Context context) {
         super(context);
-    }
-
-    public ChatCompositeView(final Context context, final ChatAdapter chatAdapter) {
-        super(context);
-        setChatAdapter(chatAdapter);
     }
 
     public ChatCompositeView(final Context context, final AttributeSet attrs) {
@@ -30,11 +26,23 @@ public final class ChatCompositeView extends FrameLayout {
 
     public ChatCompositeView(final Context context, final AttributeSet attrs, final ChatAdapter chatAdapter) {
         super(context, attrs);
-        setChatAdapter(chatAdapter);
     }
 
     public ChatCompositeView setChatAdapter(final ChatAdapter chatAdapter) {
-        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter));
+        if (getChildCount() != 0) {
+            removeAllViews();
+        }
+
+        if (chatAdapter == null) {
+            return this;
+        }
+
+        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter, titleBarEnabled));
         return this;
+    }
+
+    // Package Private ability to enable title bar
+    void enableTitleBar() {
+        titleBarEnabled = true;
     }
 }
