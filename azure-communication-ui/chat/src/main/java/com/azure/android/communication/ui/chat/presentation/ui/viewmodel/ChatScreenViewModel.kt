@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
 import com.azure.android.communication.ui.chat.error.ChatStateError
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
+import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
@@ -28,6 +30,7 @@ internal data class ChatScreenViewModel(
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
+    val messageContextMenu: MessageContextMenuModel,
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -59,6 +62,7 @@ internal fun buildChatScreenViewModel(
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
+        messageContextMenu = store.getCurrentState().chatState.messageContextMenu ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
     )
 }
 

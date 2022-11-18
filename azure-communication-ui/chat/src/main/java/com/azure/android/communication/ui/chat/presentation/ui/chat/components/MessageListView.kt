@@ -53,7 +53,7 @@ internal fun MessageListView(
         reverseLayout = true,
     ) {
         itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: index }) { index, message ->
-            MessageView(message)
+            MessageView(message, dispatchers)
         }
         if (messages.isNotEmpty() && showLoading) {
             item {

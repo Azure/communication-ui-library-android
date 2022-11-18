@@ -4,7 +4,9 @@
 package com.azure.android.communication.ui.chat.redux.state
 
 import com.azure.android.communication.ui.chat.models.ChatInfoModel
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
+import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import org.threeten.bp.OffsetDateTime
 
 internal class AppReduxState(
@@ -26,6 +28,7 @@ internal class AppReduxState(
         ),
         lastReadMessageId = "",
         lastSendMessageId = "",
+        messageContextMenu = MessageContextMenuModel(EMPTY_MESSAGE_INFO_MODEL, emptyList())
     )
 
     override var participantState: ParticipantsState = ParticipantsState(
