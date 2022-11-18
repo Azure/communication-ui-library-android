@@ -12,7 +12,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-
+        applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
         targetSdkVersion 33
         versionCode ui_library_version_code
         versionName "$ui_library_version_name"
@@ -119,7 +119,6 @@ android {
                 }
 
                 debug {
-                    applicationIdSuffix = ".debug"
                     manifestPlaceholders = [
                             appIcon     : "@mipmap/ic_launcher_debug",
                             appIconRound: "@mipmap/ic_launcher_debug_round"
@@ -131,7 +130,6 @@ android {
             minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["chat"]
-            applicationId "com.azure.android.communication.ui.chatcompositedemoapp"
             buildTypes {
                 release {
                     minifyEnabled false
@@ -146,7 +144,7 @@ android {
                 }
 
                 debug {
-                    applicationIdSuffix = ".debug"
+
                     manifestPlaceholders = [
                             appIcon     : "@mipmap/ic_launcher_debug",
                             appIconRound: "@mipmap/ic_launcher_debug_round"
@@ -158,7 +156,6 @@ android {
             minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["callwithchat"]
-            applicationId "com.azure.android.communication.ui.callwithchatcompositedemoapp"
             buildTypes {
                 release {
                     minifyEnabled false
@@ -173,7 +170,7 @@ android {
                 }
 
                 debug {
-                    applicationIdSuffix = ".debug"
+                   
                     manifestPlaceholders = [
                             appIcon     : "@mipmap/ic_launcher_debug",
                             appIconRound: "@mipmap/ic_launcher_debug_round"
