@@ -6,7 +6,9 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import android.view.View
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
@@ -17,12 +19,15 @@ internal fun ListItemView(
     title: String,
     customView: View? = null,
 ) {
-    AndroidView(factory = { context ->
-        com.microsoft.fluentui.listitem.ListItemView(context).apply {
-            this.title = title
-            this.customView = customView
+    AndroidView(
+        modifier = Modifier.fillMaxWidth(),
+        factory = { context ->
+            com.microsoft.fluentui.listitem.ListItemView(context).apply {
+                this.title = title
+                this.customView = customView
+            }
         }
-    })
+    )
 }
 
 @Preview
