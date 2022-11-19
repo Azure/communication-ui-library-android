@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chatdemoapp
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
+import com.azure.android.communication.ui.chat.ChatAdapter
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
@@ -81,6 +83,11 @@ class ChatLauncherActivity : AppCompatActivity() {
             openChatUIButton.setOnClickListener {
                 showChatUI()
             }
+
+            openFullScreenChatUIButton.setOnClickListener {
+                showChatUIActivity()
+            }
+
             stopChatCompositeButton.setOnClickListener {
                 stopChatComposite()
             }
@@ -153,6 +160,18 @@ class ChatLauncherActivity : AppCompatActivity() {
         )
     }
 
+    private fun showChatUIActivity() {
+        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+
+        val activityLauncherClass = Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
+        val constructor = activityLauncherClass.getDeclaredConstructor(Context::class.java)
+        constructor.isAccessible = true
+        val instance = constructor.newInstance(this)
+        val launchMethod = activityLauncherClass.getDeclaredMethod("launch", ChatAdapter::class.java)
+        launchMethod.isAccessible = true
+        launchMethod.invoke(instance, chatAdapter)
+    }
+
     private fun launch() {
         val inputChatJoinId = binding.chatThreadID.text.toString()
         val threadId = if (URLUtil.isValidUrl(inputChatJoinId))
@@ -188,21 +207,23 @@ class ChatLauncherActivity : AppCompatActivity() {
             return
         }
 
-        showChatUI()
-
         binding.run {
             launchButton.isEnabled = true
             launchButton.visibility = View.GONE
             openChatUIButton.visibility = View.VISIBLE
+            openFullScreenChatUIButton.visibility = View.VISIBLE
             stopChatCompositeButton.visibility = View.VISIBLE
         }
     }
 
     private fun stopChatComposite() {
         chatLauncherViewModel.closeChatComposite()
-        binding.launchButton.visibility = View.VISIBLE
-        binding.openChatUIButton.visibility = View.GONE
-        binding.stopChatCompositeButton.visibility = View.GONE
+        binding.run {
+            launchButton.visibility = View.VISIBLE
+            openChatUIButton.visibility = View.GONE
+            openFullScreenChatUIButton.visibility = View.GONE
+            stopChatCompositeButton.visibility = View.GONE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

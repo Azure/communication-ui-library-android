@@ -31,7 +31,7 @@ public final class ChatAdapter {
     }
 
     /**
-     * Connects to backend services.
+     * Connects to ACS service, starts realtime notifications.
      */
     public CompletableFuture<Void> connect(
             final Context context,

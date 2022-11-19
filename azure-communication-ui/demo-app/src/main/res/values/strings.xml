@@ -17,6 +17,7 @@
     <string name="java">Java</string>
     <string name="launch_button_text">Launch</string>
     <string name="open_ui_button_text">Show UI</string>
+    <string name="open_full_screen_ui_button_text">Show Full Screen UI</string>
     <string name="close_composite_button_text">Stop Composite</string>
     <string name="acs_token_hint">ACS Token</string>
     <string name="acs_user_id_hint">Communication User Id</string>

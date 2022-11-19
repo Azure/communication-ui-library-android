@@ -34,7 +34,7 @@ public final class ChatCompositeView extends FrameLayout {
     }
 
     public ChatCompositeView setChatAdapter(final ChatAdapter chatAdapter) {
-        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter));
+        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter, false));
         return this;
     }
 }

@@ -44,20 +44,24 @@ class ChatLauncherViewModel : ViewModel() {
         tokenFunctionURL: String?,
         acsToken: String?,
     ) {
+        // Create ChatAdapter
         val tokenRefresher = getTokenFetcher(tokenFunctionURL, acsToken)
-
         val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
         val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        chatAdapter = ChatAdapterBuilder().build()
-        chatAdapter?.connect(
+        val chatAdapter = ChatAdapterBuilder().build()
+
+        // Connect to ACS service, starts realtime notifications
+        chatAdapter.connect(
             context,
             endpoint,
             threadId,
             communicationTokenCredential,
             acsIdentity,
             userName
-        )?.get()
+        ).get()
+
+        this.chatAdapter = chatAdapter
     }
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
