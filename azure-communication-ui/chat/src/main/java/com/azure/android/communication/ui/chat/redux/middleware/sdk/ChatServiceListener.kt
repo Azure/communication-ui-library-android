@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
-import com.azure.android.communication.ui.chat.error.ChatStateError
-import com.azure.android.communication.ui.chat.error.ErrorCode
+import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent
+import com.azure.android.communication.ui.chat.error.ChatCompositeErrorCode
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
@@ -68,10 +68,10 @@ internal class ChatServiceListener(
     ) {
 
         messagesPageModel.throwable?.let {
-            val error = ChatStateError(errorCode = ErrorCode.CHAT_FETCH_MESSAGES_FAILED)
+            val error = ChatCompositeErrorEvent(errorCode = ChatCompositeErrorCode.CHAT_FETCH_MESSAGES_FAILED)
             // TODO: lets use only one action and state to fire error for timing
             // TODO: while working on error stories, we can create separate states for every error
-            dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
+            dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
 
         messagesPageModel.messages?.let {

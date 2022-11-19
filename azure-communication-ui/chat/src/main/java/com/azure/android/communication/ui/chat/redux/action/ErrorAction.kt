@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.redux.action
 
-import com.azure.android.communication.ui.chat.error.ChatStateError
+import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent
 
 internal sealed class ErrorAction : Action {
-    class ChatStateErrorOccurred(val chatStateError: ChatStateError) : ErrorAction()
+    class ChatStateErrorOccurred(val chatCompositeErrorEvent: ChatCompositeErrorEvent) : ErrorAction()
 }

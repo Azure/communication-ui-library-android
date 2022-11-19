@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
+import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent;
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions;
 import com.azure.android.communication.ui.chat.models.ChatCompositeParticipantViewData;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
@@ -102,40 +103,73 @@ public class ChatComposite {
     }
 
     /**
-     * Add {@link ChatCompositeEventHandler}.
+     * Add {@link ChatCompositeEventsHandler}.
      *
-     * @param handler The {@link ChatCompositeEventHandler}.
+     * @param handler The {@link ChatCompositeEventsHandler}.
      */
     public void addOnViewClosedEventHandler(final ChatCompositeEventHandler<Object> handler) {
     }
 
     /**
-     * Remove {@link ChatCompositeEventHandler}.
+     * Remove {@link ChatCompositeEventsHandler}.
      *
-     * @param handler The {@link ChatCompositeEventHandler}.
+     * @param handler The {@link ChatCompositeEventsHandler}.
      */
     public void removeOnViewClosedEventHandler(final ChatCompositeEventHandler<Object> handler) {
     }
 
     /**
-     * Add {@link ChatCompositeEventHandler} with {@link ChatCompositeUnreadMessageChangedEvent}.
+     * Add {@link ChatCompositeEventsHandler} with {@link ChatCompositeUnreadMessageChangedEvent}.
      *
-     * @param handler The {@link ChatCompositeEventHandler}.
+     * @param handler The {@link ChatCompositeEventsHandler}.
      */
     public void addOnUnreadMessagesChangedEventHandler(
             final ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent> handler) {
     }
 
     /**
-     * Remove {@link ChatCompositeEventHandler} with {@link ChatCompositeUnreadMessageChangedEvent}.
+     * Remove {@link ChatCompositeEventsHandler} with {@link ChatCompositeUnreadMessageChangedEvent}.
      *
-     * @param handler The {@link ChatCompositeEventHandler}.
+     * @param handler The {@link ChatCompositeEventsHandler}.
      */
     public void removeOnUnreadMessagesChangedEventHandler(
             final ChatCompositeEventHandler<ChatCompositeUnreadMessageChangedEvent> handler) {
 
     }
 
+    /**
+     * Add {@link ChatCompositeEventsHandler}.
+     *
+     * <p> A callback for Chat Composite Error Events.
+     * See {@link ChatCompositeErrorEvent} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add error handler
+     * chatComposite.addOnErrorEventHandler&#40;event -> {
+     *     &#47;&#47; Process error event
+     *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param errorHandler The {@link ChatCompositeEventsHandler}.
+     */
+    public void addOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+        configuration.getChatCompositeEventsHandler().addOnErrorEventHandler(errorHandler);
+    }
+
+    /**
+     * Remove {@link ChatCompositeEventsHandler}.
+     *
+     * <p> A callback for Chat Composite Error Events.
+     * See {@link ChatCompositeErrorEvent} for values.</p>
+     *
+     * @param errorHandler The {@link ChatCompositeEventsHandler}.
+     */
+    public void removeOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+        configuration.getChatCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
+    }
     /**
      * Set {@link ChatCompositeParticipantViewData}.
      *

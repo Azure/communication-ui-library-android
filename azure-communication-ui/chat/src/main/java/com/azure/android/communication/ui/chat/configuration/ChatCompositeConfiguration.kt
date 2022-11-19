@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.chat.configuration
 
+import com.azure.android.communication.ui.chat.ChatCompositeEventsHandler
 import com.azure.android.communication.ui.chat.models.ChatCompositeLocalizationOptions
 
 internal class ChatCompositeConfiguration {
     var localizationConfig: ChatCompositeLocalizationOptions? = null
     var chatConfig: ChatConfiguration? = null
+    var chatCompositeEventsHandler = ChatCompositeEventsHandler()
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration =
         RemoteParticipantsConfiguration()
 }

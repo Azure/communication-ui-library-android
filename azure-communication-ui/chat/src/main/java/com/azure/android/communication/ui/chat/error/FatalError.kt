@@ -5,5 +5,5 @@ package com.azure.android.communication.ui.chat.error
 
 internal class FatalError(
     val fatalError: Throwable?,
-    val errorCode: ErrorCode?,
+    val chatCompositeErrorCode: ChatCompositeErrorCode?,
 )

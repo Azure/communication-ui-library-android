@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.chat.error
 
 import com.azure.android.core.util.ExpandableStringEnum
 
-internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
+internal class ChatCompositeErrorCode : ExpandableStringEnum<ChatCompositeErrorCode?>() {
     companion object {
         val CHAT_JOIN_FAILED = fromString("chatJoinFailed")
         val CHAT_SEND_MESSAGE_FAILED = fromString("chatSendMessageFailed")
@@ -17,8 +17,8 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
         val CHAT_SEND_READ_RECEIPT_FAILED = fromString("chatSendReadReceiptFailed")
         val CHAT_SEND_TYPING_INDICATOR_FAILED = fromString("chatSendTypingIndicatorFailed")
 
-        private fun fromString(name: String): ErrorCode {
-            return fromString(name, ErrorCode::class.java)
+        private fun fromString(name: String): ChatCompositeErrorCode {
+            return fromString(name, ChatCompositeErrorCode::class.java)
         }
     }
 }
