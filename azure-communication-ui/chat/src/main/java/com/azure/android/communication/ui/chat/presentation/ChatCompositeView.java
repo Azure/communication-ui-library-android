@@ -14,8 +14,6 @@ import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCom
  * Chat composite view.
  */
 public final class ChatCompositeView extends FrameLayout {
-    boolean titleBarEnabled = false;
-
     public ChatCompositeView(final Context context) {
         super(context);
     }
@@ -37,12 +35,7 @@ public final class ChatCompositeView extends FrameLayout {
             return this;
         }
 
-        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter, titleBarEnabled));
+        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter, false));
         return this;
-    }
-
-    // Package Private ability to enable title bar
-    void enableTitleBar() {
-        titleBarEnabled = true;
     }
 }

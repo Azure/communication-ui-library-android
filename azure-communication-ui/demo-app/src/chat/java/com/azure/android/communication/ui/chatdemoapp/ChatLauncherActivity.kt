@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chatdemoapp
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -142,16 +143,6 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         // Create Chat Composite View
         chatView = ChatCompositeView(this).apply {
-            val chatCompositeView = this
-
-            // Enable TitleBar
-            /*
-            javaClass.getDeclaredMethod("enableTitleBar").apply {
-                isAccessible = true
-                invoke(chatCompositeView)
-            }
-            */
-
             setChatAdapter(chatAdapter)
         }
 
@@ -164,6 +155,20 @@ class ChatLauncherActivity : AppCompatActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
+
+    }
+
+    private fun showChatUIActivity() {
+        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+
+        val activityLauncherClass = Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
+        val constructor = activityLauncherClass.getDeclaredConstructor(Context::class.java)
+        constructor.isAccessible = true
+        val instance = constructor.newInstance(this)
+        val launchMethod = activityLauncherClass.getDeclaredMethod("launch", chatAdapter.javaClass)
+        launchMethod.isAccessible = true
+        launchMethod.invoke(instance, chatAdapter)
+
     }
 
     private fun launch() {
