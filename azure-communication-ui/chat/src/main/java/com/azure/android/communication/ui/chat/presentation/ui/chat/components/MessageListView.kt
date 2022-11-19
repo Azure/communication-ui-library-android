@@ -3,6 +3,11 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
+import android.app.Activity
+import android.content.Context
+import android.graphics.Rect
+import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,16 +17,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getSystemService
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -30,6 +38,7 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.coroutines.launch
 
 const val MESSAGE_LIST_LOAD_MORE_THRESHOLD = 40
 
@@ -42,6 +51,8 @@ internal fun MessageListView(
     dispatchers: Dispatch
 ) {
     requestPages(scrollState, messages, dispatchers)
+    scrollToNewestWhenKeyboardOpen(scrollState)
+    dismissKeyboardWhenScrollUp(scrollState)
     if (messages.isNotEmpty()) {
         sendReadReceipt(scrollState, messages, dispatchers)
         autoScrollToBottom(scrollState, messages)
@@ -108,6 +119,76 @@ private fun autoScrollToBottom(
     wasAtEnd.value = isAtEnd
 }
 
+enum class Keyboard {
+    Opened, Closed
+}
+
+@Composable
+private fun scrollToNewestWhenKeyboardOpen(scrollState: LazyListState) {
+    val coroutineScope = rememberCoroutineScope()
+    val triggered = remember { mutableStateOf(false) }
+    val view = LocalView.current
+    DisposableEffect(view) {
+        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+            if (keypadHeight > screenHeight * 0.15) {
+                if (!triggered.value) {
+                    coroutineScope.launch {
+                        scrollState.animateScrollToItem(0)
+                    }
+                }
+                triggered.value = true
+            } else {
+                triggered.value = false
+            }
+        }
+        view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
+
+        onDispose {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalListener)
+        }
+    }
+}
+
+@Composable
+private fun dismissKeyboardWhenScrollUp(scrollState: LazyListState) {
+    val coroutineScope = rememberCoroutineScope()
+    val opened = remember { mutableStateOf(false) }
+    val view = LocalView.current
+
+    val atBottom = remember { mutableStateOf(scrollState.firstVisibleItemIndex == 0) }
+    val currentlyAtBottom = scrollState.firstVisibleItemIndex == 0
+    if (atBottom.value && !currentlyAtBottom && opened.value) {
+        val activity = (LocalView.current.context as Activity)
+        LaunchedEffect("KeyboardCloseEffect") {
+            coroutineScope.launch {
+                val imm: InputMethodManager? =
+                    activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm?.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
+    }
+    atBottom.value = currentlyAtBottom
+
+    DisposableEffect(view) {
+        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+            opened.value = (keypadHeight > screenHeight * 0.15)
+        }
+        view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
+
+        onDispose {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalListener)
+        }
+    }
+}
+
 @Composable
 private fun sendReadReceipt(
     scrollState: LazyListState,
@@ -116,11 +197,13 @@ private fun sendReadReceipt(
 ) {
     val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
     val currentBottomMessage = messages[messages.count() - firstVisibleItemIndex - 1]
-    if (!currentBottomMessage.isLocalUser) {
-        currentBottomMessage.message.id?.let {
-            if (it.isNotEmpty()) {
-                LaunchedEffect(it) {
+    currentBottomMessage.message.id?.let {
+        if (it.isNotEmpty()) {
+            LaunchedEffect(it) {
+                if (!currentBottomMessage.isLocalUser) {
                     dispatch(ChatAction.MessageRead(it))
+                } else {
+                    dispatch(ChatAction.MessageLastReceived(it))
                 }
             }
         }
