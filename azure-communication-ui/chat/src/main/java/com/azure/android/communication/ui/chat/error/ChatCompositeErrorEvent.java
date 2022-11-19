@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.chat.error;
 
-import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode;
-
 /**
  * Event with error type and caused throwable.
  */
