@@ -37,7 +37,6 @@ internal class SetupControlBarView : LinearLayout {
         audioDeviceButton = findViewById(R.id.azure_communication_ui_setup_audio_device_button)
         micButton.setOnClickListener {
             toggleAudio()
-            micButton.requestFocus()
         }
         cameraButton.setOnClickListener {
             toggleVideo()
