@@ -10,7 +10,6 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.chat.ChatAdapter
 import com.azure.android.communication.ui.chat.ChatAdapterBuilder
-import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
@@ -18,12 +17,8 @@ class ChatLauncherViewModel : ViewModel() {
 
     var chatAdapter: ChatAdapter? = null
 
-    private fun getTokenFetcher(tokenFunctionURL: String?, acsToken: String?): Callable<String> {
+    private fun getTokenFetcher(acsToken: String?): Callable<String> {
         val tokenRefresher = when {
-            tokenFunctionURL != null && urlIsValid(tokenFunctionURL) -> {
-                token = null
-                UrlTokenFetcher(tokenFunctionURL)
-            }
             acsToken != null && acsToken.isNotBlank() -> {
                 token = acsToken
                 CachedTokenFetcher(acsToken)
@@ -41,11 +36,10 @@ class ChatLauncherViewModel : ViewModel() {
         acsIdentity: String,
         threadId: String,
         userName: String,
-        tokenFunctionURL: String?,
         acsToken: String?,
     ) {
         // Create ChatAdapter
-        val tokenRefresher = getTokenFetcher(tokenFunctionURL, acsToken)
+        val tokenRefresher = getTokenFetcher(acsToken)
         val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
         val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 

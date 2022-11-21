@@ -98,16 +98,6 @@ class ChatLauncherActivity : AppCompatActivity() {
             if (!BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
-
-            acsTokenRadioButton.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked)
-                    tokenFunctionRadioButton.isChecked = false
-            }
-
-            tokenFunctionRadioButton.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked)
-                    acsTokenRadioButton.isChecked = false
-            }
         }
 
         this.onBackPressedDispatcher.addCallback {
@@ -181,10 +171,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         val endpoint = binding.endPointURL.text.toString()
         val acsIdentity = binding.identity.text.toString()
         val userName = binding.userNameText.text.toString()
-        val tokenFunctionUrl = if (binding.tokenFunctionRadioButton.isChecked)
-            binding.tokenFunctionUrlText.text.toString() else null
-        val acsToken = if (binding.acsTokenRadioButton.isChecked)
-            binding.acsTokenText.text.toString() else null
+        val acsToken = binding.acsTokenText.text.toString()
 
         try {
             chatLauncherViewModel.launch(
@@ -193,7 +180,6 @@ class ChatLauncherActivity : AppCompatActivity() {
                 acsIdentity,
                 threadId,
                 userName,
-                tokenFunctionUrl,
                 acsToken
             )
         } catch (ex: Exception) {
