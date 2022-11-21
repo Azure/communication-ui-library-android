@@ -65,7 +65,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            errorCode = ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED
+                            ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED,
+                            null
                         )
                     )
                 )
@@ -89,7 +90,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            errorCode = ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED
+                            ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED,
+                            null
                         )
                     )
                 )
@@ -112,7 +114,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                     dispatch(
                         ErrorAction.ChatStateErrorOccurred(
                             chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                                errorCode = ChatCompositeErrorCode.CHAT_SEND_EDIT_MESSAGE_FAILED
+                                ChatCompositeErrorCode.CHAT_SEND_EDIT_MESSAGE_FAILED,
+                                null
                             )
                         )
                     )
@@ -130,7 +133,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            errorCode = ChatCompositeErrorCode.CHAT_SEND_READ_RECEIPT_FAILED
+                            ChatCompositeErrorCode.CHAT_SEND_READ_RECEIPT_FAILED,
+                            null
                         )
                     )
                 )
@@ -152,7 +156,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            errorCode = ChatCompositeErrorCode.CHAT_SEND_TYPING_INDICATOR_FAILED
+                            ChatCompositeErrorCode.CHAT_SEND_TYPING_INDICATOR_FAILED,
+                            null
                         )
                     )
                 )
@@ -164,7 +169,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         try {
             chatService.initialize()
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(errorCode = ChatCompositeErrorCode.CHAT_JOIN_FAILED)
+            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_JOIN_FAILED, null)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }
@@ -174,13 +179,13 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             chatService.startEventNotifications()
             dispatch.invoke(ChatAction.FetchMessages())
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(errorCode = ChatCompositeErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
+            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED, null)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
         try {
             chatService.requestChatParticipants()
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(errorCode = ChatCompositeErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED)
+            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED, null)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }
