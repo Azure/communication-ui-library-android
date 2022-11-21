@@ -49,8 +49,8 @@ internal class EventHandler(
     ) {
         if (localParticipantActiveCurrent != localParticipantRemovedPrevious && !localParticipantActiveCurrent) {
             function(localParticipantActiveCurrent)
-            configuration.eventsHandler.onLocalParticipantRemovedEventHandler?.run {
-                handle(ChatCompositeEvent(CHAT_REMOVED))
+            configuration.eventHandlerRepository.getLocalParticipantRemovedHandlers().forEach {
+                it.handle(ChatCompositeEvent(CHAT_REMOVED))
             }
         }
     }

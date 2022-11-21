@@ -104,7 +104,7 @@ internal class MessageRepositoryMiddlewareImpl(
         }
         messageRepository.addLocalMessage(
             MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
+                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 1}",
                 participants = action.participants.map { it.displayName ?: "" },
                 content = null,
                 createdOn = OffsetDateTime.now(),
@@ -123,9 +123,12 @@ internal class MessageRepositoryMiddlewareImpl(
         val isLocalParticipantEvicted = action.participants.any { removed ->
             removed.userIdentifier.id == localParticipant.userIdentifier
         }
+        val isRemoteParticipantsRemoved = action.participants.any { removed ->
+            removed.userIdentifier.id != localParticipant.userIdentifier
+        }
         if (isLocalParticipantEvicted) {
             val localUserRemovedSystemMessage = MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
+                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 1}",
                 participants = arrayListOf(localParticipant.displayName ?: "Local Participant"),
                 content = null,
                 createdOn = OffsetDateTime.now(),
@@ -135,10 +138,11 @@ internal class MessageRepositoryMiddlewareImpl(
             )
             messageRepository.addLocalMessage(localUserRemovedSystemMessage)
             dispatch(ChatAction.LocalUserRemoved)
-        } else {
+        }
+        if (isRemoteParticipantsRemoved) {
             messageRepository.addLocalMessage(
                 MessageInfoModel(
-                    id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 0 + 1}",
+                    id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 1}",
                     participants = action.participants.map { it.displayName ?: "" },
                     content = null,
                     createdOn = OffsetDateTime.now(),

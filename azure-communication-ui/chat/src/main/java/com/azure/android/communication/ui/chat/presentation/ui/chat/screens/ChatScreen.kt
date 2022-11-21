@@ -35,7 +35,6 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.F
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.messageContextMenu
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -44,7 +43,6 @@ import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -139,13 +137,13 @@ internal fun ChatScreen(
                         }
                         BottomBarView(
                             messageInputTextState = stateViewModel.messageInputTextState,
-                            chatStatus = viewModel.chatStatus,
                             postAction = {
                                 coroutineScope.launch {
                                     listState.animateScrollToItem(0)
                                 }
                                 viewModel.postAction(it)
-                            }
+                            },
+                            enableSendMessageButton = viewModel.enableSendMessageButton
                         )
                     }
                 }

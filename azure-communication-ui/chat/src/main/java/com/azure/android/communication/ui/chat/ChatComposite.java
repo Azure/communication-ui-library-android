@@ -157,7 +157,7 @@ public class ChatComposite {
      */
     public void addOnLocalParticipantRemovedEventHandler(
             final ChatCompositeEventHandler<ChatCompositeEvent> eventHandler) {
-        configuration.getEventsHandler().setOnLocalParticipantRemovedEventHandler(eventHandler);
+        configuration.getEventHandlerRepository().addLocalParticipantRemovedEventHandler(eventHandler);
     }
 
     /**
@@ -171,7 +171,7 @@ public class ChatComposite {
      */
     public void removeOnLocalParticipantRemovedEventHandler(
             final ChatCompositeEventHandler<ChatCompositeEvent> eventHandler) {
-        configuration.getEventsHandler().setOnLocalParticipantRemovedEventHandler(null);
+        configuration.getEventHandlerRepository().removeLocalParticipantRemovedEventHandler(eventHandler);
     }
 
     /**
