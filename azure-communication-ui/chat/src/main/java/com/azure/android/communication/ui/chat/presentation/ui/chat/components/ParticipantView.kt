@@ -18,6 +18,7 @@ import com.microsoft.fluentui.persona.AvatarView
 internal fun ParticipantView(participant: RemoteParticipantInfoModel) {
     val participantName = participant.displayName ?: stringResource(id = R.string.azure_communication_ui_chat_unnamed_participant)
     val avatarView = AvatarView(LocalContext.current).apply { name = participantName }
+
     ListItemView(title = participantName, avatarView)
 }
 
