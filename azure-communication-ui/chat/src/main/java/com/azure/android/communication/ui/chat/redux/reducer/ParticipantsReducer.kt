@@ -43,8 +43,10 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 state.copy(
                     participantTyping = state.participantTyping -
                         state.participantTyping.keys.filter { it.contains(id) } +
-                        Pair(id + action.infoModel.receivedOn,
-                        if (displayName.isNullOrEmpty()) "Unknown participant" else displayName)
+                        Pair(
+                            id + action.infoModel.receivedOn,
+                            if (displayName.isNullOrEmpty()) "Unknown participant" else displayName
+                        )
                 )
             }
             is ParticipantAction.RemoveParticipantTyping -> {
