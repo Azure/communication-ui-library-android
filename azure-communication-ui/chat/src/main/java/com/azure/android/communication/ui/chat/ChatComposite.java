@@ -138,20 +138,10 @@ public class ChatComposite {
     }
 
     /**
-     * Add {@link ChatCompositeEventHandler}.
+     * Add {@link ChatCompositeEventHandler} with {@link ChatCompositeEvent}.
      *
      * <p> A callback for Chat Composite  Events.
      * See {@link com.azure.android.communication.ui.chat.models.ChatCompositeEvent} for values.</p>
-     * <pre>
-     *
-     * &#47;&#47; add error handler
-     * callComposite.addOnErrorEventHandler&#40;event -> {
-     *     &#47;&#47; Process error event
-     *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
-     *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
-     * }&#41;;
-     *
-     * </pre>
      *
      * @param eventHandler The {@link ChatCompositeEventHandler}.
      */
@@ -161,7 +151,7 @@ public class ChatComposite {
     }
 
     /**
-     * Remove {@link ChatCompositeEventHandler}.
+     * Remove {@link ChatCompositeEventHandler} with {@link ChatCompositeEvent}.
      *
      * <p> A callback for Call Composite Error Events.
      * See {@link com.azure.android.communication.ui.chat.models.ChatCompositeEvent} for
