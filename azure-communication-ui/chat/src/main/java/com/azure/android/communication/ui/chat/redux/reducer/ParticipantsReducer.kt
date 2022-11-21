@@ -38,16 +38,21 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.AddParticipantTyping -> {
                 val id = action.infoModel.userIdentifier.id
-                val displayName = state.participants[id]?.displayName
-                // if participant is already typing, remove and add with new timestamp
-                state.copy(
-                    participantTyping = state.participantTyping -
-                        state.participantTyping.keys.filter { it.contains(id) } +
-                        Pair(
-                            id + action.infoModel.receivedOn,
-                            if (displayName.isNullOrEmpty()) "Unknown participant" else displayName
-                        )
-                )
+                val typingParticipant = state.participants[id]
+                if (typingParticipant == null) {
+                    state
+                } else {
+                    val displayName = typingParticipant.displayName
+                    // if participant is already typing, remove and add with new timestamp
+                    state.copy(
+                        participantTyping = state.participantTyping -
+                            state.participantTyping.keys.filter { it.contains(id) } +
+                            Pair(
+                                id + action.infoModel.receivedOn,
+                                if (displayName.isNullOrEmpty()) "Unknown participant" else displayName
+                            )
+                    )
+                }
             }
             is ParticipantAction.RemoveParticipantTyping -> {
                 state.copy(participantTyping = state.participantTyping - (action.infoModel.userIdentifier.id + action.infoModel.receivedOn))
