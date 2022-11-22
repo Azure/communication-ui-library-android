@@ -12,6 +12,9 @@ import com.azure.android.communication.ui.chat.repository.storage.MessageReposit
 import org.junit.Assert
 import org.junit.Test
 
+// Todo: Move these 3 tests to the 3 files in Storage package
+// or add "verifyImplementation(messageRepo, readerClass, writerClass)" to main test file
+// and delegate in the 3 files to verify concrete implementation is correctly chosen
 class MessageRepositoryUnitTest {
 
     @Test
