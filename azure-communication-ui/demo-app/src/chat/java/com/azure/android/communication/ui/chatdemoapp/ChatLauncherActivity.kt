@@ -3,22 +3,27 @@
 
 package com.azure.android.communication.ui.chatdemoapp
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.URLUtil
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
+import com.azure.android.communication.ui.chat.ChatAdapter
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
 import com.azure.android.communication.ui.chatdemoapp.launcher.TeamsUrlParser
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
@@ -30,7 +35,8 @@ class ChatLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatLauncherBinding
 
     private val chatLauncherViewModel: ChatLauncherViewModel by viewModels()
-    private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
+
+    private var chatView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,88 +62,60 @@ class ChatLauncherActivity : AppCompatActivity() {
         binding = ActivityChatLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getBoolean(isKotlinLauncherOptionSelected)) {
-                chatLauncherViewModel.setKotlinLauncher()
-            } else {
-                chatLauncherViewModel.setJavaLauncher()
-            }
-        }
-
         val data: Uri? = intent?.data
-        val endpointurl = data?.getQueryParameter("endpointurl")
-        val threadid = data?.getQueryParameter("threadid")
-        val acstoken = data?.getQueryParameter("acstoken")
-        val userid = data?.getQueryParameter("userid")
-        val name = data?.getQueryParameter("name")
+        val endpointUrl = data?.getQueryParameter("endpointurl") ?: BuildConfig.END_POINT_URL
+        val threadId = data?.getQueryParameter("threadid") ?: BuildConfig.THREAD_ID
+        val acsToken = data?.getQueryParameter("acstoken") ?: BuildConfig.ACS_TOKEN
+        val userid = data?.getQueryParameter("userid") ?: BuildConfig.IDENTITY
+        val name = data?.getQueryParameter("name") ?: BuildConfig.USER_NAME
 
         binding.run {
-
-            if (endpointurl.isNullOrEmpty()) {
-                endPointURL.setText(BuildConfig.END_POINT_URL)
-            } else {
-                endPointURL.setText(endpointurl)
-            }
-
-            if (acstoken.isNullOrEmpty()) {
-                acsTokenText.setText(BuildConfig.ACS_TOKEN)
-            } else {
-                acsTokenText.setText(acstoken)
-            }
-
-            if (name.isNullOrEmpty()) {
-                userNameText.setText(BuildConfig.USER_NAME)
-            } else {
-                userNameText.setText(name)
-            }
-
-            if (threadid.isNullOrEmpty()) {
-                chatThreadID.setText(BuildConfig.THREAD_ID)
-            } else {
-                chatThreadID.setText(threadid)
-            }
-
-            if (userid.isNullOrEmpty()) {
-                identity.setText(BuildConfig.IDENTITY)
-            } else {
-                identity.setText(userid)
-            }
+            endPointURL.setText(endpointUrl)
+            acsTokenText.setText(acsToken)
+            userNameText.setText(name)
+            chatThreadID.setText(threadId)
+            identity.setText(userid)
 
             launchButton.setOnClickListener {
-                chatLauncherViewModel.doLaunch(
-                    acsTokenText.text.toString()
-                )
+                launch()
+            }
+
+            openChatUIButton.setOnClickListener {
+                showChatUI()
+            }
+
+            openFullScreenChatUIButton.setOnClickListener {
+                showChatUIActivity()
+            }
+
+            stopChatCompositeButton.setOnClickListener {
+                stopChatComposite()
             }
 
             acsTokenText.requestFocus()
             acsTokenText.isEnabled = true
-
-            javaButton.setOnClickListener {
-                chatLauncherViewModel.setJavaLauncher()
-            }
-
-            kotlinButton.setOnClickListener {
-                chatLauncherViewModel.setKotlinLauncher()
-            }
 
             if (!BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
 
-        chatLauncherViewModel.fetchResult.observe(this) {
-            processResult(it)
+        this.onBackPressedDispatcher.addCallback {
+            if (chatView != null) {
+                onChatCompositeExitRequested()
+            } else {
+                this.handleOnBackPressed()
+            }
         }
     }
 
-    override fun onDestroy() {
-        chatLauncherViewModel.destroy()
-        super.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        saveState(outState)
-        super.onSaveInstanceState(outState)
+    // / When a request is made to close the view, lets do that here
+    private fun onChatCompositeExitRequested() {
+        // Remove chat view from screen
+        chatView?.parent?.let {
+            (it as ViewGroup).removeView(chatView)
+        }
+        chatView = null
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -156,39 +134,84 @@ class ChatLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun processResult(result: Result<ChatCompositeLauncher?>) {
-        if (result.isFailure) {
-            result.exceptionOrNull()?.let {
-                if (it.message != null) {
-                    val causeMessage = it.cause?.message ?: ""
-                    showAlert(it.toString() + causeMessage)
-                    binding.launchButton.isEnabled = true
-                } else {
-                    showAlert("Unknown error")
-                }
-            }
-        }
-        if (result.isSuccess) {
-            result.getOrNull()?.let { launcherObject ->
-                launch(launcherObject)
-                binding.launchButton.isEnabled = true
-            }
-        }
+    private fun showChatUI() {
+        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+
+        // Create Chat Composite View
+        chatView = ChatCompositeView(this, chatAdapter)
+
+        // Place it as a child element to any UI I have on the screen
+        addContentView(
+            chatView,
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
     }
 
-    private fun launch(launcher: ChatCompositeLauncher) {
+    private fun showChatUIActivity() {
+        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+
+        val activityLauncherClass =
+            Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
+        val constructor = activityLauncherClass.getDeclaredConstructor(Context::class.java)
+        constructor.isAccessible = true
+        val instance = constructor.newInstance(this)
+        val launchMethod =
+            activityLauncherClass.getDeclaredMethod("launch", ChatAdapter::class.java)
+        launchMethod.isAccessible = true
+        launchMethod.invoke(instance, chatAdapter)
+    }
+
+    private fun launch() {
         val inputChatJoinId = binding.chatThreadID.text.toString()
         val threadId = if (URLUtil.isValidUrl(inputChatJoinId))
             TeamsUrlParser.getThreadId(inputChatJoinId)
         else inputChatJoinId
 
-        launcher.launch(
-            this@ChatLauncherActivity,
-            threadId,
-            binding.endPointURL.text.toString(),
-            binding.userNameText.text.toString(),
-            binding.identity.text.toString()
-        )
+        val endpoint = binding.endPointURL.text.toString()
+        val acsIdentity = binding.identity.text.toString()
+        val userName = binding.userNameText.text.toString()
+        val acsToken = binding.acsTokenText.text.toString()
+
+        try {
+            chatLauncherViewModel.launch(
+                this,
+                endpoint,
+                acsIdentity,
+                threadId,
+                userName,
+                acsToken
+            )
+        } catch (ex: Exception) {
+            if (ex.message != null) {
+                val causeMessage = ex.cause?.message ?: ""
+                showAlert(ex.toString() + causeMessage)
+                binding.launchButton.isEnabled = true
+            } else {
+                showAlert("Unknown error")
+            }
+            return
+        }
+
+        binding.run {
+            launchButton.isEnabled = true
+            launchButton.visibility = View.GONE
+            openChatUIButton.visibility = View.VISIBLE
+            openFullScreenChatUIButton.visibility = View.VISIBLE
+            stopChatCompositeButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun stopChatComposite() {
+        chatLauncherViewModel.closeChatComposite()
+        binding.run {
+            launchButton.visibility = View.VISIBLE
+            openChatUIButton.visibility = View.GONE
+            openFullScreenChatUIButton.visibility = View.GONE
+            stopChatCompositeButton.visibility = View.GONE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -203,9 +226,5 @@ class ChatLauncherActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
-    }
-
-    private fun saveState(outState: Bundle?) {
-        outState?.putBoolean(isKotlinLauncherOptionSelected, chatLauncherViewModel.isKotlinLauncher)
     }
 }

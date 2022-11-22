@@ -17,7 +17,12 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 state.copy(
                     participants = state.participants + action.participants.associateBy { it.userIdentifier.id },
                     participantsReadReceiptMap = state.participantsReadReceiptMap +
-                        action.participants.map { Pair(it.userIdentifier.id, state.latestReadMessageTimestamp) }
+                        action.participants.map {
+                            Pair(
+                                it.userIdentifier.id,
+                                state.latestReadMessageTimestamp
+                            )
+                        }
                 )
             }
             is ParticipantAction.ParticipantsRemoved -> {
@@ -74,7 +79,8 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.ReadReceiptReceived -> {
                 val participantsReadReceiptMap = state.participantsReadReceiptMap.toMutableMap()
-                participantsReadReceiptMap[action.infoModel.userIdentifier.id] = action.infoModel.receivedOn
+                participantsReadReceiptMap[action.infoModel.userIdentifier.id] =
+                    action.infoModel.receivedOn
                 val latestReadMessageTimestamp = participantsReadReceiptMap.values.min()
                 state.copy(
                     participantsReadReceiptMap = participantsReadReceiptMap,

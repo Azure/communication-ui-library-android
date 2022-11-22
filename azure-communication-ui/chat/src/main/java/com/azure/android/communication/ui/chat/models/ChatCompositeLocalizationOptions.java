@@ -4,16 +4,16 @@
 
 package com.azure.android.communication.ui.chat.models;
 
-import androidx.annotation.NonNull;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 
 import java.util.Locale;
 
 /**
- * Localization configuration to provide for {@link com.azure.android.communication.ui.chat.ChatComposite}.
+ * Localization configuration to provide for {@link ChatAdapter}.
  *
- * @see com.azure.android.communication.ui.chat.ChatComposite
+ * @see ChatAdapter
  */
-public final class ChatCompositeLocalizationOptions {
+final class ChatCompositeLocalizationOptions {
     private final Locale locale;
     private Integer layoutDirection;
 
@@ -22,7 +22,7 @@ public final class ChatCompositeLocalizationOptions {
      *
      * @param locale The {@link Locale}; eg,. {@code Locale.US}
      */
-    public ChatCompositeLocalizationOptions(@NonNull final Locale locale) {
+    ChatCompositeLocalizationOptions(final Locale locale) {
         this.locale = locale;
     }
 
@@ -32,7 +32,7 @@ public final class ChatCompositeLocalizationOptions {
      * @param locale          The {@link Locale}; eg,. {@code Locale.US}
      * @param layoutDirection layout direction int; eg,. {@code LayoutDirection.RTL}
      */
-    public ChatCompositeLocalizationOptions(@NonNull final Locale locale, final int layoutDirection) {
+    ChatCompositeLocalizationOptions(final Locale locale, final int layoutDirection) {
         this.locale = locale;
         this.layoutDirection = layoutDirection;
     }

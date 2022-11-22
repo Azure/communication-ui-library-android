@@ -48,7 +48,7 @@ internal fun MessageListView(
     messages: List<MessageViewModel>,
     showLoading: Boolean,
     scrollState: LazyListState,
-    dispatchers: Dispatch
+    dispatchers: Dispatch,
 ) {
     requestPages(scrollState, messages, dispatchers)
     scrollToNewestWhenKeyboardOpen(scrollState)
@@ -63,7 +63,10 @@ internal fun MessageListView(
         state = scrollState,
         reverseLayout = true,
     ) {
-        itemsIndexed(messages.asReversed(), key = { index, item -> item.message.id ?: index }) { index, message ->
+        itemsIndexed(
+            messages.asReversed(),
+            key = { index, item -> item.message.id ?: index }
+        ) { index, message ->
             MessageView(message, dispatchers)
         }
         if (messages.isNotEmpty() && showLoading) {
@@ -91,7 +94,7 @@ internal fun MessageListView(
 private fun requestPages(
     scrollState: LazyListState,
     messages: List<MessageViewModel>,
-    dispatch: Dispatch
+    dispatch: Dispatch,
 ) {
     if (scrollState.layoutInfo.totalItemsCount == 0) return
     val currentLastMessage = messages.first()
@@ -107,7 +110,7 @@ private fun requestPages(
 @Composable
 private fun autoScrollToBottom(
     scrollState: LazyListState,
-    messages: List<MessageViewModel>
+    messages: List<MessageViewModel>,
 ) {
     val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
     val isAtEnd = scrollState.firstVisibleItemIndex
@@ -193,7 +196,7 @@ private fun dismissKeyboardWhenScrollUp(scrollState: LazyListState) {
 private fun sendReadReceipt(
     scrollState: LazyListState,
     messages: List<MessageViewModel>,
-    dispatch: Dispatch
+    dispatch: Dispatch,
 ) {
     val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
     val currentBottomMessage = messages[messages.count() - firstVisibleItemIndex - 1]
