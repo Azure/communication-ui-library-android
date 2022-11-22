@@ -11,7 +11,6 @@ internal fun List<MessageInfoModel>.findMessageIdxById(messageId: String): Int {
     while (first <= last) {
         mid = (first + last) / 2
 
-
         while (this[mid].id == null) {
             mid--
             if (mid < first) {
