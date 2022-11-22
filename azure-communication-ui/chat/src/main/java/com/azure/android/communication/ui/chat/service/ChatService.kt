@@ -13,6 +13,7 @@ internal class ChatService(private val chatSDK: ChatSDK) {
     fun destroy() = chatSDK.destroy()
     fun requestPreviousPage() = chatSDK.requestPreviousPage()
     fun requestChatParticipants() = chatSDK.requestChatParticipants()
+    fun getAdminUserId() = chatSDK.getAdminUserId()
 
     fun startEventNotifications() = chatSDK.startEventNotifications()
     fun stopEventNotifications() = chatSDK.stopEventNotifications()

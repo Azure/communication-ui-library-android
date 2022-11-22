@@ -313,6 +313,14 @@ internal class ChatSDKWrapper(
         }
     }
 
+    override fun getAdminUserId(): CompletableFuture<String> {
+        val future = CompletableFuture<String>()
+        coroutineScope.launch {
+            future.complete(threadClient.properties.createdByCommunicationIdentifier.toString())
+        }
+        return future
+    }
+
     private fun createChatClient() {
         chatClient = ChatClientBuilder()
             .endpoint(endPointURL)

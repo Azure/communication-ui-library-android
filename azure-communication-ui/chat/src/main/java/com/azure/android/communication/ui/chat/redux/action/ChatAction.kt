@@ -28,4 +28,5 @@ internal sealed class ChatAction : Action {
     class ShowMessageContextMenu(val message: MessageInfoModel) : ChatAction()
     class HideMessageContextMenu : ChatAction()
     class CopyMessageText(val message: MessageInfoModel) : ChatAction()
+    class GetAdminUserId() : ChatAction()
 }
