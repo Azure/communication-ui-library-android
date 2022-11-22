@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 
@@ -15,7 +16,7 @@ import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfig
 public final class ChatAdapterBuilder {
 
     private String endpointUrl;
-    private String identity;
+    private CommunicationIdentifier identity;
     private CommunicationTokenCredential credential;
     private String displayName;
 
@@ -24,7 +25,7 @@ public final class ChatAdapterBuilder {
         return this;
     }
 
-    public ChatAdapterBuilder identity(final String identity) {
+    public ChatAdapterBuilder identity(final CommunicationIdentifier identity) {
         this.identity = identity;
         return this;
     }
