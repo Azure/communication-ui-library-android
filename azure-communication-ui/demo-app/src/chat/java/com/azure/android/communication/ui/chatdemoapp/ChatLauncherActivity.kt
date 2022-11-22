@@ -153,11 +153,13 @@ class ChatLauncherActivity : AppCompatActivity() {
     private fun showChatUIActivity() {
         val chatAdapter = chatLauncherViewModel.chatAdapter!!
 
-        val activityLauncherClass = Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
+        val activityLauncherClass =
+            Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
         val constructor = activityLauncherClass.getDeclaredConstructor(Context::class.java)
         constructor.isAccessible = true
         val instance = constructor.newInstance(this)
-        val launchMethod = activityLauncherClass.getDeclaredMethod("launch", ChatAdapter::class.java)
+        val launchMethod =
+            activityLauncherClass.getDeclaredMethod("launch", ChatAdapter::class.java)
         launchMethod.isAccessible = true
         launchMethod.invoke(instance, chatAdapter)
     }

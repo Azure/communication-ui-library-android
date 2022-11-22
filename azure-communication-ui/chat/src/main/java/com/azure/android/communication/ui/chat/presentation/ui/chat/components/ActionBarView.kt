@@ -34,7 +34,7 @@ internal fun ActionBarView(
     subTitle: String?,
     onTitleClicked: (() -> Unit)? = null,
     onBackButtonPressed: () -> Unit = { },
-    postAction: (Action) -> Unit
+    postAction: (Action) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         TopAppBar(

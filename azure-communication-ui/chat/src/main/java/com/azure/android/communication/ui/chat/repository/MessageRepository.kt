@@ -13,16 +13,24 @@ import com.azure.android.communication.ui.chat.repository.storage.MessageReposit
 
 internal class MessageRepository private constructor(
     val readerDelegate: MessageRepositoryReader,
-    val writerDelegate: MessageRepositoryWriter
+    val writerDelegate: MessageRepositoryWriter,
 ) : MessageRepositoryReader(), MessageRepositoryWriter {
 
     override val size: Int get() = readerDelegate.size
     override fun get(index: Int): MessageInfoModel = readerDelegate[index]
-    override fun addLocalMessage(messageInfoModel: MessageInfoModel) = writerDelegate.addLocalMessage(messageInfoModel)
+    override fun addLocalMessage(messageInfoModel: MessageInfoModel) =
+        writerDelegate.addLocalMessage(messageInfoModel)
+
     override fun addPage(page: List<MessageInfoModel>) = writerDelegate.addPage(page)
-    override fun addServerMessage(message: MessageInfoModel) = writerDelegate.addServerMessage(message = message)
-    override fun removeMessage(message: MessageInfoModel) = writerDelegate.removeMessage(message = message)
-    override fun editMessage(message: MessageInfoModel) = writerDelegate.editMessage(message = message)
+    override fun addServerMessage(message: MessageInfoModel) =
+        writerDelegate.addServerMessage(message = message)
+
+    override fun removeMessage(message: MessageInfoModel) =
+        writerDelegate.removeMessage(message = message)
+
+    override fun editMessage(message: MessageInfoModel) =
+        writerDelegate.editMessage(message = message)
+
     override fun indexOf(element: MessageInfoModel) = readerDelegate.indexOf(element)
 
     // TODO: We should be using read interface to get last message in list

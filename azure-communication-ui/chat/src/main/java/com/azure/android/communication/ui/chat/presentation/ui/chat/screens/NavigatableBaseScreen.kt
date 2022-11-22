@@ -51,7 +51,11 @@ internal fun NavigatableBaseScreen(
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        ChatScreen(viewModel = viewModel, stateViewModel = stateViewModel, showActionBar = showActionBar)
+        ChatScreen(
+            viewModel = viewModel,
+            stateViewModel = stateViewModel,
+            showActionBar = showActionBar
+        )
 
         AnimatedVisibility(
             visible = viewModel.navigationStatus == NavigationStatus.PARTICIPANTS,
@@ -102,7 +106,10 @@ internal fun NavigatableBaseScreenPreview() {
                         "Henry Jones"
                     ),
                 ).associateBy { it.userIdentifier.id },
-                messageContextMenu = MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, menuItems = emptyList()),
+                messageContextMenu = MessageContextMenuModel(
+                    messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
+                    menuItems = emptyList()
+                ),
 
                 // error = ChatStateError(
                 //    errorCode = ErrorCode.CHAT_JOIN_FAILED

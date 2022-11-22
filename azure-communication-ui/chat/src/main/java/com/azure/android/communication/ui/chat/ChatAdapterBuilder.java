@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
+
 /**
  * Builder for creating {@link ChatAdapter}.
  *

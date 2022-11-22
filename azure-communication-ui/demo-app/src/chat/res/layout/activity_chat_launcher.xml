@@ -10,15 +10,18 @@
     android:layout_height="match_parent"
     tools:context="com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity"
     >
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="6dp"
-            android:paddingEnd="6dp">
+            android:paddingEnd="6dp"
+            >
 
             <EditText
                 android:id="@+id/acsTokenText"
@@ -28,7 +31,8 @@
                 android:hint="@string/acs_token_hint"
                 android:inputType="textUri"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <EditText
                 android:id="@+id/identity"
@@ -39,7 +43,8 @@
                 android:hint="@string/identity_hint"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="@id/acsTokenText"
-                app:layout_constraintTop_toBottomOf="@id/acsTokenText" />
+                app:layout_constraintTop_toBottomOf="@id/acsTokenText"
+                />
 
             <EditText
                 android:id="@+id/userNameText"
@@ -50,7 +55,8 @@
                 android:hint="@string/name_hint"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="@id/identity"
-                app:layout_constraintTop_toBottomOf="@id/identity" />
+                app:layout_constraintTop_toBottomOf="@id/identity"
+                />
 
             <EditText
                 android:id="@+id/chatThreadID"
@@ -61,7 +67,8 @@
                 android:hint="@string/chat_thread_id_hint"
                 android:inputType="textNoSuggestions"
                 app:layout_constraintStart_toStartOf="@id/userNameText"
-                app:layout_constraintTop_toBottomOf="@id/userNameText" />
+                app:layout_constraintTop_toBottomOf="@id/userNameText"
+                />
 
             <EditText
                 android:id="@+id/endPointURL"
@@ -72,7 +79,8 @@
                 android:hint="@string/end_point_url_hint"
                 android:inputType="textNoSuggestions"
                 app:layout_constraintStart_toStartOf="@id/chatThreadID"
-                app:layout_constraintTop_toBottomOf="@id/chatThreadID" />
+                app:layout_constraintTop_toBottomOf="@id/chatThreadID"
+                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/buttons"
@@ -81,7 +89,9 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/endPointURL">
+                app:layout_constraintTop_toBottomOf="@+id/endPointURL"
+                >
+
                 <Button
                     android:id="@+id/launchButton"
                     android:layout_width="wrap_content"
@@ -89,7 +99,8 @@
                     android:text="@string/launch_button_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
                 <Button
                     android:id="@+id/openChatUIButton"
@@ -99,7 +110,9 @@
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
                 <Button
                     android:id="@+id/openFullScreenChatUIButton"
                     android:layout_width="wrap_content"
@@ -108,7 +121,9 @@
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/openChatUIButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/openChatUIButton"
+                    />
+
                 <Button
                     android:id="@+id/stopChatCompositeButton"
                     android:layout_width="wrap_content"
@@ -117,28 +132,34 @@
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/openFullScreenChatUIButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/openFullScreenChatUIButton"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttons">
+                app:layout_constraintTop_toBottomOf="@+id/buttons"
+                >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
                     android:text="@string/version"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    />
 
                 <TextView
                     android:id="@+id/versionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/debug"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -108,7 +108,7 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
 
     private fun mergeWithPreviousMessage(
         previousMessage: MessageInfoModel,
-        message: MessageInfoModel
+        message: MessageInfoModel,
     ): MessageInfoModel {
         var newMessage = MessageInfoModel(
             id = previousMessage.id,
@@ -127,7 +127,8 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
     }
 }
 
-internal class MessageRepositoryTreeReader(private val writer: MessageRepositoryTreeWriter) : MessageRepositoryReader() {
+internal class MessageRepositoryTreeReader(private val writer: MessageRepositoryTreeWriter) :
+    MessageRepositoryReader() {
 
     override val size: Int
         get() = writer.size
