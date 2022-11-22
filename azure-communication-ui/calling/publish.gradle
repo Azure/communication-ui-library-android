@@ -91,8 +91,6 @@ publishing {
             artifactId 'azure-communication-calling'
             version '2.2.0-pre-validation'
 
-            artifact("/Users/pavelprystinka/Documents/GitHub/package-host/SDK/calling/azure-communication-calling-2.2.0-pre-validation.aar")
-
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
 

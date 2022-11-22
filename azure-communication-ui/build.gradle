@@ -90,6 +90,10 @@ allprojects {
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
         }
+        maven{
+            url '/Users/mohtasim/.m2/repository/'
+        }
+
         if (localProps.containsKey('GITHUB_MAVEN_REPO_URL')) {
             maven {
                 name = 'privateGitHubRepo'
