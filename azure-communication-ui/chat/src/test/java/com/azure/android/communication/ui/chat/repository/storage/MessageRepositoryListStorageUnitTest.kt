@@ -11,8 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 internal class MessageRepositoryListStorageUnitTest {
 
-
-    private fun getMessageRepo() : MessageRepository {
+    private fun getMessageRepo(): MessageRepository {
         return MessageRepository.createListBackedRepository()
     }
 

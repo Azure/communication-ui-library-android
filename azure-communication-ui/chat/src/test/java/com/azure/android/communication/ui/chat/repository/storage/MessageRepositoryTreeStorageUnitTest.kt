@@ -3,10 +3,7 @@
 
 package com.azure.android.communication.ui.chat.repository.storage
 
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepository
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
-import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -14,8 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class MessageRepositoryTreeStorageUnitTest {
 
-
-    private fun getMessageRepo() : MessageRepository {
+    private fun getMessageRepo(): MessageRepository {
         return MessageRepository.createTreeBackedRepository()
     }
 
@@ -38,7 +34,6 @@ class MessageRepositoryTreeStorageUnitTest {
     @Test
     fun messageRepositoryListStorage_OutOfOrderTest() =
         MessageRepositoryUnitTest.outOfOrderTest(getMessageRepo())
-
 
     @Test
     fun messageRepositoryListStorage_indexOfTest() =
