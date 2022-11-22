@@ -22,27 +22,29 @@ public final class ChatAdapter {
 
     private static int instanceIdCounter = 0;
     private final ChatContainer chatContainer;
-    private final ChatCompositeConfiguration configuration;
+    private final String endpointUrl;
+    private final String identity;
+    private final CommunicationTokenCredential credential;
+    private final String displayName;
     final Integer instanceId = instanceIdCounter++;
 
-    ChatAdapter(final ChatCompositeConfiguration configuration) {
-        this.configuration = configuration;
+    ChatAdapter(final ChatCompositeConfiguration configuration,
+                final String endpointUrl,
+                final String identity,
+                final CommunicationTokenCredential credential,
+                final String displayName) {
         chatContainer = new ChatContainer(this, configuration, instanceId);
+        this.endpointUrl = endpointUrl;
+        this.identity = identity;
+        this.credential = credential;
+        this.displayName = displayName;
     }
 
     /**
      * Connects to ACS service, starts realtime notifications.
      */
-    public CompletableFuture<Void> connect(
-            final Context context,
-            final String endpointUrl,
-            final String threadId,
-            final CommunicationTokenCredential credential,
-            final String identity,
-            final String displayName) {
-        final ChatCompositeRemoteOptions remoteOptions =
-                new ChatCompositeRemoteOptions(endpointUrl, threadId, credential, identity, displayName);
-        launchComposite(context, remoteOptions, false);
+    public CompletableFuture<Void> connect(final Context context, final String threadId) {
+        launchComposite(context, threadId);
         final CompletableFuture<Void> result = new CompletableFuture<>();
         result.complete(null);
         return result;
@@ -55,15 +57,15 @@ public final class ChatAdapter {
     }
 
 
-    private void launchComposite(final Context context,
-                                 final ChatCompositeRemoteOptions remoteOptions,
-                                 final boolean isTest) {
+    private void launchComposite(final Context context, final String threadId) {
+        final ChatCompositeRemoteOptions remoteOptions =
+                new ChatCompositeRemoteOptions(endpointUrl, threadId, credential, identity, displayName);
         chatContainer.start(context, remoteOptions);
     }
 
     void launchTest(final Context context,
-                    final ChatCompositeRemoteOptions remoteOptions) {
-        chatContainer.start(context, remoteOptions);
+                    final String threadId) {
+        launchComposite(context, threadId);
         showTestCompositeUI(context);
     }
 

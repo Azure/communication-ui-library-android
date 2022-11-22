@@ -43,17 +43,15 @@ class ChatLauncherViewModel : ViewModel() {
         val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
         val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val chatAdapter = ChatAdapterBuilder().build()
+        val chatAdapter = ChatAdapterBuilder()
+            .endpointUrl(endpoint)
+            .communicationTokenCredential(communicationTokenCredential)
+            .identity(acsIdentity)
+            .displayName(userName)
+            .build()
 
         // Connect to ACS service, starts realtime notifications
-        chatAdapter.connect(
-            context,
-            endpoint,
-            threadId,
-            communicationTokenCredential,
-            acsIdentity,
-            userName
-        ).get()
+        chatAdapter.connect(context, threadId).get()
 
         this.chatAdapter = chatAdapter
     }
