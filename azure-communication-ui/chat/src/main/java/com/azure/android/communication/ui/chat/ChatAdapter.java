@@ -59,7 +59,8 @@ public final class ChatAdapter {
 
     private void launchComposite(final Context context, final String threadId) {
         final ChatCompositeRemoteOptions remoteOptions =
-                new ChatCompositeRemoteOptions(endpointUrl, threadId, credential, identity, displayName);
+                new ChatCompositeRemoteOptions(
+                        endpointUrl, threadId, credential, identity, displayName != null ? displayName : "");
         chatContainer.start(context, remoteOptions);
     }
 

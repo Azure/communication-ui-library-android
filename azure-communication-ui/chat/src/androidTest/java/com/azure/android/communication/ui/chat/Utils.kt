@@ -12,18 +12,16 @@ import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 // These must reside in `com.azure.android.communication.ui.chat`
 
 internal fun launchChatComposite() {
-    val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    val chatAdapter = ChatAdapterBuilder().build()
+
     val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ "token" }, true)
     val communicationTokenCredential =
-        CommunicationTokenCredential(communicationTokenRefreshOptions)
-    val remoteOptions =
-        ChatCompositeRemoteOptions(
-            "https://acs-ui-dev.communication.azure.com/",
-            "19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2",
-            communicationTokenCredential,
-            "test"
-        )
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
+    val chatAdapter = ChatAdapterBuilder()
+        .endpointUrl("https://acs-ui-dev.communication.azure.com/")
+        .communicationTokenCredential(communicationTokenCredential)
+        .identity("test")
+        .build()
 
-    chatAdapter.launchTest(appContext, remoteOptions)
+    val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    chatAdapter.launchTest(appContext, "19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2")
 }
