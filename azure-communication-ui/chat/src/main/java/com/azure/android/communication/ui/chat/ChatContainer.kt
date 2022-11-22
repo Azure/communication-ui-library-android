@@ -94,7 +94,7 @@ internal class ChatContainer(
             val messageRepository = MessageRepository.createSkipListBackedRepository()
 
             addTypedBuilder { chatAdapter }
-            addTypedBuilder<List<MessageInfoModel>> { messageRepository }
+            addTypedBuilder { messageRepository }
 
             addTypedBuilder { remoteOptions }
 
