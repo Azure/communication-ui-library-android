@@ -224,7 +224,6 @@ internal class LocalParticipantView : ConstraintLayout {
 
         if (model.shouldDisplayVideo) {
             addVideoView(model.videoStreamID!!, videoHolder)
-
         }
     }
 
@@ -243,7 +242,6 @@ internal class LocalParticipantView : ConstraintLayout {
                 val desiredWidth = view.width.toFloat() * heightRatio
                 val layoutParams = videoHolder.layoutParams
                 videoHolder.layoutParams = LayoutParams(desiredWidth.toInt(), layoutParams.height)
-
             }
         }
     }
