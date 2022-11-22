@@ -9,5 +9,5 @@ internal class ChatCompositeRemoteOptions internal constructor(
     val threadId: String,
     val credential: CommunicationTokenCredential,
     val identity: String,
-    val displayName: String = ""
+    val displayName: String = "",
 )

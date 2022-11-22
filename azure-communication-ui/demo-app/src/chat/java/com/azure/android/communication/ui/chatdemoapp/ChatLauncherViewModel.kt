@@ -40,8 +40,10 @@ class ChatLauncherViewModel : ViewModel() {
     ) {
         // Create ChatAdapter
         val tokenRefresher = getTokenFetcher(acsToken)
-        val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions(tokenRefresher, true)
-        val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions(tokenRefresher, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         val chatAdapter = ChatAdapterBuilder()
             .endpointUrl(endpoint)

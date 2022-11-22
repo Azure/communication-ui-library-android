@@ -43,7 +43,9 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(localParticipantIdentifier: String): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
@@ -60,7 +62,9 @@ internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEven
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.into(localParticipantIdentifier: String): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
@@ -77,7 +81,9 @@ internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent.into(localParticipantIdentifier: String): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,

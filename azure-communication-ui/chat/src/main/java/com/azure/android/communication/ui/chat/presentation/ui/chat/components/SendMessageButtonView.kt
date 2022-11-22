@@ -39,11 +39,13 @@ internal fun SendMessageButtonView(
     else
         painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled_disabled)
     Box(
-        modifier = Modifier.testTag(UITestTags.MESSAGE_SEND_BUTTON).clickable {
-            if (chatStatus == ChatStatus.INITIALIZED && clickable) {
-                onClick()
+        modifier = Modifier
+            .testTag(UITestTags.MESSAGE_SEND_BUTTON)
+            .clickable {
+                if (chatStatus == ChatStatus.INITIALIZED && clickable) {
+                    onClick()
+                }
             }
-        }
     ) {
         Image(
             painter = painter,

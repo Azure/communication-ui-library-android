@@ -28,7 +28,7 @@ import com.azure.android.communication.ui.chat.redux.state.ReduxState
 internal class ChatCompositeViewImpl(
     context: Context,
     private val chatAdapter: ChatAdapter,
-    private val showActionBar: Boolean = false
+    private val showActionBar: Boolean = false,
 ) : FrameLayout(context) {
     private val composeView = ComposeView(context)
     private val locator get() = ServiceLocator.getInstance(chatAdapter.instanceIdAccessor())

@@ -21,12 +21,12 @@ import java9.util.concurrent.CompletableFuture;
 public final class ChatAdapter {
 
     private static int instanceIdCounter = 0;
+    final Integer instanceId = instanceIdCounter++;
     private final ChatContainer chatContainer;
     private final String endpointUrl;
     private final String identity;
     private final CommunicationTokenCredential credential;
     private final String displayName;
-    final Integer instanceId = instanceIdCounter++;
 
     ChatAdapter(final ChatCompositeConfiguration configuration,
                 final String endpointUrl,

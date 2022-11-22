@@ -41,7 +41,8 @@ internal fun ParticipantScreen(
         topBar = {
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val topic = stringResource(id = R.string.azure_communication_ui_chat_people)
-            val subTitle = viewModel.chatTopic ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+            val subTitle = viewModel.chatTopic
+                ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
 
             ActionBarView(
                 title = topic,
@@ -54,7 +55,10 @@ internal fun ParticipantScreen(
             )
         },
         content = { paddingValues ->
-            ParticipantsListView(participants = viewModel.participants.values.toList(), modifier = Modifier.padding(paddingValues))
+            ParticipantsListView(
+                participants = viewModel.participants.values.toList(),
+                modifier = Modifier.padding(paddingValues)
+            )
         },
 
     )
@@ -95,7 +99,10 @@ internal fun ParticipantScreenPreview() {
                         "Henry Jones"
                     ),
                 ).associateBy { it.userIdentifier.id },
-                messageContextMenu = MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, menuItems = emptyList()),
+                messageContextMenu = MessageContextMenuModel(
+                    messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
+                    menuItems = emptyList()
+                ),
             ),
 
         )
