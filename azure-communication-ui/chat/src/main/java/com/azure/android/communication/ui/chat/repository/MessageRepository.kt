@@ -16,11 +16,11 @@ internal class MessageRepository private constructor(
     val writerDelegate: MessageRepositoryWriter,
 ) : MessageRepositoryWriter {
 
-    //override val size: Int get() = readerDelegate.size
-    //override fun get(index: Int): MessageInfoModel = readerDelegate[index]
-    //override fun indexOf(element: MessageInfoModel) = readerDelegate.indexOf(element)
+    // override val size: Int get() = readerDelegate.size
+    // override fun get(index: Int): MessageInfoModel = readerDelegate[index]
+    // override fun indexOf(element: MessageInfoModel) = readerDelegate.indexOf(element)
 
-    fun getSnapshotList() : List<MessageInfoModel> {
+    fun getSnapshotList(): List<MessageInfoModel> {
         return readerDelegate.getSnapshotList()
     }
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) =
@@ -35,7 +35,6 @@ internal class MessageRepository private constructor(
 
     override fun editMessage(message: MessageInfoModel) =
         writerDelegate.editMessage(message = message)
-
 
     // TODO: We should be using read interface to get last message in list
     // This isn't a write message

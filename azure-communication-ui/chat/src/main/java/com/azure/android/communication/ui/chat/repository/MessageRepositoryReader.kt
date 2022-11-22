@@ -8,7 +8,7 @@ import java.lang.RuntimeException
 
 internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
 
-    fun getSnapshotList() : List<MessageInfoModel> {
+    fun getSnapshotList(): List<MessageInfoModel> {
         // This is a inefficient implementation
         // but is generic and will work with any backing data
         val result = ArrayList<MessageInfoModel>()

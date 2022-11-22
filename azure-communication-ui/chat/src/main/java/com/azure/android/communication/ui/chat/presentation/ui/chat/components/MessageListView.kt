@@ -51,7 +51,7 @@ internal fun MessageListView(
     dispatchers: Dispatch,
 ) {
     requestPages(scrollState, messages, dispatchers)
-    //dismissKeyboardWhenScrollUp(scrollState)
+    // dismissKeyboardWhenScrollUp(scrollState)
     if (messages.isNotEmpty()) {
         sendReadReceipt(scrollState, messages, dispatchers)
         autoScrollToBottom(scrollState, messages)
@@ -111,21 +111,19 @@ private fun autoScrollToBottom(
     scrollState: LazyListState,
     messages: List<MessageViewModel>,
 ) {
-    val lastList = remember { mutableStateOf(messages)}
+    val lastList = remember { mutableStateOf(messages) }
     val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
 
-
-    if (wasAtEnd.value == 0
-        && messages.last().message.id != lastList.value.last().message.id) {
+    if (wasAtEnd.value == 0 &&
+        messages.last().message.id != lastList.value.last().message.id
+    ) {
         LaunchedEffect(messages.last().message.id) {
             scrollState.scrollToItem(0)
         }
     }
     wasAtEnd.value = scrollState.firstVisibleItemIndex
-    lastList.value = messages;
+    lastList.value = messages
 }
-
-
 
 @Composable
 private fun dismissKeyboardWhenScrollUp(scrollState: LazyListState) {
