@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCom
 internal class ChatCompositeActivityImpl : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(ChatCompositeViewImpl(this, chatAdapter!!, true))
+        setContentView(ChatCompositeViewImpl(this, chatAdapter!!, false))
         actionBar?.hide()
         supportActionBar?.hide()
     }
