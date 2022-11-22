@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.calling.models.CallCompositeDiagnostics;
+import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -22,9 +22,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
-import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager;
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 
-import static com.azure.android.communication.ui.calling.models.CallCompositeDiagnosticsExtensionsKt.buildCallCompositeDiagnostics;
+import static com.azure.android.communication.ui.calling.models.CallCompositeDebugInfoExtensionsKt.buildCallCompositeDebugInfo;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
@@ -209,23 +209,23 @@ public final class CallComposite {
     }
 
     /**
-     * Get Call Composite Diagnostics information.
+     * Get Call Composite Debug information.
      *
-     * @return {@link CallCompositeDiagnostics}
+     * @return {@link CallCompositeDebugInfo}
      */
-    public CallCompositeDiagnostics getDiagnostics() {
-        final DiagnosticsManager diagnosticsManager = getDiagnosticsManger();
-        return diagnosticsManager != null
-                ? diagnosticsManager.getDiagnostics()
-                : buildCallCompositeDiagnostics();
+    public CallCompositeDebugInfo getDebugInfo() {
+        final DebugInfoManager debugInfoManager = getDebugInfoManager();
+        return debugInfoManager != null
+                ? debugInfoManager.getDebugInfo()
+                : buildCallCompositeDebugInfo();
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
         this.diContainer = new WeakReference<DependencyInjectionContainer>(diContainer);
     }
 
-    private DiagnosticsManager getDiagnosticsManger() {
-        return diContainer != null ? diContainer.get().getDiagnosticsManager() : null;
+    private DebugInfoManager getDebugInfoManager() {
+        return diContainer != null ? diContainer.get().getDebugInfoManager() : null;
     }
 
     private void launchComposite(final Context context,

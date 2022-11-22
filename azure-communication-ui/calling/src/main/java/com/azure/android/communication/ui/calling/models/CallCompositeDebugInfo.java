@@ -4,20 +4,20 @@
 package com.azure.android.communication.ui.calling.models;
 
 /**
- * A Call Composite Diagnostics information.
+ * A Call Composite Debug information.
  */
-public final class CallCompositeDiagnostics {
+public final class CallCompositeDebugInfo {
 
     private String lastKnownCallId;
 
-    CallCompositeDiagnostics() { }
+    CallCompositeDebugInfo() { }
 
     /**
      * Set last known call id.
      * @param lastKnownCallId last known call id.
-     * @return {@link CallCompositeDiagnostics}
+     * @return {@link CallCompositeDebugInfo}
      */
-    CallCompositeDiagnostics setLastKnownCallId(final String lastKnownCallId) {
+    CallCompositeDebugInfo setLastKnownCallId(final String lastKnownCallId) {
         this.lastKnownCallId = lastKnownCallId;
         return this;
     }
