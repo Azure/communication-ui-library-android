@@ -17,7 +17,7 @@ import kotlin.jvm.functions.Function1;
 /**
  * Defines locale for each supported language.
  */
-public final class ChatCompositeSupportedLocale {
+final class ChatCompositeSupportedLocale {
 
     public static final Locale EN = new Locale("en");
     public static final Locale EN_US = new Locale("en", "US");
@@ -45,6 +45,10 @@ public final class ChatCompositeSupportedLocale {
     public static final Locale NL_NL = new Locale("nl", "NL");
     public static final Locale TR = new Locale("tr");
     public static final Locale TR_TR = new Locale("tr", "TR");
+
+
+    ChatCompositeSupportedLocale() {
+    }
 
     /**
      * Gets the collection of supported languages as {@link Locale}.

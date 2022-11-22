@@ -3,7 +3,14 @@
 
 package com.azure.android.communication.ui.chat;
 
-public interface ChatCompositeEventHandler<T> {
+/**
+ * {@link ChatCompositeEventHandler}&lt;T&gt;
+ *
+ * <p>A generic handler for chat composite events.</p>
+ *
+ * @param <T> The callback event Type.
+ */
+interface ChatCompositeEventHandler<T> {
     /**
      * A callback method to process error event of type T
      *

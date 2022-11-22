@@ -41,6 +41,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 internal fun NavigatableBaseScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
+    showActionBar: Boolean = false,
 ) {
     BackHandler(enabled = viewModel.navigationStatus != NavigationStatus.NONE, onBack = {
         viewModel.postAction(NavigationAction.Pop())
@@ -50,7 +51,7 @@ internal fun NavigatableBaseScreen(
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        ChatScreen(viewModel = viewModel, stateViewModel = stateViewModel)
+        ChatScreen(viewModel = viewModel, stateViewModel = stateViewModel, showActionBar = showActionBar)
 
         AnimatedVisibility(
             visible = viewModel.navigationStatus == NavigationStatus.PARTICIPANTS,
@@ -76,7 +77,7 @@ internal fun NavigatableBaseScreenPreview() {
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 // Uncomment to verify nav
-                // navigationStatus = NavigationStatus.PARTICIPANTS,
+                navigationStatus = NavigationStatus.PARTICIPANTS,
                 typingParticipants = listOf("John Doe", "Mary Sue"),
                 postAction = {},
                 participants = listOf(

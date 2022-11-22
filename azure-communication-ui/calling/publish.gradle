@@ -2,11 +2,8 @@ apply plugin: 'maven-publish'
 
 def LIB_GROUP_ID = 'com.azure.android'
 def CALLING_LIB_ARTIFACT_ID = 'azure-communication-ui-calling'
-def CHAT_LIB_ARTIFACT_ID = 'azure-communication-ui-chat'
 def CALLING_LIB_VERSION = "$ui_library_version_name"
-def CHAT_LIB_VERSION = "$ui_library_version_name"
 def CALLING_LIB_DESCRIPTION = "Azure Communication Calling UI for Android."
-def CHAT_LIB_DESCRIPTION = "Azure Communication Chat UI for Android."
 
 Properties localProps = new Properties()
 if (project.rootProject.file('local.properties').canRead()) {

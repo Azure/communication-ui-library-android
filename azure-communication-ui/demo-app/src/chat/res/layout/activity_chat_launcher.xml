@@ -2,137 +2,144 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    tools:context="com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity"
+    >
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        tools:context=".ChatLauncherActivity">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/acsTokenText"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/acs_token_hint"
-            android:inputType="textUri"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp">
 
-        <EditText
-            android:id="@+id/identity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="@string/identity_hint"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="@id/acsTokenText"
-            app:layout_constraintTop_toBottomOf="@id/acsTokenText" />
+            <EditText
+                android:id="@+id/acsTokenText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/acs_token_hint"
+                android:inputType="textUri"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/userNameText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="@string/name_hint"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="@id/identity"
-            app:layout_constraintTop_toBottomOf="@id/identity" />
+            <EditText
+                android:id="@+id/identity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="@string/identity_hint"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@id/acsTokenText"
+                app:layout_constraintTop_toBottomOf="@id/acsTokenText" />
 
-        <EditText
-            android:id="@+id/chatThreadID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="@string/chat_thread_id_hint"
-            android:inputType="textNoSuggestions"
-            app:layout_constraintStart_toStartOf="@id/userNameText"
-            app:layout_constraintTop_toBottomOf="@id/userNameText" />
+            <EditText
+                android:id="@+id/userNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="@string/name_hint"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@id/identity"
+                app:layout_constraintTop_toBottomOf="@id/identity" />
 
-        <EditText
-            android:id="@+id/endPointURL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="@string/end_point_url_hint"
-            android:inputType="textNoSuggestions"
-            app:layout_constraintStart_toStartOf="@id/chatThreadID"
-            app:layout_constraintTop_toBottomOf="@id/chatThreadID" />
+            <EditText
+                android:id="@+id/chatThreadID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="@string/chat_thread_id_hint"
+                android:inputType="textNoSuggestions"
+                app:layout_constraintStart_toStartOf="@id/userNameText"
+                app:layout_constraintTop_toBottomOf="@id/userNameText" />
 
-        <RadioGroup
-            android:id="@+id/javaOrKotlinContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@id/endPointURL"
-            app:layout_constraintTop_toBottomOf="@id/endPointURL">
+            <EditText
+                android:id="@+id/endPointURL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="@string/end_point_url_hint"
+                android:inputType="textNoSuggestions"
+                app:layout_constraintStart_toStartOf="@id/chatThreadID"
+                app:layout_constraintTop_toBottomOf="@id/chatThreadID" />
 
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/launch_type_text"
-                android:textSize="17sp" />
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/endPointURL">
+                <Button
+                    android:id="@+id/launchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/launch_button_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/kotlinButton"
+                <Button
+                    android:id="@+id/openChatUIButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open_ui_button_text"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <Button
+                    android:id="@+id/openFullScreenChatUIButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open_full_screen_ui_button_text"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/openChatUIButton" />
+                <Button
+                    android:id="@+id/stopChatCompositeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/close_composite_button_text"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/openFullScreenChatUIButton" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:checked="true"
-                android:padding="5dp"
-                android:text="@string/kotlin"
-                android:textSize="17sp" />
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttons">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@string/version"
+                    android:textSize="14sp" />
 
-            <RadioButton
-                android:id="@+id/javaButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/java"
-                android:textSize="17sp" />
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/launchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/launch_button_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/javaOrKotlinContainer" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/launchButton">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:text="@string/version"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/versionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/debug"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+                <TextView
+                    android:id="@+id/versionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/debug"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
