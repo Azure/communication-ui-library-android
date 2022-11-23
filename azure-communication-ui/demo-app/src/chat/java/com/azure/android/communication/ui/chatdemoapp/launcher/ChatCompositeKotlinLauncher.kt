@@ -3,33 +3,27 @@
 
 package com.azure.android.communication.ui.chatdemoapp.launcher
 
-import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.ui.chat.ChatCompositeBuilder
-import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator
-import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
-import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity
+import android.content.Context
 import java.util.concurrent.Callable
 
 class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :
     ChatCompositeLauncher {
 
     override fun launch(
-        chatLauncherActivity: ChatLauncherActivity?,
+        context: Context,
         threadID: String?,
         endPointURL: String?,
         displayName: String?,
         identity: String?,
     ) {
-        val chatComposite = ChatCompositeBuilder().build()
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions(tokenRefresher, true)
-        val communicationTokenCredential =
-            CommunicationTokenCredential(communicationTokenRefreshOptions)
-        val locator = ChatCompositeJoinLocator(threadID, endPointURL)
-        val remoteOptions =
-            ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName)
-        chatComposite.launch(chatLauncherActivity, remoteOptions, ChatCompositeLocalOptions())
+//        val chatComposite = ChatCompositeBuilder().build()
+//        val communicationTokenRefreshOptions =
+//            CommunicationTokenRefreshOptions(tokenRefresher, true)
+//        val communicationTokenCredential =
+//            CommunicationTokenCredential(communicationTokenRefreshOptions)
+//        val locator = ChatCompositeJoinLocator(threadID, endPointURL)
+//        val remoteOptions =
+//            ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName)
+//        chatComposite.launch(context, remoteOptions, ChatCompositeLocalOptions())
     }
 }

@@ -11,7 +11,8 @@ import java.util.Collections
 
 internal class MessageRepositoryListWriter : MessageRepositoryWriter {
     // Simple List for now
-    val messages: MutableList<MessageInfoModel> = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
+    val messages: MutableList<MessageInfoModel> =
+        Collections.synchronizedList(mutableListOf<MessageInfoModel>())
 
     // Middleware Interface
     override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
@@ -72,7 +73,8 @@ internal class MessageRepositoryListWriter : MessageRepositoryWriter {
     }
 }
 
-internal class MessageRepositoryListReader(private val writer: MessageRepositoryListWriter) : MessageRepositoryReader() {
+internal class MessageRepositoryListReader(private val writer: MessageRepositoryListWriter) :
+    MessageRepositoryReader() {
     override fun get(index: Int): MessageInfoModel = try {
         writer.messages[index]
     } catch (exception: Exception) {

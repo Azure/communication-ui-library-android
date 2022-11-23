@@ -8,7 +8,8 @@ import java.net.URLDecoder
 internal class TeamsUrlParser {
     companion object {
         fun getThreadId(teamsMeetingLink: String): String {
-            var threadId = teamsMeetingLink.replace("https://teams.microsoft.com/l/meetup-join/", "")
+            var threadId =
+                teamsMeetingLink.replace("https://teams.microsoft.com/l/meetup-join/", "")
 
             val splitText = threadId.split("/")
 
