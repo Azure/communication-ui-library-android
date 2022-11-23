@@ -1,0 +1,97 @@
+# This is the main CI pipeline.
+# It lints, builds and runs unit tests for all of our projects.
+
+trigger:
+  branches:
+    include:
+    - refs/heads/*
+
+pool:
+  vmImage: 'macos-latest'
+
+steps:
+# By default, JAVA_HOME points to java1.8, but we need java11 for the current Android Gradle plugin.
+# macos-12 image comes iwth java11 preinstalled, so use that instead.
+- task: JavaToolInstaller@0
+  displayName: 'Configure Java 11'
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
+# Run linters first to fail quickly on code style issues.
+- task: Gradle@2
+  displayName: 'ktlintCheck'
+  inputs:
+    workingDirectory: 'azure-communication-ui'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    tasks: 'ktlintCheck'
+
+# Build task runs assemble and test for all variants.
+# For now, avoid doing this for 'demo-app' - it'll need to be signed, etc.
+# For the demo-app, we'll just verify that we can assemble it.
+- task: Gradle@2
+  displayName: 'build Calling'
+  inputs:
+    workingDirectory: 'azure-communication-ui/calling'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: ':calling:build --stacktrace'
+
+- task: Gradle@2
+  displayName: 'build Chat'
+  inputs:
+    workingDirectory: 'azure-communication-ui'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: ':chat:build --stacktrace'
+
+- task: Gradle@2
+  displayName: 'build CallWithChat'
+  inputs:
+    workingDirectory: 'azure-communication-ui'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: ':call-with-chat:build --stacktrace'
+
+- task: Gradle@2
+  displayName: 'assembleDebug demo-app'
+  inputs:
+    workingDirectory: 'azure-communication-ui'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: ':demo-app:assembleDebug --stacktrace'
+
+- task: Gradle@2
+  displayName: 'assembleDebug demo-app'
+  inputs:
+    workingDirectory: 'azure-communication-ui'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: ':demo-app:assembleDebug --stacktrace'
+
+- task: Gradle@2
+  displayName: 'Coverage report for calling'
+  inputs:
+    workingDirectory: 'azure-communication-ui'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: 'jacocoTestReport'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Calling - Publish code coverage Jacoco'
+  inputs:
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+    pathToSources: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/src/main/java
+    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/build/reports/jacoco/jacocoTestReport/html/index.html
+
