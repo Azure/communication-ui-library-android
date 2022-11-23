@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.logger.DefaultLogger
 import com.azure.android.communication.ui.chat.logger.Logger
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
@@ -94,7 +93,7 @@ internal class ChatContainer(
             val messageRepository = MessageRepository.createSkipListBackedRepository()
 
             addTypedBuilder { chatAdapter }
-            addTypedBuilder<List<MessageInfoModel>> { messageRepository }
+            addTypedBuilder { messageRepository }
 
             addTypedBuilder { remoteOptions }
 

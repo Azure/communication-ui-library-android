@@ -7,6 +7,7 @@ import android.content.Context
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -107,7 +108,7 @@ private class InfoModelToViewModelAdapter(
     override fun containsAll(elements: Collection<MessageViewModel>) =
         messages.containsAll(elements.map { it.message })
 
-    override fun indexOf(element: MessageViewModel) = messages.indexOf(element.message)
+    override fun indexOf(element: MessageViewModel) = messages.findMessageIdxById(element.message.id ?: "")
 
     override fun isEmpty() = messages.isEmpty()
 
