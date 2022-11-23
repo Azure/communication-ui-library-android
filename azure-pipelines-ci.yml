@@ -32,7 +32,7 @@ steps:
 # For now, avoid doing this for 'demo-app' - it'll need to be signed, etc.
 # For the demo-app, we'll just verify that we can assemble it.
 - task: Gradle@2
-  displayName: 'build Calling'
+  displayName: 'calling compile, lint, test'
   inputs:
     workingDirectory: 'azure-communication-ui/calling'
     gradleWrapperFile: 'azure-communication-ui/gradlew'
@@ -41,7 +41,7 @@ steps:
     tasks: ':calling:build --stacktrace'
 
 - task: Gradle@2
-  displayName: 'build Chat'
+  displayName: 'chat compile, lint, test'
   inputs:
     workingDirectory: 'azure-communication-ui'
     gradleWrapperFile: 'azure-communication-ui/gradlew'
@@ -51,7 +51,7 @@ steps:
     tasks: ':chat:build --stacktrace'
 
 - task: Gradle@2
-  displayName: 'build CallWithChat'
+  displayName: 'call-with-chat compile, lint, test'
   inputs:
     workingDirectory: 'azure-communication-ui'
     gradleWrapperFile: 'azure-communication-ui/gradlew'
@@ -61,17 +61,7 @@ steps:
     tasks: ':call-with-chat:build --stacktrace'
 
 - task: Gradle@2
-  displayName: 'assembleDebug demo-app'
-  inputs:
-    workingDirectory: 'azure-communication-ui'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: ':demo-app:assembleDebug --stacktrace'
-
-- task: Gradle@2
-  displayName: 'assembleDebug demo-app'
+  displayName: 'demo-app assembleDebug'
   inputs:
     workingDirectory: 'azure-communication-ui'
     gradleWrapperFile: 'azure-communication-ui/gradlew'
