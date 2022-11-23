@@ -2,7 +2,7 @@ package com.azure.android.communication.ui.chat
 
 import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent
 
-class ChatCompositeEventsHandler {
+internal class ChatCompositeEventsHandler {
     private val errorHandlers = mutableSetOf<ChatCompositeEventHandler<ChatCompositeErrorEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
