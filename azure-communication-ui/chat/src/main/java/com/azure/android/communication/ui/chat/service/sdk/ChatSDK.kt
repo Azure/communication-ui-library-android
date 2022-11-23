@@ -19,7 +19,7 @@ internal interface ChatSDK {
     fun destroy()
     fun requestPreviousPage()
     fun requestChatParticipants()
-    fun getAdminUserId(): CompletableFuture<String>
+    fun getAdminUserId(): String
 
     fun startEventNotifications()
     fun stopEventNotifications()
