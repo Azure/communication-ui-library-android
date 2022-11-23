@@ -12,7 +12,8 @@ import java.util.concurrent.ConcurrentSkipListMap
 
 internal class MessageRepositorySkipListWriter : MessageRepositoryWriter {
 
-    private val skipListStorage: ConcurrentSkipListMap<Long, MessageInfoModel> = ConcurrentSkipListMap()
+    private val skipListStorage: ConcurrentSkipListMap<Long, MessageInfoModel> =
+        ConcurrentSkipListMap()
 
     val size: Int
         get() = skipListStorage.size
@@ -108,7 +109,7 @@ internal class MessageRepositorySkipListWriter : MessageRepositoryWriter {
 
     private fun mergeWithPreviousMessage(
         previousMessage: MessageInfoModel,
-        message: MessageInfoModel
+        message: MessageInfoModel,
     ): MessageInfoModel {
         var newMessage = MessageInfoModel(
             id = previousMessage.id,
@@ -127,7 +128,8 @@ internal class MessageRepositorySkipListWriter : MessageRepositoryWriter {
     }
 }
 
-internal class MessageRepositorySkipListReader(private val writer: MessageRepositorySkipListWriter) : MessageRepositoryReader() {
+internal class MessageRepositorySkipListReader(private val writer: MessageRepositorySkipListWriter) :
+    MessageRepositoryReader() {
 
     override val size: Int
         get() = writer.size

@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -35,7 +35,6 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.F
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.messageContextMenu
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -44,13 +43,13 @@ import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun ChatScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
+    showActionBar: Boolean = false,
 ) {
     val scaffoldState = rememberScaffoldState()
     val listState = rememberLazyListState()
@@ -59,13 +58,17 @@ internal fun ChatScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
+            if (!showActionBar) return@Scaffold
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val topic = when {
                 viewModel.chatTopic != null -> viewModel.chatTopic
                 else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
             }
 
-            val subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, viewModel.participants.count())
+            val subTitle = stringResource(
+                id = R.string.azure_communication_ui_chat_count_people,
+                viewModel.participants.count()
+            )
 
             ActionBarView(
                 title = topic,

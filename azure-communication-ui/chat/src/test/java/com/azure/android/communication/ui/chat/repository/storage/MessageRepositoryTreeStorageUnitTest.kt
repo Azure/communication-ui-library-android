@@ -170,7 +170,7 @@ class MessageRepositoryTreeStorageUnitTest {
         println("Time: ${endTime - startTime}")
         println("---------- ExecutionTime ------------")
 
-        Assert.assertEquals(true, startTime <endTime)
+        Assert.assertEquals(true, startTime < endTime)
     }
 
     @Test

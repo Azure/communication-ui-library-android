@@ -18,10 +18,17 @@ class MessageRepositoryUnitTest {
     fun messageRepository_createListStorage_unitTest() {
         val listStorage: MessageRepository = MessageRepository.createListBackedRepository()
         val messageStorageWriter = MessageRepositoryListWriter()
-        Assert.assertEquals(true, listStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
         Assert.assertEquals(
             true,
-            listStorage.readerDelegate.javaClass.isInstance(MessageRepositoryListReader(messageStorageWriter))
+            listStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
+        )
+        Assert.assertEquals(
+            true,
+            listStorage.readerDelegate.javaClass.isInstance(
+                MessageRepositoryListReader(
+                    messageStorageWriter
+                )
+            )
         )
     }
 
@@ -29,10 +36,17 @@ class MessageRepositoryUnitTest {
     fun messageRepository_createTreeStorage_unitTest() {
         val treeStorage: MessageRepository = MessageRepository.createTreeBackedRepository()
         val messageStorageWriter = MessageRepositoryTreeWriter()
-        Assert.assertEquals(true, treeStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
         Assert.assertEquals(
             true,
-            treeStorage.readerDelegate.javaClass.isInstance(MessageRepositoryTreeReader(messageStorageWriter))
+            treeStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
+        )
+        Assert.assertEquals(
+            true,
+            treeStorage.readerDelegate.javaClass.isInstance(
+                MessageRepositoryTreeReader(
+                    messageStorageWriter
+                )
+            )
         )
     }
 
@@ -40,10 +54,17 @@ class MessageRepositoryUnitTest {
     fun messageRepository_createSkipListStorage_unitTest() {
         val skipListStorage: MessageRepository = MessageRepository.createSkipListBackedRepository()
         val messageStorageWriter = MessageRepositorySkipListWriter()
-        Assert.assertEquals(true, skipListStorage.writerDelegate.javaClass.isInstance(messageStorageWriter))
         Assert.assertEquals(
             true,
-            skipListStorage.readerDelegate.javaClass.isInstance(MessageRepositorySkipListReader(messageStorageWriter))
+            skipListStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
+        )
+        Assert.assertEquals(
+            true,
+            skipListStorage.readerDelegate.javaClass.isInstance(
+                MessageRepositorySkipListReader(
+                    messageStorageWriter
+                )
+            )
         )
     }
 }

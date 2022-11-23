@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply from: file('publish.gradle')
+
 android {
     compileSdkVersion 33
     resourcePrefix 'azure_communication_ui_chat_'
@@ -30,6 +32,8 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig false
+        resValues false
     }
     composeOptions {
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
@@ -54,6 +58,14 @@ android {
         }
         filter {
             exclude({ it.file.absolutePath.contains("/generated/") })
+        }
+    }
+
+    publishing {
+        multipleVariants('release') {
+            withSourcesJar()
+            withJavadocJar()
+            includeBuildTypeValues('release')
         }
     }
 }
@@ -81,6 +93,7 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
     implementation("androidx.navigation:navigation-compose:$androidx_navigation_compose")
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling-data:$compose_version"
@@ -92,8 +105,8 @@ dependencies {
     debugImplementation "androidx.customview:customview:1.2.0-alpha01"
     debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 
-    api ("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
-    api ("com.azure.android:azure-communication-common:$azure_common_sdk_version")
+    api("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
+    api("com.azure.android:azure-communication-common:$azure_common_sdk_version")
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-inline:$mockito_inline_version"

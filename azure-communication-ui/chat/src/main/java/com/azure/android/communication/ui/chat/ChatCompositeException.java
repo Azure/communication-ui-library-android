@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat;
 
-import androidx.annotation.NonNull;
 
 /**
  * Defines the base type of custom Exception that can be thrown by this Library.
@@ -20,7 +19,7 @@ public final class ChatCompositeException extends RuntimeException {
      * @param cause        - the cause (which is saved for later retrieval by the getCause() method).  A
      *                     null value is permitted, and indicates that the cause is non-existent or unknown.
      */
-    public ChatCompositeException(final String errorMessage, @NonNull final Throwable cause) {
+    public ChatCompositeException(final String errorMessage, final Throwable cause) {
         super(errorMessage, cause);
     }
 

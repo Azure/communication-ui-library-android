@@ -4,16 +4,16 @@
 package com.azure.android.communication.ui.chat.models;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 import com.azure.android.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
 /**
  * Result values for
- * {@link ChatComposite#setRemoteParticipantViewData(CommunicationIdentifier, ChatCompositeParticipantViewData)}.
+ * {@link ChatAdapter#setRemoteParticipantViewData(CommunicationIdentifier, ChatCompositeParticipantViewData)}.
  */
-public final class ChatCompositeSetParticipantViewDataResult
+final class ChatCompositeSetParticipantViewDataResult
         extends ExpandableStringEnum<ChatCompositeSetParticipantViewDataResult> {
 
     /**
@@ -26,6 +26,10 @@ public final class ChatCompositeSetParticipantViewDataResult
      */
     public static final ChatCompositeSetParticipantViewDataResult PARTICIPANT_NOT_IN_CHAT
             = fromString("participantNotInChat");
+
+    ChatCompositeSetParticipantViewDataResult() {
+
+    }
 
     /**
      * Creates or finds a {@link ChatCompositeSetParticipantViewDataResult} from it's string representation.

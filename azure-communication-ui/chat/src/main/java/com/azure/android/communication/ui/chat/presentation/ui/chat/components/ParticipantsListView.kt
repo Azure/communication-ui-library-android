@@ -23,9 +23,18 @@ internal fun ParticipantsListView(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        ListSubHeaderView(text = stringResource(id = R.string.azure_communication_ui_chat_in_this_chat_count, participants.count()))
+        ListSubHeaderView(
+            text = stringResource(
+                id = R.string.azure_communication_ui_chat_in_this_chat_count,
+                participants.count()
+            )
+        )
         LazyColumn(modifier = modifier.fillMaxWidth()) {
-            items(items = participants, key = { it.userIdentifier.id }, itemContent = { it -> ParticipantView(participant = it) })
+            items(
+                items = participants,
+                key = { it.userIdentifier.id },
+                itemContent = { it -> ParticipantView(participant = it) }
+            )
         }
     }
 }

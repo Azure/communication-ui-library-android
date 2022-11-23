@@ -20,7 +20,7 @@ internal fun AvatarView(
     avatarSize: AvatarSize = AvatarSize.LARGE,
     @DrawableRes image: Int = -1,
     isGrouped: Boolean = false,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     AndroidView(
         modifier = modifier,
