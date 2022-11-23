@@ -39,7 +39,7 @@ private class InfoModelToViewModelAdapter(
         // Generate Message View Model here
 
         val lastMessage = try { messages[index - 1] } catch (e: IndexOutOfBoundsException) { EMPTY_MESSAGE_INFO_MODEL }
-//        val lastLocalUserMessage =
+        val lastLocalUserMessageId = getLastMessageByLocalUser()
         val thisMessage = messages[index]
         val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
         val currentMessageTime = thisMessage.editedOn ?: thisMessage.createdOn
@@ -60,8 +60,18 @@ private class InfoModelToViewModelAdapter(
             ),
 
             isLocalUser = isLocalUser,
-            isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
+            isRead = lastLocalUserMessageId == thisMessage.id
+                    && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
         )
+    }
+
+    private fun getLastMessageByLocalUser(): String {
+        for (i in messages.indices.reversed()) {
+            if (messages[i].senderCommunicationIdentifier?.id == localUserIdentifier || messages[i].isCurrentUser) {
+                return messages[i].id.toString()
+            }
+        }
+        return null!!
     }
 
     private fun buildDateHeader(
