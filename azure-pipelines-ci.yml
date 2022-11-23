@@ -1,10 +1,19 @@
 # This is the main CI pipeline.
 # It lints, builds and runs unit tests for all of our projects.
 
+# Trigger this pipeline on all pushes landing on our primary integration branches.
 trigger:
   branches:
     include:
-    - refs/heads/*
+    - main
+    - develop
+    - release/*
+
+# Trigger this pipeline on PRs against our primary integration branches.
+pr:
+  - main
+  - develop
+  - release/*
 
 pool:
   vmImage: 'macos-latest'
