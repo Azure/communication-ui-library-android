@@ -8,6 +8,7 @@ import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
+import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivityImpl;
 
@@ -27,6 +28,8 @@ public final class ChatAdapter {
     private final String identity;
     private final CommunicationTokenCredential credential;
     private final String displayName;
+    private final ChatCompositeConfiguration configuration;
+
 
     ChatAdapter(final ChatCompositeConfiguration configuration,
                 final String endpointUrl,
@@ -38,6 +41,7 @@ public final class ChatAdapter {
         this.identity = identity;
         this.credential = credential;
         this.displayName = displayName;
+        this.configuration = configuration;
     }
 
     /**
@@ -75,5 +79,39 @@ public final class ChatAdapter {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ChatCompositeActivityImpl.Companion.setChatAdapter(this);
         context.startActivity(intent);
+    }
+
+    /**
+     * Add {@link ChatCompositeEventsHandler}.
+     *
+     * <p> A callback for Chat Composite Error Events.
+     * See {@link ChatCompositeErrorEvent} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add error handler
+     * chatComposite.addOnErrorEventHandler&#40;event -> {
+     *     &#47;&#47; Process error event
+     *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param errorHandler The {@link ChatCompositeEventsHandler}.
+     */
+    public void addOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+        configuration.getChatCompositeEventsHandler().addOnErrorEventHandler(errorHandler);
+    }
+
+    /**
+     * Remove {@link ChatCompositeEventsHandler}.
+     *
+     * <p> A callback for Chat Composite Error Events.
+     * See {@link ChatCompositeErrorEvent} for values.</p>
+     *
+     * @param errorHandler The {@link ChatCompositeEventsHandler}.
+     */
+    public void removeOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+        configuration.getChatCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
     }
 }
