@@ -41,7 +41,10 @@ internal class MessageRepositoryMiddlewareImpl(
                 is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
                 is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
-                is ParticipantAction.ParticipantsAdded -> processParticipantsAdded(action, store::dispatch)
+                is ParticipantAction.ParticipantsAdded -> processParticipantsAdded(
+                    action,
+                    store::dispatch
+                )
                 is ParticipantAction.ParticipantsRemoved -> {
                     processParticipantsRemoved(
                         action,
@@ -58,7 +61,7 @@ internal class MessageRepositoryMiddlewareImpl(
     }
 
     private fun processNetworkDisconnected(
-        dispatch: Dispatch
+        dispatch: Dispatch,
     ) {
         messageRepository.getLastMessage()?.let { messageInfoModel ->
             val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
@@ -93,9 +96,13 @@ internal class MessageRepositoryMiddlewareImpl(
         notifyUpdate(dispatch)
     }
 
-    var skipFirstParticipantsAddedMessage = true
+    private var skipFirstParticipantsAddedMessage = true
+
     // Fake a message for Participant Added
-    private fun processParticipantsAdded(action: ParticipantAction.ParticipantsAdded, dispatch: Dispatch) {
+    private fun processParticipantsAdded(
+        action: ParticipantAction.ParticipantsAdded,
+        dispatch: Dispatch,
+    ) {
         // This comes through at start, but we don't want to pass it through
         // since it's also in the historical messages
         if (skipFirstParticipantsAddedMessage) {

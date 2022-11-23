@@ -45,7 +45,7 @@ internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineC
 
     fun start(
         chatThreadClient: ChatThreadClient,
-        eventSubscriber: (ChatEventModel) -> Unit
+        eventSubscriber: (ChatEventModel) -> Unit,
     ) {
         this.chatThreadClient = chatThreadClient
         this.eventSubscriber = eventSubscriber

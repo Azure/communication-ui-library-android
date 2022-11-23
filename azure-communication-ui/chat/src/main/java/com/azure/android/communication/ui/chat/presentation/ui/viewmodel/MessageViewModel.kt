@@ -7,6 +7,7 @@ import android.content.Context
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -21,27 +22,41 @@ internal class MessageViewModel(
     val showTime: Boolean,
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
-    val isRead: Boolean
+    val isRead: Boolean,
 )
 
-internal fun List<MessageInfoModel>.toViewModelList(context: Context, localUserIdentifier: String, latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN) =
-    InfoModelToViewModelAdapter(context, this, localUserIdentifier, latestReadMessageTimestamp) as List<MessageViewModel>
+internal fun List<MessageInfoModel>.toViewModelList(
+    context: Context,
+    localUserIdentifier: String,
+    latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN,
+) =
+    InfoModelToViewModelAdapter(
+        context,
+        this,
+        localUserIdentifier,
+        latestReadMessageTimestamp
+    ) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
     private val context: Context,
     private val messages: List<MessageInfoModel>,
     private val localUserIdentifier: String,
-    private val latestReadMessageTimestamp: OffsetDateTime
+    private val latestReadMessageTimestamp: OffsetDateTime,
 ) :
     List<MessageViewModel> {
 
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
 
-        val lastMessage = try { messages[index - 1] } catch (e: IndexOutOfBoundsException) { EMPTY_MESSAGE_INFO_MODEL }
+        val lastMessage = try {
+            messages[index - 1]
+        } catch (e: IndexOutOfBoundsException) {
+            EMPTY_MESSAGE_INFO_MODEL
+        }
 //        val lastLocalUserMessage =
         val thisMessage = messages[index]
-        val isLocalUser = thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
+        val isLocalUser =
+            thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
         val currentMessageTime = thisMessage.editedOn ?: thisMessage.createdOn
         return MessageViewModel(
 
@@ -66,7 +81,7 @@ private class InfoModelToViewModelAdapter(
 
     private fun buildDateHeader(
         lastMessageDate: OffsetDateTime,
-        thisMessageDate: OffsetDateTime
+        thisMessageDate: OffsetDateTime,
     ): String? {
         val today = OffsetDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0)
         val yesterday = today.minusDays(1)
@@ -93,7 +108,7 @@ private class InfoModelToViewModelAdapter(
     override fun containsAll(elements: Collection<MessageViewModel>) =
         messages.containsAll(elements.map { it.message })
 
-    override fun indexOf(element: MessageViewModel) = messages.indexOf(element.message)
+    override fun indexOf(element: MessageViewModel) = messages.findMessageIdxById(element.message.id ?: "")
 
     override fun isEmpty() = messages.isEmpty()
 

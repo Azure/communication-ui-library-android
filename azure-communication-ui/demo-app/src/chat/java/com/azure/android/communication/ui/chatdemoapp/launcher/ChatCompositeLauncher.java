@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.chatdemoapp.launcher;
 
-import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity;
+import android.content.Context;
 
 public interface ChatCompositeLauncher {
-    void launch(ChatLauncherActivity chatLauncherActivity,
+    void launch(Context context,
                 String threadID,
                 String endPointURL,
                 String displayName,

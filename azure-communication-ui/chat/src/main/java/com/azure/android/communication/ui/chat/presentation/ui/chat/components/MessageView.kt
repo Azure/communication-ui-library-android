@@ -137,13 +137,15 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
 
             Box(modifier = Modifier.weight(1.0f)) {
                 Box(
-                    Modifier.background(
-                        color = when (viewModel.isLocalUser) {
-                            true -> ChatCompositeTheme.colors.messageBackgroundSelf
-                            false -> ChatCompositeTheme.colors.messageBackground
-                        },
-                        shape = ChatCompositeTheme.shapes.messageBubble,
-                    ).align(alignment = if (viewModel.isLocalUser) Alignment.TopEnd else Alignment.TopStart)
+                    Modifier
+                        .background(
+                            color = when (viewModel.isLocalUser) {
+                                true -> ChatCompositeTheme.colors.messageBackgroundSelf
+                                false -> ChatCompositeTheme.colors.messageBackground
+                            },
+                            shape = ChatCompositeTheme.shapes.messageBubble,
+                        )
+                        .align(alignment = if (viewModel.isLocalUser) Alignment.TopEnd else Alignment.TopStart)
                     /* TODO: Add this block back in to add Context Menu Code
                     .combinedClickable(onLongClick = {
                         dispatch(ChatAction.ShowMessageContextMenu(viewModel.message))

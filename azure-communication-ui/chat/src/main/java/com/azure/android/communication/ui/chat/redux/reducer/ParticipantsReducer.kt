@@ -17,7 +17,12 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 state.copy(
                     participants = state.participants + action.participants.associateBy { it.userIdentifier.id },
                     participantsReadReceiptMap = state.participantsReadReceiptMap +
-                        action.participants.map { Pair(it.userIdentifier.id, state.latestReadMessageTimestamp) }
+                        action.participants.map {
+                            Pair(
+                                it.userIdentifier.id,
+                                state.latestReadMessageTimestamp
+                            )
+                        }
                 )
             }
             is ParticipantAction.ParticipantsRemoved -> {
@@ -38,15 +43,19 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.AddParticipantTyping -> {
                 val id = action.infoModel.userIdentifier.id
-                val displayName = state.participants[id]?.displayName
-                if (displayName.isNullOrEmpty()) {
+                val typingParticipant = state.participants[id]
+                if (typingParticipant == null) {
                     state
                 } else {
+                    val displayName = typingParticipant.displayName
                     // if participant is already typing, remove and add with new timestamp
                     state.copy(
                         participantTyping = state.participantTyping -
                             state.participantTyping.keys.filter { it.contains(id) } +
-                            Pair(id + action.infoModel.receivedOn, displayName)
+                            Pair(
+                                id + action.infoModel.receivedOn,
+                                if (displayName.isNullOrEmpty()) "Unknown participant" else displayName
+                            )
                     )
                 }
             }
@@ -70,7 +79,8 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.ReadReceiptReceived -> {
                 val participantsReadReceiptMap = state.participantsReadReceiptMap.toMutableMap()
-                participantsReadReceiptMap[action.infoModel.userIdentifier.id] = action.infoModel.receivedOn
+                participantsReadReceiptMap[action.infoModel.userIdentifier.id] =
+                    action.infoModel.receivedOn
                 val latestReadMessageTimestamp = participantsReadReceiptMap.values.min()
                 state.copy(
                     participantsReadReceiptMap = participantsReadReceiptMap,
