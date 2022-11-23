@@ -8,12 +8,15 @@ import java.lang.RuntimeException
 
 internal abstract class MessageRepositoryReader : List<MessageInfoModel> {
 
-    // Note:
-    //  While we use List<MessageInfoModel> on the MessageRepository
-    //  List methods we do not need will be stubbed out
-    //  They are defined here so we do not need them
-    //
-    //  Methods not defined here from List will pass through to the implementor
+    fun getSnapshotList(): List<MessageInfoModel> {
+        // This is a inefficient implementation
+        // but is generic and will work with any backing data
+        val result = ArrayList<MessageInfoModel>()
+        for (i in 0 until size) {
+            result.add(get(i))
+        }
+        return result
+    }
 
     override fun isEmpty(): Boolean {
         return size == 0
