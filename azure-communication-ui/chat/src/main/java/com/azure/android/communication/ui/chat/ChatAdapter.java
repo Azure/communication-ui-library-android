@@ -8,6 +8,7 @@ import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
+import com.azure.android.communication.ui.chat.models.ChatCompositeEvent;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivityImpl;
 
@@ -27,6 +28,7 @@ public final class ChatAdapter {
     private final String identity;
     private final CommunicationTokenCredential credential;
     private final String displayName;
+    private final ChatCompositeConfiguration configuration;
 
     ChatAdapter(final ChatCompositeConfiguration configuration,
                 final String endpointUrl,
@@ -38,6 +40,7 @@ public final class ChatAdapter {
         this.identity = identity;
         this.credential = credential;
         this.displayName = displayName;
+        this.configuration = configuration;
     }
 
     /**
@@ -56,6 +59,32 @@ public final class ChatAdapter {
     public void disconnect() {
     }
 
+    /**
+     * Add {@link ChatCompositeEventHandler} with {@link ChatCompositeEvent}.
+     *
+     * <p> A callback for Chat Composite  Events.
+     * See {@link com.azure.android.communication.ui.chat.models.ChatCompositeEvent} for values.</p>
+     *
+     * @param eventHandler The {@link ChatCompositeEventHandler}.
+     */
+    public void addOnLocalParticipantRemovedEventHandler(
+            final ChatCompositeEventHandler<ChatCompositeEvent> eventHandler) {
+        configuration.getEventHandlerRepository().addLocalParticipantRemovedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link ChatCompositeEventHandler} with {@link ChatCompositeEvent}.
+     *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.chat.models.ChatCompositeEvent} for
+     * values.</p>
+     *
+     * @param eventHandler The {@link ChatCompositeEventHandler}.
+     */
+    public void removeOnLocalParticipantRemovedEventHandler(
+            final ChatCompositeEventHandler<ChatCompositeEvent> eventHandler) {
+        configuration.getEventHandlerRepository().removeLocalParticipantRemovedEventHandler(eventHandler);
+    }
 
     private void launchComposite(final Context context, final String threadId) {
         final ChatCompositeRemoteOptions remoteOptions =
