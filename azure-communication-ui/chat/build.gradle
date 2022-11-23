@@ -59,13 +59,7 @@ android {
         }
     }
 
-    publishing {
-        multipleVariants('release') {
-            withSourcesJar()
-            withJavadocJar()
-            includeBuildTypeValues('release')
-        }
-    }
+
 }
 
 dependencies {
