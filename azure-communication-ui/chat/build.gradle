@@ -61,7 +61,15 @@ android {
         }
     }
 
-
+    publishing {
+        if (!shouldByPassMavenPublish()) {
+            multipleVariants('release') {
+                withSourcesJar()
+                withJavadocJar()
+                includeBuildTypeValues('release')
+            }
+        }
+    }
 }
 
 dependencies {
