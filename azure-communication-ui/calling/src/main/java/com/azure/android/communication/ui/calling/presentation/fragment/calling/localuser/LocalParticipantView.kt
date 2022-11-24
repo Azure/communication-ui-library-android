@@ -233,8 +233,9 @@ internal class LocalParticipantView : ConstraintLayout {
         videoHolder: ConstraintLayout,
         viewMode: LocalParticipantViewMode
     ) {
-        videoViewManager.getLocalVideoRenderer(videoStreamID,
-            if (viewMode==LocalParticipantViewMode.PIP)
+        videoViewManager.getLocalVideoRenderer(
+            videoStreamID,
+            if (viewMode == LocalParticipantViewMode.PIP)
                 ScalingMode.CROP
             else
                 ScalingMode.FIT
