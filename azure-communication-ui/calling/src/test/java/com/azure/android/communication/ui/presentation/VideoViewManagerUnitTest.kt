@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation
 import android.content.Context
 import android.widget.FrameLayout
 import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
@@ -90,14 +91,14 @@ internal class VideoViewManagerUnitTest {
         val remoteVideoView =
             videoViewManager.getRemoteVideoStreamRenderer("user", "111")
         videoViewManager.updateLocalVideoRenderer("345")
-        val localVideoView = videoViewManager.getLocalVideoRenderer("345")
+        val localVideoView = videoViewManager.getLocalVideoRenderer("345", ScalingMode.FIT)
 
         // act
         videoViewManager.destroy()
         remoteParticipantMap.clear()
         val remoteVideoViewAfterDelete =
             videoViewManager.getRemoteVideoStreamRenderer("user", "111")
-        val localVideoViewAfterDelete = videoViewManager.getLocalVideoRenderer("345")
+        val localVideoViewAfterDelete = videoViewManager.getLocalVideoRenderer("345", ScalingMode.FIT)
 
         // assert
         Assert.assertNotNull(remoteVideoView)
@@ -151,7 +152,7 @@ internal class VideoViewManagerUnitTest {
 
         // act
         videoViewManager.updateLocalVideoRenderer("345")
-        val localVideoView = videoViewManager.getLocalVideoRenderer("345")
+        val localVideoView = videoViewManager.getLocalVideoRenderer("345", ScalingMode.FIT)
 
         // assert
         Assert.assertEquals(localVideoView, mockLayout)

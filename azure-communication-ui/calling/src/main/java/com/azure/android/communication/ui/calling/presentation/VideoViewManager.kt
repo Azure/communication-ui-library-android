@@ -89,6 +89,7 @@ internal class VideoViewManager(
         if (videoStreamID != null) {
             if (!localParticipantVideoRendererMap.containsKey(videoStreamID)) {
                 callingSDKWrapper.getLocalVideoStream().get()?.let { videoStream ->
+
                     val videoStreamRenderer =
                         videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
                             videoStream,
@@ -102,14 +103,18 @@ internal class VideoViewManager(
         }
     }
 
-    fun getLocalVideoRenderer(videoStreamID: String): View? {
+    fun getLocalVideoRenderer(videoStreamID: String, scalingModeForTv: ScalingMode): View? {
         var rendererView: VideoStreamRendererView? = null
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
         }
+
         if (isAndroidTV(context)) {
+            rendererView?.updateScalingMode(scalingModeForTv)
+        } else {
             rendererView?.updateScalingMode(ScalingMode.FIT)
         }
+
         detachFromParentView(rendererView?.getView())
         return rendererView?.getView()
     }

@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import kotlinx.coroutines.flow.collect
@@ -49,7 +50,7 @@ internal class PreviewAreaView : ConstraintLayout {
 
         if (!videoStreamID.isNullOrEmpty()) {
             localParticipantCameraHolder.removeAllViews()
-            videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
+            videoViewManager.getLocalVideoRenderer(videoStreamID, ScalingMode.FIT)?.let { view ->
                 view.background = this.context.let {
                     ContextCompat.getDrawable(
                         it,

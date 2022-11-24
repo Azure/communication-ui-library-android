@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
@@ -223,12 +224,22 @@ internal class LocalParticipantView : ConstraintLayout {
         }
 
         if (model.shouldDisplayVideo) {
-            addVideoView(model.videoStreamID!!, videoHolder)
+            addVideoView(model.videoStreamID!!, videoHolder, model.viewMode)
         }
     }
 
-    private fun addVideoView(videoStreamID: String, videoHolder: ConstraintLayout) {
-        videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
+    private fun addVideoView(
+        videoStreamID: String,
+        videoHolder: ConstraintLayout,
+        viewMode: LocalParticipantViewMode
+    ) {
+        videoViewManager.getLocalVideoRenderer(
+            videoStreamID,
+            if (viewMode == LocalParticipantViewMode.PIP)
+                ScalingMode.CROP
+            else
+                ScalingMode.FIT
+        )?.let { view ->
             view.background = this.context.let {
                 ContextCompat.getDrawable(
                     it,
