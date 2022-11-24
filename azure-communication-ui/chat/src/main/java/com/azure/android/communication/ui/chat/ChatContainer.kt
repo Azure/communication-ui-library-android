@@ -99,7 +99,7 @@ internal class ChatContainer(
 
             addTypedBuilder { ChatEventHandler() }
 
-            addTypedBuilder { ChatFetchNotificationHandler(coroutineContextProvider = locate()) }
+            addTypedBuilder { ChatFetchNotificationHandler(coroutineContextProvider = locate(), localParticipantIdentifier = configuration.chatConfig?.identity ?: "") }
 
             addTypedBuilder {
                 ChatService(

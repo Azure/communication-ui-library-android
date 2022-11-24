@@ -26,7 +26,7 @@ internal data class MessageInfoModel(
     val isCurrentUser: Boolean = false,
 ) : BaseInfoModel
 
-internal fun com.azure.android.communication.chat.models.ChatMessage.into(): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessage.into(localParticipantIdentifier: String): MessageInfoModel {
     return MessageInfoModel(
         id = this.id,
         messageType = this.type.into(),
@@ -40,6 +40,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
         senderCommunicationIdentifier = this.senderCommunicationIdentifier?.into(),
         deletedOn = this.deletedOn,
         editedOn = this.editedOn,
+        isCurrentUser = senderCommunicationIdentifier != null && localParticipantIdentifier == this.senderCommunicationIdentifier.into().id,
     )
 }
 
