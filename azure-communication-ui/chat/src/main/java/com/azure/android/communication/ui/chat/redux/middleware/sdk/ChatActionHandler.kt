@@ -165,7 +165,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private fun initialization(dispatch: Dispatch) {
         try {
             chatService.initialize()
-            dispatch.invoke(ParticipantAction.MaskedParticipantsReceived(chatService.getAdminUserId()))
+            dispatch.invoke(ParticipantAction.MaskedParticipantsReceived(chatService.getAdminUserId().toString()))
         } catch (ex: Exception) {
             val error = ChatStateError(errorCode = ErrorCode.CHAT_JOIN_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
