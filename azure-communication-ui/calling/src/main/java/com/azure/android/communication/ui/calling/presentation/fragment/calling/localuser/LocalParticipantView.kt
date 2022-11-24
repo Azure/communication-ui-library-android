@@ -81,6 +81,7 @@ internal class LocalParticipantView : ConstraintLayout {
         if (isAndroidTV(context)) {
             pipAvatar.avatarSize = AvatarSize.MEDIUM
             guideline.setGuidelinePercent(0.9f)
+            (localPipWrapper.layoutParams as LayoutParams).dimensionRatio = "4:3"
         }
     }
 
