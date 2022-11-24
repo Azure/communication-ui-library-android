@@ -51,8 +51,7 @@ internal fun MessageListView(
     dispatchers: Dispatch,
 ) {
     requestPages(scrollState, messages, dispatchers)
-    scrollToNewestWhenKeyboardOpen(scrollState)
-    dismissKeyboardWhenScrollUp(scrollState)
+    // dismissKeyboardWhenScrollUp(scrollState)
     if (messages.isNotEmpty()) {
         sendReadReceipt(scrollState, messages, dispatchers)
         autoScrollToBottom(scrollState, messages)
@@ -112,48 +111,18 @@ private fun autoScrollToBottom(
     scrollState: LazyListState,
     messages: List<MessageViewModel>,
 ) {
+    val lastList = remember { mutableStateOf(messages) }
     val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
-    val isAtEnd = scrollState.firstVisibleItemIndex
-    if (wasAtEnd.value == 0 && wasAtEnd.value != isAtEnd) {
-        LaunchedEffect(messages.last()) {
+
+    if (wasAtEnd.value == 0 &&
+        messages.last().message.id != lastList.value.last().message.id
+    ) {
+        LaunchedEffect(messages.last().message.id) {
             scrollState.scrollToItem(0)
         }
     }
-    wasAtEnd.value = isAtEnd
-}
-
-enum class Keyboard {
-    Opened, Closed
-}
-
-@Composable
-private fun scrollToNewestWhenKeyboardOpen(scrollState: LazyListState) {
-    val coroutineScope = rememberCoroutineScope()
-    val triggered = remember { mutableStateOf(false) }
-    val view = LocalView.current
-    DisposableEffect(view) {
-        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
-            val rect = Rect()
-            view.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = view.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-            if (keypadHeight > screenHeight * 0.15) {
-                if (!triggered.value) {
-                    coroutineScope.launch {
-                        scrollState.animateScrollToItem(0)
-                    }
-                }
-                triggered.value = true
-            } else {
-                triggered.value = false
-            }
-        }
-        view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
-
-        onDispose {
-            view.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalListener)
-        }
-    }
+    wasAtEnd.value = scrollState.firstVisibleItemIndex
+    lastList.value = messages
 }
 
 @Composable
