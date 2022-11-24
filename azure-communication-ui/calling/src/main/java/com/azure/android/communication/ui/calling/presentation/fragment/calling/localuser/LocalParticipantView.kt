@@ -223,11 +223,11 @@ internal class LocalParticipantView : ConstraintLayout {
         }
 
         if (model.shouldDisplayVideo) {
-            addVideoView(model.videoStreamID!!, videoHolder, model.viewMode)
+            addVideoView(model.videoStreamID!!, videoHolder)
         }
     }
 
-    private fun addVideoView(videoStreamID: String, videoHolder: ConstraintLayout, viewMode: LocalParticipantViewMode) {
+    private fun addVideoView(videoStreamID: String, videoHolder: ConstraintLayout) {
         videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
             view.background = this.context.let {
                 ContextCompat.getDrawable(
