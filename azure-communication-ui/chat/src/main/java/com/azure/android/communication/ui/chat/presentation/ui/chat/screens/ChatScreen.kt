@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,34 +35,41 @@ import com.azure.android.communication.ui.chat.presentation.ui.chat.components.F
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.MessageListView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.TypingIndicatorView
 import com.azure.android.communication.ui.chat.presentation.ui.chat.components.UnreadMessagesIndicatorView
-import com.azure.android.communication.ui.chat.presentation.ui.chat.components.messageContextMenu
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun ChatScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
+    showActionBar: Boolean = false,
 ) {
     val scaffoldState = rememberScaffoldState()
     val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
+            if (!showActionBar) return@Scaffold
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val topic = when {
                 viewModel.chatTopic != null -> viewModel.chatTopic
                 else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
             }
 
-            val subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, viewModel.participants.count())
+            val subTitle = stringResource(
+                id = R.string.azure_communication_ui_chat_count_people,
+                viewModel.participants.count()
+            )
 
             ActionBarView(
                 title = topic,
@@ -126,13 +134,24 @@ internal fun ChatScreen(
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Box(Modifier.width(ChatCompositeTheme.dimensions.messageListMaxWidth)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Box(modifier = Modifier.align(alignment = Alignment.Start).padding(horizontal = 5.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .align(alignment = Alignment.Start)
+                                .padding(horizontal = 5.dp)
+                        ) {
                             TypingIndicatorView(viewModel.typingParticipants.toList())
                         }
                         BottomBarView(
                             messageInputTextState = stateViewModel.messageInputTextState,
                             chatStatus = viewModel.chatStatus,
-                            postAction = viewModel.postAction
+                            postAction = {
+                                if (it is ChatAction.SendMessage) {
+                                    coroutineScope.launch {
+                                        listState.animateScrollToItem(0)
+                                    }
+                                }
+                                viewModel.postAction(it)
+                            }
                         )
                     }
                 }

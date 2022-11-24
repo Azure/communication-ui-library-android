@@ -4,7 +4,8 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <androidx.appcompat.widget.LinearLayoutCompat xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/settings_page"
@@ -13,7 +14,8 @@
         android:layout_marginStart="@dimen/azure_communication_ui_calling_side_margin"
         android:layout_marginEnd="@dimen/azure_communication_ui_calling_side_margin"
         android:orientation="vertical"
-        tools:context=".SettingsActivity">
+        tools:context=".SettingsActivity"
+        >
 
         <TextView
             android:id="@+id/language_setting_text_view"
@@ -22,21 +24,24 @@
             android:paddingTop="@dimen/azure_communication_ui_calling_side_margin"
             android:text="@string/language_setting_label"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <View
             android:id="@+id/language_setting_label_divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/black"
-            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding" />
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/language_adapter_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding">
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            >
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_text_view"
@@ -48,7 +53,8 @@
                 android:paddingTop="@dimen/azure_communication_ui_calling_side_margin"
                 android:paddingBottom="@dimen/azure_communication_ui_calling_side_margin"
                 android:text="@string/language_default_selection"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
@@ -57,7 +63,8 @@
             android:layout_height="wrap_content"
             android:onClick="onCheckBoxTap"
             android:text="@string/is_rtl_check_box_label"
-            tools:ignore="UsingOnClickInXml" />
+            tools:ignore="UsingOnClickInXml"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

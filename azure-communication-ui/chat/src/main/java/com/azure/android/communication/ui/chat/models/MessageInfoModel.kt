@@ -26,7 +26,7 @@ internal data class MessageInfoModel(
     val isCurrentUser: Boolean = false,
 ) : BaseInfoModel
 
-internal fun com.azure.android.communication.chat.models.ChatMessage.into(): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessage.into(localParticipantIdentifier: String): MessageInfoModel {
     return MessageInfoModel(
         id = this.id,
         messageType = this.type.into(),
@@ -40,10 +40,13 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
         senderCommunicationIdentifier = this.senderCommunicationIdentifier?.into(),
         deletedOn = this.deletedOn,
         editedOn = this.editedOn,
+        isCurrentUser = senderCommunicationIdentifier != null && localParticipantIdentifier == this.senderCommunicationIdentifier.into().id,
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(localParticipantIdentifier: String): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
@@ -60,7 +63,9 @@ internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEven
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.into(localParticipantIdentifier: String): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
@@ -77,7 +82,9 @@ internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent.into(localParticipantIdentifier: String): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,

@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.models;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.azure.android.communication.ui.chat.ChatComposite;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 
 /**
  * ChatCompositeParticipantViewData for participant.
@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  *
  * @see ChatCompositeLocalOptions
  */
-public final class ChatCompositeParticipantViewData {
+final class ChatCompositeParticipantViewData {
     private Bitmap avatarBitmap;
     private String displayName;
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
@@ -37,7 +37,7 @@ public final class ChatCompositeParticipantViewData {
     /**
      * Get scaleType.
      * <p>
-     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatComposite}
+     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatAdapter}
      *
      * @return The {@link ImageView.ScaleType};
      */
@@ -48,7 +48,7 @@ public final class ChatCompositeParticipantViewData {
     /**
      * Set scaleType.
      * <p>
-     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatComposite}
+     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatAdapter}
      *
      * @return The {@link ChatCompositeParticipantViewData};
      */
@@ -88,7 +88,7 @@ public final class ChatCompositeParticipantViewData {
     /**
      * Set avatar Bitmap.
      * <p>
-     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatComposite}
+     * Will not take affect if called after {@link ChatCompositeParticipantViewData} passed to {@link ChatAdapter}
      *
      * @return The {@link ChatCompositeParticipantViewData};
      */

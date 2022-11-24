@@ -97,7 +97,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ChatAction.MessageSent(
                         messageInfoModel = action.messageInfoModel.copy(
-                            id = result.id
+                            id = result.id,
                         )
                     )
                 )

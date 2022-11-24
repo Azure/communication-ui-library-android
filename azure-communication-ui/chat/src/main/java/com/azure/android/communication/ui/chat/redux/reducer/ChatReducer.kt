@@ -37,9 +37,15 @@ internal class ChatReducerImpl : ChatReducer {
             is ChatAction.MessageSent -> {
                 state.copy(lastSendMessageId = action.messageInfoModel.id ?: "")
             }
+            is ChatAction.MessageLastReceived -> {
+                state.copy(
+                    lastReadMessageId = if (state.lastReadMessageId > action.messageId) state.lastReadMessageId
+                    else action.messageId
+                )
+            }
             is ChatAction.MessageRead -> {
                 state.copy(
-                    lastReadMessageId = if (state.lastReadMessageId> action.messageId) state.lastReadMessageId
+                    lastReadMessageId = if (state.lastReadMessageId > action.messageId) state.lastReadMessageId
                     else action.messageId
                 )
             }
@@ -52,8 +58,16 @@ internal class ChatReducerImpl : ChatReducer {
                                 R.string.azure_communication_ui_chat_copy,
                                 R.drawable.azure_communication_ui_chat_ic_fluent_copy_20_regular,
                                 onClickAction = { context ->
-                                    val clipboardManager = context.getSystemService(ClipboardManager::class.java)
-                                    clipboardManager.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.azure_communication_ui_chat_message), action.message.content))
+                                    val clipboardManager =
+                                        context.getSystemService(ClipboardManager::class.java)
+                                    clipboardManager.setPrimaryClip(
+                                        ClipData.newPlainText(
+                                            context.getString(
+                                                R.string.azure_communication_ui_chat_message
+                                            ),
+                                            action.message.content
+                                        )
+                                    )
                                 }
                             ),
                         )
@@ -62,7 +76,10 @@ internal class ChatReducerImpl : ChatReducer {
             }
             is ChatAction.HideMessageContextMenu -> {
                 state.copy(
-                    messageContextMenu = MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, menuItems = emptyList())
+                    messageContextMenu = MessageContextMenuModel(
+                        messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
+                        menuItems = emptyList()
+                    )
                 )
             }
             else -> state

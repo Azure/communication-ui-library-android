@@ -6,6 +6,8 @@ buildscript {
 
     ext {
         ui_library_version_name = '1.2.0-beta.1'
+        chat_library_version_name = '1.0.0-beta.1'
+
         ui_library_version_code = getVersionCode()
 
         kotlin_version = '1.7.20'
@@ -73,6 +75,7 @@ buildscript {
 }
 
 plugins {
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
 }
 
