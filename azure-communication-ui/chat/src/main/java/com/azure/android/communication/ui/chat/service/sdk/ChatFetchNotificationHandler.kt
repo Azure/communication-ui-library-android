@@ -23,7 +23,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import org.threeten.bp.OffsetDateTime
 import java.util.concurrent.Executors
 
-internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineContextProvider) {
+internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineContextProvider, val localParticipantIdentifier: String) {
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private val singleThreadedContext = Executors.newSingleThreadExecutor()
@@ -45,7 +45,7 @@ internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineC
 
     fun start(
         chatThreadClient: ChatThreadClient,
-        eventSubscriber: (ChatEventModel) -> Unit
+        eventSubscriber: (ChatEventModel) -> Unit,
     ) {
         this.chatThreadClient = chatThreadClient
         this.eventSubscriber = eventSubscriber
@@ -104,7 +104,7 @@ internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineC
                         if (message.deletedOn != null) {
                             val infoModel = ChatEventModel(
                                 eventType = ChatEventType.CHAT_MESSAGE_DELETED.into(),
-                                infoModel = message.into(),
+                                infoModel = message.into(localParticipantIdentifier),
                                 eventReceivedOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)
@@ -113,7 +113,7 @@ internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineC
                         if (message.editedOn != null) {
                             val infoModel = ChatEventModel(
                                 eventType = ChatEventType.CHAT_MESSAGE_EDITED.into(),
-                                infoModel = message.into(),
+                                infoModel = message.into(localParticipantIdentifier),
                                 eventReceivedOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)
@@ -123,7 +123,7 @@ internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineC
                         if (message.deletedOn == null && message.editedOn == null) {
                             val infoModel = ChatEventModel(
                                 eventType = ChatEventType.CHAT_MESSAGE_RECEIVED.into(),
-                                infoModel = message.into(),
+                                infoModel = message.into(localParticipantIdentifier),
                                 eventReceivedOffsetDateTime = null
                             )
                             eventSubscriber(infoModel)

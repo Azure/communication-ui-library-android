@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import org.threeten.bp.OffsetDateTime
 
 @Composable
 internal fun BottomBarView(
@@ -40,7 +41,10 @@ internal fun BottomBarView(
         )
 
         SendMessageButtonView(
-            contentDescription = stringResource(R.string.azure_communication_ui_chat_message_send_button_content_description, messageInputTextState.value),
+            contentDescription = stringResource(
+                R.string.azure_communication_ui_chat_message_send_button_content_description,
+                messageInputTextState.value
+            ),
             chatStatus = chatStatus,
             clickable = messageInputTextState.value.isNotBlank()
         ) {
@@ -49,15 +53,19 @@ internal fun BottomBarView(
     }
 }
 
-private fun sendButtonOnclick(postAction: (Action) -> Unit, messageInputTextState: MutableState<String>) {
+private fun sendButtonOnclick(
+    postAction: (Action) -> Unit,
+    messageInputTextState: MutableState<String>,
+) {
     postAction(
         ChatAction.SendMessage(
             MessageInfoModel(
                 id = null,
                 messageType = ChatMessageType.TEXT,
+                createdOn = OffsetDateTime.now(),
                 internalId = null,
                 content = messageInputTextState.value,
-                isCurrentUser = true
+                isCurrentUser = true,
             )
         )
     )
