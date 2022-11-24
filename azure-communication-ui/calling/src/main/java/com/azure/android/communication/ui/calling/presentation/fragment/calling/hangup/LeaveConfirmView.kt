@@ -161,7 +161,10 @@ internal class LeaveConfirmView(
                         info.setCollectionItemInfo(itemInfo)
                     }
                 }
-            } catch (e: Exception) {}
+            } catch (e: Exception) {
+                // Xamarin cause exception, info is null
+                // Cause: -\java.lang.NullPointerException: Attempt to invoke virtual method 'int androidx.core.view.accessibility.AccessibilityNodeInfoCompat$CollectionItemInfoCompat.getRowIndex()
+            }
         }
     }
 }
