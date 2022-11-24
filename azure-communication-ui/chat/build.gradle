@@ -60,9 +60,8 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
-
-    publishing {
-        if (!shouldByPassMavenPublish()) {
+    if (!shouldByPassMavenPublish()) {
+        publishing {
             multipleVariants('release') {
                 withSourcesJar()
                 withJavadocJar()
