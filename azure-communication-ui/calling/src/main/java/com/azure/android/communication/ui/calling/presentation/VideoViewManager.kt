@@ -107,6 +107,9 @@ internal class VideoViewManager(
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
         }
+        if (isAndroidTV(context)) {
+            rendererView?.updateScalingMode(ScalingMode.FIT)
+        }
         detachFromParentView(rendererView?.getView())
         return rendererView?.getView()
     }
