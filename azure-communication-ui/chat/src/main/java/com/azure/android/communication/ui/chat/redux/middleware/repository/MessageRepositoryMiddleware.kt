@@ -62,7 +62,7 @@ internal class MessageRepositoryMiddlewareImpl(
     private fun processNetworkDisconnected(
         dispatch: Dispatch,
     ) {
-        messageRepository.get(messageRepository.size-1)?.let { messageInfoModel ->
+        messageRepository.get(messageRepository.size - 1)?.let { messageInfoModel ->
             val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
                 ?: messageInfoModel.createdOn
             offsetDateTime?.let {
@@ -81,7 +81,8 @@ internal class MessageRepositoryMiddlewareImpl(
         } else {
             messageRepository.replaceMessage(
                 oldMessage,
-                action.message)
+                action.message
+            )
         }
 
         notifyUpdate(dispatch)
@@ -96,7 +97,6 @@ internal class MessageRepositoryMiddlewareImpl(
         notifyUpdate(dispatch)
     }
 
-
     private fun processMessageSent(
         action: ChatAction.MessageSent,
         dispatch: Dispatch,
@@ -105,7 +105,6 @@ internal class MessageRepositoryMiddlewareImpl(
         messageRepository.addMessage(action.messageInfoModel.copy(id = action.id))
         notifyUpdate(dispatch)
     }
-
 
     private fun processPageReceived(
         action: ChatAction.MessagesPageReceived,
@@ -166,7 +165,7 @@ internal class MessageRepositoryMiddlewareImpl(
         val oldMessage = messageRepository.findMessageById(action.message.normalizedID)
         if (oldMessage == EMPTY_MESSAGE_INFO_MODEL) {
             // Do nothing? add message? throw error?
-            //messageRepository.addMessage(action.message)
+            // messageRepository.addMessage(action.message)
         } else {
             messageRepository.replaceMessage(
                 oldMessage,
@@ -179,7 +178,8 @@ internal class MessageRepositoryMiddlewareImpl(
                     deletedOn = oldMessage.deletedOn,
                     senderCommunicationIdentifier = oldMessage.senderCommunicationIdentifier,
                     isCurrentUser = oldMessage.isCurrentUser
-                ))
+                )
+            )
         }
         notifyUpdate(dispatch)
     }

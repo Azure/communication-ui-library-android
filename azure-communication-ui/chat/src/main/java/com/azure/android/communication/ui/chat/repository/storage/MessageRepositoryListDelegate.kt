@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.IMessageRepositoryDelegate
 import java.util.Collections
 
-internal class IMessageRepositoryListDelegate : IMessageRepositoryDelegate {
+internal class MessageRepositoryListDelegate : IMessageRepositoryDelegate {
     // Simple List for now
     val messages: MutableList<MessageInfoModel> =
         Collections.synchronizedList(mutableListOf<MessageInfoModel>())
@@ -43,4 +43,3 @@ internal class IMessageRepositoryListDelegate : IMessageRepositoryDelegate {
 
     override val size: Int get() = messages.size
 }
-

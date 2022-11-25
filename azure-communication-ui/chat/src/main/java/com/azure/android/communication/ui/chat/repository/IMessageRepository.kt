@@ -4,48 +4,48 @@
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositoryListDelegate
-import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositoryTreeDelegate
-import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositorySkipListDelegate
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListDelegate
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeStorageDelegate
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListDelegate
 
 internal class IMessageRepository private constructor(
-    val writerDelegate: IMessageRepositoryDelegate,
+    val delegate: IMessageRepositoryDelegate,
 ) : IMessageRepositoryDelegate {
 
     override fun getSnapshotList(): List<MessageInfoModel> {
-        return writerDelegate.getSnapshotList()
+        return delegate.getSnapshotList()
     }
 
-    override fun get(i: Int) = writerDelegate.get(i)
+    override fun get(i: Int) = delegate.get(i)
 
     override val size: Int
-        get() = writerDelegate.size
+        get() = delegate.size
 
-    override fun addPage(page: List<MessageInfoModel>) = writerDelegate.addPage(page)
-    override fun addMessage(message: MessageInfoModel) = writerDelegate.addMessage(message)
-    override fun removeMessage(message: MessageInfoModel) = writerDelegate.removeMessage(message = message)
-    override fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) = writerDelegate.replaceMessage(oldMessage, newMessage)
+    override fun addPage(page: List<MessageInfoModel>) = delegate.addPage(page)
+    override fun addMessage(message: MessageInfoModel) = delegate.addMessage(message)
+    override fun removeMessage(message: MessageInfoModel) = delegate.removeMessage(message = message)
+    override fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) = delegate.replaceMessage(oldMessage, newMessage)
 
     companion object {
 
         fun createListBackedRepository(): IMessageRepository {
-            val writer = IMessageRepositoryListDelegate()
+            val writer = MessageRepositoryListDelegate()
             return IMessageRepository(
-                writerDelegate = writer
+                delegate = writer
             )
         }
 
         fun createTreeBackedRepository(): IMessageRepository {
-            val writer = IMessageRepositoryTreeDelegate()
+            val writer = MessageRepositoryTreeStorageDelegate()
             return IMessageRepository(
-                writerDelegate = writer
+                delegate = writer
             )
         }
 
         fun createSkipListBackedRepository(): IMessageRepository {
-            val writer = IMessageRepositorySkipListDelegate()
+            val writer = MessageRepositorySkipListDelegate()
             return IMessageRepository(
-                writerDelegate = writer
+                delegate = writer
             )
         }
     }

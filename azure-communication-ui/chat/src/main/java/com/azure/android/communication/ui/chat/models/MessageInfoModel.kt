@@ -26,7 +26,7 @@ internal data class MessageInfoModel(
     val isCurrentUser: Boolean = false,
 ) : BaseInfoModel {
     // Normalized ID to use either internal or id
-    internal val normalizedID : Long get() = id?.toLong() ?: internalId?.toLong() ?: 0L
+    internal val normalizedID: Long get() = id?.toLong() ?: internalId?.toLong() ?: 0L
 }
 
 internal fun com.azure.android.communication.chat.models.ChatMessage.into(localParticipantIdentifier: String): MessageInfoModel {

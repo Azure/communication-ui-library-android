@@ -31,8 +31,6 @@ internal fun List<MessageInfoModel>.findMessageIdxById(messageId: Long): Int {
     return -1
 }
 
-
-
 // Returns an index of -1 if item can't be found
 internal fun IMessageRepositoryDelegate.findMessageById(normalizedId: Long): MessageInfoModel {
 

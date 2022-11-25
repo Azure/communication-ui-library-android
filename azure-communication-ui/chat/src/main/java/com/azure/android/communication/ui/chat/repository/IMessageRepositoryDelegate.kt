@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import java.lang.RuntimeException
 
 // Interface for Message Repository Middleware to use
 // I.e.

@@ -3,10 +3,9 @@
 
 package com.azure.android.communication.ui.chat.repository
 
-
-import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositoryListDelegate
-import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositoryTreeDelegate
-import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositorySkipListDelegate
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListDelegate
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeStorageDelegate
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListDelegate
 import org.junit.Assert
 import org.junit.Test
 
@@ -18,30 +17,30 @@ class MessageRepositoryUnitTest {
     @Test
     fun messageRepository_createListStorage_unitTest() {
         val listStorage: IMessageRepository = IMessageRepository.createListBackedRepository()
-        val messageStorageWriter = IMessageRepositoryListDelegate()
+        val messageStorageWriter = MessageRepositoryListDelegate()
         Assert.assertEquals(
             true,
-            listStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
+            listStorage.delegate.javaClass.isInstance(messageStorageWriter)
         )
     }
 
     @Test
     fun messageRepository_createTreeStorage_unitTest() {
         val treeStorage: IMessageRepository = IMessageRepository.createTreeBackedRepository()
-        val messageStorageWriter = IMessageRepositoryTreeDelegate()
+        val messageStorageWriter = MessageRepositoryTreeStorageDelegate()
         Assert.assertEquals(
             true,
-            treeStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
+            treeStorage.delegate.javaClass.isInstance(messageStorageWriter)
         )
     }
 
     @Test
     fun messageRepository_createSkipListStorage_unitTest() {
         val skipListStorage: IMessageRepository = IMessageRepository.createSkipListBackedRepository()
-        val messageStorageWriter = IMessageRepositorySkipListDelegate()
+        val messageStorageWriter = MessageRepositorySkipListDelegate()
         Assert.assertEquals(
             true,
-            skipListStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
+            skipListStorage.delegate.javaClass.isInstance(messageStorageWriter)
         )
     }
 }
