@@ -18,11 +18,13 @@ internal interface IMessageRepositoryDelegate {
     fun addMessage(message: MessageInfoModel)
     fun removeMessage(message: MessageInfoModel)
     fun getLastMessage(): MessageInfoModel?
+    fun get(i: Int): MessageInfoModel
+    val size: Int
+
     fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
         removeMessage(oldMessage)
         addMessage(newMessage)
     }
-
 
     fun getSnapshotList(): List<MessageInfoModel> {
         // This is a inefficient implementation
@@ -33,11 +35,4 @@ internal interface IMessageRepositoryDelegate {
         }
         return result
     }
-
-    fun get(i: Int): MessageInfoModel
-    val size: Int
-    fun isEmpty(): Boolean {
-        return size == 0
-    }
-
 }
