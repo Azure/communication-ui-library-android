@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+set -e
+
+if [[ -z $ANDROID_HOME ]];
+then
+  echo "ANDROID_HOME environmental variable not set. Cannot continue."
+  exit 1
+fi
+
 #export ANDROID_SDK_ROOT=$PWD/android-sdk
 SYS_IMG_TAG=google_apis
 CPU=x86_64

@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.collect
 import android.media.AudioDeviceInfo
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
@@ -191,20 +192,30 @@ internal class AudioSessionManager(
     }
 
     private fun isHeadsetActive(): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-            for (deviceInfo in audioDevices) {
-                if (deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
-                    deviceInfo.type == AudioDeviceInfo.TYPE_WIRED_HEADSET
-                ) {
-                    return true
-                }
-            }
-            return false
-        } else {
+        // We support 21+. audioManager.getDevices API was added in 23.
+        // audioManager.isWiredHeadsetOn call is for pre-23 devices.
+        // M=23, O=26.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return audioManager.isWiredHeadsetOn
         }
-        return false
+        val headsetTypes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            headsetTypesPost25()
+        } else {
+            headsetTypesPost22()
+        }
+        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).find {
+            it.type in headsetTypes
+        } != null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun headsetTypesPost22(): List<Int> {
+        return listOf(AudioDeviceInfo.TYPE_WIRED_HEADSET, AudioDeviceInfo.TYPE_WIRED_HEADPHONES)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun headsetTypesPost25(): List<Int> {
+        return headsetTypesPost22() + listOf(AudioDeviceInfo.TYPE_USB_HEADSET)
     }
 
     private fun initializeAudioDeviceState() {
