@@ -80,7 +80,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
-                    action is ChatAction.MessageSent && action.messageInfoModel.id == returnMessageId
+                    action is ChatAction.MessageSent && action.messageInfoModel.normalizedID == returnMessageId.toLong()
                 }
             )
         }
@@ -137,7 +137,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val deleteChatMessageCompletableFuture = CompletableFuture<Void>()
 
             val mockChatService: ChatService = mock {
-                on { deleteMessage(messageInfoModel.id.toString()) } doReturn deleteChatMessageCompletableFuture
+                on { deleteMessage(messageInfoModel.normalizedID.toString()) } doReturn deleteChatMessageCompletableFuture
             }
 
             val chatHandler = ChatActionHandler(mockChatService)
@@ -177,7 +177,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val error = Exception("test")
             val deleteChatMessageCompletableFuture = CompletableFuture<Void>()
             val mockChatService: ChatService = mock {
-                on { deleteMessage(messageInfoModel.id.toString()) } doReturn deleteChatMessageCompletableFuture
+                on { deleteMessage(messageInfoModel.normalizedID.toString()) } doReturn deleteChatMessageCompletableFuture
             }
 
             val chatHandler = ChatActionHandler(mockChatService)
@@ -216,7 +216,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockChatService: ChatService = mock {
                 on {
                     editMessage(
-                        messageInfoModel.id.toString(),
+                        messageInfoModel.normalizedID.toString(),
                         messageInfoModel.content.toString()
                     )
                 } doReturn editChatMessageCompletableFuture
@@ -261,7 +261,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val mockChatService: ChatService = mock {
                 on {
                     editMessage(
-                        messageInfoModel.id.toString(),
+                        messageInfoModel.normalizedID.toString(),
                         messageInfoModel.content.toString()
                     )
                 } doReturn editChatMessageCompletableFuture
@@ -468,11 +468,11 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val sendReadReceiptCompletableFuture = CompletableFuture<Void>()
 
             val mockChatService: ChatService = mock {
-                on { sendReadReceipt(messageInfoModel.id.toString()) } doReturn sendReadReceiptCompletableFuture
+                on { sendReadReceipt(messageInfoModel.normalizedID.toString()) } doReturn sendReadReceiptCompletableFuture
             }
             val chatHandler = ChatActionHandler(mockChatService)
 
-            val action = ChatAction.MessageRead(messageInfoModel.id.toString())
+            val action = ChatAction.MessageRead(messageInfoModel.normalizedID.toString())
 
             val mockAppStore = mock<AppStore<ReduxState>> { }
             val mockAppState = mock<ReduxState> {}
@@ -531,12 +531,12 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val sendReadReceiptCompletableFuture = CompletableFuture<Void>()
 
             val mockChatService: ChatService = mock {
-                on { sendReadReceipt(messageInfoModel.id.toString()) } doReturn sendReadReceiptCompletableFuture
+                on { sendReadReceipt(messageInfoModel.normalizedID.toString()) } doReturn sendReadReceiptCompletableFuture
             }
 
             val chatHandler = ChatActionHandler(mockChatService)
 
-            val action = ChatAction.MessageRead(messageInfoModel.id.toString())
+            val action = ChatAction.MessageRead(messageInfoModel.normalizedID.toString())
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }

@@ -3,11 +3,9 @@
 
 package com.azure.android.communication.ui.chat.repository
 
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListReader
+
 import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositoryListDelegate
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeReader
 import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositoryTreeDelegate
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListReader
 import com.azure.android.communication.ui.chat.repository.storage.IMessageRepositorySkipListDelegate
 import org.junit.Assert
 import org.junit.Test
@@ -25,14 +23,6 @@ class MessageRepositoryUnitTest {
             true,
             listStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
         )
-        Assert.assertEquals(
-            true,
-            listStorage.readerDelegate.javaClass.isInstance(
-                MessageRepositoryListReader(
-                    messageStorageWriter
-                )
-            )
-        )
     }
 
     @Test
@@ -43,14 +33,6 @@ class MessageRepositoryUnitTest {
             true,
             treeStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
         )
-        Assert.assertEquals(
-            true,
-            treeStorage.readerDelegate.javaClass.isInstance(
-                MessageRepositoryTreeReader(
-                    messageStorageWriter
-                )
-            )
-        )
     }
 
     @Test
@@ -60,14 +42,6 @@ class MessageRepositoryUnitTest {
         Assert.assertEquals(
             true,
             skipListStorage.writerDelegate.javaClass.isInstance(messageStorageWriter)
-        )
-        Assert.assertEquals(
-            true,
-            skipListStorage.readerDelegate.javaClass.isInstance(
-                MessageRepositorySkipListReader(
-                    messageStorageWriter
-                )
-            )
         )
     }
 }

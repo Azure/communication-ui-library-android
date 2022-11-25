@@ -163,8 +163,24 @@ internal class MessageRepositoryMiddlewareImpl(
     }
 
     private fun processEditMessage(action: ChatAction.MessageEdited, dispatch: Dispatch) {
-
-        messageRepository.addMessage(action.message)
+        val oldMessage = messageRepository.findMessageById(action.message.normalizedID)
+        if (oldMessage == EMPTY_MESSAGE_INFO_MODEL) {
+            // Do nothing? add message? throw error?
+            //messageRepository.addMessage(action.message)
+        } else {
+            messageRepository.replaceMessage(
+                oldMessage,
+                action.message.copy(
+                    messageType = oldMessage.messageType,
+                    version = oldMessage.version,
+                    senderDisplayName = oldMessage.senderDisplayName,
+                    createdOn = oldMessage.createdOn,
+                    editedOn = OffsetDateTime.now(), // Is it in edit object?
+                    deletedOn = oldMessage.deletedOn,
+                    senderCommunicationIdentifier = oldMessage.senderCommunicationIdentifier,
+                    isCurrentUser = oldMessage.isCurrentUser
+                ))
+        }
         notifyUpdate(dispatch)
     }
 
