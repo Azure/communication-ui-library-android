@@ -17,7 +17,6 @@ internal interface IMessageRepositoryDelegate {
     fun addPage(page: List<MessageInfoModel>)
     fun addMessage(message: MessageInfoModel)
     fun removeMessage(message: MessageInfoModel)
-    fun getLastMessage(): MessageInfoModel?
     fun get(i: Int): MessageInfoModel
     val size: Int
 

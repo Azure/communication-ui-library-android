@@ -26,10 +26,6 @@ internal class IMessageRepository private constructor(
     override fun removeMessage(message: MessageInfoModel) = writerDelegate.removeMessage(message = message)
     override fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) = writerDelegate.replaceMessage(oldMessage, newMessage)
 
-    // TODO: We should be using read interface to get last message in list
-    // This isn't a write message
-    override fun getLastMessage(): MessageInfoModel? = writerDelegate.getLastMessage()
-
     companion object {
 
         fun createListBackedRepository(): IMessageRepository {

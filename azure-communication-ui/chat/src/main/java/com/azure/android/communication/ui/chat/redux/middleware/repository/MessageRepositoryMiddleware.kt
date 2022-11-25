@@ -62,7 +62,7 @@ internal class MessageRepositoryMiddlewareImpl(
     private fun processNetworkDisconnected(
         dispatch: Dispatch,
     ) {
-        messageRepository.getLastMessage()?.let { messageInfoModel ->
+        messageRepository.get(messageRepository.size-1)?.let { messageInfoModel ->
             val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
                 ?: messageInfoModel.createdOn
             offsetDateTime?.let {
@@ -129,7 +129,7 @@ internal class MessageRepositoryMiddlewareImpl(
         }
         messageRepository.addMessage(
             MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.normalizedID ?: 1L}",
+                internalId = System.currentTimeMillis().toString(),
                 participants = action.participants.map { it.displayName ?: "" },
                 content = null,
                 createdOn = OffsetDateTime.now(),
@@ -146,7 +146,7 @@ internal class MessageRepositoryMiddlewareImpl(
     ) {
         messageRepository.addMessage(
             MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.normalizedID ?: 0 + 1}",
+                internalId = System.currentTimeMillis().toString(),
                 participants = action.participants.map { it.displayName ?: "" },
                 content = null,
                 createdOn = OffsetDateTime.now(),

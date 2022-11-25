@@ -11,7 +11,7 @@ import org.threeten.bp.OffsetDateTime
 
 @Immutable
 internal data class MessageInfoModel(
-    private val id: String?,
+    private val id: String? = null,
     private val internalId: String? = null,
     val messageType: ChatMessageType? = null,
     val content: String? = null,

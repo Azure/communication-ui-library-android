@@ -33,13 +33,7 @@ internal class IMessageRepositoryTreeDelegate : IMessageRepositoryDelegate {
         }
     }
 
-
-    override fun getLastMessage(): MessageInfoModel? {
-        val key = treeMapStorage.lastKey()
-        return treeMapStorage.get(key)!!
-    }
-
-    fun searchItem(kth: Int): MessageInfoModel {
+    private fun searchItem(kth: Int): MessageInfoModel {
 
         var highestKey = treeMapStorage.lastKey()
         var lowestKey = treeMapStorage.firstKey()

@@ -28,9 +28,6 @@ internal class IMessageRepositoryListDelegate : IMessageRepositoryDelegate {
         messages.retainAll { it.normalizedID != message.normalizedID }
     }
 
-
-    override fun getLastMessage(): MessageInfoModel? = messages?.last()
-
     private fun reorder() {
         // TODO: Will need to update with repository stable algorithm implementation
         messages.sortBy {

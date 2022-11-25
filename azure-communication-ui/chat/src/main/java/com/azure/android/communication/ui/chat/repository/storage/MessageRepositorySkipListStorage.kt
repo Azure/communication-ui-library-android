@@ -40,13 +40,7 @@ internal class IMessageRepositorySkipListDelegate : IMessageRepositoryDelegate {
 
     }
 
-
-    override fun getLastMessage(): MessageInfoModel? {
-        val key = skipListStorage.lastKey()
-        return skipListStorage[key]!!
-    }
-
-    fun searchItem(kth: Int): MessageInfoModel {
+    private fun searchItem(kth: Int): MessageInfoModel {
 
         var highestKey = skipListStorage.lastKey()
         var lowestKey = skipListStorage.firstKey()
