@@ -53,7 +53,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 content = "hello, world!"
             )
 
-            val returnMessageId = "test"
+            val returnMessageId = "54321"
 
             val sendChatMessageResult = SendChatMessageResult(returnMessageId)
 
@@ -128,7 +128,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                id = "Message",
+                id = null,
                 internalId = "54321",
                 messageType = ChatMessageType.TEXT,
                 content = "hello, world!"
@@ -168,7 +168,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                id = "Message",
+                id = null,
                 internalId = "54321",
                 messageType = ChatMessageType.TEXT,
                 content = "hello, world!"
@@ -205,7 +205,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                id = "Message",
+                id = null,
                 internalId = "54321",
                 messageType = ChatMessageType.TEXT,
                 content = "hello, world!"
@@ -250,7 +250,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                id = "Message",
+                id = null,
                 internalId = "54321",
                 messageType = ChatMessageType.TEXT,
                 content = "hello, world!"
@@ -457,13 +457,13 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                id = "test",
+                id = null,
                 internalId = "54321",
                 messageType = ChatMessageType.TEXT,
                 content = "hello, world!"
             )
 
-            val testId = "test"
+            val testId = "54321"
 
             val sendReadReceiptCompletableFuture = CompletableFuture<Void>()
 
@@ -520,7 +520,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val messageInfoModel = MessageInfoModel(
-                id = "test",
+                id = null,
                 internalId = "54321",
                 messageType = ChatMessageType.TEXT,
                 content = "hello, world!"
