@@ -11,7 +11,7 @@ buildscript {
         ui_library_version_code = getVersionCode()
 
         kotlin_version = '1.7.20'
-        jacoco_version = '0.8.7'
+        jacoco_version = '0.8.8'
         junit_version = '4.13.2'
 
         androidx_activity_ktx_version = '1.4.0'
@@ -80,6 +80,12 @@ plugins {
 }
 
 allprojects {
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = "$jacoco_version"
+    }
+
     Properties localProps = new Properties()
     if (project.rootProject.file('local.properties').canRead()) {
         localProps.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -113,6 +119,56 @@ subprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register("combinedCoverageReport", JacocoReport) {
+    group = "Reporting"
+    description = "Generate a Jacoco coverage report for debug unit tests in all subprojects"
+
+    def excludeFiles = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewInjector*.*',
+            '**/*$ViewBinder*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*'
+    ]
+
+    def coverageSourceDirs = subprojects.collect {
+        "$it.projectDir/src/main/java"
+    }
+
+    def javaClasses = subprojects.collect {
+        "$it.buildDir/intermediates/javac/debug"
+    }.collect { path ->
+        fileTree(dir: path, excludes: excludeFiles)
+    }
+
+    def kc = subprojects.collect {
+        "$it.buildDir/tmp/kotlin-classes/debug"
+    }
+
+    def kotlinClasses = kc.collect { path ->
+        fileTree(dir: path, excludes: excludeFiles)
+    }
+
+    classDirectories.setFrom(files([javaClasses], [kotlinClasses]))
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+
+    def coverageExecPath = "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+    executionData.setFrom(files(subprojects.findAll { proj ->
+        def path = "$proj.buildDir/$coverageExecPath"
+        (new File(path)).exists()
+    }.collect { proj ->
+        "$proj.buildDir/$coverageExecPath"
+    }))
+
+    reports {
+        xml.required = true
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir("reports/coverage/test/debug")
+        xml.outputLocation = layout.buildDirectory.file("reports/coverage/test/debug/report.xml")
+    }
+}
+
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
