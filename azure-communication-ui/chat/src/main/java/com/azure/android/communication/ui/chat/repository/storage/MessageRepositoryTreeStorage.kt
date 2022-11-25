@@ -6,52 +6,33 @@ package com.azure.android.communication.ui.chat.repository.storage
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.INVALID_INDEX
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryReader
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
+import com.azure.android.communication.ui.chat.repository.IMessageRepositoryDelegate
 import java.util.TreeMap
 
-internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
+internal class IMessageRepositoryTreeDelegate : IMessageRepositoryDelegate {
 
     private val treeMapStorage: TreeMap<Long, MessageInfoModel> = TreeMap()
 
-    val size: Int
+    override val size: Int
         get() = treeMapStorage.size
 
-    override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
-        val orderId: Long = getOrderId(messageInfoModel)
+    override fun addMessage(messageInfoModel: MessageInfoModel) {
+        val orderId: Long = messageInfoModel.normalizedID
         treeMapStorage[orderId] = messageInfoModel
     }
 
     override fun addPage(page: List<MessageInfoModel>) {
-        page.forEach { it -> addLocalMessage(it) }
-    }
-
-    override fun addServerMessage(message: MessageInfoModel) {
-        addLocalMessage(message)
+        page.forEach { addMessage(it) }
     }
 
     override fun removeMessage(message: MessageInfoModel) {
-        val orderId = getOrderId(message)
+        val orderId = message.normalizedID
 
         if (treeMapStorage.contains(orderId)) {
             treeMapStorage.remove(orderId)
         }
     }
 
-    override fun editMessage(message: MessageInfoModel) {
-        val orderId = getOrderId(message)
-
-        if (treeMapStorage.contains(orderId)) {
-            treeMapStorage.get(orderId)?.let {
-                mergeWithPreviousMessage(
-                    it,
-                    message
-                )
-            }?.let { treeMapStorage.put(orderId, it) }
-        } else {
-            addLocalMessage(message)
-        }
-    }
 
     override fun getLastMessage(): MessageInfoModel? {
         val key = treeMapStorage.lastKey()
@@ -102,46 +83,9 @@ internal class MessageRepositoryTreeWriter : MessageRepositoryWriter {
         return treeMapStorage.headMap(midKey).size
     }
 
-    private fun getOrderId(message: MessageInfoModel): Long {
-        return message.id?.toLong() ?: 0L
-    }
-
-    private fun mergeWithPreviousMessage(
-        previousMessage: MessageInfoModel,
-        message: MessageInfoModel,
-    ): MessageInfoModel {
-        var newMessage = MessageInfoModel(
-            id = previousMessage.id,
-            internalId = previousMessage.internalId,
-            content = message.content,
-            messageType = previousMessage.messageType,
-            version = previousMessage.version,
-            senderDisplayName = previousMessage.senderDisplayName,
-            createdOn = previousMessage.createdOn,
-            editedOn = previousMessage.editedOn,
-            deletedOn = previousMessage.deletedOn,
-            senderCommunicationIdentifier = previousMessage.senderCommunicationIdentifier,
-            isCurrentUser = previousMessage.isCurrentUser,
-        )
-        return newMessage
-    }
-}
-
-internal class MessageRepositoryTreeReader(private val writer: MessageRepositoryTreeWriter) :
-    MessageRepositoryReader() {
-
-    override val size: Int
-        get() = writer.size
-
     override fun get(index: Int): MessageInfoModel = try {
-        writer.searchItem(index + 1)
+        searchItem(index + 1)
     } catch (exception: Exception) {
         EMPTY_MESSAGE_INFO_MODEL
-    }
-
-    override fun indexOf(element: MessageInfoModel): Int = try {
-        writer.searchIndexByID(element.id!!.toLong())
-    } catch (exception: Exception) {
-        INVALID_INDEX
     }
 }

@@ -4,59 +4,46 @@
 package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
-import com.azure.android.communication.ui.chat.models.INVALID_INDEX
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryReader
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
+import com.azure.android.communication.ui.chat.repository.IMessageRepositoryDelegate
 import java.util.concurrent.ConcurrentSkipListMap
 
-internal class MessageRepositorySkipListWriter : MessageRepositoryWriter {
+internal class IMessageRepositorySkipListDelegate : IMessageRepositoryDelegate {
 
     private val skipListStorage: ConcurrentSkipListMap<Long, MessageInfoModel> =
         ConcurrentSkipListMap()
 
-    val size: Int
+    override val size: Int
         get() = skipListStorage.size
 
-    override fun addLocalMessage(messageInfoModel: MessageInfoModel) {
-        val orderId: Long = getOrderId(messageInfoModel)
-        skipListStorage.put(orderId, messageInfoModel)
+    override fun addMessage(messageInfoModel: MessageInfoModel) {
+        val orderId: Long = messageInfoModel.normalizedID
+        skipListStorage[orderId] = messageInfoModel
     }
 
     override fun addPage(page: List<MessageInfoModel>) {
-        page.forEach { it -> addLocalMessage(it) }
-    }
-
-    override fun addServerMessage(message: MessageInfoModel) {
-        addLocalMessage(message)
+        page.forEach { addMessage(it) }
     }
 
     override fun removeMessage(message: MessageInfoModel) {
-        val orderId = getOrderId(message)
+        val orderId = message.normalizedID
 
         if (skipListStorage.contains(orderId)) {
             skipListStorage.remove(orderId)
         }
     }
 
-    override fun editMessage(message: MessageInfoModel) {
-        val orderId = getOrderId(message)
 
-        if (skipListStorage.contains(orderId)) {
-            skipListStorage.get(orderId)?.let {
-                mergeWithPreviousMessage(
-                    it,
-                    message
-                )
-            }?.let { skipListStorage.put(orderId, it) }
-        } else {
-            addLocalMessage(message)
-        }
+    override fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
+        removeMessage(oldMessage)
+        addMessage(newMessage)
+
     }
+
 
     override fun getLastMessage(): MessageInfoModel? {
         val key = skipListStorage.lastKey()
-        return skipListStorage.get(key)!!
+        return skipListStorage[key]!!
     }
 
     fun searchItem(kth: Int): MessageInfoModel {
@@ -103,46 +90,10 @@ internal class MessageRepositorySkipListWriter : MessageRepositoryWriter {
         return skipListStorage.headMap(midKey).size
     }
 
-    private fun getOrderId(message: MessageInfoModel): Long {
-        return message.id?.toLong() ?: 0L
-    }
-
-    private fun mergeWithPreviousMessage(
-        previousMessage: MessageInfoModel,
-        message: MessageInfoModel,
-    ): MessageInfoModel {
-        var newMessage = MessageInfoModel(
-            id = previousMessage.id,
-            internalId = previousMessage.internalId,
-            content = message.content,
-            messageType = previousMessage.messageType,
-            version = previousMessage.version,
-            senderDisplayName = previousMessage.senderDisplayName,
-            createdOn = previousMessage.createdOn,
-            editedOn = previousMessage.editedOn,
-            deletedOn = previousMessage.deletedOn,
-            senderCommunicationIdentifier = previousMessage.senderCommunicationIdentifier,
-            isCurrentUser = previousMessage.isCurrentUser,
-        )
-        return newMessage
-    }
-}
-
-internal class MessageRepositorySkipListReader(private val writer: MessageRepositorySkipListWriter) :
-    MessageRepositoryReader() {
-
-    override val size: Int
-        get() = writer.size
-
     override fun get(index: Int): MessageInfoModel = try {
-        writer.searchItem(index + 1)
+        searchItem(index + 1)
     } catch (exception: Exception) {
         EMPTY_MESSAGE_INFO_MODEL
     }
-
-    override fun indexOf(element: MessageInfoModel): Int = try {
-        writer.searchIndexByID(element.id!!.toLong())
-    } catch (exception: Exception) {
-        INVALID_INDEX
-    }
 }
+

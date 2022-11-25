@@ -58,7 +58,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun deleteMessage(action: ChatAction.DeleteMessage, dispatch: Dispatch) {
-        chatService.deleteMessage(action.message.id.toString()).whenComplete { _, error ->
+        chatService.deleteMessage(action.message.normalizedID.toString()).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
@@ -72,9 +72,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             } else {
                 dispatch(
                     ChatAction.MessageDeleted(
-                        message = action.message.copy(
-                            id = action.message.id
-                        )
+                        message = action.message
                     )
                 )
             }
@@ -96,17 +94,17 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             } else {
                 dispatch(
                     ChatAction.MessageSent(
-                        messageInfoModel = action.messageInfoModel.copy(
-                            id = result.id,
+                        messageInfoModel = action.messageInfoModel,
+                        id = result.id,
                         )
-                    )
                 )
+
             }
         }
     }
 
     private fun editMessage(action: ChatAction.EditMessage, dispatch: Dispatch) {
-        chatService.editMessage(action.message.id ?: "", action.message.content ?: "")
+        chatService.editMessage(action.message.normalizedID.toString(), action.message.content ?: "")
             .whenComplete { _, error ->
                 if (error != null) {
                     dispatch(
