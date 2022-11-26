@@ -194,7 +194,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getNumberOfRemoteParticipantsFlow().collect {
-                if ( it >= 1) {
+                if ((!accessibilityManager.isEnabled || isAndroidTV(context)) && it >= 1) {
                     dragTouchListener.setView(localPipWrapper)
                     localPipWrapper.setOnTouchListener(dragTouchListener)
                 } else {
