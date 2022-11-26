@@ -80,7 +80,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
         if (isAndroidTV(context)) {
             pipAvatar.avatarSize = AvatarSize.MEDIUM
-            guideline.setGuidelinePercent(0.9f)
+            guideline.setGuidelinePercent(0.85f)
             (localPipWrapper.layoutParams as LayoutParams).dimensionRatio = "4:3"
         }
     }
@@ -194,7 +194,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getNumberOfRemoteParticipantsFlow().collect {
-                if (!accessibilityManager.isEnabled && it >= 1) {
+                if ( it >= 1) {
                     dragTouchListener.setView(localPipWrapper)
                     localPipWrapper.setOnTouchListener(dragTouchListener)
                 } else {
