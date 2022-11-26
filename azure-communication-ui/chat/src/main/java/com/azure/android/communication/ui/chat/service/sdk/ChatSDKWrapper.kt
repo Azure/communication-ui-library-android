@@ -314,7 +314,7 @@ internal class ChatSDKWrapper(
     }
 
     override fun getAdminUserId(): String {
-        return threadClient.properties.createdByCommunicationIdentifier.toString()
+        return threadClient.properties.createdByCommunicationIdentifier.into().id
     }
 
     private fun createChatClient() {
