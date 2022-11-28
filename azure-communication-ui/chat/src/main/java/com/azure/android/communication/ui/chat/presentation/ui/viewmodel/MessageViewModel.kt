@@ -118,7 +118,7 @@ private class InfoModelToViewModelAdapter(
     override fun containsAll(elements: Collection<MessageViewModel>) =
         messages.containsAll(elements.map { it.message })
 
-    override fun indexOf(element: MessageViewModel) = messages.findMessageIdxById(element.message.id ?: "")
+    override fun indexOf(element: MessageViewModel) = messages.findMessageIdxById(element.message.normalizedID)
 
     override fun isEmpty() = messages.isEmpty()
 

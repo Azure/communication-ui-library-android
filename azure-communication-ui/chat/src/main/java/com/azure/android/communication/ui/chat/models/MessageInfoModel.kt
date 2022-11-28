@@ -11,8 +11,8 @@ import org.threeten.bp.OffsetDateTime
 
 @Immutable
 internal data class MessageInfoModel(
-    val id: String?,
-    val internalId: String? = null,
+    private val id: String? = null,
+    private val internalId: String? = null,
     val messageType: ChatMessageType? = null,
     val content: String? = null,
     val topic: String? = null,
@@ -24,7 +24,10 @@ internal data class MessageInfoModel(
     val deletedOn: OffsetDateTime? = null,
     val editedOn: OffsetDateTime? = null,
     val isCurrentUser: Boolean = false,
-) : BaseInfoModel
+) : BaseInfoModel {
+    // Normalized ID to use either internal or id
+    internal val normalizedID: Long get() = id?.toLong() ?: internalId?.toLong() ?: 0L
+}
 
 internal fun com.azure.android.communication.chat.models.ChatMessage.into(localParticipantIdentifier: String): MessageInfoModel {
     return MessageInfoModel(
