@@ -234,12 +234,18 @@ internal class LocalParticipantView : ConstraintLayout {
         videoHolder: ConstraintLayout,
         viewMode: LocalParticipantViewMode
     ) {
-        videoViewManager.getLocalVideoRenderer(
-            videoStreamID,
+        val scalingMode =
+            // If in PIP Always crap
             if (viewMode == LocalParticipantViewMode.PIP)
                 ScalingMode.CROP
-            else
+            // When not in PIP, Fit on TV, Crop Otherwise
+            else if (isAndroidTV(context))
                 ScalingMode.FIT
+            else
+                ScalingMode.CROP
+        videoViewManager.getLocalVideoRenderer(
+            videoStreamID,
+            scalingMode
         )?.let { view ->
             view.background = this.context.let {
                 ContextCompat.getDrawable(
