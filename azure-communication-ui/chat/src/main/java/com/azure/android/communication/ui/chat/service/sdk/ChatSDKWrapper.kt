@@ -44,7 +44,7 @@ import java.util.concurrent.Executors
 
 internal class ChatSDKWrapper(
     private val context: Context,
-    chatConfig: ChatConfiguration,
+    private val chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
     private val chatEventHandler: ChatEventHandler,
     private val chatFetchNotificationHandler: ChatFetchNotificationHandler,
@@ -111,6 +111,7 @@ internal class ChatSDKWrapper(
     }
 
     override fun destroy() {
+        chatEventHandler.stop(chatClient)
         stopEventNotifications()
         singleThreadedContext.shutdown()
         coroutineScope.cancel()
@@ -134,7 +135,7 @@ internal class ChatSDKWrapper(
                                 allPagesFetched = true
                             }
                             pagingContinuationToken = continuationToken
-                            messages = elements.map { it.into() }
+                            messages = elements.map { it.into(chatConfig.identity) }
                         }
                     } catch (ex: Exception) {
                         throwable = ex

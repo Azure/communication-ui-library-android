@@ -51,8 +51,7 @@ internal fun MessageListView(
     dispatchers: Dispatch,
 ) {
     requestPages(scrollState, messages, dispatchers)
-    scrollToNewestWhenKeyboardOpen(scrollState)
-    dismissKeyboardWhenScrollUp(scrollState)
+    // dismissKeyboardWhenScrollUp(scrollState)
     if (messages.isNotEmpty()) {
         sendReadReceipt(scrollState, messages, dispatchers)
         autoScrollToBottom(scrollState, messages)
@@ -65,8 +64,8 @@ internal fun MessageListView(
     ) {
         itemsIndexed(
             messages.asReversed(),
-            key = { index, item -> item.message.id ?: index }
-        ) { index, message ->
+            key = { index, item -> item.message.normalizedID }
+        ) { _, message ->
             MessageView(message, dispatchers)
         }
         if (messages.isNotEmpty() && showLoading) {
@@ -99,9 +98,9 @@ private fun requestPages(
     if (scrollState.layoutInfo.totalItemsCount == 0) return
     val currentLastMessage = messages.first()
     if (scrollState.outOfViewItemCount() < MESSAGE_LIST_LOAD_MORE_THRESHOLD) {
-        val lastTrigger = remember { mutableStateOf("0") }
-        if (lastTrigger.value != currentLastMessage.message.id) {
-            lastTrigger.value = currentLastMessage.message.id ?: "0"
+        val lastTrigger = remember { mutableStateOf(0L) }
+        if (lastTrigger.value != currentLastMessage.message.normalizedID) {
+            lastTrigger.value = currentLastMessage.message.normalizedID ?: 0
             dispatch(ChatAction.FetchMessages())
         }
     }
@@ -112,48 +111,18 @@ private fun autoScrollToBottom(
     scrollState: LazyListState,
     messages: List<MessageViewModel>,
 ) {
+    val lastList = remember { mutableStateOf(messages) }
     val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
-    val isAtEnd = scrollState.firstVisibleItemIndex
-    if (wasAtEnd.value == 0 && wasAtEnd.value != isAtEnd) {
-        LaunchedEffect(messages.last()) {
+
+    if (wasAtEnd.value == 0 &&
+        messages.last().message.normalizedID != lastList.value.last().message.normalizedID
+    ) {
+        LaunchedEffect(messages.last().message.normalizedID) {
             scrollState.scrollToItem(0)
         }
     }
-    wasAtEnd.value = isAtEnd
-}
-
-enum class Keyboard {
-    Opened, Closed
-}
-
-@Composable
-private fun scrollToNewestWhenKeyboardOpen(scrollState: LazyListState) {
-    val coroutineScope = rememberCoroutineScope()
-    val triggered = remember { mutableStateOf(false) }
-    val view = LocalView.current
-    DisposableEffect(view) {
-        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
-            val rect = Rect()
-            view.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = view.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-            if (keypadHeight > screenHeight * 0.15) {
-                if (!triggered.value) {
-                    coroutineScope.launch {
-                        scrollState.animateScrollToItem(0)
-                    }
-                }
-                triggered.value = true
-            } else {
-                triggered.value = false
-            }
-        }
-        view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
-
-        onDispose {
-            view.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalListener)
-        }
-    }
+    wasAtEnd.value = scrollState.firstVisibleItemIndex
+    lastList.value = messages
 }
 
 @Composable
@@ -200,13 +169,13 @@ private fun sendReadReceipt(
 ) {
     val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
     val currentBottomMessage = messages[messages.count() - firstVisibleItemIndex - 1]
-    currentBottomMessage.message.id?.let {
-        if (it.isNotEmpty()) {
+    currentBottomMessage.message.normalizedID.let {
+        if (it != 0L) {
             LaunchedEffect(it) {
                 if (!currentBottomMessage.isLocalUser) {
-                    dispatch(ChatAction.MessageRead(it))
+                    dispatch(ChatAction.MessageRead("$it"))
                 } else {
-                    dispatch(ChatAction.MessageLastReceived(it))
+                    dispatch(ChatAction.MessageLastReceived("$it"))
                 }
             }
         }
