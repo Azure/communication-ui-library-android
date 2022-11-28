@@ -64,8 +64,8 @@ internal fun MessageListView(
     ) {
         itemsIndexed(
             messages.asReversed(),
-            key = { index, item -> item.message.id ?: index }
-        ) { index, message ->
+            key = { index, item -> item.message.normalizedID }
+        ) { _, message ->
             MessageView(message, dispatchers)
         }
         if (messages.isNotEmpty() && showLoading) {
@@ -98,9 +98,9 @@ private fun requestPages(
     if (scrollState.layoutInfo.totalItemsCount == 0) return
     val currentLastMessage = messages.first()
     if (scrollState.outOfViewItemCount() < MESSAGE_LIST_LOAD_MORE_THRESHOLD) {
-        val lastTrigger = remember { mutableStateOf("0") }
-        if (lastTrigger.value != currentLastMessage.message.id) {
-            lastTrigger.value = currentLastMessage.message.id ?: "0"
+        val lastTrigger = remember { mutableStateOf(0L) }
+        if (lastTrigger.value != currentLastMessage.message.normalizedID) {
+            lastTrigger.value = currentLastMessage.message.normalizedID ?: 0
             dispatch(ChatAction.FetchMessages())
         }
     }
@@ -115,9 +115,9 @@ private fun autoScrollToBottom(
     val wasAtEnd = remember { mutableStateOf(scrollState.firstVisibleItemIndex) }
 
     if (wasAtEnd.value == 0 &&
-        messages.last().message.id != lastList.value.last().message.id
+        messages.last().message.normalizedID != lastList.value.last().message.normalizedID
     ) {
-        LaunchedEffect(messages.last().message.id) {
+        LaunchedEffect(messages.last().message.normalizedID) {
             scrollState.scrollToItem(0)
         }
     }
@@ -169,13 +169,13 @@ private fun sendReadReceipt(
 ) {
     val firstVisibleItemIndex = scrollState.firstVisibleItemIndex
     val currentBottomMessage = messages[messages.count() - firstVisibleItemIndex - 1]
-    currentBottomMessage.message.id?.let {
-        if (it.isNotEmpty()) {
+    currentBottomMessage.message.normalizedID.let {
+        if (it != 0L) {
             LaunchedEffect(it) {
                 if (!currentBottomMessage.isLocalUser) {
-                    dispatch(ChatAction.MessageRead(it))
+                    dispatch(ChatAction.MessageRead("$it"))
                 } else {
-                    dispatch(ChatAction.MessageLastReceived(it))
+                    dispatch(ChatAction.MessageLastReceived("$it"))
                 }
             }
         }

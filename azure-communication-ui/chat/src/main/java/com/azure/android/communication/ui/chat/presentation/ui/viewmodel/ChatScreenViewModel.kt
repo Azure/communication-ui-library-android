@@ -79,8 +79,11 @@ private fun getUnReadMessagesCount(
     val lastReadId = store.getCurrentState().chatState.lastReadMessageId
     val lastSendId = store.getCurrentState().chatState.lastSendMessageId
 
-    val internalLastReadIndex = messages.findMessageIdxById(lastReadId)
-    val internalLastSendIndex = messages.findMessageIdxById(lastSendId)
+    if (lastReadId.isEmpty() || lastSendId.isEmpty()) {
+        return 0
+    }
+    val internalLastReadIndex = messages.findMessageIdxById(lastReadId.toLong())
+    val internalLastSendIndex = messages.findMessageIdxById(lastSendId.toLong())
 
     val internalLastIndex = max(internalLastReadIndex, internalLastSendIndex)
 
