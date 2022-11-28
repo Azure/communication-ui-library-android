@@ -205,6 +205,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun stopChatComposite() {
+        chatView = null
         chatLauncherViewModel.closeChatComposite()
         binding.run {
             launchButton.visibility = View.VISIBLE

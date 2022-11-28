@@ -111,6 +111,7 @@ internal class ChatSDKWrapper(
     }
 
     override fun destroy() {
+        chatEventHandler.stop(chatClient)
         stopEventNotifications()
         singleThreadedContext.shutdown()
         coroutineScope.cancel()

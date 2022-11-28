@@ -58,6 +58,7 @@ public final class ChatAdapter {
      * Disconnects from backend services.
      */
     public void disconnect() {
+        chatContainer.stop();
     }
 
 
