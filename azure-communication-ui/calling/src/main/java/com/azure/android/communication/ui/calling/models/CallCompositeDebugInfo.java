@@ -8,25 +8,25 @@ package com.azure.android.communication.ui.calling.models;
  */
 public final class CallCompositeDebugInfo {
 
-    private String lastKnownCallId;
+    private String lastCallId;
 
     CallCompositeDebugInfo() { }
 
     /**
-     * Set last known call id.
-     * @param lastKnownCallId last known call id.
+     * Set last call id.
+     * @param lastCallId last call id.
      * @return {@link CallCompositeDebugInfo}
      */
-    CallCompositeDebugInfo setLastKnownCallId(final String lastKnownCallId) {
-        this.lastKnownCallId = lastKnownCallId;
+    CallCompositeDebugInfo setLastCallId(final String lastCallId) {
+        this.lastCallId = lastCallId;
         return this;
     }
 
     /**
-     * Get last known call id.
+     * Get last call id.
      * @return {@link String}
      */
-    public String getLastKnownCallId() {
-        return lastKnownCallId;
+    public String getLastCallId() {
+        return lastCallId;
     }
 }
