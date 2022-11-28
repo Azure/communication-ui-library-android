@@ -12,7 +12,7 @@ internal sealed class ChatAction : Action {
     class ThreadDeleted : ChatAction()
     class TopicUpdated(val topic: String) : ChatAction()
     class SendMessage(val messageInfoModel: MessageInfoModel) : ChatAction()
-    class MessageSent(val messageInfoModel: MessageInfoModel) : ChatAction()
+    class MessageSent(val messageInfoModel: MessageInfoModel, val id: String) : ChatAction()
     class DeleteMessage(val message: MessageInfoModel) : ChatAction()
     class MessageDeleted(val message: MessageInfoModel) : ChatAction()
     class FetchMessages : ChatAction()

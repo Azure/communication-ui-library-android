@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.chat.repository.storage
 
-import com.azure.android.communication.ui.chat.repository.MessageRepository
+import com.azure.android.communication.ui.chat.repository.IMessageRepository
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -11,8 +11,8 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 internal class MessageRepositoryListStorageUnitTest {
 
-    private fun getMessageRepo(): MessageRepository {
-        return MessageRepository.createListBackedRepository()
+    private fun getMessageRepo(): IMessageRepository {
+        return IMessageRepository.createListBackedRepository()
     }
 
     @Test
