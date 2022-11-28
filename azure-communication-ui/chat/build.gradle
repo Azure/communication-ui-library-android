@@ -60,12 +60,13 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
-
-    publishing {
-        multipleVariants('release') {
-            withSourcesJar()
-            withJavadocJar()
-            includeBuildTypeValues('release')
+    if (!shouldByPassMavenPublish()) {
+        publishing {
+            multipleVariants('release') {
+                withSourcesJar()
+                withJavadocJar()
+                includeBuildTypeValues('release')
+            }
         }
     }
 }
