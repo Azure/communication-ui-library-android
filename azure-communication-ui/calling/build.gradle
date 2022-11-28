@@ -73,16 +73,17 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
-
-    publishing {
-        multipleVariants('release') {
-            withSourcesJar()
-            withJavadocJar()
-            includeBuildTypeValues('release')
+    if (!shouldByPassMavenPublish()) {
+        publishing {
+            multipleVariants('release') {
+                withSourcesJar()
+                withJavadocJar()
+                includeBuildTypeValues('release')
+            }
         }
     }
-
 }
+
 
 dependencies {
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
