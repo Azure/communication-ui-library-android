@@ -39,6 +39,7 @@ import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScr
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
 import com.azure.android.communication.ui.chat.preview.MOCK_MESSAGES
+import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
@@ -144,8 +145,10 @@ internal fun ChatScreen(
                             messageInputTextState = stateViewModel.messageInputTextState,
                             chatStatus = viewModel.chatStatus,
                             postAction = {
-                                coroutineScope.launch {
-                                    listState.animateScrollToItem(0)
+                                if (it is ChatAction.SendMessage) {
+                                    coroutineScope.launch {
+                                        listState.animateScrollToItem(0)
+                                    }
                                 }
                                 viewModel.postAction(it)
                             }

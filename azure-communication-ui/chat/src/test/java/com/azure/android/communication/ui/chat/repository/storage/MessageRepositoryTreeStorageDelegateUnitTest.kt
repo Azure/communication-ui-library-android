@@ -9,10 +9,10 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class MessageRepositoryListStorageUnitTest {
+class MessageRepositoryTreeStorageDelegateUnitTest {
 
     private fun getMessageRepo(): IMessageRepository {
-        return IMessageRepository.createListBackedRepository()
+        return IMessageRepository.createTreeBackedRepository()
     }
 
     @Test
