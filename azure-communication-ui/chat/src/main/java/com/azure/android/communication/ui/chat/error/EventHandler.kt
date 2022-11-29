@@ -4,14 +4,13 @@
 package com.azure.android.communication.ui.chat.error
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
-import com.azure.android.communication.ui.chat.models.ChatCompositeEvent
-import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode.Companion.CHAT_REMOVED
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 internal class EventHandler(
@@ -19,13 +18,22 @@ internal class EventHandler(
     private val store: AppStore<ReduxState>,
     private val configuration: ChatCompositeConfiguration,
 ) {
-    private var localParticipantRemovedPreviousState = false
+    private var isActiveChatThreadParticipantStateFlow = MutableStateFlow(
+            store.getCurrentState().chatState.localParticipantInfoModel.isActiveChatThreadParticipant)
+
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     fun start() {
         coroutineScope.launch(Dispatchers.Default) {
             store.getStateFlow().collect {
-                onLocalParticipantRemoved(it.chatState.localParticipantInfoModel.isActiveChatThreadParticipant)
+                isActiveChatThreadParticipantStateFlow.value =
+                        it.chatState.localParticipantInfoModel.isActiveChatThreadParticipant
+            }
+        }
+
+        coroutineScope.launch(Dispatchers.Default) {
+            isActiveChatThreadParticipantStateFlow.collect {
+                onIsActiveChanged(it)
             }
         }
     }
@@ -34,23 +42,12 @@ internal class EventHandler(
         coroutineScope.cancel()
     }
 
-    private fun onLocalParticipantRemoved(isLocalParticipantActive: Boolean) {
-        checkIfLocalParticipantRemovedEventIsNewAndNotify(
-            isLocalParticipantActive,
-            localParticipantRemovedPreviousState
-        ) {
-            localParticipantRemovedPreviousState = it
-        }
-    }
-    private fun checkIfLocalParticipantRemovedEventIsNewAndNotify(
-        localParticipantActiveCurrent: Boolean,
-        localParticipantRemovedPrevious: Boolean,
-        function: (Boolean) -> Unit,
+    private fun onIsActiveChanged(
+        isActiveChatThreadParticipant: Boolean
     ) {
-        if (localParticipantActiveCurrent != localParticipantRemovedPrevious && !localParticipantActiveCurrent) {
-            function(localParticipantActiveCurrent)
+        if (!isActiveChatThreadParticipant) {
             configuration.eventHandlerRepository.getLocalParticipantRemovedHandlers().forEach {
-                it.handle(ChatCompositeEvent(CHAT_REMOVED))
+                it.handle(null)
             }
         }
     }
