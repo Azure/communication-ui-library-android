@@ -25,7 +25,6 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.IMessageRepository
-import com.azure.android.communication.ui.chat.repository.MessageRepository
 
 internal class ChatCompositeViewImpl(
     context: Context,

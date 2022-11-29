@@ -19,7 +19,7 @@ internal class MessageRepository private constructor() {
         }
 
         fun createSkipListBackedRepository(): IMessageRepository {
-            return  MessageRepositorySkipList()
+            return MessageRepositorySkipList()
         }
     }
 }

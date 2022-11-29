@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import java.util.*
 import kotlin.collections.ArrayList
 
 // Interface for Message Repository Middleware to use
@@ -21,7 +20,7 @@ internal abstract class IMessageRepository {
     abstract fun get(i: Int): MessageInfoModel
     abstract val size: Int
 
-    private var currentSnapshot : List<MessageInfoModel> = listOf()
+    private var currentSnapshot: List<MessageInfoModel> = listOf()
 
     open fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
         removeMessage(oldMessage)
@@ -29,7 +28,6 @@ internal abstract class IMessageRepository {
     }
 
     val snapshotList get() = currentSnapshot
-
 
     // Simple Copy to build Snapshot for now
     // However, advised to implement a more efficient SnapshotList mechanism
