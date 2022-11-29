@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
 import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
@@ -15,8 +16,9 @@ import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.MessageRepositoryWriter
+import com.azure.android.communication.ui.chat.repository.IMessageRepositoryDelegate
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import com.azure.android.communication.ui.chat.utilities.findMessageById
 import org.threeten.bp.OffsetDateTime
 
 internal interface MessageRepositoryMiddleware
@@ -27,7 +29,7 @@ internal interface MessageRepositoryMiddleware
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
 internal class MessageRepositoryMiddlewareImpl(
-    private val messageRepository: MessageRepositoryWriter,
+    private val messageRepository: IMessageRepositoryDelegate,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware,
@@ -36,9 +38,10 @@ internal class MessageRepositoryMiddlewareImpl(
     override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
         { action: Action ->
             when (action) {
-                is ChatAction.MessageSent -> processSentMessage(action, store::dispatch)
+                is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
+                is ChatAction.MessageSent -> processMessageSent(action, store::dispatch)
                 is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
-                is ChatAction.MessageReceived -> processNewMessage(action, store::dispatch)
+                is ChatAction.MessageReceived -> processMessageReceived(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
                 is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
                 is ParticipantAction.ParticipantsAdded -> processParticipantsAdded(
@@ -63,7 +66,7 @@ internal class MessageRepositoryMiddlewareImpl(
     private fun processNetworkDisconnected(
         dispatch: Dispatch,
     ) {
-        messageRepository.getLastMessage()?.let { messageInfoModel ->
+        messageRepository.get(messageRepository.size - 1)?.let { messageInfoModel ->
             val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
                 ?: messageInfoModel.createdOn
             offsetDateTime?.let {
@@ -72,19 +75,38 @@ internal class MessageRepositoryMiddlewareImpl(
         }
     }
 
-    private fun processNewMessage(
+    private fun processMessageReceived(
         action: ChatAction.MessageReceived,
         dispatch: Dispatch,
     ) {
-        messageRepository.addServerMessage(action.message)
+        val oldMessage = messageRepository.findMessageById(action.message.normalizedID)
+        if (oldMessage == EMPTY_MESSAGE_INFO_MODEL) {
+            messageRepository.addMessage(action.message)
+        } else {
+            messageRepository.replaceMessage(
+                oldMessage,
+                action.message
+            )
+        }
+
         notifyUpdate(dispatch)
     }
 
-    private fun processSentMessage(
+    // Before the hits the server
+    private fun processSendMessage(
+        action: ChatAction.SendMessage,
+        dispatch: Dispatch,
+    ) {
+        messageRepository.addMessage(action.messageInfoModel)
+        notifyUpdate(dispatch)
+    }
+
+    private fun processMessageSent(
         action: ChatAction.MessageSent,
         dispatch: Dispatch,
     ) {
-        messageRepository.addLocalMessage(action.messageInfoModel)
+        messageRepository.removeMessage(action.messageInfoModel)
+        messageRepository.addMessage(action.messageInfoModel.copy(id = action.id))
         notifyUpdate(dispatch)
     }
 
@@ -97,7 +119,6 @@ internal class MessageRepositoryMiddlewareImpl(
     }
 
     private var skipFirstParticipantsAddedMessage = true
-
     // Fake a message for Participant Added
     private fun processParticipantsAdded(
         action: ParticipantAction.ParticipantsAdded,
@@ -109,9 +130,9 @@ internal class MessageRepositoryMiddlewareImpl(
             skipFirstParticipantsAddedMessage = false
             return
         }
-        messageRepository.addLocalMessage(
+        messageRepository.addMessage(
             MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 1}",
+                internalId = System.currentTimeMillis().toString(),
                 participants = action.participants.map { it.displayName ?: "" },
                 content = null,
                 createdOn = OffsetDateTime.now(),
@@ -130,12 +151,9 @@ internal class MessageRepositoryMiddlewareImpl(
         val isLocalParticipantRemoved = action.participants.any { removed ->
             removed.userIdentifier.id == localParticipant.userIdentifier
         }
-        val isRemoteParticipantsRemoved = action.participants.any { removed ->
-            removed.userIdentifier.id != localParticipant.userIdentifier
-        }
         if (isLocalParticipantRemoved) {
             val localUserRemovedSystemMessage = MessageInfoModel(
-                id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 1}",
+                internalId = System.currentTimeMillis().toString(),
                 participants = arrayListOf(localParticipant.displayName ?: "Local Participant"),
                 content = null,
                 createdOn = OffsetDateTime.now(),
@@ -143,13 +161,17 @@ internal class MessageRepositoryMiddlewareImpl(
                 messageType = ChatMessageType.PARTICIPANT_REMOVED,
                 isCurrentUser = true
             )
-            messageRepository.addLocalMessage(localUserRemovedSystemMessage)
+            messageRepository.addMessage(localUserRemovedSystemMessage)
             dispatch(ChatAction.LocalUserRemoved)
         }
+
+        val isRemoteParticipantsRemoved = action.participants.any { removed ->
+            removed.userIdentifier.id != localParticipant.userIdentifier
+        }
         if (isRemoteParticipantsRemoved) {
-            messageRepository.addLocalMessage(
+            messageRepository.addMessage(
                 MessageInfoModel(
-                    id = "${messageRepository.getLastMessage()?.id?.toLong() ?: 1}",
+                    internalId = System.currentTimeMillis().toString(),
                     participants = action.participants.map { it.displayName ?: "" },
                     content = null,
                     createdOn = OffsetDateTime.now(),
@@ -167,7 +189,25 @@ internal class MessageRepositoryMiddlewareImpl(
     }
 
     private fun processEditMessage(action: ChatAction.MessageEdited, dispatch: Dispatch) {
-        messageRepository.editMessage(action.message)
+        val oldMessage = messageRepository.findMessageById(action.message.normalizedID)
+        if (oldMessage == EMPTY_MESSAGE_INFO_MODEL) {
+            // Do nothing? add message? throw error?
+            // messageRepository.addMessage(action.message)
+        } else {
+            messageRepository.replaceMessage(
+                oldMessage,
+                action.message.copy(
+                    messageType = oldMessage.messageType,
+                    version = oldMessage.version,
+                    senderDisplayName = oldMessage.senderDisplayName,
+                    createdOn = oldMessage.createdOn,
+                    editedOn = OffsetDateTime.now(), // Is it in edit object?
+                    deletedOn = oldMessage.deletedOn,
+                    senderCommunicationIdentifier = oldMessage.senderCommunicationIdentifier,
+                    isCurrentUser = oldMessage.isCurrentUser
+                )
+            )
+        }
         notifyUpdate(dispatch)
     }
 

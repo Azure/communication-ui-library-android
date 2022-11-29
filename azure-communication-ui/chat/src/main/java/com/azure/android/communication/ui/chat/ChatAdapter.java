@@ -56,6 +56,7 @@ public final class ChatAdapter {
      * Disconnects from backend services.
      */
     public void disconnect() {
+        chatContainer.stop();
     }
 
     private void launchComposite(final Context context, final String threadId) {

@@ -35,7 +35,7 @@ internal class ChatReducerImpl : ChatReducer {
                 state.copy(chatInfoModel = state.chatInfoModel.copy(isThreadDeleted = true))
             }
             is ChatAction.MessageSent -> {
-                state.copy(lastSendMessageId = action.messageInfoModel.id ?: "")
+                state.copy(lastSendMessageId = action.messageInfoModel.normalizedID.toString())
             }
             is ChatAction.MessageLastReceived -> {
                 state.copy(
