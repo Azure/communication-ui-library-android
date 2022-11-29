@@ -235,7 +235,7 @@ internal class LocalParticipantView : ConstraintLayout {
         viewMode: LocalParticipantViewMode
     ) {
         val scalingMode =
-            // If in PIP Always crap
+            // If in PIP Always Crop
             if (viewMode == LocalParticipantViewMode.PIP)
                 ScalingMode.CROP
             // When not in PIP, Fit on TV, Crop Otherwise
