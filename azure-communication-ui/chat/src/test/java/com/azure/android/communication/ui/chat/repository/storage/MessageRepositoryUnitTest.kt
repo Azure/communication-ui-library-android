@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.IMessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import org.junit.Assert
@@ -16,7 +16,7 @@ import java.util.Collections
 internal class MessageRepositoryUnitTest {
 
     companion object {
-        fun addPageTest(messageRepository: IMessageRepository) {
+        fun addPageTest(messageRepository: MessageRepository) {
             val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
             val numberOfTestMessages = 51
             for (i in 0..50) {
@@ -39,7 +39,7 @@ internal class MessageRepositoryUnitTest {
             }
         }
 
-        fun removeMessageTest(messageRepository: IMessageRepository) {
+        fun removeMessageTest(messageRepository: MessageRepository) {
             val numberOfTestMessages = 51
             for (i in 0..numberOfTestMessages) {
                 messageRepository.addMessage(
@@ -59,7 +59,7 @@ internal class MessageRepositoryUnitTest {
             Assert.assertEquals(numberOfTestMessages, updatedList.size)
         }
 
-        fun editMessageTest(messageRepository: IMessageRepository) {
+        fun editMessageTest(messageRepository: MessageRepository) {
             val numberOfTestMessages = 51
             for (i in 0..numberOfTestMessages) {
                 messageRepository.addMessage(
@@ -86,7 +86,7 @@ internal class MessageRepositoryUnitTest {
             Assert.assertEquals("Edited Message 0", updatedResultList[0].content)
         }
 
-        fun messageRepositoryListStorage_removeMessageTest(storage: IMessageRepository) {
+        fun messageRepositoryListStorage_removeMessageTest(storage: MessageRepository) {
             val numberOfTestMessages = 50
             for (i in 1..numberOfTestMessages) {
                 storage.addMessage(
@@ -110,7 +110,7 @@ internal class MessageRepositoryUnitTest {
             Assert.assertEquals(numberOfTestMessages - 1, resultList.size)
         }
 
-        fun outOfOrderTest(repository: IMessageRepository) {
+        fun outOfOrderTest(repository: MessageRepository) {
 
             // Add ID 4..7
             for (i in 4..7) {
@@ -158,7 +158,7 @@ internal class MessageRepositoryUnitTest {
             Assert.assertEquals(7, resultList[7].normalizedID)
         }
 
-        fun indexOfTest(storage: IMessageRepository) {
+        fun indexOfTest(storage: MessageRepository) {
             val numberOfTestMessages = 50
             for (i in 1..numberOfTestMessages) {
                 storage.addMessage(

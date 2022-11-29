@@ -5,10 +5,10 @@ package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.IMessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import java.util.concurrent.ConcurrentSkipListMap
 
-internal class MessageRepositorySkipList : IMessageRepository() {
+internal class MessageRepositorySkipList : MessageRepository() {
 
     private val skipListStorage: ConcurrentSkipListMap<Long, MessageInfoModel> =
         ConcurrentSkipListMap()
@@ -31,11 +31,6 @@ internal class MessageRepositorySkipList : IMessageRepository() {
         if (skipListStorage.contains(orderId)) {
             skipListStorage.remove(orderId)
         }
-    }
-
-    override fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
-        removeMessage(oldMessage)
-        addMessage(newMessage)
     }
 
     private fun searchItem(kth: Int): MessageInfoModel {

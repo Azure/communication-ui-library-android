@@ -16,7 +16,7 @@ class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_createListStorage_unitTest() {
-        val listStorage: IMessageRepository = MessageRepository.createListBackedRepository()
+        val listStorage: MessageRepository = MessageRepository.createListBackedRepository()
         val messageStorageWriter = MessageRepositoryList()
         Assert.assertEquals(
             true,
@@ -26,7 +26,7 @@ class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_createTreeStorage_unitTest() {
-        val treeStorage: IMessageRepository = MessageRepository.createTreeBackedRepository()
+        val treeStorage: MessageRepository = MessageRepository.createTreeBackedRepository()
         val messageStorageWriter = MessageRepositoryTreeStorage()
         Assert.assertEquals(
             true,
@@ -36,7 +36,7 @@ class MessageRepositoryUnitTest {
 
     @Test
     fun messageRepository_createSkipListStorage_unitTest() {
-        val skipListStorage: IMessageRepository = MessageRepository.createSkipListBackedRepository()
+        val skipListStorage: MessageRepository = MessageRepository.createSkipListBackedRepository()
         val messageStorageWriter = MessageRepositorySkipList()
         Assert.assertEquals(
             true,
