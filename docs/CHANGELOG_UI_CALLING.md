@@ -1,13 +1,14 @@
 # Azure Communication UI Calling Release History
 
-## 1.2.0-beta.1 (FUTURE)
+## 1.2.0-beta.1 (2022-11-30)
 
 ### Features
-- Call Diagnostics information is available on the UI and on API via `CallComposite.getDiagnosticsInfo()`
-- Enhancements for TV Devices (Smaller PIP, Focus Navigation, Label improvements)
+- Call Diagnostics information is available on the UI and on API via `CallComposite.getDebugInfo()`
+- Enhancements support for TV Devices (Smaller PIP, Focus Navigation, Label improvements)
+- Localization support for Arabic, Finnish, Hebrew, Norwegian Bokmål, Polish, Swedish
 
 ### Bug Fixes
-- N/A
+- Crash fix for Xamarin when on end call button, cancel is pressed
 
 ## 1.1.0-beta.1 (2022-10-03)
 ### Features
