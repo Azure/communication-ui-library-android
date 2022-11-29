@@ -53,7 +53,6 @@ class ChatLauncherActivity : AppCompatActivity() {
                 Crashes::class.java,
                 Distribute::class.java
             )
-            Distribute.checkForUpdate()
         }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)

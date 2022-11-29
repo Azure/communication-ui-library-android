@@ -44,7 +44,6 @@ class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
                 Crashes::class.java,
                 Distribute::class.java
             )
-            Distribute.checkForUpdate()
         }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)
