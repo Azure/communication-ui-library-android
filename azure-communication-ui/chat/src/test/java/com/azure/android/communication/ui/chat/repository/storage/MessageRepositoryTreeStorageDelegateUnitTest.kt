@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.repository.IMessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -12,7 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class MessageRepositoryTreeStorageDelegateUnitTest {
 
     private fun getMessageRepo(): IMessageRepository {
-        return IMessageRepository.createTreeBackedRepository()
+        return MessageRepository.createTreeBackedRepository()
     }
 
     @Test

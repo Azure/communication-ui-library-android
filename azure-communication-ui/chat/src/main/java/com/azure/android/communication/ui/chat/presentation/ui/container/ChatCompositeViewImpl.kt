@@ -25,6 +25,7 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.IMessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 
 internal class ChatCompositeViewImpl(
     context: Context,
@@ -52,7 +53,7 @@ internal class ChatCompositeViewImpl(
                 buildChatScreenViewModel(
                     context = context,
                     store = store,
-                    messages = locator.locate<IMessageRepository>().getSnapshotList(),
+                    messages = locator.locate<IMessageRepository>().snapshotList,
                     localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
                     dispatch = locator.locate(),
                 )

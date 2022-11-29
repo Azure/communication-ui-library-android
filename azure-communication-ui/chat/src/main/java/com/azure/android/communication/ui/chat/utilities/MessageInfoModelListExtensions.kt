@@ -2,7 +2,7 @@ package com.azure.android.communication.ui.chat.utilities
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.IMessageRepositoryDelegate
+import com.azure.android.communication.ui.chat.repository.IMessageRepository
 
 // Returns an index of -1 if item can't be found
 internal fun List<MessageInfoModel>.findMessageIdxById(messageId: Long): Int {
@@ -32,7 +32,7 @@ internal fun List<MessageInfoModel>.findMessageIdxById(messageId: Long): Int {
 }
 
 // Returns an index of -1 if item can't be found
-internal fun IMessageRepositoryDelegate.findMessageById(normalizedId: Long): MessageInfoModel {
+internal fun IMessageRepository.findMessageById(normalizedId: Long): MessageInfoModel {
 
     var first = 0
     var last = size - 1

@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.IMessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import org.junit.Assert
@@ -30,8 +31,8 @@ internal class MessageRepositoryUnitTest {
             }
 
             messageRepository.addPage(messages)
-
-            val resultList = messageRepository.getSnapshotList()
+            messageRepository.refreshSnapshot()
+            val resultList = messageRepository.snapshotList
             Assert.assertEquals(numberOfTestMessages, resultList.size)
 
             for (i in 0..50) {
@@ -50,10 +51,12 @@ internal class MessageRepositoryUnitTest {
                     )
                 )
             }
-            val resultList = messageRepository.getSnapshotList()
+            messageRepository.refreshSnapshot()
+            val resultList = messageRepository.snapshotList
             messageRepository.removeMessage(resultList[0])
 
-            val updatedList = messageRepository.getSnapshotList()
+            messageRepository.refreshSnapshot()
+            val updatedList = messageRepository.snapshotList
             Assert.assertEquals(numberOfTestMessages, updatedList.size)
         }
 
@@ -69,7 +72,8 @@ internal class MessageRepositoryUnitTest {
                 )
             }
 
-            val resultList = messageRepository.getSnapshotList()
+            messageRepository.refreshSnapshot()
+            val resultList = messageRepository.snapshotList
 
             val newMessage = MessageInfoModel(
                 id = resultList[0].normalizedID.toString(),
@@ -78,8 +82,8 @@ internal class MessageRepositoryUnitTest {
             )
 
             messageRepository.replaceMessage(messageRepository.get(0), newMessage)
-
-            val updatedResultList = messageRepository.getSnapshotList()
+            messageRepository.refreshSnapshot()
+            val updatedResultList = messageRepository.snapshotList
             Assert.assertEquals("Edited Message 0", updatedResultList[0].content)
         }
 
@@ -102,7 +106,8 @@ internal class MessageRepositoryUnitTest {
                     messageType = ChatMessageType.TEXT
                 )
             )
-            val resultList = storage.getSnapshotList()
+            storage.refreshSnapshot()
+            val resultList = storage.snapshotList
             Assert.assertEquals(numberOfTestMessages - 1, resultList.size)
         }
 
@@ -141,7 +146,8 @@ internal class MessageRepositoryUnitTest {
                     )
                 )
             }
-            val resultList = repository.getSnapshotList()
+            repository.refreshSnapshot()
+            val resultList = repository.snapshotList
             // Expect that first message is ID 0
             Assert.assertEquals(0, resultList[0].normalizedID)
             Assert.assertEquals(1, resultList[1].normalizedID)
@@ -164,8 +170,8 @@ internal class MessageRepositoryUnitTest {
                     )
                 )
             }
-
-            val resultList = storage.getSnapshotList()
+            storage.refreshSnapshot()
+            val resultList = storage.snapshotList
             Assert.assertEquals(
                 1,
                 resultList.findMessageIdxById(2)

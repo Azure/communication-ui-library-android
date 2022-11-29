@@ -4,49 +4,48 @@
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListDelegate
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeStorageDelegate
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListDelegate
+import java.util.*
+import kotlin.collections.ArrayList
 
-internal class IMessageRepository private constructor(
-    val delegate: IMessageRepositoryDelegate,
-) : IMessageRepositoryDelegate {
+// Interface for Message Repository Middleware to use
+// I.e.
+// - addLocalMessage
+// - messageRetrieved,
+// - pageRetrieved
+// - messageEdited
+// - messageDeleted
+internal abstract class IMessageRepository {
+    abstract fun addPage(page: List<MessageInfoModel>)
+    abstract fun addMessage(message: MessageInfoModel)
+    abstract fun removeMessage(message: MessageInfoModel)
+    abstract fun get(i: Int): MessageInfoModel
+    abstract val size: Int
 
-    override fun getSnapshotList(): List<MessageInfoModel> {
-        return delegate.getSnapshotList()
+    private var currentSnapshot : List<MessageInfoModel> = listOf()
+
+    open fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
+        removeMessage(oldMessage)
+        addMessage(newMessage)
     }
 
-    override fun get(i: Int) = delegate.get(i)
+    val snapshotList get() = currentSnapshot
 
-    override val size: Int
-        get() = delegate.size
 
-    override fun addPage(page: List<MessageInfoModel>) = delegate.addPage(page)
-    override fun addMessage(message: MessageInfoModel) = delegate.addMessage(message)
-    override fun removeMessage(message: MessageInfoModel) = delegate.removeMessage(message = message)
-    override fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) = delegate.replaceMessage(oldMessage, newMessage)
-
-    companion object {
-
-        fun createListBackedRepository(): IMessageRepository {
-            val writer = MessageRepositoryListDelegate()
-            return IMessageRepository(
-                delegate = writer
-            )
+    // Simple Copy to build Snapshot for now
+    // However, advised to implement a more efficient SnapshotList mechanism
+    open fun buildSnapshotList(): List<MessageInfoModel> {
+        // This is a inefficient implementation
+        // but is generic and will work with any backing data
+        val result = ArrayList<MessageInfoModel>()
+        for (i in 0 until size) {
+            result.add(get(i))
         }
+        return result
+    }
 
-        fun createTreeBackedRepository(): IMessageRepository {
-            val writer = MessageRepositoryTreeStorageDelegate()
-            return IMessageRepository(
-                delegate = writer
-            )
-        }
-
-        fun createSkipListBackedRepository(): IMessageRepository {
-            val writer = MessageRepositorySkipListDelegate()
-            return IMessageRepository(
-                delegate = writer
-            )
-        }
+    // Refreshes the snapshot to match the current state of the repository
+    // Call from Same thread as Repository Writes
+    fun refreshSnapshot() {
+        currentSnapshot = buildSnapshotList()
     }
 }
