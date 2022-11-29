@@ -44,7 +44,7 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
 
             val diagnostics1 = debugInfoManager.debugInfo
             Assert.assertNotNull(diagnostics1)
-            Assert.assertNull(diagnostics1.lastKnownCallId)
+            Assert.assertNull(diagnostics1.lastCallId)
 
             // update state
             val appState2 = AppReduxState("")
@@ -55,7 +55,7 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
             val diagnostics2 = debugInfoManager.debugInfo
             Assert.assertNotSame(diagnostics1, diagnostics2)
             Assert.assertNotNull(diagnostics2)
-            Assert.assertEquals(callID, diagnostics2.lastKnownCallId)
+            Assert.assertEquals(callID, diagnostics2.lastCallId)
 
             // redux state loosing CallID
 
@@ -67,7 +67,7 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
             val diagnostics3 = debugInfoManager.debugInfo
             Assert.assertSame(diagnostics2, diagnostics3)
             Assert.assertNotNull(diagnostics3)
-            Assert.assertEquals(callID, diagnostics3.lastKnownCallId)
+            Assert.assertEquals(callID, diagnostics3.lastCallId)
             flowJob.cancel()
         }
     }

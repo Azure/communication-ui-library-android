@@ -12,7 +12,7 @@ internal class MoreCallOptionsListViewModel(
     private val unknown = "UNKNOWN"
     val callId: String
         get() {
-            val lastKnownCallId = debugInfoManager.debugInfo.lastKnownCallId
+            val lastKnownCallId = debugInfoManager.debugInfo.lastCallId
             return "Call ID: \"${if (lastKnownCallId.isNullOrEmpty()) unknown else lastKnownCallId}\""
         }
 

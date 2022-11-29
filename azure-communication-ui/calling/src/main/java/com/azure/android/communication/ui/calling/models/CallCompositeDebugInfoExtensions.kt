@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.models
 
 internal fun CallCompositeDebugInfo.setCallId(lastKnownCallId: String?) {
-    this.lastKnownCallId = lastKnownCallId
+    this.lastCallId = lastKnownCallId
 }
 
 internal fun buildCallCompositeDebugInfo(): CallCompositeDebugInfo = CallCompositeDebugInfo()
