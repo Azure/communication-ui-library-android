@@ -22,10 +22,10 @@ class CallLauncherActivityErrorHandler(
 
     override fun handle(it: CallCompositeErrorEvent) {
         println("================= application is logging exception =================")
-        println("call id: " + (callComposite.diagnostics.lastKnownCallId ?: ""))
+        println("call id: " + (callComposite.debugInfo.lastKnownCallId ?: ""))
         println(it.cause)
         println(it.errorCode)
-        activityWr.get()?.showAlert("${it.errorCode} ${it.cause?.message}. Call id: ${callComposite.diagnostics.lastKnownCallId ?: ""}")
+        activityWr.get()?.showAlert("${it.errorCode} ${it.cause?.message}. Call id: ${callComposite.debugInfo.lastKnownCallId ?: ""}")
         println("====================================================================")
     }
 }

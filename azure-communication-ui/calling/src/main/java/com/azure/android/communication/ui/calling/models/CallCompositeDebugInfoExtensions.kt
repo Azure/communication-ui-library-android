@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.calling.models
 
-internal fun CallCompositeDiagnostics.setCallId(lastKnownCallId: String?) {
+internal fun CallCompositeDebugInfo.setCallId(lastKnownCallId: String?) {
     this.lastKnownCallId = lastKnownCallId
 }
 
-internal fun buildCallCompositeDiagnostics(): CallCompositeDiagnostics = CallCompositeDiagnostics()
+internal fun buildCallCompositeDebugInfo(): CallCompositeDebugInfo = CallCompositeDebugInfo()

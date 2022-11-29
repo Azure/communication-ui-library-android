@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.presentation.manager
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager
-import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManagerImpl
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
@@ -22,7 +22,7 @@ import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class DiagnosticsManagerTest : ACSBaseTestCoroutine() {
+internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
 
     @Test
     @ExperimentalCoroutinesApi
@@ -37,12 +37,12 @@ internal class DiagnosticsManagerTest : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doAnswer { stateFlow }
             }
 
-            val diagnosticsManager: DiagnosticsManager = DiagnosticsManagerImpl(mockAppStore)
+            val debugInfoManager: DebugInfoManager = DebugInfoManagerImpl(mockAppStore)
             val flowJob = launch {
-                diagnosticsManager.start(coroutineScope = this)
+                debugInfoManager.start(coroutineScope = this)
             }
 
-            val diagnostics1 = diagnosticsManager.diagnostics
+            val diagnostics1 = debugInfoManager.debugInfo
             Assert.assertNotNull(diagnostics1)
             Assert.assertNull(diagnostics1.lastKnownCallId)
 
@@ -52,7 +52,7 @@ internal class DiagnosticsManagerTest : ACSBaseTestCoroutine() {
             appState2.callState = CallingState(CallingStatus.CONNECTING, callID)
             stateFlow.value = appState2
 
-            val diagnostics2 = diagnosticsManager.diagnostics
+            val diagnostics2 = debugInfoManager.debugInfo
             Assert.assertNotSame(diagnostics1, diagnostics2)
             Assert.assertNotNull(diagnostics2)
             Assert.assertEquals(callID, diagnostics2.lastKnownCallId)
@@ -64,7 +64,7 @@ internal class DiagnosticsManagerTest : ACSBaseTestCoroutine() {
             appState3.callState = CallingState(CallingStatus.CONNECTING, null)
             stateFlow.value = appState3
 
-            val diagnostics3 = diagnosticsManager.diagnostics
+            val diagnostics3 = debugInfoManager.debugInfo
             Assert.assertSame(diagnostics2, diagnostics3)
             Assert.assertNotNull(diagnostics3)
             Assert.assertEquals(callID, diagnostics3.lastKnownCallId)
