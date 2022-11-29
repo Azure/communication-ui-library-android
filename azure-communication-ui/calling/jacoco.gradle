@@ -1,9 +1,3 @@
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = "$jacoco_version"
-}
-
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     def coverageSourceDirs = [
             "src/calling/java"

@@ -86,18 +86,17 @@ steps:
     tasks: ':demo-app:assembleDebug --stacktrace'
 
 - task: Gradle@2
-  displayName: 'Coverage report for calling'
+  displayName: 'Coverage report for all packages'
   inputs:
     workingDirectory: 'azure-communication-ui'
     gradleWrapperFile: 'azure-communication-ui/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
-    tasks: 'jacocoTestReport'
+    tasks: ':combinedCoverageReport'
 
 - task: PublishCodeCoverageResults@1
-  displayName: 'Calling - Publish code coverage Jacoco'
+  displayName: 'Calling - Publish code coverage report'
   inputs:
-    summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
-    pathToSources: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/src/main/java
-    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/build/reports/jacoco/jacocoTestReport/html/index.html
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/report.xml
+    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/index.html
 
