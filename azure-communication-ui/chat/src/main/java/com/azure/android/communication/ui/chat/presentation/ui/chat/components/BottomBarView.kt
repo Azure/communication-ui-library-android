@@ -61,9 +61,9 @@ private fun sendButtonOnclick(
         ChatAction.SendMessage(
             MessageInfoModel(
                 id = null,
+                internalId = System.currentTimeMillis().toString(),
                 messageType = ChatMessageType.TEXT,
                 createdOn = OffsetDateTime.now(),
-                internalId = null,
                 content = messageInputTextState.value,
                 isCurrentUser = true,
             )

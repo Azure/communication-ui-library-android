@@ -47,7 +47,7 @@ internal fun messageContextMenu(
     // When the selected item changes, show/hide menu
     // When EMPTY_MESSAGE_INFO_MODEL hide()
     // Otherwise show()
-    if (currentItem.id != lastSelectedItem.value.id) {
+    if (currentItem.normalizedID != lastSelectedItem.value.normalizedID) {
         LaunchedEffect(currentItem) {
             coroutineScope.launch {
                 if (currentItem == EMPTY_MESSAGE_INFO_MODEL) {

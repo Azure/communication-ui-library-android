@@ -3,13 +3,13 @@
 
 package com.azure.android.communication.ui.chat.repository.storage
 
-import com.azure.android.communication.ui.chat.repository.MessageRepository
+import com.azure.android.communication.ui.chat.repository.IMessageRepository
 import org.junit.Test
 
 internal class MessageRepositorySkipListStorageUnitTest {
 
-    private fun getMessageRepo(): MessageRepository {
-        return MessageRepository.createSkipListBackedRepository()
+    private fun getMessageRepo(): IMessageRepository {
+        return IMessageRepository.createSkipListBackedRepository()
     }
 
     @Test
