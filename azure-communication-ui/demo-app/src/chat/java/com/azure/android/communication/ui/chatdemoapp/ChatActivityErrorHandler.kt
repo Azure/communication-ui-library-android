@@ -14,7 +14,7 @@ class ChatActivityErrorHandler(
         println("================= application is logging exception =================")
         println(it.cause)
         println(it.errorCode)
-        activityWr.get()?.showAlert("${it.errorCode} ${it.cause?.message}")
+        activityWr.get()?.showAlert("${it.cause}")
         println("====================================================================")
     }
 }
