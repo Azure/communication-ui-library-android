@@ -34,7 +34,17 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                     participantTyping =
                         participantTyping - participantTypingKeys.filter { it.contains(id) }
                 }
-                state.copy(
+
+                var updatedState = state
+
+                if (action.localParticipantRemoved) {
+                    updatedState = updatedState.copy(
+                        localParticipantInfoModel =
+                        state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false)
+                    )
+                }
+
+                updatedState.copy(
                     participants = state.participants - removedParticipants,
                     participantTyping = participantTyping,
                     participantsReadReceiptMap =

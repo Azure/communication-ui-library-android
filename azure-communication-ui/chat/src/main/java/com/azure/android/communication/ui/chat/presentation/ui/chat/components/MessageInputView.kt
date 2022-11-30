@@ -43,13 +43,16 @@ internal fun MessageInputView(
     messageInputTextState: MutableState<String>,
     postAction: (Action) -> Unit,
     keyboardActions: KeyboardActions = KeyboardActions(),
+    sendMessageEnabled: Boolean,
 ) {
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
         onTextChanged = {
             messageInputTextState.value = it
-            postAction(ChatAction.TypingIndicator())
+            if (sendMessageEnabled) {
+                postAction(ChatAction.TypingIndicator())
+            }
         },
         textContent = messageInputTextState.value,
         onTextFieldFocused = { focusState = it },
@@ -123,5 +126,5 @@ internal fun MessageInput(
 @Preview
 @Composable
 internal fun PreviewMessageInputView() {
-    MessageInputView("Message Input Field", remember { mutableStateOf("") }, {})
+    MessageInputView("Message Input Field", remember { mutableStateOf("") }, {}, sendMessageEnabled = true)
 }

@@ -5,19 +5,20 @@ package com.azure.android.communication.ui.chat.repository.storage
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.IMessageRepositoryDelegate
-import java.util.TreeMap
+import com.azure.android.communication.ui.chat.repository.MessageRepository
+import java.util.concurrent.ConcurrentSkipListMap
 
-internal class MessageRepositoryTreeStorageDelegate : IMessageRepositoryDelegate {
+internal class MessageRepositorySkipListBackedImpl : MessageRepository() {
 
-    private val treeMapStorage: TreeMap<Long, MessageInfoModel> = TreeMap()
+    private val skipListStorage: ConcurrentSkipListMap<Long, MessageInfoModel> =
+        ConcurrentSkipListMap()
 
     override val size: Int
-        get() = treeMapStorage.size
+        get() = skipListStorage.size
 
     override fun addMessage(messageInfoModel: MessageInfoModel) {
         val orderId: Long = messageInfoModel.normalizedID
-        treeMapStorage[orderId] = messageInfoModel
+        skipListStorage[orderId] = messageInfoModel
     }
 
     override fun addPage(page: List<MessageInfoModel>) {
@@ -27,22 +28,22 @@ internal class MessageRepositoryTreeStorageDelegate : IMessageRepositoryDelegate
     override fun removeMessage(message: MessageInfoModel) {
         val orderId = message.normalizedID
 
-        if (treeMapStorage.contains(orderId)) {
-            treeMapStorage.remove(orderId)
+        if (skipListStorage.contains(orderId)) {
+            skipListStorage.remove(orderId)
         }
     }
 
     private fun searchItem(kth: Int): MessageInfoModel {
 
-        var highestKey = treeMapStorage.lastKey()
-        var lowestKey = treeMapStorage.firstKey()
+        var highestKey = skipListStorage.lastKey()
+        var lowestKey = skipListStorage.firstKey()
         var elements = 0
         var midKey: Long = 0
         var items = kth
         while (lowestKey <= highestKey) {
             midKey = (highestKey + lowestKey).div(2)
 
-            elements = treeMapStorage.subMap(lowestKey, midKey + 1).size
+            elements = skipListStorage.subMap(lowestKey, midKey + 1).size
             if (elements < items) {
                 items -= elements
                 lowestKey = midKey + 1
@@ -53,13 +54,13 @@ internal class MessageRepositoryTreeStorageDelegate : IMessageRepositoryDelegate
             }
         }
 
-        val key = treeMapStorage.subMap(lowestKey, midKey + 1).lastKey()
-        return treeMapStorage.get(key)!!
+        val key = skipListStorage.subMap(lowestKey, midKey + 1).lastKey()
+        return skipListStorage.get(key)!!
     }
 
     fun searchIndexByID(messageId: Long): Int {
-        var highestKey = treeMapStorage.lastKey()
-        var lowestKey = treeMapStorage.firstKey()
+        var highestKey = skipListStorage.lastKey()
+        var lowestKey = skipListStorage.firstKey()
         var midKey: Long = 0
 
         while (lowestKey <= highestKey) {
@@ -73,7 +74,7 @@ internal class MessageRepositoryTreeStorageDelegate : IMessageRepositoryDelegate
                 break
             }
         }
-        return treeMapStorage.headMap(midKey).size
+        return skipListStorage.headMap(midKey).size
     }
 
     override fun get(index: Int): MessageInfoModel = try {
