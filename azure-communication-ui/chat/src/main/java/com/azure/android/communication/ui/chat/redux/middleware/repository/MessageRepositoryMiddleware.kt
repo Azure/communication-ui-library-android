@@ -15,7 +15,7 @@ import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.action.RepositoryAction
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddleware
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.IMessageRepositoryDelegate
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageById
 import org.threeten.bp.OffsetDateTime
@@ -28,7 +28,7 @@ internal interface MessageRepositoryMiddleware
 // ChatServiceListener (Service -> Redux)
 // ChatActionHandler (Redux -> Service)
 internal class MessageRepositoryMiddlewareImpl(
-    private val messageRepository: IMessageRepositoryDelegate,
+    private val messageRepository: MessageRepository,
 ) :
     Middleware<ReduxState>,
     ChatMiddleware,
@@ -216,6 +216,9 @@ internal class MessageRepositoryMiddlewareImpl(
         notifyUpdate(dispatch)
     }
 
-    private fun notifyUpdate(dispatch: (Action) -> Unit) =
+    // Notify the UI of an update
+    private fun notifyUpdate(dispatch: (Action) -> Unit) {
+        messageRepository.refreshSnapshot()
         dispatch(RepositoryAction.RepositoryUpdated())
+    }
 }
