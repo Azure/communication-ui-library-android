@@ -145,9 +145,6 @@ internal class MessageRepositoryMiddlewareImpl(
         action: ParticipantAction.ParticipantsRemoved,
         dispatch: Dispatch,
     ) {
-        if (action.localParticipantRemoved) {
-            dispatch(ChatAction.LocalUserRemoved)
-        }
 
         if (action.participants.isNotEmpty()) {
             messageRepository.addMessage(

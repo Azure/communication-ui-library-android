@@ -69,7 +69,7 @@ internal fun buildChatScreenViewModel(
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
         messageContextMenu = store.getCurrentState().chatState.messageContextMenu ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
-        enableSendMessageButton = store.getCurrentState().chatState.localParticipantInfoModel.isActiveChatThreadParticipant &&
+        enableSendMessageButton = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
             store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED
     )
 }

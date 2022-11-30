@@ -34,12 +34,24 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                     participantTyping =
                         participantTyping - participantTypingKeys.filter { it.contains(id) }
                 }
-                state.copy(
+
+                var lstate = state;
+
+                if (action.localParticipantRemoved) {
+                    lstate = state.copy(
+                        localParticipantInfoModel =
+                        state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false)
+                    )
+                }
+
+                lstate.copy(
                     participants = state.participants - removedParticipants,
                     participantTyping = participantTyping,
                     participantsReadReceiptMap =
                     state.participantsReadReceiptMap - action.participants.map { it.userIdentifier.id }
                 )
+
+
             }
             is ParticipantAction.AddParticipantTyping -> {
                 val id = action.infoModel.userIdentifier.id

@@ -60,7 +60,7 @@ internal class ChatServiceListener(
                 handleInfoModel(
                     it,
                     dispatch,
-                    store.getCurrentState().chatState.localParticipantInfoModel
+                    store.getCurrentState().participantState.localParticipantInfoModel
                 )
             }
         }
