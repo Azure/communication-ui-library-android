@@ -35,7 +35,7 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                         participantTyping - participantTypingKeys.filter { it.contains(id) }
                 }
 
-                var lstate = state;
+                var lstate = state
 
                 if (action.localParticipantRemoved) {
                     lstate = state.copy(
@@ -50,8 +50,6 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                     participantsReadReceiptMap =
                     state.participantsReadReceiptMap - action.participants.map { it.userIdentifier.id }
                 )
-
-
             }
             is ParticipantAction.AddParticipantTyping -> {
                 val id = action.infoModel.userIdentifier.id

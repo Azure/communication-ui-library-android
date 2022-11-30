@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat.redux.state
 
 import com.azure.android.communication.ui.chat.models.ChatInfoModel
-import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 
 // ChatStatus will help to subscribe to real tim notifications when state is initialized
