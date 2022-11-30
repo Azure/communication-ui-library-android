@@ -119,6 +119,14 @@ internal val MOCK_MESSAGES
                 internalId = null,
                 createdOn = OffsetDateTime.now()
             ),
+            MessageInfoModel(
+
+                messageType = ChatMessageType.PARTICIPANT_REMOVED,
+                isCurrentUser = true,
+                id = null,
+                internalId = null,
+                createdOn = OffsetDateTime.now()
+            ),
 
         )
     }
