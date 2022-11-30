@@ -28,6 +28,7 @@ public final class ChatAdapter {
     private final CommunicationIdentifier identity;
     private final CommunicationTokenCredential credential;
     private final String displayName;
+    private final ChatCompositeConfiguration configuration;
 
     ChatAdapter(final ChatCompositeConfiguration configuration,
                 final String endpoint,
@@ -39,6 +40,7 @@ public final class ChatAdapter {
         this.identity = identity;
         this.credential = credential;
         this.displayName = displayName;
+        this.configuration = configuration;
     }
 
     /**
@@ -57,7 +59,6 @@ public final class ChatAdapter {
     public void disconnect() {
         chatContainer.stop();
     }
-
 
     private void launchComposite(final Context context, final String threadId) {
         final ChatCompositeRemoteOptions remoteOptions =
