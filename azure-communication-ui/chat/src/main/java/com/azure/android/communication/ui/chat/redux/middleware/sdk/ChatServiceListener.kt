@@ -165,15 +165,6 @@ internal class ChatServiceListener(
         }
     }
 
-    private fun isLocalParticipantRemoved(participants: List<RemoteParticipantInfoModel>, localParticipantInfoModel: LocalParticipantInfoModel): Boolean {
-
-        for (participant in participants) {
-            if (localParticipantInfoModel != null &&
-                participant.userIdentifier.id == localParticipantInfoModel.userIdentifier
-            ) {
-                return true
-            }
-        }
-        return false
-    }
+    private fun isLocalParticipantRemoved(participants: List<RemoteParticipantInfoModel>, localParticipantInfoModel: LocalParticipantInfoModel) =
+        participants.any { it.userIdentifier.id == localParticipantInfoModel.userIdentifier}
 }
