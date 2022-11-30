@@ -85,7 +85,7 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
                 on { dispatch(any()) } doAnswer { }
                 on { getCurrentState() } doAnswer { MutableStateFlow(initialState).value }
             }
-            mockAppStore.getCurrentState().chatState.localParticipantInfoModel
+            mockAppStore.getCurrentState().participantState.localParticipantInfoModel
             // act
             handler.subscribe(mockAppStore)
 
