@@ -1,6 +1,5 @@
 package com.azure.android.communication.ui.chatdemoapp
 
-import com.azure.android.communication.ui.chat.ChatCompositeEventHandler
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import java.lang.ref.WeakReference
 

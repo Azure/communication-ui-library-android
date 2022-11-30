@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
-import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
@@ -121,7 +120,7 @@ internal class MessageRepositoryMiddlewareImpl(
         notifyUpdate(dispatch)
     }
 
-    var skipFirstParticipantsAddedMessage = true
+    private var skipFirstParticipantsAddedMessage = true
     // Fake a message for Participant Added
     private fun processParticipantsAdded(
         action: ParticipantAction.ParticipantsAdded,
