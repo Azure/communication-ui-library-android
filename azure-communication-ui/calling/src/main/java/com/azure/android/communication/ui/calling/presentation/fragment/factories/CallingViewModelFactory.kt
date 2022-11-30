@@ -13,8 +13,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState

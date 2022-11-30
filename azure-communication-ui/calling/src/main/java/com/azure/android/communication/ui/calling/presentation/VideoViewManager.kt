@@ -89,7 +89,6 @@ internal class VideoViewManager(
         if (videoStreamID != null) {
             if (!localParticipantVideoRendererMap.containsKey(videoStreamID)) {
                 callingSDKWrapper.getLocalVideoStream().get()?.let { videoStream ->
-
                     val videoStreamRenderer =
                         videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
                             videoStream,
