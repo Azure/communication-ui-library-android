@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.chat.error
 
-import com.azure.android.communication.ui.chat.models.ChatCompositeEventCode
-
-internal class ChatStateError(
-    val errorCode: ErrorCode,
-    val chatCompositeEventCode: ChatCompositeEventCode? = null,
+internal data class ChatStateError(
+    val errorCode: ErrorCode
 )

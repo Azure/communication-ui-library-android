@@ -16,10 +16,6 @@ internal class AppReduxState(
 ) : ReduxState {
     override var chatState: ChatState = ChatState(
         chatStatus = ChatStatus.NONE,
-        localParticipantInfoModel = LocalParticipantInfoModel(
-            userIdentifier = localParticipantIdentifier,
-            displayName = localParticipantDisplayName
-        ),
         chatInfoModel = ChatInfoModel(
             threadId = threadID,
             topic = null,
@@ -32,6 +28,10 @@ internal class AppReduxState(
     )
 
     override var participantState: ParticipantsState = ParticipantsState(
+        localParticipantInfoModel = LocalParticipantInfoModel(
+            userIdentifier = localParticipantIdentifier,
+            displayName = localParticipantDisplayName
+        ),
         participants = mapOf(),
         participantTyping = mapOf(),
         participantsReadReceiptMap = mapOf(),

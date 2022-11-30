@@ -18,14 +18,13 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import org.threeten.bp.OffsetDateTime
 
 @Composable
 internal fun BottomBarView(
     messageInputTextState: MutableState<String>,
-    chatStatus: ChatStatus,
+    sendMessageEnabled: Boolean = true,
     postAction: (Action) -> Unit,
 ) {
     Row(
@@ -38,6 +37,7 @@ internal fun BottomBarView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction,
+            sendMessageEnabled = sendMessageEnabled
         )
 
         SendMessageButtonView(
@@ -45,8 +45,7 @@ internal fun BottomBarView(
                 R.string.azure_communication_ui_chat_message_send_button_content_description,
                 messageInputTextState.value
             ),
-            chatStatus = chatStatus,
-            clickable = messageInputTextState.value.isNotBlank()
+            enabled = sendMessageEnabled && messageInputTextState.value.isNotBlank()
         ) {
             sendButtonOnclick(postAction, messageInputTextState)
         }
@@ -75,5 +74,5 @@ private fun sendButtonOnclick(
 @Preview
 @Composable
 internal fun PreviewBottomBarView() {
-    BottomBarView(remember { mutableStateOf("") }, ChatStatus.INITIALIZED) {}
+    BottomBarView(remember { mutableStateOf("") },) {}
 }
