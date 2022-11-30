@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.repository
 
-import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
@@ -52,7 +51,6 @@ internal class MessageRepositoryMiddlewareImpl(
                     processParticipantsRemoved(
                         action,
                         store::dispatch,
-                        store.getCurrentState().chatState.localParticipantInfoModel
                     )
                 }
                 is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
@@ -146,33 +144,16 @@ internal class MessageRepositoryMiddlewareImpl(
     private fun processParticipantsRemoved(
         action: ParticipantAction.ParticipantsRemoved,
         dispatch: Dispatch,
-        localParticipant: LocalParticipantInfoModel
     ) {
-        val isLocalParticipantRemoved = action.participants.any { removed ->
-            removed.userIdentifier.id == localParticipant.userIdentifier
-        }
-        if (isLocalParticipantRemoved) {
-            val localUserRemovedSystemMessage = MessageInfoModel(
-                internalId = System.currentTimeMillis().toString(),
-                participants = arrayListOf(localParticipant.displayName ?: "Local Participant"),
-                content = null,
-                createdOn = OffsetDateTime.now(),
-                senderDisplayName = null,
-                messageType = ChatMessageType.PARTICIPANT_REMOVED,
-                isCurrentUser = true
-            )
-            messageRepository.addMessage(localUserRemovedSystemMessage)
+        if (action.localParticipantRemoved) {
             dispatch(ChatAction.LocalUserRemoved)
         }
 
-        val isRemoteParticipantsRemoved = action.participants.any { removed ->
-            removed.userIdentifier.id != localParticipant.userIdentifier
-        }
-        if (isRemoteParticipantsRemoved) {
+        if (action.participants.isNotEmpty()) {
             messageRepository.addMessage(
                 MessageInfoModel(
                     internalId = System.currentTimeMillis().toString(),
-                    participants = action.participants.map { it.displayName ?: "" },
+                    participants = action.participants.map { it.displayName ?: "Participant" },
                     content = null,
                     createdOn = OffsetDateTime.now(),
                     senderDisplayName = null,

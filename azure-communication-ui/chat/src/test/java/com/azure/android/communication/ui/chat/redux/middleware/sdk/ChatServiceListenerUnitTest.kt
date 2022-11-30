@@ -7,9 +7,11 @@ import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.chat.mocking.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
+import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
@@ -31,6 +33,10 @@ import org.threeten.bp.OffsetDateTime
 
 @RunWith(MockitoJUnitRunner::class)
 class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
+    private val userLocal = LocalParticipantInfoModel(
+        userIdentifier = "85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC",
+        displayName = "Local"
+    )
 
     @Test
     fun chatServiceListener_subscribe_then_dispatch_chatStatusStateChange() {
@@ -48,7 +54,7 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
         // act
-        handler.subscribe(mockAppStore::dispatch)
+        handler.subscribe(mockAppStore)
 
         // assert
         verify(
@@ -63,6 +69,11 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
+            val initialState: AppReduxState = AppReduxState(
+                threadID = "abc:123",
+                localParticipantDisplayName = "you",
+                localParticipantIdentifier = "123"
+            )
 
             val mockChatService: ChatService = mock {
                 on { getChatEventSharedFlow() } doReturn chatEventSharedFlow
@@ -72,9 +83,11 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { MutableStateFlow(initialState).value }
             }
+            mockAppStore.getCurrentState().chatState.localParticipantInfoModel
             // act
-            handler.subscribe(mockAppStore::dispatch)
+            handler.subscribe(mockAppStore)
 
             chatEventSharedFlow.emit(
                 ChatEventModel(
@@ -97,16 +110,23 @@ class ChatServiceListenerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val chatEventSharedFlow: MutableSharedFlow<ChatEventModel> = MutableSharedFlow()
+            val initialState: AppReduxState = AppReduxState(
+                threadID = "abc:123",
+                localParticipantDisplayName = "you",
+                localParticipantIdentifier = "123"
+            )
 
             val mockChatService: ChatService = mock {
                 on { getChatEventSharedFlow() } doReturn chatEventSharedFlow
             }
 
             val handler = ChatServiceListener(mockChatService, UnconfinedTestContextProvider())
-            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doAnswer { MutableStateFlow(initialState).value }
+            }
 
             // act
-            handler.subscribe(mockAppStore::dispatch)
+            handler.subscribe(mockAppStore)
 
             chatEventSharedFlow.emit(
                 ChatEventModel(
