@@ -8,6 +8,7 @@ import android.webkit.URLUtil
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
+import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.chat.ChatAdapter
 import com.azure.android.communication.ui.chat.ChatAdapterBuilder
 import java.util.concurrent.Callable
@@ -48,7 +49,7 @@ class ChatLauncherViewModel : ViewModel() {
         val chatAdapter = ChatAdapterBuilder()
             .endpointUrl(endpoint)
             .communicationTokenCredential(communicationTokenCredential)
-            .identity(acsIdentity)
+            .identity(CommunicationUserIdentifier(acsIdentity))
             .displayName(userName)
             .build()
 
