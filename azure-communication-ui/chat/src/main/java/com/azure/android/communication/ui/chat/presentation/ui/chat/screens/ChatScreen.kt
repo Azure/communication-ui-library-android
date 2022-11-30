@@ -143,7 +143,6 @@ internal fun ChatScreen(
                         }
                         BottomBarView(
                             messageInputTextState = stateViewModel.messageInputTextState,
-                            chatStatus = viewModel.chatStatus,
                             postAction = {
                                 if (it is ChatAction.SendMessage) {
                                     coroutineScope.launch {
@@ -151,7 +150,8 @@ internal fun ChatScreen(
                                     }
                                 }
                                 viewModel.postAction(it)
-                            }
+                            },
+                            enableSendMessageButton = viewModel.enableSendMessageButton
                         )
                     }
                 }

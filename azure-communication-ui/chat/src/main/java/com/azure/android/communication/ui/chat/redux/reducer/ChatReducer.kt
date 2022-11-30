@@ -82,6 +82,12 @@ internal class ChatReducerImpl : ChatReducer {
                     )
                 )
             }
+            is ChatAction.LocalUserRemoved -> {
+                state.copy(
+                    localParticipantInfoModel =
+                    state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false)
+                )
+            }
             else -> state
         }
     }

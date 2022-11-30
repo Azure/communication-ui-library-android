@@ -78,11 +78,17 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
                 stringResource = R.string.azure_communication_ui_chat_joined_chat,
                 substitution = viewModel.message.participants
             )
-            ChatMessageType.PARTICIPANT_REMOVED -> SystemMessage(
-                icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
-                stringResource = R.string.azure_communication_ui_chat_left_chat,
-                substitution = viewModel.message.participants
-            )
+            ChatMessageType.PARTICIPANT_REMOVED -> if (viewModel.message.isCurrentUser)
+                SystemMessage(
+                    icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
+                    stringResource = R.string.azure_communication_ui_chat_you_removed_from_chat,
+                    substitution = emptyList()
+                ) else
+                SystemMessage(
+                    icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
+                    stringResource = R.string.azure_communication_ui_chat_left_chat,
+                    substitution = viewModel.message.participants
+                )
             else -> {
                 BasicText(
                     text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
@@ -95,7 +101,9 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
 @Composable
 private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<String>) {
 
-    val text = LocalContext.current.getString(stringResource, substitution.joinToString(", "))
+    val text = if (substitution.isEmpty())
+        LocalContext.current.getString(stringResource) else
+        LocalContext.current.getString(stringResource, substitution.joinToString(", "))
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(ChatCompositeTheme.dimensions.systemMessagePadding)

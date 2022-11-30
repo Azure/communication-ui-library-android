@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat;
 import android.content.Context;
 import android.content.Intent;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent;
@@ -25,15 +26,14 @@ public final class ChatAdapter {
     final Integer instanceId = instanceIdCounter++;
     private final ChatContainer chatContainer;
     private final String endpointUrl;
-    private final String identity;
+    private final CommunicationIdentifier identity;
     private final CommunicationTokenCredential credential;
     private final String displayName;
     private final ChatCompositeConfiguration configuration;
 
-
     ChatAdapter(final ChatCompositeConfiguration configuration,
                 final String endpointUrl,
-                final String identity,
+                final CommunicationIdentifier identity,
                 final CommunicationTokenCredential credential,
                 final String displayName) {
         chatContainer = new ChatContainer(this, configuration, instanceId);
@@ -60,7 +60,6 @@ public final class ChatAdapter {
     public void disconnect() {
         chatContainer.stop();
     }
-
 
     private void launchComposite(final Context context, final String threadId) {
         final ChatCompositeRemoteOptions remoteOptions =

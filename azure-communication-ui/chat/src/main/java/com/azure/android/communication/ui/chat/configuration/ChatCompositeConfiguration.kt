@@ -8,4 +8,6 @@ import com.azure.android.communication.ui.chat.ChatCompositeEventsHandler
 internal class ChatCompositeConfiguration {
     var chatConfig: ChatConfiguration? = null
     var chatCompositeEventsHandler = ChatCompositeEventsHandler()
+    var eventHandlerRepository: ChatCompositeEventHandlerRepository =
+        ChatCompositeEventHandlerRepository()
 }
