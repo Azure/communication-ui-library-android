@@ -23,6 +23,7 @@ public final class ChatCompositeException extends RuntimeException {
     public ChatCompositeException(final String errorMessage, @NonNull final Throwable cause) {
         super(errorMessage, cause);
     }
+
     /**
      * Constructs a new Chat Composite exception with the specified cause and  message of
      * (cause==null ? null : cause.toString()) (which typically contains the class and detail message
