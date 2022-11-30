@@ -19,7 +19,7 @@ internal class EventHandler(
     private val configuration: ChatCompositeConfiguration,
 ) {
     private var isActiveChatThreadParticipantStateFlow = MutableStateFlow(
-        store.getCurrentState().chatState.localParticipantInfoModel.isActiveChatThreadParticipant
+        store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant
     )
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -28,7 +28,7 @@ internal class EventHandler(
         coroutineScope.launch(Dispatchers.Default) {
             store.getStateFlow().collect {
                 isActiveChatThreadParticipantStateFlow.value =
-                    it.chatState.localParticipantInfoModel.isActiveChatThreadParticipant
+                    it.participantState.localParticipantInfoModel.isActiveChatThreadParticipant
             }
         }
 
@@ -48,7 +48,7 @@ internal class EventHandler(
     ) {
         if (!isActiveChatThreadParticipant) {
             configuration.eventHandlerRepository.getLocalParticipantRemovedHandlers().forEach {
-                it.handle(store.getCurrentState().chatState.localParticipantInfoModel.userIdentifier)
+                it.handle(store.getCurrentState().participantState.localParticipantInfoModel.userIdentifier)
             }
         }
     }

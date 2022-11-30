@@ -24,7 +24,7 @@ import org.threeten.bp.OffsetDateTime
 @Composable
 internal fun BottomBarView(
     messageInputTextState: MutableState<String>,
-    enableSendMessageButton: Boolean = true,
+    sendMessageEnabled: Boolean = true,
     postAction: (Action) -> Unit,
 ) {
     Row(
@@ -37,6 +37,7 @@ internal fun BottomBarView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction,
+            sendMessageEnabled = sendMessageEnabled
         )
 
         SendMessageButtonView(
@@ -44,7 +45,7 @@ internal fun BottomBarView(
                 R.string.azure_communication_ui_chat_message_send_button_content_description,
                 messageInputTextState.value
             ),
-            enabled = messageInputTextState.value.isNotBlank() && enableSendMessageButton
+            enabled = sendMessageEnabled && messageInputTextState.value.isNotBlank()
         ) {
             sendButtonOnclick(postAction, messageInputTextState)
         }

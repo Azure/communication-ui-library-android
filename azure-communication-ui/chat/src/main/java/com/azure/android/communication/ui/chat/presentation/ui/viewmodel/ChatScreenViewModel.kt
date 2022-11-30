@@ -32,7 +32,7 @@ internal data class ChatScreenViewModel(
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
     val messageContextMenu: MessageContextMenuModel,
-    val enableSendMessageButton: Boolean = false,
+    val sendMessageEnabled: Boolean = false,
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -69,7 +69,7 @@ internal fun buildChatScreenViewModel(
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
         messageContextMenu = store.getCurrentState().chatState.messageContextMenu ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
-        enableSendMessageButton = store.getCurrentState().chatState.localParticipantInfoModel.isActiveChatThreadParticipant &&
+        sendMessageEnabled = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
             store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED
     )
 }

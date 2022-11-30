@@ -10,7 +10,7 @@ internal sealed class ParticipantAction : Action {
     class ParticipantsAdded(val participants: List<RemoteParticipantInfoModel>) :
         ParticipantAction()
 
-    class ParticipantsRemoved(val participants: List<RemoteParticipantInfoModel>) :
+    class ParticipantsRemoved(val participants: List<RemoteParticipantInfoModel>, val localParticipantRemoved: Boolean) :
         ParticipantAction()
 
     class AddParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
