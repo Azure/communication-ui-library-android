@@ -151,7 +151,7 @@ internal fun ChatScreen(
                                 }
                                 viewModel.postAction(it)
                             },
-                            enableSendMessageButton = viewModel.enableSendMessageButton
+                            sendMessageEnabled = viewModel.sendMessageEnabled
                         )
                     }
                 }
