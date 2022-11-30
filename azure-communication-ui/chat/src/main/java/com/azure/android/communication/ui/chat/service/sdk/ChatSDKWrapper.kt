@@ -62,7 +62,7 @@ internal class ChatSDKWrapper(
     private lateinit var threadClient: ChatThreadClient
     private lateinit var chatClient: ChatClient
 
-    private val endPointURL = chatConfig.endPointURL
+    private val endPointURL = chatConfig.endpoint
     private val credential: CommunicationTokenCredential = chatConfig.credential
     private val applicationID = chatConfig.applicationID
     private val sdkName = chatConfig.sdkName
