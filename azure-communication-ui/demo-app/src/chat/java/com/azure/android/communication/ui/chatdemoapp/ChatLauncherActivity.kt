@@ -122,7 +122,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
-    private fun showAlert(message: String) {
+    fun showAlert(message: String) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
                 setMessage(message)

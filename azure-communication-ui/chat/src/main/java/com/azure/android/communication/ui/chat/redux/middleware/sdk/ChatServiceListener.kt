@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorCode
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel

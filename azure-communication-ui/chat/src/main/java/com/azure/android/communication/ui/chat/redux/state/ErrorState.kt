@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.state
 
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.error.FatalError
 
 internal data class ErrorState(

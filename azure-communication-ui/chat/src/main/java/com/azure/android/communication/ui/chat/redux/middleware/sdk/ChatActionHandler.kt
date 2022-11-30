@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorCode
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -166,7 +166,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         try {
             chatService.initialize()
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_JOIN_FAILED, null)
+            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_JOIN_FAILED , ex)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }

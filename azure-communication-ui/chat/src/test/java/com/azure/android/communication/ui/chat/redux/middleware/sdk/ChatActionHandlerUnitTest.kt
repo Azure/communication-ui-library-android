@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
 import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorCode
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.Action

@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel

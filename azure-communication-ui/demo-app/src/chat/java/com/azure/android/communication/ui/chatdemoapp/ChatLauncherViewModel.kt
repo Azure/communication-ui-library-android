@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.chatdemoapp
 
-import android.content.Context
 import android.webkit.URLUtil
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
@@ -31,7 +30,7 @@ class ChatLauncherViewModel : ViewModel() {
     }
 
     fun launch(
-        context: Context,
+        chatActivity: ChatLauncherActivity,
         endpoint: String,
         acsIdentity: String,
         threadId: String,
@@ -52,8 +51,9 @@ class ChatLauncherViewModel : ViewModel() {
             .displayName(userName)
             .build()
 
+        chatAdapter.addOnErrorEventHandler(ChatActivityErrorHandler(chatActivity))
         // Connect to ACS service, starts realtime notifications
-        chatAdapter.connect(context, threadId).get()
+        chatAdapter.connect(chatActivity.applicationContext, threadId).get()
 
         this.chatAdapter = chatAdapter
     }

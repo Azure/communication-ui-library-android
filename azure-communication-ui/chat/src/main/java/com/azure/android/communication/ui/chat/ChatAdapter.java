@@ -8,7 +8,7 @@ import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
-import com.azure.android.communication.ui.chat.error.ChatCompositeErrorEvent;
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent;
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
 import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivityImpl;
 
@@ -90,7 +90,7 @@ public final class ChatAdapter {
      * <pre>
      *
      * &#47;&#47; add error handler
-     * chatComposite.addOnErrorEventHandler&#40;event -> {
+     * chatAdapter.addOnErrorEventHandler&#40;event -> {
      *     &#47;&#47; Process error event
      *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
      *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
