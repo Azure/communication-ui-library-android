@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryList
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipList
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeStorage
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListBackedImpl
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListBackedImpl
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeBackedImpl
 import kotlin.collections.ArrayList
 
 // Abstract Class for Message Repository implementations
@@ -52,15 +52,15 @@ internal abstract class MessageRepository {
 
     companion object {
         fun createListBackedRepository(): MessageRepository {
-            return MessageRepositoryList()
+            return MessageRepositoryListBackedImpl()
         }
 
         fun createTreeBackedRepository(): MessageRepository {
-            return MessageRepositoryTreeStorage()
+            return MessageRepositoryTreeBackedImpl()
         }
 
         fun createSkipListBackedRepository(): MessageRepository {
-            return MessageRepositorySkipList()
+            return MessageRepositorySkipListBackedImpl()
         }
     }
 }

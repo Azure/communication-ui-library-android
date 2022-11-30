@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepository
 import java.util.concurrent.ConcurrentSkipListMap
 
-internal class MessageRepositorySkipList : MessageRepository() {
+internal class MessageRepositorySkipListBackedImpl : MessageRepository() {
 
     private val skipListStorage: ConcurrentSkipListMap<Long, MessageInfoModel> =
         ConcurrentSkipListMap()

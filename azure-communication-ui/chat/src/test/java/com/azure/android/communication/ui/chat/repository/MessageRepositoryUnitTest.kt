@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.chat.repository
 
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryList
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeStorage
-import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipList
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListBackedImpl
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeBackedImpl
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListBackedImpl
 import org.junit.Assert
 import org.junit.Test
 
@@ -17,7 +17,7 @@ class MessageRepositoryUnitTest {
     @Test
     fun messageRepository_createListStorage_unitTest() {
         val listStorage: MessageRepository = MessageRepository.createListBackedRepository()
-        val messageStorageWriter = MessageRepositoryList()
+        val messageStorageWriter = MessageRepositoryListBackedImpl()
         Assert.assertEquals(
             true,
             listStorage.javaClass.isInstance(messageStorageWriter)
@@ -27,7 +27,7 @@ class MessageRepositoryUnitTest {
     @Test
     fun messageRepository_createTreeStorage_unitTest() {
         val treeStorage: MessageRepository = MessageRepository.createTreeBackedRepository()
-        val messageStorageWriter = MessageRepositoryTreeStorage()
+        val messageStorageWriter = MessageRepositoryTreeBackedImpl()
         Assert.assertEquals(
             true,
             treeStorage.javaClass.isInstance(messageStorageWriter)
@@ -37,7 +37,7 @@ class MessageRepositoryUnitTest {
     @Test
     fun messageRepository_createSkipListStorage_unitTest() {
         val skipListStorage: MessageRepository = MessageRepository.createSkipListBackedRepository()
-        val messageStorageWriter = MessageRepositorySkipList()
+        val messageStorageWriter = MessageRepositorySkipListBackedImpl()
         Assert.assertEquals(
             true,
             skipListStorage.javaClass.isInstance(messageStorageWriter)

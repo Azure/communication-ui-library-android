@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepository
 import java.util.Collections
 
-internal class MessageRepositoryList : MessageRepository() {
+internal class MessageRepositoryListBackedImpl : MessageRepository() {
     // Simple List for now
     val messages: MutableList<MessageInfoModel> =
         Collections.synchronizedList(mutableListOf<MessageInfoModel>())

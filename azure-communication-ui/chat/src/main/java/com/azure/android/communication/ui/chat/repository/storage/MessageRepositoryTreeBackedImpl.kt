@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.MessageRepository
 import java.util.TreeMap
 
-internal class MessageRepositoryTreeStorage : MessageRepository() {
+internal class MessageRepositoryTreeBackedImpl : MessageRepository() {
 
     private val treeMapStorage: TreeMap<Long, MessageInfoModel> = TreeMap()
 
