@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.chat.locator
 
-import java.util.HashMap
-
 /* Heterogeneous Service Locator
 Will lazily construct objects as the graph requires.
 Register TypedBuilders for each class you want

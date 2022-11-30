@@ -4,15 +4,14 @@
 package com.azure.android.communication.ui.callwithchat.models;
 
 public final class CallWithChatCompositeLocalOptions {
-    private final CallWithChatCompositeParticipantViewData participantViewData;
+    private CallWithChatCompositeParticipantViewData participantViewData;
 
     /**
      * Create Local Options.
      *
-     * @param participantViewData The {@link CallWithChatCompositeParticipantViewData};
      */
-    public CallWithChatCompositeLocalOptions(final CallWithChatCompositeParticipantViewData participantViewData) {
-        this.participantViewData = participantViewData;
+    public CallWithChatCompositeLocalOptions() {
+        participantViewData = null;
     }
 
     /**
@@ -23,4 +22,16 @@ public final class CallWithChatCompositeLocalOptions {
     public CallWithChatCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
     }
+
+    /**
+     * Get {@link CallWithChatCompositeParticipantViewData}.
+     *
+     * @return The {@link CallWithChatCompositeParticipantViewData};
+     */
+    public CallWithChatCompositeLocalOptions setParticipantViewData(
+            final CallWithChatCompositeParticipantViewData participantViewData) {
+        this.participantViewData = participantViewData;
+        return this;
+    }
+
 }

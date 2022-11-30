@@ -10,14 +10,18 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
+import com.microsoft.fluentui.persona.AvatarSize
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -42,9 +46,11 @@ internal class LocalParticipantView : ConstraintLayout {
     private lateinit var micImage: ImageView
     private lateinit var dragTouchListener: DragTouchListener
     private lateinit var accessibilityManager: AccessibilityManager
+    private lateinit var guideline: Guideline
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        guideline = findViewById(R.id.azure_communication_ui_guideline)
         localParticipantFullCameraHolder =
             findViewById(R.id.azure_communication_ui_call_local_full_video_holder)
         localParticipantPip =
@@ -71,6 +77,12 @@ internal class LocalParticipantView : ConstraintLayout {
         switchCameraButton.setOnClickListener { viewModel.switchCamera() }
         pipSwitchCameraButton.setOnClickListener { viewModel.switchCamera() }
         dragTouchListener = DragTouchListener()
+
+        if (isAndroidTV(context)) {
+            pipAvatar.avatarSize = AvatarSize.MEDIUM
+            // guideline.setGuidelinePercent(0.85f)
+            (localPipWrapper.layoutParams as LayoutParams).dimensionRatio = "4:3"
+        }
     }
 
     fun stop() {
@@ -182,7 +194,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getNumberOfRemoteParticipantsFlow().collect {
-                if (!accessibilityManager.isEnabled && it >= 1) {
+                if ((!accessibilityManager.isEnabled || isAndroidTV(context)) && it >= 1) {
                     dragTouchListener.setView(localPipWrapper)
                     localPipWrapper.setOnTouchListener(dragTouchListener)
                 } else {
@@ -213,12 +225,28 @@ internal class LocalParticipantView : ConstraintLayout {
         }
 
         if (model.shouldDisplayVideo) {
-            addVideoView(model.videoStreamID!!, videoHolder)
+            addVideoView(model.videoStreamID!!, videoHolder, model.viewMode)
         }
     }
 
-    private fun addVideoView(videoStreamID: String, videoHolder: ConstraintLayout) {
-        videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
+    private fun addVideoView(
+        videoStreamID: String,
+        videoHolder: ConstraintLayout,
+        viewMode: LocalParticipantViewMode
+    ) {
+        val scalingMode =
+            // If in PIP Always Crop
+            if (viewMode == LocalParticipantViewMode.PIP)
+                ScalingMode.CROP
+            // When not in PIP, Fit on TV, Crop Otherwise
+            else if (isAndroidTV(context))
+                ScalingMode.FIT
+            else
+                ScalingMode.CROP
+        videoViewManager.getLocalVideoRenderer(
+            videoStreamID,
+            scalingMode
+        )?.let { view ->
             view.background = this.context.let {
                 ContextCompat.getDrawable(
                     it,

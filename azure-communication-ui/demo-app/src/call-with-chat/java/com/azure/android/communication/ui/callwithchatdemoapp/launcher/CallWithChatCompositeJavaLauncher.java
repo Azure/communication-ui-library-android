@@ -3,83 +3,80 @@
 
 package com.azure.android.communication.ui.callwithchatdemoapp.launcher;
 
+import android.content.Context;
+
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
-import com.azure.android.communication.ui.calling.CallComposite;
-import com.azure.android.communication.ui.calling.CallCompositeBuilder;
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData;
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
-import com.azure.android.communication.ui.callwithchatdemoapp.CallLauncherActivityErrorHandler;
-import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivity;
+import com.azure.android.communication.ui.callwithchat.CallWithChatComposite;
+import com.azure.android.communication.ui.callwithchat.CallWithChatCompositeBuilder;
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeCallAndChatLocator;
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeJoinLocator;
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalOptions;
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalizationOptions;
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions;
+import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeTeamsMeetingLinkLocator;
+import com.azure.android.communication.ui.callwithchatdemoapp.AlertHandler;
+import com.azure.android.communication.ui.callwithchatdemoapp.CallWithChatLauncherActivityErrorHandler;
 import com.azure.android.communication.ui.callwithchatdemoapp.RemoteParticipantJoinedHandler;
 import com.azure.android.communication.ui.callwithchatdemoapp.features.SettingsFeatures;
+import com.azure.android.communication.ui.demoapp.AuthService;
 
 import java.util.Locale;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 public class CallWithChatCompositeJavaLauncher implements CallWithChatCompositeLauncher {
-    private final Callable<String> tokenRefresher;
-
-    public CallWithChatCompositeJavaLauncher(final Callable<String> tokenRefresher) {
-        this.tokenRefresher = tokenRefresher;
-    }
 
     @Override
-    public void launch(final CallWithChatLauncherActivity callLauncherActivity,
+    public void launch(final Context context,
+                       final AlertHandler alertHandler,
+                       final AuthService authService,
                        final String displayName,
+                       final String acsEndpoint,
                        final UUID groupId,
-                       final String meetingLink,
-                       final Function1<? super String, Unit> showAlert) {
+                       final String chatThreadId,
+                       final String meetingLink) {
 
-        final CallCompositeBuilder builder = new CallCompositeBuilder();
+        final CallWithChatCompositeBuilder builder = new CallWithChatCompositeBuilder();
 
-        SettingsFeatures.initialize(callLauncherActivity.getApplicationContext());
+        SettingsFeatures.initialize(context);
 
         final String selectedLanguage = SettingsFeatures.language();
         final Locale locale = SettingsFeatures.locale(selectedLanguage);
 
-        builder.localization(new CallCompositeLocalizationOptions(locale,
+        builder.localization(new CallWithChatCompositeLocalizationOptions(locale,
                 SettingsFeatures.getLayoutDirection()));
 
 
-        final CallComposite callComposite = builder.build();
-        callComposite.addOnErrorEventHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
+        final CallWithChatComposite composite = builder.build();
+        composite.addOnErrorEventHandler(new CallWithChatLauncherActivityErrorHandler(alertHandler));
 
         if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
-            callComposite.addOnRemoteParticipantJoinedEventHandler(
-                    new RemoteParticipantJoinedHandler(callComposite, callLauncherActivity));
+            composite.addOnRemoteParticipantJoinedEventHandler(
+                    new RemoteParticipantJoinedHandler(composite, context));
         }
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
-                new CommunicationTokenRefreshOptions(tokenRefresher, true);
+                new CommunicationTokenRefreshOptions(authService::tokenRefresher, true);
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-        final CallCompositeJoinLocator locator = groupId != null
-                ? new CallCompositeGroupCallLocator(groupId)
-                : new CallCompositeTeamsMeetingLinkLocator(meetingLink);
+        final CallWithChatCompositeJoinLocator locator = groupId != null
+                ? new CallWithChatCompositeCallAndChatLocator(acsEndpoint, groupId, chatThreadId)
+                : new CallWithChatCompositeTeamsMeetingLinkLocator(acsEndpoint, meetingLink);
 
-        final CallCompositeRemoteOptions remoteOptions =
-                new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
+        final CallWithChatCompositeRemoteOptions remoteOptions =
+                new CallWithChatCompositeRemoteOptions(
+                        locator,
+                        authService.getCurrentUserCommunicationIdentifier(),
+                        communicationTokenCredential,
+                        displayName);
 
 
-        final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions()
-                .setParticipantViewData(SettingsFeatures
-                        .getParticipantViewData(callLauncherActivity.getApplicationContext()))
-                .setSetupScreenViewData(
-                        new CallCompositeSetupScreenViewData()
-                            .setTitle(SettingsFeatures.getTitle())
-                            .setSubtitle(SettingsFeatures.getSubtitle()));
+        final CallWithChatCompositeLocalOptions localOptions = new CallWithChatCompositeLocalOptions()
+                .setParticipantViewData(
+                        SettingsFeatures.getParticipantViewData(context));
 
-        callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
+        composite.launch(context, remoteOptions, localOptions);
     }
 }

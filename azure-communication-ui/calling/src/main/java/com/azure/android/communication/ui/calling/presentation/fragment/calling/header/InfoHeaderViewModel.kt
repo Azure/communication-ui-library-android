@@ -54,6 +54,7 @@ internal class InfoHeaderViewModel {
         if (displayFloatingHeaderFlow.value) {
             displayFloatingHeaderFlow.value = false
             timer.cancel()
+
             return
         }
         displayFloatingHeaderFlow.value = true
