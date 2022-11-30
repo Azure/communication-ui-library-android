@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat
 import android.content.Context
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.error.EventHandler
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.logger.DefaultLogger
 import com.azure.android.communication.ui.chat.logger.Logger
@@ -78,6 +79,7 @@ internal class ChatContainer(
                 .apply {
                     locate<Dispatch>()(ChatAction.StartChat())
                     locate<NetworkManager>().start(context)
+                    locate<EventHandler>().start()
                 }
         }
     }
@@ -164,10 +166,18 @@ internal class ChatContainer(
 
             addTypedBuilder { NetworkManager(dispatch = locate()) }
 
+            addTypedBuilder {
+                EventHandler(
+                    coroutineContextProvider = locate(),
+                    store = locate(),
+                    configuration = configuration,
+                )
+            }
             addTypedBuilder<Logger> { DefaultLogger() }
         }
 
     fun stop() {
+        locator?.locate<EventHandler>()?.stop()
         locator?.locate<ChatSDKWrapper>()?.destroy()
         locator?.locate<ChatServiceListener>()?.unsubscribe()
         locator?.locate<AppStore<ReduxState>>()?.end()
