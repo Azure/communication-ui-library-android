@@ -166,5 +166,5 @@ internal class ChatServiceListener(
     }
 
     private fun isLocalParticipantRemoved(participants: List<RemoteParticipantInfoModel>, localParticipantInfoModel: LocalParticipantInfoModel) =
-        participants.any { it.userIdentifier.id == localParticipantInfoModel.userIdentifier}
+        participants.any { it.userIdentifier.id == localParticipantInfoModel.userIdentifier }
 }
