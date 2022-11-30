@@ -15,4 +15,3 @@ internal class CallCompositeConfiguration {
     var callCompositeLocalOptions: CallCompositeLocalOptions? = null
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
 }
-

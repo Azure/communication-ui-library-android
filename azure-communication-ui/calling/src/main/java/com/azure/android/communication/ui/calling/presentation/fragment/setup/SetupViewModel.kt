@@ -40,7 +40,7 @@ internal class SetupViewModel(
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
-        getWarningsViewModel().init(state.permissionState)
+        warningsViewModel.init(state.permissionState)
         localParticipantRendererViewModel.init(
             state.localParticipantState.videoStreamID,
         )
@@ -80,7 +80,7 @@ internal class SetupViewModel(
             state.localParticipantState.audioState,
             state.callState,
         )
-        getWarningsViewModel().update(state.permissionState)
+        warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(
             state.localParticipantState.videoStreamID,
         )

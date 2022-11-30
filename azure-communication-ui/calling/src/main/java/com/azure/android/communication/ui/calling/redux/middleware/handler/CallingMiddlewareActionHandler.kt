@@ -419,25 +419,4 @@ internal class CallingMiddlewareActionHandlerImpl(
             }
         }
     }
-
-    private fun tryCameraOn(store: Store<ReduxState>) {
-        val state = store.getCurrentState()
-        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED) {
-            if (state.callState.callingStatus != CallingStatus.NONE) {
-                callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
-                    if (error != null) {
-                        store.dispatch(
-                            LocalParticipantAction.CameraPauseFailed(
-                                CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error)
-                            )
-                        )
-                    } else {
-                        store.dispatch(LocalParticipantAction.CameraOnSucceeded(newVideoStreamId))
-                    }
-                }
-            } else {
-                store.dispatch(LocalParticipantAction.CameraPreviewOnTriggered())
-            }
-        }
-    }
 }

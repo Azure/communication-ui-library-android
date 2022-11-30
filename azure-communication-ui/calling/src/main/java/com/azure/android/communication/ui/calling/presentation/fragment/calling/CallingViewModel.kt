@@ -30,8 +30,6 @@ internal class CallingViewModel(
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
 
-    fun getErrorInfoViewModel() = errorInfoViewModel
-
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
     }

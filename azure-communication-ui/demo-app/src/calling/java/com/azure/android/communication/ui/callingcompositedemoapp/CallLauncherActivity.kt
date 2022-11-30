@@ -166,9 +166,6 @@ class CallLauncherActivity : AppCompatActivity() {
         saveState(outState)
         super.onSaveInstanceState(outState)
     }
-    // check whether new Activity instance was brought to top of stack,
-    // so that finishing this will get us to the last viewed screen
-    private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
