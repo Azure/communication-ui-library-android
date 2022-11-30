@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.chat.configuration
 
+import com.azure.android.communication.ui.chat.ChatCompositeEventHandler
+
 internal class ChatCompositeEventHandlerRepository {
     private val eventHandlers: MutableList<ChatCompositeEventHandler<String>> = mutableListOf()
 
