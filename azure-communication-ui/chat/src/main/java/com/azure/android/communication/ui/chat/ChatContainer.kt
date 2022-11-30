@@ -30,7 +30,7 @@ import com.azure.android.communication.ui.chat.redux.reducer.Reducer
 import com.azure.android.communication.ui.chat.redux.reducer.RepositoryReducerImpl
 import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
-import com.azure.android.communication.ui.chat.repository.IMessageRepository
+import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
 import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
@@ -92,16 +92,22 @@ internal class ChatContainer(
         ServiceLocator.getInstance(instanceId = instanceId).apply {
             addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
 
-            val messageRepository = IMessageRepository.createSkipListBackedRepository()
+            val messageRepository = MessageRepository.createSkipListBackedRepository()
 
             addTypedBuilder { chatAdapter }
+
             addTypedBuilder { messageRepository }
 
             addTypedBuilder { remoteOptions }
 
             addTypedBuilder { ChatEventHandler() }
 
-            addTypedBuilder { ChatFetchNotificationHandler(coroutineContextProvider = locate(), localParticipantIdentifier = configuration.chatConfig?.identity ?: "") }
+            addTypedBuilder {
+                ChatFetchNotificationHandler(
+                    coroutineContextProvider = locate(),
+                    localParticipantIdentifier = configuration.chatConfig?.identity ?: ""
+                )
+            }
 
             addTypedBuilder {
                 ChatSDKWrapper(
