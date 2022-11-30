@@ -12,7 +12,7 @@ internal class IMessageRepository private constructor(
     val delegate: IMessageRepositoryDelegate,
 ) : IMessageRepositoryDelegate {
 
-    override fun getSnapshotList(): List<MessageInfoModel> {
+    @Synchronized override fun getSnapshotList(): List<MessageInfoModel> {
         return delegate.getSnapshotList()
     }
 
