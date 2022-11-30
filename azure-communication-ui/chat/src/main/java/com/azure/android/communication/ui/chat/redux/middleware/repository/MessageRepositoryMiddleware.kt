@@ -47,10 +47,16 @@ internal class MessageRepositoryMiddlewareImpl(
                     action,
                     store::dispatch
                 )
-                is ParticipantAction.ParticipantsRemoved -> processParticipantsRemoved(
-                    action,
-                    store::dispatch
-                )
+                is ParticipantAction.ParticipantsRemoved -> {
+                    processParticipantsRemoved(
+                        action,
+                        store.getCurrentState().participantState.localParticipantInfoModel.userIdentifier,
+                        store::dispatch,
+                    )
+                    if (action.localParticipantRemoved) {
+                        processLocalParticipantRemoved(action, store::dispatch)
+                    }
+                }
                 is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
             }
 
@@ -114,7 +120,7 @@ internal class MessageRepositoryMiddlewareImpl(
         notifyUpdate(dispatch)
     }
 
-    var skipFirstParticipantsAddedMessage = true
+    private var skipFirstParticipantsAddedMessage = true
     // Fake a message for Participant Added
     private fun processParticipantsAdded(
         action: ParticipantAction.ParticipantsAdded,
@@ -141,19 +147,45 @@ internal class MessageRepositoryMiddlewareImpl(
 
     private fun processParticipantsRemoved(
         action: ParticipantAction.ParticipantsRemoved,
+        localUserId: String,
         dispatch: Dispatch,
     ) {
-        messageRepository.addMessage(
-            MessageInfoModel(
-                internalId = System.currentTimeMillis().toString(),
-                participants = action.participants.map { it.displayName ?: "" },
-                content = null,
-                createdOn = OffsetDateTime.now(),
-                senderDisplayName = null,
-                messageType = ChatMessageType.PARTICIPANT_REMOVED
+        val participants = action.participants.filter { it.userIdentifier.id != localUserId }
+            .map { it.displayName ?: "Participant" }
+
+        if (participants.isNotEmpty()) {
+            messageRepository.addMessage(
+                MessageInfoModel(
+                    internalId = System.currentTimeMillis().toString(),
+                    participants = participants,
+                    content = null,
+                    createdOn = OffsetDateTime.now(),
+                    senderDisplayName = null,
+                    messageType = ChatMessageType.PARTICIPANT_REMOVED,
+                )
             )
-        )
-        notifyUpdate(dispatch)
+            notifyUpdate(dispatch)
+        }
+    }
+
+    private fun processLocalParticipantRemoved(
+        action: ParticipantAction.ParticipantsRemoved,
+        dispatch: Dispatch,
+    ) {
+
+        if (action.localParticipantRemoved) {
+            messageRepository.addMessage(
+                MessageInfoModel(
+                    internalId = System.currentTimeMillis().toString(),
+                    isCurrentUser = true,
+                    content = null,
+                    createdOn = OffsetDateTime.now(),
+                    senderDisplayName = null,
+                    messageType = ChatMessageType.PARTICIPANT_REMOVED,
+                )
+            )
+            notifyUpdate(dispatch)
+        }
     }
 
     private fun processDeletedMessage(action: ChatAction.MessageDeleted, dispatch: Dispatch) {
