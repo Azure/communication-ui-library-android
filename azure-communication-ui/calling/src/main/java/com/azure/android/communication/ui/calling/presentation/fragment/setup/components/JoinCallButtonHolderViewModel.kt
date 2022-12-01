@@ -33,13 +33,14 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
     fun init(
         audioPermissionState: PermissionStatus,
         cameraPermissionState: PermissionStatus,
-        cameraOperationalStatus: CameraOperationalStatus
+        cameraOperationalStatus: CameraOperationalStatus,
+        camerasCount: Int,
     ) {
         joinCallButtonEnabledFlow =
             MutableStateFlow(
                 audioPermissionState == PermissionStatus.GRANTED &&
                     cameraPermissionState != PermissionStatus.UNKNOWN &&
-                    cameraOperationalStatus != CameraOperationalStatus.PENDING
+                    (camerasCount == 0 || cameraOperationalStatus != CameraOperationalStatus.PENDING)
             )
         disableJoinCallButtonFlow.value = false
     }
@@ -48,13 +49,14 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
         audioPermissionState: PermissionStatus,
         callingState: CallingState,
         cameraPermissionState: PermissionStatus,
-        cameraOperationalStatus: CameraOperationalStatus
+        cameraOperationalStatus: CameraOperationalStatus,
+        camerasCount: Int,
     ) {
         disableJoinCallButtonFlow.value = callingState.callingStatus != CallingStatus.NONE
         joinCallButtonEnabledFlow.value =
             audioPermissionState == PermissionStatus.GRANTED &&
             cameraPermissionState != PermissionStatus.UNKNOWN &&
-            cameraOperationalStatus != CameraOperationalStatus.PENDING
+            (camerasCount == 0 || cameraOperationalStatus != CameraOperationalStatus.PENDING)
         if (callingState.isDisconnected()) {
             disableJoinCallButtonFlow.value = false
         } else {

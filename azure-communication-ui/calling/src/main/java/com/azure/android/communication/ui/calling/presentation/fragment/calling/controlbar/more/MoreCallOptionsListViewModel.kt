@@ -3,16 +3,16 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more
 
-import com.azure.android.communication.ui.calling.presentation.manager.DiagnosticsManager
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class MoreCallOptionsListViewModel(
-    private val diagnosticsManager: DiagnosticsManager
+    private val debugInfoManager: DebugInfoManager
 ) {
     private val unknown = "UNKNOWN"
     val callId: String
         get() {
-            val lastKnownCallId = diagnosticsManager.diagnostics.lastKnownCallId
+            val lastKnownCallId = debugInfoManager.debugInfo.lastCallId
             return "Call ID: \"${if (lastKnownCallId.isNullOrEmpty()) unknown else lastKnownCallId}\""
         }
 
