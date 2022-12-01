@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-import com.azure.android.communication.ui.calling.models.CallCompositeDiagnostics
-import com.azure.android.communication.ui.calling.models.buildCallCompositeDiagnostics
+import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo
+import com.azure.android.communication.ui.calling.models.buildCallCompositeDebugInfo
 import com.azure.android.communication.ui.calling.models.setCallId
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -12,24 +12,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal interface DiagnosticsManager {
+internal interface DebugInfoManager {
     fun start(coroutineScope: CoroutineScope)
-    val diagnostics: CallCompositeDiagnostics
+    val debugInfo: CallCompositeDebugInfo
 }
 
-internal class DiagnosticsManagerImpl(
+internal class DebugInfoManagerImpl(
     private val store: Store<ReduxState>,
-) : DiagnosticsManager {
+) : DebugInfoManager {
 
-    override var diagnostics = buildCallCompositeDiagnostics()
+    override var debugInfo = buildCallCompositeDebugInfo()
 
     override fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             store.getStateFlow().collect {
                 if (!it.callState.callId.isNullOrEmpty()) {
-                    val newDiagnostics = buildCallCompositeDiagnostics()
-                    newDiagnostics.setCallId(it.callState.callId)
-                    diagnostics = newDiagnostics
+                    val newDebugInfo = buildCallCompositeDebugInfo()
+                    newDebugInfo.setCallId(it.callState.callId)
+                    debugInfo = newDebugInfo
                 }
             }
         }

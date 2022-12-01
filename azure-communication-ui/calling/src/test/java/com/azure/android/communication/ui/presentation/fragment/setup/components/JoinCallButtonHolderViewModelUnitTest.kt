@@ -34,7 +34,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             viewModel.init(
                 PermissionStatus.DENIED,
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -49,7 +50,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CallingState(CallingStatus.NONE),
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             // assert
@@ -77,7 +79,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -92,7 +95,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.DENIED,
                 CallingState(CallingStatus.NONE),
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             // assert
@@ -120,7 +124,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -140,7 +145,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CallingState(CallingStatus.CONNECTING),
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             // assert
@@ -153,7 +159,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CallingState(CallingStatus.NONE),
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             // assert
@@ -174,7 +181,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -189,7 +197,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CallingState(CallingStatus.NONE),
                 PermissionStatus.UNKNOWN,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             // assert
@@ -217,7 +226,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
-                CameraOperationalStatus.ON
+                CameraOperationalStatus.ON,
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -232,7 +242,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CallingState(CallingStatus.NONE),
                 PermissionStatus.UNKNOWN,
-                CameraOperationalStatus.PENDING
+                CameraOperationalStatus.PENDING,
+                2
             )
 
             // assert
