@@ -19,7 +19,7 @@ import java9.util.concurrent.CompletableFuture;
  *
  * <p><strong>Instantiating Chat Composite</strong></p>
  */
-public final class ChatAdapter {
+public final class ChatUIClient {
 
     private static int instanceIdCounter = 0;
     final Integer instanceId = instanceIdCounter++;
@@ -30,7 +30,7 @@ public final class ChatAdapter {
     private final String displayName;
     private final ChatCompositeConfiguration configuration;
 
-    ChatAdapter(final ChatCompositeConfiguration configuration,
+    ChatUIClient(final ChatCompositeConfiguration configuration,
                 final String endpoint,
                 final CommunicationIdentifier identity,
                 final CommunicationTokenCredential credential,
@@ -46,17 +46,17 @@ public final class ChatAdapter {
     /**
      * Connects to ACS service, starts realtime notifications.
      */
-    public CompletableFuture<Void> connect(final Context context, final String threadId) {
+    public CompletableFuture<ChatAdaptor> connect(final Context context, final String threadId) {
         launchComposite(context, threadId);
-        final CompletableFuture<Void> result = new CompletableFuture<>();
-        result.complete(null);
+        final CompletableFuture<ChatAdaptor> result = new CompletableFuture<>();
+        result.complete(new ChatAdaptor(this, threadId, ""));
         return result;
     }
 
     /**
      * Disconnects from backend services.
      */
-    public void disconnect() {
+    public void disconnect(final ChatAdaptor chatAdaptor) {
         chatContainer.stop();
     }
 
@@ -76,7 +76,7 @@ public final class ChatAdapter {
     private void showTestCompositeUI(final Context context) {
         final Intent intent = new Intent(context, ChatCompositeActivityImpl.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ChatCompositeActivityImpl.Companion.setChatAdapter(this);
+        ChatCompositeActivityImpl.Companion.setChatUIClient(this);
         context.startActivity(intent);
     }
 }

@@ -7,7 +7,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.azure.android.communication.ui.chat.ChatAdapter;
+import com.azure.android.communication.ui.chat.ChatUIClient;
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeViewImpl;
 
 /**
@@ -19,22 +19,22 @@ public final class ChatCompositeView extends FrameLayout {
         super(context);
     }
 
-    public ChatCompositeView(final Context context, final ChatAdapter chatAdapter) {
+    public ChatCompositeView(final Context context, final ChatUIClient chatUIClient) {
         super(context);
-        setChatAdapter(chatAdapter);
+        setChatAdapter(chatUIClient);
     }
 
     public ChatCompositeView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ChatCompositeView(final Context context, final AttributeSet attrs, final ChatAdapter chatAdapter) {
+    public ChatCompositeView(final Context context, final AttributeSet attrs, final ChatUIClient chatUIClient) {
         super(context, attrs);
-        setChatAdapter(chatAdapter);
+        setChatAdapter(chatUIClient);
     }
 
-    public ChatCompositeView setChatAdapter(final ChatAdapter chatAdapter) {
-        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter, false));
+    public ChatCompositeView setChatAdapter(final ChatUIClient chatUIClient) {
+        addView(new ChatCompositeViewImpl(this.getContext(), chatUIClient, false));
         return this;
     }
 }
