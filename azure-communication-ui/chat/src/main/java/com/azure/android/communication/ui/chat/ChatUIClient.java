@@ -46,17 +46,17 @@ public final class ChatUIClient {
     /**
      * Connects to ACS service, starts realtime notifications.
      */
-    public CompletableFuture<ChatAdaptor> connect(final Context context, final String threadId) {
+    public CompletableFuture<ChatAdapter> connect(final Context context, final String threadId) {
         launchComposite(context, threadId);
-        final CompletableFuture<ChatAdaptor> result = new CompletableFuture<>();
-        result.complete(new ChatAdaptor(this, threadId, ""));
+        final CompletableFuture<ChatAdapter> result = new CompletableFuture<>();
+        result.complete(new ChatAdapter(this, threadId, ""));
         return result;
     }
 
     /**
      * Disconnects from backend services.
      */
-    public void disconnect(final ChatAdaptor chatAdaptor) {
+    public void disconnect(final ChatAdapter chatAdapter) {
         chatContainer.stop();
     }
 

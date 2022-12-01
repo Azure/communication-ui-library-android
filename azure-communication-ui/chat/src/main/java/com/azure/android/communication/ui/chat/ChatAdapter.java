@@ -3,12 +3,12 @@
 
 package com.azure.android.communication.ui.chat;
 
-public class ChatAdaptor {
+public class ChatAdapter {
     private final ChatUIClient chatUIClient;
     private final String threadId;
     private final String topic;
 
-    ChatAdaptor(final ChatUIClient chatUIClient, final String threadId, final String topic) {
+    ChatAdapter(final ChatUIClient chatUIClient, final String threadId, final String topic) {
         this.chatUIClient = chatUIClient;
         this.threadId = threadId;
         this.topic = topic;
