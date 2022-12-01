@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <!--    Device-->
+    <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Głośnik</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Zestaw słuchawkowy</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Włączona kamera przednia, przełącz do tylnej kamery</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Włączona kamera tylna, przełącz do przedniej kamery</string>
+    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Wybierz urządzenie audio %1$s</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">Urządzenie audio %1$s, wybrane</string>
+    <!--    Setup View-->
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Trwa dołączanie do rozmowy…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_off">Wideo wyłączone</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_on">Wideo włączone</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon wyłączony</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon włączony</string>
+    <string name="azure_communication_ui_calling_setup_view_button_join_call">Dołącz do rozmowy</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Dźwięk jest wyłączony. Aby włączyć, przejdź do ustawień, aby zezwolić na dostęp. Aby rozpocząć to połączenie, musisz
+ włączyć dźwięk.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamera jest wyłączona. Aby włączyć, przejdź do obszaru Ustawienia
+,        aby zezwolić na dostęp.</string>
+    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Wymagane są uprawnienia</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Przejdź do ustawień</string>
+    <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Wybrano</string>
+    <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Ustawianie gradientu</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Przełącz kamerę</string>
+    <string name="azure_communication_ui_calling_call_setup_action_bar_title">Konfiguruj</string>
+
+    <!--    Lobby View-->
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Oczekiwanie na hosta</string>
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Ktoś wkrótce wpuści Cię na spotkanie</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">Połączenie zostało zawieszone</string>
+    <string name="azure_communication_ui_calling_resume">Wznów</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">Zawieszony</string>
+    <string name="azure_communication_ui_calling_mic_used">Nie można wznowić połączenia\nTwój mikrofon jest używany przez inną aplikację.</string>
+
+    <!--    Calling View-->
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Oczekiwanie na dołączenie innych osób</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Rozmowa z 1 osobą</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Rozmowa z %1$d osobami</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ja)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Uczestnik bez nazwy</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Opuścić rozmowę?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Wyjdź</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Anuluj</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Wyjdź z menu potwierdzania</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Otwórz listę uczestników</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Naciśnij dwukrotnie, aby odrzucić listę uczestników</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Wyciszono</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Wyłączono wyciszenie</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Rozłącz</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Zamknij</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Przycisk Zamknij</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Przełącz wideo</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Przełącz dźwięk</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Opcje urządzenia</string>
+    <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Więcej</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics">Udostępnij informacje diagnostyczne</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informacje diagnostyczne</string>
+
+    <!--    Compliance Banner-->
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Rozpoczęto nagrywanie.</b> Dołączając, 
+ wyrażasz zgodę na transkrybowanie tego spotkania.
+ <u> Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Trwa zapisywanie nagrywania.</b> Nagrywanie zostało zatrzymane.
+         <u>Dowiedz się więcej</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transkrypcja została uruchomiona.</b>Dołączając,
+        wyrażasz zgodę na transkrypcję tego spotkania. <u> Zasady prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Trwa zapisywanie transkrypcji.</b> Zatrzymano
+        transkrypcję. <u>Dowiedz się więcej</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Rozpoczęto nagrywanie i transkrypcję
+.</b> Dołączając, wyrażasz zgodę na transkrypcję tego spotkania
+        . <u> Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Rejestrowanie i transkrypcja są
+ zapisywane.</b> Nagrywanie i transkrypcja zostały zatrzymane. <u>Dowiedz się więcej</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Nagrywanie zostało zatrzymane.</b>
+        Teraz tylko transkrybują to spotkanie. <u>Zasad ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkrypcja została zatrzymana.
+    </b> Nagrywasz teraz tylko to spotkanie. <u>Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_link">Link</string>
+
+    <!--    PopUp warning-->
+    <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Odrzuć</string>
+    <string name="azure_communication_ui_calling_alert_title">Alert</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Usunięto Cię z rozmowy z powodu błędu.</string>
+    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Nie można dołączyć do połączenia z powodu błędu.</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">Usunięto Cię z rozmowy.</string>
+    <string name="azure_communication_ui_calling_no_connection_available">Nie można dołączyć do rozmowy. Sprawdź połączenie sieciowe.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Nie można przełączyć kamer.</string>
+
+    <!--    Notification-->
+    <string name="azure_communication_ui_calling_service_notification_title">Rozmowa w toku</string>
+    <string name="azure_communication_ui_calling_service_notification_message">Naciśnij, aby powrócić do połączenia</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_calling_accessibility_user_added">Użytkownik %1$s dołączył do spotkania</string>
+    <string name="azure_communication_ui_calling_accessibility_user_left">Użytkownik %1$s opuścił spotkanie</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Dołączono do rozmowy</string>
+</resources>

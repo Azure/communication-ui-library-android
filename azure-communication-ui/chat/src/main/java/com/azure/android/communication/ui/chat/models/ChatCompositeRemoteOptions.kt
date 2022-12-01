@@ -7,7 +7,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
 
 internal class ChatCompositeRemoteOptions internal constructor(
-    val endpointUrl: String,
+    val endpoint: String,
     val threadId: String,
     val credential: CommunicationTokenCredential,
     private val commonIdentity: CommunicationIdentifier,

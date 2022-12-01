@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.configuration
 import com.azure.android.communication.common.CommunicationTokenCredential
 
 internal class ChatConfiguration(
-    val endPointURL: String,
+    val endpoint: String,
     val identity: String,
     val credential: CommunicationTokenCredential,
     val applicationID: String,
