@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.presentation
 import android.content.Context
 import android.widget.FrameLayout
 import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
@@ -51,7 +52,14 @@ internal class VideoViewManagerUnitTest {
             on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
+
         val mockLayout = mock<FrameLayout> {}
 
         val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
@@ -83,14 +91,14 @@ internal class VideoViewManagerUnitTest {
         val remoteVideoView =
             videoViewManager.getRemoteVideoStreamRenderer("user", "111")
         videoViewManager.updateLocalVideoRenderer("345")
-        val localVideoView = videoViewManager.getLocalVideoRenderer("345")
+        val localVideoView = videoViewManager.getLocalVideoRenderer("345", ScalingMode.FIT)
 
         // act
         videoViewManager.destroy()
         remoteParticipantMap.clear()
         val remoteVideoViewAfterDelete =
             videoViewManager.getRemoteVideoStreamRenderer("user", "111")
-        val localVideoViewAfterDelete = videoViewManager.getLocalVideoRenderer("345")
+        val localVideoViewAfterDelete = videoViewManager.getLocalVideoRenderer("345", ScalingMode.FIT)
 
         // assert
         Assert.assertNotNull(remoteVideoView)
@@ -112,7 +120,13 @@ internal class VideoViewManagerUnitTest {
             on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
 
         val mockLayout = mock<FrameLayout> {}
 
@@ -138,7 +152,7 @@ internal class VideoViewManagerUnitTest {
 
         // act
         videoViewManager.updateLocalVideoRenderer("345")
-        val localVideoView = videoViewManager.getLocalVideoRenderer("345")
+        val localVideoView = videoViewManager.getLocalVideoRenderer("345", ScalingMode.FIT)
 
         // assert
         Assert.assertEquals(localVideoView, mockLayout)
@@ -162,7 +176,13 @@ internal class VideoViewManagerUnitTest {
             on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
 
         val mockLayout = mock<FrameLayout> {}
 
@@ -206,7 +226,13 @@ internal class VideoViewManagerUnitTest {
             on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
         }
 
-        val mockContext = mock<Context> {}
+        val mockUiModeManager = mock<android.app.UiModeManager> {
+            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+        }
+
+        val mockContext = mock<Context> {
+            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
 
         val mockVideoStreamRendererHelper = mock<VideoStreamRendererFactory> {}
 

@@ -14,10 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallwithchatLauncherBinding
-import com.azure.android.communication.ui.callwithchatdemoapp.features.AdditionalFeatures
-import com.azure.android.communication.ui.callwithchatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.callwithchatdemoapp.features.conditionallyRegisterDiagnostics
-import com.azure.android.communication.ui.callwithchatdemoapp.launcher.CallWithChatCompositeLauncher
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -25,7 +22,7 @@ import com.microsoft.appcenter.distribute.Distribute
 import com.microsoft.appcenter.distribute.UpdateTrack
 import java.util.UUID
 
-class CallWithChatLauncherActivity : AppCompatActivity() {
+class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
     private lateinit var binding: ActivityCallwithchatLauncherBinding
 
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
@@ -51,7 +48,6 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
         }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)
-        FeatureFlags.registerAdditionalFeature(AdditionalFeatures.secondaryThemeFeature)
 
         binding = ActivityCallwithchatLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -105,10 +101,7 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
 
             launchButton.setOnClickListener {
                 launchButton.isEnabled = false
-                callLauncherViewModel.doLaunch(
-                    tokenFunctionUrlText.text.toString(),
-                    acsTokenText.text.toString()
-                )
+                launch()
             }
 
             tokenFunctionRadioButton.setOnClickListener {
@@ -116,6 +109,7 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
                     tokenFunctionUrlText.requestFocus()
                     tokenFunctionUrlText.isEnabled = true
                     acsTokenText.isEnabled = false
+                    acsCommunicationUserIdText.isEnabled = false
                     acsTokenRadioButton.isChecked = false
                     callLauncherViewModel.useTokenFunction()
                 }
@@ -124,6 +118,7 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
                 if (acsTokenRadioButton.isChecked) {
                     acsTokenText.requestFocus()
                     acsTokenText.isEnabled = true
+                    acsCommunicationUserIdText.isEnabled = true
                     tokenFunctionUrlText.isEnabled = false
                     tokenFunctionRadioButton.isChecked = false
                     callLauncherViewModel.useAcsToken()
@@ -133,12 +128,14 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
+                    chatThreadIdText.isEnabled = true
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                    chatThreadIdText.isEnabled = false
                 }
             }
 
@@ -169,11 +166,12 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
         saveState(outState)
         super.onSaveInstanceState(outState)
     }
+
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
-    fun showAlert(message: String) {
+    override fun showAlert(message: String) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
                 setMessage(message)
@@ -185,66 +183,79 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun processResult(result: Result<CallWithChatCompositeLauncher?>) {
+    private fun processResult(result: Result<Any?>) {
         if (result.isFailure) {
             result.exceptionOrNull()?.let {
                 if (it.message != null) {
                     val causeMessage = it.cause?.message ?: ""
                     showAlert(it.toString() + causeMessage)
-                    binding.launchButton.isEnabled = true
                 } else {
                     showAlert("Unknown error")
                 }
             }
         }
-        if (result.isSuccess) {
-            result.getOrNull()?.let { launcherObject ->
-                launch(launcherObject)
-                binding.launchButton.isEnabled = true
-            }
-        }
+        binding.launchButton.isEnabled = true
     }
 
-    private fun launch(launcher: CallWithChatCompositeLauncher) {
+    private fun launch() {
         val userName = binding.userNameText.text.toString()
+        val acsEndpoint = binding.acsEndpointText.text.toString()
+        val chatThreadId = binding.chatThreadIdText.text.toString()
 
-        if (binding.groupCallRadioButton.isChecked) {
-            val groupId: UUID
-            try {
-                groupId =
+        val authApiUrl = when {
+            binding.tokenFunctionRadioButton.isChecked -> binding.tokenFunctionUrlText.text.toString()
+            else -> null
+        }
+        val acsToken = when {
+            binding.acsTokenRadioButton.isChecked -> binding.acsTokenText.text.toString()
+            else -> null
+        }
+
+        val communicationUserId = when {
+            binding.acsTokenRadioButton.isChecked -> binding.acsCommunicationUserIdText.text.toString()
+            else -> null
+        }
+
+        val groupId: UUID? = when {
+            binding.groupCallRadioButton.isChecked -> {
+                try {
                     UUID.fromString(binding.groupIdOrTeamsMeetingLinkText.text.toString().trim())
-            } catch (e: IllegalArgumentException) {
-                val message = "Group ID is invalid or empty."
-                showAlert(message)
-                return
+                } catch (e: IllegalArgumentException) {
+                    val message = "Group ID is invalid or empty."
+                    showAlert(message)
+                    return@launch
+                }
             }
-
-            launcher.launch(
-                this@CallWithChatLauncherActivity,
-                userName,
-                groupId,
-                null,
-                ::showAlert
-            )
+            else -> null
         }
 
-        if (binding.teamsMeetingRadioButton.isChecked) {
-            val meetingLink = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+        val meetingLink = when {
+            binding.teamsMeetingRadioButton.isChecked -> {
+                val text = binding.groupIdOrTeamsMeetingLinkText.text.toString()
 
-            if (meetingLink.isBlank()) {
-                val message = "Teams meeting link is invalid or empty."
-                showAlert(message)
-                return
+                if (text.isBlank()) {
+                    val message = "Teams meeting link is invalid or empty."
+                    showAlert(message)
+                    return@launch
+                } else {
+                    text
+                }
             }
-
-            launcher.launch(
-                this@CallWithChatLauncherActivity,
-                userName,
-                null,
-                meetingLink,
-                ::showAlert,
-            )
+            else -> null
         }
+
+        callLauncherViewModel.doLaunch(
+            context = this@CallWithChatLauncherActivity,
+            alertHandler = this@CallWithChatLauncherActivity,
+            authApiUrl,
+            acsToken,
+            communicationUserId,
+            userName,
+            acsEndpoint,
+            groupId,
+            chatThreadId,
+            meetingLink,
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -268,4 +279,8 @@ class CallWithChatLauncherActivity : AppCompatActivity() {
         )
         outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
     }
+}
+
+interface AlertHandler {
+    fun showAlert(message: String)
 }

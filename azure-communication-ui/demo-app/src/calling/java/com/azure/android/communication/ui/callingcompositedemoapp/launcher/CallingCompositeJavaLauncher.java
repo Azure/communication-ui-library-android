@@ -29,6 +29,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
+    private static CallComposite callComposite;
     private final Callable<String> tokenRefresher;
 
     public CallingCompositeJavaLauncher(final Callable<String> tokenRefresher) {
@@ -57,7 +58,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         }
 
         final CallComposite callComposite = builder.build();
-        callComposite.addOnErrorEventHandler(new CallLauncherActivityErrorHandler(callLauncherActivity));
+        callComposite.addOnErrorEventHandler(new CallLauncherActivityErrorHandler(callComposite, callLauncherActivity));
 
         if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
@@ -76,7 +77,6 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CallCompositeRemoteOptions remoteOptions =
                 new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
 
-
         final CallCompositeLocalOptions localOptions = new CallCompositeLocalOptions()
                 .setParticipantViewData(SettingsFeatures
                         .getParticipantViewData(callLauncherActivity.getApplicationContext()))
@@ -86,5 +86,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                             .setSubtitle(SettingsFeatures.getSubtitle()));
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
+        // For test purposes we will keep a static ref to CallComposite
+        this.callComposite = callComposite;
     }
 }

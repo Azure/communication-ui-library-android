@@ -4,8 +4,7 @@
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,8 +13,16 @@
         android:layout_height="match_parent"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
-        tools:context=".CallLauncherActivity"
-        >
+        tools:context=".CallLauncherActivity">
+
+        <EditText
+            android:id="@+id/acsEndpointText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/acs_endpoint_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioButton
             android:id="@+id/tokenFunctionRadioButton"
@@ -24,8 +31,7 @@
             android:checked="false"
             android:text="@string/token_function_radio_button_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/acsEndpointText" />
 
         <EditText
             android:id="@+id/tokenFunctionUrlText"
@@ -35,8 +41,7 @@
             android:hint="@string/token_url_hint"
             android:inputType="textUri"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tokenFunctionRadioButton"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tokenFunctionRadioButton" />
 
         <RadioButton
             android:id="@+id/acsTokenRadioButton"
@@ -45,8 +50,7 @@
             android:checked="true"
             android:text="@string/acs_token_radio_button_text"
             app:layout_constraintStart_toStartOf="@id/tokenFunctionUrlText"
-            app:layout_constraintTop_toBottomOf="@id/tokenFunctionUrlText"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tokenFunctionUrlText" />
 
         <EditText
             android:id="@+id/acsTokenText"
@@ -56,8 +60,16 @@
             android:hint="@string/acs_token_hint"
             android:inputType="textUri"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acsTokenRadioButton"
-            />
+            app:layout_constraintTop_toBottomOf="@id/acsTokenRadioButton" />
+
+        <EditText
+            android:id="@+id/acsCommunicationUserIdText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/acs_user_id_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acsTokenText" />
 
         <EditText
             android:id="@+id/userNameText"
@@ -67,9 +79,8 @@
             android:ems="10"
             android:hint="@string/name_hint"
             android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="@id/acsTokenText"
-            app:layout_constraintTop_toBottomOf="@id/acsTokenText"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acsCommunicationUserIdText" />
 
         <RadioButton
             android:id="@+id/groupCallRadioButton"
@@ -79,8 +90,7 @@
             android:checked="true"
             android:text="@string/group_call_label"
             app:layout_constraintStart_toStartOf="@id/userNameText"
-            app:layout_constraintTop_toBottomOf="@id/userNameText"
-            />
+            app:layout_constraintTop_toBottomOf="@id/userNameText" />
 
         <RadioButton
             android:id="@+id/teamsMeetingRadioButton"
@@ -90,8 +100,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/teams_meeting_label"
             app:layout_constraintStart_toEndOf="@id/groupCallRadioButton"
-            app:layout_constraintTop_toBottomOf="@id/userNameText"
-            />
+            app:layout_constraintTop_toBottomOf="@id/userNameText" />
 
         <EditText
             android:id="@+id/groupIdOrTeamsMeetingLinkText"
@@ -101,8 +110,18 @@
             android:hint="@string/group_call_id_or_teams_meeting_hint"
             android:inputType="textNoSuggestions"
             app:layout_constraintStart_toStartOf="@id/groupCallRadioButton"
-            app:layout_constraintTop_toBottomOf="@id/teamsMeetingRadioButton"
-            />
+            app:layout_constraintTop_toBottomOf="@id/teamsMeetingRadioButton" />
+
+        <EditText
+            android:id="@+id/chatThreadIdText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/chat_thread_id_hint"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText" />
 
         <RadioGroup
             android:id="@+id/javaOrKotlinContainer"
@@ -111,15 +130,13 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/groupIdOrTeamsMeetingLinkText"
-            app:layout_constraintTop_toBottomOf="@id/groupIdOrTeamsMeetingLinkText"
-            >
+            app:layout_constraintTop_toBottomOf="@id/chatThreadIdText">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/launch_type_text"
-                android:textSize="17sp"
-                />
+                android:textSize="17sp" />
 
             <RadioButton
                 android:id="@+id/kotlinButton"
@@ -129,8 +146,7 @@
                 android:checked="true"
                 android:padding="5dp"
                 android:text="@string/kotlin"
-                android:textSize="17sp"
-                />
+                android:textSize="17sp" />
 
             <RadioButton
                 android:id="@+id/javaButton"
@@ -138,8 +154,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/java"
-                android:textSize="17sp"
-                />
+                android:textSize="17sp" />
         </RadioGroup>
 
         <Button
@@ -149,8 +164,7 @@
             android:text="@string/launch_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/javaOrKotlinContainer"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/javaOrKotlinContainer" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -158,24 +172,21 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/launchButton"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/launchButton">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:text="@string/version"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/versionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/debug"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

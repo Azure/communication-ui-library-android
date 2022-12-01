@@ -18,16 +18,16 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
     @Test
     fun selectDefaultAudioDevice() {
         joinGroupSetupScreen()
-            .selectAndroidAudioDevice(true)
-            .verifyIsAndroidAudioDevice()
+            .selectSpeakerAudioDevice(true)
+            .verifyIsSpeakerAudioDevice()
             .navigateUpFromSetupScreen()
     }
 
     @Test
-    fun selectSpeakerAudioDevice() {
+    fun selectAndroidAudioDevice() {
         joinGroupSetupScreen()
-            .selectSpeakerAudioDevice(false)
-            .verifyIsSpeakerAudioDevice()
+            .selectAndroidAudioDevice(false)
+            .verifyIsAndroidAudioDevice()
             .navigateUpFromSetupScreen()
     }
 

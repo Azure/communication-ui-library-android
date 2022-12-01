@@ -55,39 +55,39 @@ internal class SetupFragment :
         setActionBarTitle()
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
-        setupGradientView.start(viewLifecycleOwner, viewModel.getSetupGradientViewViewModel())
+        setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
 
         setupJoinCallButtonHolderView =
             view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
-            viewModel.getJoinCallButtonHolderViewModel(),
+            viewModel.joinCallButtonHolderViewModel,
             networkManager
         )
 
         participantAvatarView = view.findViewById(R.id.azure_communication_ui_setup_default_avatar)
         participantAvatarView.start(
             viewLifecycleOwner,
-            viewModel.getParticipantAvatarViewModel(),
+            viewModel.participantAvatarViewModel,
             avatarViewManager.callCompositeLocalOptions?.participantViewData,
         )
 
         warningsView = view.findViewById(R.id.azure_communication_ui_setup_permission_info)
         warningsView.start(
             viewLifecycleOwner,
-            viewModel.getWarningsViewModel(),
+            viewModel.warningsViewModel,
         )
 
         localParticipantRendererView =
             view.findViewById(R.id.azure_communication_ui_setup_local_video_holder)
         localParticipantRendererView.start(
             viewLifecycleOwner,
-            viewModel.getLocalParticipantRendererViewModel(),
+            viewModel.localParticipantRendererViewModel,
             videoViewManager,
         )
 
         audioDeviceListView =
-            AudioDeviceListView(viewModel.getAudioDeviceListViewModel(), this.requireContext())
+            AudioDeviceListView(viewModel.audioDeviceListViewModel, this.requireContext())
         audioDeviceListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
@@ -95,11 +95,11 @@ internal class SetupFragment :
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)
         setupControlsView.start(
             viewLifecycleOwner,
-            viewModel.getSetupControlsViewModel()
+            viewModel.setupControlsViewModel,
         )
 
         errorInfoView = ErrorInfoView(view)
-        errorInfoView.start(viewLifecycleOwner, viewModel.getErrorInfoViewModel())
+        errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
         viewModel.setupCall()
     }

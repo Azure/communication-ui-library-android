@@ -26,7 +26,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     fun tapSpeakerIcon(): SetupScreenRobot {
         val speakerButton = waitUntilTextOnViewIsDisplayed(
             R.id.azure_communication_ui_setup_audio_device_button,
-            "Android"
+            "Speaker"
         )
 
         speakerButton.perform(click())
@@ -70,7 +70,8 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
     }
 
     private fun selectAudioDevice(@DrawableRes iconId: Int, text: String, isSelected: Boolean) {
-        val audioDeviceList = waitUntilAllViewIdIsAreDisplayed(R.id.azure_communication_ui_cell_text)
+        val audioDeviceList =
+            waitUntilAllViewIdIsAreDisplayed(R.id.azure_communication_ui_cell_text)
         UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text, isSelected)
     }
 

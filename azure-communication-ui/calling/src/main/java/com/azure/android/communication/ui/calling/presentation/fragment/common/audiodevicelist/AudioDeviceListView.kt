@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -88,32 +89,38 @@ internal class AudioDeviceListView(
     private val bottomCellItems: List<BottomCellItem>
         get() {
             val initialDevice = viewModel.audioStateFlow.value.device
-            val bottomCellItems = mutableListOf(
+            val bottomCellItems = mutableListOf<BottomCellItem>()
+
+            if (!isAndroidTV(context)) {
                 // Receiver (default)
-                BottomCellItem(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
-                    ),
-                    when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
-                        true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
-                        false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
-                    },
-                    null,
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.ms_ic_checkmark_24_filled
-                    ),
-                    null,
-                    context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                    enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    null,
-                    false,
-                ) {
-                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
-                    audioDeviceDrawer.dismiss()
-                },
-                // Speaker
+                bottomCellItems.add(
+                    BottomCellItem(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
+                        ),
+                        when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
+                            true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
+                            false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
+                        },
+                        null,
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ms_ic_checkmark_24_filled
+                        ),
+                        null,
+                        context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
+                        enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                        null,
+                        false,
+                    ) {
+                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
+                        audioDeviceDrawer.dismiss()
+                    }
+                )
+            }
+
+            bottomCellItems.add(
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
@@ -133,7 +140,7 @@ internal class AudioDeviceListView(
                 ) {
                     viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                     audioDeviceDrawer.dismiss()
-                },
+                }
             )
 
             if (viewModel.audioStateFlow.value.bluetoothState.available) {

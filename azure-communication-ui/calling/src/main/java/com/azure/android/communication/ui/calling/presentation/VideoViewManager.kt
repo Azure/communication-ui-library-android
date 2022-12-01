@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendere
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererLocalWrapper
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererRemoteWrapper
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 
 internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDK,
@@ -24,12 +25,25 @@ internal class VideoViewManager(
 ) {
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
+    private val isAndroidTV = isAndroidTV(context)
 
     private class VideoRenderer(
         var rendererView: VideoStreamRendererView?,
         var videoStreamRenderer: VideoStreamRenderer?,
         var isScreenShareView: Boolean,
     )
+
+    fun updateScalingForRemoteStream() {
+        val remoteParticipants = callingSDKWrapper.getRemoteParticipantsMap()
+        // for TV, on new participant join, change first remote participant scaling from fit to crop
+        if (isAndroidTV && remoteParticipants.size > 1 && remoteParticipantVideoRendererMap.size == 1) {
+            if (!remoteParticipantVideoRendererMap.values.first().isScreenShareView) {
+                remoteParticipantVideoRendererMap.values.first().rendererView?.let {
+                    it.updateScalingMode(ScalingMode.CROP)
+                }
+            }
+        }
+    }
 
     fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
         remoteParticipantVideoRendererMap.values.forEach {
@@ -55,6 +69,19 @@ internal class VideoViewManager(
         userVideoStreams: List<Pair<String, String>>,
     ) {
         removeRemoteParticipantRenderer(userVideoStreams)
+        val remoteParticipants = callingSDKWrapper.getRemoteParticipantsMap()
+
+        // for TV, for last participant, change last remote participant scaling from crop to fit
+        if (isAndroidTV && userVideoStreams.isNotEmpty() &&
+            remoteParticipantVideoRendererMap.size == 1 &&
+            remoteParticipants.size == 1
+        ) {
+            if (!remoteParticipantVideoRendererMap.values.first().isScreenShareView) {
+                remoteParticipantVideoRendererMap.values.first().rendererView?.let {
+                    it.updateScalingMode(ScalingMode.FIT)
+                }
+            }
+        }
     }
 
     fun updateLocalVideoRenderer(videoStreamID: String?) {
@@ -75,11 +102,14 @@ internal class VideoViewManager(
         }
     }
 
-    fun getLocalVideoRenderer(videoStreamID: String): View? {
+    fun getLocalVideoRenderer(videoStreamID: String, scalingMode: ScalingMode): View? {
         var rendererView: VideoStreamRendererView? = null
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
         }
+
+        rendererView?.updateScalingMode(scalingMode)
+
         detachFromParentView(rendererView?.getView())
         return rendererView?.getView()
     }
@@ -133,8 +163,10 @@ internal class VideoViewManager(
                             context
                         )
 
+                    val forceFitMode = isAndroidTV && !isScreenShare && remoteParticipants.size <= 1
+
                     val rendererView =
-                        if (isScreenShare) videoStreamRenderer.createView(
+                        if (isScreenShare || forceFitMode) videoStreamRenderer.createView(
                             CreateViewOptions(
                                 ScalingMode.FIT
                             )

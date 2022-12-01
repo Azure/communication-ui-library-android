@@ -4,16 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -27,64 +17,18 @@ internal class CallingViewModel(
 ) :
     BaseViewModel(store) {
 
-    private val participantGridViewModel =
-        callingViewModelProvider.participantGridViewModel
-    private val controlBarViewModel = callingViewModelProvider.controlBarViewModel
-    private val confirmLeaveOverlayViewModel =
-        callingViewModelProvider.confirmLeaveOverlayViewModel
-    private val localParticipantViewModel =
-        callingViewModelProvider.localParticipantViewModel
-    private val floatingHeaderViewModel = callingViewModelProvider.floatingHeaderViewModel
-    private val audioDeviceListViewModel =
-        callingViewModelProvider.audioDeviceListViewModel
-    private val participantListViewModel =
-        callingViewModelProvider.participantListViewModel
-    private val bannerViewModel = callingViewModelProvider.bannerViewModel
-    private val lobbyOverlayViewModel = callingViewModelProvider.lobbyOverlayViewModel
-    private val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
-    private val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
-
-    fun getLobbyOverlayViewModel(): LobbyOverlayViewModel {
-        return lobbyOverlayViewModel
-    }
-
-    fun getHoldOverlayViewModel(): OnHoldOverlayViewModel {
-        return holdOverlayViewModel
-    }
-
-    fun getParticipantGridViewModel(): ParticipantGridViewModel {
-        return participantGridViewModel
-    }
-
-    fun getAudioDeviceListViewModel(): AudioDeviceListViewModel {
-        return audioDeviceListViewModel
-    }
-
-    fun getControlBarViewModel(): ControlBarViewModel {
-        return controlBarViewModel
-    }
-
-    fun getConfirmLeaveOverlayViewModel(): LeaveConfirmViewModel {
-        return confirmLeaveOverlayViewModel
-    }
-
-    fun getLocalParticipantViewModel(): LocalParticipantViewModel {
-        return localParticipantViewModel
-    }
-
-    fun getFloatingHeaderViewModel(): InfoHeaderViewModel {
-        return floatingHeaderViewModel
-    }
-
-    fun getParticipantListViewModel(): ParticipantListViewModel {
-        return participantListViewModel
-    }
-
-    fun getBannerViewModel(): BannerViewModel {
-        return bannerViewModel
-    }
-
-    fun getErrorInfoViewModel() = errorInfoViewModel
+    val moreCallOptionsListViewModel = callingViewModelProvider.moreCallOptionsListViewModel
+    val participantGridViewModel = callingViewModelProvider.participantGridViewModel
+    val controlBarViewModel = callingViewModelProvider.controlBarViewModel
+    val confirmLeaveOverlayViewModel = callingViewModelProvider.confirmLeaveOverlayViewModel
+    val localParticipantViewModel = callingViewModelProvider.localParticipantViewModel
+    val floatingHeaderViewModel = callingViewModelProvider.floatingHeaderViewModel
+    val audioDeviceListViewModel = callingViewModelProvider.audioDeviceListViewModel
+    val participantListViewModel = callingViewModelProvider.participantListViewModel
+    val bannerViewModel = callingViewModelProvider.bannerViewModel
+    val lobbyOverlayViewModel = callingViewModelProvider.lobbyOverlayViewModel
+    val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
+    val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -100,7 +44,10 @@ internal class CallingViewModel(
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState
+            state.localParticipantState.audioState,
+            this::requestCallEnd,
+            audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
+            moreCallOptionsListViewModel::display,
         )
 
         localParticipantViewModel.init(
@@ -110,6 +57,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.camerasCount,
         )
 
         floatingHeaderViewModel.init(
@@ -158,6 +106,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
+            state.localParticipantState.cameraState.camerasCount,
         )
 
         audioDeviceListViewModel.update(
@@ -183,6 +132,7 @@ internal class CallingViewModel(
                 0,
                 state.callState.callingStatus,
                 state.localParticipantState.cameraState.device,
+                state.localParticipantState.cameraState.camerasCount,
             )
         }
 

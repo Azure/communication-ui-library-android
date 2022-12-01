@@ -9,8 +9,8 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  * ChatCompositeLocalOptions for ChatComposite.launch.
  *
  * <p>
- *     Local Options for the Chat Composite. These options are not shared with the server and impact local views only.
- *     E.g. The Local Participant Name if it differs from the display name you'd like to share with the server.
+ * Local Options for the Chat Composite. These options are not shared with the server and impact local views only.
+ * E.g. The Local Participant Name if it differs from the display name you'd like to share with the server.
  * </p>
  * <pre>
  *
@@ -31,7 +31,15 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  * @see ChatComposite
  */
 public final class ChatCompositeLocalOptions {
-    private final ChatCompositeParticipantViewData participantViewData;
+    private boolean isLaunchingWithUI = true;
+    private ChatCompositeParticipantViewData participantViewData;
+
+    /**
+     * Create Local Options with default setting.
+     */
+    public ChatCompositeLocalOptions() {
+
+    }
 
     /**
      * Create Local Options.
@@ -50,5 +58,24 @@ public final class ChatCompositeLocalOptions {
      */
     public ChatCompositeParticipantViewData getParticipantViewData() {
         return participantViewData;
+    }
+
+    /**
+     * Get is launching with UI boolean
+     *
+     * @return boolean isLaunchingWithUI;
+     */
+    public boolean getIsLaunchingWithUI() {
+        return isLaunchingWithUI;
+    }
+
+    /**
+     * Set is launching with UI boolean
+     *
+     * @return The {@link ChatCompositeLocalOptions };
+     */
+    public ChatCompositeLocalOptions setLaunchingWithUI(final boolean isLaunchingWithUI) {
+        this.isLaunchingWithUI = isLaunchingWithUI;
+        return this;
     }
 }

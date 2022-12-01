@@ -33,6 +33,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -65,11 +67,13 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     CallingSDK {
     private val coroutineScope = CoroutineScope(coroutineContextProvider.Default)
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
+    private var callIdStateFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private var isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+    private var getCameraCountStateFlow = MutableStateFlow(2)
 
     @GuardedBy("this")
     private val remoteParticipantsMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
@@ -191,6 +195,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             startCallCompletableFuture.complete(null)
             callStarted.compareAndSet(false, true)
             callingStateWrapperSharedFlow.emit(CallingStateWrapper(CallState.CONNECTED, 0, 0))
+            callIdStateFlow.emit("callid")
             emitRemoteParticipantFlow()
         }
         return startCallCompletableFuture
@@ -242,6 +247,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return callingStateWrapperSharedFlow
     }
 
+    override fun getCallIdStateFlow(): StateFlow<String?> = callIdStateFlow
+
     override fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> {
         coroutineScope.launch {
             emitRemoteParticipantFlow()
@@ -249,6 +256,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
         return remoteParticipantsInfoModelSharedFlow
     }
+
+    override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
         return VideoStreamModel(

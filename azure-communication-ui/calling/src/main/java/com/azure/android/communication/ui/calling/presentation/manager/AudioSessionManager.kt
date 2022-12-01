@@ -211,34 +211,20 @@ internal class AudioSessionManager(
         if (initialized) return
         initialized = true
 
+        enableSpeakerPhone()
+
         updateHeadphoneStatus()
 
-        when {
-            audioManager.isSpeakerphoneOn ->
-                store.dispatch(
-                    LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
-                    )
-                )
-            audioManager.isBluetoothScoOn ->
-                store.dispatch(
-                    LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
-                    )
-                )
-            else ->
-                store.dispatch(
-                    LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.RECEIVER_SELECTED
-                    )
-                )
-        }
+        store.dispatch(
+            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+        )
     }
 
     private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED, AudioDeviceSelectionStatus.RECEIVER_REQUESTED, AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED ->
                 switchAudioDevice(audioDeviceSelectionStatus)
+            else -> {}
         }
     }
 
@@ -268,6 +254,7 @@ internal class AudioSessionManager(
                     )
                 )
             }
+            else -> {}
         }
     }
 

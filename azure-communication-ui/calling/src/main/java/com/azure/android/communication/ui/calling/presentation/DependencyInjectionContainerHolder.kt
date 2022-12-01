@@ -7,7 +7,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeException
-import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.setDependencyInjectionContainer
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 import java.lang.IllegalArgumentException
@@ -42,7 +43,7 @@ internal class DependencyInjectionContainerHolder(
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
         set(value) {
-            if (!CallCompositeConfiguration.hasConfig(value)) {
+            if (!CallCompositeInstanceManager.hasCallComposite(value)) {
                 val exceptionMessage =
                     "Configuration with instanceId:$value does not exist. $commonMessage"
                 throw CallCompositeException(exceptionMessage, IllegalArgumentException(exceptionMessage))
@@ -57,14 +58,20 @@ internal class DependencyInjectionContainerHolder(
             throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
+        val callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
+
         // Generate a new instance
-        DependencyInjectionContainerImpl(
+        val container = DependencyInjectionContainerImpl(
             application,
-            instanceId,
+            callComposite,
             customCallingSDK,
             customVideoStreamRendererFactory,
             customCoroutineContextProvider
         )
+
+        callComposite.setDependencyInjectionContainer(container)
+
+        return@lazy container
     }
 
     val setupViewModel by lazy {
@@ -80,7 +87,8 @@ internal class DependencyInjectionContainerHolder(
             CallingViewModelFactory(
                 container.appStore,
                 ParticipantGridCellViewModelFactory(),
-                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants)
+                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
+                container.debugInfoManager
             )
         )
     }

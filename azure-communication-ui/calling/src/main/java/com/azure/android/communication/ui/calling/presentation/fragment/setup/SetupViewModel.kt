@@ -17,30 +17,14 @@ internal class SetupViewModel(
 ) :
     BaseViewModel(store) {
 
-    private val warningsViewModel = setupViewModelProvider.warningsViewModel
-    private val setupControlsViewModel = setupViewModelProvider.setupControlsViewModel
-    private val localParticipantRendererViewModel = setupViewModelProvider.previewAreaViewModel
-    private val audioDeviceListViewModel = setupViewModelProvider.audioDeviceListViewModel
-    private val errorInfoViewModel = setupViewModelProvider.snackBarViewModel
-    private val setupGradientViewModel = setupViewModelProvider.setupGradientViewModel
-    private val participantAvatarViewModel = setupViewModelProvider.participantAvatarViewModel
-    private val joinCallButtonHolderViewModel = setupViewModelProvider.joinCallButtonHolderViewModel
-
-    fun getJoinCallButtonHolderViewModel() = joinCallButtonHolderViewModel
-
-    fun getParticipantAvatarViewModel() = participantAvatarViewModel
-
-    fun getSetupGradientViewViewModel() = setupGradientViewModel
-
-    fun getErrorInfoViewModel() = errorInfoViewModel
-
-    fun getLocalParticipantRendererViewModel() = localParticipantRendererViewModel
-
-    fun getAudioDeviceListViewModel() = audioDeviceListViewModel
-
-    fun getWarningsViewModel() = warningsViewModel
-
-    fun getSetupControlsViewModel() = setupControlsViewModel
+    val warningsViewModel = setupViewModelProvider.warningsViewModel
+    val setupControlsViewModel = setupViewModelProvider.setupControlsViewModel
+    val localParticipantRendererViewModel = setupViewModelProvider.previewAreaViewModel
+    val audioDeviceListViewModel = setupViewModelProvider.audioDeviceListViewModel
+    val errorInfoViewModel = setupViewModelProvider.snackBarViewModel
+    val setupGradientViewModel = setupViewModelProvider.setupGradientViewModel
+    val participantAvatarViewModel = setupViewModelProvider.participantAvatarViewModel
+    val joinCallButtonHolderViewModel = setupViewModelProvider.joinCallButtonHolderViewModel
 
     val displayName: String?
         get() = store.getCurrentState().localParticipantState.displayName
@@ -56,7 +40,7 @@ internal class SetupViewModel(
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
-        getWarningsViewModel().init(state.permissionState)
+        warningsViewModel.init(state.permissionState)
         localParticipantRendererViewModel.init(
             state.localParticipantState.videoStreamID,
         )
@@ -82,7 +66,8 @@ internal class SetupViewModel(
         joinCallButtonHolderViewModel.init(
             state.permissionState.audioPermissionState,
             state.permissionState.cameraPermissionState,
-            state.localParticipantState.cameraState.operation
+            state.localParticipantState.cameraState.operation,
+            state.localParticipantState.cameraState.camerasCount
         )
 
         super.init(coroutineScope)
@@ -95,7 +80,7 @@ internal class SetupViewModel(
             state.localParticipantState.audioState,
             state.callState,
         )
-        getWarningsViewModel().update(state.permissionState)
+        warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(
             state.localParticipantState.videoStreamID,
         )
@@ -118,7 +103,8 @@ internal class SetupViewModel(
             state.permissionState.audioPermissionState,
             state.callState,
             state.permissionState.cameraPermissionState,
-            state.localParticipantState.cameraState.operation
+            state.localParticipantState.cameraState.operation,
+            state.localParticipantState.cameraState.camerasCount
         )
     }
 }

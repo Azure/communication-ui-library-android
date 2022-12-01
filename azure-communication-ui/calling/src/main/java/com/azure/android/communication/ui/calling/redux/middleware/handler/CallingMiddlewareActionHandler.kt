@@ -206,6 +206,8 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeIsRecordingUpdate(store)
         subscribeIsTranscribingUpdate(store)
         subscribeCallInfoModelEventUpdate(store)
+        subscribeCallIdUpdate(store)
+        subscribeCamerasCountUpdate(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -286,6 +288,14 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     )
                 }
+            }
+        }
+    }
+
+    private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCamerasCountStateFlow().collect {
+                store.dispatch(LocalParticipantAction.CamerasCountUpdated(it))
             }
         }
     }
@@ -374,8 +384,17 @@ internal class CallingMiddlewareActionHandlerImpl(
                         CallingStatus.DISCONNECTED -> {
                             store.dispatch(NavigationAction.Exit())
                         }
+                        else -> {}
                     }
                 }
+            }
+        }
+    }
+
+    private fun subscribeCallIdUpdate(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCallIdStateFlow().collect {
+                store.dispatch(CallingAction.CallIdUpdated(it))
             }
         }
     }
