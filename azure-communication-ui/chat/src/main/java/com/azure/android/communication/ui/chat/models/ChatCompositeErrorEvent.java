@@ -24,6 +24,15 @@ public final class ChatCompositeErrorEvent {
     }
 
     /**
+     * Create {@link ChatCompositeErrorEvent} with error code and caused throwable.
+     *
+     * @param code  Error code {@link ChatCompositeErrorCode}.
+     */
+    public ChatCompositeErrorEvent(final ChatCompositeErrorCode code) {
+        this(code, null);
+    }
+
+    /**
      * Returns the cause of this throwable or {@code null} if the
      * cause is nonexistent or unknown. (The cause is the throwable that
      * caused this throwable to get thrown).
