@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <!--    Device-->
+    <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_speaker">רמקול</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_headphone">אוזניות</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">מצלמה קדמית מופעלת, עבור למצלמה אחורית</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">מצלמה אחורית מופעלת, עבור למצלמה קדמית</string>
+    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">בחר התקן שמע %1$s</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">התקן שמע %1$s, נבחר</string>
+    <!--    Setup View-->
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">מצטרף לשיחה…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_off">וידאו כבוי</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_on">וידאו מופעל</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_off">מיקרופון כבוי</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_on">מיקרופון מופעל</string>
+    <string name="azure_communication_ui_calling_setup_view_button_join_call">הצטרף לשיחה</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">השמע שלך מושבת. כדי להפעיל אותו, עבור אל \'הגדרות\' כדי לאפשר גישה. עליך
+       להפעיל שמע כדי להתחיל את שיחה זו.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">המצלמה שלך מושבתת. כדי להפעיל אותה, עבור אל \'הגדרות\'
+        כדי לאפשר גישה.</string>
+    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">נדרשות הרשאות</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">עבור אל ‘הגדרות‘</string>
+    <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">נבחר</string>
+    <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">הגדרה הדרגתית</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">החלף מצלמה</string>
+    <string name="azure_communication_ui_calling_call_setup_action_bar_title">הגדרה</string>
+
+    <!--    Lobby View-->
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">ממתין למארח</string>
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">מישהו בפגישה יכניס אותך בקרוב</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">אתה בהמתנה</string>
+    <string name="azure_communication_ui_calling_resume">המשך</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">בהמתנה</string>
+    <string name="azure_communication_ui_calling_mic_used">לא ניתן לחדש את\nהמיקרופון שלך נמצא בשימוש על-ידי אפליקציה אחרת.</string>
+
+    <!--    Calling View-->
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">מחכה שאחרים יצטרפו</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">שיחה עם אדם אחד</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">שיחה עם %1$d אנשים</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(אני)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">משתתף ללא שם</string>
+    <string name="azure_communication_ui_calling_view_leave_call">לעזוב שיחה?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">עזוב</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">בטל</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">צא מתפריט האישור</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">פתח רשימת משתתפים</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">הקש פעמיים כדי לבטל את רשימת המשתתפים</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">מושתק</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">לא מושתק</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">נתק</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">סגור</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">לחצן סגירה</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">החלף מצב וידאו</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">החלף מצב שמע</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">אפשרויות התקן</string>
+    <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">עוד</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics">שתף פרטי אבחון</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_title">פרטי אבחון</string>
+
+    <!--    Compliance Banner-->
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>ההקלטה התחילה.</b> על-ידי הצטרפות, אתה
+        נותן את הסכמתך לתעתוק של פגישה זו.
+         <u>מדיניות פרטיות</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>ההקלטה נשמרת. </b> ההקלטה הופסקה.
+         <u>מידע נוסף</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>התעתוק התחיל.</b> על-ידי הצטרפות, אתה
+        נותן את הסכמתך לתעתוק של פגישה זו. <u>מדיניות פרטיות</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>התעתוק נשמר.</b> התעתוק
+        הופסק. <u>מידע נוסף</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>ההקלטה והתעתוק
+        התחילו.</b> על-ידי הצטרפות, אתה נותן את הסכמתך לתעתוק של פגישה זו
+        . <u>מדיניות פרטיות</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>ההקלטה והתעתוק
+        נשמרים.</b> ההקלטה והתעתוק הפסיקו. <u>מידע נוסף</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>ההקלטה הופסקה.</b> אתה
+        מתעתק כעת רק את פגישה זו. <u>מדיניות הפרטיות של</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>התעתוק הופסק.
+    </b> אתה מתעתק כעת רק הקלטה של פגישה זו. <u>מדיניות פרטיות</u></string>
+    <string name="azure_communication_ui_calling_view_link">קישור</string>
+
+    <!--    PopUp warning-->
+    <string name="azure_communication_ui_calling_snack_bar_button_dismiss">התעלם</string>
+    <string name="azure_communication_ui_calling_alert_title">התראה</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">הוסרת מהשיחה עקב שגיאה.</string>
+    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">לא ניתן להצטרף לשיחה עקב שגיאה.</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">הוסרת מהשיחה.</string>
+    <string name="azure_communication_ui_calling_no_connection_available">לא ניתן להצטרף לשיחה. בדוק את חיבור הרשת שלך.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">לא ניתן להחליף מצלמות.</string>
+
+    <!--    Notification-->
+    <string name="azure_communication_ui_calling_service_notification_title">שיחה מתבצעת</string>
+    <string name="azure_communication_ui_calling_service_notification_message">הקש כדי לחזור לשיחה</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_calling_accessibility_user_added">%1$s הצטרף לפגישה</string>
+    <string name="azure_communication_ui_calling_accessibility_user_left">%1$s עזב את הפגישה</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">הצטרפת לשיחה</string>
+</resources>

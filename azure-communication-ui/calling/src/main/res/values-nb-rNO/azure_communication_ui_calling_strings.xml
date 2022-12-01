@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <!--    Device-->
+    <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Høyttaler</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_front">Frontkamera på, bytt til bakre kamera</string>
+    <string name="azure_communication_ui_calling_switch_camera_button_back">Bakre kamera på, bytt til frontkamera</string>
+    <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Velg lydenhet %1$s</string>
+    <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s lydenhet, valgt</string>
+    <!--    Setup View-->
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Blir med i samtalen …</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_off">Video av</string>
+    <string name="azure_communication_ui_calling_setup_view_button_video_on">Video på</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon av</string>
+    <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon på</string>
+    <string name="azure_communication_ui_calling_setup_view_button_join_call">Bli med i samtale</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Lyden er deaktivert. Hvis du vil aktivere, kan du gå til Innstillinger for å gi tilgang. Du må
+ aktivere lyd for å starte denne samtalen.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kameraet er deaktivert. Hvis du vil aktivere, kan du gå til Innstillinger
+ for å gi tilgang.</string>
+    <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Tillatelser kreves</string>
+    <string name="azure_communication_ui_calling_setup_view_go_to_settings">Gå til Innstillinger</string>
+    <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Valgt</string>
+    <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Gradering av oppsett</string>
+    <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Bytt kamera</string>
+    <string name="azure_communication_ui_calling_call_setup_action_bar_title">Oppsett</string>
+
+    <!--    Lobby View-->
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Venter på vert</string>
+    <string name="azure_communication_ui_calling_lobby_view_text_waiting_details">Noen i møtet slipper deg inn snart</string>
+
+    <!-- Hold Overlay -->
+    <string name="azure_communication_ui_calling_hold_view_text">Du er satt på vent</string>
+    <string name="azure_communication_ui_calling_resume">Fortsett</string>
+    <string name="azure_communication_ui_calling_remote_participant_on_hold">På vent</string>
+    <string name="azure_communication_ui_calling_mic_used">Kan ikke gjenoppta samtale\nMikrofonen brukes av en annen app.</string>
+
+    <!--    Calling View-->
+    <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Venter på at andre skal bli med</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Samtale med 1 person</string>
+    <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ring med %1$d personer</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Deltaker uten navn</string>
+    <string name="azure_communication_ui_calling_view_leave_call">Vil du forlate samtalen?</string>
+    <string name="azure_communication_ui_calling_view_leave_call_button_text">Forlat</string>
+    <string name="azure_communication_ui_calling_view_leave_call_cancel">Avbryt</string>
+    <string name="azure_communication_ui_calling_view_leave_confirm_menu">Forlat bekreft-menyen</string>
+    <string name="azure_communication_ui_calling_view_participant_list_open_accessibility_label">Åpne deltakerliste</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_list">Dobbelttrykk for å lukke deltakerlisten</string>
+    <string name="azure_communication_ui_calling_view_participant_list_muted_accessibility_label">Dempet</string>
+    <string name="azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label">Demping opphevet</string>
+    <string name="azure_communication_ui_calling_view_button_hang_up_accessibility_label">Legg på</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_accessibility_label">Lukk</string>
+    <string name="azure_communication_ui_calling_view_button_close_button_full_accessibility_label">Lukk-knapp</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_video_accessibility_label">Slå video av/på</string>
+    <string name="azure_communication_ui_calling_view_button_toggle_audio_accessibility_label">Aktiver/deaktiver lyd</string>
+    <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Enhetsalternativer</string>
+    <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Mer</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics">Del diagnoseinformasjon</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformasjon</string>
+
+    <!--    Compliance Banner-->
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opptak er startet.</b> Ved å bli med, gir du
+ samtykke til at dette møtet transkriberes.
+ <u>Personvernerklæring</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Opptak lagres.</b> Opptak har stoppet.
+ <u>Mer informasjon</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transkripsjon har startet.</b> Ved å bli med,
+        samtykker du til at dette møtet blir transkribert. <u>Personvernerklæring</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transkripsjon lagres.</b> Transkripsjon
+ har stoppet. <u>Mer informasjon</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Opptak og transkripsjon har
+ startet.</b> Ved å bli med gir du samtykke til at dette møtet transkriberes
+ . <u>Personvernerklæring</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Opptak og transkripsjon
+ lagres.</b> Opptak og transkripsjon er stoppet. <u>Mer informasjon</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Opptak er stoppet.</b> Du
+ transkriberer nå bare dette møtet. <u>Personvernerklæring</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkripsjon har stoppet.
+ </b> Du tar nå bare opp dette møtet. <u>Personvernerklæring</u></string>
+    <string name="azure_communication_ui_calling_view_link">Kobling</string>
+
+    <!--    PopUp warning-->
+    <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Lukk</string>
+    <string name="azure_communication_ui_calling_alert_title">Varsel</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Du ble fjernet fra samtalen på grunn av en feil.</string>
+    <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan ikke bli med i samtalen på grunn av en feil.</string>
+    <string name="azure_communication_ui_calling_call_state_evicted">Du ble fjernet fra samtalen.</string>
+    <string name="azure_communication_ui_calling_no_connection_available">Kan ikke bli med i samtalen. Kontroller nettverkstilkoblingen.</string>
+    <string name="azure_communication_ui_calling_call_video_fails_error">Kan ikke bytte kamera.</string>
+
+    <!--    Notification-->
+    <string name="azure_communication_ui_calling_service_notification_title">Pågående samtale</string>
+    <string name="azure_communication_ui_calling_service_notification_message">Trykk for å gå tilbake til samtalen</string>
+
+    <!--    Accessibility Hooks -->
+    <string name="azure_communication_ui_calling_accessibility_user_added">%1$s har blitt med på møtet</string>
+    <string name="azure_communication_ui_calling_accessibility_user_left">%1$s har forlatt møtet</string>
+    <string name="azure_communication_ui_calling_accessibility_meeting_connected">Du har blitt med i samtalen</string>
+</resources>
