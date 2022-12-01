@@ -204,6 +204,7 @@ private fun messageContent(viewModel: MessageViewModel) {
                                 ?.format(timeFormat)
                                 ?: "Unknown Time",
                             style = ChatCompositeTheme.typography.messageHeaderDate,
+                            modifier = Modifier.testTag(UITestTags.MESSAGE_TIME_CONTENT)
                         )
                     }
                 }
