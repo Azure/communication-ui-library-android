@@ -26,7 +26,7 @@ class CallLauncherActivityErrorHandler(
         println(it.cause)
         println(it.errorCode)
         activityWr.get()
-            ?.showAlert("${it.errorCode} ${it.cause?.message}. Call id: ${callComposite.diagnostics.lastKnownCallId ?: ""}")
+            ?.showAlert("${it.errorCode} ${it.cause?.message}. Call id: ${callComposite.debugInfo.lastCallId ?: ""}")
         println("====================================================================")
     }
 }
