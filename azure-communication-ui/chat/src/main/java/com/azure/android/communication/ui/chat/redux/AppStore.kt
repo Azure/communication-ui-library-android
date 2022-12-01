@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.chat.redux
 
 import android.os.Handler
 import android.os.Looper
-import com.azure.android.communication.ui.chat.ChatCompositeException
+import com.azure.android.communication.ui.chat.models.ChatCompositeException
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineExceptionHandler
