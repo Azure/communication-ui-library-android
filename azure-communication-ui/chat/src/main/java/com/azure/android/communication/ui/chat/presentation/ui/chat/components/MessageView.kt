@@ -213,7 +213,8 @@ private fun messageContent(viewModel: MessageViewModel) {
                 HtmlText(html = viewModel.message.content ?: "Empty")
             } else {
                 BasicText(
-                    text = viewModel.message.content ?: "Empty"
+                    text = viewModel.message.content ?: "Empty",
+                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT)
                 )
             }
         }
