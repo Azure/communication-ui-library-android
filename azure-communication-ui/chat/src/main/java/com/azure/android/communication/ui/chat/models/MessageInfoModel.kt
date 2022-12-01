@@ -11,10 +11,10 @@ import org.threeten.bp.OffsetDateTime
 
 @Immutable
 internal data class MessageInfoModel(
-    val id: String?,
-    val internalId: String? = null,
-    val messageType: ChatMessageType?,
-    val content: String?,
+    private val id: String? = null,
+    private val internalId: String? = null,
+    val messageType: ChatMessageType? = null,
+    val content: String? = null,
     val topic: String? = null,
     val participants: List<String> = emptyList(),
     val version: String? = null,
@@ -24,9 +24,12 @@ internal data class MessageInfoModel(
     val deletedOn: OffsetDateTime? = null,
     val editedOn: OffsetDateTime? = null,
     val isCurrentUser: Boolean = false,
-) : BaseInfoModel
+) : BaseInfoModel {
+    // Normalized ID to use either internal or id
+    internal val normalizedID: Long get() = id?.toLong() ?: internalId?.toLong() ?: 0L
+}
 
-internal fun com.azure.android.communication.chat.models.ChatMessage.into(): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessage.into(localParticipantIdentifier: String): MessageInfoModel {
     return MessageInfoModel(
         id = this.id,
         messageType = this.type.into(),
@@ -40,10 +43,13 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(): Mes
         senderCommunicationIdentifier = this.senderCommunicationIdentifier?.into(),
         deletedOn = this.deletedOn,
         editedOn = this.editedOn,
+        isCurrentUser = senderCommunicationIdentifier != null && localParticipantIdentifier == this.senderCommunicationIdentifier.into().id,
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
@@ -55,11 +61,14 @@ internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEven
         senderDisplayName = this.senderDisplayName,
         createdOn = this.createdOn,
         deletedOn = null,
-        editedOn = null
+        editedOn = null,
+        isCurrentUser = localParticipantIdentifier == this.sender.into().id,
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.into(): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
@@ -71,11 +80,14 @@ internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.
         senderDisplayName = this.senderDisplayName,
         createdOn = this.createdOn,
         deletedOn = null,
-        editedOn = this.editedOn
+        editedOn = this.editedOn,
+        isCurrentUser = localParticipantIdentifier == this.sender.into().id,
     )
 }
 
-internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent.into(): MessageInfoModel {
+internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent.into(
+    localParticipantIdentifier: String,
+): MessageInfoModel {
     return MessageInfoModel(
         internalId = null,
         id = this.id,
@@ -87,7 +99,8 @@ internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent
         senderDisplayName = this.senderDisplayName,
         createdOn = this.createdOn,
         deletedOn = this.deletedOn,
-        editedOn = null
+        editedOn = null,
+        isCurrentUser = localParticipantIdentifier == this.sender.into().id,
     )
 }
 
@@ -103,4 +116,7 @@ internal val EMPTY_MESSAGE_INFO_MODEL = MessageInfoModel(
     senderCommunicationIdentifier = null,
     deletedOn = null,
     editedOn = null,
+    isCurrentUser = false
 )
+
+internal const val INVALID_INDEX = -1

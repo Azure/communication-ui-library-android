@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +32,6 @@ internal fun UnreadMessagesIndicatorView(
     scrollState: LazyListState,
     visible: Boolean,
     unreadCount: Int,
-    totalMessages: Int,
 ) {
     val scope = rememberCoroutineScope()
     val content = LocalContext.current
@@ -39,7 +40,8 @@ internal fun UnreadMessagesIndicatorView(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_down_16_filled),
-                    modifier = Modifier.height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
+                    modifier = Modifier
+                        .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
                         .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPadding),
                     contentDescription = null
                 )
@@ -47,15 +49,20 @@ internal fun UnreadMessagesIndicatorView(
             text = {
                 Text(
                     text = when (unreadCount) {
-                        1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages)
-                        else -> content.getString(R.string.azure_communication_ui_chat_unread_new_messages, unreadCount.toString())
+                        in Int.MIN_VALUE..0 -> return@ExtendedFloatingActionButton
+                        1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_message)
+                        in 2..99 -> content.getString(
+                            R.string.azure_communication_ui_chat_unread_new_messages,
+                            unreadCount.toString()
+                        )
+                        else -> content.getString(R.string.azure_communication_ui_chat_many_unread_new_messages)
                     },
                     fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize
                 )
             },
             onClick = {
                 scope.launch {
-                    scrollState.animateScrollToItem(totalMessages)
+                    scrollState.animateScrollToItem(0)
                 }
             },
             backgroundColor = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
@@ -63,6 +70,8 @@ internal fun UnreadMessagesIndicatorView(
             modifier = Modifier
                 .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorHeight)
                 .clip(ChatCompositeTheme.shapes.unreadMessagesIndicator)
+                .focusable(true)
+                .focusTarget()
         )
     }
 }
@@ -74,6 +83,5 @@ internal fun PreviewUnreadMessagesIndicatorView() {
         rememberLazyListState(),
         visible = true,
         unreadCount = 20,
-        totalMessages = 30,
     )
 }

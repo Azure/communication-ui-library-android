@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
 import com.azure.android.communication.ui.chat.error.ChatStateError
+import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
+import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
@@ -13,6 +15,8 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
+import kotlin.math.max
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -27,6 +31,8 @@ internal data class ChatScreenViewModel(
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
+    val messageContextMenu: MessageContextMenuModel,
+    val sendMessageEnabled: Boolean = false,
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -46,20 +52,42 @@ internal fun buildChatScreenViewModel(
     dispatch: Dispatch,
 ): ChatScreenViewModel {
 
-    // TODO add logic with last read message
-    var unreadMessagesCount: Int = 0
-
     return ChatScreenViewModel(
-        messages = messages.toViewModelList(context, localUserIdentifier),
+        messages = messages.toViewModelList(
+            context,
+            localUserIdentifier,
+            store.getCurrentState().participantState.latestReadMessageTimestamp
+        ),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
-        unreadMessagesCount = unreadMessagesCount,
+        unreadMessagesCount = getUnReadMessagesCount(store, messages),
         error = store.getCurrentState().errorState.chatStateError,
         postAction = dispatch,
         typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
+        messageContextMenu = store.getCurrentState().chatState.messageContextMenu ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
+        sendMessageEnabled = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
+            store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED
     )
+}
+
+private fun getUnReadMessagesCount(
+    store: AppStore<ReduxState>,
+    messages: List<MessageInfoModel>,
+): Int {
+    val lastReadId = store.getCurrentState().chatState.lastReadMessageId
+    val lastSendId = store.getCurrentState().chatState.lastSendMessageId
+
+    if (lastReadId.isEmpty() || lastSendId.isEmpty()) {
+        return 0
+    }
+    val internalLastReadIndex = messages.findMessageIdxById(lastReadId.toLong())
+    val internalLastSendIndex = messages.findMessageIdxById(lastSendId.toLong())
+
+    val internalLastIndex = max(internalLastReadIndex, internalLastSendIndex)
+
+    return if (internalLastIndex == -1) 0 else messages.size - internalLastIndex - 1
 }
