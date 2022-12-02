@@ -3,9 +3,17 @@
 
 package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
+import android.graphics.Color
+import android.os.Build
+import android.text.Html
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,12 +24,15 @@ import androidx.compose.foundation.layout.width
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
-import androidx.compose.runtime.Composable
+import androidx.compose.material.Text
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -40,6 +51,7 @@ import com.microsoft.fluentui.persona.AvatarSize
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.TextStyle
 
 val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
@@ -223,13 +235,24 @@ private fun messageContent(viewModel: MessageViewModel) {
 
 @Composable
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
+
+    val textColor = ChatCompositeTheme.colors.textColor
+    val textSize = ChatCompositeTheme.typography.messageBody.fontSize
+    val formattedText = remember(html) {
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            TextView(context)
+            TextView(context).apply {
+                this.setTextColor(textColor.hashCode())
+                this.textSize = textSize.value
+            }
         },
         update = {
-            it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            it.text = formattedText
         }
     )
 }
