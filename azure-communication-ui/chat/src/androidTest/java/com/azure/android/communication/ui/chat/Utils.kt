@@ -17,8 +17,8 @@ internal fun launchChatComposite() {
     val communicationTokenCredential =
         CommunicationTokenCredential(communicationTokenRefreshOptions)
     val chatAdapter = ChatAdapterBuilder()
-        .endpointUrl("https://acs-ui-dev.communication.azure.com/")
-        .communicationTokenCredential(communicationTokenCredential)
+        .endpoint("https://acs-ui-dev.communication.azure.com/")
+        .credential(communicationTokenCredential)
         .identity(CommunicationUserIdentifier("test"))
         .build()
 
