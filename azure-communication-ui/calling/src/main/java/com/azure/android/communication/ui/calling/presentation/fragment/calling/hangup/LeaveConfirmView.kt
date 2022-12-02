@@ -100,6 +100,7 @@ internal class LeaveConfirmView(
                     BottomCellItemType.BottomMenuTitle,
                     null
                 ),
+
                 // Leave
                 BottomCellItem(
                     ContextCompat.getDrawable(
@@ -117,6 +118,7 @@ internal class LeaveConfirmView(
                 ) {
                     viewModel.confirm()
                 },
+
                 // Cancel
                 BottomCellItem(
                     ContextCompat.getDrawable(
