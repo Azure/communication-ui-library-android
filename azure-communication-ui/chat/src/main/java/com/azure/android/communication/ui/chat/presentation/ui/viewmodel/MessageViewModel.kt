@@ -35,10 +35,10 @@ internal class MessageViewModel(
     fun accessibilityMessage(context: Context): String {
         var result = "";
         if (showTime) {
-            result += dateHeaderText + ", ";
+            result += "$dateHeaderText, "
         }
         if (showUsername) {
-            result += message.senderDisplayName + ", ";
+            result += "${message.senderDisplayName}, "
         }
 
         result += when (message.messageType) {
