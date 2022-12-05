@@ -28,6 +28,8 @@ internal class MessageViewModel(
     val isLocalUser: Boolean,
     val isRead: Boolean,
 ) {
+    //stringResource = R.string.azure_communication_ui_chat_topic_updated,
+    //substitution = listOf(viewModel.message.topic ?: "Unknown")
 
     // An Accessibility Message Description for a message
     fun accessibilityMessage(context: Context): String {
@@ -39,13 +41,10 @@ internal class MessageViewModel(
             result += message.senderDisplayName + ", ";
         }
 
-        when (message.messageType) {
-            ChatMessageType.TEXT -> result += ", " + message.content
-            ChatMessageType.HTML -> result += ", " + HtmlCompat.fromHtml(message.content?:"", HtmlCompat.FROM_HTML_MODE_LEGACY).toSpannable().toString()
-            ChatMessageType.TOPIC_UPDATED -> result += ", Topic Update to "+ message.content
-            ChatMessageType.PARTICIPANT_ADDED -> result += message.participants.joinToString(",") + " Joined the chat";
-            ChatMessageType.PARTICIPANT_REMOVED -> result += message.participants.joinToString(",") + " Joined the chat";
-            null -> result += ""
+        result += when (message.messageType) {
+            ChatMessageType.TEXT -> ", " + message.content
+            ChatMessageType.HTML -> ", " + HtmlCompat.fromHtml(message.content?:"", HtmlCompat.FROM_HTML_MODE_LEGACY).toSpannable().toString()
+            else -> ""
         }
         return "";
     }
