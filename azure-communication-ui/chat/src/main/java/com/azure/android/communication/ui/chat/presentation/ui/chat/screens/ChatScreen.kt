@@ -122,7 +122,9 @@ internal fun ChatScreen(
                     ) {
                         UnreadMessagesIndicatorView(
                             scrollState = listState,
-                            visible = viewModel.unreadMessagesIndicatorVisibility,
+                            visible = viewModel.unreadMessagesIndicatorVisibility
+                                    && listState.firstVisibleItemIndex > 1
+                                    && !(viewModel.messages.lastOrNull()?.isLocalUser ?: true),
                             unreadCount = viewModel.unreadMessagesCount,
                         )
                     }
