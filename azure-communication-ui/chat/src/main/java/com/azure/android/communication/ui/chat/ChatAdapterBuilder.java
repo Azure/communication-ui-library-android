@@ -15,13 +15,13 @@ import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfig
  */
 public final class ChatAdapterBuilder {
 
-    private String endpointUrl;
+    private String endpoint;
     private CommunicationIdentifier identity;
     private CommunicationTokenCredential credential;
     private String displayName;
 
-    public ChatAdapterBuilder endpointUrl(final String endpointUrl) {
-        this.endpointUrl = endpointUrl;
+    public ChatAdapterBuilder endpoint(final String endpoint) {
+        this.endpoint = endpoint;
         return this;
     }
 
@@ -30,7 +30,7 @@ public final class ChatAdapterBuilder {
         return this;
     }
 
-    public ChatAdapterBuilder communicationTokenCredential(final CommunicationTokenCredential credential) {
+    public ChatAdapterBuilder credential(final CommunicationTokenCredential credential) {
         this.credential = credential;
         return this;
     }
@@ -47,6 +47,6 @@ public final class ChatAdapterBuilder {
      */
     public ChatAdapter build() {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
-        return new ChatAdapter(config, endpointUrl, identity, credential, displayName);
+        return new ChatAdapter(config, endpoint, identity, credential, displayName);
     }
 }

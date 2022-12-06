@@ -61,7 +61,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
-    private val diagnosticsService get() = container.diagnosticsManager
+    private val diagnosticsService get() = container.debugInfoManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

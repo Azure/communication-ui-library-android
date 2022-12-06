@@ -23,6 +23,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.microsoft.fluentui.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
@@ -61,7 +62,13 @@ internal class OnHoldOverlayView : LinearLayout {
         setupUi()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayHoldOverlayFlow().collect {
+                val lastVisibility = visibility
                 visibility = if (it) VISIBLE else GONE
+                if (isAndroidTV(context)) {
+                    if (visibility == VISIBLE && lastVisibility != visibility) {
+                        resumeButton.requestFocus()
+                    }
+                }
             }
         }
 

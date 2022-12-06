@@ -25,19 +25,19 @@ public final class ChatAdapter {
     private static int instanceIdCounter = 0;
     final Integer instanceId = instanceIdCounter++;
     private final ChatContainer chatContainer;
-    private final String endpointUrl;
+    private final String endpoint;
     private final CommunicationIdentifier identity;
     private final CommunicationTokenCredential credential;
     private final String displayName;
     private final ChatCompositeConfiguration configuration;
 
     ChatAdapter(final ChatCompositeConfiguration configuration,
-                final String endpointUrl,
+                final String endpoint,
                 final CommunicationIdentifier identity,
                 final CommunicationTokenCredential credential,
                 final String displayName) {
         chatContainer = new ChatContainer(this, configuration, instanceId);
-        this.endpointUrl = endpointUrl;
+        this.endpoint = endpoint;
         this.identity = identity;
         this.credential = credential;
         this.displayName = displayName;
@@ -64,7 +64,7 @@ public final class ChatAdapter {
     private void launchComposite(final Context context, final String threadId) {
         final ChatCompositeRemoteOptions remoteOptions =
                 new ChatCompositeRemoteOptions(
-                        endpointUrl, threadId, credential, identity, displayName != null ? displayName : "");
+                        endpoint, threadId, credential, identity, displayName != null ? displayName : "");
         chatContainer.start(context, remoteOptions);
     }
 

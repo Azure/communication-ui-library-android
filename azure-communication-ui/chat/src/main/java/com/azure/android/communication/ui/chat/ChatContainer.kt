@@ -62,7 +62,7 @@ internal class ChatContainer(
             started = true
             configuration.chatConfig =
                 ChatConfiguration(
-                    endPointURL = remoteOptions.endpointUrl,
+                    endpoint = remoteOptions.endpoint,
                     identity = remoteOptions.identity,
                     credential = remoteOptions.credential,
                     applicationID = DiagnosticConfig().tag,
