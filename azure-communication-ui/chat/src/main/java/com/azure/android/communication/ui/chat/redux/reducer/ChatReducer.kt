@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MenuItemModel
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
-import com.azure.android.communication.ui.chat.models.MessageStatus
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatState
@@ -34,14 +33,6 @@ internal class ChatReducerImpl : ChatReducer {
             }
             is ChatAction.ThreadDeleted -> {
                 state.copy(chatInfoModel = state.chatInfoModel.copy(isThreadDeleted = true))
-            }
-            is ChatAction.MessageSent -> {
-                state.copy(lastSendMessageId = action.messageInfoModel.copy(sendStatus = MessageStatus.SENT)
-                    .normalizedID.toString())
-            }
-            is ChatAction.MessageSentFailed -> {
-
-                state.copy(lastSendMessageId = action.messageInfoModel.copy(sendStatus = MessageStatus.FAILED).normalizedID.toString())
             }
             is ChatAction.MessageLastReceived -> {
                 state.copy(

@@ -11,17 +11,17 @@ import com.azure.android.communication.ui.chat.ChatAdapter;
 final class ChatCompositeJoinLocator {
 
     private final String chatThreadId;
-    private final String endpointURL;
+    private final String endpoint;
 
     /**
      * Creates {@link ChatCompositeJoinLocator}.
      *
      * @param chatThreadId Chat thread id.
-     * @param endpointURL  Chat end point URL.
+     * @param endpoint  Chat end point URL.
      */
-    ChatCompositeJoinLocator(final String chatThreadId, final String endpointURL) {
+    ChatCompositeJoinLocator(final String chatThreadId, final String endpoint) {
         this.chatThreadId = chatThreadId;
-        this.endpointURL = endpointURL;
+        this.endpoint = endpoint;
     }
 
     /**
@@ -38,7 +38,7 @@ final class ChatCompositeJoinLocator {
      *
      * @return {@link String}
      */
-    public String getEndpointURL() {
-        return endpointURL;
+    public String getEndpoint() {
+        return endpoint;
     }
 }

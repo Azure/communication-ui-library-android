@@ -45,6 +45,15 @@ public final class CallCompositeSupportedLocale {
     public static final Locale NL_NL = new Locale("nl", "NL");
     public static final Locale TR = new Locale("tr");
     public static final Locale TR_TR = new Locale("tr", "TR");
+    public static final Locale FI = new Locale("fi");
+    public static final Locale FI_FI = new Locale("fi", "FI");
+    public static final Locale NB_NO = new Locale("nb", "no");
+    public static final Locale SV_SE = new Locale("sv", "SE");
+    public static final Locale PL = new Locale("pl");
+    public static final Locale PL_PL = new Locale("pl", "PL");
+    public static final Locale IW_IL = new Locale("iw", "IL");
+    public static final Locale AR = new Locale("ar");
+    public static final Locale AR_SA = new Locale("ar", "SA");
 
     /**
      * Gets the collection of supported languages as {@link Locale}.
