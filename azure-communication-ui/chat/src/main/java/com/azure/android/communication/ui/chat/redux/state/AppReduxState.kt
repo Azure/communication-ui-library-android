@@ -23,7 +23,6 @@ internal class AppReduxState(
             isThreadDeleted = false
         ),
         lastReadMessageId = "",
-        lastSendMessageId = "",
         messageContextMenu = MessageContextMenuModel(EMPTY_MESSAGE_INFO_MODEL, emptyList())
     )
 
