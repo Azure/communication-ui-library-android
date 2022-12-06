@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -19,13 +18,13 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
-import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
+import org.threeten.bp.OffsetDateTime
 
 @Composable
 internal fun BottomBarView(
     messageInputTextState: MutableState<String>,
-    chatStatus: ChatStatus,
+    sendMessageEnabled: Boolean = true,
     postAction: (Action) -> Unit,
 ) {
     Row(
@@ -38,29 +37,34 @@ internal fun BottomBarView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction,
-            keyboardActions = KeyboardActions(onSend = {
-                sendButtonOnclick(postAction, messageInputTextState)
-            })
+            sendMessageEnabled = sendMessageEnabled
         )
 
         SendMessageButtonView(
-            contentDescription = stringResource(R.string.azure_communication_ui_chat_message_send_button_content_description, messageInputTextState.value),
-            chatStatus = chatStatus
+            contentDescription = stringResource(
+                R.string.azure_communication_ui_chat_message_send_button_content_description,
+                messageInputTextState.value
+            ),
+            enabled = sendMessageEnabled && messageInputTextState.value.isNotBlank()
         ) {
             sendButtonOnclick(postAction, messageInputTextState)
         }
     }
 }
 
-private fun sendButtonOnclick(postAction: (Action) -> Unit, messageInputTextState: MutableState<String>) {
+private fun sendButtonOnclick(
+    postAction: (Action) -> Unit,
+    messageInputTextState: MutableState<String>,
+) {
     postAction(
         ChatAction.SendMessage(
             MessageInfoModel(
                 id = null,
+                internalId = System.currentTimeMillis().toString(),
                 messageType = ChatMessageType.TEXT,
-                internalId = null,
+                createdOn = OffsetDateTime.now(),
                 content = messageInputTextState.value.trim(),
-                isCurrentUser = true
+                isCurrentUser = true,
             )
         )
     )
@@ -70,5 +74,5 @@ private fun sendButtonOnclick(postAction: (Action) -> Unit, messageInputTextStat
 @Preview
 @Composable
 internal fun PreviewBottomBarView() {
-    BottomBarView(remember { mutableStateOf("") }, ChatStatus.INITIALIZED) {}
+    BottomBarView(remember { mutableStateOf("") },) {}
 }

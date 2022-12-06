@@ -12,21 +12,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +32,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -46,13 +44,16 @@ internal fun MessageInputView(
     messageInputTextState: MutableState<String>,
     postAction: (Action) -> Unit,
     keyboardActions: KeyboardActions = KeyboardActions(),
+    sendMessageEnabled: Boolean,
 ) {
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
         onTextChanged = {
             messageInputTextState.value = it
-            postAction(ChatAction.TypingIndicator())
+            if (sendMessageEnabled) {
+                postAction(ChatAction.TypingIndicator())
+            }
         },
         textContent = messageInputTextState.value,
         onTextFieldFocused = { focusState = it },
@@ -87,8 +88,8 @@ internal fun MessageInput(
     BasicTextField(
         modifier = Modifier
             .fillMaxWidth(fraction = 0.9f)
-            .padding(5.dp)
-            .heightIn(52.dp, maxInputHeight)
+            .padding(6.dp)
+            .heightIn(40.dp, maxInputHeight)
             .onFocusChanged { onTextFieldFocused(it.isFocused) }
             .testTag(UITestTags.MESSAGE_INPUT_BOX)
             .then(semantics),
@@ -96,19 +97,16 @@ internal fun MessageInput(
         value = textContent,
         onValueChange = { onTextChanged(it) },
         textStyle = TextStyle(
-            color = textColor,
+            color = textColor
         ),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = ImeAction.Default
-        ),
+        singleLine = false,
         keyboardActions = keyboardActions,
         cursorBrush = SolidColor(ChatCompositeTheme.colors.unreadMessageIndicatorBackground),
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
                     .border(1.dp, outlineColor, RoundedCornerShape(10))
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp),
+                    .padding(9.dp, 6.dp, 9.dp, 6.dp),
                 contentAlignment = Alignment.CenterStart,
             ) {
 
@@ -130,5 +128,5 @@ internal fun MessageInput(
 @Preview
 @Composable
 internal fun PreviewMessageInputView() {
-    MessageInputView("Message Input Field", remember { mutableStateOf("") }, {})
+    MessageInputView("Message Input Field", remember { mutableStateOf("") }, {}, sendMessageEnabled = true)
 }
