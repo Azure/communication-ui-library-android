@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.models.MessageStatus
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
@@ -163,20 +164,55 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     .align(alignment = Alignment.Bottom)
             ) {
                 // Display the Read Receipt
-                androidx.compose.animation.AnimatedVisibility(visible = viewModel.isRead) {
-                    Icon(
-                        painter =
-                        painterResource(
-                            id =
-                            R.drawable.azure_communication_ui_chat_ic_fluent_message_read_10_filled
-                        ),
-                        contentDescription = "Message Read",
-                        tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
+                androidx.compose.animation.AnimatedVisibility(visible = viewModel.showStatusIcon) {
+
+
+                    when (viewModel.messageStatus) {
+                        MessageStatus.SENDING -> {
+                            Icon(
+                                painter =
+                                painterResource(
+                                    id =
+                                    R.drawable.azure_communication_ui_chat_ic_fluent_message_sending_10_filled
+                                ),
+                                contentDescription = "Message Failed To Send",
+                                tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+
+                        MessageStatus.SENT -> {
+                            Icon(
+                                painter =
+                                painterResource(
+                                    id =
+                                    R.drawable.azure_communication_ui_chat_ic_fluent_message_sent_10_filled
+                                ),
+                                contentDescription = "Message Failed To Send",
+                                tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+
+                        else -> {
+                            //FAILED
+
+                            Icon(
+                                painter =
+                                painterResource(
+                                    id =
+                                    R.drawable.azure_communication_ui_chat_ic_fluent_message_failed_to_send_10_filled
+                                ),
+                                contentDescription = "Message Failed To Send",
+                                tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+
+                    }
+                    }
                 }
             }
-        }
     }
 }
 

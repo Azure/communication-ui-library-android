@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
 import com.azure.android.communication.ui.chat.error.ChatStateError
 import com.azure.android.communication.ui.chat.error.ErrorCode
+import com.azure.android.communication.ui.chat.models.MessageStatus
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -84,6 +85,13 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
+
+                dispatch(
+                    ChatAction.MessageSentFailed(
+                        messageInfoModel = action.messageInfoModel
+                    )
+                )
+
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatStateError = ChatStateError(
@@ -92,6 +100,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                     )
                 )
             } else {
+                //TODO: refactor this to only carry id and internal id, reducers should change state not middleware
                 dispatch(
                     ChatAction.MessageSent(
                         messageInfoModel = action.messageInfoModel,

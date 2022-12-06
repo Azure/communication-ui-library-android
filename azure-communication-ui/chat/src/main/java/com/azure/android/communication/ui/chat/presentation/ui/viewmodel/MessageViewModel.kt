@@ -4,9 +4,11 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
+import android.util.Log
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessageStatus
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
@@ -23,7 +25,8 @@ internal class MessageViewModel(
     val showTime: Boolean,
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
-    val isRead: Boolean,
+    val messageStatus: MessageStatus?,
+    val showStatusIcon: Boolean,
 )
 
 internal fun List<MessageInfoModel>.toViewModelList(
@@ -59,6 +62,10 @@ private class InfoModelToViewModelAdapter(
         val isLocalUser =
             thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
         val currentMessageTime = thisMessage.editedOn ?: thisMessage.createdOn
+
+
+        Log.d("Rayyan", "currentMessageis: ${thisMessage.content}" + " status: ${thisMessage.sendStatus}")
+
         return MessageViewModel(
 
             messages[index],
@@ -80,8 +87,12 @@ private class InfoModelToViewModelAdapter(
             ),
 
             isLocalUser = isLocalUser,
-            isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
+            messageStatus = thisMessage.sendStatus,
+            showStatusIcon = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
+           // isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
+                //TODO: test read receipt
         )
+
     }
 
     private fun buildDateHeader(

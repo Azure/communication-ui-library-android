@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.redux.middleware.repository
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessageStatus
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
@@ -108,7 +109,7 @@ internal class MessageRepositoryMiddlewareImpl(
         dispatch: Dispatch,
     ) {
         messageRepository.removeMessage(action.messageInfoModel)
-        messageRepository.addMessage(action.messageInfoModel.copy(id = action.id))
+        messageRepository.addMessage(action.messageInfoModel.copy(id = action.id, sendStatus = MessageStatus.SENT))
         notifyUpdate(dispatch)
     }
 
