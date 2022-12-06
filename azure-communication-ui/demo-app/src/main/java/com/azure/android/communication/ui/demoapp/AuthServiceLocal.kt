@@ -8,7 +8,7 @@ import com.azure.android.communication.common.CommunicationUserIdentifier
 
 internal class AuthServiceLocal(
     override val currentUserToken: String,
-    private val communicationUserId: String
+    private val communicationUserId: String,
 ) : AuthService {
 
     override val currentUserCommunicationIdentifier: CommunicationIdentifier

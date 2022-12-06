@@ -3,13 +3,8 @@
 
 package com.azure.android.communication.ui.chatdemoapp.launcher;
 
-import com.azure.android.communication.common.CommunicationTokenCredential;
-import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
-import com.azure.android.communication.ui.chat.ChatComposite;
-import com.azure.android.communication.ui.chat.ChatCompositeBuilder;
-import com.azure.android.communication.ui.chat.models.ChatCompositeJoinLocator;
-import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
-import com.azure.android.communication.ui.chatdemoapp.ChatLauncherActivity;
+import android.content.Context;
+
 
 import java.util.concurrent.Callable;
 
@@ -22,22 +17,23 @@ public class ChatCompositeJavaLauncher implements ChatCompositeLauncher {
     }
 
     @Override
-    public void launch(final ChatLauncherActivity chatLauncherActivity,
+    public void launch(final Context context,
                        final String threadID,
                        final String endPointURL,
                        final String displayName,
                        final String identity) {
-        final ChatComposite chatComposite = new ChatCompositeBuilder().build();
+//        final ChatComposite chatComposite = new ChatCompositeBuilder().build();
+//
+//        final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
+//                new CommunicationTokenRefreshOptions(tokenRefresher, true);
+//        final CommunicationTokenCredential communicationTokenCredential =
+//                new CommunicationTokenCredential(communicationTokenRefreshOptions);
+//
+//        final ChatCompositeJoinLocator locator =
+//                new ChatCompositeJoinLocator(threadID, endPointURL);
+//        final ChatCompositeRemoteOptions remoteOptions =
+//                new ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName);
+//        chatComposite.launch(context, remoteOptions, null);
 
-        final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
-                new CommunicationTokenRefreshOptions(tokenRefresher, true);
-        final CommunicationTokenCredential communicationTokenCredential =
-                new CommunicationTokenCredential(communicationTokenRefreshOptions);
-
-        final ChatCompositeJoinLocator locator =
-                new ChatCompositeJoinLocator(threadID, endPointURL);
-        final ChatCompositeRemoteOptions remoteOptions =
-                new ChatCompositeRemoteOptions(locator, communicationTokenCredential, identity, displayName);
-        chatComposite.launch(chatLauncherActivity, remoteOptions, null);
     }
 }

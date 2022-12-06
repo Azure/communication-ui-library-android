@@ -7,18 +7,18 @@ import android.util.Log
 
 internal class DefaultLogger : Logger {
 
-    private val tag = "communication.ui"
+    private val tag = "communication.ui.chat"
 
-    override fun info(message: String) {
-        Log.i(tag, message)
+    override fun info(message: String, throwable: Throwable?) {
+        Log.i(tag, message, throwable)
     }
 
-    override fun debug(message: String) {
-        Log.d(tag, message)
+    override fun debug(message: String, throwable: Throwable?) {
+        Log.d(tag, message, throwable)
     }
 
-    override fun warning(message: String) {
-        Log.w(tag, message)
+    override fun warning(message: String, throwable: Throwable?) {
+        Log.w(tag, message, throwable)
     }
 
     override fun error(message: String, error: Throwable?) {

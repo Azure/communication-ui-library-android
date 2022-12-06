@@ -6,10 +6,11 @@ package com.azure.android.communication.ui.chat
 import android.content.Context
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.error.EventHandler
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
-import com.azure.android.communication.ui.chat.models.ChatCompositeLocalOptions
+import com.azure.android.communication.ui.chat.logger.DefaultLogger
+import com.azure.android.communication.ui.chat.logger.Logger
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
-import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.Dispatch
@@ -39,7 +40,7 @@ import com.azure.android.communication.ui.chat.utilities.TestHelper
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 internal class ChatContainer(
-    private val chatComposite: ChatComposite,
+    private val chatAdapter: ChatAdapter,
     private val configuration: ChatCompositeConfiguration,
     private val instanceId: Int,
 ) {
@@ -53,8 +54,6 @@ internal class ChatContainer(
     fun start(
         context: Context,
         remoteOptions: ChatCompositeRemoteOptions,
-        localOptions: ChatCompositeLocalOptions?,
-
     ) {
         // currently only single instance is supported
         if (!started) {
@@ -62,32 +61,31 @@ internal class ChatContainer(
             started = true
             configuration.chatConfig =
                 ChatConfiguration(
-                    endPointURL = remoteOptions.locator.endpointURL,
+                    endpoint = remoteOptions.endpoint,
                     identity = remoteOptions.identity,
                     credential = remoteOptions.credential,
-                    applicationID = "azure_communication_ui", // TODO: modify while working on diagnostics config < 24
+                    applicationID = DiagnosticConfig().tag,
                     sdkName = "com.azure.android:azure-communication-chat",
                     sdkVersion = "2.0.0",
-                    threadId = remoteOptions.locator.chatThreadId,
+                    threadId = remoteOptions.threadId,
                     senderDisplayName = remoteOptions.displayName
                 )
 
             locator = initializeServiceLocator(
                 instanceId,
-                localOptions,
                 remoteOptions,
                 context
             )
                 .apply {
                     locate<Dispatch>()(ChatAction.StartChat())
                     locate<NetworkManager>().start(context)
+                    locate<EventHandler>().start()
                 }
         }
     }
 
     private fun initializeServiceLocator(
         instanceId: Int,
-        localOptions: ChatCompositeLocalOptions?,
         remoteOptions: ChatCompositeRemoteOptions,
         context: Context,
     ) =
@@ -96,26 +94,42 @@ internal class ChatContainer(
 
             val messageRepository = MessageRepository.createSkipListBackedRepository()
 
-            addTypedBuilder { chatComposite }
-            addTypedBuilder<List<MessageInfoModel>> { messageRepository }
+            addTypedBuilder { chatAdapter }
 
-            addTypedBuilder { localOptions ?: ChatCompositeLocalOptions() }
+            addTypedBuilder { messageRepository }
 
             addTypedBuilder { remoteOptions }
 
             addTypedBuilder { ChatEventHandler() }
 
-            addTypedBuilder { ChatFetchNotificationHandler(coroutineContextProvider = locate()) }
+            addTypedBuilder {
+                ChatFetchNotificationHandler(
+                    coroutineContextProvider = locate(),
+                    localParticipantIdentifier = configuration.chatConfig?.identity ?: ""
+                )
+            }
+
+            addTypedBuilder {
+                ChatSDKWrapper(
+                    context = context,
+                    chatConfig = configuration.chatConfig!!,
+                    coroutineContextProvider = locate(),
+                    chatEventHandler = locate(),
+                    chatFetchNotificationHandler = locate(),
+                    logger = locate()
+                )
+            }
 
             addTypedBuilder {
                 ChatService(
-                    chatSDK = TestHelper.chatSDK ?: ChatSDKWrapper(
-                        context = context,
-                        chatConfig = configuration.chatConfig!!,
-                        coroutineContextProvider = locate(),
-                        chatEventHandler = locate(),
-                        chatFetchNotificationHandler = locate()
-                    )
+                    chatSDK = TestHelper.chatSDK ?: locate<ChatSDKWrapper>()
+                )
+            }
+
+            addTypedBuilder {
+                ChatServiceListener(
+                    chatService = locate(),
+                    coroutineContextProvider = locate()
                 )
             }
 
@@ -140,10 +154,7 @@ internal class ChatContainer(
                             chatActionHandler = ChatActionHandler(
                                 chatService = locate()
                             ),
-                            chatServiceListener = ChatServiceListener(
-                                chatService = locate(),
-                                coroutineContextProvider = locate()
-                            )
+                            chatServiceListener = locate()
                         ),
                         MessageRepositoryMiddlewareImpl(messageRepository)
                     ),
@@ -154,10 +165,24 @@ internal class ChatContainer(
             addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
 
             addTypedBuilder { NetworkManager(dispatch = locate()) }
+
+            addTypedBuilder {
+                EventHandler(
+                    coroutineContextProvider = locate(),
+                    store = locate(),
+                    configuration = configuration,
+                )
+            }
+            addTypedBuilder<Logger> { DefaultLogger() }
         }
 
     fun stop() {
+        locator?.locate<EventHandler>()?.stop()
+        locator?.locate<ChatSDKWrapper>()?.destroy()
+        locator?.locate<ChatServiceListener>()?.unsubscribe()
+        locator?.locate<AppStore<ReduxState>>()?.end()
         locator?.locate<NetworkManager>()?.stop()
         locator?.clear()
+        locator = null
     }
 }
