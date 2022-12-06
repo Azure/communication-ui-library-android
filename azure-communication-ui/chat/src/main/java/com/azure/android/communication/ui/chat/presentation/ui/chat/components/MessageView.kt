@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -202,6 +204,7 @@ private fun messageContent(viewModel: MessageViewModel) {
                                 ?.format(timeFormat)
                                 ?: "Unknown Time",
                             style = ChatCompositeTheme.typography.messageHeaderDate,
+                            modifier = Modifier.testTag(UITestTags.MESSAGE_TIME_CONTENT)
                         )
                     }
                 }
@@ -210,7 +213,8 @@ private fun messageContent(viewModel: MessageViewModel) {
                 HtmlText(html = viewModel.message.content ?: "Empty")
             } else {
                 BasicText(
-                    text = viewModel.message.content ?: "Empty"
+                    text = viewModel.message.content ?: "Empty",
+                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT)
                 )
             }
         }

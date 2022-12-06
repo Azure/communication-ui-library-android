@@ -47,8 +47,8 @@ class ChatLauncherViewModel : ViewModel() {
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         val chatAdapter = ChatAdapterBuilder()
-            .endpointUrl(endpoint)
-            .communicationTokenCredential(communicationTokenCredential)
+            .endpoint(endpoint)
+            .credential(communicationTokenCredential)
             .identity(CommunicationUserIdentifier(acsIdentity))
             .displayName(userName)
             .build()

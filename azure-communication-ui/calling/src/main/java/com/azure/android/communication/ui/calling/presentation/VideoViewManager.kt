@@ -102,11 +102,14 @@ internal class VideoViewManager(
         }
     }
 
-    fun getLocalVideoRenderer(videoStreamID: String): View? {
+    fun getLocalVideoRenderer(videoStreamID: String, scalingMode: ScalingMode): View? {
         var rendererView: VideoStreamRendererView? = null
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
         }
+
+        rendererView?.updateScalingMode(scalingMode)
+
         detachFromParentView(rendererView?.getView())
         return rendererView?.getView()
     }
