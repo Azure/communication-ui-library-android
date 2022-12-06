@@ -30,8 +30,8 @@ internal class MessageViewTest : BaseUiTest() {
 
         // send message
         val message = "hello"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX,true).performTextInput(message)
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON,true).performClick()
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX, true).performTextInput(message)
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON, true).performClick()
 
         // current system time
         val formattedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("h:mm a"))
@@ -50,11 +50,11 @@ internal class MessageViewTest : BaseUiTest() {
 
         // send message
         val message = "hello"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX,true).performTextInput(message)
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON,true).performClick()
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX, true).performTextInput(message)
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON, true).performClick()
 
         val secondMessage = "HELLO"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX,true).performTextInput(secondMessage)
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX, true).performTextInput(secondMessage)
         composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON, true).performClick()
 
         // assert message is cleared after send
