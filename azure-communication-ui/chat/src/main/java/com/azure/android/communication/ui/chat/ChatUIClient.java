@@ -4,15 +4,11 @@
 package com.azure.android.communication.ui.chat;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
-import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
-import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivityImpl;
-
-import java9.util.concurrent.CompletableFuture;
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent;
 
 /**
  * Azure android communication chat composite component.
@@ -23,19 +19,20 @@ public final class ChatUIClient {
 
     private static int instanceIdCounter = 0;
     final Integer instanceId = instanceIdCounter++;
-    private final ChatContainer chatContainer;
+    private final Context applicationContext;
     private final String endpoint;
     private final CommunicationIdentifier identity;
     private final CommunicationTokenCredential credential;
     private final String displayName;
     private final ChatCompositeConfiguration configuration;
 
-    ChatUIClient(final ChatCompositeConfiguration configuration,
-                final String endpoint,
-                final CommunicationIdentifier identity,
-                final CommunicationTokenCredential credential,
-                final String displayName) {
-        chatContainer = new ChatContainer(this, configuration, instanceId);
+    ChatUIClient(final Context applicationContext,
+            final ChatCompositeConfiguration configuration,
+                 final String endpoint,
+                 final CommunicationIdentifier identity,
+                 final CommunicationTokenCredential credential,
+                 final String displayName) {
+        this.applicationContext = applicationContext;
         this.endpoint = endpoint;
         this.identity = identity;
         this.credential = credential;
@@ -44,39 +41,60 @@ public final class ChatUIClient {
     }
 
     /**
-     * Connects to ACS service, starts realtime notifications.
+     * Add {@link ChatCompositeEventHandler}.
+     *
+     * <p> A callback for Chat Composite Error Events.
+     * See {@link ChatCompositeErrorEvent} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add error handler
+     * chatAdapter.addOnErrorEventHandler&#40;event -> {
+     *     &#47;&#47; Process error event
+     *     System.out.println&#40;event.getCause&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getErrorCode&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param errorHandler The {@link ChatCompositeEventHandler}.
      */
-    public CompletableFuture<ChatAdapter> connect(final Context context, final String threadId) {
-        launchComposite(context, threadId);
-        final CompletableFuture<ChatAdapter> result = new CompletableFuture<>();
-        result.complete(new ChatAdapter(this, threadId, ""));
-        return result;
+    public void addOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+
     }
 
     /**
-     * Disconnects from backend services.
+     * Remove {@link ChatCompositeEventHandler}.
+     *
+     * <p> A callback for Chat Composite Error Events.
+     * See {@link ChatCompositeErrorEvent} for values.</p>
+     *
+     * @param errorHandler The {@link ChatCompositeEventHandler}.
      */
-    public void disconnect(final ChatAdapter chatAdapter) {
-        chatContainer.stop();
+    public void removeOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
+
     }
 
-    private void launchComposite(final Context context, final String threadId) {
-        final ChatCompositeRemoteOptions remoteOptions =
-                new ChatCompositeRemoteOptions(
-                        endpoint, threadId, credential, identity, displayName != null ? displayName : "");
-        chatContainer.start(context, remoteOptions);
+    String getEndpoint() {
+        return endpoint;
     }
 
-    void launchTest(final Context context,
-                    final String threadId) {
-        launchComposite(context, threadId);
-        showTestCompositeUI(context);
+    CommunicationIdentifier getIdentity() {
+        return identity;
     }
 
-    private void showTestCompositeUI(final Context context) {
-        final Intent intent = new Intent(context, ChatCompositeActivityImpl.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ChatCompositeActivityImpl.Companion.setChatUIClient(this);
-        context.startActivity(intent);
+    CommunicationTokenCredential getCredential() {
+        return credential;
+    }
+
+    String getDisplayName() {
+        return displayName;
+    }
+
+    ChatCompositeConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    Context getApplicationContextContext() {
+        return applicationContext;
     }
 }
