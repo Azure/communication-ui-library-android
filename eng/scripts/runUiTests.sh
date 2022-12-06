@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 unset ANDROID_SERIAL
 DEVICE=($(adb devices | grep "device$" | sed -e "s|device||g"))
 
@@ -9,11 +11,13 @@ setLocalProperty() {
   mv -f ./temp_file ./local.properties
 }
 
+# Normalize our working directory to allow running this script from any location.
+cd "$(dirname "$0")/../../azure-communication-ui"
+
 if [ -z "$DEVICE" ]; then
-  ./installEmulator.sh
+  ../eng/scripts/installEmulator.sh
 fi
 
-cd ..
 setLocalProperty "USER_NAME" "Test User"
 #Replace ACS Token with expired token
 setLocalProperty "ACS_TOKEN" "$1"
