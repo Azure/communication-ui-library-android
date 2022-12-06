@@ -51,8 +51,6 @@ internal fun ChatCompositeTheme(
     }
 }
 
-// TODO: Figure out icon colors
-
 // Usage: ChatCompositeTheme.typography.body
 internal object ChatCompositeTheme {
     val dimensions: ChatCompositeDimensions

@@ -26,7 +26,7 @@ open class ChatCompositeColors(
         outlineColor = Color(0xFF292929),
         systemIconColor = Color(0xFF6E6E6E),
         messageBackground = Color(0xFF212121),
-        messageBackgroundSelf = Color(0xFFDEECF9),
+        messageBackgroundSelf = Color(0xFF043862),
         unreadMessageIndicatorBackground = Color(0xFF0086F0)
     )
 

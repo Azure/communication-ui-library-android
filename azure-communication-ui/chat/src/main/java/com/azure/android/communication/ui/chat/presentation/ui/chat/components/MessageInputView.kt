@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.redux.action.Action
@@ -95,13 +96,14 @@ internal fun MessageInput(
         value = textContent,
         onValueChange = { onTextChanged(it) },
         textStyle = TextStyle(
-            color = textColor
+            color = textColor,
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
-            imeAction = ImeAction.Send
+            imeAction = ImeAction.Default
         ),
         keyboardActions = keyboardActions,
+        cursorBrush = SolidColor(ChatCompositeTheme.colors.unreadMessageIndicatorBackground),
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier

@@ -39,9 +39,10 @@ internal fun UnreadMessagesIndicatorView(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_down_16_filled),
+                    contentDescription = null,
                     modifier = Modifier.height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
                         .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPadding),
-                    contentDescription = null
+                    tint = ChatCompositeTheme.colors.content,
                 )
             },
             text = {

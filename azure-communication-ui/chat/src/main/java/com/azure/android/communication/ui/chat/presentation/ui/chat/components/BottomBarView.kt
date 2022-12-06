@@ -59,7 +59,7 @@ private fun sendButtonOnclick(postAction: (Action) -> Unit, messageInputTextStat
                 id = null,
                 messageType = ChatMessageType.TEXT,
                 internalId = null,
-                content = messageInputTextState.value,
+                content = messageInputTextState.value.trim(),
                 isCurrentUser = true
             )
         )
