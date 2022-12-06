@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.chat.presentation.style
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -16,7 +16,6 @@ import com.microsoft.fluentui.theme.token.AliasTokens
 
 @Composable
 internal fun ChatCompositeTheme(
-    primaryColor: Int = 0xFFFFFFFF.toInt(),
     themeMode: ThemeMode = ThemeMode.Auto,
     content: @Composable () -> Unit,
 ) {
@@ -33,16 +32,7 @@ internal fun ChatCompositeTheme(
             fontSize = fluentTypography[AliasTokens.TypographyTokens.Title1].fontSize.size
         )
     )
-    // TODO: determine which colors to use from FluentTheme before adding them to CompositionLocalProvider
-    val acsChatColors = ChatCompositeColors(
-        content = Color(0xFFDD0D3C),
-        component = Color(0xFFC20029),
-        background = Color.White,
-        textColor = Color(0xFF212121),
-        outlineColor = Color(0xFFE1E1E1),
-        messageBackgroundSelf = Color(0xFFDEECF9),
-        messageBackground = Color(primaryColor),
-    )
+
     val acsChatShapes = ChatCompositeShapes(
         messageBubble = RoundedCornerShape(4.dp),
         unreadMessagesIndicator = RoundedCornerShape(100.dp)
@@ -52,12 +42,16 @@ internal fun ChatCompositeTheme(
         LocalChatCompositeTypography provides customTypography,
         LocalChatCompositeShapes provides acsChatShapes
     ) {
+
         FluentTheme(
             themeMode = themeMode,
-            content = content
+            content = content,
+
         )
     }
 }
+
+// TODO: Figure out icon colors
 
 // Usage: ChatCompositeTheme.typography.body
 internal object ChatCompositeTheme {
@@ -67,9 +61,11 @@ internal object ChatCompositeTheme {
     val typography: ChatCompositeTypography
         @Composable
         get() = LocalChatCompositeTypography.current
+
     val colors: ChatCompositeColors
         @Composable
-        get() = ChatCompositeColorPalette.current
+        get() = if (isSystemInDarkTheme()) ChatCompositeColorPaletteDark.current else ChatCompositeColorPaletteLight.current
+
     val shapes: ChatCompositeShapes
         @Composable
         get() = LocalChatCompositeShapes.current

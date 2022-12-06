@@ -23,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.redux.action.Action
@@ -37,20 +36,23 @@ internal fun ActionBarView(
     postAction: (Action) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
+        val brushColor: Color = ChatCompositeTheme.colors.outlineColor
+
         TopAppBar(
             modifier = Modifier.drawWithContent {
                 drawContent()
+
                 clipRect {
                     val y = size.height
                     drawLine(
-                        brush = SolidColor(Color("#E1E1E1".toColorInt())),
+                        brush = SolidColor(brushColor),
                         cap = StrokeCap.Square,
                         start = Offset.Zero.copy(y = y),
                         end = Offset(x = size.width, y = y)
                     )
                 }
             },
-            backgroundColor = Color.White,
+            backgroundColor = ChatCompositeTheme.colors.background,
             title = {
                 var modifier = Modifier.padding(start = 90.dp)
                 if (onTitleClicked != null) {
@@ -65,12 +67,14 @@ internal fun ActionBarView(
                         text = title,
                         textAlign = TextAlign.Center,
                         style = ChatCompositeTheme.typography.title
+                            .copy(color = ChatCompositeTheme.colors.textColor)
                     )
                     if (subTitle != null) {
                         Text(
                             text = subTitle,
                             textAlign = TextAlign.Center,
                             style = ChatCompositeTheme.typography.body
+                                .copy(color = ChatCompositeTheme.colors.textColor)
                         )
                     }
                 }

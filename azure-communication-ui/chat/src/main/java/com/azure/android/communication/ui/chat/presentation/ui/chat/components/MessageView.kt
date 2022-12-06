@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -133,7 +134,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                             if (viewModel.showUsername) {
                                 BasicText(
                                     viewModel.message.senderDisplayName ?: "Unknown Sender",
-                                    style = ChatCompositeTheme.typography.messageHeader,
+                                    style = ChatCompositeTheme.typography.messageHeader.copy(color = ChatCompositeTheme.colors.textColor),
                                     modifier = Modifier.padding(PaddingValues(end = ChatCompositeTheme.dimensions.messageUsernamePaddingEnd))
                                 )
                             }
@@ -147,10 +148,13 @@ private fun BasicChatMessage(viewModel: MessageViewModel) {
                         }
                     }
                     if (viewModel.message.messageType == ChatMessageType.HTML) {
-                        HtmlText(html = viewModel.message.content ?: "Empty")
+                        HtmlText(
+                            html = viewModel.message.content ?: "Empty",
+                        )
                     } else {
                         BasicText(
-                            text = viewModel.message.content ?: "Empty"
+                            text = viewModel.message.content ?: "Empty",
+                            style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor)
                         )
                     }
                 }

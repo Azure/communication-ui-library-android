@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -48,6 +49,7 @@ internal fun ChatScreen(
     val listState = rememberLazyListState()
 
     Scaffold(
+        backgroundColor = ChatCompositeTheme.colors.background,
         scaffoldState = scaffoldState,
         topBar = {
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
@@ -73,8 +75,8 @@ internal fun ChatScreen(
         content = { paddingValues ->
             if (viewModel.showError) {
                 Column {
-                    BasicText("ERROR")
-                    BasicText(viewModel.errorMessage)
+                    BasicText("ERROR", style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor))
+                    BasicText(viewModel.errorMessage, style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor))
                 }
             } else if (viewModel.isLoading) {
                 Box(
