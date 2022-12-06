@@ -4,12 +4,9 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
-import androidx.core.text.HtmlCompat
-import androidx.core.text.toSpannable
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
@@ -27,25 +24,11 @@ internal class MessageViewModel(
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
     val isRead: Boolean,
-) {
-    // An Accessibility Message Description for a message
-    fun accessibilityMessage(context: Context): String {
-        var result = ""
-        if (showTime) {
-            result += "$dateHeaderText, "
-        }
-        if (showUsername) {
-            result += "${message.senderDisplayName}, "
-        }
 
-        result += when (message.messageType) {
-            ChatMessageType.TEXT -> ", " + message.content
-            ChatMessageType.HTML -> ", " + HtmlCompat.fromHtml(message.content ?: "", HtmlCompat.FROM_HTML_MODE_LEGACY).toSpannable().toString()
-            else -> ""
-        }
-        return ""
-    }
+) {
+    val isVisible get() = message.deletedOn == null
 }
+
 internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,
     localUserIdentifier: String,

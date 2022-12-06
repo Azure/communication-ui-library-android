@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.chat.redux.middleware.repository.Messa
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatServiceListener
+import com.azure.android.communication.ui.chat.redux.reducer.AccessibilityReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
@@ -37,6 +38,7 @@ import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
 import com.azure.android.communication.ui.chat.service.sdk.ChatFetchNotificationHandler
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.chat.utilities.TestHelper
+import com.azure.android.communication.ui.chat.utilities.announceForAccessibility
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 internal class ChatContainer(
@@ -147,7 +149,10 @@ internal class ChatContainer(
                         errorReducer = ErrorReducerImpl(),
                         navigationReducer = NavigationReducerImpl(),
                         repositoryReducer = RepositoryReducerImpl(),
-                        networkReducer = NetworkReducerImpl()
+                        networkReducer = NetworkReducerImpl(),
+                        accessibilityReducer = AccessibilityReducerImpl(context) {
+                            announceForAccessibility(context, it)
+                        },
                     ) as Reducer<ReduxState>,
                     middlewares = mutableListOf(
                         ChatMiddlewareImpl(

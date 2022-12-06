@@ -47,17 +47,20 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
-    val context = LocalContext.current
+    if (!viewModel.isVisible) {
+        return
+    }
     Column(
         modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding).semantics(mergeDescendants = true) {
-            contentDescription = viewModel.accessibilityMessage(context)
+            // Despite the "", it's still merging/reading the children as they are on
+            // the screen.
+            contentDescription = ""
         },
     ) {
 
         // Date Header Part
         if (viewModel.dateHeaderText != null) {
             Box(
-
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -117,7 +120,7 @@ private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<Str
     ) {
         Icon(
             painter = painterResource(id = icon),
-            contentDescription = text,
+            contentDescription = null,
             tint = ChatCompositeTheme.colors.systemIconColor
         )
         BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
