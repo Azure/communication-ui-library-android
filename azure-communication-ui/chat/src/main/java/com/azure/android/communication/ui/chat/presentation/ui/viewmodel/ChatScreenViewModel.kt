@@ -16,7 +16,6 @@ import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
-import kotlin.math.max
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -90,5 +89,4 @@ private fun getUnReadMessagesCount(
         selfCount++
     }
     return if (internalLastReadIndex == -1) 0 else messages.size - internalLastReadIndex - 1 - selfCount
-
 }
