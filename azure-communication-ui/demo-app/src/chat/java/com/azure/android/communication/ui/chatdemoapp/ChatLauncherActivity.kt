@@ -102,6 +102,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         this.onBackPressedDispatcher.addCallback {
             if (chatView != null) {
+                this.isEnabled = false
                 onChatCompositeExitRequested()
             } else {
                 this.handleOnBackPressed()
