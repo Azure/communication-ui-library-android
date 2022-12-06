@@ -142,7 +142,6 @@ class ChatLauncherActivity : AppCompatActivity() {
         // Create Chat Composite View
         chatView = ChatCompositeView(this, chatAdapter)
 
-
         binding.setupScreen.visibility = View.GONE
         addContentView(
             chatView,
