@@ -1,20 +1,8 @@
-![Hero Image](../../docs/media/mobile-ui-library-hero-image.png)
+![Hero Image](../../docs/media/mobile-ui-library-chat-hero-image.png)
 
 # Azure Communication UI Mobile Library for Android
 
-Azure Communication [UI Mobile Library](https://docs.microsoft.com/en-us/azure/communication-services/concepts/ui-library/ui-library-overview) is an Azure Communication Services capability focused on providing UI components for common business-to-consumer and business-to-business calling interactions.
-
-## Getting Started
-
-Get started with Azure Communication Chat Services by using the UI Library to integrate communication experiences into your applications. For detailed instructions to quickly integrate the UI Library functionalities visit the [Quick-start Documentation](Chat-Quick-Start).
-
-
-### Prerequisites
-
-- An Azure account with an active subscription. [Create an account for free](https://azure.microsoft.com/free/?WT.mc_id=A261C142F).
-- An OS running [Android Studio](https://developer.android.com/studio).
-- A deployed Communication Services resource. [Create a Communication Services resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource).
-- Azure Communication Services Token. [See example](https://docs.microsoft.com/azure/communication-services/tutorials/trusted-service-tutorial)
+Get started with Azure Communication Chat Services by using the UI Library to integrate communication experiences into your applications. For instructions to quickly integrate the UI Library functionalities, please follow our guide below.
 
 
 ### Install the packages
@@ -89,13 +77,15 @@ final ChatCompositeRemoteOptions remoteOptions =
 chatComposite.launch(chatLauncherActivity, remoteOptions, null);
 ```
 
-For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-mobileui/index.html).
+Chat screen is supported as both composite and an independent view which supports view binding and enables the application developers to integrate the chat capabilities in their application in either way. For example, anyone can launch ChatComposite in either the application activity or on any inflated view. You can find the detail of using and developing the UI Library in the [Demo Guide](../../azure-communication-ui/demo-app).
+
+For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-mobileui/index.html). 
 
 
 ## Contributing to the Library
 
 Before developing and contributing to Communication Mobile UI Library, check out our [making a contribution guide](../../docs/contributing-guide.md).  
-Included in this repository is a demo of using Mobile UI Library to start a call and to start a chat. You can find the detail of using and developing the UI Library in the [Demo Guide](../../azure-communication-ui/demo-app).
+Included in this repository is a demo of using Mobile UI Library to start a call and to start a chat.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments. Also, please check our [Contribution Policy](../../docs/contributing-guide.md). 
 
