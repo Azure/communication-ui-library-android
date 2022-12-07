@@ -100,11 +100,12 @@ internal class LeaveConfirmView(
                     BottomCellItemType.BottomMenuTitle,
                     null
                 ),
+
                 // Leave
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_calling_leave_confirm_telephone_21_10
+                        R.drawable.azure_communication_ui_calling_leave_confirm_telephone_24
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
                     null,
@@ -117,11 +118,12 @@ internal class LeaveConfirmView(
                 ) {
                     viewModel.confirm()
                 },
+
                 // Cancel
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_16_regular
+                        R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_24
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
                     null,
