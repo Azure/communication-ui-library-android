@@ -18,7 +18,7 @@ Get started with Azure Communication Services by using the UI Library to integra
 - Azure Communication Services Token. [See example](https://docs.microsoft.com/azure/communication-services/tutorials/trusted-service-tutorial)
 
 
-### Libraries
+## Libraries
 
 Azure Communication Service Mobile UI currently offers the following libraries:
 
