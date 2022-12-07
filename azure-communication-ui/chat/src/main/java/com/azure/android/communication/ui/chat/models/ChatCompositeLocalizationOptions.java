@@ -4,14 +4,14 @@
 
 package com.azure.android.communication.ui.chat.models;
 
-import com.azure.android.communication.ui.chat.ChatAdapter;
+import com.azure.android.communication.ui.chat.ChatUIClient;
 
 import java.util.Locale;
 
 /**
- * Localization configuration to provide for {@link ChatAdapter}.
+ * Localization configuration to provide for {@link ChatUIClient}.
  *
- * @see ChatAdapter
+ * @see ChatUIClient
  */
 final class ChatCompositeLocalizationOptions {
     private final Locale locale;

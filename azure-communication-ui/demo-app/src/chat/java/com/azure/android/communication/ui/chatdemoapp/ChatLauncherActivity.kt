@@ -20,8 +20,8 @@ import androidx.core.view.get
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
-import com.azure.android.communication.ui.chat.ChatAdapter
-import com.azure.android.communication.ui.chat.presentation.ChatCompositeView
+import com.azure.android.communication.ui.chat.ChatUIClient
+import com.azure.android.communication.ui.chat.presentation.ChatThreadView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
@@ -54,7 +54,6 @@ class ChatLauncherActivity : AppCompatActivity() {
                 Crashes::class.java,
                 Distribute::class.java
             )
-            Distribute.checkForUpdate()
         }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)
@@ -137,10 +136,10 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun showChatUI() {
-        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+        val chatThreadAdapter = chatLauncherViewModel.chatThreadAdapter!!
 
         // Create Chat Composite View
-        chatView = ChatCompositeView(this, chatAdapter)
+        chatView = ChatThreadView(this, chatThreadAdapter)
 
         binding.setupScreen.visibility = View.GONE
         addContentView(
@@ -153,7 +152,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun showChatUIActivity() {
-        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+        val chatAdapter = chatLauncherViewModel.chatUIClient!!
 
         val activityLauncherClass =
             Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
@@ -161,7 +160,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         constructor.isAccessible = true
         val instance = constructor.newInstance(this)
         val launchMethod =
-            activityLauncherClass.getDeclaredMethod("launch", ChatAdapter::class.java)
+            activityLauncherClass.getDeclaredMethod("launch", ChatUIClient::class.java)
         launchMethod.isAccessible = true
         launchMethod.invoke(instance, chatAdapter)
     }
