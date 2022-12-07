@@ -24,7 +24,7 @@ internal class ChatReducerUnitTest {
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState =
             ChatState(
-                ChatStatus.NONE, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -45,7 +45,7 @@ internal class ChatReducerUnitTest {
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState =
             ChatState(
-                ChatStatus.NONE, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -66,7 +66,7 @@ internal class ChatReducerUnitTest {
         val chatInfoModel = ChatInfoModel(threadId = "", topic = "Previous Chat topic")
         val previousState =
             ChatState(
-                ChatStatus.NONE, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -75,7 +75,7 @@ internal class ChatReducerUnitTest {
         val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "New Chat topic")
         val afterState =
             ChatState(
-                ChatStatus.NONE, afterChatInfoModel, "", "",
+                ChatStatus.NONE, afterChatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -95,7 +95,7 @@ internal class ChatReducerUnitTest {
         val chatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = false)
         val previousState =
             ChatState(
-                ChatStatus.NONE, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -104,7 +104,7 @@ internal class ChatReducerUnitTest {
         val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = true)
         val afterState =
             ChatState(
-                ChatStatus.NONE, afterChatInfoModel, "", "",
+                ChatStatus.NONE, afterChatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -130,7 +130,7 @@ internal class ChatReducerUnitTest {
         )
         val previousState =
             ChatState(
-                ChatStatus.NONE, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -146,7 +146,7 @@ internal class ChatReducerUnitTest {
         )
         val afterState =
             ChatState(
-                ChatStatus.NONE, afterChatInfoModel, "", "",
+                ChatStatus.NONE, afterChatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
