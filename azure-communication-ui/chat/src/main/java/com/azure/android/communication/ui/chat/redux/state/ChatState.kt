@@ -18,6 +18,5 @@ internal data class ChatState(
     val chatStatus: ChatStatus,
     val chatInfoModel: ChatInfoModel,
     val lastReadMessageId: String,
-    val lastSendMessageId: String,
     val messageContextMenu: MessageContextMenuModel,
 )
