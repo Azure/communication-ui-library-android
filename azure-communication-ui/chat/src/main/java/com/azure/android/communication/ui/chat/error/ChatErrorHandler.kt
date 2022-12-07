@@ -39,7 +39,7 @@ internal class ChatErrorHandler(
                 null,
                 chatStateError?.cause,
             )
-            configuration.chatCompositeEventsHandler.getOnErrorHandlers()
+            configuration.eventHandlerRepository.getOnErrorHandlers()
                 .forEach { it.handle(eventArgs) }
         } catch (error: Throwable) {
             // suppress any possible application errors
