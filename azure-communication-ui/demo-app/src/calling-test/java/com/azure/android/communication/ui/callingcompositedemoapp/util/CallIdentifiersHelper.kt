@@ -13,9 +13,11 @@ class CallIdentifiersHelper {
         fun getGroupId() = UUID.randomUUID().toString()
         fun getACSToken(): String {
             val aadToken = TestFixture.aadToken
-            
-            return JSONObject(Fuel.get(TestFixture.tokenFunctionUrl).authentication().bearer(aadToken)
-                .responseString().component3().get()).getString("token")
+
+            return JSONObject(
+                Fuel.get(TestFixture.tokenFunctionUrl).authentication().bearer(aadToken)
+                    .responseString().component3().get()
+            ).getString("token")
         }
     }
 }

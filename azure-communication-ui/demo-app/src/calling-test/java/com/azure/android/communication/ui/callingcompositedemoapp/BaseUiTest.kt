@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.os.Build
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.microsoft.appcenter.espresso.Factory
