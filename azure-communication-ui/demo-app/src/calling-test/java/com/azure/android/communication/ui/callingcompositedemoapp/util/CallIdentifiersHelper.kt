@@ -5,9 +5,8 @@ package com.azure.android.communication.ui.callingcompositedemoapp.util
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.authentication
-import com.github.kittinunf.fuel.httpGet
 import org.json.JSONObject
-import java.util.*
+import java.util.UUID
 
 class CallIdentifiersHelper {
     companion object {
