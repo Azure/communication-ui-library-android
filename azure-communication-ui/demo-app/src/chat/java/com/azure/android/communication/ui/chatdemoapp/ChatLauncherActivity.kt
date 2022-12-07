@@ -16,6 +16,7 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
@@ -111,6 +112,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     // / When a request is made to close the view, lets do that here
     private fun onChatCompositeExitRequested() {
         // Remove chat view from screen
+        binding.setupScreen.visibility = View.VISIBLE
         chatView?.parent?.let {
             (it as ViewGroup).removeView(chatView)
         }
@@ -139,7 +141,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         // Create Chat Composite View
         chatView = ChatThreadView(this, chatThreadAdapter)
 
-        // Place it as a child element to any UI I have on the screen
+        binding.setupScreen.visibility = View.GONE
         addContentView(
             chatView,
             ViewGroup.LayoutParams(

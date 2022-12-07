@@ -30,14 +30,14 @@ internal class MessageViewTest : BaseUiTest() {
 
         // send message
         val message = "hello"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).performTextInput(message)
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON).performClick()
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX, true).performTextInput(message)
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON, true).performClick()
 
         // current system time
         val formattedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("h:mm a"))
 
         // assert message is cleared after send
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_TIME_CONTENT).assert(hasText(formattedDate))
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_TIME_CONTENT, true).assert(hasText(formattedDate))
     }
 
     @Test
@@ -50,14 +50,14 @@ internal class MessageViewTest : BaseUiTest() {
 
         // send message
         val message = "hello"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).performTextInput(message)
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON).performClick()
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX, true).performTextInput(message)
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON, true).performClick()
 
         val secondMessage = "HELLO"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).performTextInput(secondMessage)
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON).performClick()
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX, true).performTextInput(secondMessage)
+        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON, true).performClick()
 
         // assert message is cleared after send
-        composeTestRule.onAllNodesWithTag(UITestTags.MESSAGE_BASIC_CONTENT).assertAny(hasText(secondMessage))
+        composeTestRule.onAllNodesWithTag(UITestTags.MESSAGE_BASIC_CONTENT, true).assertAny(hasText(secondMessage))
     }
 }
