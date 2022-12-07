@@ -17,9 +17,6 @@ class CallIdentifiersHelper {
             
             return JSONObject(Fuel.get(TestFixture.tokenFunctionUrl).authentication().bearer(aadToken)
                 .responseString().component3().get()).getString("token")
-//            return JSONObject(TestFixture.tokenFunctionUrl.httpGet()
-//                                  .appendHeader("Authorization:Bearer ", aadToken).responseString()
-//                                  .component3().get()).getString("token")
         }
     }
 }
