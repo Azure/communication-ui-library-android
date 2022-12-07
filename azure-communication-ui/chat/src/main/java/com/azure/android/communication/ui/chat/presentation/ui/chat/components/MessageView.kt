@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
@@ -216,7 +217,8 @@ private fun messageContent(viewModel: MessageViewModel) {
             } else {
                 BasicText(
                     text = viewModel.message.content ?: "Empty",
-                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT)
+                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT),
+                    style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor)
                 )
             }
         }
