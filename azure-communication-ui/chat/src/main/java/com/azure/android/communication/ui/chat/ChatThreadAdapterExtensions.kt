@@ -3,6 +3,6 @@
 
 package com.azure.android.communication.ui.chat
 
-internal fun ChatUIClient.instanceIdAccessor(): Int {
-    return instanceId
+internal fun ChatThreadAdapter.getChatUIClient(): ChatUIClient {
+    return this.chatUIClient
 }
