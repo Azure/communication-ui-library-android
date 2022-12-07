@@ -29,18 +29,14 @@ internal class ChatErrorHandler(
     }
     private fun onStateChanged(state: ReduxState) {
         if (state.errorState.chatCompositeErrorEvent != null) {
-            chatStateErrorCallback(state.errorState.chatCompositeErrorEvent)
+            chatStateErrorCallback(state.errorState.chatCompositeErrorEvent!!)
         }
     }
 
-    private fun chatStateErrorCallback(chatStateError: ChatCompositeErrorEvent?) {
+    private fun chatStateErrorCallback(chatStateError: ChatCompositeErrorEvent) {
         try {
-            val eventArgs = ChatCompositeErrorEvent(
-                null,
-                chatStateError?.cause,
-            )
             configuration.eventHandlerRepository.getOnErrorHandlers()
-                .forEach { it.handle(eventArgs) }
+                .forEach { it.handle(chatStateError) }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }

@@ -7,6 +7,7 @@ package com.azure.android.communication.ui.chat.models;
  * Event with error type and caused throwable.
  */
 public final class ChatCompositeErrorEvent {
+    private final String threadId;
     private final Throwable cause;
     private final ChatCompositeErrorCode code;
 
@@ -17,8 +18,10 @@ public final class ChatCompositeErrorEvent {
      * @param cause Throwable that caused an exception.
      */
     public ChatCompositeErrorEvent(
+            final String threadId,
             final ChatCompositeErrorCode code,
             final Throwable cause) {
+        this.threadId = threadId;
         this.cause = cause;
         this.code = code;
     }
@@ -28,8 +31,8 @@ public final class ChatCompositeErrorEvent {
      *
      * @param code  Error code {@link ChatCompositeErrorCode}.
      */
-    public ChatCompositeErrorEvent(final ChatCompositeErrorCode code) {
-        this(code, null);
+    public ChatCompositeErrorEvent(final String threadId, final ChatCompositeErrorCode code) {
+        this(threadId, code, null);
     }
 
     /**
@@ -51,5 +54,13 @@ public final class ChatCompositeErrorEvent {
      */
     public ChatCompositeErrorCode getErrorCode() {
         return code;
+    }
+
+    /**
+     * Returns threadId associated with error.
+     * @return
+     */
+    public String getThreadId() {
+        return threadId;
     }
 }
