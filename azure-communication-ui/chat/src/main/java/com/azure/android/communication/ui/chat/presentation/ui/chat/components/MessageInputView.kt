@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.azure.android.communication.ui.chat.R
@@ -100,6 +101,7 @@ internal fun MessageInput(
         ),
         singleLine = false,
         keyboardActions = keyboardActions,
+        cursorBrush = SolidColor(ChatCompositeTheme.colors.unreadMessageIndicatorBackground),
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier

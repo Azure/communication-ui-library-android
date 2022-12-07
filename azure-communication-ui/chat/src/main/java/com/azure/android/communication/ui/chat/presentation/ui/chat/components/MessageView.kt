@@ -16,7 +16,10 @@ import androidx.compose.foundation.layout.width
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -214,7 +217,8 @@ private fun messageContent(viewModel: MessageViewModel) {
             } else {
                 BasicText(
                     text = viewModel.message.content ?: "Empty",
-                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT)
+                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT),
+                    style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor)
                 )
             }
         }
@@ -223,13 +227,23 @@ private fun messageContent(viewModel: MessageViewModel) {
 
 @Composable
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
+
+    val textColor = ChatCompositeTheme.colors.textColor
+    val textSize = ChatCompositeTheme.typography.messageBody.fontSize
+    val formattedText = remember(html) {
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            TextView(context)
+            TextView(context).apply {
+                this.setTextColor(textColor.hashCode())
+                this.textSize = textSize.value
+            }
         },
         update = {
-            it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            it.text = formattedText
         }
     )
 }
