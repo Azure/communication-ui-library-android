@@ -51,7 +51,8 @@ internal class ChatServiceListener(
 
         coroutineScope.launch {
             chatService.getMessagesPageSharedFlow()?.collect {
-                onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch, store.getCurrentState())
+                val threadId = store.getCurrentState().chatState.chatInfoModel.threadId
+                onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch, threadId)
             }
         }
 
@@ -74,11 +75,10 @@ internal class ChatServiceListener(
     private fun onMessagesPageModelReceived(
         messagesPageModel: MessagesPageModel,
         dispatch: Dispatch,
-        state: ReduxState
+        threadId: String
     ) {
 
         messagesPageModel.throwable?.let {
-            val threadId = state.chatState.chatInfoModel.threadId
             val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.FETCH_MESSAGES_FAILED, null)
             // TODO: lets use only one action and state to fire error for timing
             // TODO: while working on error stories, we can create separate states for every error
