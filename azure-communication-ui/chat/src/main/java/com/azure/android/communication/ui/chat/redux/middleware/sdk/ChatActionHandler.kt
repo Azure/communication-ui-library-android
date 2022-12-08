@@ -169,7 +169,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         try {
             chatService.initialize()
             chatService.getAdminUserId()?.let {
-                dispatch.invoke(ParticipantAction.MaskedParticipantsReceived(it))
+                dispatch.invoke(ParticipantAction.ParticipantToHideReceived(it))
             }
         } catch (ex: Exception) {
             val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.JOIN_FAILED, ex)

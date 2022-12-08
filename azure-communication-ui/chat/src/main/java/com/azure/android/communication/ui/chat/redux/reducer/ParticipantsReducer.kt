@@ -97,11 +97,11 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                     latestReadMessageTimestamp = latestReadMessageTimestamp
                 )
             }
-            is ParticipantAction.MaskedParticipantsReceived -> {
-                val maskedParticipantSet = state.maskedParticipant.toMutableSet()
+            is ParticipantAction.ParticipantToHideReceived -> {
+                val maskedParticipantSet = state.hiddenParticipant.toMutableSet()
                 maskedParticipantSet.add(action.id)
                 state.copy(
-                    maskedParticipant = maskedParticipantSet
+                    hiddenParticipant = maskedParticipantSet
                 )
             }
             else -> state

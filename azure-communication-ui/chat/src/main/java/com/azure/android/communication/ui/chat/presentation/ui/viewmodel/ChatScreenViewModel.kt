@@ -56,7 +56,7 @@ internal fun buildChatScreenViewModel(
             context,
             localUserIdentifier,
             store.getCurrentState().participantState.latestReadMessageTimestamp,
-            store.getCurrentState().participantState.maskedParticipant
+            store.getCurrentState().participantState.hiddenParticipant
         ),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,

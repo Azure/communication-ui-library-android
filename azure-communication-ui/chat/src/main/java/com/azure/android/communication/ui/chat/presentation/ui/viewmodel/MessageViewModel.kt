@@ -34,14 +34,14 @@ internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,
     localUserIdentifier: String,
     latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN,
-    maskedParticipant: Set<String>
+    hiddenParticipant: Set<String>
 ) =
     InfoModelToViewModelAdapter(
         context,
         this,
         localUserIdentifier,
         latestReadMessageTimestamp,
-        maskedParticipant
+        hiddenParticipant
     ) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
@@ -49,7 +49,7 @@ private class InfoModelToViewModelAdapter(
     private val messages: List<MessageInfoModel>,
     private val localUserIdentifier: String,
     private val latestReadMessageTimestamp: OffsetDateTime,
-    private val maskedParticipant: Set<String>,
+    private val hiddenParticipant: Set<String>,
 ) :
     List<MessageViewModel> {
 
@@ -90,7 +90,7 @@ private class InfoModelToViewModelAdapter(
             isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp),
             isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
                 messages[index].participants.size == 1 &&
-                maskedParticipant.contains(messages[index].participants.first().userIdentifier.id)
+                hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id)
         )
     }
 

@@ -13,5 +13,5 @@ internal data class ParticipantsState(
     val participantsReadReceiptMap: Map<String, OffsetDateTime>,
     val latestReadMessageTimestamp: OffsetDateTime,
     val localParticipantInfoModel: LocalParticipantInfoModel,
-    val maskedParticipant: Set<String>,
+    val hiddenParticipant: Set<String>,
 )

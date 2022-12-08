@@ -177,7 +177,7 @@ internal fun ChatScreenPreview() {
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                messages = MOCK_MESSAGES.toViewModelList(context = LocalContext.current, localUserIdentifier = MOCK_LOCAL_USER_ID, maskedParticipant = mutableSetOf()),
+                messages = MOCK_MESSAGES.toViewModelList(context = LocalContext.current, localUserIdentifier = MOCK_LOCAL_USER_ID, hiddenParticipant = mutableSetOf()),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 areMessagesLoading = true,

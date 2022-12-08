@@ -74,7 +74,7 @@ internal fun ParticipantScreenPreview() {
                 messages = MOCK_MESSAGES.toViewModelList(
                     context = LocalContext.current,
                     localUserIdentifier = MOCK_LOCAL_USER_ID,
-                    maskedParticipant = mutableSetOf()
+                    hiddenParticipant = mutableSetOf()
                 ),
                 areMessagesLoading = false,
                 chatStatus = ChatStatus.INITIALIZED,
