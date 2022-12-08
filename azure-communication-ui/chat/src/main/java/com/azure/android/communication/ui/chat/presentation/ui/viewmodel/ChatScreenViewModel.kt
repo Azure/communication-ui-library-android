@@ -55,7 +55,8 @@ internal fun buildChatScreenViewModel(
         messages = messages.toViewModelList(
             context,
             localUserIdentifier,
-            store.getCurrentState().participantState.latestReadMessageTimestamp
+            store.getCurrentState().participantState.latestReadMessageTimestamp,
+            store.getCurrentState().participantState.hiddenParticipant
         ),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
@@ -69,7 +70,7 @@ internal fun buildChatScreenViewModel(
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
         messageContextMenu = store.getCurrentState().chatState.messageContextMenu ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
         sendMessageEnabled = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
-            store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED
+            store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED,
     )
 }
 

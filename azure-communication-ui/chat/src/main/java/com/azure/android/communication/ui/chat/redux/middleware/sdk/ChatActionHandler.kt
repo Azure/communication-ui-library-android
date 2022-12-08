@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.action.NetworkAction
+import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.NetworkStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.ChatService
@@ -167,6 +168,9 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private fun initialization(dispatch: Dispatch, threadId: String) {
         try {
             chatService.initialize()
+            chatService.getAdminUserId()?.let {
+                dispatch.invoke(ParticipantAction.ParticipantToHideReceived(it))
+            }
         } catch (ex: Exception) {
             val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.JOIN_FAILED, ex)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))

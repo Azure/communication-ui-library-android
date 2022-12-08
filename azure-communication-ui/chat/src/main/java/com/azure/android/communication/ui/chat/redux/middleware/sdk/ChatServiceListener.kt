@@ -86,6 +86,7 @@ internal class ChatServiceListener(
         }
 
         messagesPageModel.messages?.let {
+            val id = chatService.getAdminUserId()
             dispatch(ChatAction.MessagesPageReceived(messages = it))
         }
 
@@ -97,7 +98,7 @@ internal class ChatServiceListener(
     private fun handleInfoModel(
         it: ChatEventModel,
         dispatch: Dispatch,
-        localParticipantInfoModel: LocalParticipantInfoModel
+        localParticipantInfoModel: LocalParticipantInfoModel,
     ) {
         when (it.infoModel) {
             is MessageInfoModel -> {
@@ -150,14 +151,20 @@ internal class ChatServiceListener(
             is RemoteParticipantsInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.PARTICIPANTS_ADDED -> {
-                        dispatch(ParticipantAction.ParticipantsAdded(participants = it.infoModel.participants))
+                        // remove admin user from chat
+                        val joinedParticipants =
+                            it.infoModel.participants.filter { it.userIdentifier.id != chatService.getAdminUserId() }
+                        dispatch(ParticipantAction.ParticipantsAdded(participants = joinedParticipants))
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
 
                         dispatch(
                             ParticipantAction.ParticipantsRemoved(
                                 participants = it.infoModel.participants,
-                                localParticipantRemoved = isLocalParticipantRemoved(it.infoModel.participants, localParticipantInfoModel)
+                                localParticipantRemoved = isLocalParticipantRemoved(
+                                    it.infoModel.participants,
+                                    localParticipantInfoModel
+                                )
                             )
                         )
                     }
@@ -167,6 +174,9 @@ internal class ChatServiceListener(
         }
     }
 
-    private fun isLocalParticipantRemoved(participants: List<RemoteParticipantInfoModel>, localParticipantInfoModel: LocalParticipantInfoModel) =
+    private fun isLocalParticipantRemoved(
+        participants: List<RemoteParticipantInfoModel>,
+        localParticipantInfoModel: LocalParticipantInfoModel,
+    ) =
         participants.any { it.userIdentifier.id == localParticipantInfoModel.userIdentifier }
 }

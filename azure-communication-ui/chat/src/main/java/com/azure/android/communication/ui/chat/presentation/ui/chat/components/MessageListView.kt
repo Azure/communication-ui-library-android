@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getSystemService
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -190,7 +189,11 @@ internal fun PreviewMessageListView() {
         MessageListView(
             showLoading = false,
             modifier = Modifier.padding(0.dp),
-            messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
+            messages = MOCK_MESSAGES.toViewModelList(
+                context = LocalContext.current,
+                localUserIdentifier = MOCK_LOCAL_USER_ID,
+                hiddenParticipant = mutableSetOf()
+            ),
             scrollState = LazyListState()
         ) {}
     }

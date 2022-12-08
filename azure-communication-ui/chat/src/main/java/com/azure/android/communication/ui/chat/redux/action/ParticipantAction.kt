@@ -18,4 +18,5 @@ internal sealed class ParticipantAction : Action {
         ParticipantAction()
 
     class ReadReceiptReceived(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
+    class ParticipantToHideReceived(val id: String) : ParticipantAction()
 }

@@ -135,7 +135,7 @@ internal class MessageRepositoryMiddlewareImpl(
         messageRepository.addMessage(
             MessageInfoModel(
                 internalId = System.currentTimeMillis().toString(),
-                participants = action.participants.map { it.displayName ?: "" },
+                participants = action.participants,
                 content = null,
                 createdOn = OffsetDateTime.now(),
                 senderDisplayName = null,
@@ -151,7 +151,6 @@ internal class MessageRepositoryMiddlewareImpl(
         dispatch: Dispatch,
     ) {
         val participants = action.participants.filter { it.userIdentifier.id != localUserId }
-            .map { it.displayName ?: "Participant" }
 
         if (participants.isNotEmpty()) {
             messageRepository.addMessage(
