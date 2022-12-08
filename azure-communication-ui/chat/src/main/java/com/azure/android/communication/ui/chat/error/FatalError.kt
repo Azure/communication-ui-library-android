@@ -3,7 +3,9 @@
 
 package com.azure.android.communication.ui.chat.error
 
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
+
 internal class FatalError(
     val fatalError: Throwable?,
-    val errorCode: ErrorCode?,
+    val chatCompositeErrorCode: ChatCompositeErrorCode?,
 )

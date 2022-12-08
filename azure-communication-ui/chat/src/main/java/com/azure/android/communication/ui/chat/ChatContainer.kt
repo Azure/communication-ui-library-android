@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat
 import android.content.Context
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.error.ChatErrorHandler
 import com.azure.android.communication.ui.chat.error.EventHandler
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.logger.DefaultLogger
@@ -33,9 +34,9 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
-import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
 import com.azure.android.communication.ui.chat.service.sdk.ChatFetchNotificationHandler
+import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.chat.utilities.TestHelper
 import com.azure.android.communication.ui.chat.utilities.announceForAccessibility
@@ -82,6 +83,7 @@ internal class ChatContainer(
                     locate<Dispatch>()(ChatAction.StartChat())
                     locate<NetworkManager>().start(context)
                     locate<EventHandler>().start()
+                    locate<ChatErrorHandler>().start()
                 }
         }
     }
@@ -178,11 +180,20 @@ internal class ChatContainer(
                     configuration = configuration,
                 )
             }
+
+            addTypedBuilder {
+                ChatErrorHandler(
+                    coroutineContextProvider = locate(),
+                    store = locate(),
+                    configuration = configuration,
+                )
+            }
             addTypedBuilder<Logger> { DefaultLogger() }
         }
 
     fun stop() {
         locator?.locate<EventHandler>()?.stop()
+        locator?.locate<ChatErrorHandler>()?.stop()
         locator?.locate<ChatSDKWrapper>()?.destroy()
         locator?.locate<ChatServiceListener>()?.unsubscribe()
         locator?.locate<AppStore<ReduxState>>()?.end()

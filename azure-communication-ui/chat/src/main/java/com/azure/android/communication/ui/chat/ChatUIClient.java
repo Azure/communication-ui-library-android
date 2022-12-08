@@ -59,7 +59,7 @@ public final class ChatUIClient {
      * @param errorHandler The {@link ChatCompositeEventHandler}.
      */
     public void addOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
-
+        configuration.getEventHandlerRepository().addOnErrorEventHandler(errorHandler);
     }
 
     /**
@@ -71,7 +71,7 @@ public final class ChatUIClient {
      * @param errorHandler The {@link ChatCompositeEventHandler}.
      */
     public void removeOnErrorEventHandler(final ChatCompositeEventHandler<ChatCompositeErrorEvent> errorHandler) {
-
+        configuration.getEventHandlerRepository().removeOnErrorEventHandler(errorHandler);
     }
 
     String getEndpoint() {

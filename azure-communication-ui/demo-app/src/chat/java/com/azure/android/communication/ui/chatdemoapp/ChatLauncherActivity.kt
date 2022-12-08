@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.ChatUIClient
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.presentation.ChatThreadView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
@@ -178,7 +179,8 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         try {
             chatLauncherViewModel.launch(
-                this,
+                context = this,
+                errorHandler = { handleError(it) },
                 endpoint,
                 acsIdentity,
                 threadId,
@@ -229,5 +231,13 @@ class ChatLauncherActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun handleError(eventArgs: ChatCompositeErrorEvent) {
+        println("================= application is logging error =====================")
+        println(eventArgs.cause)
+        println(eventArgs.errorCode)
+        showAlert("${eventArgs.cause}")
+        println("====================================================================")
     }
 }

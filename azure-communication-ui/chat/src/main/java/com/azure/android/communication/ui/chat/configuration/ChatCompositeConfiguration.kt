@@ -6,6 +6,5 @@ package com.azure.android.communication.ui.chat.configuration
 internal class ChatCompositeConfiguration {
     var chatConfig: ChatConfiguration? = null
 
-    var eventHandlerRepository: ChatCompositeEventHandlerRepository =
-        ChatCompositeEventHandlerRepository()
+    var eventHandlerRepository = ChatCompositeEventHandlerRepository()
 }
