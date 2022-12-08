@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
-import com.azure.android.communication.ui.chat.error.ChatStateError
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
@@ -26,7 +26,7 @@ internal data class ChatScreenViewModel(
     var buildCount: Int,
     var unreadMessagesCount: Int = 0,
     val postAction: (Action) -> Unit,
-    private val error: ChatStateError? = null,
+    private val error: ChatCompositeErrorEvent? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
@@ -61,7 +61,7 @@ internal fun buildChatScreenViewModel(
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         unreadMessagesCount = getUnReadMessagesCount(store, messages),
-        error = store.getCurrentState().errorState.chatStateError,
+        error = store.getCurrentState().errorState.chatCompositeErrorEvent,
         postAction = dispatch,
         typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
         participants = store.getCurrentState().participantState.participants,
