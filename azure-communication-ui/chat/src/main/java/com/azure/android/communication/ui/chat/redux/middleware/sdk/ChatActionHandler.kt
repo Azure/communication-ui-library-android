@@ -26,7 +26,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         System.currentTimeMillis() - SEND_TYPING_INDICATOR_INTERVAL_MILLIS
 
     fun onAction(action: Action, dispatch: Dispatch, state: ReduxState?) {
-        val threadId = state?.chatState?.chatInfoModel?.threadId?: ""
+        val threadId = state?.chatState?.chatInfoModel?.threadId ?: ""
         when (action) {
             is ChatAction.StartChat -> initialization(dispatch = dispatch, threadId)
             is ChatAction.Initialized -> onChatInitialized(
