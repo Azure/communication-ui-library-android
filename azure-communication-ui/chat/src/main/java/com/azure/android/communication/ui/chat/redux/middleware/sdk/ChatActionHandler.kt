@@ -68,7 +68,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
                             threadId,
-                            ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED
+                            ChatCompositeErrorCode.SEND_MESSAGE_FAILED
                         )
                     )
                 )
@@ -91,7 +91,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
                             threadId,
-                            ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED
+                            ChatCompositeErrorCode.SEND_MESSAGE_FAILED
                         )
                     )
                 )
@@ -114,7 +114,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                         ErrorAction.ChatStateErrorOccurred(
                             chatCompositeErrorEvent = ChatCompositeErrorEvent(
                                 threadId,
-                                ChatCompositeErrorCode.CHAT_SEND_EDIT_MESSAGE_FAILED
+                                ChatCompositeErrorCode.SEND_EDIT_MESSAGE_FAILED
                             )
                         )
                     )
@@ -133,7 +133,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
                             threadId,
-                            ChatCompositeErrorCode.CHAT_SEND_READ_RECEIPT_FAILED
+                            ChatCompositeErrorCode.SEND_READ_RECEIPT_FAILED
                         )
                     )
                 )
@@ -156,7 +156,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
                             threadId,
-                            ChatCompositeErrorCode.CHAT_SEND_TYPING_INDICATOR_FAILED
+                            ChatCompositeErrorCode.SEND_TYPING_INDICATOR_FAILED
                         )
                     )
                 )
@@ -168,7 +168,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         try {
             chatService.initialize()
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.CHAT_JOIN_FAILED, ex)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.JOIN_FAILED, ex)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }
@@ -178,13 +178,13 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             chatService.startEventNotifications()
             dispatch.invoke(ChatAction.FetchMessages())
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.START_EVENT_NOTIFICATIONS_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
         try {
             chatService.requestChatParticipants()
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.REQUEST_PARTICIPANTS_FETCH_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }

@@ -361,7 +361,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
             assertEquals(
                 argumentCaptor.firstValue.chatCompositeErrorEvent.errorCode,
-                ChatCompositeErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED
+                ChatCompositeErrorCode.START_EVENT_NOTIFICATIONS_FAILED
             )
         }
 
@@ -418,7 +418,7 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val chatError = argumentCaptor.secondValue as ErrorAction.ChatStateErrorOccurred
             assertEquals(
                 chatError.chatCompositeErrorEvent.errorCode,
-                ChatCompositeErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED
+                ChatCompositeErrorCode.REQUEST_PARTICIPANTS_FETCH_FAILED
             )
         }
 

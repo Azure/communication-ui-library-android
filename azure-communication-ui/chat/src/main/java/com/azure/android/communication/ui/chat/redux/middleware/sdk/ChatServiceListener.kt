@@ -79,7 +79,7 @@ internal class ChatServiceListener(
 
         messagesPageModel.throwable?.let {
             val threadId = state.chatState.chatInfoModel.threadId
-            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.CHAT_FETCH_MESSAGES_FAILED, null)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.FETCH_MESSAGES_FAILED, null)
             // TODO: lets use only one action and state to fire error for timing
             // TODO: while working on error stories, we can create separate states for every error
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))

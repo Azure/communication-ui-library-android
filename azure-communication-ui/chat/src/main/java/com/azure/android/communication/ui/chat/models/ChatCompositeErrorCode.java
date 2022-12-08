@@ -13,17 +13,17 @@ public final class ChatCompositeErrorCode extends ExpandableStringEnum<ChatCompo
      * Dispatched when the ACS Token supplied is no longer valid (expired).
      */
     public static final ChatCompositeErrorCode TOKEN_EXPIRED = fromString("tokenExpired");
-    public static final ChatCompositeErrorCode CHAT_JOIN_FAILED = fromString("chatJoinFailed");
-    public static final ChatCompositeErrorCode CHAT_SEND_MESSAGE_FAILED = fromString("chatSendMessageFailed");
-    public static final ChatCompositeErrorCode CHAT_START_EVENT_NOTIFICATIONS_FAILED =
-            fromString("chatStartEventNotificationsFailed");
-    public static final ChatCompositeErrorCode CHAT_FETCH_MESSAGES_FAILED = fromString("chatFetchMessagesFailed");
-    public static final ChatCompositeErrorCode CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED =
-            fromString("chatRequestParticipantsFetchFailed");
-    public static final ChatCompositeErrorCode CHAT_SEND_EDIT_MESSAGE_FAILED = fromString("chatSendEditMessageFailed");
-    public static final ChatCompositeErrorCode CHAT_SEND_READ_RECEIPT_FAILED = fromString("chatSendReadReceiptFailed");
-    public static final ChatCompositeErrorCode CHAT_SEND_TYPING_INDICATOR_FAILED =
-            fromString("chatSendTypingIndicatorFailed");
+    public static final ChatCompositeErrorCode JOIN_FAILED = fromString("joinFailed");
+    public static final ChatCompositeErrorCode SEND_MESSAGE_FAILED = fromString("sendMessageFailed");
+    public static final ChatCompositeErrorCode START_EVENT_NOTIFICATIONS_FAILED =
+            fromString("startEventNotificationsFailed");
+    public static final ChatCompositeErrorCode FETCH_MESSAGES_FAILED = fromString("fetchMessagesFailed");
+    public static final ChatCompositeErrorCode REQUEST_PARTICIPANTS_FETCH_FAILED =
+            fromString("requestParticipantsFetchFailed");
+    public static final ChatCompositeErrorCode SEND_EDIT_MESSAGE_FAILED = fromString("sendEditMessageFailed");
+    public static final ChatCompositeErrorCode SEND_READ_RECEIPT_FAILED = fromString("sendReadReceiptFailed");
+    public static final ChatCompositeErrorCode SEND_TYPING_INDICATOR_FAILED =
+            fromString("sendTypingIndicatorFailed");
 
     ChatCompositeErrorCode() {
     }
