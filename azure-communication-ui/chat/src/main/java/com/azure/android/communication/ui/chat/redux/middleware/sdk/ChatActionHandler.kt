@@ -25,8 +25,8 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private var lastTypingIndicatorNotificationSent =
         System.currentTimeMillis() - SEND_TYPING_INDICATOR_INTERVAL_MILLIS
 
-    fun onAction(action: Action, dispatch: Dispatch, state: ReduxState) {
-        val threadId = state.chatState.chatInfoModel.threadId
+    fun onAction(action: Action, dispatch: Dispatch, state: ReduxState?) {
+        val threadId = state?.chatState?.chatInfoModel?.threadId?: ""
         when (action) {
             is ChatAction.StartChat -> initialization(dispatch = dispatch, threadId)
             is ChatAction.Initialized -> onChatInitialized(
@@ -44,7 +44,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             is NetworkAction.Connected -> {
                 // this check will help prevent false fetch messages when library starts
                 // as state is updated later, once action go through middlewares
-                if (state.networkState.networkStatus == NetworkStatus.DISCONNECTED) {
+                if (state?.networkState?.networkStatus == NetworkStatus.DISCONNECTED) {
                     chatService.fetchMessages(from = state.networkState.disconnectOffsetDateTime)
                 }
             }
