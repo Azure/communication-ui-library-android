@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.chat.error
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
@@ -9,10 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 internal class ChatErrorHandler(
     coroutineContextProvider: CoroutineContextProvider,
     private val store: AppStore<ReduxState>,
