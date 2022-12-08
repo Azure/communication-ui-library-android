@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.error
 
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
@@ -18,6 +19,7 @@ internal class ChatErrorHandler(
     private val configuration: ChatCompositeConfiguration,
 ) {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
+    private var lastChatErrorEvent: ChatCompositeErrorEvent? = null
 
     fun start() {
         coroutineScope.launch(Dispatchers.Default) {
@@ -27,9 +29,10 @@ internal class ChatErrorHandler(
         }
     }
     private fun onStateChanged(state: ReduxState) {
-        if (state.errorState.chatCompositeErrorEvent != null) {
-            chatStateErrorCallback(state.errorState.chatCompositeErrorEvent!!)
-        }
+        checkIfCallStateErrorIsNewAndNotify(
+            state.errorState.chatCompositeErrorEvent,
+            lastChatErrorEvent,
+        ) { lastChatErrorEvent = it }
     }
 
     private fun chatStateErrorCallback(chatStateError: ChatCompositeErrorEvent) {
@@ -40,6 +43,25 @@ internal class ChatErrorHandler(
             // suppress any possible application errors
         }
     }
+
+    private fun checkIfCallStateErrorIsNewAndNotify(
+        newChatErrorEvent: ChatCompositeErrorEvent?,
+        lastChatErrorEvent: ChatCompositeErrorEvent?,
+        function: (ChatCompositeErrorEvent) -> Unit,
+    ) {
+        if (newChatErrorEvent != null && newChatErrorEvent != lastChatErrorEvent) {
+            if (shouldNotifyError(newChatErrorEvent)) {
+                function(newChatErrorEvent)
+                chatStateErrorCallback(newChatErrorEvent)
+            }
+        }
+    }
+
+    // TODO: Check the logic again when we need to expose more error
+    private fun shouldNotifyError(newCallStateError: ChatCompositeErrorEvent) =
+        newCallStateError.errorCode == ChatCompositeErrorCode.JOIN_FAILED ||
+            newCallStateError.errorCode == ChatCompositeErrorCode.TOKEN_EXPIRED
+
     fun stop() {
         coroutineScope.cancel()
     }
