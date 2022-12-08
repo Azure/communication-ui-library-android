@@ -89,7 +89,7 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
             ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
                 icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
                 stringResource = R.string.azure_communication_ui_chat_joined_chat,
-                substitution = viewModel.message.participants.map { it.displayName ?: "" }
+                substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
             )
             ChatMessageType.PARTICIPANT_REMOVED -> if (viewModel.message.isCurrentUser)
                 SystemMessage(
@@ -100,7 +100,7 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
                 SystemMessage(
                     icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
                     stringResource = R.string.azure_communication_ui_chat_left_chat,
-                    substitution = viewModel.message.participants.map { it.displayName ?: "" }
+                    substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
                 )
             else -> {
                 BasicText(
