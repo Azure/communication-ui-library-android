@@ -26,18 +26,20 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         System.currentTimeMillis() - SEND_TYPING_INDICATOR_INTERVAL_MILLIS
 
     fun onAction(action: Action, dispatch: Dispatch, state: ReduxState) {
+        val threadId = state.chatState.chatInfoModel.threadId
         when (action) {
-            is ChatAction.StartChat -> initialization(dispatch = dispatch)
+            is ChatAction.StartChat -> initialization(dispatch = dispatch, threadId)
             is ChatAction.Initialized -> onChatInitialized(
+                threadId = threadId,
                 action = action,
                 dispatch = dispatch
             )
-            is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch)
+            is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch, threadId = threadId)
             is ChatAction.FetchMessages -> fetchMessages()
-            is ChatAction.EditMessage -> editMessage(action = action, dispatch = dispatch)
-            is ChatAction.DeleteMessage -> deleteMessage(action = action, dispatch = dispatch)
-            is ChatAction.MessageRead -> sendReadReceipt(action = action, dispatch = dispatch)
-            is ChatAction.TypingIndicator -> sendTypingIndicator(dispatch = dispatch)
+            is ChatAction.EditMessage -> editMessage(action = action, dispatch = dispatch, threadId = threadId)
+            is ChatAction.DeleteMessage -> deleteMessage(action = action, dispatch = dispatch, threadId = threadId)
+            is ChatAction.MessageRead -> sendReadReceipt(action = action, dispatch = dispatch, threadId = threadId)
+            is ChatAction.TypingIndicator -> sendTypingIndicator(dispatch = dispatch, threadId = threadId)
             is ChatAction.EndChat -> endChat()
             is NetworkAction.Connected -> {
                 // this check will help prevent false fetch messages when library starts
@@ -57,7 +59,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         chatService.requestPreviousPage()
     }
 
-    private fun deleteMessage(action: ChatAction.DeleteMessage, dispatch: Dispatch) {
+    private fun deleteMessage(action: ChatAction.DeleteMessage, dispatch: Dispatch, threadId: String) {
         chatService.deleteMessage(action.message.normalizedID.toString()).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
@@ -65,6 +67,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
+                            threadId,
                             ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED
                         )
                     )
@@ -79,7 +82,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         }
     }
 
-    private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch) {
+    private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch, threadId: String) {
         chatService.sendMessage(action.messageInfoModel).whenComplete { result, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
@@ -87,6 +90,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
+                            threadId,
                             ChatCompositeErrorCode.CHAT_SEND_MESSAGE_FAILED
                         )
                     )
@@ -102,13 +106,14 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         }
     }
 
-    private fun editMessage(action: ChatAction.EditMessage, dispatch: Dispatch) {
+    private fun editMessage(action: ChatAction.EditMessage, dispatch: Dispatch, threadId: String) {
         chatService.editMessage(action.message.normalizedID.toString(), action.message.content ?: "")
             .whenComplete { _, error ->
                 if (error != null) {
                     dispatch(
                         ErrorAction.ChatStateErrorOccurred(
                             chatCompositeErrorEvent = ChatCompositeErrorEvent(
+                                threadId,
                                 ChatCompositeErrorCode.CHAT_SEND_EDIT_MESSAGE_FAILED
                             )
                         )
@@ -119,7 +124,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             }
     }
 
-    private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch) {
+    private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch, threadId: String) {
         chatService.sendReadReceipt(action.messageId).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
@@ -127,6 +132,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
+                            threadId,
                             ChatCompositeErrorCode.CHAT_SEND_READ_RECEIPT_FAILED
                         )
                     )
@@ -135,7 +141,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         }
     }
 
-    private fun sendTypingIndicator(dispatch: Dispatch) {
+    private fun sendTypingIndicator(dispatch: Dispatch, threadId: String) {
         if (System.currentTimeMillis() - lastTypingIndicatorNotificationSent
             < SEND_TYPING_INDICATOR_INTERVAL_MILLIS
         ) {
@@ -149,6 +155,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(
+                            threadId,
                             ChatCompositeErrorCode.CHAT_SEND_TYPING_INDICATOR_FAILED
                         )
                     )
@@ -157,27 +164,27 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         }
     }
 
-    private fun initialization(dispatch: Dispatch) {
+    private fun initialization(dispatch: Dispatch, threadId: String) {
         try {
             chatService.initialize()
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_JOIN_FAILED, ex)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.CHAT_JOIN_FAILED, ex)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }
 
-    private fun onChatInitialized(action: ChatAction, dispatch: Dispatch) {
+    private fun onChatInitialized(action: ChatAction, dispatch: Dispatch, threadId: String) {
         try {
             chatService.startEventNotifications()
             dispatch.invoke(ChatAction.FetchMessages())
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
         try {
             chatService.requestChatParticipants()
         } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(ChatCompositeErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED)
             dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }
