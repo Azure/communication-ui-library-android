@@ -33,7 +33,7 @@ Calling experience allows users to start or join a call. Inside the experience, 
 ### [Chat](/azure-communication-ui/chat/)
 
 <p>
-<img width="50%" alt="image" src="/docs/media/ui-liibrary-chat.png">
+<img width="50%" alt="image" src="/docs/media/ui-library-chat.png">
 </p>
 
 Chat experience brings a real-time text communication to your applications. Similar to Calling, Chat also offers Teams interoperability where users can join Teams meetings and communicate with Teams chat messages.
