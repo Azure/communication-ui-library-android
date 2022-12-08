@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.chat.redux.middleware.repository
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
-import com.azure.android.communication.ui.chat.models.MessageStatus
+import com.azure.android.communication.ui.chat.models.MessageSendStatus
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
@@ -40,6 +40,7 @@ internal class MessageRepositoryMiddlewareImpl(
             when (action) {
                 is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
                 is ChatAction.MessageSent -> processMessageSent(action, store::dispatch)
+                is ChatAction.MessageSentFailed -> processMessageSentFailed(action, store::dispatch)
                 is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
                 is ChatAction.MessageReceived -> processMessageReceived(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
@@ -109,7 +110,25 @@ internal class MessageRepositoryMiddlewareImpl(
         dispatch: Dispatch,
     ) {
         messageRepository.removeMessage(action.messageInfoModel)
-        messageRepository.addMessage(action.messageInfoModel.copy(id = action.id, sendStatus = MessageStatus.SENT))
+        messageRepository.addMessage(
+            action.messageInfoModel.copy(
+                id = action.id,
+                sendStatus = MessageSendStatus.SENT
+            )
+        )
+        notifyUpdate(dispatch)
+    }
+
+    private fun processMessageSentFailed(
+        action: ChatAction.MessageSentFailed,
+        dispatch: Dispatch,
+    ) {
+        messageRepository.replaceMessage(
+            action.messageInfoModel,
+            action.messageInfoModel.copy(
+                sendStatus = MessageSendStatus.FAILED
+            )
+        )
         notifyUpdate(dispatch)
     }
 

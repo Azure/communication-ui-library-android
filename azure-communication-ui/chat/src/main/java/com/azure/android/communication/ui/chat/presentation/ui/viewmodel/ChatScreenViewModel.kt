@@ -51,11 +51,14 @@ internal fun buildChatScreenViewModel(
     dispatch: Dispatch,
 ): ChatScreenViewModel {
 
+    val latestLocalUserMessageId = messages.findLast { it.isCurrentUser }?.normalizedID
+
     return ChatScreenViewModel(
         messages = messages.toViewModelList(
             context,
             localUserIdentifier,
-            store.getCurrentState().participantState.latestReadMessageTimestamp
+            store.getCurrentState().participantState.latestReadMessageTimestamp,
+            latestLocalUserMessageId
         ),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,

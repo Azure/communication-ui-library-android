@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.azure.android.communication.ui.chat.R
-import com.azure.android.communication.ui.chat.models.MessageStatus
+import com.azure.android.communication.ui.chat.models.MessageSendStatus
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
@@ -168,9 +168,8 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                 // Display the Read Receipt
                 androidx.compose.animation.AnimatedVisibility(visible = viewModel.showStatusIcon) {
 
-
                     when (viewModel.messageStatus) {
-                        MessageStatus.SENDING -> {
+                        MessageSendStatus.SENDING -> {
                             Icon(
                                 painter =
                                 painterResource(
@@ -183,7 +182,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                             )
                         }
 
-                        MessageStatus.SENT -> {
+                        MessageSendStatus.SENT -> {
                             Icon(
                                 painter =
                                 painterResource(
@@ -197,7 +196,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                         }
 
                         else -> {
-                            //FAILED
+                            // FAILED
 
                             Icon(
                                 painter =
@@ -210,11 +209,10 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                                 modifier = Modifier.padding(start = 4.dp)
                             )
                         }
-
-                    }
                     }
                 }
             }
+        }
     }
 }
 
