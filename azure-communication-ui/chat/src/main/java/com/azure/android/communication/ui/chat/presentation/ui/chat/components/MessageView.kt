@@ -25,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -48,9 +50,15 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
-
+    if (!viewModel.isVisible) {
+        return
+    }
     Column(
-        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
+        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding).semantics(mergeDescendants = true) {
+            // Despite the "", it's still merging/reading the children as they are on
+            // the screen.
+            contentDescription = ""
+        },
     ) {
 
         // Date Header Part
@@ -115,7 +123,7 @@ private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<Str
     ) {
         Icon(
             painter = painterResource(id = icon),
-            contentDescription = text,
+            contentDescription = null,
             tint = ChatCompositeTheme.colors.systemIconColor
         )
         BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
