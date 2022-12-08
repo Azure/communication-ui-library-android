@@ -28,4 +28,7 @@
     <string name="azure_communication_ui_chat_count_people">%1$d people</string>
     <string name="azure_communication_ui_chat_copy">Copy</string>
     <string name="azure_communication_ui_chat_message">Message</string>
+    <string name="azure_communication_ui_chat_accessibility_edited_message">%1$s edited a message to say %2$s</string>
+    <string name="azure_communication_ui_chat_accessibility_new_message">%1$s sent %2$s</string>
+    <string name="azure_communication_ui_chat_accessibility_deleted_message">%1$s deleted a message</string>
 </resources>

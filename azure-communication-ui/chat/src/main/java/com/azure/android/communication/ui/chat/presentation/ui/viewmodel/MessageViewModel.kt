@@ -24,7 +24,10 @@ internal class MessageViewModel(
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
     val isRead: Boolean,
-)
+
+) {
+    val isVisible get() = message.deletedOn == null
+}
 
 internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,

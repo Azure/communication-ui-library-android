@@ -15,6 +15,11 @@ internal class AppStateReducer(
     private val navigationReducer: NavigationReducer,
     private val repositoryReducer: RepositoryReducer,
     private val networkReducer: NetworkReducer,
+    private val accessibilityReducer: Reducer<ReduxState> = object : Reducer<ReduxState> {
+        override fun reduce(previousState: ReduxState, action: Action): ReduxState {
+            return previousState
+        }
+    }
 ) :
     Reducer<ReduxState> {
     override fun reduce(state: ReduxState, action: Action): ReduxState {
@@ -52,6 +57,6 @@ internal class AppStateReducer(
             state = state.networkState,
             action = action
         )
-        return appState
+        return accessibilityReducer.reduce(appState, action = action)
     }
 }
