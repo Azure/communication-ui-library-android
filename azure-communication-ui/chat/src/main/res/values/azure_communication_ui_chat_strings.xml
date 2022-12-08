@@ -5,7 +5,6 @@
 <resources>
     <string name="azure_communication_ui_chat_chat_action_bar_title">Chat</string>
     <string name="azure_communication_ui_chat_title_activity_compose_chat">ComposeChatActivity</string>
-    <string name="azure_communication_ui_chat_demo_app_title">Chat Composite Demo App</string>
     <string name="azure_communication_ui_chat_enter_a_message">Type a message</string>
     <string name="azure_communication_ui_chat_other">other</string>
     <string name="azure_communication_ui_chat_others">others</string>
@@ -19,6 +18,7 @@
     <string name="azure_communication_ui_chat_message_send_button_content_description">Send the message %1$s</string>
     <string name="azure_communication_ui_chat_joined_chat">%1$s joined the chat</string>
     <string name="azure_communication_ui_chat_left_chat">%1$s left the chat</string>
+    <string name="azure_communication_ui_chat_you_removed_from_chat">You were removed from the chat</string>
     <string name="azure_communication_ui_chat_topic_updated">Topic was updated to \"%1$s\"</string>
     <string name="azure_communication_ui_chat_message_today">Today</string>
     <string name="azure_communication_ui_chat_message_yesterday">Yesterday</string>
@@ -28,4 +28,7 @@
     <string name="azure_communication_ui_chat_count_people">%1$d people</string>
     <string name="azure_communication_ui_chat_copy">Copy</string>
     <string name="azure_communication_ui_chat_message">Message</string>
+    <string name="azure_communication_ui_chat_accessibility_edited_message">%1$s edited a message to say %2$s</string>
+    <string name="azure_communication_ui_chat_accessibility_new_message">%1$s sent %2$s</string>
+    <string name="azure_communication_ui_chat_accessibility_deleted_message">%1$s deleted a message</string>
 </resources>

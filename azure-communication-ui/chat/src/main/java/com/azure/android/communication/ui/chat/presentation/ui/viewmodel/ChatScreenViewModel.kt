@@ -16,7 +16,6 @@ import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
-import kotlin.math.max
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -32,6 +31,7 @@ internal data class ChatScreenViewModel(
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
     val messageContextMenu: MessageContextMenuModel,
+    val sendMessageEnabled: Boolean = false,
 ) {
     val showError get() = error != null
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -67,8 +67,9 @@ internal fun buildChatScreenViewModel(
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
-        messageContextMenu = store.getCurrentState().chatState.messageContextMenu
-            ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
+        messageContextMenu = store.getCurrentState().chatState.messageContextMenu ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
+        sendMessageEnabled = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
+            store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED
     )
 }
 
@@ -77,12 +78,15 @@ private fun getUnReadMessagesCount(
     messages: List<MessageInfoModel>,
 ): Int {
     val lastReadId = store.getCurrentState().chatState.lastReadMessageId
-    val lastSendId = store.getCurrentState().chatState.lastSendMessageId
 
-    val internalLastReadIndex = messages.findMessageIdxById(lastReadId)
-    val internalLastSendIndex = messages.findMessageIdxById(lastSendId)
-
-    val internalLastIndex = max(internalLastReadIndex, internalLastSendIndex)
-
-    return if (internalLastIndex == -1) 0 else messages.size - internalLastIndex - 1
+    if (lastReadId.isEmpty()) {
+        return 0
+    }
+    var internalLastReadIndex = messages.findMessageIdxById(lastReadId.toLong())
+    var selfCount = 0
+    while (internalLastReadIndex >= 0 && messages[internalLastReadIndex].isCurrentUser) {
+        internalLastReadIndex--
+        selfCount++
+    }
+    return if (internalLastReadIndex == -1) 0 else messages.size - internalLastReadIndex - 1 - selfCount
 }

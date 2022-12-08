@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -57,6 +58,7 @@ internal fun ChatScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
+        backgroundColor = ChatCompositeTheme.colors.background,
         scaffoldState = scaffoldState,
         topBar = {
             if (!showActionBar) return@Scaffold
@@ -86,8 +88,8 @@ internal fun ChatScreen(
         content = { paddingValues ->
             if (viewModel.showError) {
                 Column {
-                    BasicText("ERROR")
-                    BasicText(viewModel.errorMessage)
+                    BasicText("ERROR", style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor))
+                    BasicText(viewModel.errorMessage, style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor))
                 }
             } else if (viewModel.isLoading) {
                 Box(
@@ -122,7 +124,9 @@ internal fun ChatScreen(
                     ) {
                         UnreadMessagesIndicatorView(
                             scrollState = listState,
-                            visible = viewModel.unreadMessagesIndicatorVisibility,
+                            visible = viewModel.unreadMessagesIndicatorVisibility &&
+                                listState.firstVisibleItemIndex > 1 &&
+                                !(viewModel.messages.lastOrNull()?.isLocalUser ?: true),
                             unreadCount = viewModel.unreadMessagesCount,
                         )
                     }
@@ -143,7 +147,6 @@ internal fun ChatScreen(
                         }
                         BottomBarView(
                             messageInputTextState = stateViewModel.messageInputTextState,
-                            chatStatus = viewModel.chatStatus,
                             postAction = {
                                 if (it is ChatAction.SendMessage) {
                                     coroutineScope.launch {
@@ -151,7 +154,8 @@ internal fun ChatScreen(
                                     }
                                 }
                                 viewModel.postAction(it)
-                            }
+                            },
+                            sendMessageEnabled = viewModel.sendMessageEnabled
                         )
                     }
                 }

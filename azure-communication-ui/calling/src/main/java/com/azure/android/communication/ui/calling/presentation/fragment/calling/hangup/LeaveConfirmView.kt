@@ -100,11 +100,12 @@ internal class LeaveConfirmView(
                     BottomCellItemType.BottomMenuTitle,
                     null
                 ),
+
                 // Leave
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_calling_leave_confirm_telephone_21_10
+                        R.drawable.azure_communication_ui_calling_leave_confirm_telephone_24
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
                     null,
@@ -117,11 +118,12 @@ internal class LeaveConfirmView(
                 ) {
                     viewModel.confirm()
                 },
+
                 // Cancel
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_16_regular
+                        R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_24
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
                     null,
@@ -152,11 +154,18 @@ internal class LeaveConfirmView(
             info: AccessibilityNodeInfoCompat
         ) {
             super.onInitializeAccessibilityNodeInfoForItem(recycler, state, host, info)
-            val itemInfo = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(max(info.collectionItemInfo.rowIndex - 1, 0), info.collectionItemInfo.rowSpan, info.collectionItemInfo.columnIndex, info.collectionItemInfo.columnSpan, info.collectionItemInfo.isHeading, info.collectionItemInfo.isSelected)
-            if (info.collectionItemInfo.rowIndex == 0) {
-                info.setCollectionItemInfo(null)
-            } else {
-                info.setCollectionItemInfo(itemInfo)
+            try {
+                info?.let {
+                    val itemInfo = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(max(info.collectionItemInfo.rowIndex - 1, 0), info.collectionItemInfo.rowSpan, info.collectionItemInfo.columnIndex, info.collectionItemInfo.columnSpan, info.collectionItemInfo.isHeading, info.collectionItemInfo.isSelected)
+                    if (info.collectionItemInfo.rowIndex == 0) {
+                        info.setCollectionItemInfo(null)
+                    } else {
+                        info.setCollectionItemInfo(itemInfo)
+                    }
+                }
+            } catch (e: Exception) {
+                // Xamarin cause exception, info is null
+                // Cause: -\java.lang.NullPointerException: Attempt to invoke virtual method 'int androidx.core.view.accessibility.AccessibilityNodeInfoCompat$CollectionItemInfoCompat.getRowIndex()
             }
         }
     }

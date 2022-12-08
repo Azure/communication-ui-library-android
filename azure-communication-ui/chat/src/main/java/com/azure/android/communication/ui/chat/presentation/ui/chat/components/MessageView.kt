@@ -16,17 +16,24 @@ import androidx.compose.foundation.layout.width
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.toViewModelList
 import com.azure.android.communication.ui.chat.preview.MOCK_LOCAL_USER_ID
@@ -36,15 +43,22 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
 import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
-
+    if (!viewModel.isVisible) {
+        return
+    }
     Column(
-        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
+        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding).semantics(mergeDescendants = true) {
+            // Despite the "", it's still merging/reading the children as they are on
+            // the screen.
+            contentDescription = ""
+        },
     ) {
 
         // Date Header Part
@@ -77,11 +91,17 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
                 stringResource = R.string.azure_communication_ui_chat_joined_chat,
                 substitution = viewModel.message.participants
             )
-            ChatMessageType.PARTICIPANT_REMOVED -> SystemMessage(
-                icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
-                stringResource = R.string.azure_communication_ui_chat_left_chat,
-                substitution = viewModel.message.participants
-            )
+            ChatMessageType.PARTICIPANT_REMOVED -> if (viewModel.message.isCurrentUser)
+                SystemMessage(
+                    icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
+                    stringResource = R.string.azure_communication_ui_chat_you_removed_from_chat,
+                    substitution = emptyList()
+                ) else
+                SystemMessage(
+                    icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
+                    stringResource = R.string.azure_communication_ui_chat_left_chat,
+                    substitution = viewModel.message.participants
+                )
             else -> {
                 BasicText(
                     text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
@@ -94,14 +114,16 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
 @Composable
 private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<String>) {
 
-    val text = LocalContext.current.getString(stringResource, substitution.joinToString(", "))
+    val text = if (substitution.isEmpty())
+        LocalContext.current.getString(stringResource) else
+        LocalContext.current.getString(stringResource, substitution.joinToString(", "))
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(ChatCompositeTheme.dimensions.systemMessagePadding)
     ) {
         Icon(
             painter = painterResource(id = icon),
-            contentDescription = text,
+            contentDescription = null,
             tint = ChatCompositeTheme.colors.systemIconColor
         )
         BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
@@ -188,9 +210,12 @@ private fun messageContent(viewModel: MessageViewModel) {
                     }
                     if (viewModel.showTime) {
                         BasicText(
-                            viewModel.message.createdOn?.format(timeFormat)
+                            viewModel.message.createdOn
+                                ?.atZoneSameInstant(ZoneId.systemDefault())
+                                ?.format(timeFormat)
                                 ?: "Unknown Time",
                             style = ChatCompositeTheme.typography.messageHeaderDate,
+                            modifier = Modifier.testTag(UITestTags.MESSAGE_TIME_CONTENT)
                         )
                     }
                 }
@@ -199,7 +224,9 @@ private fun messageContent(viewModel: MessageViewModel) {
                 HtmlText(html = viewModel.message.content ?: "Empty")
             } else {
                 BasicText(
-                    text = viewModel.message.content ?: "Empty"
+                    text = viewModel.message.content ?: "Empty",
+                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT),
+                    style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor)
                 )
             }
         }
@@ -208,13 +235,23 @@ private fun messageContent(viewModel: MessageViewModel) {
 
 @Composable
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
+
+    val textColor = ChatCompositeTheme.colors.textColor
+    val textSize = ChatCompositeTheme.typography.messageBody.fontSize
+    val formattedText = remember(html) {
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            TextView(context)
+            TextView(context).apply {
+                this.setTextColor(textColor.hashCode())
+                this.textSize = textSize.value
+            }
         },
         update = {
-            it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            it.text = formattedText
         }
     )
 }

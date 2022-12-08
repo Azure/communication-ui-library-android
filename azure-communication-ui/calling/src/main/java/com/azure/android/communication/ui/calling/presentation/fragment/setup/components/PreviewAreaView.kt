@@ -9,8 +9,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -39,7 +41,7 @@ internal class PreviewAreaView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getVideoStreamIDStateFlow().collect {
-                setLocalParticipantVideo(it)
+                createLocalParticipantView(it)
             }
         }
     }
@@ -49,7 +51,10 @@ internal class PreviewAreaView : ConstraintLayout {
 
         if (!videoStreamID.isNullOrEmpty()) {
             localParticipantCameraHolder.removeAllViews()
-            videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
+            videoViewManager.getLocalVideoRenderer(
+                videoStreamID,
+                if (isAndroidTV(localParticipantCameraHolder.context)) ScalingMode.FIT else ScalingMode.CROP
+            )?.let { view ->
                 view.background = this.context.let {
                     ContextCompat.getDrawable(
                         it,
@@ -61,9 +66,5 @@ internal class PreviewAreaView : ConstraintLayout {
         } else {
             localParticipantCameraHolder.removeAllViews()
         }
-    }
-
-    private fun setLocalParticipantVideo(videoStreamID: String?) {
-        createLocalParticipantView(videoStreamID)
     }
 }

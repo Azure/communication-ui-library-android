@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
@@ -79,7 +80,8 @@ internal class LocalParticipantView : ConstraintLayout {
 
         if (isAndroidTV(context)) {
             pipAvatar.avatarSize = AvatarSize.MEDIUM
-            guideline.setGuidelinePercent(0.9f)
+            // guideline.setGuidelinePercent(0.85f)
+            (localPipWrapper.layoutParams as LayoutParams).dimensionRatio = "4:3"
         }
     }
 
@@ -192,7 +194,7 @@ internal class LocalParticipantView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getNumberOfRemoteParticipantsFlow().collect {
-                if (!accessibilityManager.isEnabled && it >= 1) {
+                if ((!accessibilityManager.isEnabled || isAndroidTV(context)) && it >= 1) {
                     dragTouchListener.setView(localPipWrapper)
                     localPipWrapper.setOnTouchListener(dragTouchListener)
                 } else {
@@ -223,12 +225,28 @@ internal class LocalParticipantView : ConstraintLayout {
         }
 
         if (model.shouldDisplayVideo) {
-            addVideoView(model.videoStreamID!!, videoHolder)
+            addVideoView(model.videoStreamID!!, videoHolder, model.viewMode)
         }
     }
 
-    private fun addVideoView(videoStreamID: String, videoHolder: ConstraintLayout) {
-        videoViewManager.getLocalVideoRenderer(videoStreamID)?.let { view ->
+    private fun addVideoView(
+        videoStreamID: String,
+        videoHolder: ConstraintLayout,
+        viewMode: LocalParticipantViewMode
+    ) {
+        val scalingMode =
+            // If in PIP Always Crop
+            if (viewMode == LocalParticipantViewMode.PIP)
+                ScalingMode.CROP
+            // When not in PIP, Fit on TV, Crop Otherwise
+            else if (isAndroidTV(context))
+                ScalingMode.FIT
+            else
+                ScalingMode.CROP
+        videoViewManager.getLocalVideoRenderer(
+            videoStreamID,
+            scalingMode
+        )?.let { view ->
             view.background = this.context.let {
                 ContextCompat.getDrawable(
                     it,

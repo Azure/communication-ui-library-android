@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.azure.android.communication.ui.chat.R
@@ -43,13 +44,16 @@ internal fun MessageInputView(
     messageInputTextState: MutableState<String>,
     postAction: (Action) -> Unit,
     keyboardActions: KeyboardActions = KeyboardActions(),
+    sendMessageEnabled: Boolean,
 ) {
     var focusState by rememberSaveable { mutableStateOf(false) }
 
     MessageInput(
         onTextChanged = {
             messageInputTextState.value = it
-            postAction(ChatAction.TypingIndicator())
+            if (sendMessageEnabled) {
+                postAction(ChatAction.TypingIndicator())
+            }
         },
         textContent = messageInputTextState.value,
         onTextFieldFocused = { focusState = it },
@@ -97,6 +101,7 @@ internal fun MessageInput(
         ),
         singleLine = false,
         keyboardActions = keyboardActions,
+        cursorBrush = SolidColor(ChatCompositeTheme.colors.unreadMessageIndicatorBackground),
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
@@ -123,5 +128,5 @@ internal fun MessageInput(
 @Preview
 @Composable
 internal fun PreviewMessageInputView() {
-    MessageInputView("Message Input Field", remember { mutableStateOf("") }, {})
+    MessageInputView("Message Input Field", remember { mutableStateOf("") }, {}, sendMessageEnabled = true)
 }

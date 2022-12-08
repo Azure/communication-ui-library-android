@@ -15,19 +15,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
 @Composable
 internal fun TextMessageView(message: MessageInfoModel, isGrouped: Boolean) {
-    val participantMessageBackground = Color(0xFFF1F1F1)
-    val selfMessageBackground = Color(0xFFDEECF9)
-
     Column {
         Row {
             Column {
@@ -57,7 +54,7 @@ internal fun TextMessageView(message: MessageInfoModel, isGrouped: Boolean) {
                 Surface(
                     shape = MaterialTheme.shapes.medium,
                     elevation = 1.dp,
-                    color = if (message.isCurrentUser) selfMessageBackground else participantMessageBackground
+                    color = if (message.isCurrentUser) ChatCompositeTheme.colors.messageBackgroundSelf else ChatCompositeTheme.colors.messageBackground
                 ) {
                     Text(
                         text = message.content ?: "",

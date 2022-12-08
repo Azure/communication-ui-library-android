@@ -22,6 +22,7 @@
         <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
             android:exported="true"
+            android:label="@string/azure_communication_ui_calling_demo_app_title"
             android:theme="@style/Launcher.Theme"
             >
             <intent-filter>

@@ -15,13 +15,18 @@ internal class AppStateReducer(
     private val navigationReducer: NavigationReducer,
     private val repositoryReducer: RepositoryReducer,
     private val networkReducer: NetworkReducer,
+    private val accessibilityReducer: Reducer<ReduxState> = object : Reducer<ReduxState> {
+        override fun reduce(previousState: ReduxState, action: Action): ReduxState {
+            return previousState
+        }
+    }
 ) :
     Reducer<ReduxState> {
     override fun reduce(state: ReduxState, action: Action): ReduxState {
         val appState = AppReduxState(
             threadID = state.chatState.chatInfoModel.threadId,
-            localParticipantIdentifier = state.chatState.localParticipantInfoModel.userIdentifier,
-            localParticipantDisplayName = state.chatState.localParticipantInfoModel.displayName,
+            localParticipantIdentifier = state.participantState.localParticipantInfoModel.userIdentifier,
+            localParticipantDisplayName = state.participantState.localParticipantInfoModel.displayName,
         )
 
         appState.chatState = chatReducer.reduce(
@@ -52,6 +57,6 @@ internal class AppStateReducer(
             state = state.networkState,
             action = action
         )
-        return appState
+        return accessibilityReducer.reduce(appState, action = action)
     }
 }

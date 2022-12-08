@@ -88,6 +88,10 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
         } else if (removed.size == 1) {
             result = context.getString(R.string.azure_communication_ui_calling_accessibility_user_left, removed.first().displayName)
         }
+        // if (newState.remoteParticipantState.participantMap.isEmpty()) {
+        // TODO: Add "Meeting is now empty"
+        // }
+
         return result
     }
 }

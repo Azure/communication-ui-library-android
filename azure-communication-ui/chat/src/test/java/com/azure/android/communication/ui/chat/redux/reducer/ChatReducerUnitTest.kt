@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.chat.redux.reducer
 
 import com.azure.android.communication.ui.chat.models.ChatInfoModel
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
-import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.state.ChatState
@@ -22,11 +21,10 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionInitialization_then_changeChatStateInitialization() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -44,11 +42,10 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionInitialized_then_changeChatStateInitialized() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = mock<ChatInfoModel>()
         val previousState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -66,11 +63,10 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionTopicUpdated_then_updateChatStateChatInfoTopic() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = ChatInfoModel(threadId = "", topic = "Previous Chat topic")
         val previousState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -79,7 +75,7 @@ internal class ChatReducerUnitTest {
         val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "New Chat topic")
         val afterState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, afterChatInfoModel, "", "",
+                ChatStatus.NONE, afterChatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -96,11 +92,10 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionAllMessagesFetched_then_updateChatStateChatInfoAllMessagesFetched() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val chatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = false)
         val previousState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -109,7 +104,7 @@ internal class ChatReducerUnitTest {
         val afterChatInfoModel = ChatInfoModel(threadId = "", topic = "", allMessagesFetched = true)
         val afterState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, afterChatInfoModel, "", "",
+                ChatStatus.NONE, afterChatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -126,7 +121,6 @@ internal class ChatReducerUnitTest {
     fun chatReducer_reduce_when_actionThreadDeleted_then_updateChatStateChatThreadDeleted() {
         // arrange
         val reducer = ChatReducerImpl()
-        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
 
         val chatInfoModel = ChatInfoModel(
             threadId = "",
@@ -136,7 +130,7 @@ internal class ChatReducerUnitTest {
         )
         val previousState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, chatInfoModel, "", "",
+                ChatStatus.NONE, chatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
@@ -152,7 +146,7 @@ internal class ChatReducerUnitTest {
         )
         val afterState =
             ChatState(
-                ChatStatus.NONE, localParticipantInfoModel, afterChatInfoModel, "", "",
+                ChatStatus.NONE, afterChatInfoModel, "",
                 messageContextMenu = MessageContextMenuModel(
                     EMPTY_MESSAGE_INFO_MODEL, emptyList()
                 )
