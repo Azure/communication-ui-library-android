@@ -7,6 +7,7 @@ import android.content.Context
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
@@ -24,21 +25,23 @@ internal class MessageViewModel(
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
     val isRead: Boolean,
-
+    val isMaskedUser: Boolean,
 ) {
-    val isVisible get() = message.deletedOn == null
+    val isVisible get() = message.deletedOn == null && !isMaskedUser
 }
 
 internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,
     localUserIdentifier: String,
     latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN,
+    maskedParticipant: Set<String>
 ) =
     InfoModelToViewModelAdapter(
         context,
         this,
         localUserIdentifier,
-        latestReadMessageTimestamp
+        latestReadMessageTimestamp,
+        maskedParticipant
     ) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
@@ -46,6 +49,7 @@ private class InfoModelToViewModelAdapter(
     private val messages: List<MessageInfoModel>,
     private val localUserIdentifier: String,
     private val latestReadMessageTimestamp: OffsetDateTime,
+    private val maskedParticipant: Set<String>,
 ) :
     List<MessageViewModel> {
 
@@ -83,7 +87,10 @@ private class InfoModelToViewModelAdapter(
             ),
 
             isLocalUser = isLocalUser,
-            isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp)
+            isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp),
+            isMaskedUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
+                messages[index].participants.size == 1 &&
+                maskedParticipant.contains(messages[index].participants.first().userIdentifier.id)
         )
     }
 

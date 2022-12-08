@@ -34,7 +34,8 @@ internal class AppReduxState(
         participants = mapOf(),
         participantTyping = mapOf(),
         participantsReadReceiptMap = mapOf(),
-        latestReadMessageTimestamp = OffsetDateTime.MIN
+        latestReadMessageTimestamp = OffsetDateTime.MIN,
+        maskedParticipant = setOf()
     )
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)

@@ -40,6 +40,10 @@ internal class TestChatSDK(
 
     override fun destroy() {}
 
+    override fun getAdminUserId(): String? {
+        return ""
+    }
+
     override fun requestPreviousPage() {
     }
 

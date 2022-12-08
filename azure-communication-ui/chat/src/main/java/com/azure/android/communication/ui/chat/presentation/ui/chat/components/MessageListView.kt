@@ -190,7 +190,11 @@ internal fun PreviewMessageListView() {
         MessageListView(
             showLoading = false,
             modifier = Modifier.padding(0.dp),
-            messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
+            messages = MOCK_MESSAGES.toViewModelList(
+                context = LocalContext.current,
+                localUserIdentifier = MOCK_LOCAL_USER_ID,
+                maskedParticipant = mutableSetOf()
+            ),
             scrollState = LazyListState()
         ) {}
     }
