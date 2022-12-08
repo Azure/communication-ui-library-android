@@ -25,9 +25,9 @@ internal class MessageViewModel(
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
     val isRead: Boolean,
-    val isMaskedUser: Boolean,
+    val isHiddenUser: Boolean,
 ) {
-    val isVisible get() = message.deletedOn == null && !isMaskedUser
+    val isVisible get() = message.deletedOn == null && !isHiddenUser
 }
 
 internal fun List<MessageInfoModel>.toViewModelList(
@@ -88,7 +88,7 @@ private class InfoModelToViewModelAdapter(
 
             isLocalUser = isLocalUser,
             isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp),
-            isMaskedUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
+            isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
                 messages[index].participants.size == 1 &&
                 maskedParticipant.contains(messages[index].participants.first().userIdentifier.id)
         )
