@@ -26,7 +26,7 @@ internal class MessageViewModel(
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
     val messageStatus: MessageSendStatus?,
-    val showStatusIcon: Boolean,
+    val showSentStatusIcon: Boolean,
     val showReadReceipt: Boolean,
     val isHiddenUser: Boolean,
 ) {
@@ -61,7 +61,6 @@ private class InfoModelToViewModelAdapter(
 
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
-
         val lastMessage = try {
             messages[index - 1]
         } catch (e: IndexOutOfBoundsException) {
@@ -71,13 +70,14 @@ private class InfoModelToViewModelAdapter(
         val isLocalUser =
             thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
 
-        return MessageViewModel(
+        val showReadReceipt = thisMessage.sendStatus == MessageSendStatus.SENT && lastMessageIdReadByRemoteParticipants != 0L &&
+            lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID
 
+        return MessageViewModel(
             thisMessage,
             showUsername = !isLocalUser &&
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
-
             showTime =
             (
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
@@ -85,16 +85,14 @@ private class InfoModelToViewModelAdapter(
                     !thisMessage.isCurrentUser
                 ) ||
                 (thisMessage.isCurrentUser && !lastMessage.isCurrentUser),
-
             dateHeaderText = buildDateHeader(
                 lastMessage.createdOn!!,
                 thisMessage.createdOn ?: OffsetDateTime.now()
             ),
-
             isLocalUser = isLocalUser,
             messageStatus = thisMessage.sendStatus,
-            showStatusIcon = shouldShowMessageStatusIcon(thisMessage),
-            showReadReceipt = lastMessageIdReadByRemoteParticipants != 0L && lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID,
+            showReadReceipt = showReadReceipt,
+            showSentStatusIcon = shouldShowMessageStatusIcon(thisMessage, showReadReceipt),
             isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
                 messages[index].participants.size == 1 &&
                 hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id)
@@ -128,15 +126,6 @@ private class InfoModelToViewModelAdapter(
         }
     }
 
-    private fun shouldShowMessageStatusIcon(message: MessageInfoModel): Boolean {
-        // TODO: pending on read receipt
-//        val showMessageSeen = latestSeenMessageId == message.normalizedID
-
-        val showMessageFailed = message.sendStatus == MessageSendStatus.FAILED
-        val showLastSendingOrSentMessage = latestLocalUserMessageId == message.normalizedID
-        return showMessageFailed || showLastSendingOrSentMessage
-    }
-
     // Rest of List Implementation
     override val size = messages.size
     override fun contains(element: MessageViewModel) = messages.contains(element.message)
@@ -168,5 +157,9 @@ private class InfoModelToViewModelAdapter(
     override fun subList(fromIndex: Int, toIndex: Int): List<MessageViewModel> {
         // Not Implemented
         TODO("Not Implemented, probably not needed")
+    }
+
+    private fun shouldShowMessageStatusIcon(message: MessageInfoModel, showReadReceipt: Boolean): Boolean {
+        return !showReadReceipt && (message.sendStatus == MessageSendStatus.FAILED || latestLocalUserMessageId == message.normalizedID)
     }
 }

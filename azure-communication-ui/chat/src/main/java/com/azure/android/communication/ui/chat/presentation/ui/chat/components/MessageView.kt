@@ -183,7 +183,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     .align(alignment = Alignment.Bottom)
             ) {
                 // Display the Read Receipt
-                androidx.compose.animation.AnimatedVisibility(visible = viewModel.showStatusIcon) {
+                androidx.compose.animation.AnimatedVisibility(visible = viewModel.showSentStatusIcon) {
 
                     when (viewModel.messageStatus) {
                         MessageSendStatus.FAILED -> {
