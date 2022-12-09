@@ -9,14 +9,18 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.common.CommunicationUserIdentifier
-import com.azure.android.communication.ui.chat.ChatAdapter
-import com.azure.android.communication.ui.chat.ChatAdapterBuilder
+import com.azure.android.communication.ui.chat.ChatCompositeEventHandler
+import com.azure.android.communication.ui.chat.ChatThreadAdapter
+import com.azure.android.communication.ui.chat.ChatUIClient
+import com.azure.android.communication.ui.chat.ChatUIClientBuilder
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
     private var token: String? = null
 
-    var chatAdapter: ChatAdapter? = null
+    var chatUIClient: ChatUIClient? = null
+    var chatThreadAdapter: ChatThreadAdapter? = null
 
     private fun getTokenFetcher(acsToken: String?): Callable<String> {
         val tokenRefresher = when {
@@ -33,6 +37,7 @@ class ChatLauncherViewModel : ViewModel() {
 
     fun launch(
         context: Context,
+        errorHandler: ChatCompositeEventHandler<ChatCompositeErrorEvent>,
         endpoint: String,
         acsIdentity: String,
         threadId: String,
@@ -46,23 +51,26 @@ class ChatLauncherViewModel : ViewModel() {
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val chatAdapter = ChatAdapterBuilder()
+        val chatUIClient = ChatUIClientBuilder()
+            .context(context)
             .endpoint(endpoint)
             .credential(communicationTokenCredential)
             .identity(CommunicationUserIdentifier(acsIdentity))
             .displayName(userName)
             .build()
 
-        // Connect to ACS service, starts realtime notifications
-        chatAdapter.connect(context, threadId).get()
+        chatUIClient.addOnErrorEventHandler(errorHandler)
 
-        this.chatAdapter = chatAdapter
+        val chatThreadAdapter = ChatThreadAdapter(chatUIClient, threadId)
+
+        this.chatUIClient = chatUIClient
+        this.chatThreadAdapter = chatThreadAdapter
     }
 
     private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
 
     fun closeChatComposite() {
-        chatAdapter?.disconnect()
-        chatAdapter = null
+
+        chatUIClient = null
     }
 }

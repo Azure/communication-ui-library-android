@@ -102,6 +102,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf()
         )
         val action = ParticipantAction.ParticipantsAdded(participants = listOf(userThree, userFour))
 
@@ -176,6 +177,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val userTwo_duplicate = RemoteParticipantInfoModel(
             userIdentifier = CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
@@ -260,6 +262,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val userOne_duplicate = RemoteParticipantInfoModel(
             userIdentifier = CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
@@ -349,6 +352,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action =
             ParticipantAction.ParticipantsRemoved(participants = listOf(userThree, userFour), false)
@@ -375,6 +379,7 @@ class ParticipantsReducerUnitTest {
             participantsReadReceiptMap = mapOf(),
             latestReadMessageTimestamp = OffsetDateTime.MIN,
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -419,6 +424,7 @@ class ParticipantsReducerUnitTest {
             participantsReadReceiptMap = mapOf(),
             latestReadMessageTimestamp = OffsetDateTime.MIN,
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -495,6 +501,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -576,6 +583,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.RemoveParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -652,6 +660,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.RemoveParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -711,6 +720,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -785,6 +795,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
 
         val messageInfoModel = MessageInfoModel(
@@ -849,6 +860,7 @@ class ParticipantsReducerUnitTest {
                 org.threeten.bp.ZoneOffset.ofHours(2)
             ),
             localParticipantInfoModel,
+            mutableSetOf(),
         )
 
         val messageInfoModel = MessageInfoModel(
@@ -900,6 +912,7 @@ class ParticipantsReducerUnitTest {
             participantsReadReceiptMap = mapOf(),
             latestReadMessageTimestamp = OffsetDateTime.MIN,
             localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.ReadReceiptReceived(
             infoModel = ParticipantTimestampInfoModel(

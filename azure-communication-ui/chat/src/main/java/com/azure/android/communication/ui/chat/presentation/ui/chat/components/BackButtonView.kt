@@ -8,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,13 +21,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 
 @Composable
 internal fun BackButtonView(
     contentDescription: String,
     onBackButtonPressed: () -> Unit = { },
 ) {
-    val colorFilter = ColorFilter.tint(LocalContentColor.current)
     val semantics = Modifier.semantics {
         this.contentDescription = contentDescription
         this.role = Role.Image
@@ -40,7 +39,7 @@ internal fun BackButtonView(
         painter = painter,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
-        colorFilter = colorFilter,
+        colorFilter = ColorFilter.tint(ChatCompositeTheme.colors.content),
         modifier = Modifier
             .padding(19.dp)
             .size(24.dp, 24.dp)

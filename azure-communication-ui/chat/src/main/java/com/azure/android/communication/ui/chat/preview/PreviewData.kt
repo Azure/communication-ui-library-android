@@ -1,6 +1,7 @@
 package com.azure.android.communication.ui.chat.preview
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import org.threeten.bp.OffsetDateTime
@@ -75,7 +76,10 @@ internal val MOCK_MESSAGES
                 content = null,
                 messageType = ChatMessageType.PARTICIPANT_ADDED,
                 senderCommunicationIdentifier = userC_ID,
-                participants = listOf(userC_Display, userA_Display),
+                participants = listOf(
+                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userC_Display),
+                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userA_Display)
+                ),
                 senderDisplayName = null,
                 id = null,
                 internalId = null,
@@ -95,7 +99,7 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.PARTICIPANT_REMOVED,
                 senderCommunicationIdentifier = userD_ID,
                 senderDisplayName = null,
-                participants = listOf(userD_Display),
+                participants = listOf(RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userD_Display)),
                 id = null,
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusMinutes(10)

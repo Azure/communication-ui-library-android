@@ -23,7 +23,7 @@ internal data class MessageInfoModel(
     val messageType: ChatMessageType? = null,
     val content: String? = null,
     val topic: String? = null,
-    val participants: List<String> = emptyList(),
+    val participants: List<RemoteParticipantInfoModel> = emptyList(),
     val version: String? = null,
     val senderDisplayName: String? = null,
     val createdOn: OffsetDateTime? = null,
@@ -44,7 +44,12 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(localP
         messageType = this.type.into(),
         content = this.content.message,
         topic = this.content.topic,
-        participants = this.content.participants?.map { it.displayName }?.toList() ?: emptyList(),
+        participants = this.content.participants?.map {
+            RemoteParticipantInfoModel(
+                userIdentifier = it.communicationIdentifier.into(),
+                displayName = it.displayName
+            )
+        }?.toList() ?: emptyList(),
         internalId = null,
         version = this.version,
         senderDisplayName = this.senderDisplayName,

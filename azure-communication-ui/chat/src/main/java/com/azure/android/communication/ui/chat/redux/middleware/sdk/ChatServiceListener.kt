@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
-import com.azure.android.communication.ui.chat.error.ChatStateError
-import com.azure.android.communication.ui.chat.error.ErrorCode
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
@@ -51,7 +51,8 @@ internal class ChatServiceListener(
 
         coroutineScope.launch {
             chatService.getMessagesPageSharedFlow()?.collect {
-                onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch)
+                val threadId = store.getCurrentState().chatState.chatInfoModel.threadId
+                onMessagesPageModelReceived(messagesPageModel = it, dispatch = dispatch, threadId)
             }
         }
 
@@ -74,16 +75,18 @@ internal class ChatServiceListener(
     private fun onMessagesPageModelReceived(
         messagesPageModel: MessagesPageModel,
         dispatch: Dispatch,
+        threadId: String
     ) {
 
         messagesPageModel.throwable?.let {
-            val error = ChatStateError(errorCode = ErrorCode.CHAT_FETCH_MESSAGES_FAILED)
+            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.FETCH_MESSAGES_FAILED, null)
             // TODO: lets use only one action and state to fire error for timing
             // TODO: while working on error stories, we can create separate states for every error
-            dispatch(ErrorAction.ChatStateErrorOccurred(chatStateError = error))
+            dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
 
         messagesPageModel.messages?.let {
+            val id = chatService.getAdminUserId()
             dispatch(ChatAction.MessagesPageReceived(messages = it))
         }
 
@@ -95,7 +98,7 @@ internal class ChatServiceListener(
     private fun handleInfoModel(
         it: ChatEventModel,
         dispatch: Dispatch,
-        localParticipantInfoModel: LocalParticipantInfoModel
+        localParticipantInfoModel: LocalParticipantInfoModel,
     ) {
         when (it.infoModel) {
             is MessageInfoModel -> {
@@ -148,14 +151,20 @@ internal class ChatServiceListener(
             is RemoteParticipantsInfoModel -> {
                 when (it.eventType) {
                     ChatEventType.PARTICIPANTS_ADDED -> {
-                        dispatch(ParticipantAction.ParticipantsAdded(participants = it.infoModel.participants))
+                        // remove admin user from chat
+                        val joinedParticipants =
+                            it.infoModel.participants.filter { it.userIdentifier.id != chatService.getAdminUserId() }
+                        dispatch(ParticipantAction.ParticipantsAdded(participants = joinedParticipants))
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
 
                         dispatch(
                             ParticipantAction.ParticipantsRemoved(
                                 participants = it.infoModel.participants,
-                                localParticipantRemoved = isLocalParticipantRemoved(it.infoModel.participants, localParticipantInfoModel)
+                                localParticipantRemoved = isLocalParticipantRemoved(
+                                    it.infoModel.participants,
+                                    localParticipantInfoModel
+                                )
                             )
                         )
                     }
@@ -165,6 +174,9 @@ internal class ChatServiceListener(
         }
     }
 
-    private fun isLocalParticipantRemoved(participants: List<RemoteParticipantInfoModel>, localParticipantInfoModel: LocalParticipantInfoModel) =
+    private fun isLocalParticipantRemoved(
+        participants: List<RemoteParticipantInfoModel>,
+        localParticipantInfoModel: LocalParticipantInfoModel,
+    ) =
         participants.any { it.userIdentifier.id == localParticipantInfoModel.userIdentifier }
 }

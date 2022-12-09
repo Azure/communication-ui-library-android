@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessageSendStatus
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
@@ -26,20 +27,25 @@ internal class MessageViewModel(
     val isLocalUser: Boolean,
     val messageStatus: MessageSendStatus?,
     val showStatusIcon: Boolean,
-)
+    val isHiddenUser: Boolean,
+) {
+    val isVisible get() = message.deletedOn == null && !isHiddenUser
+}
 
 internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,
     localUserIdentifier: String,
     latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN,
     latestLocalUserMessageId: Long? = null,
+    hiddenParticipant: Set<String>
 ) =
     InfoModelToViewModelAdapter(
         context,
         this,
         localUserIdentifier,
         latestReadMessageTimestamp,
-        latestLocalUserMessageId
+        latestLocalUserMessageId,
+        hiddenParticipant
     ) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
@@ -48,6 +54,7 @@ private class InfoModelToViewModelAdapter(
     private val localUserIdentifier: String,
     private val latestReadMessageTimestamp: OffsetDateTime,
     private val latestLocalUserMessageId: Long?,
+    private val hiddenParticipant: Set<String>,
 ) :
     List<MessageViewModel> {
 
@@ -88,6 +95,9 @@ private class InfoModelToViewModelAdapter(
             isLocalUser = isLocalUser,
             messageStatus = thisMessage.sendStatus,
             showStatusIcon = shouldShowMessageStatusIcon(thisMessage),
+            isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
+                messages[index].participants.size == 1 &&
+                hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id)
         )
     }
 

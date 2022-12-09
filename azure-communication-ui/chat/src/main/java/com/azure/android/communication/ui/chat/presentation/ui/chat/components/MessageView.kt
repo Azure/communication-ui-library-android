@@ -16,12 +16,17 @@ import androidx.compose.foundation.layout.width
 
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -46,9 +51,15 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
-
+    if (!viewModel.isVisible) {
+        return
+    }
     Column(
-        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding),
+        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding).semantics(mergeDescendants = true) {
+            // Despite the "", it's still merging/reading the children as they are on
+            // the screen.
+            contentDescription = ""
+        },
     ) {
 
         // Date Header Part
@@ -79,7 +90,7 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
             ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
                 icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
                 stringResource = R.string.azure_communication_ui_chat_joined_chat,
-                substitution = viewModel.message.participants
+                substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
             )
             ChatMessageType.PARTICIPANT_REMOVED -> if (viewModel.message.isCurrentUser)
                 SystemMessage(
@@ -90,7 +101,7 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
                 SystemMessage(
                     icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
                     stringResource = R.string.azure_communication_ui_chat_left_chat,
-                    substitution = viewModel.message.participants
+                    substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
                 )
             else -> {
                 BasicText(
@@ -113,7 +124,7 @@ private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<Str
     ) {
         Icon(
             painter = painterResource(id = icon),
-            contentDescription = text,
+            contentDescription = null,
             tint = ChatCompositeTheme.colors.systemIconColor
         )
         BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
@@ -247,7 +258,8 @@ private fun messageContent(viewModel: MessageViewModel) {
             } else {
                 BasicText(
                     text = viewModel.message.content ?: "Empty",
-                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT)
+                    modifier = Modifier.testTag(UITestTags.MESSAGE_BASIC_CONTENT),
+                    style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor)
                 )
             }
         }
@@ -256,13 +268,23 @@ private fun messageContent(viewModel: MessageViewModel) {
 
 @Composable
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
+
+    val textColor = ChatCompositeTheme.colors.textColor
+    val textSize = ChatCompositeTheme.typography.messageBody.fontSize
+    val formattedText = remember(html) {
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            TextView(context)
+            TextView(context).apply {
+                this.setTextColor(textColor.hashCode())
+                this.textSize = textSize.value
+            }
         },
         update = {
-            it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            it.text = formattedText
         }
     )
 }
@@ -279,7 +301,8 @@ internal fun PreviewChatCompositeMessage() {
         val vms = MOCK_MESSAGES.toViewModelList(
             LocalContext.current,
             MOCK_LOCAL_USER_ID,
-            OffsetDateTime.now()
+            OffsetDateTime.now(),
+            mutableSetOf()
         )
         for (a in 0 until vms.size) {
             MessageView(vms[a]) { }

@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.chat
 import android.content.Context
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.error.ChatErrorHandler
 import com.azure.android.communication.ui.chat.error.EventHandler
 import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.logger.DefaultLogger
@@ -19,6 +20,7 @@ import com.azure.android.communication.ui.chat.redux.middleware.repository.Messa
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatActionHandler
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatMiddlewareImpl
 import com.azure.android.communication.ui.chat.redux.middleware.sdk.ChatServiceListener
+import com.azure.android.communication.ui.chat.redux.reducer.AccessibilityReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.chat.redux.reducer.ChatReducerImpl
 import com.azure.android.communication.ui.chat.redux.reducer.ErrorReducerImpl
@@ -32,15 +34,16 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepository
 import com.azure.android.communication.ui.chat.service.ChatService
-import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.service.sdk.ChatEventHandler
 import com.azure.android.communication.ui.chat.service.sdk.ChatFetchNotificationHandler
+import com.azure.android.communication.ui.chat.service.sdk.ChatSDKWrapper
 import com.azure.android.communication.ui.chat.utilities.CoroutineContextProvider
 import com.azure.android.communication.ui.chat.utilities.TestHelper
+import com.azure.android.communication.ui.chat.utilities.announceForAccessibility
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 internal class ChatContainer(
-    private val chatAdapter: ChatAdapter,
+    private val chatUIClient: ChatUIClient,
     private val configuration: ChatCompositeConfiguration,
     private val instanceId: Int,
 ) {
@@ -80,6 +83,7 @@ internal class ChatContainer(
                     locate<Dispatch>()(ChatAction.StartChat())
                     locate<NetworkManager>().start(context)
                     locate<EventHandler>().start()
+                    locate<ChatErrorHandler>().start()
                 }
         }
     }
@@ -94,7 +98,7 @@ internal class ChatContainer(
 
             val messageRepository = MessageRepository.createSkipListBackedRepository()
 
-            addTypedBuilder { chatAdapter }
+            addTypedBuilder { chatUIClient }
 
             addTypedBuilder { messageRepository }
 
@@ -147,7 +151,10 @@ internal class ChatContainer(
                         errorReducer = ErrorReducerImpl(),
                         navigationReducer = NavigationReducerImpl(),
                         repositoryReducer = RepositoryReducerImpl(),
-                        networkReducer = NetworkReducerImpl()
+                        networkReducer = NetworkReducerImpl(),
+                        accessibilityReducer = AccessibilityReducerImpl(context) {
+                            announceForAccessibility(context, it)
+                        },
                     ) as Reducer<ReduxState>,
                     middlewares = mutableListOf(
                         ChatMiddlewareImpl(
@@ -173,11 +180,20 @@ internal class ChatContainer(
                     configuration = configuration,
                 )
             }
+
+            addTypedBuilder {
+                ChatErrorHandler(
+                    coroutineContextProvider = locate(),
+                    store = locate(),
+                    configuration = configuration,
+                )
+            }
             addTypedBuilder<Logger> { DefaultLogger() }
         }
 
     fun stop() {
         locator?.locate<EventHandler>()?.stop()
+        locator?.locate<ChatErrorHandler>()?.stop()
         locator?.locate<ChatSDKWrapper>()?.destroy()
         locator?.locate<ChatServiceListener>()?.unsubscribe()
         locator?.locate<AppStore<ReduxState>>()?.end()

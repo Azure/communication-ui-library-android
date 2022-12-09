@@ -64,8 +64,8 @@ private fun sendButtonOnclick(
                 internalId = System.currentTimeMillis().toString(),
                 messageType = ChatMessageType.TEXT,
                 createdOn = OffsetDateTime.now(),
-                content = messageInputTextState.value,
                 sendStatus = MessageSendStatus.SENDING,
+                content = messageInputTextState.value.trim(),
                 isCurrentUser = true,
             )
         )

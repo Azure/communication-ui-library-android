@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -57,6 +58,7 @@ internal fun ChatScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
+        backgroundColor = ChatCompositeTheme.colors.background,
         scaffoldState = scaffoldState,
         topBar = {
             if (!showActionBar) return@Scaffold
@@ -86,8 +88,8 @@ internal fun ChatScreen(
         content = { paddingValues ->
             if (viewModel.showError) {
                 Column {
-                    BasicText("ERROR")
-                    BasicText(viewModel.errorMessage)
+                    BasicText("ERROR", style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor))
+                    BasicText(viewModel.errorMessage, style = LocalTextStyle.current.copy(color = ChatCompositeTheme.colors.textColor))
                 }
             } else if (viewModel.isLoading) {
                 Box(
@@ -175,7 +177,7 @@ internal fun ChatScreenPreview() {
     ChatCompositeTheme {
         ChatScreen(
             viewModel = ChatScreenViewModel(
-                messages = MOCK_MESSAGES.toViewModelList(LocalContext.current, MOCK_LOCAL_USER_ID),
+                messages = MOCK_MESSAGES.toViewModelList(context = LocalContext.current, localUserIdentifier = MOCK_LOCAL_USER_ID, hiddenParticipant = mutableSetOf()),
                 chatStatus = ChatStatus.INITIALIZED,
                 buildCount = 2,
                 areMessagesLoading = true,

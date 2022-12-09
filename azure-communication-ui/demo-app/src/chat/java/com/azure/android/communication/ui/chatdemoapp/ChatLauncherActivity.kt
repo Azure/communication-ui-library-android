@@ -16,11 +16,13 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
-import com.azure.android.communication.ui.chat.ChatAdapter
-import com.azure.android.communication.ui.chat.presentation.ChatCompositeView
+import com.azure.android.communication.ui.chat.ChatUIClient
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
+import com.azure.android.communication.ui.chat.presentation.ChatThreadView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.chatdemoapp.features.conditionallyRegisterDiagnostics
@@ -53,7 +55,6 @@ class ChatLauncherActivity : AppCompatActivity() {
                 Crashes::class.java,
                 Distribute::class.java
             )
-            Distribute.checkForUpdate()
         }
         // Register Memory Viewer with FeatureFlags
         conditionallyRegisterDiagnostics(this)
@@ -112,6 +113,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     // / When a request is made to close the view, lets do that here
     private fun onChatCompositeExitRequested() {
         // Remove chat view from screen
+        binding.setupScreen.visibility = View.VISIBLE
         chatView?.parent?.let {
             (it as ViewGroup).removeView(chatView)
         }
@@ -135,12 +137,12 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun showChatUI() {
-        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+        val chatThreadAdapter = chatLauncherViewModel.chatThreadAdapter!!
 
         // Create Chat Composite View
-        chatView = ChatCompositeView(this, chatAdapter)
+        chatView = ChatThreadView(this, chatThreadAdapter)
 
-        // Place it as a child element to any UI I have on the screen
+        binding.setupScreen.visibility = View.GONE
         addContentView(
             chatView,
             ViewGroup.LayoutParams(
@@ -151,7 +153,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun showChatUIActivity() {
-        val chatAdapter = chatLauncherViewModel.chatAdapter!!
+        val chatAdapter = chatLauncherViewModel.chatUIClient!!
 
         val activityLauncherClass =
             Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
@@ -159,7 +161,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         constructor.isAccessible = true
         val instance = constructor.newInstance(this)
         val launchMethod =
-            activityLauncherClass.getDeclaredMethod("launch", ChatAdapter::class.java)
+            activityLauncherClass.getDeclaredMethod("launch", ChatUIClient::class.java)
         launchMethod.isAccessible = true
         launchMethod.invoke(instance, chatAdapter)
     }
@@ -177,7 +179,8 @@ class ChatLauncherActivity : AppCompatActivity() {
 
         try {
             chatLauncherViewModel.launch(
-                this,
+                context = this,
+                errorHandler = { handleError(it) },
                 endpoint,
                 acsIdentity,
                 threadId,
@@ -228,5 +231,13 @@ class ChatLauncherActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun handleError(eventArgs: ChatCompositeErrorEvent) {
+        println("================= application is logging error =====================")
+        println(eventArgs.cause)
+        println(eventArgs.errorCode)
+        showAlert("${eventArgs.cause}")
+        println("====================================================================")
     }
 }

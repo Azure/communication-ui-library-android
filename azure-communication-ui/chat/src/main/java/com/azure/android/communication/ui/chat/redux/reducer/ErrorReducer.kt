@@ -13,7 +13,7 @@ internal class ErrorReducerImpl : ErrorReducer {
     override fun reduce(state: ErrorState, action: Action): ErrorState {
         when (action) {
             is ErrorAction.ChatStateErrorOccurred -> return state.copy(
-                chatStateError = action.chatStateError
+                chatCompositeErrorEvent = action.chatCompositeErrorEvent
             )
         }
         return state

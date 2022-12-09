@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.chat.redux.middleware.sdk
 
 import com.azure.android.communication.ui.chat.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.chat.error.ErrorCode
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.redux.AppStore
 import com.azure.android.communication.ui.chat.redux.action.Action
@@ -360,8 +360,8 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 ErrorAction.ChatStateErrorOccurred::class.java
             )
             assertEquals(
-                argumentCaptor.firstValue.chatStateError.errorCode,
-                ErrorCode.CHAT_START_EVENT_NOTIFICATIONS_FAILED
+                argumentCaptor.firstValue.chatCompositeErrorEvent.errorCode,
+                ChatCompositeErrorCode.START_EVENT_NOTIFICATIONS_FAILED
             )
         }
 
@@ -417,8 +417,8 @@ internal class ChatActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
             val chatError = argumentCaptor.secondValue as ErrorAction.ChatStateErrorOccurred
             assertEquals(
-                chatError.chatStateError.errorCode,
-                ErrorCode.CHAT_REQUEST_PARTICIPANTS_FETCH_FAILED
+                chatError.chatCompositeErrorEvent.errorCode,
+                ChatCompositeErrorCode.REQUEST_PARTICIPANTS_FETCH_FAILED
             )
         }
 

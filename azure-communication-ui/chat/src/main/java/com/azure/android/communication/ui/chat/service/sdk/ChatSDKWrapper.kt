@@ -118,6 +118,11 @@ internal class ChatSDKWrapper(
         chatFetchNotificationHandler.stop()
     }
 
+    override fun getAdminUserId(): String? {
+        if (!this::threadClient.isInitialized) return null
+        return threadClient.properties.createdByCommunicationIdentifier.into().id
+    }
+
     override fun requestPreviousPage() {
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
@@ -135,6 +140,7 @@ internal class ChatSDKWrapper(
                                 allPagesFetched = true
                             }
                             pagingContinuationToken = continuationToken
+                            val id = getAdminUserId()
                             messages = elements.map { it.into(chatConfig.identity) }
                         }
                     } catch (ex: Exception) {
