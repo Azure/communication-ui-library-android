@@ -38,7 +38,7 @@ internal fun List<MessageInfoModel>.toViewModelList(
     localUserIdentifier: String,
     latestLocalUserMessageId: Long? = null,
     lastMessageIdReadByRemoteParticipants: Long = 0L,
-    hiddenParticipant: Set<String>
+    hiddenParticipant: Set<String>,
 ) =
     InfoModelToViewModelAdapter(
         context,
@@ -69,11 +69,12 @@ private class InfoModelToViewModelAdapter(
         val thisMessage = messages[index]
         val isLocalUser =
             thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
-
-        val showReadReceipt = thisMessage.sendStatus == MessageSendStatus.SENT && lastMessageIdReadByRemoteParticipants != 0L &&
-            lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID
+        val showReadReceipt =
+            thisMessage.sendStatus == MessageSendStatus.SENT && lastMessageIdReadByRemoteParticipants != 0L &&
+                lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID
 
         return MessageViewModel(
+
             thisMessage,
             showUsername = !isLocalUser &&
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
@@ -133,7 +134,8 @@ private class InfoModelToViewModelAdapter(
     override fun containsAll(elements: Collection<MessageViewModel>) =
         messages.containsAll(elements.map { it.message })
 
-    override fun indexOf(element: MessageViewModel) = messages.findMessageIdxById(element.message.normalizedID)
+    override fun indexOf(element: MessageViewModel) =
+        messages.findMessageIdxById(element.message.normalizedID)
 
     override fun isEmpty() = messages.isEmpty()
 
@@ -159,7 +161,10 @@ private class InfoModelToViewModelAdapter(
         TODO("Not Implemented, probably not needed")
     }
 
-    private fun shouldShowMessageStatusIcon(message: MessageInfoModel, showReadReceipt: Boolean): Boolean {
+    private fun shouldShowMessageStatusIcon(
+        message: MessageInfoModel,
+        showReadReceipt: Boolean,
+    ): Boolean {
         return !showReadReceipt && (message.sendStatus == MessageSendStatus.FAILED || latestLocalUserMessageId == message.normalizedID)
     }
 }

@@ -51,7 +51,6 @@ internal fun buildChatScreenViewModel(
     localUserIdentifier: String,
     dispatch: Dispatch,
 ): ChatScreenViewModel {
-
     val latestLocalUserMessageId = messages.findLast { it.isCurrentUser }?.normalizedID
     val lastMessageIdReadByRemoteParticipants = getLastMessageIdReadByRemoteParticipants(
         messages,
