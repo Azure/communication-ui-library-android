@@ -136,6 +136,31 @@ internal class MessageRepositoryMiddlewareImpl(
         action: ChatAction.MessagesPageReceived,
         dispatch: Dispatch,
     ) {
+
+//        // update the status of the last local user message
+//        val lastLocalUserMessage = action.messages.findLast { it.isCurrentUser }
+//
+//        if (lastLocalUserMessage != null) {
+//        messageRepository.replaceMessage(
+//            lastLocalUserMessage,
+//            lastLocalUserMessage.copy(
+//                internalId = lastLocalUserMessage.internalId ,
+//                sendStatus = getLocalUserLastMessageStatus(lastLocalUserMessage)
+//            ))
+//
+//            val isNullId = lastLocalUserMessage. == null
+//
+// //            id == null && internalID != null = (sending)
+// //            id != null && internalId != null = (sent)
+// //            id != null ** internalId == null = (received)
+// //
+// //
+
+//            action.messageInfoModel.copy(
+//                sendStatus = MessageSendStatus.FAILED
+// //            )
+//    }
+
         messageRepository.addPage(action.messages.reversed())
         notifyUpdate(dispatch)
     }
@@ -159,7 +184,7 @@ internal class MessageRepositoryMiddlewareImpl(
                 content = null,
                 createdOn = OffsetDateTime.now(),
                 senderDisplayName = null,
-                messageType = ChatMessageType.PARTICIPANT_ADDED
+                messageType = ChatMessageType.PARTICIPANT_ADDED,
             )
         )
         notifyUpdate(dispatch)
@@ -228,6 +253,7 @@ internal class MessageRepositoryMiddlewareImpl(
                     createdOn = oldMessage.createdOn,
                     editedOn = OffsetDateTime.now(), // Is it in edit object?
                     deletedOn = oldMessage.deletedOn,
+                    sendStatus = oldMessage.sendStatus,
                     senderCommunicationIdentifier = oldMessage.senderCommunicationIdentifier,
                     isCurrentUser = oldMessage.isCurrentUser
                 )

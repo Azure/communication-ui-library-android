@@ -17,6 +17,7 @@ internal data class ChatCompositeColors(
     val messageBackground: Color = Color(0xFFF1F1F1),
     val systemIconColor: Color = Color(0xFF919191),
     val messageBackgroundSelf: Color = Color(0xFFDEECF9),
+    val messageBackgroundSelfError: Color = Color(0xCAA80000),
     val unreadMessageIndicatorBackground: Color = Color(0xFF0078D4),
 )
 
