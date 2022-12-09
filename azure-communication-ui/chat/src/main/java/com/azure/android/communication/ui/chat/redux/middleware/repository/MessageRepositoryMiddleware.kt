@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.redux.middleware.repository
 
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessageSendStatus
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Middleware
 import com.azure.android.communication.ui.chat.redux.Store
@@ -39,6 +40,7 @@ internal class MessageRepositoryMiddlewareImpl(
             when (action) {
                 is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
                 is ChatAction.MessageSent -> processMessageSent(action, store::dispatch)
+                is ChatAction.MessageSentFailed -> processMessageSentFailed(action, store::dispatch)
                 is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
                 is ChatAction.MessageReceived -> processMessageReceived(action, store::dispatch)
                 is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
@@ -108,7 +110,25 @@ internal class MessageRepositoryMiddlewareImpl(
         dispatch: Dispatch,
     ) {
         messageRepository.removeMessage(action.messageInfoModel)
-        messageRepository.addMessage(action.messageInfoModel.copy(id = action.id))
+        messageRepository.addMessage(
+            action.messageInfoModel.copy(
+                id = action.id,
+                sendStatus = MessageSendStatus.SENT
+            )
+        )
+        notifyUpdate(dispatch)
+    }
+
+    private fun processMessageSentFailed(
+        action: ChatAction.MessageSentFailed,
+        dispatch: Dispatch,
+    ) {
+        messageRepository.replaceMessage(
+            action.messageInfoModel,
+            action.messageInfoModel.copy(
+                sendStatus = MessageSendStatus.FAILED
+            )
+        )
         notifyUpdate(dispatch)
     }
 
@@ -139,7 +159,7 @@ internal class MessageRepositoryMiddlewareImpl(
                 content = null,
                 createdOn = OffsetDateTime.now(),
                 senderDisplayName = null,
-                messageType = ChatMessageType.PARTICIPANT_ADDED
+                messageType = ChatMessageType.PARTICIPANT_ADDED,
             )
         )
         notifyUpdate(dispatch)
@@ -207,6 +227,7 @@ internal class MessageRepositoryMiddlewareImpl(
                     createdOn = oldMessage.createdOn,
                     editedOn = OffsetDateTime.now(), // Is it in edit object?
                     deletedOn = oldMessage.deletedOn,
+                    sendStatus = oldMessage.sendStatus,
                     senderCommunicationIdentifier = oldMessage.senderCommunicationIdentifier,
                     isCurrentUser = oldMessage.isCurrentUser
                 )

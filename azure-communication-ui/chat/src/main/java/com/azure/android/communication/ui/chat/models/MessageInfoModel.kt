@@ -9,6 +9,12 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
 import com.azure.android.core.rest.annotation.Immutable
 import org.threeten.bp.OffsetDateTime
 
+internal enum class MessageSendStatus {
+    SENDING, // default state, message is being sent
+    SENT, // message is successfully sent
+    FAILED, // message failed to send
+}
+
 @Immutable
 internal data class MessageInfoModel(
     private val id: String? = null,
@@ -23,6 +29,7 @@ internal data class MessageInfoModel(
     val senderCommunicationIdentifier: CommunicationIdentifier? = null,
     val deletedOn: OffsetDateTime? = null,
     val editedOn: OffsetDateTime? = null,
+    val sendStatus: MessageSendStatus? = null,
     val isCurrentUser: Boolean = false,
 ) : BaseInfoModel {
     // Normalized ID to use either internal or id
@@ -48,6 +55,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(localP
         senderCommunicationIdentifier = this.senderCommunicationIdentifier?.into(),
         deletedOn = this.deletedOn,
         editedOn = this.editedOn,
+        sendStatus = null,
         isCurrentUser = senderCommunicationIdentifier != null && localParticipantIdentifier == this.senderCommunicationIdentifier.into().id,
     )
 }
@@ -67,6 +75,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessageReceivedEven
         createdOn = this.createdOn,
         deletedOn = null,
         editedOn = null,
+        sendStatus = MessageSendStatus.SENT,
         isCurrentUser = localParticipantIdentifier == this.sender.into().id,
     )
 }
@@ -86,6 +95,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessageEditedEvent.
         createdOn = this.createdOn,
         deletedOn = null,
         editedOn = this.editedOn,
+        sendStatus = MessageSendStatus.SENT,
         isCurrentUser = localParticipantIdentifier == this.sender.into().id,
     )
 }
@@ -105,6 +115,7 @@ internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent
         createdOn = this.createdOn,
         deletedOn = this.deletedOn,
         editedOn = null,
+        sendStatus = null,
         isCurrentUser = localParticipantIdentifier == this.sender.into().id,
     )
 }
@@ -121,7 +132,6 @@ internal val EMPTY_MESSAGE_INFO_MODEL = MessageInfoModel(
     senderCommunicationIdentifier = null,
     deletedOn = null,
     editedOn = null,
+    sendStatus = MessageSendStatus.SENDING,
     isCurrentUser = false
 )
-
-internal const val INVALID_INDEX = -1

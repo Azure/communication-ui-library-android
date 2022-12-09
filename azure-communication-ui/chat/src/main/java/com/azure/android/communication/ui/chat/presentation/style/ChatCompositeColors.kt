@@ -15,6 +15,7 @@ open class ChatCompositeColors(
     val systemIconColor: Color,
     val messageBackground: Color,
     val messageBackgroundSelf: Color,
+    val messageBackgroundSelfError: Color,
     val unreadMessageIndicatorBackground: Color,
 ) {
 
@@ -27,6 +28,7 @@ open class ChatCompositeColors(
         systemIconColor = Color(0xFF6E6E6E),
         messageBackground = Color(0xFF212121),
         messageBackgroundSelf = Color(0xFF043862),
+        messageBackgroundSelfError = Color(0xCAA80000),
         unreadMessageIndicatorBackground = Color(0xFF0086F0)
     )
 
@@ -39,6 +41,7 @@ open class ChatCompositeColors(
         systemIconColor = Color(0xFF919191),
         messageBackground = Color(0xFFF1F1F1),
         messageBackgroundSelf = Color(0xFFDEECF9),
+        messageBackgroundSelfError = Color(0xCAA80000),
         unreadMessageIndicatorBackground = Color(0xFF0078D4)
     )
 }

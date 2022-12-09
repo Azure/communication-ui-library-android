@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.models.MessageSendStatus
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.MessageViewModel
@@ -159,7 +160,8 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     Modifier
                         .background(
                             color = when (viewModel.isLocalUser) {
-                                true -> ChatCompositeTheme.colors.messageBackgroundSelf
+                                true -> if (viewModel.messageStatus == MessageSendStatus.FAILED)
+                                    ChatCompositeTheme.colors.messageBackgroundSelfError else ChatCompositeTheme.colors.messageBackgroundSelf
                                 false -> ChatCompositeTheme.colors.messageBackground
                             },
                             shape = ChatCompositeTheme.shapes.messageBubble,
@@ -181,6 +183,49 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     .align(alignment = Alignment.Bottom)
             ) {
                 // Display the Read Receipt
+                androidx.compose.animation.AnimatedVisibility(visible = viewModel.showSentStatusIcon) {
+
+                    when (viewModel.messageStatus) {
+                        MessageSendStatus.FAILED -> {
+                            Icon(
+                                painter =
+                                painterResource(
+                                    id =
+                                    R.drawable.azure_communication_ui_chat_ic_fluent_message_failed_to_send_10_filled
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+
+                        MessageSendStatus.SENDING -> {
+                            Icon(
+                                painter =
+                                painterResource(
+                                    id =
+                                    R.drawable.azure_communication_ui_chat_ic_fluent_message_sending_10_filled
+                                ),
+                                contentDescription = null,
+                                tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+
+                        else -> {
+                            // Sent
+                            Icon(
+                                painter =
+                                painterResource(
+                                    id =
+                                    R.drawable.azure_communication_ui_chat_ic_fluent_message_sent_10_filled
+                                ),
+                                contentDescription = null,
+                                tint = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+                    }
+                }
                 androidx.compose.animation.AnimatedVisibility(visible = viewModel.showReadReceipt) {
                     Icon(
                         painter =
@@ -271,10 +316,10 @@ internal fun PreviewChatCompositeMessage() {
             .background(color = ChatCompositeTheme.colors.background)
     ) {
         val vms = MOCK_MESSAGES.toViewModelList(
-            LocalContext.current,
-            MOCK_LOCAL_USER_ID,
-            0L,
-            mutableSetOf()
+            context = LocalContext.current,
+            localUserIdentifier = MOCK_LOCAL_USER_ID,
+            hiddenParticipant = mutableSetOf(),
+            latestLocalUserMessageId = 0L,
         )
         for (a in 0 until vms.size) {
             MessageView(vms[a]) { }

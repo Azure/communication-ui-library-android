@@ -51,7 +51,7 @@ internal fun buildChatScreenViewModel(
     localUserIdentifier: String,
     dispatch: Dispatch,
 ): ChatScreenViewModel {
-
+    val latestLocalUserMessageId = messages.findLast { it.isCurrentUser }?.normalizedID
     val lastMessageIdReadByRemoteParticipants = getLastMessageIdReadByRemoteParticipants(
         messages,
         store.getCurrentState().participantState.latestReadMessageTimestamp
@@ -61,6 +61,7 @@ internal fun buildChatScreenViewModel(
         messages = messages.toViewModelList(
             context,
             localUserIdentifier,
+            latestLocalUserMessageId,
             lastMessageIdReadByRemoteParticipants,
             store.getCurrentState().participantState.hiddenParticipant
         ),

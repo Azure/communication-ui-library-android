@@ -88,6 +88,13 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
+
+                dispatch(
+                    ChatAction.MessageSentFailed(
+                        messageInfoModel = action.messageInfoModel
+                    )
+                )
+
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
                         chatCompositeErrorEvent = ChatCompositeErrorEvent(

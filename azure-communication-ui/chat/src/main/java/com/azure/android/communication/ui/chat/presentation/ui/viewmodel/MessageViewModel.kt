@@ -7,6 +7,7 @@ import android.content.Context
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessageSendStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import com.azure.android.core.rest.annotation.Immutable
@@ -24,6 +25,8 @@ internal class MessageViewModel(
     val showTime: Boolean,
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
+    val messageStatus: MessageSendStatus?,
+    val showSentStatusIcon: Boolean,
     val showReadReceipt: Boolean,
     val isHiddenUser: Boolean,
 ) {
@@ -33,21 +36,24 @@ internal class MessageViewModel(
 internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,
     localUserIdentifier: String,
+    latestLocalUserMessageId: Long? = null,
     lastMessageIdReadByRemoteParticipants: Long = 0L,
-    hiddenParticipant: Set<String>
+    hiddenParticipant: Set<String>,
 ) =
     InfoModelToViewModelAdapter(
         context,
         this,
         localUserIdentifier,
+        latestLocalUserMessageId,
         lastMessageIdReadByRemoteParticipants,
-        hiddenParticipant
+        hiddenParticipant,
     ) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
     private val context: Context,
     private val messages: List<MessageInfoModel>,
     private val localUserIdentifier: String,
+    private val latestLocalUserMessageId: Long?,
     private val lastMessageIdReadByRemoteParticipants: Long,
     private val hiddenParticipant: Set<String>,
 ) :
@@ -55,23 +61,24 @@ private class InfoModelToViewModelAdapter(
 
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
-
         val lastMessage = try {
             messages[index - 1]
         } catch (e: IndexOutOfBoundsException) {
             EMPTY_MESSAGE_INFO_MODEL
         }
-//        val lastLocalUserMessage =
         val thisMessage = messages[index]
         val isLocalUser =
             thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
+        val showReadReceipt =
+            thisMessage.sendStatus == MessageSendStatus.SENT && lastMessageIdReadByRemoteParticipants != 0L &&
+                lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID
+
         return MessageViewModel(
 
             thisMessage,
             showUsername = !isLocalUser &&
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
-
             showTime =
             (
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
@@ -79,14 +86,14 @@ private class InfoModelToViewModelAdapter(
                     !thisMessage.isCurrentUser
                 ) ||
                 (thisMessage.isCurrentUser && !lastMessage.isCurrentUser),
-
             dateHeaderText = buildDateHeader(
                 lastMessage.createdOn!!,
                 thisMessage.createdOn ?: OffsetDateTime.now()
             ),
-
             isLocalUser = isLocalUser,
-            showReadReceipt = lastMessageIdReadByRemoteParticipants != 0L && lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID,
+            messageStatus = thisMessage.sendStatus,
+            showReadReceipt = showReadReceipt,
+            showSentStatusIcon = shouldShowMessageStatusIcon(thisMessage, showReadReceipt),
             isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
                 messages[index].participants.size == 1 &&
                 hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id)
@@ -127,7 +134,8 @@ private class InfoModelToViewModelAdapter(
     override fun containsAll(elements: Collection<MessageViewModel>) =
         messages.containsAll(elements.map { it.message })
 
-    override fun indexOf(element: MessageViewModel) = messages.findMessageIdxById(element.message.normalizedID)
+    override fun indexOf(element: MessageViewModel) =
+        messages.findMessageIdxById(element.message.normalizedID)
 
     override fun isEmpty() = messages.isEmpty()
 
@@ -151,5 +159,12 @@ private class InfoModelToViewModelAdapter(
     override fun subList(fromIndex: Int, toIndex: Int): List<MessageViewModel> {
         // Not Implemented
         TODO("Not Implemented, probably not needed")
+    }
+
+    private fun shouldShowMessageStatusIcon(
+        message: MessageInfoModel,
+        showReadReceipt: Boolean,
+    ): Boolean {
+        return !showReadReceipt && (message.sendStatus == MessageSendStatus.FAILED || latestLocalUserMessageId == message.normalizedID)
     }
 }
