@@ -53,11 +53,13 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
         return
     }
     Column(
-        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding).semantics(mergeDescendants = true) {
-            // Despite the "", it's still merging/reading the children as they are on
-            // the screen.
-            contentDescription = ""
-        },
+        modifier = Modifier
+            .padding(ChatCompositeTheme.dimensions.messageOuterPadding)
+            .semantics(mergeDescendants = true) {
+                // Despite the "", it's still merging/reading the children as they are on
+                // the screen.
+                contentDescription = ""
+            },
     ) {
 
         // Date Header Part
@@ -88,7 +90,9 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
             ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
                 icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
                 stringResource = R.string.azure_communication_ui_chat_joined_chat,
-                substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
+                substitution = viewModel.message.participants.map {
+                    it.displayName ?: "Participant"
+                }
             )
             ChatMessageType.PARTICIPANT_REMOVED -> if (viewModel.message.isCurrentUser)
                 SystemMessage(
@@ -99,11 +103,13 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
                 SystemMessage(
                     icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
                     stringResource = R.string.azure_communication_ui_chat_left_chat,
-                    substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
+                    substitution = viewModel.message.participants.map {
+                        it.displayName ?: "Participant"
+                    }
                 )
             else -> {
                 BasicText(
-                    text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
+                    text = "${viewModel.message.content} !TYPE NOT DETECTED!"
                 )
             }
         }
