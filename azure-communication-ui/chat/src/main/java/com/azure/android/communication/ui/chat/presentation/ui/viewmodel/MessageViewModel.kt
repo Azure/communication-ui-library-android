@@ -27,6 +27,7 @@ internal class MessageViewModel(
     val isLocalUser: Boolean,
     val messageStatus: MessageSendStatus?,
     val showStatusIcon: Boolean,
+    val showReadReceipt: Boolean,
     val isHiddenUser: Boolean,
 ) {
     val isVisible get() = message.deletedOn == null && !isHiddenUser
@@ -35,25 +36,25 @@ internal class MessageViewModel(
 internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,
     localUserIdentifier: String,
-    latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN,
     latestLocalUserMessageId: Long? = null,
+    lastMessageIdReadByRemoteParticipants: Long = 0L,
     hiddenParticipant: Set<String>
 ) =
     InfoModelToViewModelAdapter(
         context,
         this,
         localUserIdentifier,
-        latestReadMessageTimestamp,
         latestLocalUserMessageId,
-        hiddenParticipant
+        lastMessageIdReadByRemoteParticipants,
+        hiddenParticipant,
     ) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
     private val context: Context,
     private val messages: List<MessageInfoModel>,
     private val localUserIdentifier: String,
-    private val latestReadMessageTimestamp: OffsetDateTime,
     private val latestLocalUserMessageId: Long?,
+    private val lastMessageIdReadByRemoteParticipants: Long,
     private val hiddenParticipant: Set<String>,
 ) :
     List<MessageViewModel> {
@@ -66,15 +67,13 @@ private class InfoModelToViewModelAdapter(
         } catch (e: IndexOutOfBoundsException) {
             EMPTY_MESSAGE_INFO_MODEL
         }
-//        val lastLocalUserMessage =
         val thisMessage = messages[index]
         val isLocalUser =
             thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
-        val currentMessageTime = thisMessage.editedOn ?: thisMessage.createdOn
 
         return MessageViewModel(
 
-            messages[index],
+            thisMessage,
             showUsername = !isLocalUser &&
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
@@ -95,6 +94,7 @@ private class InfoModelToViewModelAdapter(
             isLocalUser = isLocalUser,
             messageStatus = thisMessage.sendStatus,
             showStatusIcon = shouldShowMessageStatusIcon(thisMessage),
+            showReadReceipt = lastMessageIdReadByRemoteParticipants != 0L && lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID,
             isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
                 messages[index].participants.size == 1 &&
                 hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id)
