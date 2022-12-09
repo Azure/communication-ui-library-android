@@ -12,7 +12,6 @@ import org.threeten.bp.OffsetDateTime
 internal enum class MessageSendStatus {
     SENDING, // default state, message is being sent
     SENT, // message is successfully sent
-    SEEN, // read receipt for this message
     FAILED, // message failed to send
 }
 
@@ -35,7 +34,6 @@ internal data class MessageInfoModel(
 ) : BaseInfoModel {
     // Normalized ID to use either internal or id
     internal val normalizedID: Long get() = id?.toLong() ?: internalId?.toLong() ?: 0L
-//    internal val sendStatus: MessageSendStatus? = getSendStatus(id, internalId, isCurrentUser)
 }
 
 internal fun com.azure.android.communication.chat.models.ChatMessage.into(localParticipantIdentifier: String): MessageInfoModel {
@@ -137,26 +135,3 @@ internal val EMPTY_MESSAGE_INFO_MODEL = MessageInfoModel(
     sendStatus = MessageSendStatus.SENDING,
     isCurrentUser = false
 )
-
-// internal fun MessageInfoModel.getSendStatus(id: String?, internalId: String?, isCurrentUser: Boolean): MessageSendStatus? {
-//
-//    return if (isCurrentUser) {
-//        if (id == null && internalId != null) {
-//            MessageSendStatus.SENDING
-//        } else if (id != null && internalId != null) {
-//            MessageSendStatus.SENT
-//        } else if (id != null && internalId == null) {
-//            MessageSendStatus.SENT
-//        }
-//        else {
-//            MessageSendStatus.FAILED
-//        }
-//    } else {
-//        null
-//    }
-//            id == null && internalID != null = (sending)
-//            id != null && internalId != null = (sent)
-//            id != null ** internalId == null = (received)
-// }
-
-internal const val INVALID_INDEX = -1
