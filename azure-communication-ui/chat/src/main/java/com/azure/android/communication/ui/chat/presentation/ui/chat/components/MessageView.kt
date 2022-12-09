@@ -42,7 +42,6 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
-import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -54,11 +53,13 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
         return
     }
     Column(
-        modifier = Modifier.padding(ChatCompositeTheme.dimensions.messageOuterPadding).semantics(mergeDescendants = true) {
-            // Despite the "", it's still merging/reading the children as they are on
-            // the screen.
-            contentDescription = ""
-        },
+        modifier = Modifier
+            .padding(ChatCompositeTheme.dimensions.messageOuterPadding)
+            .semantics(mergeDescendants = true) {
+                // Despite the "", it's still merging/reading the children as they are on
+                // the screen.
+                contentDescription = ""
+            },
     ) {
 
         // Date Header Part
@@ -89,7 +90,9 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
             ChatMessageType.PARTICIPANT_ADDED -> SystemMessage(
                 icon = R.drawable.azure_communication_ui_chat_ic_participant_added_filled,
                 stringResource = R.string.azure_communication_ui_chat_joined_chat,
-                substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
+                substitution = viewModel.message.participants.map {
+                    it.displayName ?: "Participant"
+                }
             )
             ChatMessageType.PARTICIPANT_REMOVED -> if (viewModel.message.isCurrentUser)
                 SystemMessage(
@@ -100,11 +103,13 @@ internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
                 SystemMessage(
                     icon = R.drawable.azure_communication_ui_chat_ic_participant_removed_filled,
                     stringResource = R.string.azure_communication_ui_chat_left_chat,
-                    substitution = viewModel.message.participants.map { it.displayName ?: "Participant" }
+                    substitution = viewModel.message.participants.map {
+                        it.displayName ?: "Participant"
+                    }
                 )
             else -> {
                 BasicText(
-                    text = "${viewModel.message.content} !TYPE NOT DETECTED!" ?: "Empty"
+                    text = "${viewModel.message.content} !TYPE NOT DETECTED!"
                 )
             }
         }
@@ -176,7 +181,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     .align(alignment = Alignment.Bottom)
             ) {
                 // Display the Read Receipt
-                androidx.compose.animation.AnimatedVisibility(visible = viewModel.isRead) {
+                androidx.compose.animation.AnimatedVisibility(visible = viewModel.showReadReceipt) {
                     Icon(
                         painter =
                         painterResource(
@@ -268,7 +273,7 @@ internal fun PreviewChatCompositeMessage() {
         val vms = MOCK_MESSAGES.toViewModelList(
             LocalContext.current,
             MOCK_LOCAL_USER_ID,
-            OffsetDateTime.now(),
+            0L,
             mutableSetOf()
         )
         for (a in 0 until vms.size) {

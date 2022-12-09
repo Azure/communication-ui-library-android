@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
+import org.threeten.bp.OffsetDateTime
 
 internal interface ParticipantsReducer : Reducer<ParticipantsState>
 
@@ -14,15 +15,17 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
     override fun reduce(state: ParticipantsState, action: Action): ParticipantsState =
         when (action) {
             is ParticipantAction.ParticipantsAdded -> {
+                // TODO: sync logic with web and iOS to verify read receipt logic
                 state.copy(
                     participants = state.participants + action.participants.associateBy { it.userIdentifier.id },
                     participantsReadReceiptMap = state.participantsReadReceiptMap +
-                        action.participants.map {
-                            Pair(
-                                it.userIdentifier.id,
-                                state.latestReadMessageTimestamp
-                            )
-                        }
+                        action.participants.filter { it.userIdentifier.id != state.localParticipantInfoModel.userIdentifier }
+                            .map {
+                                Pair(
+                                    it.userIdentifier.id,
+                                    state.latestReadMessageTimestamp
+                                )
+                            }
                 )
             }
             is ParticipantAction.ParticipantsRemoved -> {
@@ -89,6 +92,12 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.ReadReceiptReceived -> {
                 val participantsReadReceiptMap = state.participantsReadReceiptMap.toMutableMap()
+                // if any participant have OffsetDateTime.MIN update it to latest received notification
+                state.participantsReadReceiptMap.forEach {
+                    if (it.value == OffsetDateTime.MIN) {
+                        participantsReadReceiptMap[it.key] = action.infoModel.receivedOn
+                    }
+                }
                 participantsReadReceiptMap[action.infoModel.userIdentifier.id] =
                     action.infoModel.receivedOn
                 val latestReadMessageTimestamp = participantsReadReceiptMap.values.min()

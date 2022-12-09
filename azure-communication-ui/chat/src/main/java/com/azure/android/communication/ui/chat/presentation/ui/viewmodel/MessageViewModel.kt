@@ -24,7 +24,7 @@ internal class MessageViewModel(
     val showTime: Boolean,
     val dateHeaderText: String?,
     val isLocalUser: Boolean,
-    val isRead: Boolean,
+    val showReadReceipt: Boolean,
     val isHiddenUser: Boolean,
 ) {
     val isVisible get() = message.deletedOn == null && !isHiddenUser
@@ -33,14 +33,14 @@ internal class MessageViewModel(
 internal fun List<MessageInfoModel>.toViewModelList(
     context: Context,
     localUserIdentifier: String,
-    latestReadMessageTimestamp: OffsetDateTime = OffsetDateTime.MIN,
+    lastMessageIdReadByRemoteParticipants: Long = 0L,
     hiddenParticipant: Set<String>
 ) =
     InfoModelToViewModelAdapter(
         context,
         this,
         localUserIdentifier,
-        latestReadMessageTimestamp,
+        lastMessageIdReadByRemoteParticipants,
         hiddenParticipant
     ) as List<MessageViewModel>
 
@@ -48,7 +48,7 @@ private class InfoModelToViewModelAdapter(
     private val context: Context,
     private val messages: List<MessageInfoModel>,
     private val localUserIdentifier: String,
-    private val latestReadMessageTimestamp: OffsetDateTime,
+    private val lastMessageIdReadByRemoteParticipants: Long,
     private val hiddenParticipant: Set<String>,
 ) :
     List<MessageViewModel> {
@@ -65,10 +65,9 @@ private class InfoModelToViewModelAdapter(
         val thisMessage = messages[index]
         val isLocalUser =
             thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
-        val currentMessageTime = thisMessage.editedOn ?: thisMessage.createdOn
         return MessageViewModel(
 
-            messages[index],
+            thisMessage,
             showUsername = !isLocalUser &&
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
@@ -87,7 +86,7 @@ private class InfoModelToViewModelAdapter(
             ),
 
             isLocalUser = isLocalUser,
-            isRead = isLocalUser && (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp),
+            showReadReceipt = lastMessageIdReadByRemoteParticipants != 0L && lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID,
             isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
                 messages[index].participants.size == 1 &&
                 hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id)
