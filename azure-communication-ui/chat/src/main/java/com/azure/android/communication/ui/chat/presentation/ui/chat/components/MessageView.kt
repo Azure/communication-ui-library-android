@@ -42,7 +42,6 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
-import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -176,7 +175,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     .align(alignment = Alignment.Bottom)
             ) {
                 // Display the Read Receipt
-                androidx.compose.animation.AnimatedVisibility(visible = viewModel.isRead) {
+                androidx.compose.animation.AnimatedVisibility(visible = viewModel.showReadReceipt) {
                     Icon(
                         painter =
                         painterResource(
@@ -268,7 +267,7 @@ internal fun PreviewChatCompositeMessage() {
         val vms = MOCK_MESSAGES.toViewModelList(
             LocalContext.current,
             MOCK_LOCAL_USER_ID,
-            OffsetDateTime.now(),
+            0L,
             mutableSetOf()
         )
         for (a in 0 until vms.size) {
