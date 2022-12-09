@@ -140,7 +140,6 @@ internal class ChatSDKWrapper(
                                 allPagesFetched = true
                             }
                             pagingContinuationToken = continuationToken
-                            val id = getAdminUserId()
                             messages = elements.map { it.into(chatConfig.identity) }
                         }
                     } catch (ex: Exception) {
