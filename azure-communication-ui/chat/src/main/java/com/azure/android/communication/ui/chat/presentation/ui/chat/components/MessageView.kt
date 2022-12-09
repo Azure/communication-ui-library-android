@@ -302,7 +302,7 @@ internal fun PreviewChatCompositeMessage() {
             LocalContext.current,
             MOCK_LOCAL_USER_ID,
             OffsetDateTime.now(),
-            mutableSetOf()
+            hiddenParticipant = mutableSetOf()
         )
         for (a in 0 until vms.size) {
             MessageView(vms[a]) { }
