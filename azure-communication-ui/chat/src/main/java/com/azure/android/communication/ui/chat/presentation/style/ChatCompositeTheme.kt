@@ -3,15 +3,10 @@
 
 package com.azure.android.communication.ui.chat.presentation.style
 
-import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -42,14 +37,6 @@ internal fun ChatCompositeTheme(
         messageBubble = RoundedCornerShape(4.dp),
         unreadMessagesIndicator = RoundedCornerShape(100.dp)
     )
-
-    val isDarkTheme = isSystemInDarkTheme()
-    val view = LocalView.current
-
-    SideEffect {
-        val window = (view.context as Activity).window
-        window.navigationBarColor = if (isDarkTheme) Color.Black.toArgb() else Color.White.toArgb()
-    }
 
     CompositionLocalProvider(
         LocalChatCompositeTypography provides customTypography,
