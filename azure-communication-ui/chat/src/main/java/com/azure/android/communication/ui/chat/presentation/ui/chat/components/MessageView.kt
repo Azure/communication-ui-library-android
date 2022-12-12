@@ -125,12 +125,13 @@ private fun SystemMessage(icon: Int, stringResource: Int, substitution: List<Str
         LocalContext.current.getString(stringResource, substitution.joinToString(", "))
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(ChatCompositeTheme.dimensions.systemMessagePadding)
+
     ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = null,
-            tint = ChatCompositeTheme.colors.systemIconColor
+            tint = ChatCompositeTheme.colors.systemIconColor,
+            modifier = Modifier.padding(ChatCompositeTheme.dimensions.systemMessagePadding)
         )
         BasicText(text = text, style = ChatCompositeTheme.typography.systemMessage)
     }
