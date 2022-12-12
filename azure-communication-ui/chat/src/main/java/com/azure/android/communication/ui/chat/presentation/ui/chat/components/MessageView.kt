@@ -254,7 +254,9 @@ private fun messageContent(viewModel: MessageViewModel) {
                     if (viewModel.showUsername) {
                         BasicText(
                             viewModel.message.senderDisplayName ?: "Unknown Sender",
-                            style = ChatCompositeTheme.typography.messageHeader,
+                            style = ChatCompositeTheme.typography.messageHeader.copy(
+                                color = ChatCompositeTheme.colors.textColor
+                            ),
                             modifier = Modifier.padding(PaddingValues(end = ChatCompositeTheme.dimensions.messageUsernamePaddingEnd))
                         )
                     }
