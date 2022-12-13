@@ -68,7 +68,19 @@ internal object ChatCompositeTheme {
 
     val colors: ChatCompositeColors
         @Composable
-        get() = if (isSystemInDarkTheme() || LocalThemeMode.current == ThemeMode.Dark) ChatCompositeColorPaletteDark.current else ChatCompositeColorPaletteLight.current
+        get() {
+            return if (LocalThemeMode.current == ThemeMode.Auto) {
+                if (isSystemInDarkTheme())
+                    ChatCompositeColorPaletteDark.current
+                else
+                    ChatCompositeColorPaletteLight.current
+            } else {
+                if (LocalThemeMode.current == ThemeMode.Dark)
+                    ChatCompositeColorPaletteDark.current
+                else
+                    ChatCompositeColorPaletteLight.current
+            }
+        }
 
     val shapes: ChatCompositeShapes
         @Composable
