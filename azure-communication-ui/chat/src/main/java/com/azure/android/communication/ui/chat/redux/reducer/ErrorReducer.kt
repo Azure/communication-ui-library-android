@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.reducer
 
+import android.util.Log
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ErrorAction
 import com.azure.android.communication.ui.chat.redux.state.ErrorState
@@ -12,9 +13,12 @@ internal interface ErrorReducer : Reducer<ErrorState>
 internal class ErrorReducerImpl : ErrorReducer {
     override fun reduce(state: ErrorState, action: Action): ErrorState {
         when (action) {
-            is ErrorAction.ChatStateErrorOccurred -> return state.copy(
-                chatCompositeErrorEvent = action.chatCompositeErrorEvent
-            )
+            is ErrorAction.ChatStateErrorOccurred -> {
+                Log.w("ErrorReducer", action.chatCompositeErrorEvent.errorCode?.toString() ?: "Unknown error", action.chatCompositeErrorEvent.cause)
+                return state.copy(
+                    chatCompositeErrorEvent = action.chatCompositeErrorEvent
+                )
+            }
         }
         return state
     }
