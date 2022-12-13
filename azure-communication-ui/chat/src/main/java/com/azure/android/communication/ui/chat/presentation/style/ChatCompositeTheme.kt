@@ -15,7 +15,7 @@ import com.microsoft.fluentui.theme.FluentTheme
 import com.microsoft.fluentui.theme.ThemeMode
 import com.microsoft.fluentui.theme.token.AliasTokens
 
-val LocalThemeMode = staticCompositionLocalOf {
+internal val LocalThemeMode = staticCompositionLocalOf {
     ThemeMode.Auto
 }
 
