@@ -14,7 +14,6 @@ internal class ErrorReducerImpl : ErrorReducer {
     override fun reduce(state: ErrorState, action: Action): ErrorState {
         when (action) {
             is ErrorAction.ChatStateErrorOccurred -> {
-                Log.w("ErrorReducer", action.chatCompositeErrorEvent.errorCode?.toString() ?: "Unknown error", action.chatCompositeErrorEvent.cause)
                 return state.copy(
                     chatCompositeErrorEvent = action.chatCompositeErrorEvent
                 )
