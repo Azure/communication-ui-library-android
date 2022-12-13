@@ -161,7 +161,9 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     Modifier
                         .background(
                             color = when (viewModel.isLocalUser) {
-                                true -> ChatCompositeTheme.colors.messageBackgroundSelf
+                                true -> if (viewModel.messageStatus == MessageSendStatus.FAILED)
+                                    ChatCompositeTheme.colors.messageBackgroundSelfError.copy(alpha = 0.2f)
+                                else ChatCompositeTheme.colors.messageBackgroundSelf
                                 false -> ChatCompositeTheme.colors.messageBackground
                             },
                             shape = ChatCompositeTheme.shapes.messageBubble,
