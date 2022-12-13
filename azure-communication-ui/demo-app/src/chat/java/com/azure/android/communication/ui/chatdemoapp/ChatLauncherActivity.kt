@@ -11,13 +11,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.webkit.URLUtil
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
@@ -241,11 +239,5 @@ class ChatLauncherActivity : AppCompatActivity() {
         println(eventArgs.errorCode)
         showAlert("${eventArgs.cause}")
         println("====================================================================")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val window: Window = this@ChatLauncherActivity.window
-        window.navigationBarColor = ContextCompat.getColor(this@ChatLauncherActivity, R.color.white)
     }
 }
