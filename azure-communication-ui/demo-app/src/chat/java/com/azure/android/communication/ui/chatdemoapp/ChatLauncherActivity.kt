@@ -172,7 +172,6 @@ class ChatLauncherActivity : AppCompatActivity() {
             activityLauncherClass.getDeclaredMethod("launch", ChatUIClient::class.java)
         launchMethod.isAccessible = true
         launchMethod.invoke(instance, chatAdapter)
-
     }
 
     private fun launch() {
