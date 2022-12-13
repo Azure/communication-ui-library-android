@@ -161,8 +161,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                     Modifier
                         .background(
                             color = when (viewModel.isLocalUser) {
-                                true -> if (viewModel.messageStatus == MessageSendStatus.FAILED)
-                                    ChatCompositeTheme.colors.messageBackgroundSelfError else ChatCompositeTheme.colors.messageBackgroundSelf
+                                true -> ChatCompositeTheme.colors.messageBackgroundSelf
                                 false -> ChatCompositeTheme.colors.messageBackground
                             },
                             shape = ChatCompositeTheme.shapes.messageBubble,
@@ -195,6 +194,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                                     R.drawable.azure_communication_ui_chat_ic_fluent_message_failed_to_send_10_filled
                                 ),
                                 contentDescription = null,
+                                tint = ChatCompositeTheme.colors.messageBackgroundSelfError,
                                 modifier = Modifier.padding(start = 4.dp)
                             )
                         }
