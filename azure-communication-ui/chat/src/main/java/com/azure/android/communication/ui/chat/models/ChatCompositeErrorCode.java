@@ -25,9 +25,6 @@ public final class ChatCompositeErrorCode extends ExpandableStringEnum<ChatCompo
     public static final ChatCompositeErrorCode SEND_TYPING_INDICATOR_FAILED =
             fromString("sendTypingIndicatorFailed");
 
-    ChatCompositeErrorCode() {
-    }
-
     private static ChatCompositeErrorCode fromString(final String name) {
         return fromString(name, ChatCompositeErrorCode.class);
     }
