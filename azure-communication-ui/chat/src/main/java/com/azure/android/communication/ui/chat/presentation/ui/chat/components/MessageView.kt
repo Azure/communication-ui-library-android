@@ -291,7 +291,7 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
     val textColor = ChatCompositeTheme.colors.textColor
     val textSize = ChatCompositeTheme.typography.messageBody.fontSize
     val formattedText = remember(html) {
-        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
     AndroidView(
