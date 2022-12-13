@@ -47,7 +47,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userB_Display,
                 content = "Hi Peter, thanks for following up with me",
                 messageType = ChatMessageType.TEXT,
-                id = OffsetDateTime.now().toString(),
+                id = OffsetDateTime.now().toEpochSecond().toString(),
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(12)
             ),
