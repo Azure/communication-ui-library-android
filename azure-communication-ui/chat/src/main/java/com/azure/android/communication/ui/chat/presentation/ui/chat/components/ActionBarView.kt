@@ -54,13 +54,12 @@ internal fun ActionBarView(
             },
             backgroundColor = ChatCompositeTheme.colors.background,
             title = {
-                var modifier = Modifier.padding(start = 90.dp)
+                var modifier = Modifier.padding(end = 65.dp)
                 if (onTitleClicked != null) {
                     modifier = modifier.clickable { onTitleClicked() }
                 }
-
                 Column(
-                    modifier = modifier,
+                    modifier = modifier.then(Modifier.fillMaxWidth()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
