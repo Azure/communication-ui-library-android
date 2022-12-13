@@ -242,10 +242,4 @@ class ChatLauncherActivity : AppCompatActivity() {
         showAlert("${eventArgs.cause}")
         println("====================================================================")
     }
-
-    override fun onResume() {
-        super.onResume()
-        val window: Window = this@ChatLauncherActivity.window
-        window.navigationBarColor = ContextCompat.getColor(this@ChatLauncherActivity, R.color.white)
-    }
 }
