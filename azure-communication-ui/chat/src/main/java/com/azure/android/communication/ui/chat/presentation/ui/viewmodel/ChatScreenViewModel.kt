@@ -19,6 +19,9 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageTy
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import org.threeten.bp.OffsetDateTime
 
+// Show Debug Information on the screen
+internal const val includeDebugInfo = false
+
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
     val typingParticipants: List<String>,
@@ -34,6 +37,7 @@ internal data class ChatScreenViewModel(
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
     val messageContextMenu: MessageContextMenuModel,
     val sendMessageEnabled: Boolean = false,
+    val debugOverlayText: String = "Test",
 ) {
     val showError get() = error != null && error.errorCode == ChatCompositeErrorCode.JOIN_FAILED
     val errorMessage get() = error?.errorCode?.toString() ?: ""
@@ -79,7 +83,14 @@ internal fun buildChatScreenViewModel(
         messageContextMenu = store.getCurrentState().chatState.messageContextMenu,
         sendMessageEnabled = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
             store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED,
+        debugOverlayText = getDebugOverlayText(store, messages)
     )
+}
+
+internal fun getDebugOverlayText(store: AppStore<ReduxState>, messages: List<MessageInfoModel>): String {
+    if (!includeDebugInfo) return ""
+    return "Last Read ID: ${store.getCurrentState().chatState.lastReadMessageId}\n" +
+        "Last Received Message: ${ if (messages.isEmpty()) "None" else messages.last().normalizedID }"
 }
 
 private fun getLastMessageIdReadByRemoteParticipants(
