@@ -7,12 +7,17 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.microsoft.fluentui.theme.FluentTheme
 import com.microsoft.fluentui.theme.ThemeMode
 import com.microsoft.fluentui.theme.token.AliasTokens
+
+val LocalThemeMode = staticCompositionLocalOf {
+    ThemeMode.Auto
+}
 
 @Composable
 internal fun ChatCompositeTheme(
@@ -40,9 +45,9 @@ internal fun ChatCompositeTheme(
 
     CompositionLocalProvider(
         LocalChatCompositeTypography provides customTypography,
-        LocalChatCompositeShapes provides acsChatShapes
+        LocalChatCompositeShapes provides acsChatShapes,
+        LocalThemeMode provides themeMode,
     ) {
-
         FluentTheme(
             themeMode = themeMode,
             content = content,
@@ -56,13 +61,14 @@ internal object ChatCompositeTheme {
     val dimensions: ChatCompositeDimensions
         @Composable
         get() = LocalChatCompositeDimensions.current
+
     val typography: ChatCompositeTypography
         @Composable
         get() = LocalChatCompositeTypography.current
 
     val colors: ChatCompositeColors
         @Composable
-        get() = if (isSystemInDarkTheme()) ChatCompositeColorPaletteDark.current else ChatCompositeColorPaletteLight.current
+        get() = if (isSystemInDarkTheme() || LocalThemeMode.current == ThemeMode.Dark) ChatCompositeColorPaletteDark.current else ChatCompositeColorPaletteLight.current
 
     val shapes: ChatCompositeShapes
         @Composable

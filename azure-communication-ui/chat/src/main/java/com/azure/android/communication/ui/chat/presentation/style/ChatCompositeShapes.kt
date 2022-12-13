@@ -21,3 +21,5 @@ val LocalChatCompositeShapes = staticCompositionLocalOf {
         unreadMessagesIndicator = RoundedCornerShape(100.dp)
     )
 }
+
+
