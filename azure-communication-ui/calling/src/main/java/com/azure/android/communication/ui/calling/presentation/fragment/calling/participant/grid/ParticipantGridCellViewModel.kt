@@ -70,6 +70,7 @@ internal class ParticipantGridCellViewModel(
     fun update(
         participant: ParticipantInfoModel,
     ) {
+
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
