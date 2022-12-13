@@ -11,12 +11,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.webkit.URLUtil
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
@@ -79,14 +79,18 @@ class ChatLauncherActivity : AppCompatActivity() {
 
             launchButton.setOnClickListener {
                 launch()
+                launchButton.requestFocus()
+                hideKeyboard()
             }
 
             openChatUIButton.setOnClickListener {
                 showChatUI()
+                hideKeyboard()
             }
 
             openFullScreenChatUIButton.setOnClickListener {
                 showChatUIActivity()
+                hideKeyboard()
             }
 
             stopChatCompositeButton.setOnClickListener {
@@ -120,6 +124,10 @@ class ChatLauncherActivity : AppCompatActivity() {
         chatView = null
     }
 
+    private fun hideKeyboard() {
+        val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+    }
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
@@ -164,6 +172,7 @@ class ChatLauncherActivity : AppCompatActivity() {
             activityLauncherClass.getDeclaredMethod("launch", ChatUIClient::class.java)
         launchMethod.isAccessible = true
         launchMethod.invoke(instance, chatAdapter)
+
     }
 
     private fun launch() {
