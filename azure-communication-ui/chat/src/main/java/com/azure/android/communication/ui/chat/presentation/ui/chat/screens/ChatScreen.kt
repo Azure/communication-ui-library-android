@@ -45,6 +45,7 @@ import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.microsoft.fluentui.theme.ThemeMode
 import kotlinx.coroutines.launch
 
 @Composable
@@ -174,7 +175,7 @@ internal fun ChatScreen(
 @Composable
 internal fun ChatScreenPreview() {
     AndroidThreeTen.init(LocalContext.current)
-    ChatCompositeTheme {
+    ChatCompositeTheme(themeMode = ThemeMode.Dark) {
         ChatScreen(
             viewModel = ChatScreenViewModel(
                 messages = MOCK_MESSAGES.toViewModelList(context = LocalContext.current, localUserIdentifier = MOCK_LOCAL_USER_ID, hiddenParticipant = mutableSetOf()),
