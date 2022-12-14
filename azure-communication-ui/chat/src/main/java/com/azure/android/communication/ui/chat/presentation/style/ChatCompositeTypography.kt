@@ -3,37 +3,86 @@
 
 package com.azure.android.communication.ui.chat.presentation.style
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
+import com.microsoft.fluentui.theme.FluentTheme
+import com.microsoft.fluentui.theme.token.AliasTokens
 
 @Immutable
 data class ChatCompositeTypography(
-    val title: TextStyle = TextStyle.Default,
-    val body: TextStyle = TextStyle.Default,
-    val messageHeader: TextStyle = TextStyle.Default.copy(
-        fontSize = 12.sp
-    ),
-
-    val messageHeaderDate: TextStyle = TextStyle.Default.copy(
-        fontSize = 12.sp,
-        color = Color(0xFF6E6E6E)
-    ),
-
-    val messageBody: TextStyle = TextStyle.Default.copy(
-        fontSize = 17.sp
-    ),
-
-    val systemMessage: TextStyle = TextStyle.Default.copy(
-        fontSize = 11.sp,
-        color = Color(0xFF6E6E6E)
-    ),
-
+    val title: TextStyle,
+    val body: TextStyle,
+    val messageHeader: TextStyle,
+    val messageHeaderDate: TextStyle,
+    val messageBody: TextStyle,
+    val systemMessage: TextStyle,
     // Define additional custom typography styles as required by Figma
-)
+) {
+    companion object {
+        // Construct this in the current composition (using defaults from Fluent)
+        @Composable
+        fun buildDefault(): ChatCompositeTypography {
+            val fluentTypography = FluentTheme.aliasTokens.typography
+
+            return ChatCompositeTypography(
+                title = TextStyle(
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = fluentTypography[AliasTokens.TypographyTokens.Title1].weight,
+                    fontSize = fluentTypography[AliasTokens.TypographyTokens.Title1].fontSize.size,
+                    color = ChatCompositeTheme.colors.textColor
+                ),
+
+                body = TextStyle(
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = fluentTypography[AliasTokens.TypographyTokens.Body1].weight,
+                    fontSize = fluentTypography[AliasTokens.TypographyTokens.Body1].fontSize.size,
+                    color = ChatCompositeTheme.colors.textColor
+                ),
+
+                messageHeader = TextStyle.Default.copy(fontSize = 12.sp, color = ChatCompositeTheme.colors.textColor),
+
+                messageHeaderDate = TextStyle.Default.copy(
+                    fontSize = 12.sp,
+                    color = Color(0xFF6E6E6E)
+                ),
+
+                messageBody = TextStyle.Default.copy(
+                    fontSize = 17.sp
+                ),
+
+                systemMessage = TextStyle.Default.copy(
+                    fontSize = 11.sp,
+                    color = Color(0xFF6E6E6E)
+                ),
+
+            )
+        }
+    }
+}
 
 val LocalChatCompositeTypography = staticCompositionLocalOf {
-    ChatCompositeTypography()
+    ChatCompositeTypography(
+        title = TextStyle.Default,
+        body = TextStyle.Default,
+        messageHeader = TextStyle.Default.copy(fontSize = 12.sp),
+
+        messageHeaderDate = TextStyle.Default.copy(
+            fontSize = 12.sp,
+            color = Color(0xFF6E6E6E)
+        ),
+
+        messageBody = TextStyle.Default.copy(
+            fontSize = 17.sp
+        ),
+
+        systemMessage = TextStyle.Default.copy(
+            fontSize = 11.sp,
+            color = Color(0xFF6E6E6E)
+        ),
+    )
 }

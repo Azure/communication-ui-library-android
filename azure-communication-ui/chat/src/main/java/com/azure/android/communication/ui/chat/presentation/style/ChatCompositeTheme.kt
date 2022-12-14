@@ -4,16 +4,11 @@
 package com.azure.android.communication.ui.chat.presentation.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.dp
 import com.microsoft.fluentui.theme.FluentTheme
 import com.microsoft.fluentui.theme.ThemeMode
-import com.microsoft.fluentui.theme.token.AliasTokens
 
 internal val LocalThemeMode = staticCompositionLocalOf {
     ThemeMode.Auto
@@ -23,35 +18,15 @@ internal val LocalThemeMode = staticCompositionLocalOf {
 internal fun ChatCompositeTheme(
     themeMode: ThemeMode = ThemeMode.Auto,
     content: @Composable () -> Unit,
-) {
-    val fluentTypography = FluentTheme.aliasTokens.typography
-    val customTypography = ChatCompositeTypography(
-        body = TextStyle(
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = fluentTypography[AliasTokens.TypographyTokens.Body1].weight,
-            fontSize = fluentTypography[AliasTokens.TypographyTokens.Body1].fontSize.size,
-        ),
-        title = TextStyle(
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = fluentTypography[AliasTokens.TypographyTokens.Title1].weight,
-            fontSize = fluentTypography[AliasTokens.TypographyTokens.Title1].fontSize.size
-        )
-    )
-
-    val acsChatShapes = ChatCompositeShapes(
-        messageBubble = RoundedCornerShape(4.dp),
-        unreadMessagesIndicator = RoundedCornerShape(100.dp)
-    )
-
-    CompositionLocalProvider(
-        LocalChatCompositeTypography provides customTypography,
-        LocalChatCompositeShapes provides acsChatShapes,
-        LocalThemeMode provides themeMode,
-    ) {
+) = CompositionLocalProvider(LocalThemeMode provides themeMode) {
+    CompositionLocalProvider(LocalChatCompositeTypography provides ChatCompositeTypography.buildDefault()) {
+        // Needs the 2 composition local providers because the second (typography) requires the first to be in scope
+        // I.e. ChatCompositeTheme.colors returns dark/light based on LocalThemeMode
+        //      LocalChatCompositeTypography uses ChatCompositeTheme.colors, so it needs LocalThemeMode
+        //      to call buildDefault()
         FluentTheme(
             themeMode = themeMode,
             content = content,
-
         )
     }
 }
