@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
@@ -34,7 +35,7 @@ internal data class ChatScreenViewModel(
     val messageContextMenu: MessageContextMenuModel,
     val sendMessageEnabled: Boolean = false,
 ) {
-    val showError get() = error != null
+    val showError get() = error != null && error.errorCode == ChatCompositeErrorCode.JOIN_FAILED
     val errorMessage get() = error?.errorCode?.toString() ?: ""
     val isLoading get() = chatStatus != ChatStatus.INITIALIZED && !showError
     val unreadMessagesIndicatorVisibility = unreadMessagesCount > 0

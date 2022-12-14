@@ -43,6 +43,7 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
+import com.microsoft.fluentui.theme.ThemeMode
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -292,7 +293,7 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
     val textColor = ChatCompositeTheme.colors.textColor
     val textSize = ChatCompositeTheme.typography.messageBody.fontSize
     val formattedText = remember(html) {
-        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
     AndroidView(
@@ -313,19 +314,21 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
 @Composable
 internal fun PreviewChatCompositeMessage() {
     AndroidThreeTen.init(LocalContext.current)
-    Column(
-        modifier = Modifier
-            .width(500.dp)
-            .background(color = ChatCompositeTheme.colors.background)
-    ) {
-        val vms = MOCK_MESSAGES.toViewModelList(
-            context = LocalContext.current,
-            localUserIdentifier = MOCK_LOCAL_USER_ID,
-            hiddenParticipant = mutableSetOf(),
-            latestLocalUserMessageId = 0L,
-        )
-        for (a in 0 until vms.size) {
-            MessageView(vms[a]) { }
+    ChatCompositeTheme(themeMode = ThemeMode.Dark) {
+        Column(
+            modifier = Modifier
+                .width(500.dp)
+                .background(color = ChatCompositeTheme.colors.background)
+        ) {
+            val vms = MOCK_MESSAGES.toViewModelList(
+                context = LocalContext.current,
+                localUserIdentifier = MOCK_LOCAL_USER_ID,
+                hiddenParticipant = mutableSetOf(),
+                latestLocalUserMessageId = 0L,
+            )
+            for (a in 0 until vms.size) {
+                MessageView(vms[a]) { }
+            }
         }
     }
 }
