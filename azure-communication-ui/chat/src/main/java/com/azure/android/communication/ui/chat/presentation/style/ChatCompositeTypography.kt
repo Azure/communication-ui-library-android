@@ -9,6 +9,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.microsoft.fluentui.theme.FluentTheme
 import com.microsoft.fluentui.theme.token.AliasTokens
@@ -21,8 +22,10 @@ data class ChatCompositeTypography(
     val messageHeaderDate: TextStyle,
     val messageBody: TextStyle,
     val systemMessage: TextStyle,
+    val unreadMessageText: TextStyle,
     // Define additional custom typography styles as required by Figma
 ) {
+
     companion object {
         // Construct this in the current composition (using defaults from Fluent)
         @Composable
@@ -44,7 +47,10 @@ data class ChatCompositeTypography(
                     color = ChatCompositeTheme.colors.textColor
                 ),
 
-                messageHeader = TextStyle.Default.copy(fontSize = 12.sp, color = ChatCompositeTheme.colors.textColor),
+                messageHeader = TextStyle.Default.copy(
+                    fontSize = 12.sp,
+                    color = ChatCompositeTheme.colors.textColor
+                ),
 
                 messageHeaderDate = TextStyle.Default.copy(
                     fontSize = 12.sp,
@@ -58,6 +64,12 @@ data class ChatCompositeTypography(
                 systemMessage = TextStyle.Default.copy(
                     fontSize = 11.sp,
                     color = Color(0xFF6E6E6E)
+                ),
+
+                unreadMessageText = TextStyle.Default.copy(
+                    fontSize = 16.sp,
+                    color = ChatCompositeTheme.colors.textColor,
+                    fontWeight = FontWeight.W500,
                 ),
 
             )
@@ -84,5 +96,7 @@ val LocalChatCompositeTypography = staticCompositionLocalOf {
             fontSize = 11.sp,
             color = Color(0xFF6E6E6E)
         ),
+
+        unreadMessageText = TextStyle.Default.copy(fontSize = 14.sp)
     )
 }

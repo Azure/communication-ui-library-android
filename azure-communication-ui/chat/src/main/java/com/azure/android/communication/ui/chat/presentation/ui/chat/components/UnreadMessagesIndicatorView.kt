@@ -60,7 +60,8 @@ internal fun UnreadMessagesIndicatorView(
                         )
                         else -> content.getString(R.string.azure_communication_ui_chat_many_unread_new_messages)
                     },
-                    fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize
+                    fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize,
+                    style = ChatCompositeTheme.typography.unreadMessageText,
                 )
             },
             onClick = {
