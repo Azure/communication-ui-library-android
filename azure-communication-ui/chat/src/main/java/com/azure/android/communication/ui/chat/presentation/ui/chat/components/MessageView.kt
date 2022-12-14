@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.width
 
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessageSendStatus
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
@@ -51,6 +53,10 @@ val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 @Composable
 internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
     if (!viewModel.isVisible) {
+        return
+    }
+    if (viewModel.includeDebugInfo) {
+        ViewModelDebugInfo(viewModel)
         return
     }
     Column(
@@ -321,9 +327,100 @@ internal fun PreviewChatCompositeMessage() {
             localUserIdentifier = MOCK_LOCAL_USER_ID,
             hiddenParticipant = mutableSetOf(),
             latestLocalUserMessageId = 0L,
+            includeDebugInfo = true
         )
         for (a in 0 until vms.size) {
             MessageView(vms[a]) { }
+        }
+    }
+}
+
+// ------------------------------- Debug Views -------------------------------
+@Composable
+private fun ViewModelDebugInfo(viewModel: MessageViewModel) {
+    Box(
+        Modifier
+            .background(
+                color = ChatCompositeTheme.colors.background,
+                shape = ChatCompositeTheme.shapes.messageBubble,
+            )
+            .fillMaxWidth()
+    ) {
+        Column {
+            Divider()
+            MessageView(
+                viewModel = MessageViewModel(
+                    viewModel.message,
+                    includeDebugInfo = false,
+                    showUsername = viewModel.showUsername,
+                    showTime = viewModel.showTime,
+                    dateHeaderText = viewModel.dateHeaderText,
+                    isLocalUser = viewModel.isLocalUser,
+                    messageStatus = viewModel.messageStatus,
+                    showReadReceipt = viewModel.showReadReceipt,
+                    showSentStatusIcon = viewModel.showSentStatusIcon,
+                    isHiddenUser = viewModel.isHiddenUser
+                )
+            ) {}
+
+            BasicText("View Model", style = ChatCompositeTheme.typography.title)
+            ViewModelDataTable(viewModel)
+            BasicText("Info Model", style = ChatCompositeTheme.typography.title)
+            InfoModelDataTable(viewModel.message)
+            // Display message as normal
+        }
+    }
+}
+
+@Composable
+private fun InfoModelDataTable(message: MessageInfoModel) {
+    val tableData = mapOf(
+        "Display name" to "${message.senderDisplayName}",
+        "Normalized ID" to "${message.normalizedID}",
+        "Created" to "${message.createdOn}",
+        "Edited" to "${message.editedOn}",
+        "Deleted" to "${message.deletedOn}",
+        "Type" to "${message.messageType}",
+        "Content" to "${message.content}",
+        "CurrentUser" to "${message.isCurrentUser}",
+        "Topic" to "${message.topic}",
+    )
+    printTable(tableData)
+}
+
+@Composable
+private fun ViewModelDataTable(viewModel: MessageViewModel) {
+    val tableData = mapOf(
+        "Date" to "${viewModel.dateHeaderText}",
+        "Time" to "${viewModel.showTime}",
+        "Username" to "${viewModel.showUsername}",
+        "Hidden User" to "${viewModel.isHiddenUser}",
+        "Visible" to "${viewModel.isVisible}",
+        "Local User" to "${viewModel.isLocalUser}",
+        "Show Read Receipt" to "${viewModel.showReadReceipt}",
+        "Show Sent Status" to "${viewModel.showSentStatusIcon}",
+
+    )
+    printTable(tableData)
+}
+
+@Composable
+private fun printTable(tableData: Map<String, String>) {
+    // Each cell of a column must have the same weight.
+    val column1Weight = .40f // 30%
+    val column2Weight = .6f // 70%
+
+    val keys = tableData.keys.toList()
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        keys.forEach {
+            Row(Modifier.fillMaxWidth()) {
+                BasicText(text = "$it:", modifier = Modifier.weight(column1Weight), style = ChatCompositeTheme.typography.body)
+                BasicText(text = "${tableData[it]}", modifier = Modifier.weight(column2Weight), style = ChatCompositeTheme.typography.body)
+            }
         }
     }
 }

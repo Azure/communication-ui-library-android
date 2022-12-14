@@ -68,7 +68,8 @@ internal fun buildChatScreenViewModel(
             localUserIdentifier,
             latestLocalUserMessageId,
             lastMessageIdReadByRemoteParticipants,
-            store.getCurrentState().participantState.hiddenParticipant
+            store.getCurrentState().participantState.hiddenParticipant,
+            includeDebugInfo = includeDebugInfo
         ),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
