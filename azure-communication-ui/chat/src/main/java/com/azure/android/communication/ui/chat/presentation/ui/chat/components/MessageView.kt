@@ -45,6 +45,7 @@ import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.microsoft.fluentui.persona.AvatarSize
+import com.microsoft.fluentui.theme.ThemeMode
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -168,7 +169,8 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                         .background(
                             color = when (viewModel.isLocalUser) {
                                 true -> if (viewModel.messageStatus == MessageSendStatus.FAILED)
-                                    ChatCompositeTheme.colors.messageBackgroundSelfError else ChatCompositeTheme.colors.messageBackgroundSelf
+                                    ChatCompositeTheme.colors.messageBackgroundSelfError.copy(alpha = 0.2f)
+                                else ChatCompositeTheme.colors.messageBackgroundSelf
                                 false -> ChatCompositeTheme.colors.messageBackground
                             },
                             shape = ChatCompositeTheme.shapes.messageBubble,
@@ -201,6 +203,7 @@ private fun BasicChatMessage(viewModel: MessageViewModel, dispatch: Dispatch) {
                                     R.drawable.azure_communication_ui_chat_ic_fluent_message_failed_to_send_10_filled
                                 ),
                                 contentDescription = null,
+                                tint = ChatCompositeTheme.colors.messageBackgroundSelfError,
                                 modifier = Modifier.padding(start = 4.dp)
                             )
                         }
@@ -296,7 +299,7 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
     val textColor = ChatCompositeTheme.colors.textColor
     val textSize = ChatCompositeTheme.typography.messageBody.fontSize
     val formattedText = remember(html) {
-        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
     AndroidView(
@@ -317,20 +320,22 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
 @Composable
 internal fun PreviewChatCompositeMessage() {
     AndroidThreeTen.init(LocalContext.current)
-    Column(
-        modifier = Modifier
-            .width(500.dp)
-            .background(color = ChatCompositeTheme.colors.background)
-    ) {
-        val vms = MOCK_MESSAGES.toViewModelList(
-            context = LocalContext.current,
-            localUserIdentifier = MOCK_LOCAL_USER_ID,
-            hiddenParticipant = mutableSetOf(),
-            latestLocalUserMessageId = 0L,
-            includeDebugInfo = true
-        )
-        for (a in 0 until vms.size) {
-            MessageView(vms[a]) { }
+    ChatCompositeTheme(themeMode = ThemeMode.Dark) {
+        Column(
+            modifier = Modifier
+                .width(500.dp)
+                .background(color = ChatCompositeTheme.colors.background)
+        ) {
+            val vms = MOCK_MESSAGES.toViewModelList(
+                context = LocalContext.current,
+                localUserIdentifier = MOCK_LOCAL_USER_ID,
+                hiddenParticipant = mutableSetOf(),
+                latestLocalUserMessageId = 0L,
+                includeDebugInfo = false,
+            )
+            for (a in 0 until vms.size) {
+                MessageView(vms[a]) { }
+            }
         }
     }
 }
