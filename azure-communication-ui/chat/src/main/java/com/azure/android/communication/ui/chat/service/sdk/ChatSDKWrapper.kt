@@ -74,7 +74,7 @@ internal class ChatSDKWrapper(
 
     private val options = ListChatMessagesOptions().apply { maxPageSize = PAGE_MESSAGES_SIZE }
     private var pagingContinuationToken: String? = null
-    var adminUersId: String = ""
+    private var adminUserId: String = ""
 
     @Volatile
     private var allPagesFetched: Boolean = false
@@ -110,7 +110,7 @@ internal class ChatSDKWrapper(
                 )
             )
 
-            adminUersId = threadClient.properties.createdByCommunicationIdentifier.into().id
+            adminUserId = threadClient.properties.createdByCommunicationIdentifier.into().id
             chatStatusStateFlow.value = ChatStatus.INITIALIZED
             future.complete(null)
         } catch (ex: Exception) {
@@ -129,7 +129,7 @@ internal class ChatSDKWrapper(
     }
 
     override fun getAdminUserId(): String {
-        return adminUersId
+        return adminUserId
     }
 
     override fun requestPreviousPage() {
