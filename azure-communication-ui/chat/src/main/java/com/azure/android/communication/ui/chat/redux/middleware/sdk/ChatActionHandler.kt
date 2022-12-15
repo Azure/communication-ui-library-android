@@ -178,14 +178,22 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     }
 
     private fun initialization(dispatch: Dispatch, threadId: String) {
-        try {
-            chatService.initialize()
-            chatService.getAdminUserId()?.let {
-                dispatch.invoke(ParticipantAction.ParticipantToHideReceived(it))
+        chatService.initialize().whenComplete { _, error ->
+            if (error != null) {
+                // TODO: lets use only one action and state to fire error for timing
+                // TODO: while working on error stories, we can create separate states for every error
+                dispatch(
+                    ErrorAction.ChatStateErrorOccurred(
+                        chatCompositeErrorEvent = ChatCompositeErrorEvent(
+                            threadId,
+                            ChatCompositeErrorCode.JOIN_FAILED,
+                            error,
+                        )
+                    )
+                )
+            } else {
+                dispatch.invoke(ParticipantAction.ParticipantToHideReceived(chatService.getAdminUserId()))
             }
-        } catch (ex: Exception) {
-            val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.JOIN_FAILED, ex)
-            dispatch(ErrorAction.ChatStateErrorOccurred(chatCompositeErrorEvent = error))
         }
     }
 
