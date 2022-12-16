@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.common.CommunicationUserIdentifier
+import com.azure.android.communication.ui.chat.ChatCompositeEventHandler
 import com.azure.android.communication.ui.chat.ChatThreadAdapter
 import com.azure.android.communication.ui.chat.ChatUIClient
 import com.azure.android.communication.ui.chat.ChatUIClientBuilder
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
@@ -35,6 +37,7 @@ class ChatLauncherViewModel : ViewModel() {
 
     fun launch(
         context: Context,
+        errorHandler: ChatCompositeEventHandler<ChatCompositeErrorEvent>,
         endpoint: String,
         acsIdentity: String,
         threadId: String,
@@ -55,6 +58,8 @@ class ChatLauncherViewModel : ViewModel() {
             .identity(CommunicationUserIdentifier(acsIdentity))
             .displayName(userName)
             .build()
+
+        chatUIClient.addOnErrorEventHandler(errorHandler)
 
         val chatThreadAdapter = ChatThreadAdapter(chatUIClient, threadId)
 

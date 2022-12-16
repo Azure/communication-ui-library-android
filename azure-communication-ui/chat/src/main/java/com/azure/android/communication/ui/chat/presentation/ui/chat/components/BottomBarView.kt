@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
+import com.azure.android.communication.ui.chat.models.MessageSendStatus
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
@@ -63,6 +64,7 @@ private fun sendButtonOnclick(
                 internalId = System.currentTimeMillis().toString(),
                 messageType = ChatMessageType.TEXT,
                 createdOn = OffsetDateTime.now(),
+                sendStatus = MessageSendStatus.SENDING,
                 content = messageInputTextState.value.trim(),
                 isCurrentUser = true,
             )

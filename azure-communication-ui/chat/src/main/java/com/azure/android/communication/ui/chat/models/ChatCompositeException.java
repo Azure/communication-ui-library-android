@@ -4,10 +4,12 @@
 package com.azure.android.communication.ui.chat.models;
 
 
+import com.azure.android.core.exception.AzureException;
+
 /**
  * Defines the base type of custom Exception that can be thrown by this Library.
  */
-public final class ChatCompositeException extends RuntimeException {
+public final class ChatCompositeException extends AzureException {
 
     /**
      * Constructs a new Chat Composite exception with the specified error message and cause. Note

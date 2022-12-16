@@ -118,6 +118,11 @@ internal class ChatSDKWrapper(
         chatFetchNotificationHandler.stop()
     }
 
+    override fun getAdminUserId(): String? {
+        if (!this::threadClient.isInitialized) return null
+        return threadClient.properties.createdByCommunicationIdentifier.into().id
+    }
+
     override fun requestPreviousPage() {
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
@@ -212,12 +217,16 @@ internal class ChatSDKWrapper(
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
-            val response = threadClient.sendTypingNotificationWithResponse(RequestContext.NONE)
-            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
-                future.complete(null)
-            } else {
-                // TODO: in future create exception if required
-                future.completeExceptionally(null)
+            try {
+                val response = threadClient.sendTypingNotificationWithResponse(RequestContext.NONE)
+                if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                    future.complete(null)
+                } else {
+                    // TODO: in future create exception if required
+                    future.completeExceptionally(null)
+                }
+            } catch (ex: Exception) {
+                future.completeExceptionally(ex)
             }
         }
         return future
@@ -227,12 +236,16 @@ internal class ChatSDKWrapper(
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
-            val response = threadClient.sendReadReceiptWithResponse(id, RequestContext.NONE)
-            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
-                future.complete(null)
-            } else {
-                // TODO: in future create exception if required
-                future.completeExceptionally(null)
+            try {
+                val response = threadClient.sendReadReceiptWithResponse(id, RequestContext.NONE)
+                if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                    future.complete(null)
+                } else {
+                    // TODO: in future create exception if required
+                    future.completeExceptionally(null)
+                }
+            } catch (ex: Exception) {
+                future.completeExceptionally(ex)
             }
         }
         return future
@@ -241,14 +254,18 @@ internal class ChatSDKWrapper(
     override fun editMessage(id: String, content: String): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         coroutineScope.launch {
-            val options = UpdateChatMessageOptions()
-            options.content = content
-            val response = threadClient.updateMessageWithResponse(id, options, RequestContext.NONE)
-            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
-                future.complete(null)
-            } else {
-                // TODO: in future create exception if required
-                future.completeExceptionally(null)
+            try {
+                val options = UpdateChatMessageOptions()
+                options.content = content
+                val response = threadClient.updateMessageWithResponse(id, options, RequestContext.NONE)
+                if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                    future.complete(null)
+                } else {
+                    // TODO: in future create exception if required
+                    future.completeExceptionally(null)
+                }
+            } catch (ex: Exception) {
+                future.completeExceptionally(ex)
             }
         }
         return future

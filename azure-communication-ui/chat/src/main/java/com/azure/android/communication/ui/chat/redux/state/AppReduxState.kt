@@ -34,12 +34,13 @@ internal class AppReduxState(
         participants = mapOf(),
         participantTyping = mapOf(),
         participantsReadReceiptMap = mapOf(),
-        latestReadMessageTimestamp = OffsetDateTime.MIN
+        latestReadMessageTimestamp = OffsetDateTime.MIN,
+        hiddenParticipant = setOf()
     )
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 
-    override var errorState: ErrorState = ErrorState(fatalError = null, chatStateError = null)
+    override var errorState: ErrorState = ErrorState(fatalError = null, chatCompositeErrorEvent = null)
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 

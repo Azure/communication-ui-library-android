@@ -4,8 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
-import com.azure.android.communication.ui.chat.error.ChatStateError
-import com.azure.android.communication.ui.chat.models.EMPTY_MESSAGE_INFO_MODEL
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
@@ -15,7 +14,9 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
+import org.threeten.bp.OffsetDateTime
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -26,7 +27,7 @@ internal data class ChatScreenViewModel(
     var buildCount: Int,
     var unreadMessagesCount: Int = 0,
     val postAction: (Action) -> Unit,
-    private val error: ChatStateError? = null,
+    private val error: ChatCompositeErrorEvent? = null,
     val participants: Map<String, RemoteParticipantInfoModel>,
     val chatTopic: String? = null,
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
@@ -50,27 +51,51 @@ internal fun buildChatScreenViewModel(
     localUserIdentifier: String,
     dispatch: Dispatch,
 ): ChatScreenViewModel {
+    val latestLocalUserMessageId = messages.findLast { it.isCurrentUser }?.normalizedID
+    val lastMessageIdReadByRemoteParticipants = getLastMessageIdReadByRemoteParticipants(
+        messages,
+        store.getCurrentState().participantState.latestReadMessageTimestamp
+    )
 
     return ChatScreenViewModel(
         messages = messages.toViewModelList(
             context,
             localUserIdentifier,
-            store.getCurrentState().participantState.latestReadMessageTimestamp
+            latestLocalUserMessageId,
+            lastMessageIdReadByRemoteParticipants,
+            store.getCurrentState().participantState.hiddenParticipant
         ),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
         buildCount = buildCount++,
         unreadMessagesCount = getUnReadMessagesCount(store, messages),
-        error = store.getCurrentState().errorState.chatStateError,
+        error = store.getCurrentState().errorState.chatCompositeErrorEvent,
         postAction = dispatch,
         typingParticipants = store.getCurrentState().participantState.participantTyping.values.toList(),
         participants = store.getCurrentState().participantState.participants,
         chatTopic = store.getCurrentState().chatState.chatInfoModel.topic,
         navigationStatus = store.getCurrentState().navigationState.navigationStatus,
-        messageContextMenu = store.getCurrentState().chatState.messageContextMenu ?: MessageContextMenuModel(messageInfoModel = EMPTY_MESSAGE_INFO_MODEL, emptyList()),
+        messageContextMenu = store.getCurrentState().chatState.messageContextMenu,
         sendMessageEnabled = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
-            store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED
+            store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED,
     )
+}
+
+private fun getLastMessageIdReadByRemoteParticipants(
+    messages: List<MessageInfoModel>,
+    latestReadMessageTimestamp: OffsetDateTime,
+): Long {
+    messages.asReversed().forEach {
+        if ((it.messageType == ChatMessageType.TEXT || it.messageType == ChatMessageType.HTML) &&
+            it.isCurrentUser
+        ) {
+            val currentMessageTime = it.editedOn ?: it.createdOn
+            if (currentMessageTime != null && currentMessageTime <= latestReadMessageTimestamp) {
+                return it.normalizedID
+            }
+        }
+    }
+    return 0
 }
 
 private fun getUnReadMessagesCount(
