@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.chatdemoapp
 
 import android.content.Context
-import android.webkit.URLUtil
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
