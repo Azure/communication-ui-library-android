@@ -9,18 +9,16 @@ import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.common.CommunicationUserIdentifier
+import com.azure.android.communication.ui.chat.ChatAdapter
+import com.azure.android.communication.ui.chat.ChatAdapterBuilder
 import com.azure.android.communication.ui.chat.ChatCompositeEventHandler
-import com.azure.android.communication.ui.chat.ChatThreadAdapter
-import com.azure.android.communication.ui.chat.ChatUIClient
-import com.azure.android.communication.ui.chat.ChatUIClientBuilder
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
     private var token: String? = null
 
-    var chatUIClient: ChatUIClient? = null
-    var chatThreadAdapter: ChatThreadAdapter? = null
+    var chatAdapter: ChatAdapter? = null
 
     private fun getTokenFetcher(acsToken: String?): Callable<String> {
         val tokenRefresher = when {
@@ -51,26 +49,22 @@ class ChatLauncherViewModel : ViewModel() {
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val chatUIClient = ChatUIClientBuilder()
-            .context(context)
+        val chatAdapter = ChatAdapterBuilder()
             .endpoint(endpoint)
             .credential(communicationTokenCredential)
             .identity(CommunicationUserIdentifier(acsIdentity))
             .displayName(userName)
+            .threadId(threadId)
             .build()
 
-        chatUIClient.addOnErrorEventHandler(errorHandler)
+        chatAdapter.addOnErrorEventHandler(errorHandler)
 
-        val chatThreadAdapter = ChatThreadAdapter(chatUIClient, threadId)
+        chatAdapter.connect(context)
 
-        this.chatUIClient = chatUIClient
-        this.chatThreadAdapter = chatThreadAdapter
+        this.chatAdapter = chatAdapter
     }
 
-    private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
-
     fun closeChatComposite() {
-
-        chatUIClient = null
+        chatAdapter = null
     }
 }
