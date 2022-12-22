@@ -7,7 +7,7 @@ package com.azure.android.communication.ui.chat;
  * {@link ChatCompositeEventHandler}&lt;T&gt;
  *
  * <p>A generic handler for call composite events.</p>
- * <p> - {@link ChatUIClient#addOnErrorEventHandler(ChatCompositeEventHandler)} for Error Handling</p>
+ * <p> - {@link ChatAdapter#addOnErrorEventHandler(ChatCompositeEventHandler)} for Error Handling</p>
  * for Remote Participant Join Notifications</p>
  *
  * @param <T> The callback event Type.
