@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
-import com.azure.android.communication.ui.chat.ChatUIClient
+import com.azure.android.communication.ui.chat.ChatAdapter
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.presentation.ChatThreadView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
@@ -148,10 +148,10 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun showChatUI() {
-        val chatThreadAdapter = chatLauncherViewModel.chatThreadAdapter!!
+        val chatAdapter = chatLauncherViewModel.chatAdapter!!
 
         // Create Chat Composite View
-        chatView = ChatThreadView(this, chatThreadAdapter)
+        chatView = ChatThreadView(this, chatAdapter)
 
         binding.setupScreen.visibility = View.GONE
         addContentView(
@@ -164,7 +164,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     }
 
     private fun showChatUIActivity() {
-        val chatAdapter = chatLauncherViewModel.chatUIClient!!
+        val chatAdapter = chatLauncherViewModel.chatAdapter!!
 
         val activityLauncherClass =
             Class.forName("com.azure.android.communication.ui.chat.presentation.ChatCompositeActivity")
@@ -172,7 +172,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         constructor.isAccessible = true
         val instance = constructor.newInstance(this)
         val launchMethod =
-            activityLauncherClass.getDeclaredMethod("launch", ChatUIClient::class.java)
+            activityLauncherClass.getDeclaredMethod("launch", ChatAdapter::class.java)
         launchMethod.isAccessible = true
         launchMethod.invoke(instance, chatAdapter)
     }

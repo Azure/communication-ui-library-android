@@ -4,41 +4,49 @@
 package com.azure.android.communication.ui.chat;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent;
+import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions;
+import com.azure.android.communication.ui.chat.presentation.ChatCompositeActivityImpl;
+
+import java9.util.concurrent.CompletableFuture;
 
 /**
  * Azure android communication chat composite component.
  *
  * <p><strong>Instantiating Chat Composite</strong></p>
  */
-public final class ChatUIClient {
+public final class ChatAdapter {
 
     private static int instanceIdCounter = 0;
     final Integer instanceId = instanceIdCounter++;
-    private final Context applicationContext;
+    private ChatContainer chatContainer;
     private final String endpoint;
     private final CommunicationIdentifier identity;
     private final CommunicationTokenCredential credential;
+    private final String threadId;
     private final String displayName;
     private final ChatCompositeConfiguration configuration;
 
-    ChatUIClient(final Context applicationContext,
-            final ChatCompositeConfiguration configuration,
-                 final String endpoint,
-                 final CommunicationIdentifier identity,
-                 final CommunicationTokenCredential credential,
-                 final String displayName) {
-        this.applicationContext = applicationContext;
+    ChatAdapter(final ChatCompositeConfiguration configuration,
+                final String endpoint,
+                final CommunicationIdentifier identity,
+                final CommunicationTokenCredential credential,
+                final String threadId,
+                final String displayName) {
+
         this.endpoint = endpoint;
         this.identity = identity;
         this.credential = credential;
+        this.threadId = threadId;
         this.displayName = displayName;
         this.configuration = configuration;
     }
+
 
     /**
      * Add {@link ChatCompositeEventHandler}.
@@ -74,27 +82,37 @@ public final class ChatUIClient {
         configuration.getEventHandlerRepository().removeOnErrorEventHandler(errorHandler);
     }
 
-    String getEndpoint() {
-        return endpoint;
+    /**
+     * Connects to ACS service, starts realtime notifications.
+     */
+    public CompletableFuture<Void> connect(final Context context) {
+        chatContainer = new ChatContainer(this, configuration, instanceId);
+
+        launchComposite(context, threadId);
+        final CompletableFuture<Void> result = new CompletableFuture<>();
+        result.complete(null);
+        return result;
     }
 
-    CommunicationIdentifier getIdentity() {
-        return identity;
+    /**
+     * Disconnects from backend services.
+     */
+    public void disconnect() {
+        chatContainer.stop();
+        chatContainer = null;
     }
 
-    CommunicationTokenCredential getCredential() {
-        return credential;
+    private void launchComposite(final Context context, final String threadId) {
+        final ChatCompositeRemoteOptions remoteOptions =
+                new ChatCompositeRemoteOptions(
+                        endpoint, threadId, credential, identity, displayName != null ? displayName : "");
+        chatContainer.start(context, remoteOptions);
     }
 
-    String getDisplayName() {
-        return displayName;
-    }
-
-    ChatCompositeConfiguration getConfiguration() {
-        return configuration;
-    }
-
-    Context getApplicationContextContext() {
-        return applicationContext;
+    void showTestCompositeUI(final Context context) {
+        final Intent intent = new Intent(context, ChatCompositeActivityImpl.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ChatCompositeActivityImpl.Companion.setChatAdapter(this);
+        context.startActivity(intent);
     }
 }

@@ -7,19 +7,16 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.azure.android.communication.ui.chat.ChatThreadAdapter;
-import com.azure.android.communication.ui.chat.ChatThreadAdapterExtensionsKt;
-import com.azure.android.communication.ui.chat.ChatUIClient;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeViewImpl;
 
 /**
  * ChatThreadView displays a chat thread.
  *
- * It can be constructed with or without a {@link ChatThreadAdapter} to display the chat thread.
+ * It can be constructed with or without a {@link ChatAdapter} to display the chat thread.
  * If a ChatThreadAdapter is provided, it will be set as the adapter for the ChatThreadView.
  *
- * @see ChatThreadAdapter
- * @see ChatUIClient
+ * @see ChatAdapter
  */
 public final class ChatThreadView extends FrameLayout {
 
@@ -35,11 +32,11 @@ public final class ChatThreadView extends FrameLayout {
     /**
      * Creates a ChatThreadView with a ChatThreadAdapter.
      * @param context the context to use for creating the ChatThreadView
-     * @param chatThreadAdapter the ChatThreadAdapter to set for the ChatThreadView
+     * @param chatAdapter the ChatAdapter to set for the ChatThreadView
      */
-    public ChatThreadView(final Context context, final ChatThreadAdapter chatThreadAdapter) {
+    public ChatThreadView(final Context context, final ChatAdapter chatAdapter) {
         super(context);
-        setChatAdapter(chatThreadAdapter);
+        setChatAdapter(chatAdapter);
     }
 
     /**
@@ -57,19 +54,19 @@ public final class ChatThreadView extends FrameLayout {
      * Creates a ChatThreadView with attributes from an XML file and a ChatThreadAdapter.
      * @param context the context to use for creating the ChatThreadView
      * @param attrs the attributes from the XML file
-     * @param chatThreadAdapter the ChatThreadAdapter to set for the ChatThreadView
+     * @param chatAdapter the ChatAdapter to set for the ChatThreadView
+
      */
-    public ChatThreadView(final Context context, final AttributeSet attrs, final ChatThreadAdapter chatThreadAdapter) {
+    public ChatThreadView(final Context context, final AttributeSet attrs, final ChatAdapter chatAdapter) {
         super(context, attrs);
-        setChatAdapter(chatThreadAdapter);
+        setChatAdapter(chatAdapter);
     }
 
     /**
-     * Sets the ChatThreadAdapter for the ChatThreadView.
-     * @param chatThreadAdapter the ChatThreadAdapter to set for the ChatThreadView
+     * Sets the ChatAdapter for the ChatThreadView.
+     * @param chatAdapter the ChatAdapter to set for the ChatThreadView
      */
-    public void setChatAdapter(final ChatThreadAdapter chatThreadAdapter) {
-        final ChatUIClient chatUiClient =  ChatThreadAdapterExtensionsKt.getChatUIClient(chatThreadAdapter);
-        addView(new ChatCompositeViewImpl(this.getContext(), chatUiClient, false));
+    void setChatAdapter(final ChatAdapter chatAdapter) {
+        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter, false));
     }
 }
