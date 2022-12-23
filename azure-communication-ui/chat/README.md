@@ -52,16 +52,18 @@ Create `ChatComposite` and launch it. Replace `<USER_ACCESS_TOKEN>` with your to
 val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions("<USER_ACCESS_TOKEN>", true)
 val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-val chatUIClient = ChatUIClientBuilder()
-    .context(context)
-    .endpoint("<ENDPOINT>")
+
+val chatAdapter = ChatAdapterBuilder()
+    .endpoint(endpoint)
     .credential(communicationTokenCredential)
     .identity(CommunicationUserIdentifier(acsIdentity))
     .displayName(userName)
+    .threadId(threadId)
     .build()
 
-chatUIClient.addOnErrorEventHandler(errorHandler)
-val chatThreadAdapter = ChatThreadAdapter(chatUIClient, threadId)
+chatAdapter.addOnErrorEventHandler(errorHandler)
+chatAdapter.connect(context)
+
 val chatThreadView = ChatThreadView(context, chatThreadAdapter)
 
 ```
@@ -70,19 +72,21 @@ val chatThreadView = ChatThreadView(context, chatThreadAdapter)
 
 ```java
 CommunicationTokenRefreshOptions communicationTokenRefreshOptions = new CommunicationTokenRefreshOptions("<USER_ACCESS_TOKEN>", true);
-        CommunicationTokenCredential communicationTokenCredential = new CommunicationTokenCredential(communicationTokenRefreshOptions);
+CommunicationTokenCredential communicationTokenCredential = new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-ChatUIClient chatUIClient = new ChatUIClientBuilder()
-        .context(context)
-        .endpoint("<ENDPOINT>")
+ChatAdapter chatAdapter = ChatAdapterBuilder.create()
+        .endpoint(endpoint)
         .credential(communicationTokenCredential)
         .identity(new CommunicationUserIdentifier(acsIdentity))
         .displayName(userName)
+        .threadId(threadId)
         .build();
 
-chatUIClient.addOnErrorEventHandler(errorHandler);
-ChatThreadAdapter chatThreadAdapter = new ChatThreadAdapter(chatUIClient, threadId);
+chatAdapter.addOnErrorEventHandler(errorHandler);
+chatAdapter.connect(context);
+
 ChatThreadView chatThreadView = new ChatThreadView(context, chatThreadAdapter);
+
 ```
 
 Chat screen is supported as both composite and an independent view which supports view binding and enables the application developers to integrate the chat capabilities in their application in either way. For example, one can launch ChatComposite in either the application activity or on any inflated view. You can find the detail of using the Chat UI Library in the [Demo Guide](../../azure-communication-ui/demo-app/).
