@@ -64,7 +64,7 @@ val chatAdapter = ChatAdapterBuilder()
 chatAdapter.addOnErrorEventHandler(errorHandler)
 chatAdapter.connect(context)
 
-val chatThreadView = ChatThreadView(context, chatThreadAdapter)
+val chatThreadView = ChatThreadView(context, chatAdapter)
 
 ```
 
@@ -85,7 +85,7 @@ ChatAdapter chatAdapter = new ChatAdapterBuilder()
 chatAdapter.addOnErrorEventHandler(errorHandler);
 chatAdapter.connect(context);
 
-ChatThreadView chatThreadView = new ChatThreadView(context, chatThreadAdapter);
+ChatThreadView chatThreadView = new ChatThreadView(context, chatAdapter);
 
 ```
 
