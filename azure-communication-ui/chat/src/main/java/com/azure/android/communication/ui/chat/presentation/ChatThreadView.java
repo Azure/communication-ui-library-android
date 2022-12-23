@@ -45,6 +45,7 @@ public final class ChatThreadView extends FrameLayout {
     /**
      * Creates a ChatThreadView with attributes from an XML file.
      * The ChatThreadView is created without a ChatThreadAdapter.
+     * Note: Will not display anything unless an adapter is bound
      * @param context the context to use for creating the ChatThreadView
      * @param attrs the attributes from the XML file
      */
