@@ -7,11 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import android.webkit.URLUtil
 import androidx.activity.addCallback
 import androidx.activity.viewModels
@@ -80,14 +82,18 @@ class ChatLauncherActivity : AppCompatActivity() {
 
             launchButton.setOnClickListener {
                 launch()
+                launchButton.requestFocus()
+                hideKeyboard()
             }
 
             openChatUIButton.setOnClickListener {
                 showChatUI()
+                hideKeyboard()
             }
 
             openFullScreenChatUIButton.setOnClickListener {
                 showChatUIActivity()
+                hideKeyboard()
             }
 
             stopChatCompositeButton.setOnClickListener {
@@ -121,6 +127,10 @@ class ChatLauncherActivity : AppCompatActivity() {
         chatView = null
     }
 
+    private fun hideKeyboard() {
+        val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+    }
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
@@ -234,12 +244,11 @@ class ChatLauncherActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun handleError(eventArgs: ChatCompositeErrorEvent) {
-        println("================= application is logging error =====================")
-        println(eventArgs.cause)
-        println(eventArgs.errorCode)
-        showAlert("${eventArgs.cause}")
-        println("====================================================================")
+    private fun handleError(errorEvent: ChatCompositeErrorEvent) {
+        Log.e("ChatCompositeDemoApp", "================= application is logging error =====================")
+        Log.e("ChatCompositeDemoApp", "${errorEvent.errorCode}", errorEvent.cause)
+        showAlert("${errorEvent.errorCode} : ${errorEvent.cause}")
+        Log.e("ChatCompositeDemoApp", "====================================================================")
     }
 
     override fun onResume() {

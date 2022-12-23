@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.microsoft.fluentui.theme.ThemeMode
 import kotlinx.coroutines.launch
 
 /**
@@ -58,7 +60,8 @@ internal fun UnreadMessagesIndicatorView(
                         )
                         else -> content.getString(R.string.azure_communication_ui_chat_many_unread_new_messages)
                     },
-                    fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize
+                    fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize,
+                    style = ChatCompositeTheme.typography.unreadMessageText,
                 )
             },
             onClick = {
@@ -80,9 +83,23 @@ internal fun UnreadMessagesIndicatorView(
 @Preview
 @Composable
 internal fun PreviewUnreadMessagesIndicatorView() {
-    UnreadMessagesIndicatorView(
-        rememberLazyListState(),
-        visible = true,
-        unreadCount = 20,
-    )
+    Column() {
+        Text("Dark")
+        ChatCompositeTheme(themeMode = ThemeMode.Dark) {
+            UnreadMessagesIndicatorView(
+                rememberLazyListState(),
+                visible = true,
+                unreadCount = 20,
+            )
+        }
+
+        Text("Light")
+        ChatCompositeTheme(themeMode = ThemeMode.Light) {
+            UnreadMessagesIndicatorView(
+                rememberLazyListState(),
+                visible = true,
+                unreadCount = 20,
+            )
+        }
+    }
 }

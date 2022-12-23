@@ -29,6 +29,7 @@ internal class MessageViewModel(
     val showSentStatusIcon: Boolean,
     val showReadReceipt: Boolean,
     val isHiddenUser: Boolean,
+    val includeDebugInfo: Boolean,
 ) {
     val isVisible get() = message.deletedOn == null && !isHiddenUser
 }
@@ -39,6 +40,7 @@ internal fun List<MessageInfoModel>.toViewModelList(
     latestLocalUserMessageId: Long? = null,
     lastMessageIdReadByRemoteParticipants: Long = 0L,
     hiddenParticipant: Set<String>,
+    includeDebugInfo: Boolean = false,
 ) =
     InfoModelToViewModelAdapter(
         context,
@@ -47,6 +49,7 @@ internal fun List<MessageInfoModel>.toViewModelList(
         latestLocalUserMessageId,
         lastMessageIdReadByRemoteParticipants,
         hiddenParticipant,
+        includeDebugInfo
     ) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
@@ -56,6 +59,7 @@ private class InfoModelToViewModelAdapter(
     private val latestLocalUserMessageId: Long?,
     private val lastMessageIdReadByRemoteParticipants: Long,
     private val hiddenParticipant: Set<String>,
+    private val includeDebugInfo: Boolean = false,
 ) :
     List<MessageViewModel> {
 
@@ -76,6 +80,7 @@ private class InfoModelToViewModelAdapter(
         return MessageViewModel(
 
             thisMessage,
+            includeDebugInfo = includeDebugInfo,
             showUsername = !isLocalUser &&
                 (lastMessage.senderCommunicationIdentifier?.id ?: "")
                 != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
@@ -96,7 +101,8 @@ private class InfoModelToViewModelAdapter(
             showSentStatusIcon = shouldShowMessageStatusIcon(thisMessage, showReadReceipt),
             isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
                 messages[index].participants.size == 1 &&
-                hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id)
+                hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id),
+
         )
     }
 
