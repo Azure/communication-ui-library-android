@@ -49,32 +49,40 @@ Create `ChatComposite` and launch it. Replace `<USER_ACCESS_TOKEN>` with your to
 #### [Kotlin](#tab/kotlin)
 
 ```kotlin
-val chatComposite = ChatCompositeBuilder().build()
-val communicationTokenRefreshOptions =
-    CommunicationTokenRefreshOptions("<USER_ACCESS_TOKEN>", true)
-val communicationTokenCredential =
-    CommunicationTokenCredential(communicationTokenRefreshOptions)
-val locator = ChatCompositeJoinLocator("<THREAD_ID>", "<ENDPOINT_URL>")
-val remoteOptions =
-    ChatCompositeRemoteOptions(locator, communicationTokenCredential, "<USER_ID>", "<DISPLAY_NAME>")
-chatComposite.launch(chatLauncherActivity, remoteOptions, ChatCompositeLocalOptions())
+val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions("<USER_ACCESS_TOKEN>", true)
+val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
+
+val chatUIClient = ChatUIClientBuilder()
+    .context(context)
+    .endpoint("<ENDPOINT>")
+    .credential(communicationTokenCredential)
+    .identity(CommunicationUserIdentifier(acsIdentity))
+    .displayName(userName)
+    .build()
+
+chatUIClient.addOnErrorEventHandler(errorHandler)
+val chatThreadAdapter = ChatThreadAdapter(chatUIClient, threadId)
+val chatThreadView = ChatThreadView(context, chatThreadAdapter)
+
 ```
 
 #### [Java](#tab/java)
 
 ```java
-final ChatComposite chatComposite = new ChatCompositeBuilder().build();
+CommunicationTokenRefreshOptions communicationTokenRefreshOptions = new CommunicationTokenRefreshOptions("<USER_ACCESS_TOKEN>", true);
+        CommunicationTokenCredential communicationTokenCredential = new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
-        new CommunicationTokenRefreshOptions("<USER_ACCESS_TOKEN>", true);
-final CommunicationTokenCredential communicationTokenCredential =
-        new CommunicationTokenCredential(communicationTokenRefreshOptions);
+        ChatUIClient chatUIClient = new ChatUIClientBuilder()
+        .context(context)
+        .endpoint("<ENDPOINT>")
+        .credential(communicationTokenCredential)
+        .identity(new CommunicationUserIdentifier(acsIdentity))
+        .displayName(userName)
+        .build();
 
-final ChatCompositeJoinLocator locator =
-        new ChatCompositeJoinLocator("<THREAD_ID>", "<ENDPOINT_URL>");
-final ChatCompositeRemoteOptions remoteOptions =
-        new ChatCompositeRemoteOptions(locator, communicationTokenCredential, "<USER_ID>", "<DISPLAY_NAME>");
-chatComposite.launch(chatLauncherActivity, remoteOptions, null);
+        chatUIClient.addOnErrorEventHandler(errorHandler);
+        ChatThreadAdapter chatThreadAdapter = new ChatThreadAdapter(chatUIClient, threadId);
+        ChatThreadView chatThreadView = new ChatThreadView(context, chatThreadAdapter);
 ```
 
 Chat screen is supported as both composite and an independent view which supports view binding and enables the application developers to integrate the chat capabilities in their application in either way. For example, one can launch ChatComposite in either the application activity or on any inflated view. You can find the detail of using the Chat UI Library in the [Demo Guide](../../azure-communication-ui/demo-app/).

@@ -18,9 +18,10 @@ public class ChatThreadAdapter {
     private final String topic = null;
 
     /**
-     * Creates {@link ChatThreadAdapter}
-     * @param chatUIClient
-     * @param threadId
+     * Creates a new {@link ChatThreadAdapter}.
+     *
+     * @param chatUIClient the {@link ChatUIClient} to be used by the adapter
+     * @param threadId the ID of the chat thread
      */
     public ChatThreadAdapter(final ChatUIClient chatUIClient, final String threadId) {
         this.chatUIClient = chatUIClient;
@@ -46,25 +47,37 @@ public class ChatThreadAdapter {
     }
 
     /**
-     * Get chat thread Id.
-     * @return
+     * Returns the ID of the chat thread.
+     *
+     * @return the ID of the chat thread
      */
     public String getThreadId() {
         return threadId;
     }
 
     /**
-     * Get chat thread topic.
-     * @return
+     * Returns the topic of the chat thread.
+     *
+     * @return the topic of the chat thread, or {@code null} if no topic is set
      */
     public String getTopic() {
         return topic;
     }
 
+    /**
+     * Returns the {@link ChatUIClient} used by this adapter.
+     *
+     * @return the {@link ChatUIClient} used by this adapter
+     */
     ChatUIClient getChatUIClient() {
         return chatUIClient;
     }
 
+    /**
+     * Launches a test chat composite activity.
+     *
+     * @param context the context to use to start the activity
+     */
     void launchTest(final Context context) {
         final Intent intent = new Intent(context, ChatCompositeActivityImpl.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
