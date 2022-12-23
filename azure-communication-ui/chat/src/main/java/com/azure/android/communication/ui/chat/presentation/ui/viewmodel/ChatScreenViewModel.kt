@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.presentation.ui.viewmodel
 
 import android.content.Context
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorCode
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.models.MessageContextMenuModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
@@ -17,6 +18,9 @@ import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.utilities.findMessageIdxById
 import org.threeten.bp.OffsetDateTime
+
+// Show Debug Information on the screen
+internal const val includeDebugInfo = false
 
 // View Model for the Chat Screen
 internal data class ChatScreenViewModel(
@@ -33,8 +37,9 @@ internal data class ChatScreenViewModel(
     val navigationStatus: NavigationStatus = NavigationStatus.NONE,
     val messageContextMenu: MessageContextMenuModel,
     val sendMessageEnabled: Boolean = false,
+    val debugOverlayText: String = "Test",
 ) {
-    val showError get() = error != null
+    val showError get() = error != null && error.errorCode == ChatCompositeErrorCode.JOIN_FAILED
     val errorMessage get() = error?.errorCode?.toString() ?: ""
     val isLoading get() = chatStatus != ChatStatus.INITIALIZED && !showError
     val unreadMessagesIndicatorVisibility = unreadMessagesCount > 0
@@ -63,7 +68,8 @@ internal fun buildChatScreenViewModel(
             localUserIdentifier,
             latestLocalUserMessageId,
             lastMessageIdReadByRemoteParticipants,
-            store.getCurrentState().participantState.hiddenParticipant
+            store.getCurrentState().participantState.hiddenParticipant,
+            includeDebugInfo = includeDebugInfo
         ),
         areMessagesLoading = !store.getCurrentState().chatState.chatInfoModel.allMessagesFetched,
         chatStatus = store.getCurrentState().chatState.chatStatus,
@@ -78,7 +84,14 @@ internal fun buildChatScreenViewModel(
         messageContextMenu = store.getCurrentState().chatState.messageContextMenu,
         sendMessageEnabled = store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant &&
             store.getCurrentState().chatState.chatStatus == ChatStatus.INITIALIZED,
+        debugOverlayText = getDebugOverlayText(store, messages)
     )
+}
+
+internal fun getDebugOverlayText(store: AppStore<ReduxState>, messages: List<MessageInfoModel>): String {
+    if (!includeDebugInfo) return ""
+    return "Last Read ID: ${store.getCurrentState().chatState.lastReadMessageId}\n" +
+        "Last Received Message: ${ if (messages.isEmpty()) "None" else messages.last().normalizedID }"
 }
 
 private fun getLastMessageIdReadByRemoteParticipants(

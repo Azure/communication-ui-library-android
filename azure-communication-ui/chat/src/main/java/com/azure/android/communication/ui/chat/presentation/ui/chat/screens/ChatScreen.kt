@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.Card
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -45,6 +46,7 @@ import com.azure.android.communication.ui.chat.redux.action.NavigationAction
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.microsoft.fluentui.theme.ThemeMode
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,6 +62,7 @@ internal fun ChatScreen(
     Scaffold(
         backgroundColor = ChatCompositeTheme.colors.background,
         scaffoldState = scaffoldState,
+
         topBar = {
             if (!showActionBar) return@Scaffold
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
@@ -67,7 +70,6 @@ internal fun ChatScreen(
                 viewModel.chatTopic != null -> viewModel.chatTopic
                 else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
             }
-
             val subTitle = stringResource(
                 id = R.string.azure_communication_ui_chat_count_people,
                 viewModel.participants.count()
@@ -132,6 +134,10 @@ internal fun ChatScreen(
                     }
                 }
             }
+            if (viewModel.debugOverlayText.isNotEmpty())
+                Card() {
+                    BasicText(viewModel.debugOverlayText)
+                }
         },
         bottomBar = {
 
@@ -174,7 +180,7 @@ internal fun ChatScreen(
 @Composable
 internal fun ChatScreenPreview() {
     AndroidThreeTen.init(LocalContext.current)
-    ChatCompositeTheme {
+    ChatCompositeTheme(themeMode = ThemeMode.Dark) {
         ChatScreen(
             viewModel = ChatScreenViewModel(
                 messages = MOCK_MESSAGES.toViewModelList(context = LocalContext.current, localUserIdentifier = MOCK_LOCAL_USER_ID, hiddenParticipant = mutableSetOf()),
