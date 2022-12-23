@@ -43,7 +43,7 @@ import com.azure.android.communication.ui.chat.utilities.announceForAccessibilit
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 internal class ChatContainer(
-    private val chatUIClient: ChatUIClient,
+    private val chatAdapter: ChatAdapter,
     private val configuration: ChatCompositeConfiguration,
     private val instanceId: Int,
 ) {
@@ -98,7 +98,7 @@ internal class ChatContainer(
 
             val messageRepository = MessageRepository.createSkipListBackedRepository()
 
-            addTypedBuilder { chatUIClient }
+            addTypedBuilder { chatAdapter }
 
             addTypedBuilder { messageRepository }
 

@@ -7,8 +7,8 @@ import com.azure.android.communication.ui.calling.CallComposite;
 import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalizationOptions;
 import com.azure.android.communication.ui.callwithchat.service.CallWithChatService;
-import com.azure.android.communication.ui.chat.ChatUIClient;
-import com.azure.android.communication.ui.chat.ChatUIClientBuilder;
+import com.azure.android.communication.ui.chat.ChatAdapter;
+import com.azure.android.communication.ui.chat.ChatAdapterBuilder;
 
 public final class CallWithChatCompositeBuilder {
 
@@ -46,15 +46,12 @@ public final class CallWithChatCompositeBuilder {
      * @return {@link CallWithChatComposite}
      */
     public CallWithChatComposite build() {
-        final ChatUIClientBuilder chatUIClientBuilder = new ChatUIClientBuilder();
-        final ChatUIClient chatUIClient = chatUIClientBuilder.build();
+        final ChatAdapter chatAdapter = new ChatAdapterBuilder().build();
 
         final CallCompositeBuilder callCompositeBuilder = new CallCompositeBuilder();
-
-
         final CallComposite callComposite = callCompositeBuilder
                 .build();
 
-        return new CallWithChatComposite(new CallWithChatService(callComposite, chatUIClient));
+        return new CallWithChatComposite(new CallWithChatService(callComposite, chatAdapter));
     }
 }

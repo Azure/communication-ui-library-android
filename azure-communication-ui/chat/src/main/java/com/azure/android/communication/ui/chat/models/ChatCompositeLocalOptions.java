@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.chat.models;
 
-import com.azure.android.communication.ui.chat.ChatUIClient;
-
 /**
  * ChatCompositeLocalOptions for ChatComposite.launch.
  *
@@ -28,7 +26,6 @@ import com.azure.android.communication.ui.chat.ChatUIClient;
  * chatComposite.launch&#40;.., .., localOptions&#41
  * </pre>
  *
- * @see ChatUIClient
  */
 final class ChatCompositeLocalOptions {
     private ChatCompositeParticipantViewData participantViewData;

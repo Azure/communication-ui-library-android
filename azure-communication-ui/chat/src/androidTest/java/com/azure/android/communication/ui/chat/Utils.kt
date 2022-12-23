@@ -16,13 +16,13 @@ internal fun launchChatComposite() {
     val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ "token" }, true)
     val communicationTokenCredential =
         CommunicationTokenCredential(communicationTokenRefreshOptions)
-    val chatUIClient = ChatUIClientBuilder()
-        .context(appContext)
+    val chatAdapter = ChatAdapterBuilder()
         .endpoint("https://acs-ui-dev.communication.azure.com/")
         .credential(communicationTokenCredential)
         .identity(CommunicationUserIdentifier("test"))
+        .threadId("19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2")
         .build()
 
-    val chatThreadAdapter = ChatThreadAdapter(chatUIClient, "19:lSNju7o5X9EYJInIIxkJQw1TMnllGMytNCtvhYCxvpE1@thread.v2")
-    chatThreadAdapter.launchTest(appContext,)
+    chatAdapter.connect(appContext)
+    chatAdapter.showTestCompositeUI(appContext)
 }

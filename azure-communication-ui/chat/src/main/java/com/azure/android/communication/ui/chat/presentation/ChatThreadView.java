@@ -7,9 +7,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.azure.android.communication.ui.chat.ChatThreadAdapter;
-import com.azure.android.communication.ui.chat.ChatThreadAdapterExtensionsKt;
-import com.azure.android.communication.ui.chat.ChatUIClient;
+import com.azure.android.communication.ui.chat.ChatAdapter;
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeViewImpl;
 
 /**
@@ -28,11 +26,11 @@ public final class ChatThreadView extends FrameLayout {
     /**
      * Creates {@link ChatThreadView}
      * @param context
-     * @param chatThreadAdapter
+     * @param chatAdapter
      */
-    public ChatThreadView(final Context context, final ChatThreadAdapter chatThreadAdapter) {
+    public ChatThreadView(final Context context, final ChatAdapter chatAdapter) {
         super(context);
-        setChatAdapter(chatThreadAdapter);
+        setChatAdapter(chatAdapter);
     }
 
     /**
@@ -48,15 +46,14 @@ public final class ChatThreadView extends FrameLayout {
      * Creates {@link ChatThreadView}
      * @param context
      * @param attrs
-     * @param chatThreadAdapter
+     * @param chatAdapter
      */
-    public ChatThreadView(final Context context, final AttributeSet attrs, final ChatThreadAdapter chatThreadAdapter) {
+    public ChatThreadView(final Context context, final AttributeSet attrs, final ChatAdapter chatAdapter) {
         super(context, attrs);
-        setChatAdapter(chatThreadAdapter);
+        setChatAdapter(chatAdapter);
     }
 
-    void setChatAdapter(final ChatThreadAdapter chatThreadAdapter) {
-        final ChatUIClient chatUiClient =  ChatThreadAdapterExtensionsKt.getChatUIClient(chatThreadAdapter);
-        addView(new ChatCompositeViewImpl(this.getContext(), chatUiClient, false));
+    void setChatAdapter(final ChatAdapter chatAdapter) {
+        addView(new ChatCompositeViewImpl(this.getContext(), chatAdapter, false));
     }
 }
