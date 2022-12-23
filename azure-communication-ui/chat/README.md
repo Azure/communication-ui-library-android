@@ -74,7 +74,7 @@ val chatThreadView = ChatThreadView(context, chatThreadAdapter)
 CommunicationTokenRefreshOptions communicationTokenRefreshOptions = new CommunicationTokenRefreshOptions("<USER_ACCESS_TOKEN>", true);
 CommunicationTokenCredential communicationTokenCredential = new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-ChatAdapter chatAdapter = ChatAdapterBuilder.create()
+ChatAdapter chatAdapter = new ChatAdapterBuilder()
         .endpoint(endpoint)
         .credential(communicationTokenCredential)
         .identity(new CommunicationUserIdentifier(acsIdentity))
