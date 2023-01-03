@@ -98,7 +98,9 @@ class ChatLauncherActivity : AppCompatActivity() {
             acsTokenText.requestFocus()
             acsTokenText.isEnabled = true
 
-            if (!BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
+                versionText.text = "${BuildConfig.VERSION_NAME}"
+            } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
