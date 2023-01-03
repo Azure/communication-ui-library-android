@@ -14,12 +14,12 @@ import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompos
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeLocalOptions
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeRemoteOptions
 import com.azure.android.communication.ui.callwithchat.models.CallWithChatCompositeTeamsMeetingLinkLocator
-import com.azure.android.communication.ui.chat.ChatUIClient
+import com.azure.android.communication.ui.chat.ChatAdapter
 import com.azure.android.communication.ui.chat.implementation.ChatServiceConfigurationImpl
 
 internal class CallWithChatService(
     private val callComposite: CallComposite,
-    private val chatUIClient: ChatUIClient,
+    private val chatAdapter: ChatAdapter,
 ) {
     fun launch(
         context: Context,
