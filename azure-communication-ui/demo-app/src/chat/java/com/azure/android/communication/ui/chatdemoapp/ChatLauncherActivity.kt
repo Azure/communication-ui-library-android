@@ -256,4 +256,10 @@ class ChatLauncherActivity : AppCompatActivity() {
         val window: Window = this@ChatLauncherActivity.window
         window.navigationBarColor = ContextCompat.getColor(this@ChatLauncherActivity, R.color.white)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        chatView = null
+        chatLauncherViewModel.closeChatComposite()
+    }
 }
