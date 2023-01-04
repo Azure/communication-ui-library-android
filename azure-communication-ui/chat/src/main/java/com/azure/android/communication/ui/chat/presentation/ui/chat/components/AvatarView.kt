@@ -24,15 +24,13 @@ internal fun AvatarView(
 ) {
     AndroidView(
         modifier = modifier,
-        factory = {
-            val view = AvatarView(it)
-            view.name = name ?: ""
-            view.avatarSize = avatarSize
+        factory = { AvatarView(it) },
+        update = {
+            it.name = name ?: ""
+            it.avatarSize = avatarSize
             color?.apply {
-                view.avatarBackgroundColor = toArgb()
+                it.avatarBackgroundColor = toArgb()
             }
-
-            view
         }
     )
 }
