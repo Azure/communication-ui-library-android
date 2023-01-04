@@ -28,7 +28,7 @@ Azure Communication Service Mobile UI currently offers the following libraries:
 <img width="50%" alt="image" src="/docs/media/ui-library-calling.png">
 </p>
 
-Calling experience allows users to start or join a call. Inside the experience, users can configure their devices, participate in the call with video, and see other participants, including those ones with video turned on. For Teams interoperability, CallComposite includes lobby functionality so that users can wait to be admitted. For more information about calling composite and how you can integrate it into your application, click [here](/azure-communication-ui/calling/README.md)
+Calling experience allows users to start or join a call. Inside the experience, users can configure their devices, participate in the call with video, and see other participants, including those ones with video turned on. For Teams interoperability, CallComposite includes lobby functionality so that users can wait to be admitted. For more information about calling composite and how you can integrate it into your application, click [here](/azure-communication-ui/calling/README.md).
 
 ### [Chat](/azure-communication-ui/chat/)
 
@@ -38,7 +38,7 @@ Calling experience allows users to start or join a call. Inside the experience, 
 
 Chat experience brings a real-time text communication to your applications. Similar to Calling, Chat also offers Teams interoperability where users can join Teams meetings and communicate with Teams chat messages.
 
-Learn more about how to integrate Chat to your applications, click [here](/AzureCommunicationUI/sdk/AzureCommunicationUIChat).
+Learn more about how to integrate Chat to your applications, click [here](/azure-communication-ui/chat/README.md).
 
 
 ## Contributing to the Library
