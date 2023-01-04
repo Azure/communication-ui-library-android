@@ -258,7 +258,7 @@ class ChatLauncherActivity : AppCompatActivity() {
 // To prevent leaks if the Activity is destroyed.
 class ErrorHandler(chatLauncherActivity: ChatLauncherActivity) :
     ChatCompositeEventHandler<ChatCompositeErrorEvent> {
-    private val wrActivity = WeakReference(chatLauncherActivity);
+    private val wrActivity = WeakReference(chatLauncherActivity)
     override fun handle(eventArgs: ChatCompositeErrorEvent) {
         Log.e(
             "ChatCompositeDemoApp",
