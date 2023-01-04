@@ -36,7 +36,6 @@ class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
             return
         }
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
-            Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
                 application,
                 BuildConfig.APP_SECRET,
