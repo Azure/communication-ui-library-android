@@ -133,6 +133,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
+
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
@@ -255,12 +256,19 @@ class ChatLauncherActivity : AppCompatActivity() {
 
 // Encapsulate the Error Handler with the Activity behind a WeakReference
 // To prevent leaks if the Activity is destroyed.
-class ErrorHandler(chatLauncherActivity:ChatLauncherActivity) : ChatCompositeEventHandler<ChatCompositeErrorEvent> {
-    private val wrActivity = WeakReference (chatLauncherActivity);
+class ErrorHandler(chatLauncherActivity: ChatLauncherActivity) :
+    ChatCompositeEventHandler<ChatCompositeErrorEvent> {
+    private val wrActivity = WeakReference(chatLauncherActivity);
     override fun handle(eventArgs: ChatCompositeErrorEvent) {
-        Log.e("ChatCompositeDemoApp", "================= application is logging error =====================")
+        Log.e(
+            "ChatCompositeDemoApp",
+            "================= application is logging error ====================="
+        )
         Log.e("ChatCompositeDemoApp", "${eventArgs.errorCode}", eventArgs.cause)
-        Log.e("ChatCompositeDemoApp", "====================================================================")
+        Log.e(
+            "ChatCompositeDemoApp",
+            "===================================================================="
+        )
         wrActivity.get()?.apply {
             showAlert("${eventArgs.errorCode} : ${eventArgs.cause}")
         }
