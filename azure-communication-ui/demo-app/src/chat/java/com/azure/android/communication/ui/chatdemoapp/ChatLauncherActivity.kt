@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
 import com.azure.android.communication.ui.chat.ChatAdapter
+import com.azure.android.communication.ui.chat.ChatCompositeEventHandler
 import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.presentation.ChatThreadView
 import com.azure.android.communication.ui.chatdemoapp.features.AdditionalFeatures
@@ -35,6 +36,7 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import com.microsoft.appcenter.distribute.UpdateTrack
+import java.lang.ref.WeakReference
 
 class ChatLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatLauncherBinding
@@ -135,7 +137,7 @@ class ChatLauncherActivity : AppCompatActivity() {
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
-    private fun showAlert(message: String) {
+    fun showAlert(message: String) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
                 setMessage(message)
@@ -191,7 +193,7 @@ class ChatLauncherActivity : AppCompatActivity() {
         try {
             chatLauncherViewModel.launch(
                 context = this,
-                errorHandler = { handleError(it) },
+                errorHandler = ErrorHandler(this),
                 endpoint,
                 acsIdentity,
                 threadId,
@@ -244,16 +246,23 @@ class ChatLauncherActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun handleError(errorEvent: ChatCompositeErrorEvent) {
-        Log.e("ChatCompositeDemoApp", "================= application is logging error =====================")
-        Log.e("ChatCompositeDemoApp", "${errorEvent.errorCode}", errorEvent.cause)
-        showAlert("${errorEvent.errorCode} : ${errorEvent.cause}")
-        Log.e("ChatCompositeDemoApp", "====================================================================")
-    }
-
     override fun onResume() {
         super.onResume()
         val window: Window = this@ChatLauncherActivity.window
         window.navigationBarColor = ContextCompat.getColor(this@ChatLauncherActivity, R.color.white)
+    }
+}
+
+// Encapsulate the Error Handler with the Activity behind a WeakReference
+// To prevent leaks if the Activity is destroyed.
+class ErrorHandler(chatLauncherActivity:ChatLauncherActivity) : ChatCompositeEventHandler<ChatCompositeErrorEvent> {
+    private val wrActivity = WeakReference (chatLauncherActivity);
+    override fun handle(eventArgs: ChatCompositeErrorEvent) {
+        Log.e("ChatCompositeDemoApp", "================= application is logging error =====================")
+        Log.e("ChatCompositeDemoApp", "${eventArgs.errorCode}", eventArgs.cause)
+        Log.e("ChatCompositeDemoApp", "====================================================================")
+        wrActivity.get()?.apply {
+            showAlert("${eventArgs.errorCode} : ${eventArgs.cause}")
+        }
     }
 }
