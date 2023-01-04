@@ -91,7 +91,7 @@ ChatThreadView chatThreadView = new ChatThreadView(context, chatAdapter);
 
 Chat screen is supported as both composite and an independent view which supports view binding and enables the application developers to integrate the chat capabilities in their application in either way. For example, one can launch ChatComposite in either the application activity or on any inflated view. You can find the detail of using the Chat UI Library in the [Demo Guide](../../azure-communication-ui/demo-app/).
 
-For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-mobileui/index.html). 
+For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-android/chat). 
 
 
 ## Known Issues

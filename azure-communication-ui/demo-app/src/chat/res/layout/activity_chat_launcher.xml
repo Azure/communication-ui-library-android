@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-                android:hint="@string/end_point_url_hint"
+                android:hint="@string/endpoint_url_hint"
                 android:inputType="textNoSuggestions"
                 app:layout_constraintStart_toStartOf="@id/chatThreadID"
                 app:layout_constraintTop_toBottomOf="@id/chatThreadID"
