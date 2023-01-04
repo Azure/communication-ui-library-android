@@ -146,7 +146,9 @@ class CallLauncherActivity : AppCompatActivity() {
                 callLauncherViewModel.setKotlinLauncher()
             }
 
-            if (!BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
+                versionText.text = "${BuildConfig.VERSION_NAME}"
+            } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
