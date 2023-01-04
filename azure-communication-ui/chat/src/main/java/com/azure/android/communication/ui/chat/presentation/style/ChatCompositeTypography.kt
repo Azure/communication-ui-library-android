@@ -68,7 +68,7 @@ data class ChatCompositeTypography(
 
                 unreadMessageText = TextStyle.Default.copy(
                     fontSize = 16.sp,
-                    color = ChatCompositeTheme.colors.textColor,
+                    color = ChatCompositeTheme.colors.inverseTextColor,
                     fontWeight = FontWeight.W500,
                 ),
 
