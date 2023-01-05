@@ -120,7 +120,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         chatService.editMessage(action.message.normalizedID.toString(), action.message.content ?: "")
             .whenComplete { _, error ->
                 if (error != null) {
-                    //TODO will add back when we release the edit logic
+                    // TODO will add back when we release the edit logic
 //                    dispatch(
 //                        ErrorAction.ChatStateErrorOccurred(
 //                            chatCompositeErrorEvent = ChatCompositeErrorEvent(
