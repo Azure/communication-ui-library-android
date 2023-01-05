@@ -76,7 +76,7 @@ CallComposite callComposite = new CallCompositeBuilder().build();
 callComposite.launch(context, remoteOptions);
 ```
 
-For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-android/calling).
+For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-calling).
 
 ### Accessibility
 
