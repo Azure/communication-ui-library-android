@@ -96,7 +96,7 @@ internal class ChatContainer(
         ServiceLocator.getInstance(instanceId = instanceId).apply {
             addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
 
-            val messageRepository = MessageRepository.createSkipListBackedRepository()
+            val messageRepository = MessageRepository.createPageBackedRepository()
 
             addTypedBuilder { chatAdapter }
 

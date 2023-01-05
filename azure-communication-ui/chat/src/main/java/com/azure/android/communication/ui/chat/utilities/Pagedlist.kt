@@ -97,13 +97,39 @@ internal class PagedList<T>(private val pages: List<List<T>>) : List<T> {
     override fun iterator(): Iterator<T> {
         TODO("Not yet implemented")
     }
-
     override fun listIterator(): ListIterator<T> {
-        TODO("Not yet implemented")
+        return listIterator(0)
     }
-
     override fun listIterator(index: Int): ListIterator<T> {
-        TODO("Not yet implemented")
+        return object : ListIterator<T> {
+            var currentIndex = index
+
+            override fun hasNext(): Boolean {
+                return currentIndex < size
+            }
+
+            override fun next(): T {
+                currentIndex++
+                return get(currentIndex)
+            }
+
+            override fun hasPrevious(): Boolean {
+                return currentIndex > 0
+            }
+
+            override fun nextIndex(): Int {
+                return currentIndex + 1
+            }
+
+            override fun previous(): T {
+                currentIndex--
+                return get(currentIndex);
+            }
+
+            override fun previousIndex(): Int {
+                return currentIndex - 1
+            }
+        }
     }
 
     override fun subList(fromIndex: Int, toIndex: Int): List<T> {

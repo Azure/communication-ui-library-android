@@ -34,7 +34,7 @@ internal class MessageRepositoryPagedImpl : MessageRepository() {
     override fun addMessage(message: MessageInfoModel) {
         // If no pages, add a page
         if (pages.size == 0) {
-            pages.add(listOf(message))
+            pages.add(0, listOf(message))
             return
         }
 
