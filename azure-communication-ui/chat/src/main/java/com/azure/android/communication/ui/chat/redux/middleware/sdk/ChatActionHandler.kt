@@ -121,8 +121,7 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             .whenComplete { _, error ->
                 if (error != null) {
                     // TODO will add back when we release the edit logic
-//                    dispatch(
-//                        ErrorAction.ChatStateErrorOccurred(
+//                    dispatch( //                      ErrorAction.ChatStateErrorOccurred(
 //                            chatCompositeErrorEvent = ChatCompositeErrorEvent(
 //                                threadId,
 //                                ChatCompositeErrorCode.SEND_EDIT_MESSAGE_FAILED,
