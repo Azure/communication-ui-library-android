@@ -19,7 +19,6 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import com.microsoft.appcenter.distribute.UpdateTrack
 import java.util.UUID
 
 class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
@@ -36,7 +35,6 @@ class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
             return
         }
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
-            Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
                 application,
                 BuildConfig.APP_SECRET,

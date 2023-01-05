@@ -35,7 +35,6 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import com.microsoft.appcenter.distribute.UpdateTrack
 import java.lang.ref.WeakReference
 
 class ChatLauncherActivity : AppCompatActivity() {
@@ -52,7 +51,6 @@ class ChatLauncherActivity : AppCompatActivity() {
             return
         }
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
-            Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
                 application,
                 BuildConfig.APP_SECRET,
