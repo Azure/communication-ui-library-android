@@ -13,13 +13,13 @@ internal class PagedListTest {
         listOf(2,3,4),
         listOf(5,6,7),
         listOf(8,9),
-    ),3)
+    ))
 
     private val listOnePage = PagedList(listOf(
         listOf(0,1),
-    ),3)
+    ))
 
-    private val listEmpty = PagedList<Int>(emptyList(),3)
+    private val listEmpty = PagedList<Int>(emptyList())
 
     @Test
     fun testPagedListSize() {

@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.chat.repository
 
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryListBackedImpl
+import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryPagedImpl
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositorySkipListBackedImpl
 import com.azure.android.communication.ui.chat.repository.storage.MessageRepositoryTreeBackedImpl
 import kotlin.collections.ArrayList
@@ -27,7 +28,7 @@ internal abstract class MessageRepository {
     private var currentSnapshot: List<MessageInfoModel> = listOf()
     val snapshotList get() = currentSnapshot
 
-    fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
+    open fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
         removeMessage(oldMessage)
         addMessage(newMessage)
     }
@@ -51,6 +52,10 @@ internal abstract class MessageRepository {
     }
 
     companion object {
+        fun createPageBackedRepository(): MessageRepository {
+            return MessageRepositoryPagedImpl()
+        }
+
         fun createListBackedRepository(): MessageRepository {
             return MessageRepositoryListBackedImpl()
         }

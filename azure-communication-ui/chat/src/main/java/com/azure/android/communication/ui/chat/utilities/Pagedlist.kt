@@ -1,15 +1,20 @@
 package com.azure.android.communication.ui.chat.utilities
-internal class PagedList<T>(val pages: List<List<T>>, val pageSize: Int) : List<T> {
-    private val pageCount = pages.size
 
-    override val size: Int
-        get() {
-            return when (pages.size) {
-                0 -> 0
-                1 -> pages.first().size
-                else -> pageSize * (pageCount - 2) + pages.first().size + pages.last().size
-            }
+import java.lang.RuntimeException
+
+internal class PagedList<T>(private val pages: List<List<T>>) : List<T> {
+
+    private val indexes : List<Int>
+    override val size : Int
+
+    init {
+        var offset = 0;
+        indexes = pages.map {
+            offset += it.size
+            offset - it.size // Start index on each item
         }
+        size = offset;
+    }
 
     override fun contains(element: T): Boolean {
         //TODO: Binary page search, quick boundary checks on pages.
@@ -38,14 +43,33 @@ internal class PagedList<T>(val pages: List<List<T>>, val pageSize: Int) : List<
                 if (index < firstPageLength) {
                     pages.first()[index];
                 } else {
-                    val offset = index - firstPageLength;
-                    val pageOffset = offset % pageSize
-                    val page = offset / pageSize + 1
-                    pages[page][pageOffset]
+                    var page = 0
+                    while (page < pages.size ) {
+                        val startIdx = indexes[page];
+                        val endIdx = indexes[page]+pages[page].size
+                        if (index in startIdx until endIdx) {
+                            return pages[page][index-startIdx]
+                        }
+                        page++;
+                    }
+                    throw RuntimeException("Out of range of list");
                 }
             }
         }
     }
+
+    fun pageOf(element: T): Int {
+        var index = 0
+        for ((pageNum, page) in pages.withIndex()) {
+            val elementIndex = page.indexOf(element)
+            if (elementIndex != -1) {
+                return pageNum
+            }
+            index += page.size
+        }
+        return -1
+    }
+
 
     override fun indexOf(element: T): Int {
         var index = 0
