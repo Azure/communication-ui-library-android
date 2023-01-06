@@ -2,10 +2,16 @@
 
 # Azure Communication UI Mobile Library for Android - Calling
 
-Get started with Azure Communication Services by using the Calling UI Library to integrate communication experiences into your applications. For detailed instructions to quickly integrate the Calling UI Library functionalities visit the [Quick-start Documentation](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-call?tabs=kotlin&pivots=platform-android).
+## Latest Release
 
+- Stable: [1.1.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.1.0)
+- Public Preview: [1.2.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.2.0-beta.1)
 
-### Install the packages
+## Getting Started
+
+Get started with Azure Communication Services by using the Calling UI Library to integrate communication experiences into your applications. For detailed instructions to quickly integrate the Calling UI Library functionalities visit the [Quick-start Documentation](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-composites?tabs=kotlin&pivots=platform-android).
+
+## Installation
 
 In your app level (**app folder**) `build.gradle`, add the following lines to the dependencies and android sections.
 

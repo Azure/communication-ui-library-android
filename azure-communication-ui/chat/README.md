@@ -2,10 +2,16 @@
 
 # Azure Communication UI Mobile Library for Android
 
-Get started with Azure Communication Chat Services by using the UI Library to integrate communication experiences into your applications. For instructions to quickly integrate the UI Library functionalities, please follow our guide below.
+## Latest Release
+
+- Public Preview: [1.0.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-v1.0.0-beta.1)
 
 
-### Install the packages
+## Getting Started
+
+Get started with Azure Communication Chat Services by using the UI Library to integrate communication experiences into your applications. For instructions to quickly integrate the UI Library functionalities [Quick-start Documentation](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-chat-ui-library?tabs=kotlin&pivots=platform-android).
+
+## Installation
 
 In your app level (**app folder**) `build.gradle`, add the following lines to the dependencies and android sections.
 
