@@ -1,6 +1,6 @@
 ![Hero Image](../../docs/media/mobile-ui-library-chat-hero-image.png)
 
-# Azure Communication UI Mobile Library for iOS - Chat
+# Azure Communication UI Mobile Library for Android - Chat
 
 ## Latest Release
 
