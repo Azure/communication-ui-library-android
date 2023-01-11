@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
 // CallLauncherActivity is loosely coupled and will detach the weak reference after disposed.
 class CallLauncherActivityErrorHandler(
     private val callComposite: CallComposite,
-    callLauncherActivity: CallLauncherActivity
+    callLauncherActivity: CallLauncherActivity,
 ) :
     CallCompositeEventHandler<CallCompositeErrorEvent> {
 

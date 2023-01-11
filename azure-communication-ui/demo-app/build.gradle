@@ -31,6 +31,7 @@ android {
         buildConfigField 'boolean', 'CHECK_TASK_ROOT', String.valueOf(!shouldNotCheckTaskRoot())
         buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
         buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
+        buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
     }
 
     signingConfigs {
@@ -50,29 +51,6 @@ android {
 
     buildFeatures {
         viewBinding true
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            manifestPlaceholders = [
-                    appIcon     : "@mipmap/ic_launcher",
-                    appIconRound: "@mipmap/ic_launcher_round"
-            ]
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
-            if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
-                signingConfig signingConfigs.release
-            }
-        }
-
-        debug {
-            applicationIdSuffix = ".debug"
-            manifestPlaceholders = [
-                    appIcon     : "@mipmap/ic_launcher_debug",
-                    appIconRound: "@mipmap/ic_launcher_debug_round"
-            ]
-        }
     }
 
     compileOptions {
@@ -122,21 +100,84 @@ android {
 
     flavorDimensions "product"
     productFlavors {
-
         calling {
             minSdkVersion 21
             dimension "product"
             matchingFallbacks = ["calling"]
+            buildTypes {
+                release {
+                    minifyEnabled true
+                    shrinkResources true
+                    manifestPlaceholders = [
+                            appIcon     : "@mipmap/ic_launcher",
+                            appIconRound: "@mipmap/ic_launcher_round"
+                    ]
+                    proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'acs-ui-library.pro'
+                    if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
+                        signingConfig signingConfigs.release
+                    }
+                }
+
+                debug {
+                    applicationIdSuffix = ".debug"
+                    manifestPlaceholders = [
+                            appIcon     : "@mipmap/ic_launcher_debug",
+                            appIconRound: "@mipmap/ic_launcher_debug_round"
+                    ]
+                }
+            }
         }
         chat {
             minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["chat"]
+            buildTypes {
+                release {
+                    minifyEnabled false
+                    shrinkResources false
+                    manifestPlaceholders = [
+                            appIcon     : "@mipmap/ic_launcher",
+                            appIconRound: "@mipmap/ic_launcher_round"
+                    ]
+                    if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
+                        signingConfig signingConfigs.release
+                    }
+                }
+
+                debug {
+                    applicationIdSuffix = ".debug"
+                    manifestPlaceholders = [
+                            appIcon     : "@mipmap/ic_launcher_debug",
+                            appIconRound: "@mipmap/ic_launcher_debug_round"
+                    ]
+                }
+            }
         }
         callwithchat {
             minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["callwithchat"]
+            buildTypes {
+                release {
+                    minifyEnabled false
+                    shrinkResources false
+                    manifestPlaceholders = [
+                            appIcon     : "@mipmap/ic_launcher",
+                            appIconRound: "@mipmap/ic_launcher_round"
+                    ]
+                    if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
+                        signingConfig signingConfigs.release
+                    }
+                }
+
+                debug {
+                    applicationIdSuffix = ".debug"
+                    manifestPlaceholders = [
+                            appIcon     : "@mipmap/ic_launcher_debug",
+                            appIconRound: "@mipmap/ic_launcher_debug_round"
+                    ]
+                }
+            }
         }
     }
     packagingOptions {

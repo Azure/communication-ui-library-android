@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.reducer
 
+import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
@@ -15,6 +16,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.mock
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneOffset
 
@@ -42,6 +44,8 @@ class ParticipantsReducerUnitTest {
         // arrange
         val reducer = ParticipantsReducerImpl()
 
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
+
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -96,7 +100,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf()
         )
         val action = ParticipantAction.ParticipantsAdded(participants = listOf(userThree, userFour))
 
@@ -114,6 +120,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionAddParticipants_PartiallyExisting_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -168,7 +175,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val userTwo_duplicate = RemoteParticipantInfoModel(
             userIdentifier = CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
@@ -196,6 +205,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionAddParticipants_AllExisting_then_DontChangeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -250,7 +260,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val userOne_duplicate = RemoteParticipantInfoModel(
             userIdentifier = CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
@@ -278,8 +290,8 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionRemoveParticipants_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
-
             participants = listOf(
                 userOne,
                 userTwo,
@@ -338,10 +350,12 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action =
-            ParticipantAction.ParticipantsRemoved(participants = listOf(userThree, userFour))
+            ParticipantAction.ParticipantsRemoved(participants = listOf(userThree, userFour), false)
 
         // act
         val newState = reducer.reduce(previousState, action)
@@ -358,11 +372,14 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionTypingIndicatorReceived_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(),
             participantsReadReceiptMap = mapOf(),
-            latestReadMessageTimestamp = OffsetDateTime.MIN
+            latestReadMessageTimestamp = OffsetDateTime.MIN,
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -400,11 +417,14 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_TypingIndicatorReceived_but_not_participant() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(),
             participantsReadReceiptMap = mapOf(),
-            latestReadMessageTimestamp = OffsetDateTime.MIN
+            latestReadMessageTimestamp = OffsetDateTime.MIN,
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -437,6 +457,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionTypingIndicatorReceived_for_dupe_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -478,7 +499,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -516,6 +539,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionTypingIndicatorCleared_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -557,7 +581,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.RemoveParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -590,6 +616,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionTypingIndicatorCleared_rcvd_but_not_participant() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -631,7 +658,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.RemoveParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -655,6 +684,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionAddParticipantTyping_sameUserDifferentTimeStamp_participantIsUpdated() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -688,7 +718,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.AddParticipantTyping(
             infoModel = ParticipantTimestampInfoModel(
@@ -727,6 +759,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionChatMessage_typingUserIsRemoved() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -760,7 +793,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
 
         val messageInfoModel = MessageInfoModel(
@@ -789,6 +824,7 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionChatMessage_typingUserIsNotRemoved() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(
@@ -822,7 +858,9 @@ class ParticipantsReducerUnitTest {
                 1,
                 0,
                 org.threeten.bp.ZoneOffset.ofHours(2)
-            )
+            ),
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
 
         val messageInfoModel = MessageInfoModel(
@@ -867,11 +905,14 @@ class ParticipantsReducerUnitTest {
     fun participantsReducer_reduce_when_actionReadReceiptReceived_then_changeParticipantStateParticipants() {
         // arrange
         val reducer = ParticipantsReducerImpl()
+        val localParticipantInfoModel = mock<LocalParticipantInfoModel> { }
         val previousState = ParticipantsState(
             participants = listOf(userOne, userTwo).associateBy { it.userIdentifier.id },
             participantTyping = mapOf(),
             participantsReadReceiptMap = mapOf(),
-            latestReadMessageTimestamp = OffsetDateTime.MIN
+            latestReadMessageTimestamp = OffsetDateTime.MIN,
+            localParticipantInfoModel,
+            mutableSetOf(),
         )
         val action = ParticipantAction.ReadReceiptReceived(
             infoModel = ParticipantTimestampInfoModel(

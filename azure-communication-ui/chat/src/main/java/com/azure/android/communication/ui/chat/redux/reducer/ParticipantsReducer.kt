@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
 import com.azure.android.communication.ui.chat.redux.action.ParticipantAction
 import com.azure.android.communication.ui.chat.redux.state.ParticipantsState
+import org.threeten.bp.OffsetDateTime
 
 internal interface ParticipantsReducer : Reducer<ParticipantsState>
 
@@ -14,10 +15,17 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
     override fun reduce(state: ParticipantsState, action: Action): ParticipantsState =
         when (action) {
             is ParticipantAction.ParticipantsAdded -> {
+                // TODO: sync logic with web and iOS to verify read receipt logic
                 state.copy(
                     participants = state.participants + action.participants.associateBy { it.userIdentifier.id },
                     participantsReadReceiptMap = state.participantsReadReceiptMap +
-                        action.participants.map { Pair(it.userIdentifier.id, state.latestReadMessageTimestamp) }
+                        action.participants.filter { it.userIdentifier.id != state.localParticipantInfoModel.userIdentifier }
+                            .map {
+                                Pair(
+                                    it.userIdentifier.id,
+                                    state.latestReadMessageTimestamp
+                                )
+                            }
                 )
             }
             is ParticipantAction.ParticipantsRemoved -> {
@@ -29,7 +37,17 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                     participantTyping =
                         participantTyping - participantTypingKeys.filter { it.contains(id) }
                 }
-                state.copy(
+
+                var updatedState = state
+
+                if (action.localParticipantRemoved) {
+                    updatedState = updatedState.copy(
+                        localParticipantInfoModel =
+                        state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false)
+                    )
+                }
+
+                updatedState.copy(
                     participants = state.participants - removedParticipants,
                     participantTyping = participantTyping,
                     participantsReadReceiptMap =
@@ -38,15 +56,19 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.AddParticipantTyping -> {
                 val id = action.infoModel.userIdentifier.id
-                val displayName = state.participants[id]?.displayName
-                if (displayName.isNullOrEmpty()) {
+                val typingParticipant = state.participants[id]
+                if (typingParticipant == null) {
                     state
                 } else {
+                    val displayName = typingParticipant.displayName
                     // if participant is already typing, remove and add with new timestamp
                     state.copy(
                         participantTyping = state.participantTyping -
                             state.participantTyping.keys.filter { it.contains(id) } +
-                            Pair(id + action.infoModel.receivedOn, displayName)
+                            Pair(
+                                id + action.infoModel.receivedOn,
+                                if (displayName.isNullOrEmpty()) "Unknown participant" else displayName
+                            )
                     )
                 }
             }
@@ -70,11 +92,25 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             }
             is ParticipantAction.ReadReceiptReceived -> {
                 val participantsReadReceiptMap = state.participantsReadReceiptMap.toMutableMap()
-                participantsReadReceiptMap[action.infoModel.userIdentifier.id] = action.infoModel.receivedOn
+                // if any participant have OffsetDateTime.MIN update it to latest received notification
+                state.participantsReadReceiptMap.forEach {
+                    if (it.value == OffsetDateTime.MIN) {
+                        participantsReadReceiptMap[it.key] = action.infoModel.receivedOn
+                    }
+                }
+                participantsReadReceiptMap[action.infoModel.userIdentifier.id] =
+                    action.infoModel.receivedOn
                 val latestReadMessageTimestamp = participantsReadReceiptMap.values.min()
                 state.copy(
                     participantsReadReceiptMap = participantsReadReceiptMap,
                     latestReadMessageTimestamp = latestReadMessageTimestamp
+                )
+            }
+            is ParticipantAction.ParticipantToHideReceived -> {
+                val maskedParticipantSet = state.hiddenParticipant.toMutableSet()
+                maskedParticipantSet.add(action.id)
+                state.copy(
+                    hiddenParticipant = maskedParticipantSet
                 )
             }
             else -> state

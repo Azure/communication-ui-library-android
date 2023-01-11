@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 @Immutable
 data class ChatCompositeShapes(
     val messageBubble: Shape,
-    val unreadMessagesIndicator: Shape
+    val unreadMessagesIndicator: Shape,
 )
 
 val LocalChatCompositeShapes = staticCompositionLocalOf {

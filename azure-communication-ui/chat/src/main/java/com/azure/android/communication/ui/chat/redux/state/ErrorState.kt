@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.chat.redux.state
 
-import com.azure.android.communication.ui.chat.error.ChatStateError
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import com.azure.android.communication.ui.chat.error.FatalError
 
 internal data class ErrorState(
     val fatalError: FatalError?,
-    val chatStateError: ChatStateError?,
+    val chatCompositeErrorEvent: ChatCompositeErrorEvent?,
 )

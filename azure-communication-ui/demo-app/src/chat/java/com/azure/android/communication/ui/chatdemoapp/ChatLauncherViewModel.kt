@@ -3,53 +3,67 @@
 
 package com.azure.android.communication.ui.chatdemoapp
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeJavaLauncher
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeKotlinLauncher
-import com.azure.android.communication.ui.chatdemoapp.launcher.ChatCompositeLauncher
+import com.azure.android.communication.common.CommunicationTokenCredential
+import com.azure.android.communication.common.CommunicationTokenRefreshOptions
+import com.azure.android.communication.common.CommunicationUserIdentifier
+import com.azure.android.communication.ui.chat.ChatAdapter
+import com.azure.android.communication.ui.chat.ChatAdapterBuilder
+import com.azure.android.communication.ui.chat.ChatCompositeEventHandler
+import com.azure.android.communication.ui.chat.models.ChatCompositeErrorEvent
 import java.util.concurrent.Callable
 
 class ChatLauncherViewModel : ViewModel() {
     private var token: String? = null
-    private val fetchResultInternal = MutableLiveData<Result<ChatCompositeLauncher?>>()
 
-    val fetchResult: LiveData<Result<ChatCompositeLauncher?>> = fetchResultInternal
-    var isKotlinLauncher = true; private set
-    var isTokenFunctionOptionSelected = false; private set
+    var chatAdapter: ChatAdapter? = null
 
-    private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
-        ChatCompositeKotlinLauncher(tokenRefresher)
-    } else {
-        ChatCompositeJavaLauncher(tokenRefresher)
-    }
-
-    fun destroy() {
-        fetchResultInternal.value = Result.success(null)
-    }
-
-    fun setJavaLauncher() {
-        isKotlinLauncher = false
-    }
-
-    fun setKotlinLauncher() {
-        isKotlinLauncher = true
-    }
-
-    fun doLaunch(acsToken: String) {
-        when {
-            acsToken.isNotBlank() -> {
+    private fun getTokenFetcher(acsToken: String?): Callable<String> {
+        val tokenRefresher = when {
+            acsToken != null && acsToken.isNotBlank() -> {
                 token = acsToken
-                fetchResultInternal.postValue(
-                    Result.success(launcher(CachedTokenFetcher(acsToken)))
-                )
+                CachedTokenFetcher(acsToken)
             }
             else -> {
-                fetchResultInternal.postValue(
-                    Result.failure(IllegalStateException("Invalid Token function URL or acs Token"))
-                )
+                throw IllegalStateException("Invalid Token function URL or acs Token")
             }
         }
+        return tokenRefresher
+    }
+
+    fun launch(
+        context: Context,
+        errorHandler: ChatCompositeEventHandler<ChatCompositeErrorEvent>,
+        endpoint: String,
+        acsIdentity: String,
+        threadId: String,
+        userName: String,
+        acsToken: String?,
+    ) {
+        // Create ChatAdapter
+        val tokenRefresher = getTokenFetcher(acsToken)
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions(tokenRefresher, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
+
+        val chatAdapter = ChatAdapterBuilder()
+            .endpoint(endpoint)
+            .credential(communicationTokenCredential)
+            .identity(CommunicationUserIdentifier(acsIdentity))
+            .displayName(userName)
+            .threadId(threadId)
+            .build()
+
+        chatAdapter.addOnErrorEventHandler(errorHandler)
+
+        chatAdapter.connect(context)
+
+        this.chatAdapter = chatAdapter
+    }
+
+    fun closeChatComposite() {
+        chatAdapter = null
     }
 }

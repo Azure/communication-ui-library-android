@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.chat.models;
 
-import com.azure.android.communication.ui.chat.ChatComposite;
-
 /**
  * ChatCompositeLocalOptions for ChatComposite.launch.
  *
@@ -28,28 +26,9 @@ import com.azure.android.communication.ui.chat.ChatComposite;
  * chatComposite.launch&#40;.., .., localOptions&#41
  * </pre>
  *
- * @see ChatComposite
  */
-public final class ChatCompositeLocalOptions {
-    private boolean isLaunchingWithUI = true;
+final class ChatCompositeLocalOptions {
     private ChatCompositeParticipantViewData participantViewData;
-
-    /**
-     * Create Local Options with default setting.
-     */
-    public ChatCompositeLocalOptions() {
-
-    }
-
-    /**
-     * Create Local Options.
-     *
-     * @param participantViewData The {@link ChatCompositeParticipantViewData};
-     * @see ChatCompositeParticipantViewData
-     */
-    public ChatCompositeLocalOptions(final ChatCompositeParticipantViewData participantViewData) {
-        this.participantViewData = participantViewData;
-    }
 
     /**
      * Get {@link ChatCompositeParticipantViewData}.
@@ -61,21 +40,13 @@ public final class ChatCompositeLocalOptions {
     }
 
     /**
-     * Get is launching with UI boolean
+     * set {@link ChatCompositeParticipantViewData}.
      *
-     * @return boolean isLaunchingWithUI;
+     * @return The {@link ChatCompositeLocalOptions};
      */
-    public boolean getIsLaunchingWithUI() {
-        return isLaunchingWithUI;
-    }
-
-    /**
-     * Set is launching with UI boolean
-     *
-     * @return The {@link ChatCompositeLocalOptions };
-     */
-    public ChatCompositeLocalOptions setLaunchingWithUI(final boolean isLaunchingWithUI) {
-        this.isLaunchingWithUI = isLaunchingWithUI;
+    public ChatCompositeLocalOptions setParticipantViewData(
+            final ChatCompositeParticipantViewData participantViewData) {
+        this.participantViewData = participantViewData;
         return this;
     }
 }

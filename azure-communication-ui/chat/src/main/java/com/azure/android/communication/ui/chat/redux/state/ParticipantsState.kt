@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.redux.state
 
+import com.azure.android.communication.ui.chat.models.LocalParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import org.threeten.bp.OffsetDateTime
 
@@ -11,4 +12,6 @@ internal data class ParticipantsState(
     val participantTyping: Map<String, String>,
     val participantsReadReceiptMap: Map<String, OffsetDateTime>,
     val latestReadMessageTimestamp: OffsetDateTime,
+    val localParticipantInfoModel: LocalParticipantInfoModel,
+    val hiddenParticipant: Set<String>,
 )

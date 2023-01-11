@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.os.Build
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
@@ -19,7 +19,7 @@ open class BaseUiTest {
 
     @Rule
     @JvmField
-    var mActivityTestRule = ActivityScenarioRule(CallLauncherActivity::class.java)
+    var mActivityTestRule = ActivityTestRule(CallLauncherActivity::class.java)
 
     @Rule
     @JvmField

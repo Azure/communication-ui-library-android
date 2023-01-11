@@ -11,11 +11,14 @@
     <string name="group_call_label">Group call</string>
     <string name="teams_meeting_label">Teams meeting</string>
     <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link</string>
-    <string name="chat_thread_id_hint">Chat Thread ID/Teams Meeting URL</string>
-    <string name="end_point_url_hint">End Point URL</string>
+    <string name="chat_thread_id_hint">Chat Thread ID</string>
+    <string name="endpoint_url_hint">Endpoint</string>
     <string name="kotlin">Kotlin</string>
     <string name="java">Java</string>
     <string name="launch_button_text">Launch</string>
+    <string name="open_ui_button_text">Open partial view</string>
+    <string name="open_full_screen_ui_button_text">Open Full Screen UI</string>
+    <string name="close_composite_button_text">Stop Composite</string>
     <string name="acs_token_hint">ACS Token</string>
     <string name="acs_user_id_hint">Communication User Id</string>
     <string name="launch_type_text">Launch In:</string>

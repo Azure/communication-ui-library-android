@@ -35,10 +35,20 @@ internal class TestChatSDK(
         chatStatusStateFlow.value = status
     }
 
-    override fun initialization() {
+    override fun initialization(): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        // coroutine to make sure requests are not blocking
+        coroutineScope.launch {
+            future.complete(null)
+        }
+        return future
     }
 
     override fun destroy() {}
+
+    override fun getAdminUserId(): String {
+        return ""
+    }
 
     override fun requestPreviousPage() {
     }

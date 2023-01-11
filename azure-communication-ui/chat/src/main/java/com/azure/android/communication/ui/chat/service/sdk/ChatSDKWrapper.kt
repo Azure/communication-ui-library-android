@@ -13,6 +13,7 @@ import com.azure.android.communication.chat.models.SendChatMessageOptions
 import com.azure.android.communication.chat.models.UpdateChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
+import com.azure.android.communication.ui.chat.logger.Logger
 import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 import com.azure.android.communication.ui.chat.models.ChatEventModel
@@ -43,10 +44,11 @@ import java.util.concurrent.Executors
 
 internal class ChatSDKWrapper(
     private val context: Context,
-    chatConfig: ChatConfiguration,
+    private val chatConfig: ChatConfiguration,
     coroutineContextProvider: CoroutineContextProvider,
     private val chatEventHandler: ChatEventHandler,
     private val chatFetchNotificationHandler: ChatFetchNotificationHandler,
+    private val logger: Logger,
 ) : ChatSDK {
 
     companion object {
@@ -60,7 +62,7 @@ internal class ChatSDKWrapper(
     private lateinit var threadClient: ChatThreadClient
     private lateinit var chatClient: ChatClient
 
-    private val endPointURL = chatConfig.endPointURL
+    private val endPointURL = chatConfig.endpoint
     private val credential: CommunicationTokenCredential = chatConfig.credential
     private val applicationID = chatConfig.applicationID
     private val sdkName = chatConfig.sdkName
@@ -72,6 +74,7 @@ internal class ChatSDKWrapper(
 
     private val options = ListChatMessagesOptions().apply { maxPageSize = PAGE_MESSAGES_SIZE }
     private var pagingContinuationToken: String? = null
+    private var adminUserId: String = ""
 
     @Volatile
     private var allPagesFetched: Boolean = false
@@ -88,31 +91,45 @@ internal class ChatSDKWrapper(
     override fun getChatEventSharedFlow(): SharedFlow<ChatEventModel> =
         chatEventModelSharedFlow
 
-    override fun initialization() {
-        chatStatusStateFlow.value = ChatStatus.INITIALIZATION
-        createChatClient()
-        createChatThreadClient()
-        // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
-        // TODO: above will make sure, network is connected as well
-        onChatEventReceived(
-            infoModel = ChatEventModel(
-                eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
-                ChatThreadInfoModel(
-                    topic = threadClient.properties.topic,
-                    receivedOn = threadClient.properties.createdOn
-                ),
-                eventReceivedOffsetDateTime = null
+    override fun initialization(): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        try {
+            chatStatusStateFlow.value = ChatStatus.INITIALIZATION
+            createChatClient()
+            createChatThreadClient()
+            // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
+            // TODO: above will make sure, network is connected as well
+            onChatEventReceived(
+                infoModel = ChatEventModel(
+                    eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+                    ChatThreadInfoModel(
+                        topic = threadClient.properties.topic,
+                        receivedOn = threadClient.properties.createdOn
+                    ),
+                    eventReceivedOffsetDateTime = null
+                )
             )
-        )
 
-        chatStatusStateFlow.value = ChatStatus.INITIALIZED
+            adminUserId = threadClient.properties.createdByCommunicationIdentifier.into().id
+            chatStatusStateFlow.value = ChatStatus.INITIALIZED
+            future.complete(null)
+        } catch (ex: Exception) {
+            future.completeExceptionally(ex)
+            logger.debug("sendMessage failed.", ex)
+        }
+        return future
     }
 
     override fun destroy() {
+        chatEventHandler.stop(chatClient)
         stopEventNotifications()
         singleThreadedContext.shutdown()
         coroutineScope.cancel()
         chatFetchNotificationHandler.stop()
+    }
+
+    override fun getAdminUserId(): String {
+        return adminUserId
     }
 
     override fun requestPreviousPage() {
@@ -132,7 +149,7 @@ internal class ChatSDKWrapper(
                                 allPagesFetched = true
                             }
                             pagingContinuationToken = continuationToken
-                            messages = elements.map { it.into() }
+                            messages = elements.map { it.into(chatConfig.identity) }
                         }
                     } catch (ex: Exception) {
                         throwable = ex
@@ -170,6 +187,7 @@ internal class ChatSDKWrapper(
                 future.complete(response.value.into())
             } catch (ex: Exception) {
                 future.completeExceptionally(ex)
+                logger.debug("sendMessage failed.", ex)
             }
         }
         return future
@@ -208,12 +226,16 @@ internal class ChatSDKWrapper(
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
-            val response = threadClient.sendTypingNotificationWithResponse(RequestContext.NONE)
-            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
-                future.complete(null)
-            } else {
-                // TODO: in future create exception if required
-                future.completeExceptionally(null)
+            try {
+                val response = threadClient.sendTypingNotificationWithResponse(RequestContext.NONE)
+                if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                    future.complete(null)
+                } else {
+                    // TODO: in future create exception if required
+                    future.completeExceptionally(null)
+                }
+            } catch (ex: Exception) {
+                future.completeExceptionally(ex)
             }
         }
         return future
@@ -223,12 +245,16 @@ internal class ChatSDKWrapper(
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
-            val response = threadClient.sendReadReceiptWithResponse(id, RequestContext.NONE)
-            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
-                future.complete(null)
-            } else {
-                // TODO: in future create exception if required
-                future.completeExceptionally(null)
+            try {
+                val response = threadClient.sendReadReceiptWithResponse(id, RequestContext.NONE)
+                if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                    future.complete(null)
+                } else {
+                    // TODO: in future create exception if required
+                    future.completeExceptionally(null)
+                }
+            } catch (ex: Exception) {
+                future.completeExceptionally(ex)
             }
         }
         return future
@@ -237,14 +263,18 @@ internal class ChatSDKWrapper(
     override fun editMessage(id: String, content: String): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         coroutineScope.launch {
-            val options = UpdateChatMessageOptions()
-            options.content = content
-            val response = threadClient.updateMessageWithResponse(id, options, RequestContext.NONE)
-            if (response.statusCode == RESPONSE_SUCCESS_CODE) {
-                future.complete(null)
-            } else {
-                // TODO: in future create exception if required
-                future.completeExceptionally(null)
+            try {
+                val options = UpdateChatMessageOptions()
+                options.content = content
+                val response = threadClient.updateMessageWithResponse(id, options, RequestContext.NONE)
+                if (response.statusCode == RESPONSE_SUCCESS_CODE) {
+                    future.complete(null)
+                } else {
+                    // TODO: in future create exception if required
+                    future.completeExceptionally(null)
+                }
+            } catch (ex: Exception) {
+                future.completeExceptionally(ex)
             }
         }
         return future
