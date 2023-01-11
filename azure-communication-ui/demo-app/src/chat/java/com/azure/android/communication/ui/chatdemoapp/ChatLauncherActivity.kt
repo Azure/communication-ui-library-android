@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityChatLauncherBinding
@@ -103,7 +104,9 @@ class ChatLauncherActivity : AppCompatActivity() {
             acsTokenText.requestFocus()
             acsTokenText.isEnabled = true
 
-            if (!BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
+                versionText.text = "${BuildConfig.VERSION_NAME}"
+            } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
@@ -270,5 +273,11 @@ class ErrorHandler(chatLauncherActivity: ChatLauncherActivity) :
         wrActivity.get()?.apply {
             showAlert("${eventArgs.errorCode} : ${eventArgs.cause}")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val window: Window = this@ChatLauncherActivity.window
+        window.navigationBarColor = ContextCompat.getColor(this@ChatLauncherActivity, R.color.white)
     }
 }

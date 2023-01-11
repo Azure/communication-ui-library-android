@@ -15,7 +15,6 @@ android {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
         targetSdkVersion 33
         versionCode ui_library_version_code
-        versionName "$ui_library_version_name"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -104,6 +103,9 @@ android {
             minSdkVersion 21
             dimension "product"
             matchingFallbacks = ["calling"]
+
+            versionName "$call_library_version_name"
+
             buildTypes {
                 release {
                     minifyEnabled true
@@ -131,6 +133,8 @@ android {
             minSdkVersion 23
             dimension "product"
             matchingFallbacks = ["chat"]
+            versionName "$chat_library_version_name"
+
             buildTypes {
                 release {
                     minifyEnabled false
