@@ -4,8 +4,7 @@
 
 ## Latest Release
 
-- Public Preview: [1.0.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-v1.0.0-beta.1)
-
+- Public Preview: [1.0.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-1.0.0-beta.1)
 
 ## Getting Started
 
