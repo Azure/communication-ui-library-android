@@ -6,7 +6,10 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azure.android.communication.ui.chat.R
+import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
+import com.microsoft.fluentui.theme.ThemeMode
 
 @Composable
 internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Modifier = Modifier) {
@@ -69,8 +74,10 @@ internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Mod
                 }
                 Text(
                     typingMessage,
+
                     Modifier
-                        .align(alignment = Alignment.CenterVertically)
+                        .align(alignment = Alignment.CenterVertically),
+                    style = ChatCompositeTheme.typography.body,
                 )
             }
         }
@@ -80,7 +87,18 @@ internal fun TypingIndicatorView(typingParticipants: List<String>, modifier: Mod
 @Preview(showBackground = true)
 @Composable
 internal fun PreviewTypingIndicatorView() {
-    TypingIndicatorView(
-        typingParticipants = listOf("User A", "User B", "User C", "User D"),
-    )
+    Column() {
+        ChatCompositeTheme(themeMode = ThemeMode.Dark) {
+            Box(modifier = Modifier.background(ChatCompositeTheme.colors.background)) {
+                TypingIndicatorView(
+                    typingParticipants = listOf("User A", "User B", "User C", "User D"),
+                )
+            }
+        }
+        ChatCompositeTheme(themeMode = ThemeMode.Light) {
+            TypingIndicatorView(
+                typingParticipants = listOf("User A", "User B", "User C", "User D"),
+            )
+        }
+    }
 }

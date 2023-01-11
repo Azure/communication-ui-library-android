@@ -28,7 +28,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userA_Display,
                 content = "I'll message in 2 weeks",
                 messageType = ChatMessageType.TEXT,
-                id = null,
+                id = "1",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusWeeks(2).minusMinutes(10)
             ),
@@ -37,7 +37,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userA_Display,
                 content = "Hey!!",
                 messageType = ChatMessageType.TEXT,
-                id = null,
+                id = "2",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusDays(2).minusMinutes(10)
             ),
@@ -47,7 +47,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userB_Display,
                 content = "Hi Peter, thanks for following up with me",
                 messageType = ChatMessageType.TEXT,
-                id = OffsetDateTime.now().toString(),
+                id = "3",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(12)
             ),
@@ -57,7 +57,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userB_Display,
                 content = "I like to type",
                 messageType = ChatMessageType.TEXT,
-                id = null,
+                id = "4",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(11)
             ),
@@ -67,7 +67,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userB_Display,
                 content = "a lot",
                 messageType = ChatMessageType.TEXT,
-                id = null,
+                id = "5",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10)
             ),
@@ -81,7 +81,7 @@ internal val MOCK_MESSAGES
                     RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userA_Display)
                 ),
                 senderDisplayName = null,
-                id = null,
+                id = "6",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10)
             ),
@@ -90,7 +90,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userA_Display,
                 content = "No Problem",
                 messageType = ChatMessageType.TEXT,
-                id = null,
+                id = "7",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusMinutes(20)
             ),
@@ -100,7 +100,7 @@ internal val MOCK_MESSAGES
                 senderCommunicationIdentifier = userD_ID,
                 senderDisplayName = null,
                 participants = listOf(RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userD_Display)),
-                id = null,
+                id = "8",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusMinutes(10)
             ),
@@ -109,7 +109,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userA_Display,
                 content = "Let's work through the feedback we received on our wednesday meeting",
                 messageType = ChatMessageType.TEXT,
-                id = null,
+                id = "9",
                 internalId = null,
                 createdOn = OffsetDateTime.now().minusMinutes(5)
             ),
@@ -119,7 +119,7 @@ internal val MOCK_MESSAGES
                 senderDisplayName = userA_Display,
                 content = "<B> Hey!! </B> Check this link <A href=\"https://www.microsoft.com\">microsoft</A>",
                 messageType = ChatMessageType.HTML,
-                id = null,
+                id = "10",
                 internalId = null,
                 createdOn = OffsetDateTime.now()
             ),
@@ -127,7 +127,7 @@ internal val MOCK_MESSAGES
 
                 messageType = ChatMessageType.PARTICIPANT_REMOVED,
                 isCurrentUser = true,
-                id = null,
+                id = "11",
                 internalId = null,
                 createdOn = OffsetDateTime.now()
             ),

@@ -3,32 +3,31 @@
 
 package com.azure.android.communication.ui.chat;
 
-import android.content.Context;
-
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.chat.configuration.ChatCompositeConfiguration;
 
 /**
- * Builder for creating {@link ChatUIClient}.
+ * Builder for creating {@link ChatAdapter}.
  *
- * <p>Used to build a {@link ChatUIClient} which is then used to start a chat.</p>
+ * <p>Used to build a {@link ChatAdapter} which is then used to start a chat.</p>
  * <p>This class can be used to specify a locale to be used by the Chat Composite</p>
  */
-public final class ChatUIClientBuilder {
+public final class ChatAdapterBuilder {
 
     private String endpoint;
     private CommunicationIdentifier identity;
     private CommunicationTokenCredential credential;
     private String displayName;
-    private Context applicationContext;
+    private String threadId;
+
 
     /**
      * Sets Azure Communication Service endpoint.
      * @param endpoint
      * @return
      */
-    public ChatUIClientBuilder endpoint(final String endpoint) {
+    public ChatAdapterBuilder endpoint(final String endpoint) {
         this.endpoint = endpoint;
         return this;
     }
@@ -38,7 +37,7 @@ public final class ChatUIClientBuilder {
      * @param identity
      * @return
      */
-    public ChatUIClientBuilder identity(final CommunicationIdentifier identity) {
+    public ChatAdapterBuilder identity(final CommunicationIdentifier identity) {
         this.identity = identity;
         return this;
     }
@@ -48,7 +47,7 @@ public final class ChatUIClientBuilder {
      * @param credential
      * @return
      */
-    public ChatUIClientBuilder credential(final CommunicationTokenCredential credential) {
+    public ChatAdapterBuilder credential(final CommunicationTokenCredential credential) {
         this.credential = credential;
         return this;
     }
@@ -58,28 +57,28 @@ public final class ChatUIClientBuilder {
      * @param displayName
      * @return
      */
-    public ChatUIClientBuilder displayName(final String displayName) {
+    public ChatAdapterBuilder displayName(final String displayName) {
         this.displayName = displayName;
         return this;
     }
 
     /**
-     * Sets android context.
-     * @param context
+     * Sets chat thread Id
+     * @param threadId
      * @return
      */
-    public ChatUIClientBuilder context(final Context context) {
-        this.applicationContext = context.getApplicationContext();
+    public ChatAdapterBuilder threadId(final String threadId) {
+        this.threadId = threadId;
         return this;
     }
 
     /**
-     * Builds the {@link ChatUIClient} class.
+     * Builds the {@link ChatAdapter} class.
      *
-     * @return {@link ChatUIClient}
+     * @return {@link ChatAdapter}
      */
-    public ChatUIClient build() {
+    public ChatAdapter build() {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
-        return new ChatUIClient(applicationContext, config, endpoint, identity, credential, displayName);
+        return new ChatAdapter(config, endpoint, identity, credential, threadId, displayName);
     }
 }

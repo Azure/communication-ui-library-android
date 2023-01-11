@@ -74,6 +74,7 @@ internal class ChatSDKWrapper(
 
     private val options = ListChatMessagesOptions().apply { maxPageSize = PAGE_MESSAGES_SIZE }
     private var pagingContinuationToken: String? = null
+    private var adminUserId: String = ""
 
     @Volatile
     private var allPagesFetched: Boolean = false
@@ -90,24 +91,33 @@ internal class ChatSDKWrapper(
     override fun getChatEventSharedFlow(): SharedFlow<ChatEventModel> =
         chatEventModelSharedFlow
 
-    override fun initialization() {
-        chatStatusStateFlow.value = ChatStatus.INITIALIZATION
-        createChatClient()
-        createChatThreadClient()
-        // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
-        // TODO: above will make sure, network is connected as well
-        onChatEventReceived(
-            infoModel = ChatEventModel(
-                eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
-                ChatThreadInfoModel(
-                    topic = threadClient.properties.topic,
-                    receivedOn = threadClient.properties.createdOn
-                ),
-                eventReceivedOffsetDateTime = null
+    override fun initialization(): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        try {
+            chatStatusStateFlow.value = ChatStatus.INITIALIZATION
+            createChatClient()
+            createChatThreadClient()
+            // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
+            // TODO: above will make sure, network is connected as well
+            onChatEventReceived(
+                infoModel = ChatEventModel(
+                    eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+                    ChatThreadInfoModel(
+                        topic = threadClient.properties.topic,
+                        receivedOn = threadClient.properties.createdOn
+                    ),
+                    eventReceivedOffsetDateTime = null
+                )
             )
-        )
 
-        chatStatusStateFlow.value = ChatStatus.INITIALIZED
+            adminUserId = threadClient.properties.createdByCommunicationIdentifier.into().id
+            chatStatusStateFlow.value = ChatStatus.INITIALIZED
+            future.complete(null)
+        } catch (ex: Exception) {
+            future.completeExceptionally(ex)
+            logger.debug("sendMessage failed.", ex)
+        }
+        return future
     }
 
     override fun destroy() {
@@ -118,9 +128,8 @@ internal class ChatSDKWrapper(
         chatFetchNotificationHandler.stop()
     }
 
-    override fun getAdminUserId(): String? {
-        if (!this::threadClient.isInitialized) return null
-        return threadClient.properties.createdByCommunicationIdentifier.into().id
+    override fun getAdminUserId(): String {
+        return adminUserId
     }
 
     override fun requestPreviousPage() {

@@ -59,8 +59,7 @@ internal class ChatErrorHandler(
 
     // TODO: Check the logic again when we need to expose more error
     private fun shouldNotifyError(newCallStateError: ChatCompositeErrorEvent) =
-        newCallStateError.errorCode == ChatCompositeErrorCode.JOIN_FAILED ||
-            newCallStateError.errorCode == ChatCompositeErrorCode.TOKEN_EXPIRED
+        newCallStateError.errorCode == ChatCompositeErrorCode.JOIN_FAILED
 
     fun stop() {
         coroutineScope.cancel()
