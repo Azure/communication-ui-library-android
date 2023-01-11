@@ -274,10 +274,4 @@ class ErrorHandler(chatLauncherActivity: ChatLauncherActivity) :
             showAlert("${eventArgs.errorCode} : ${eventArgs.cause}")
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        val window: Window = this@ChatLauncherActivity.window
-        window.navigationBarColor = ContextCompat.getColor(this@ChatLauncherActivity, R.color.white)
-    }
 }
