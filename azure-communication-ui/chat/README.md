@@ -4,8 +4,7 @@
 
 ## Latest Release
 
-- Public Preview: [1.0.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-v1.0.0-beta.1)
-
+- Public Preview: [1.0.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-1.0.0-beta.1)
 
 ## Getting Started
 
@@ -60,14 +59,13 @@ val communicationTokenCredential = CommunicationTokenCredential(communicationTok
 
 
 val chatAdapter = ChatAdapterBuilder()
-    .endpoint(endpoint)
+    .endpoint("<ENDPOINT_URL>")
     .credential(communicationTokenCredential)
-    .identity(CommunicationUserIdentifier(acsIdentity))
-    .displayName(userName)
-    .threadId(threadId)
+    .identity(CommunicationUserIdentifier("<USER_ID>"))
+    .displayName("<DISPLAY_NAME>")
+    .threadId("<THREAD_ID>")
     .build()
 
-chatAdapter.addOnErrorEventHandler(errorHandler)
 chatAdapter.connect(context)
 
 val chatThreadView = ChatThreadView(context, chatAdapter)
@@ -81,14 +79,13 @@ CommunicationTokenRefreshOptions communicationTokenRefreshOptions = new Communic
 CommunicationTokenCredential communicationTokenCredential = new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
 ChatAdapter chatAdapter = new ChatAdapterBuilder()
-        .endpoint(endpoint)
+        .endpoint("<ENDPOINT_URL>")
         .credential(communicationTokenCredential)
-        .identity(new CommunicationUserIdentifier(acsIdentity))
-        .displayName(userName)
-        .threadId(threadId)
+        .identity(new CommunicationUserIdentifier("<USER_ID>"))
+        .displayName("<DISPLAY_NAME>")
+        .threadId("<THREAD_ID>")
         .build();
 
-chatAdapter.addOnErrorEventHandler(errorHandler);
 chatAdapter.connect(context);
 
 ChatThreadView chatThreadView = new ChatThreadView(context, chatAdapter);

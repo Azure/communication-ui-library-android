@@ -60,4 +60,5 @@ Please refer to the [wiki](https://github.com/Azure/communication-ui-library-and
 * [Azure Communication Authentication](https://docs.microsoft.com/en-us/azure/communication-services/concepts/authentication)
 * [Azure Communication Service Troubleshooting](https://docs.microsoft.com/en-us/azure/communication-services/concepts/troubleshooting-info)
 * [Azure Communication Service UI Calling Library Maven Releases](https://search.maven.org/artifact/com.azure.android/azure-communication-ui-calling)
+* [Azure Communication Service UI Chat Library Maven Releases](https://search.maven.org/artifact/com.azure.android/azure-communication-ui-chat)
 * [Azure Communication Service Android Calling Hero Sample](https://github.com/Azure-Samples/communication-services-android-calling-hero)
