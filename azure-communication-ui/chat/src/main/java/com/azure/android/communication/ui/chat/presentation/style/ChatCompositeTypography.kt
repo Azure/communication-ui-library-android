@@ -15,7 +15,7 @@ import com.microsoft.fluentui.theme.FluentTheme
 import com.microsoft.fluentui.theme.token.AliasTokens
 
 @Immutable
-data class ChatCompositeTypography(
+internal data class ChatCompositeTypography(
     val title: TextStyle,
     val body: TextStyle,
     val messageHeader: TextStyle,
@@ -77,7 +77,7 @@ data class ChatCompositeTypography(
     }
 }
 
-val LocalChatCompositeTypography = staticCompositionLocalOf {
+internal val LocalChatCompositeTypography = staticCompositionLocalOf {
     ChatCompositeTypography(
         title = TextStyle.Default,
         body = TextStyle.Default,

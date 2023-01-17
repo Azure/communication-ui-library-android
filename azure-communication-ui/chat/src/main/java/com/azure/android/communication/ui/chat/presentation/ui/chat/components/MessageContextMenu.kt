@@ -94,7 +94,7 @@ internal fun messageContextMenu(
 
 @Composable
 @Preview
-fun MessageContextMenuPreview() {
+internal fun MessageContextMenuPreview() {
     // Preview Doesn't work
     // When setting initial drawerState to Open, it is still not visible in preview
     // May be fluent UI bug

@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.chat.presentation.style
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-open class ChatCompositeColors(
+internal open class ChatCompositeColors(
     val content: Color,
     val inverseContent: Color,
     val component: Color,
