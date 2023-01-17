@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.chat.implementation
 
-internal class ChatServiceConfigurationImpl {
+class ChatServiceConfigurationImpl {
     companion object {
         var usePolling = false
     }
