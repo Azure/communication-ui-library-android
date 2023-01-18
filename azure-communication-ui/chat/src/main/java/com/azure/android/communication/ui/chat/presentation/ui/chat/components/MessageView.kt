@@ -49,7 +49,7 @@ import com.microsoft.fluentui.theme.ThemeMode
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
-val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
+internal val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @Composable
 internal fun MessageView(viewModel: MessageViewModel, dispatch: Dispatch) {
@@ -294,7 +294,7 @@ private fun messageContent(viewModel: MessageViewModel) {
 }
 
 @Composable
-fun HtmlText(html: String, modifier: Modifier = Modifier) {
+internal fun HtmlText(html: String, modifier: Modifier = Modifier) {
 
     val textColor = ChatCompositeTheme.colors.textColor
     val textSize = ChatCompositeTheme.typography.messageBody.fontSize

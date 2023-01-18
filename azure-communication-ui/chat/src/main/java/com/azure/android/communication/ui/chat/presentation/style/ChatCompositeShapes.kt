@@ -10,12 +10,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 @Immutable
-data class ChatCompositeShapes(
+internal data class ChatCompositeShapes(
     val messageBubble: Shape,
     val unreadMessagesIndicator: Shape,
 )
 
-val LocalChatCompositeShapes = staticCompositionLocalOf {
+internal val LocalChatCompositeShapes = staticCompositionLocalOf {
     ChatCompositeShapes(
         messageBubble = RoundedCornerShape(4.dp),
         unreadMessagesIndicator = RoundedCornerShape(100.dp)
