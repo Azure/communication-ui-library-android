@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetPartici
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
@@ -213,6 +214,7 @@ public final class CallComposite {
      * @return {@link CallCompositeDebugInfo}
      */
     public CallCompositeDebugInfo getDebugInfo(final Context context) {
+        AndroidThreeTen.init(context);
         final DebugInfoManager debugInfoManager = getDebugInfoManager(context);
         return debugInfoManager.getDebugInfo();
     }
@@ -229,6 +231,7 @@ public final class CallComposite {
                             final CallCompositeRemoteOptions remoteOptions,
                             final CallCompositeLocalOptions localOptions,
                             final boolean isTest) {
+        AndroidThreeTen.init(context);
 
         UUID groupId = null;
         String meetingLink = null;
