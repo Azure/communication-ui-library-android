@@ -121,8 +121,7 @@ internal class DependencyInjectionContainerImpl(
     override val callHistoryService: CallHistoryService by lazy {
         CallHistoryServiceImpl(
             appStore,
-            callHistoryRepository,
-            callConfig = configuration.callConfig
+            callHistoryRepository
         )
     }
 

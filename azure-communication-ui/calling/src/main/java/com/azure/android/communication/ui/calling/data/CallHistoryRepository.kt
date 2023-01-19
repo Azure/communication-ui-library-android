@@ -5,13 +5,12 @@ package com.azure.android.communication.ui.calling.data
 
 import android.content.ContentValues
 import android.content.Context
-import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.data.model.CallHistoryRecord
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 internal interface CallHistoryRepository {
-    fun insertCallHistoryRecord(callId: String, callDateTime: LocalDateTime, callType: CallType, callLocator: String)
+    fun insertCallHistoryRecord(callId: String, callDateTime: LocalDateTime)
     fun getAllCallHistoryRecords(): List<CallHistoryRecord>
     fun removeCallHistoryRecord(id: Int)
 }
@@ -22,7 +21,7 @@ internal class CallHistoryRepositoryImpl(
 
     private val datePattern: String = "yyyy-MM-dd HH:mm:ss"
 
-    override fun insertCallHistoryRecord(callId: String, callDateTime: LocalDateTime, callType: CallType, callLocator: String) {
+    override fun insertCallHistoryRecord(callId: String, callDateTime: LocalDateTime) {
         val db = DbHelper(context).writableDatabase
 
         val date = callDateTime.format(DateTimeFormatter.ofPattern(datePattern))
@@ -30,8 +29,6 @@ internal class CallHistoryRepositoryImpl(
         val values = ContentValues().apply {
             put(CallHistoryContract.COLUMN_NAME_CALL_ID, callId)
             put(CallHistoryContract.COLUMN_NAME_CALL_DATE, date)
-            put(CallHistoryContract.COLUMN_NAME_CALL_TYPE, callType.name)
-            put(CallHistoryContract.COLUMN_NAME_CALL_LOCATOR, callLocator)
         }
 
         db.insert(CallHistoryContract.TABLE_NAME, null, values)
@@ -58,8 +55,6 @@ internal class CallHistoryRepositoryImpl(
                             date = LocalDateTime.parse(
                                 getString(getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_DATE)), dateFormatter
                             ),
-                            callType = getString(getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_TYPE)),
-                            callLocator = getString(getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_LOCATOR)),
                         )
                     )
                 } while (moveToNext())

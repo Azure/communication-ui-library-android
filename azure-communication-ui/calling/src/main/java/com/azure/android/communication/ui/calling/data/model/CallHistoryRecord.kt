@@ -9,6 +9,4 @@ internal data class CallHistoryRecord(
     val id: Int,
     val callId: String,
     val date: LocalDateTime,
-    val callType: String,
-    val callLocator: String,
 )

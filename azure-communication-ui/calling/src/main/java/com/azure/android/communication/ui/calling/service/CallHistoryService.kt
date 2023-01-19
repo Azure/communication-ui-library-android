@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service
 
-import com.azure.android.communication.ui.calling.configuration.CallConfiguration
-import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -20,7 +18,6 @@ internal interface CallHistoryService {
 internal class CallHistoryServiceImpl(
     private val store: Store<ReduxState>,
     private val callHistoryRepository: CallHistoryRepository,
-    private val callConfig: CallConfiguration?,
 ) : CallHistoryService {
     private val callIdStateFlow = MutableStateFlow<String?>(null)
 
@@ -35,20 +32,9 @@ internal class CallHistoryServiceImpl(
             callIdStateFlow.collect { callId ->
                 val callStartDateTime = store.getCurrentState().callState.callStartLocalDateTime
                 if (callId != null && callStartDateTime != null) {
-                    callConfig?.let {
-                        callHistoryRepository.insertCallHistoryRecord(
-                            callId, callStartDateTime, it.callType, getCallLocator(callConfig)
-                        )
-                    }
+                    callHistoryRepository.insertCallHistoryRecord(callId, callStartDateTime)
                 }
             }
-        }
-    }
-
-    private fun getCallLocator(callConfig: CallConfiguration): String {
-        return when (callConfig.callType) {
-            CallType.GROUP_CALL -> callConfig.groupId!!.toString()
-            CallType.TEAMS_MEETING -> callConfig.meetingLink!!
         }
     }
 }

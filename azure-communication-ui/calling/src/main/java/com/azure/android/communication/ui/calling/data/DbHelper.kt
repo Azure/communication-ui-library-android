@@ -33,14 +33,10 @@ internal object CallHistoryContract {
 
     const val COLUMN_NAME_CALL_ID = "call_id"
     const val COLUMN_NAME_CALL_DATE = "call_date"
-    const val COLUMN_NAME_CALL_TYPE = "call_type"
-    const val COLUMN_NAME_CALL_LOCATOR = "call_locator"
 
     const val SQL_CREATE_CALL_HISTORY =
         "CREATE TABLE $TABLE_NAME (" +
             "${BaseColumns._ID} INTEGER PRIMARY KEY," +
             "$COLUMN_NAME_CALL_ID TEXT," +
-            "$COLUMN_NAME_CALL_DATE TEXT," +
-            "$COLUMN_NAME_CALL_TYPE TEXT," +
-            "$COLUMN_NAME_CALL_LOCATOR TEXT)"
+            "$COLUMN_NAME_CALL_DATE TEXT)"
 }

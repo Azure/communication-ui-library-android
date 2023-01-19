@@ -159,12 +159,13 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showCallHistory() {
-        val history = callLauncherViewModel.getCallHistory(this@CallLauncherActivity)
-        history.sortedByDescending { it.callStartedOn }
+        val history = callLauncherViewModel
+            .getCallHistory(this@CallLauncherActivity)
+            .sortedBy { it.callStartedOn }
 
         val title = "Total calls: ${history.count()}"
         var message = "Last Call: none"
-        history.firstOrNull()?.let {
+        history.lastOrNull()?.let {
             message = "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
             it.callIds.forEach { callId ->
                 message += "\nCallId: $callId"
