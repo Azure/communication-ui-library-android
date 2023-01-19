@@ -17,37 +17,6 @@
         tools:context=".CallLauncherActivity"
         >
 
-        <RadioButton
-            android:id="@+id/tokenFunctionRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/token_function_radio_button_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <EditText
-            android:id="@+id/tokenFunctionUrlText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/token_url_hint"
-            android:inputType="textUri"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tokenFunctionRadioButton"
-            />
-
-        <RadioButton
-            android:id="@+id/acsTokenRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/acs_token_radio_button_text"
-            app:layout_constraintStart_toStartOf="@id/tokenFunctionUrlText"
-            app:layout_constraintTop_toBottomOf="@id/tokenFunctionUrlText"
-            />
-
         <EditText
             android:id="@+id/acsTokenText"
             android:layout_width="match_parent"
@@ -56,7 +25,7 @@
             android:hint="@string/acs_token_hint"
             android:inputType="textUri"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/acsTokenRadioButton"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
         <EditText
@@ -152,13 +121,23 @@
             app:layout_constraintTop_toBottomOf="@+id/javaOrKotlinContainer"
             />
 
+        <Button
+            android:id="@+id/showCallHistoryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="call history"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/launchButton"
+            />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/launchButton"
+            app:layout_constraintTop_toBottomOf="@+id/showCallHistoryButton"
             >
 
             <TextView

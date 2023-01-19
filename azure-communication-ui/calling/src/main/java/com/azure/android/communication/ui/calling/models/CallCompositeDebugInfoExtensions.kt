@@ -3,8 +3,11 @@
 
 package com.azure.android.communication.ui.calling.models
 
-internal fun CallCompositeDebugInfo.setCallId(lastKnownCallId: String?) {
-    this.lastCallId = lastKnownCallId
-}
+import org.threeten.bp.LocalDateTime
 
-internal fun buildCallCompositeDebugInfo(): CallCompositeDebugInfo = CallCompositeDebugInfo()
+internal fun buildCallCompositeDebugInfo(callHistoryRecordList: List<CallCompositeCallHistoryRecord>) =
+    CallCompositeDebugInfo(callHistoryRecordList)
+
+internal fun buildCallHistoryRecord(callStartedOn: LocalDateTime, callIds: List<String>): CallCompositeCallHistoryRecord {
+    return CallCompositeCallHistoryRecord(callStartedOn, callIds)
+}

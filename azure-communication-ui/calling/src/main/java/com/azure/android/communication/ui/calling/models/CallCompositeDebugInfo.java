@@ -3,30 +3,20 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import java.util.List;
+
 /**
  * A Call Composite Debug information.
  */
 public final class CallCompositeDebugInfo {
 
-    private String lastCallId;
+    private final List<CallCompositeCallHistoryRecord> callHistoryRecordList;
 
-    CallCompositeDebugInfo() { }
-
-    /**
-     * Set last call id.
-     * @param lastCallId last call id.
-     * @return {@link CallCompositeDebugInfo}
-     */
-    CallCompositeDebugInfo setLastCallId(final String lastCallId) {
-        this.lastCallId = lastCallId;
-        return this;
+    CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecordList) {
+        this.callHistoryRecordList = callHistoryRecordList;
     }
 
-    /**
-     * Get last call id.
-     * @return {@link String}
-     */
-    public String getLastCallId() {
-        return lastCallId;
+    public List<CallCompositeCallHistoryRecord> getCallHistoryRecordList() {
+        return callHistoryRecordList;
     }
 }

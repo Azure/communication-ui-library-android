@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
+import org.threeten.bp.LocalDateTime
+
 internal enum class CallingStatus {
     NONE,
     EARLY_MEDIA,
@@ -24,6 +26,7 @@ internal data class CallingState(
     val joinCallIsRequested: Boolean = false,
     val isRecording: Boolean = false,
     val isTranscribing: Boolean = false,
+    val callStartLocalDateTime: LocalDateTime? = null,
 )
 
 internal fun CallingState.isDisconnected() =

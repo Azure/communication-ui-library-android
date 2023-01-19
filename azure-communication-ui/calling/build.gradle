@@ -99,6 +99,8 @@ dependencies {
     implementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_transients:$microsoft_fluent_ui_version"
 
+    api 'com.jakewharton.threetenabp:threetenabp:1.4.4'
+
     testImplementation "androidx.arch.core:core-testing:$androidx_core_testing_version"
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-inline:$mockito_inline_version"

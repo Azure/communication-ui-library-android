@@ -3,30 +3,41 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.content.Context
+import androidx.appcompat.app.AlertDialog
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
-import java.lang.ref.WeakReference
+import com.microsoft.appcenter.utils.HandlerUtils.runOnUiThread
 
 // Handles forwarding of error messages to the CallLauncherActivity
 //
 // CallLauncherActivity is loosely coupled and will detach the weak reference after disposed.
 class CallLauncherActivityErrorHandler(
+    private val context: Context,
     private val callComposite: CallComposite,
-    callLauncherActivity: CallLauncherActivity,
 ) :
     CallCompositeEventHandler<CallCompositeErrorEvent> {
 
-    private val activityWr: WeakReference<CallLauncherActivity> =
-        WeakReference(callLauncherActivity)
-
     override fun handle(it: CallCompositeErrorEvent) {
+
+        val lastCallId = callComposite.getDebugInfo(context).callHistoryRecordList
+            .lastOrNull()?.callIds?.lastOrNull()?.toString() ?: ""
+
         println("================= application is logging exception =================")
-        println("call id: " + (callComposite.debugInfo.lastCallId ?: ""))
+        println("call id: $lastCallId")
         println(it.cause)
         println(it.errorCode)
-        activityWr.get()
-            ?.showAlert("${it.errorCode} ${it.cause?.message}. Call id: ${callComposite.debugInfo.lastCallId ?: ""}")
+
+        runOnUiThread {
+            val builder = AlertDialog.Builder(context).apply {
+                setMessage("${it.errorCode} ${it.cause?.message}. Call id: $lastCallId")
+                setTitle("Alert")
+                setPositiveButton("OK") { _, _ ->
+                }
+            }
+            builder.show()
+        }
         println("====================================================================")
     }
 }

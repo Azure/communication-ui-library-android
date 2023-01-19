@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.redux.reducer
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
+import org.threeten.bp.LocalDateTime
 
 internal interface CallStateReducer : Reducer<CallingState>
 
@@ -22,7 +23,7 @@ internal class CallStateReducerImpl : CallStateReducer {
                 callingState.copy(isTranscribing = action.isTranscribing)
             }
             is CallingAction.CallStartRequested -> {
-                callingState.copy(joinCallIsRequested = true)
+                callingState.copy(joinCallIsRequested = true, callStartLocalDateTime = LocalDateTime.now())
             }
             is CallingAction.CallIdUpdated -> {
                 callingState.copy(callId = action.callId)

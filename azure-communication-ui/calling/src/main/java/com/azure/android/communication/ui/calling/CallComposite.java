@@ -24,10 +24,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeeti
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 
-import static com.azure.android.communication.ui.calling.models.CallCompositeDebugInfoExtensionsKt.buildCallCompositeDebugInfo;
+import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
-import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 /**
@@ -55,7 +54,7 @@ public final class CallComposite {
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
-    private WeakReference<DependencyInjectionContainer> diContainer;
+    private DependencyInjectionContainer diContainer;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -213,19 +212,17 @@ public final class CallComposite {
      *
      * @return {@link CallCompositeDebugInfo}
      */
-    public CallCompositeDebugInfo getDebugInfo() {
-        final DebugInfoManager debugInfoManager = getDebugInfoManager();
-        return debugInfoManager != null
-                ? debugInfoManager.getDebugInfo()
-                : buildCallCompositeDebugInfo();
+    public CallCompositeDebugInfo getDebugInfo(final Context context) {
+        final DebugInfoManager debugInfoManager = getDebugInfoManager(context);
+        return debugInfoManager.getDebugInfo();
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
-        this.diContainer = new WeakReference<DependencyInjectionContainer>(diContainer);
+        this.diContainer = diContainer;
     }
 
-    private DebugInfoManager getDebugInfoManager() {
-        return diContainer != null ? diContainer.get().getDebugInfoManager() : null;
+    private DebugInfoManager getDebugInfoManager(final Context context) {
+        return diContainer != null ? diContainer.getDebugInfoManager() : createDebugInfoManager(context);
     }
 
     private void launchComposite(final Context context,

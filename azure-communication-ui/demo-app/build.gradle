@@ -18,7 +18,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField 'String', 'TOKEN_FUNCTION_URL', properties.getProperty('TOKEN_FUNCTION_URL', '""')
         buildConfigField 'String', 'USER_NAME', properties.getProperty('USER_NAME', '""')
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
         buildConfigField 'String', 'TEAMS_MEETING_LINK', properties.getProperty('TEAMS_MEETING_LINK', '""')
