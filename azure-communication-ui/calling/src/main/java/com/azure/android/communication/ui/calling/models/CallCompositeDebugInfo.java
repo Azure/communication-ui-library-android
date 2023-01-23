@@ -16,6 +16,10 @@ public final class CallCompositeDebugInfo {
         this.callHistoryRecordList = callHistoryRecordList;
     }
 
+    /**
+     * Call history.
+     * @return
+     */
     public List<CallCompositeCallHistoryRecord> getCallHistoryRecordList() {
         return callHistoryRecordList;
     }
