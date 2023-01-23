@@ -10,9 +10,9 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 internal interface CallHistoryRepository {
-    fun insertCallHistoryRecord(callId: String, callDateTime: LocalDateTime)
-    fun getAllCallHistoryRecords(): List<CallHistoryRecord>
-    fun removeCallHistoryRecord(id: Int)
+    fun insert(callId: String, callDateTime: LocalDateTime)
+    fun getAll(): List<CallHistoryRecord>
+    fun remove(id: Int)
 }
 
 internal class CallHistoryRepositoryImpl(
@@ -21,7 +21,7 @@ internal class CallHistoryRepositoryImpl(
 
     private val datePattern: String = "yyyy-MM-dd HH:mm:ss"
 
-    override fun insertCallHistoryRecord(callId: String, callDateTime: LocalDateTime) {
+    override fun insert(callId: String, callDateTime: LocalDateTime) {
         val db = DbHelper(context).writableDatabase
 
         val date = callDateTime.format(DateTimeFormatter.ofPattern(datePattern))
@@ -35,7 +35,7 @@ internal class CallHistoryRepositoryImpl(
         db.close()
     }
 
-    override fun getAllCallHistoryRecords(): List<CallHistoryRecord> {
+    override fun getAll(): List<CallHistoryRecord> {
         val db = DbHelper(context).writableDatabase
 
         val cursor = db.rawQuery(
@@ -64,7 +64,7 @@ internal class CallHistoryRepositoryImpl(
         return items
     }
 
-    override fun removeCallHistoryRecord(id: Int) {
+    override fun remove(id: Int) {
         val db = DbHelper(context).writableDatabase
         db.delete(CallHistoryContract.TABLE_NAME, "${CallHistoryContract.ID} = ?", arrayOf(id.toString()))
         db.close()

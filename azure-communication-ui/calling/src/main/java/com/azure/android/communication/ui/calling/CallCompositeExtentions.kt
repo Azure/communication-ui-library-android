@@ -11,19 +11,6 @@ import com.azure.android.communication.ui.calling.presentation.manager.DebugInfo
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 
-internal fun createDependencyInjectionContainerImpl(
-    context: Context,
-    callComposite: CallComposite,
-): DependencyInjectionContainer {
-    return DependencyInjectionContainerImpl(
-        context,
-        callComposite,
-        TestHelper.callingSDK,
-        TestHelper.videoStreamRendererFactory,
-        TestHelper.coroutineContextProvider,
-    )
-}
-
 internal fun createDebugInfoManager(context: Context): DebugInfoManager {
     return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context))
 }

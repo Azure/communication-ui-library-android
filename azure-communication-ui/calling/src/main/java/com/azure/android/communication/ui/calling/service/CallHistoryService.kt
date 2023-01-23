@@ -33,7 +33,7 @@ internal class CallHistoryServiceImpl(
             callIdStateFlow.collect { callId ->
                 val callStartDateTime = store.getCurrentState().callState.callStartLocalDateTime
                 if (callId != null && callStartDateTime != null) {
-                    callHistoryRepository.insertCallHistoryRecord(callId, callStartDateTime)
+                    callHistoryRepository.insert(callId, callStartDateTime)
                 }
             }
         }
@@ -45,9 +45,9 @@ internal class CallHistoryServiceImpl(
 
     private fun cleanOldRecords() {
         val thresholdDate = LocalDateTime.now().minusDays(31)
-        callHistoryRepository.getAllCallHistoryRecords().forEach {
+        callHistoryRepository.getAll().forEach {
             if (thresholdDate > it.date) {
-                callHistoryRepository.removeCallHistoryRecord(it.id)
+                callHistoryRepository.remove(it.id)
             }
         }
     }

@@ -23,7 +23,7 @@ internal class DebugInfoManagerImpl(
         }
 
     private fun getCallHistory(): List<CallCompositeCallHistoryRecord> {
-        return callHistoryRepository.getAllCallHistoryRecords()
+        return callHistoryRepository.getAll()
             .groupBy {
                 it.date
             }
