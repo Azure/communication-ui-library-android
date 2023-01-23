@@ -10,17 +10,16 @@ import com.azure.android.communication.ui.calling.models.buildCallCompositeDebug
 import com.azure.android.communication.ui.calling.models.buildCallHistoryRecord
 
 internal interface DebugInfoManager {
-    val debugInfo: CallCompositeDebugInfo
+    fun getDebugInfo(): CallCompositeDebugInfo
 }
 
 internal class DebugInfoManagerImpl(
     private val callHistoryRepository: CallHistoryRepository,
 ) : DebugInfoManager {
 
-    override val debugInfo: CallCompositeDebugInfo
-        get() {
-            return buildCallCompositeDebugInfo(getCallHistory())
-        }
+    override fun getDebugInfo(): CallCompositeDebugInfo {
+        return buildCallCompositeDebugInfo(getCallHistory())
+    }
 
     private fun getCallHistory(): List<CallCompositeCallHistoryRecord> {
         return callHistoryRepository.getAll()
