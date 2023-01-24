@@ -5,13 +5,13 @@ package com.azure.android.communication.ui.calling.data
 
 import android.content.ContentValues
 import android.content.Context
-import com.azure.android.communication.ui.calling.data.model.CallHistoryRecord
+import com.azure.android.communication.ui.calling.data.model.CallHistoryRecordData
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 internal interface CallHistoryRepository {
     fun insert(callId: String, callDateTime: LocalDateTime)
-    fun getAll(): List<CallHistoryRecord>
+    fun getAll(): List<CallHistoryRecordData>
     fun remove(id: Int)
 }
 
@@ -35,7 +35,7 @@ internal class CallHistoryRepositoryImpl(
         db.close()
     }
 
-    override fun getAll(): List<CallHistoryRecord> {
+    override fun getAll(): List<CallHistoryRecordData> {
         val db = DbHelper(context).writableDatabase
 
         val cursor = db.rawQuery(
@@ -44,12 +44,12 @@ internal class CallHistoryRepositoryImpl(
         )
 
         val dateFormatter = DateTimeFormatter.ofPattern(datePattern)
-        val items = mutableListOf<CallHistoryRecord>()
+        val items = mutableListOf<CallHistoryRecordData>()
         with(cursor) {
             if (moveToFirst()) {
                 do {
                     items.add(
-                        CallHistoryRecord(
+                        CallHistoryRecordData(
                             id = getInt(getColumnIndex(CallHistoryContract.ID)),
                             callId = getString(getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_ID)),
                             date = LocalDateTime.parse(

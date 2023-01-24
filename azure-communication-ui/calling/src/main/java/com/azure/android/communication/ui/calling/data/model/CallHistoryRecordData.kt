@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.data.model
 
 import org.threeten.bp.LocalDateTime
 
-internal data class CallHistoryRecord(
+internal data class CallHistoryRecordData(
     val id: Int,
     val callId: String,
     val date: LocalDateTime,
