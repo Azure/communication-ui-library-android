@@ -11,11 +11,11 @@ import org.threeten.bp.LocalDateTime;
  */
 public class CallCompositeCallHistoryRecord {
     private final  LocalDateTime callStartedOn;
-    private final List<String> callIds;
+    private final List<String> callIdList;
 
-    CallCompositeCallHistoryRecord(final LocalDateTime callStartedOn, final List<String> callIds) {
+    CallCompositeCallHistoryRecord(final LocalDateTime callStartedOn, final List<String> callIdList) {
         this.callStartedOn = callStartedOn;
-        this.callIds = callIds;
+        this.callIdList = callIdList;
     }
 
     /**
@@ -27,10 +27,10 @@ public class CallCompositeCallHistoryRecord {
     }
 
     /**
-     * Call Ids associated with particular call.
+     * Call Id list associated with particular call.
      * @return
      */
-    public List<String> getCallIds() {
-        return callIds;
+    public List<String> getCallIdList() {
+        return callIdList;
     }
 }
