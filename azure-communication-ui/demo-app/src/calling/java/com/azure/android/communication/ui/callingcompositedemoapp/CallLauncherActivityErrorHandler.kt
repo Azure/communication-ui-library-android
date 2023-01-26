@@ -21,8 +21,8 @@ class CallLauncherActivityErrorHandler(
 
     override fun handle(it: CallCompositeErrorEvent) {
 
-        val lastCallId = callComposite.getDebugInfo(context).callHistoryRecordList
-            .lastOrNull()?.callIdList?.lastOrNull()?.toString() ?: ""
+        val lastCallId = callComposite.getDebugInfo(context).callHistoryRecords
+            .lastOrNull()?.callIds?.lastOrNull()?.toString() ?: ""
 
         println("================= application is logging exception =================")
         println("call id: $lastCallId")

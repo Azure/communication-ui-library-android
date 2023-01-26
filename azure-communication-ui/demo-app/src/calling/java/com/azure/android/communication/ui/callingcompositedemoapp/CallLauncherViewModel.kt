@@ -64,7 +64,7 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecordList
+        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
     }
 
     private fun createCallComposite(context: Context): CallComposite {

@@ -167,7 +167,7 @@ class CallLauncherActivity : AppCompatActivity() {
         var message = "Last Call: none"
         history.lastOrNull()?.let {
             message = "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
-            it.callIdList.forEach { callId ->
+            it.callIds.forEach { callId ->
                 message += "\nCallId: $callId"
             }
         }

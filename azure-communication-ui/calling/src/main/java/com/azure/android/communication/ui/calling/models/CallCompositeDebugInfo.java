@@ -10,17 +10,17 @@ import java.util.List;
  */
 public final class CallCompositeDebugInfo {
 
-    private final List<CallCompositeCallHistoryRecord> callHistoryRecordList;
+    private final List<CallCompositeCallHistoryRecord> callHistoryRecord;
 
-    CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecordList) {
-        this.callHistoryRecordList = callHistoryRecordList;
+    CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecord) {
+        this.callHistoryRecord = callHistoryRecord;
     }
 
     /**
      * Call history.
      * @return
      */
-    public List<CallCompositeCallHistoryRecord> getCallHistoryRecordList() {
-        return callHistoryRecordList;
+    public List<CallCompositeCallHistoryRecord> getCallHistoryRecords() {
+        return callHistoryRecord;
     }
 }
