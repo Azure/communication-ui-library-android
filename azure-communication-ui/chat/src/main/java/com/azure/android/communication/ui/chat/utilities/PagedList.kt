@@ -4,20 +4,20 @@ import java.lang.RuntimeException
 
 internal class PagedList<T>(private val pages: List<List<T>>) : List<T> {
 
-    private val indexes : List<Int>
-    override val size : Int
+    private val indexes: List<Int>
+    override val size: Int
 
     init {
-        var offset = 0;
+        var offset = 0
         indexes = pages.map {
             offset += it.size
             offset - it.size // Start index on each item
         }
-        size = offset;
+        size = offset
     }
 
     override fun contains(element: T): Boolean {
-        //TODO: Binary page search, quick boundary checks on pages.
+        // TODO: Binary page search, quick boundary checks on pages.
         for (page in pages) {
             if (page.contains(element)) {
                 return true
@@ -41,18 +41,18 @@ internal class PagedList<T>(private val pages: List<List<T>>) : List<T> {
             else -> {
                 val firstPageLength = pages.first().size
                 if (index < firstPageLength) {
-                    pages.first()[index];
+                    pages.first()[index]
                 } else {
                     var page = 0
-                    while (page < pages.size ) {
-                        val startIdx = indexes[page];
-                        val endIdx = indexes[page]+pages[page].size
+                    while (page < pages.size) {
+                        val startIdx = indexes[page]
+                        val endIdx = indexes[page] + pages[page].size
                         if (index in startIdx until endIdx) {
-                            return pages[page][index-startIdx]
+                            return pages[page][index - startIdx]
                         }
-                        page++;
+                        page++
                     }
-                    throw RuntimeException("Out of range of list");
+                    throw RuntimeException("Out of range of list")
                 }
             }
         }
@@ -70,7 +70,6 @@ internal class PagedList<T>(private val pages: List<List<T>>) : List<T> {
         return -1
     }
 
-
     override fun indexOf(element: T): Int {
         var index = 0
         for (page in pages) {
@@ -86,7 +85,6 @@ internal class PagedList<T>(private val pages: List<List<T>>) : List<T> {
     override fun isEmpty(): Boolean {
         return size == 0
     }
-
 
     override fun lastIndexOf(element: T): Int {
         // We can cheat here, there won't be duplicates
@@ -123,7 +121,7 @@ internal class PagedList<T>(private val pages: List<List<T>>) : List<T> {
 
             override fun previous(): T {
                 currentIndex--
-                return get(currentIndex);
+                return get(currentIndex)
             }
 
             override fun previousIndex(): Int {

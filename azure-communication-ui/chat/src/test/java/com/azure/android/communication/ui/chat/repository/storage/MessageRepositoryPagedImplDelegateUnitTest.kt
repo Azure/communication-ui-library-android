@@ -19,7 +19,6 @@ class MessageRepositoryPagedImplDelegateUnitTest {
     fun messageRepositoryListStorage_addPage_test() =
         MessageRepositoryUnitTest.addPageTest(getMessageRepo())
 
-
     @Test
     fun messageRepositoryListStorage_editMessage_test() =
         MessageRepositoryUnitTest.editMessageTest(getMessageRepo())
@@ -28,9 +27,9 @@ class MessageRepositoryPagedImplDelegateUnitTest {
     //    @Test
     //    fun messageRepositoryListStorage_removeMessageTest() =
     //        MessageRepositoryUnitTest.removeMessageTest(getMessageRepo())
-        @Test
-        fun messageRepositoryListStorage_removeMessage_test() =
-            MessageRepositoryUnitTest.removeMessageTest(getMessageRepo())
+    @Test
+    fun messageRepositoryListStorage_removeMessage_test() =
+        MessageRepositoryUnitTest.removeMessageTest(getMessageRepo())
 
     @Test
     fun messageRepositoryListStorage_OutOfOrderTest() =

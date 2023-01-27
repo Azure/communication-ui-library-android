@@ -5,27 +5,30 @@ import org.junit.Assert.assertTrue
 import org.junit.Assert.assertFalse
 import org.junit.Test
 
-
 internal class PagedListTest {
 
-    private val listFull = PagedList(listOf(
-        listOf(0,1),
-        listOf(2,3,4),
-        listOf(5,6,7),
-        listOf(8,9),
-    ))
+    private val listFull = PagedList(
+        listOf(
+            listOf(0, 1),
+            listOf(2, 3, 4),
+            listOf(5, 6, 7),
+            listOf(8, 9),
+        )
+    )
 
-    private val listOnePage = PagedList(listOf(
-        listOf(0,1),
-    ))
+    private val listOnePage = PagedList(
+        listOf(
+            listOf(0, 1),
+        )
+    )
 
     private val listEmpty = PagedList<Int>(emptyList())
 
     @Test
     fun testPagedListSize() {
-        assertEquals(listFull.size, 10);
-        assertEquals(listOnePage.size, 2);
-        assertEquals(listEmpty.size, 0);
+        assertEquals(listFull.size, 10)
+        assertEquals(listOnePage.size, 2)
+        assertEquals(listEmpty.size, 0)
     }
 
     @Test
@@ -38,10 +41,9 @@ internal class PagedListTest {
     @Test
     fun testGetWorks() {
         for (i in 0 until listFull.size) {
-            assertEquals(listFull[i], i);
+            assertEquals(listFull[i], i)
         }
     }
-
 
     @Test
     fun testContainsWorks() {
@@ -54,10 +56,10 @@ internal class PagedListTest {
 
     @Test
     fun testContainsAllWorks() {
-        assertTrue(listFull.containsAll(listOf(0,1,2,3,4,5,6,7,8,9)))
-        assertFalse(listFull.containsAll(listOf(0,1,2,3,4,5,6,7,8,9,10)))
-        assertFalse(listFull.containsAll(listOf(-1,0,1,2,3,4,5,6,7,8,9)))
-        assertFalse(listFull.containsAll(listOf(-1,10)))
+        assertTrue(listFull.containsAll(listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
+        assertFalse(listFull.containsAll(listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))
+        assertFalse(listFull.containsAll(listOf(-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
+        assertFalse(listFull.containsAll(listOf(-1, 10)))
     }
 
     @Test
@@ -77,5 +79,4 @@ internal class PagedListTest {
         assertEquals(listFull.lastIndexOf(-1), -1)
         assertEquals(listFull.lastIndexOf(10), -1)
     }
-
 }
