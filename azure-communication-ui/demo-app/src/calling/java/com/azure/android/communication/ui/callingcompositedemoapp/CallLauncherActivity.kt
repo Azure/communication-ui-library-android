@@ -20,7 +20,6 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import com.microsoft.appcenter.distribute.UpdateTrack
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
@@ -36,7 +35,6 @@ class CallLauncherActivity : AppCompatActivity() {
             return
         }
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
-            Distribute.setUpdateTrack(UpdateTrack.PRIVATE)
             AppCenter.start(
                 application,
                 BuildConfig.APP_SECRET,
@@ -146,7 +144,9 @@ class CallLauncherActivity : AppCompatActivity() {
                 callLauncherViewModel.setKotlinLauncher()
             }
 
-            if (!BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
+                versionText.text = "${BuildConfig.VERSION_NAME}"
+            } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }

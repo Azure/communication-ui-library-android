@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.chat.R
 import com.microsoft.fluentui.progress.ProgressBar
 
 @Composable
-fun FluentCircularIndicator() {
+internal fun FluentCircularIndicator() {
     AndroidView(factory = { context ->
         ProgressBar(context, null, 0, R.style.Widget_FluentUI_CircularProgress_Small)
     })
@@ -18,6 +18,6 @@ fun FluentCircularIndicator() {
 
 @Preview
 @Composable
-fun previewFluentProgressBar() {
+internal fun previewFluentProgressBar() {
     FluentCircularIndicator()
 }

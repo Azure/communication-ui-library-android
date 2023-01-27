@@ -1,11 +1,16 @@
 ![Hero Image](../../docs/media/mobile-ui-library-chat-hero-image.png)
 
-# Azure Communication UI Mobile Library for Android
+# Azure Communication UI Mobile Library for Android - Chat
 
-Get started with Azure Communication Chat Services by using the UI Library to integrate communication experiences into your applications. For instructions to quickly integrate the UI Library functionalities, please follow our guide below.
+## Latest Release
 
+- Public Preview: [1.0.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-1.0.0-beta.1)
 
-### Install the packages
+## Getting Started
+
+Get started with Azure Communication Chat Services by using the UI Library to integrate communication experiences into your applications. For instructions to quickly integrate the UI Library functionalities [Quick-start Documentation](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-chat-ui-library?tabs=kotlin&pivots=platform-android).
+
+## Installation
 
 In your app level (**app folder**) `build.gradle`, add the following lines to the dependencies and android sections.
 
@@ -22,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-chat:0.1.0'
+    implementation 'com.azure.android:azure-communication-ui-chat:1.0.0-beta.1'
     ...
 }
 ```
@@ -54,14 +59,13 @@ val communicationTokenCredential = CommunicationTokenCredential(communicationTok
 
 
 val chatAdapter = ChatAdapterBuilder()
-    .endpoint(endpoint)
+    .endpoint("<ENDPOINT_URL>")
     .credential(communicationTokenCredential)
-    .identity(CommunicationUserIdentifier(acsIdentity))
-    .displayName(userName)
-    .threadId(threadId)
+    .identity(CommunicationUserIdentifier("<USER_ID>"))
+    .displayName("<DISPLAY_NAME>")
+    .threadId("<THREAD_ID>")
     .build()
 
-chatAdapter.addOnErrorEventHandler(errorHandler)
 chatAdapter.connect(context)
 
 val chatThreadView = ChatThreadView(context, chatAdapter)
@@ -75,14 +79,13 @@ CommunicationTokenRefreshOptions communicationTokenRefreshOptions = new Communic
 CommunicationTokenCredential communicationTokenCredential = new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
 ChatAdapter chatAdapter = new ChatAdapterBuilder()
-        .endpoint(endpoint)
+        .endpoint("<ENDPOINT_URL>")
         .credential(communicationTokenCredential)
-        .identity(new CommunicationUserIdentifier(acsIdentity))
-        .displayName(userName)
-        .threadId(threadId)
+        .identity(new CommunicationUserIdentifier("<USER_ID>"))
+        .displayName("<DISPLAY_NAME>")
+        .threadId("<THREAD_ID>")
         .build();
 
-chatAdapter.addOnErrorEventHandler(errorHandler);
 chatAdapter.connect(context);
 
 ChatThreadView chatThreadView = new ChatThreadView(context, chatAdapter);
@@ -91,7 +94,7 @@ ChatThreadView chatThreadView = new ChatThreadView(context, chatAdapter);
 
 Chat screen is supported as both composite and an independent view which supports view binding and enables the application developers to integrate the chat capabilities in their application in either way. For example, one can launch ChatComposite in either the application activity or on any inflated view. You can find the detail of using the Chat UI Library in the [Demo Guide](../../azure-communication-ui/demo-app/).
 
-For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-android/chat). 
+For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-chat). 
 
 
 ## Known Issues

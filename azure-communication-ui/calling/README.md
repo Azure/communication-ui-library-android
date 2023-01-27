@@ -2,10 +2,15 @@
 
 # Azure Communication UI Mobile Library for Android - Calling
 
-Get started with Azure Communication Services by using the Calling UI Library to integrate communication experiences into your applications. For detailed instructions to quickly integrate the Calling UI Library functionalities visit the [Quick-start Documentation](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-call?tabs=kotlin&pivots=platform-android).
+## Latest Release
 
+- [1.1.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.1.0)
 
-### Install the packages
+## Getting Started
+
+Get started with Azure Communication Services by using the Calling UI Library to integrate communication experiences into your applications. For detailed instructions to quickly integrate the Calling UI Library functionalities visit the [Quick-start Documentation](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-composites?tabs=kotlin&pivots=platform-android).
+
+## Installation
 
 In your app level (**app folder**) `build.gradle`, add the following lines to the dependencies and android sections.
 
@@ -44,7 +49,7 @@ Sync project with gradle files. (Android Studio -> File -> Sync Project With Gra
 
 ### Quick Sample 
 
-Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group ID for your call, `<DISPLAY_NAME>` with your name, and  `<USER_ACCESS_TOKEN>` with your token. For full instructions check out our [quickstart](https://docs.microsoft.com/azure/communication-services/quickstarts/ui-library/get-started-composites?tabs=kotlin&pivots=platform-android) or get the completed [sample](https://github.com/Azure-Samples/communication-services-android-quickstarts/tree/main/ui-library-quick-start).
+Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group ID for your call, `<DISPLAY_NAME>` with your name, and  `<USER_ACCESS_TOKEN>` with your token. For full instructions check out our [quickstart](https://docs.microsoft.com/azure/communication-services/quickstarts/ui-library/get-started-composites?tabs=kotlin&pivots=platform-android) or get the completed [sample](https://github.com/Azure-Samples/communication-services-android-quickstarts/tree/main/ui-calling).
 
 #### [Kotlin](#tab/kotlin)
 
@@ -76,7 +81,7 @@ CallComposite callComposite = new CallCompositeBuilder().build();
 callComposite.launch(context, remoteOptions);
 ```
 
-For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-android/calling).
+For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-calling).
 
 ### Accessibility
 

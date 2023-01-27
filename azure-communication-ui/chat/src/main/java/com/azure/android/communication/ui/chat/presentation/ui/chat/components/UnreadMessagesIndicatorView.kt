@@ -46,7 +46,7 @@ internal fun UnreadMessagesIndicatorView(
                         .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
                         .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPadding),
                     contentDescription = null,
-                    tint = ChatCompositeTheme.colors.content,
+                    tint = ChatCompositeTheme.colors.inverseContent,
                 )
             },
             text = {
