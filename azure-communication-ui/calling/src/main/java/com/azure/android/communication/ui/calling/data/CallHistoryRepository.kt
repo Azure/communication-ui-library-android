@@ -47,14 +47,15 @@ internal class CallHistoryRepositoryImpl(
         val items = mutableListOf<CallHistoryRecordData>()
         with(cursor) {
             if (moveToFirst()) {
+                val idColumnIndex = getColumnIndex(CallHistoryContract.ID)
+                val nameColumnIndex = getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_ID)
+                val dateColumnIndex = getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_DATE)
                 do {
                     items.add(
                         CallHistoryRecordData(
-                            id = getInt(getColumnIndex(CallHistoryContract.ID)),
-                            callId = getString(getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_ID)),
-                            date = LocalDateTime.parse(
-                                getString(getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_DATE)), dateFormatter
-                            ),
+                            id = getInt(idColumnIndex),
+                            callId = getString(nameColumnIndex),
+                            date = LocalDateTime.parse(getString(dateColumnIndex), dateFormatter),
                         )
                     )
                 } while (moveToNext())
