@@ -30,7 +30,7 @@ internal class DebugInfoManagerImpl(
     private suspend fun getCallHistory(): List<CallCompositeCallHistoryRecord> {
         return callHistoryRepository.getAll()
             .groupBy {
-                it.date
+                it.callStartedOn
             }
             .map { mapped ->
                 buildCallHistoryRecord(mapped.key, mapped.value.map { it.callId })

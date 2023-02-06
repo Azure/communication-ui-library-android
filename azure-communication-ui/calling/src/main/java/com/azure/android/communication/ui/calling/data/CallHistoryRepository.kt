@@ -55,7 +55,7 @@ internal class CallHistoryRepositoryImpl(
                             CallHistoryRecordData(
                                 id = it.getInt(idColumnIndex),
                                 callId = it.getString(nameColumnIndex),
-                                date = LocalDateTime.parse(it.getString(dateColumnIndex), dateFormatter),
+                                callStartedOn = LocalDateTime.parse(it.getString(dateColumnIndex), dateFormatter),
                             )
                         )
                     } while (it.moveToNext())

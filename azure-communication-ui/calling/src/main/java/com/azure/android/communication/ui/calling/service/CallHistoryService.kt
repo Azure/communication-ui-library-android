@@ -47,7 +47,7 @@ internal class CallHistoryServiceImpl(
         val thresholdDate = LocalDateTime.now().minusDays(31)
 
         val idsToRemove = callHistoryRepository.getAll()
-            .filter { thresholdDate > it.date }
+            .filter { thresholdDate > it.callStartedOn }
             .map { it.id }
 
         callHistoryRepository.remove(idsToRemove)

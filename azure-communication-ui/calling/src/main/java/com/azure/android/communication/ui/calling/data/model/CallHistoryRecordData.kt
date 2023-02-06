@@ -8,5 +8,5 @@ import org.threeten.bp.LocalDateTime
 internal data class CallHistoryRecordData(
     val id: Int,
     val callId: String,
-    val date: LocalDateTime,
+    val callStartedOn: LocalDateTime,
 )
