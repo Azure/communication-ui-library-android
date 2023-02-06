@@ -100,9 +100,11 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
                 callHistoryService.start(coroutineScope = this)
             }
 
-            verify(callHistoryRepository, times(1)).remove(argWhere{
-                it.count() == 3 && it.contains(1) && it.contains(2) && it.contains(3)
-            })
+            verify(callHistoryRepository, times(1)).remove(
+                argWhere {
+                    it.count() == 3 && it.contains(1) && it.contains(2) && it.contains(3)
+                }
+            )
 
             flowJob.cancel()
         }
