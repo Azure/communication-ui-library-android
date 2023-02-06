@@ -8,6 +8,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallHistor
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo
 import com.azure.android.communication.ui.calling.models.buildCallCompositeDebugInfo
 import com.azure.android.communication.ui.calling.models.buildCallHistoryRecord
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 internal interface DebugInfoManager {
     fun getDebugInfo(): CallCompositeDebugInfo
@@ -18,10 +21,13 @@ internal class DebugInfoManagerImpl(
 ) : DebugInfoManager {
 
     override fun getDebugInfo(): CallCompositeDebugInfo {
-        return buildCallCompositeDebugInfo(getCallHistory())
+        val callHistory = runBlocking {
+            withContext(Dispatchers.IO) { getCallHistory() }
+        }
+        return buildCallCompositeDebugInfo(callHistory)
     }
 
-    private fun getCallHistory(): List<CallCompositeCallHistoryRecord> {
+    private suspend fun getCallHistory(): List<CallCompositeCallHistoryRecord> {
         return callHistoryRepository.getAll()
             .groupBy {
                 it.date

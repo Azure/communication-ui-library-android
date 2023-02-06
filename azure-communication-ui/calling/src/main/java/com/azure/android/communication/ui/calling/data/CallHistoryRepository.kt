@@ -6,68 +6,75 @@ package com.azure.android.communication.ui.calling.data
 import android.content.ContentValues
 import android.content.Context
 import com.azure.android.communication.ui.calling.data.model.CallHistoryRecordData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 internal interface CallHistoryRepository {
-    fun insert(callId: String, callDateTime: LocalDateTime)
-    fun getAll(): List<CallHistoryRecordData>
-    fun remove(id: Int)
+    suspend fun insert(callId: String, callDateTime: LocalDateTime)
+    suspend fun getAll(): List<CallHistoryRecordData>
+    suspend fun remove(ids: List<Int>)
 }
 
 internal class CallHistoryRepositoryImpl(
     private val context: Context
 ) : CallHistoryRepository {
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
-    private val datePattern: String = "yyyy-MM-dd HH:mm:ss"
+    override suspend fun insert(callId: String, callDateTime: LocalDateTime) {
+        return withContext(Dispatchers.IO) {
+            val db = DbHelper(context).writableDatabase
 
-    override fun insert(callId: String, callDateTime: LocalDateTime) {
-        val db = DbHelper(context).writableDatabase
+            val date = callDateTime.format(dateFormatter)
 
-        val date = callDateTime.format(DateTimeFormatter.ofPattern(datePattern))
-
-        val values = ContentValues().apply {
-            put(CallHistoryContract.COLUMN_NAME_CALL_ID, callId)
-            put(CallHistoryContract.COLUMN_NAME_CALL_DATE, date)
-        }
-
-        db.insert(CallHistoryContract.TABLE_NAME, null, values)
-        db.close()
-    }
-
-    override fun getAll(): List<CallHistoryRecordData> {
-        val db = DbHelper(context).writableDatabase
-
-        val cursor = db.rawQuery(
-            "SELECT * FROM ${CallHistoryContract.TABLE_NAME} ORDER BY ${CallHistoryContract.COLUMN_NAME_CALL_DATE} ASC",
-            null
-        )
-
-        val dateFormatter = DateTimeFormatter.ofPattern(datePattern)
-        val items = mutableListOf<CallHistoryRecordData>()
-        with(cursor) {
-            if (moveToFirst()) {
-                val idColumnIndex = getColumnIndex(CallHistoryContract.ID)
-                val nameColumnIndex = getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_ID)
-                val dateColumnIndex = getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_DATE)
-                do {
-                    items.add(
-                        CallHistoryRecordData(
-                            id = getInt(idColumnIndex),
-                            callId = getString(nameColumnIndex),
-                            date = LocalDateTime.parse(getString(dateColumnIndex), dateFormatter),
-                        )
-                    )
-                } while (moveToNext())
+            val values = ContentValues().apply {
+                put(CallHistoryContract.COLUMN_NAME_CALL_ID, callId)
+                put(CallHistoryContract.COLUMN_NAME_CALL_DATE, date)
             }
+
+            db.insert(CallHistoryContract.TABLE_NAME, null, values)
+            db.close()
         }
-        cursor.close()
-        return items
     }
 
-    override fun remove(id: Int) {
-        val db = DbHelper(context).writableDatabase
-        db.delete(CallHistoryContract.TABLE_NAME, "${CallHistoryContract.ID} = ?", arrayOf(id.toString()))
-        db.close()
+    override suspend fun getAll(): List<CallHistoryRecordData> {
+        return withContext(Dispatchers.IO) {
+            val db = DbHelper(context).writableDatabase
+            val items = mutableListOf<CallHistoryRecordData>()
+            db.rawQuery(
+                "SELECT * FROM ${CallHistoryContract.TABLE_NAME} ORDER BY ${CallHistoryContract.COLUMN_NAME_CALL_DATE} ASC",
+                null
+            ).use {
+                if (it.moveToFirst()) {
+                    val idColumnIndex = it.getColumnIndex(CallHistoryContract.ID)
+                    val nameColumnIndex = it.getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_ID)
+                    val dateColumnIndex = it.getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_DATE)
+                    do {
+                        items.add(
+                            CallHistoryRecordData(
+                                id = it.getInt(idColumnIndex),
+                                callId = it.getString(nameColumnIndex),
+                                date = LocalDateTime.parse(it.getString(dateColumnIndex), dateFormatter),
+                            )
+                        )
+                    } while (it.moveToNext())
+                }
+            }
+            return@withContext items
+        }
+    }
+
+    override suspend fun remove(ids: List<Int>) {
+        if (ids.isEmpty())
+            return
+
+        withContext(Dispatchers.IO) {
+            val db = DbHelper(context).writableDatabase
+            val idValues = ids.joinToString(separator = ",") { "'$it'" }
+            val sql = "DELETE FROM ${CallHistoryContract.TABLE_NAME} WHERE ${CallHistoryContract.ID} in ($idValues)"
+            db.execSQL(sql)
+            db.close()
+        }
     }
 }

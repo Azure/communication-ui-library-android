@@ -29,9 +29,6 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState1 = AppReduxState("")
-            appState1.callState = CallingState(CallingStatus.NONE)
-
             val historyList = mutableListOf(
                 CallHistoryRecordData(1, "callId1", LocalDateTime.now().minusDays(6)),
                 CallHistoryRecordData(2, "callId2", LocalDateTime.now().minusDays(4)),
@@ -40,7 +37,7 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
             )
 
             val callHistoryRepository = mock<CallHistoryRepository> {
-                on { getAll() } doAnswer { historyList }
+                onBlocking { getAll() } doAnswer { historyList }
             }
 
             val debugInfoManager: DebugInfoManager = DebugInfoManagerImpl(callHistoryRepository)

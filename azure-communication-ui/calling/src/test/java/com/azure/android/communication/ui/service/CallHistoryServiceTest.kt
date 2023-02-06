@@ -20,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
+import org.mockito.kotlin.argWhere
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
@@ -46,8 +47,8 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             }
 
             val callHistoryRepository = mock<CallHistoryRepository> {
-                on { insert(any(), any()) } doAnswer { }
-                on { getAll() } doAnswer { listOf<CallHistoryRecordData>() }
+                onBlocking { insert(any(), any()) } doAnswer { }
+                onBlocking { getAll() } doAnswer { listOf<CallHistoryRecordData>() }
             }
 
             val callHistoryService: CallHistoryService = CallHistoryServiceImpl(mockAppStore, callHistoryRepository)
@@ -90,8 +91,8 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             )
 
             val callHistoryRepository = mock<CallHistoryRepository> {
-                on { remove(any()) } doAnswer { }
-                on { getAll() } doAnswer { historyList }
+                onBlocking { remove(any()) } doAnswer { }
+                onBlocking { getAll() } doAnswer { historyList }
             }
 
             val callHistoryService: CallHistoryService = CallHistoryServiceImpl(mockAppStore, callHistoryRepository)
@@ -99,10 +100,9 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
                 callHistoryService.start(coroutineScope = this)
             }
 
-            verify(callHistoryRepository, times(1)).remove(eq(1))
-            verify(callHistoryRepository, times(1)).remove(eq(2))
-            verify(callHistoryRepository, times(1)).remove(eq(3))
-            verify(callHistoryRepository, times(0)).remove(eq(4))
+            verify(callHistoryRepository, times(1)).remove(argWhere{
+                it.count() == 3 && it.contains(1) && it.contains(2) && it.contains(3)
+            })
 
             flowJob.cancel()
         }

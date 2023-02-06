@@ -43,12 +43,13 @@ internal class CallHistoryServiceImpl(
         }
     }
 
-    private fun cleanOldRecords() {
+    private suspend fun cleanOldRecords() {
         val thresholdDate = LocalDateTime.now().minusDays(31)
-        callHistoryRepository.getAll().forEach {
-            if (thresholdDate > it.date) {
-                callHistoryRepository.remove(it.id)
-            }
-        }
+
+        val idsToRemove = callHistoryRepository.getAll()
+            .filter { thresholdDate > it.date }
+            .map { it.id }
+
+        callHistoryRepository.remove(idsToRemove)
     }
 }
