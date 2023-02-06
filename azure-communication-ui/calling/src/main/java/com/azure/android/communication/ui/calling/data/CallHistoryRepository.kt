@@ -47,9 +47,9 @@ internal class CallHistoryRepositoryImpl(
                 null
             ).use {
                 if (it.moveToFirst()) {
-                    val idColumnIndex = it.getColumnIndex(CallHistoryContract.ID)
-                    val nameColumnIndex = it.getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_ID)
-                    val dateColumnIndex = it.getColumnIndex(CallHistoryContract.COLUMN_NAME_CALL_DATE)
+                    val idColumnIndex = it.getColumnIndexOrThrow(CallHistoryContract.ID)
+                    val nameColumnIndex = it.getColumnIndexOrThrow(CallHistoryContract.COLUMN_NAME_CALL_ID)
+                    val dateColumnIndex = it.getColumnIndexOrThrow(CallHistoryContract.COLUMN_NAME_CALL_DATE)
                     do {
                         items.add(
                             CallHistoryRecordData(
