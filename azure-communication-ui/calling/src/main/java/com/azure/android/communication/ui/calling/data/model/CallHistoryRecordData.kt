@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.calling.data.model
 
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
 
 internal data class CallHistoryRecordData(
     val id: Int,
     val callId: String,
-    val callStartedOn: LocalDateTime,
+    val callStartedOn: OffsetDateTime,
 )

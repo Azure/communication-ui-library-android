@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
 
 internal interface CallHistoryService {
     fun start(coroutineScope: CoroutineScope)
@@ -44,7 +44,7 @@ internal class CallHistoryServiceImpl(
     }
 
     private suspend fun cleanOldRecords() {
-        val thresholdDate = LocalDateTime.now().minusDays(31)
+        val thresholdDate = OffsetDateTime.now().minusDays(31)
 
         val idsToRemove = callHistoryRepository.getAll()
             .filter { thresholdDate > it.callStartedOn }

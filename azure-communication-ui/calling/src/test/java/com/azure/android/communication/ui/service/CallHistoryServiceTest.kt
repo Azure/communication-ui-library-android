@@ -26,7 +26,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.times
 import org.mockito.kotlin.eq
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
@@ -59,7 +59,7 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             // update state
             val appState2 = AppReduxState("")
             val callID = "callID"
-            appState2.callState = CallingState(CallingStatus.CONNECTING, callID, callStartLocalDateTime = LocalDateTime.now())
+            appState2.callState = CallingState(CallingStatus.CONNECTING, callID, callStartLocalDateTime = OffsetDateTime.now())
             stateFlow.value = appState2
 
             verify(callHistoryRepository, times(1)).insert(eq(callID), any())
@@ -84,10 +84,10 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             }
 
             val historyList = mutableListOf(
-                CallHistoryRecordData(1, "callId1", LocalDateTime.now().minusDays(33)),
-                CallHistoryRecordData(2, "callId2", LocalDateTime.now().minusDays(32)),
-                CallHistoryRecordData(3, "callId3", LocalDateTime.now().minusDays(31)),
-                CallHistoryRecordData(4, "callId4", LocalDateTime.now().minusDays(30)),
+                CallHistoryRecordData(1, "callId1", OffsetDateTime.now().minusDays(33)),
+                CallHistoryRecordData(2, "callId2", OffsetDateTime.now().minusDays(32)),
+                CallHistoryRecordData(3, "callId3", OffsetDateTime.now().minusDays(31)),
+                CallHistoryRecordData(4, "callId4", OffsetDateTime.now().minusDays(30)),
             )
 
             val callHistoryRepository = mock<CallHistoryRepository> {

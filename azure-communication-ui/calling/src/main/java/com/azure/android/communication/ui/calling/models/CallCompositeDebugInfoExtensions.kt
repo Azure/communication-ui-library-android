@@ -3,11 +3,11 @@
 
 package com.azure.android.communication.ui.calling.models
 
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
 
 internal fun buildCallCompositeDebugInfo(callHistoryRecordList: List<CallCompositeCallHistoryRecord>) =
     CallCompositeDebugInfo(callHistoryRecordList)
 
-internal fun buildCallHistoryRecord(callStartedOn: LocalDateTime, callIds: List<String>): CallCompositeCallHistoryRecord {
+internal fun buildCallHistoryRecord(callStartedOn: OffsetDateTime, callIds: List<String>): CallCompositeCallHistoryRecord {
     return CallCompositeCallHistoryRecord(callStartedOn, callIds)
 }

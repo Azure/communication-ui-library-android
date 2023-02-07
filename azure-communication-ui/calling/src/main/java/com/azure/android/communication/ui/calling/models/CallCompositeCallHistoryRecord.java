@@ -4,25 +4,25 @@
 package com.azure.android.communication.ui.calling.models;
 
 import java.util.List;
-import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 /**
  * Call history.
  */
 public class CallCompositeCallHistoryRecord {
-    private final  LocalDateTime callStartedOn;
+    private final  OffsetDateTime callStartedOn;
     private final List<String> callIds;
 
-    CallCompositeCallHistoryRecord(final LocalDateTime callStartedOn, final List<String> callIds) {
+    CallCompositeCallHistoryRecord(final OffsetDateTime callStartedOn, final List<String> callIds) {
         this.callStartedOn = callStartedOn;
         this.callIds = callIds;
     }
 
     /**
-     * Get local date call started on.
+     * Get offset date call started on.
      * @return
      */
-    public LocalDateTime getCallStartedOn() {
+    public OffsetDateTime getCallStartedOn() {
         return callStartedOn;
     }
 

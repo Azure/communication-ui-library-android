@@ -28,7 +28,7 @@ internal class DbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_N
 
 internal object CallHistoryContract {
 
-    const val ID = BaseColumns._ID
+    const val COLUMN_NAME_ID = BaseColumns._ID
     const val TABLE_NAME = "call_history"
 
     const val COLUMN_NAME_CALL_ID = "call_id"
@@ -36,7 +36,7 @@ internal object CallHistoryContract {
 
     const val SQL_CREATE_CALL_HISTORY =
         "CREATE TABLE IF NOT EXISTS $TABLE_NAME (" +
-            "$ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "$COLUMN_NAME_CALL_ID VARCHAR(36)," +
-            "$COLUMN_NAME_CALL_DATE VARCHAR(36))"
+            "$COLUMN_NAME_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "$COLUMN_NAME_CALL_ID TEXT NOT NULL," +
+            "$COLUMN_NAME_CALL_DATE INTEGER NOT NULL)"
 }

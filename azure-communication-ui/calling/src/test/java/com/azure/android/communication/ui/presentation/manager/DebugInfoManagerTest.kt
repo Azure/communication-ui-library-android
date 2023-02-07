@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
 
 @RunWith(MockitoJUnitRunner::class)
 internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
@@ -27,10 +27,10 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val historyList = mutableListOf(
-                CallHistoryRecordData(1, "callId1", LocalDateTime.now().minusDays(6)),
-                CallHistoryRecordData(2, "callId2", LocalDateTime.now().minusDays(4)),
-                CallHistoryRecordData(3, "callId3", LocalDateTime.now().minusDays(3)),
-                CallHistoryRecordData(4, "callId4", LocalDateTime.now().minusDays(1)),
+                CallHistoryRecordData(1, "callId1", OffsetDateTime.now().minusDays(6)),
+                CallHistoryRecordData(2, "callId2", OffsetDateTime.now().minusDays(4)),
+                CallHistoryRecordData(3, "callId3", OffsetDateTime.now().minusDays(3)),
+                CallHistoryRecordData(4, "callId4", OffsetDateTime.now().minusDays(1)),
             )
 
             val callHistoryRepository = mock<CallHistoryRepository> {
