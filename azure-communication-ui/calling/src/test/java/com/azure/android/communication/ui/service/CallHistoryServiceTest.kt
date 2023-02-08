@@ -48,7 +48,6 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
 
             val callHistoryRepository = mock<CallHistoryRepository> {
                 onBlocking { insert(any(), any()) } doAnswer { }
-                onBlocking { getAll() } doAnswer { listOf<CallHistoryRecordData>() }
             }
 
             val callHistoryService: CallHistoryService = CallHistoryServiceImpl(mockAppStore, callHistoryRepository)
@@ -63,48 +62,6 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState2
 
             verify(callHistoryRepository, times(1)).insert(eq(callID), any())
-
-            flowJob.cancel()
-        }
-    }
-
-    @Test
-    @ExperimentalCoroutinesApi
-    fun callHistoryService_cleansHistory() {
-
-        runScopedTest {
-            // arrange
-            val appState1 = AppReduxState("")
-            appState1.callState = CallingState(CallingStatus.NONE)
-
-            val stateFlow = MutableStateFlow<ReduxState>(appState1)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doAnswer { stateFlow }
-                on { getCurrentState() } doAnswer { stateFlow.value }
-            }
-
-            val historyList = mutableListOf(
-                CallHistoryRecordData(1, "callId1", OffsetDateTime.now().minusDays(33)),
-                CallHistoryRecordData(2, "callId2", OffsetDateTime.now().minusDays(32)),
-                CallHistoryRecordData(3, "callId3", OffsetDateTime.now().minusDays(31)),
-                CallHistoryRecordData(4, "callId4", OffsetDateTime.now().minusDays(30)),
-            )
-
-            val callHistoryRepository = mock<CallHistoryRepository> {
-                onBlocking { remove(any()) } doAnswer { }
-                onBlocking { getAll() } doAnswer { historyList }
-            }
-
-            val callHistoryService: CallHistoryService = CallHistoryServiceImpl(mockAppStore, callHistoryRepository)
-            val flowJob = launch {
-                callHistoryService.start(coroutineScope = this)
-            }
-
-            verify(callHistoryRepository, times(1)).remove(
-                argWhere {
-                    it.count() == 3 && it.contains(1) && it.contains(2) && it.contains(3)
-                }
-            )
 
             flowJob.cancel()
         }

@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.data
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import com.azure.android.communication.ui.calling.data.model.CallHistoryRecordData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -17,7 +18,6 @@ import java.util.concurrent.Executors
 internal interface CallHistoryRepository {
     suspend fun insert(callId: String, callDateTime: OffsetDateTime)
     suspend fun getAll(): List<CallHistoryRecordData>
-    suspend fun remove(ids: List<Int>)
 }
 
 internal class CallHistoryRepositoryImpl(
@@ -36,6 +36,7 @@ internal class CallHistoryRepositoryImpl(
                         }
 
                         db.insert(CallHistoryContract.TABLE_NAME, null, values)
+                        cleanUpOldRecords(db)
                         db.close()
                     }
             }
@@ -72,17 +73,10 @@ internal class CallHistoryRepositoryImpl(
         }
     }
 
-    override suspend fun remove(ids: List<Int>) {
-        if (ids.isEmpty())
-            return
-
-        withContext(Dispatchers.IO) {
-            DbHelper(context).writableDatabase.use { db ->
-                val idValues = ids.joinToString(separator = ",") { "'$it'" }
-                val sql = "DELETE FROM ${CallHistoryContract.TABLE_NAME} " +
-                    "WHERE ${CallHistoryContract.COLUMN_NAME_ID} in ($idValues)"
-                db.execSQL(sql)
-            }
-        }
+    private fun cleanUpOldRecords(db: SQLiteDatabase) {
+        val threshold = OffsetDateTime.now().minusDays(31).toInstant().epochSecond
+        val sql = "DELETE FROM ${CallHistoryContract.TABLE_NAME} " +
+                "WHERE ${CallHistoryContract.COLUMN_NAME_CALL_DATE} < $threshold"
+        db.execSQL(sql)
     }
 }
