@@ -166,22 +166,17 @@ internal class MessageRepositoryMiddlewareImpl(
         action: ParticipantAction.ParticipantsRemoved,
         dispatch: Dispatch,
     ) {
-        val hasLocalParticipant = action.participants.any { it.isLocalUser }
-        if (hasLocalParticipant) {
-            processLocalParticipantRemoved(dispatch)
-        } else {
-            messageRepository.addMessage(
-                MessageInfoModel(
-                    internalId = System.currentTimeMillis().toString(),
-                    participants = action.participants,
-                    content = null,
-                    createdOn = OffsetDateTime.now(),
-                    senderDisplayName = null,
-                    messageType = ChatMessageType.PARTICIPANT_REMOVED,
-                )
+        messageRepository.addMessage(
+            MessageInfoModel(
+                internalId = System.currentTimeMillis().toString(),
+                participants = action.participants,
+                content = null,
+                createdOn = OffsetDateTime.now(),
+                senderDisplayName = null,
+                messageType = ChatMessageType.PARTICIPANT_REMOVED,
             )
-            notifyUpdate(dispatch)
-        }
+        )
+        notifyUpdate(dispatch)
     }
 
     private fun processLocalParticipantRemoved(
