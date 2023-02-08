@@ -160,11 +160,7 @@ internal class ChatServiceListener(
 
                         dispatch(
                             ParticipantAction.ParticipantsRemoved(
-                                participants = it.infoModel.participants,
-                                localParticipantRemoved = isLocalParticipantRemoved(
-                                    it.infoModel.participants,
-                                    localParticipantInfoModel
-                                )
+                                participants = it.infoModel.participants
                             )
                         )
                     }
@@ -173,10 +169,4 @@ internal class ChatServiceListener(
             }
         }
     }
-
-    private fun isLocalParticipantRemoved(
-        participants: List<RemoteParticipantInfoModel>,
-        localParticipantInfoModel: LocalParticipantInfoModel,
-    ) =
-        participants.any { it.userIdentifier.id == localParticipantInfoModel.userIdentifier }
 }
