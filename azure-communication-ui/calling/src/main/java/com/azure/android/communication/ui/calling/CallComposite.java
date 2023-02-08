@@ -28,6 +28,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
+import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 /**
@@ -55,7 +56,7 @@ public final class CallComposite {
     private static int instanceId = 0;
 
     private final CallCompositeConfiguration configuration;
-    private DependencyInjectionContainer diContainer;
+    private WeakReference<DependencyInjectionContainer> diContainer;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -214,24 +215,31 @@ public final class CallComposite {
      * @return {@link CallCompositeDebugInfo}
      */
     public CallCompositeDebugInfo getDebugInfo(final Context context) {
-        AndroidThreeTen.init(context);
-        final DebugInfoManager debugInfoManager = getDebugInfoManager(context);
+        AndroidThreeTen.init(context.getApplicationContext());
+        final DebugInfoManager debugInfoManager = getDebugInfoManager(context.getApplicationContext());
         return debugInfoManager.getDebugInfo();
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
-        this.diContainer = diContainer;
+        this.diContainer = new WeakReference<>(diContainer);
     }
 
     private DebugInfoManager getDebugInfoManager(final Context context) {
-        return diContainer != null ? diContainer.getDebugInfoManager() : createDebugInfoManager(context);
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                return container.getDebugInfoManager();
+            }
+        }
+
+        return createDebugInfoManager(context.getApplicationContext());
     }
 
     private void launchComposite(final Context context,
                             final CallCompositeRemoteOptions remoteOptions,
                             final CallCompositeLocalOptions localOptions,
                             final boolean isTest) {
-        AndroidThreeTen.init(context);
+        AndroidThreeTen.init(context.getApplicationContext());
 
         UUID groupId = null;
         String meetingLink = null;
