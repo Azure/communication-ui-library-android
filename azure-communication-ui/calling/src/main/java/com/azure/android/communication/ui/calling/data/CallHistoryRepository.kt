@@ -76,7 +76,7 @@ internal class CallHistoryRepositoryImpl(
     private fun cleanUpOldRecords(db: SQLiteDatabase) {
         val threshold = OffsetDateTime.now().minusDays(31).toInstant().epochSecond
         val sql = "DELETE FROM ${CallHistoryContract.TABLE_NAME} " +
-                "WHERE ${CallHistoryContract.COLUMN_NAME_CALL_DATE} < $threshold"
+            "WHERE ${CallHistoryContract.COLUMN_NAME_CALL_DATE} < $threshold"
         db.execSQL(sql)
     }
 }
