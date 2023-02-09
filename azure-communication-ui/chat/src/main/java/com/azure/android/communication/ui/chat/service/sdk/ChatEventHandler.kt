@@ -193,7 +193,8 @@ internal class ChatEventHandler {
                     participants = event.participantsAdded.map {
                         RemoteParticipantInfoModel(
                             userIdentifier = it.communicationIdentifier.into(),
-                            displayName = it.displayName
+                            displayName = it.displayName,
+                            isLocalUser = it.communicationIdentifier.into().id == this.localParticipantIdentifier
                         )
                     }
                 )
@@ -210,7 +211,8 @@ internal class ChatEventHandler {
                     participants = event.participantsRemoved.map {
                         RemoteParticipantInfoModel(
                             userIdentifier = it.communicationIdentifier.into(),
-                            displayName = it.displayName
+                            displayName = it.displayName,
+                            isLocalUser = it.communicationIdentifier.into().id == this.localParticipantIdentifier
                         )
                     }
                 )

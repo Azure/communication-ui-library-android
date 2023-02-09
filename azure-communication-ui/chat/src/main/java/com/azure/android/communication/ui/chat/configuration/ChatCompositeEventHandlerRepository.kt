@@ -21,12 +21,4 @@ internal class ChatCompositeEventHandlerRepository {
     fun getLocalParticipantRemovedHandlers(): List<ChatCompositeEventHandler<String>> {
         return eventHandlers
     }
-
-    fun addLocalParticipantRemovedEventHandler(handler: ChatCompositeEventHandler<String>) {
-        eventHandlers.add(handler)
-    }
-
-    fun removeLocalParticipantRemovedEventHandler(handler: ChatCompositeEventHandler<String>) {
-        eventHandlers.remove(handler)
-    }
 }
