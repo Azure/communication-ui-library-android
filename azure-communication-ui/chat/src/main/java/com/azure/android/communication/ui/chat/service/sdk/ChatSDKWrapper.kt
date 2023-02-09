@@ -202,7 +202,8 @@ internal class ChatSDKWrapper(
                         participants.add(
                             RemoteParticipantInfoModel(
                                 userIdentifier = it.communicationIdentifier.into(),
-                                displayName = it.displayName
+                                displayName = it.displayName,
+                                isLocalUser = it.communicationIdentifier.into().id == localParticipantIdentifier
                             )
                         )
                     }
