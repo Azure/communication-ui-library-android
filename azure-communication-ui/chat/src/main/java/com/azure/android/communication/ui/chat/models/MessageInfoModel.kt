@@ -45,7 +45,8 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(localP
         participants = this.content.participants?.map {
             RemoteParticipantInfoModel(
                 userIdentifier = it.communicationIdentifier.into(),
-                displayName = it.displayName
+                displayName = it.displayName,
+                isLocalUser = it.communicationIdentifier.into().id == localParticipantIdentifier
             )
         }?.toList() ?: emptyList(),
         internalId = null,

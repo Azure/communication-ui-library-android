@@ -31,6 +31,7 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
             is ParticipantAction.ParticipantsRemoved -> {
                 val participantTypingKeys = state.participantTyping.keys
                 val removedParticipants = action.participants.map { it.userIdentifier.id }
+                var hasLocalParticipant = action.participants.any { it.isLocalUser }
                 var participantTyping = state.participantTyping
                 // TODO: improve this logic
                 removedParticipants.forEach { id ->
@@ -40,7 +41,7 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
 
                 var updatedState = state
 
-                if (action.localParticipantRemoved) {
+                if (hasLocalParticipant) {
                     updatedState = updatedState.copy(
                         localParticipantInfoModel =
                         state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false)

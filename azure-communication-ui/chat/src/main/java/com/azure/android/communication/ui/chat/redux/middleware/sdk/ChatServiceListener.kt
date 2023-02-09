@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.ParticipantTimestampInfoModel
 import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
-import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
 import com.azure.android.communication.ui.chat.redux.Dispatch
 import com.azure.android.communication.ui.chat.redux.Store
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
@@ -160,11 +159,7 @@ internal class ChatServiceListener(
 
                         dispatch(
                             ParticipantAction.ParticipantsRemoved(
-                                participants = it.infoModel.participants,
-                                localParticipantRemoved = isLocalParticipantRemoved(
-                                    it.infoModel.participants,
-                                    localParticipantInfoModel
-                                )
+                                participants = it.infoModel.participants
                             )
                         )
                     }
@@ -173,10 +168,4 @@ internal class ChatServiceListener(
             }
         }
     }
-
-    private fun isLocalParticipantRemoved(
-        participants: List<RemoteParticipantInfoModel>,
-        localParticipantInfoModel: LocalParticipantInfoModel,
-    ) =
-        participants.any { it.userIdentifier.id == localParticipantInfoModel.userIdentifier }
 }
