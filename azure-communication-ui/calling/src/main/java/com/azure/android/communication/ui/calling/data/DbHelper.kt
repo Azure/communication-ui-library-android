@@ -11,6 +11,7 @@ import android.provider.BaseColumns
 internal class DbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CallHistoryContract.SQL_CREATE_CALL_HISTORY)
+        db.execSQL(CallHistoryContract.SQL_CREATE_CALL_HISTORY_INDEX)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -39,4 +40,7 @@ internal object CallHistoryContract {
             "$COLUMN_NAME_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
             "$COLUMN_NAME_CALL_ID TEXT NOT NULL," +
             "$COLUMN_NAME_CALL_DATE INTEGER NOT NULL)"
+
+    const val SQL_CREATE_CALL_HISTORY_INDEX =
+            "CREATE INDEX IF NOT EXISTS call_dateindex ON $TABLE_NAME($COLUMN_NAME_CALL_DATE);"
 }
