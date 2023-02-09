@@ -42,5 +42,5 @@ internal object CallHistoryContract {
             "$COLUMN_NAME_CALL_DATE INTEGER NOT NULL)"
 
     const val SQL_CREATE_CALL_HISTORY_INDEX =
-            "CREATE INDEX IF NOT EXISTS call_dateindex ON $TABLE_NAME($COLUMN_NAME_CALL_DATE);"
+        "CREATE INDEX IF NOT EXISTS call_dateindex ON $TABLE_NAME($COLUMN_NAME_CALL_DATE);"
 }
