@@ -7,13 +7,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.azure.android.communication.ui.calling.data.model.CallHistoryRecordData
+import com.azure.android.communication.ui.calling.logger.Logger
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
-import java.util.concurrent.Executors
 
 internal interface CallHistoryRepository {
     suspend fun insert(callId: String, callDateTime: OffsetDateTime)
@@ -21,13 +20,16 @@ internal interface CallHistoryRepository {
 }
 
 internal class CallHistoryRepositoryImpl(
-    private val context: Context
+    private val context: Context,
+    private val logger: Logger
 ) : CallHistoryRepository {
-    private val insetLock = Any()
 
     override suspend fun insert(callId: String, callDateTime: OffsetDateTime) {
-        return withContext(Executors.newSingleThreadExecutor().asCoroutineDispatcher()) {
-            synchronized(insetLock) {
+        return withContext(Dispatchers.IO) {
+            // SQLite does not allow concurrent writes. Need to queue them via lock.
+            synchronized(dbAccessLock) {
+                // Using a new db instance instead of caching one as we do not have a
+                // reliable event when to dispose it.
                 DbHelper(context).writableDatabase
                     .use { db ->
                         val values = ContentValues().apply {
@@ -35,9 +37,14 @@ internal class CallHistoryRepositoryImpl(
                             put(CallHistoryContract.COLUMN_NAME_CALL_DATE, callDateTime.toInstant().epochSecond)
                         }
 
-                        db.insert(CallHistoryContract.TABLE_NAME, null, values)
-                        cleanUpOldRecords(db)
-                        db.close()
+                        val result = db.insert(CallHistoryContract.TABLE_NAME, null, values)
+                        if (result == -1L) {
+                            logger.warning("Failed to save call history record.")
+                        }
+
+                        // Execute cleanup separately (not in one transaction) in case of it fails,
+                        // so it does not affect insert.
+                        cleanupOldRecords(db)
                     }
             }
         }
@@ -45,10 +52,15 @@ internal class CallHistoryRepositoryImpl(
 
     override suspend fun getAll(): List<CallHistoryRecordData> {
         return withContext(Dispatchers.IO) {
+            // Using a new db instance instead of caching one as we do not have a
+            // reliable event when to dispose it.
             DbHelper(context).writableDatabase.use { db ->
                 val items = mutableListOf<CallHistoryRecordData>()
                 db.rawQuery(
-                    "SELECT * FROM ${CallHistoryContract.TABLE_NAME} ORDER BY ${CallHistoryContract.COLUMN_NAME_CALL_DATE} ASC",
+                    "SELECT ${CallHistoryContract.COLUMN_NAME_ID}, " +
+                        "${CallHistoryContract.COLUMN_NAME_CALL_DATE}, " +
+                        "${CallHistoryContract.COLUMN_NAME_CALL_ID} " +
+                        "FROM ${CallHistoryContract.TABLE_NAME}",
                     null
                 ).use {
                     if (it.moveToFirst()) {
@@ -73,10 +85,16 @@ internal class CallHistoryRepositoryImpl(
         }
     }
 
-    private fun cleanUpOldRecords(db: SQLiteDatabase) {
+    private fun cleanupOldRecords(db: SQLiteDatabase) {
         val threshold = OffsetDateTime.now().minusDays(31).toInstant().epochSecond
-        val sql = "DELETE FROM ${CallHistoryContract.TABLE_NAME} " +
-            "WHERE ${CallHistoryContract.COLUMN_NAME_CALL_DATE} < $threshold"
-        db.execSQL(sql)
+
+        db.delete(
+            CallHistoryContract.TABLE_NAME,
+            "${CallHistoryContract.COLUMN_NAME_CALL_DATE} < ?", arrayOf(threshold.toString())
+        )
+    }
+
+    private companion object {
+        val dbAccessLock = Any()
     }
 }

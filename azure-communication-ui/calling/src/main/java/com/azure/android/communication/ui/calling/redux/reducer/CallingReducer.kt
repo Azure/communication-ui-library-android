@@ -23,7 +23,7 @@ internal class CallStateReducerImpl : CallStateReducer {
                 callingState.copy(isTranscribing = action.isTranscribing)
             }
             is CallingAction.CallStartRequested -> {
-                callingState.copy(joinCallIsRequested = true, callStartLocalDateTime = OffsetDateTime.now())
+                callingState.copy(joinCallIsRequested = true, callStartDateTime = OffsetDateTime.now())
             }
             is CallingAction.CallIdUpdated -> {
                 callingState.copy(callId = action.callId)

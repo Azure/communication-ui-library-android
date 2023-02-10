@@ -40,6 +40,6 @@ internal class CallingReducerUnitTest {
 
         // assert
         Assert.assertEquals(CallingStatus.NONE, newState.callingStatus)
-        Assert.assertNotNull(newState.callStartLocalDateTime)
+        Assert.assertNotNull(newState.callStartDateTime)
     }
 }

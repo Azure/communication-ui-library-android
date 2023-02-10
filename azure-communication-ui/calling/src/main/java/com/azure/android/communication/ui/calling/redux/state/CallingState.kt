@@ -26,7 +26,8 @@ internal data class CallingState(
     val joinCallIsRequested: Boolean = false,
     val isRecording: Boolean = false,
     val isTranscribing: Boolean = false,
-    val callStartLocalDateTime: OffsetDateTime? = null,
+    // set once for the duration of the call in the CallStateReducer when call start requested.
+    val callStartDateTime: OffsetDateTime? = null,
 )
 
 internal fun CallingState.isDisconnected() =

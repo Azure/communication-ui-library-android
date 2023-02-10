@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
@@ -169,7 +170,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val callHistoryRepository by lazy {
-        CallHistoryRepositoryImpl(applicationContext)
+        CallHistoryRepositoryImpl(applicationContext, logger)
     }
 
     //region Redux
@@ -213,7 +214,7 @@ internal class DependencyInjectionContainerImpl(
     //region System
     private val applicationContext get() = parentContext.applicationContext
 
-    override val logger by lazy { DefaultLogger() }
+    override val logger: Logger by lazy { DefaultLogger() }
 
     private val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK

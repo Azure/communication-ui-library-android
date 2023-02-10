@@ -10,7 +10,7 @@ import org.threeten.bp.OffsetDateTime;
  * Call history.
  */
 public class CallCompositeCallHistoryRecord {
-    private final  OffsetDateTime callStartedOn;
+    private final OffsetDateTime callStartedOn;
     private final List<String> callIds;
 
     CallCompositeCallHistoryRecord(final OffsetDateTime callStartedOn, final List<String> callIds) {

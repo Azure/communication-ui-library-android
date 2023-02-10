@@ -17,7 +17,7 @@ public final class CallCompositeDebugInfo {
     }
 
     /**
-     * Call history.
+     * Call history. Ordered ascending by call started date.
      * @return
      */
     public List<CallCompositeCallHistoryRecord> getCallHistoryRecords() {

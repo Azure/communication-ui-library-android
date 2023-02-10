@@ -30,7 +30,7 @@ internal class CallHistoryServiceImpl(
 
         coroutineScope.launch {
             callIdStateFlow.collect { callId ->
-                val callStartDateTime = store.getCurrentState().callState.callStartLocalDateTime
+                val callStartDateTime = store.getCurrentState().callState.callStartDateTime
                 if (callId != null && callStartDateTime != null) {
                     callHistoryRepository.insert(callId, callStartDateTime)
                 }

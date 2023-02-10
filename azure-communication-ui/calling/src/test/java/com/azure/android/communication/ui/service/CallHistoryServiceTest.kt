@@ -56,7 +56,7 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             // update state
             val appState2 = AppReduxState("")
             val callID = "callID"
-            appState2.callState = CallingState(CallingStatus.CONNECTING, callID, callStartLocalDateTime = OffsetDateTime.now())
+            appState2.callState = CallingState(CallingStatus.CONNECTING, callID, callStartDateTime = OffsetDateTime.now())
             stateFlow.value = appState2
 
             verify(callHistoryRepository, times(1)).insert(eq(callID), any())
