@@ -1,3 +1,5 @@
 # These owners will be the default owners for everything in
 # the repo. Unless a later match takes precedence
-* @Azure/acs-ui-android-reviewer-1 @Azure/acs-ui-android-reviewer-2 @Azure/acs-ui-android-reviewer-3 @Azure/acs-ui-ios-reviewer-1 @Azure/acs-ui-ios-reviewer-2 @Azure/acs-ui-ios-reviewer-3
+* @Azure/acs-ui-android-reviewer-1 @Azure/acs-ui-android-reviewer-2 @Azure/acs-ui-android-reviewer-3 
+
+/azure-communication-ui/chat/ @Azure/acs-ui-ios-reviewer-1 @Azure/acs-ui-ios-reviewer-2 @Azure/acs-ui-ios-reviewer-3
