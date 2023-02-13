@@ -1,3 +1,13 @@
+# Release History
+
+## 1.0.0-beta.2 (TBD)
+
+### Bugs Fixed
+- Fixed an issue where sendbox does not appear to have sufficient padding. [#714](https://github.com/Azure/communication-ui-library-android/pull/714)
+### Other Changes
+- Refactored the internal logic for local user removal scenarios. [#711](https://github.com/Azure/communication-ui-library-android/pull/711)
+
+
 ## 1.0.0-beta.1 (2023-01-10)
 
 This is the initial release of Azure Communication UI Chat Library. For more information, please see the [README][read_me] and [QuickStart][documentation].
