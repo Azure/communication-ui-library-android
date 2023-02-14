@@ -3,7 +3,7 @@
 ## 1.0.0-beta.2 (TBD)
 
 ### Bugs Fixed
-- Fixed an issue where sendbox does not appear to have sufficient padding. [#714](https://github.com/Azure/communication-ui-library-android/pull/714)
+- Fixed an issue in demo app where sendbox does not appear to have sufficient padding. [#714](https://github.com/Azure/communication-ui-library-android/pull/714)
 ### Other Changes
 - Refactored the internal logic for local user removal scenarios. [#711](https://github.com/Azure/communication-ui-library-android/pull/711)
 
