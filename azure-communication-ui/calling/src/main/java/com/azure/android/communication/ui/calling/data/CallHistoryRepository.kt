@@ -34,7 +34,7 @@ internal class CallHistoryRepositoryImpl(
                     .use { db ->
                         val values = ContentValues().apply {
                             put(CallHistoryContract.COLUMN_NAME_CALL_ID, callId)
-                            put(CallHistoryContract.COLUMN_NAME_CALL_DATE, callDateTime.toInstant().epochSecond)
+                            put(CallHistoryContract.COLUMN_NAME_CALL_DATE, callDateTime.toInstant().toEpochMilli())
                         }
 
                         val result = db.insert(CallHistoryContract.TABLE_NAME, null, values)
@@ -55,6 +55,7 @@ internal class CallHistoryRepositoryImpl(
             // Using a new db instance instead of caching one as we do not have a
             // reliable event when to dispose it.
             DbHelper(context).writableDatabase.use { db ->
+                cleanupOldRecords(db)
                 val items = mutableListOf<CallHistoryRecordData>()
                 db.rawQuery(
                     "SELECT ${CallHistoryContract.COLUMN_NAME_ID}, " +
@@ -73,7 +74,7 @@ internal class CallHistoryRepositoryImpl(
                                     id = it.getInt(idColumnIndex),
                                     callId = it.getString(nameColumnIndex),
                                     callStartedOn = OffsetDateTime.ofInstant(
-                                        Instant.ofEpochSecond(it.getLong(dateColumnIndex)), ZoneId.systemDefault()
+                                        Instant.ofEpochMilli(it.getLong(dateColumnIndex)), ZoneId.systemDefault()
                                     ),
                                 )
                             )
@@ -86,8 +87,7 @@ internal class CallHistoryRepositoryImpl(
     }
 
     private fun cleanupOldRecords(db: SQLiteDatabase) {
-        val threshold = OffsetDateTime.now().minusDays(31).toInstant().epochSecond
-
+        val threshold = OffsetDateTime.now().minusDays(31).toInstant().toEpochMilli()
         db.delete(
             CallHistoryContract.TABLE_NAME,
             "${CallHistoryContract.COLUMN_NAME_CALL_DATE} < ?", arrayOf(threshold.toString())
