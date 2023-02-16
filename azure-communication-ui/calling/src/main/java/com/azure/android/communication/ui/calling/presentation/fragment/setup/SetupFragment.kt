@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
+import com.azure.android.communication.ui.calling.utilities.GetLogFileUtils
 
 internal class SetupFragment :
     Fragment(R.layout.azure_communication_ui_calling_fragment_setup), BackNavigation {
@@ -42,6 +43,7 @@ internal class SetupFragment :
     private lateinit var setupGradientView: SetupGradientView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
+    private lateinit var getLogFileUtils: GetLogFileUtils
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
@@ -53,6 +55,9 @@ internal class SetupFragment :
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
         setActionBarTitle()
+
+        getLogFileUtils = GetLogFileUtils()
+        getLogFileUtils.readBlogFile()
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
