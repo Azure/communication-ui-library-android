@@ -6,7 +6,7 @@ import org.junit.Test
 
 internal class DiagnosticConfigUnitTests {
     private val expectedPrefix = "aca110/"
-    private val expectedVersion = "${expectedPrefix}1.2.0-beta.2"
+    private val expectedVersion = "${expectedPrefix}1.2.0"
 
     @Test
     fun test_Expected_Tag() {
