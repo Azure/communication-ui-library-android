@@ -60,7 +60,8 @@ internal class SetupControlBarView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getIsVisibleState().collect { visible ->
-                visibility = if (visible) VISIBLE else INVISIBLE
+                cameraButton.visibility = if (visible) VISIBLE else GONE
+                micButton.visibility = if (visible) VISIBLE else GONE
             }
         }
 

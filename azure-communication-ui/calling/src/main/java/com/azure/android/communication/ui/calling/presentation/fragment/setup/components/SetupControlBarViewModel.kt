@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.redux.state.isDisconnected
+import com.azure.android.communication.ui.calling.redux.state.*
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.isDisconnected
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,13 +34,14 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
 
     fun init(
+        privilegeState: PrivilegeState,
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
         callingState: CallingState,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
     ) {
-        visibleStateFlow = MutableStateFlow(isVisible(permissionState.audioPermissionState))
+        visibleStateFlow = MutableStateFlow(isVisible(privilegeState, permissionState.audioPermissionState))
         cameraIsEnabledStateFlow = MutableStateFlow(permissionState.cameraPermissionState != PermissionStatus.DENIED)
         micIsEnabledStateFlow = MutableStateFlow(isMicEnabled(callingState, audioState.operation))
         deviceIsEnabledStateFlow = MutableStateFlow(!isControlsDisabled(callingState))
@@ -50,18 +52,21 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         callingStatusStateFlow = MutableStateFlow(callingState.callingStatus)
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState)
 
-        if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
+        if (privilegeState.canUseMicrophone &&
+            permissionState.audioPermissionState == PermissionStatus.NOT_ASKED
+        ) {
             requestAudioPermission()
         }
     }
 
     fun update(
+        privilegeState: PrivilegeState,
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
         callingState: CallingState,
     ) {
-        visibleStateFlow.value = isVisible(permissionState.audioPermissionState)
+        visibleStateFlow.value = isVisible(privilegeState, permissionState.audioPermissionState)
         cameraIsEnabledStateFlow.value = isCameraEnabled(callingState, permissionState.cameraPermissionState)
         micIsEnabledStateFlow.value = isMicEnabled(callingState, audioState.operation)
         deviceIsEnabledStateFlow.value = !isControlsDisabled(callingState)
@@ -72,8 +77,8 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         callingStatusStateFlow.value = callingState.callingStatus
     }
 
-    private fun isVisible(audioPermissionState: PermissionStatus): Boolean {
-        return audioPermissionState != PermissionStatus.DENIED
+    private fun isVisible(privilegeState: PrivilegeState, audioPermissionState: PermissionStatus): Boolean {
+        return privilegeState.canUseCamera && privilegeState.canUseMicrophone && audioPermissionState != PermissionStatus.DENIED
     }
 
     fun getCameraIsEnabled(): StateFlow<Boolean> = cameraIsEnabledStateFlow

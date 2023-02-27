@@ -19,6 +19,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
@@ -235,15 +237,22 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
+        String roomId = null;
+        CallCompositeRoomRole roomRole = null;
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-        } else {
+        } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+        } else {
+            callType = CallType.ROOMS_CALL;
+            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
+            roomId = roomLocator.getRoomId();
+            roomRole = roomLocator.getRole();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -251,6 +260,8 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
+                roomId,
+                roomRole,
                 callType));
 
         if (localOptions != null) {

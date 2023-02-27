@@ -45,6 +45,7 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
         )
         setupControlsViewModel.init(
+            state.privilegeState,
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
@@ -64,6 +65,7 @@ internal class SetupViewModel(
             state.permissionState,
         )
         joinCallButtonHolderViewModel.init(
+            state.privilegeState,
             state.permissionState.audioPermissionState,
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
@@ -75,6 +77,7 @@ internal class SetupViewModel(
 
     override suspend fun onStateChange(state: ReduxState) {
         setupControlsViewModel.update(
+            state.privilegeState,
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
@@ -100,6 +103,7 @@ internal class SetupViewModel(
             state.permissionState
         )
         joinCallButtonHolderViewModel.update(
+            state.privilegeState,
             state.permissionState.audioPermissionState,
             state.callState,
             state.permissionState.cameraPermissionState,

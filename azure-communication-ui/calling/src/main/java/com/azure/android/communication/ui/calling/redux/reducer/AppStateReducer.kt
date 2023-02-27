@@ -11,6 +11,7 @@ internal class AppStateReducer(
     private val participantStateReducer: ParticipantStateReducer,
     private val deviceStateReducer: LocalParticipantStateReducer,
     private val permissionStateReducer: PermissionStateReducer,
+    private val privilegeStateReducer: PrivilegeStateReducer,
     private val lifecycleReducer: LifecycleReducer,
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
@@ -19,7 +20,7 @@ internal class AppStateReducer(
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
 
-        val appState = AppReduxState(state.localParticipantState.displayName)
+        val appState = AppReduxState()
 
         appState.callState = callStateReducer.reduce(
             state.callState,
@@ -37,6 +38,7 @@ internal class AppStateReducer(
         )
 
         appState.permissionState = permissionStateReducer.reduce(state.permissionState, action)
+        appState.privilegeState = privilegeStateReducer.reduce(state.privilegeState, action)
         appState.lifecycleState = lifecycleReducer.reduce(state.lifecycleState, action)
         appState.errorState = errorReducer.reduce(state.errorState, action)
         appState.navigationState = navigationReducer.reduce(state.navigationState, action)

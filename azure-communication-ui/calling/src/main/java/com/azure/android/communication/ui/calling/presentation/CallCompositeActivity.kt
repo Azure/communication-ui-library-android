@@ -52,6 +52,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val store get() = container.appStore
     private val configuration get() = container.configuration
     private val permissionManager get() = container.permissionManager
+    private val privilegeManager get() = container.privilegeManager
     private val audioSessionManager get() = container.audioSessionManager
     private val audioFocusManager get() = container.audioFocusManager
     private val lifecycleManager get() = container.lifecycleManager
@@ -118,6 +119,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         diagnosticsService.start(lifecycleScope)
+
+        privilegeManager.start(lifecycleScope)
     }
 
     override fun onStart() {

@@ -8,6 +8,7 @@ internal interface ReduxState {
     var remoteParticipantState: RemoteParticipantsState
     var localParticipantState: LocalUserState
     var permissionState: PermissionState
+    var privilegeState: PrivilegeState
     var lifecycleState: LifecycleState
     var errorState: ErrorState
     var navigationState: NavigationState

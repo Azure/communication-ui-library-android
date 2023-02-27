@@ -17,12 +17,15 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
 import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
+import com.azure.android.communication.ui.calling.presentation.manager.PrivilegeManager
 import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
 
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
@@ -30,6 +33,9 @@ import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
+import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
@@ -39,12 +45,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipant
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.PrivilegeStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
@@ -88,6 +90,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val permissionManager by lazy {
         PermissionManager(appStore)
+    }
+
+    override val privilegeManager by lazy {
+        PrivilegeManager(appStore)
     }
 
     override val audioSessionManager by lazy {
@@ -160,13 +166,19 @@ internal class DependencyInjectionContainerImpl(
 
     //region Redux
     // Initial State
-    private val initialState by lazy { AppReduxState(configuration.callConfig?.displayName) }
+    private val initialState by lazy {
+        AppReduxState(
+            displayName = configuration.callConfig?.displayName,
+            roomRole = configuration.callConfig?.initialRoomRole,
+        )
+    }
 
     // Reducers
     private val callStateReducer get() = CallStateReducerImpl()
     private val participantStateReducer = ParticipantStateReducerImpl()
     private val localParticipantStateReducer get() = LocalParticipantStateReducerImpl()
     private val permissionStateReducer get() = PermissionStateReducerImpl()
+    private val privilegeStateReducer get() = PrivilegeStateReducerImpl()
     private val lifecycleReducer get() = LifecycleReducerImpl()
     private val errorReducer get() = ErrorReducerImpl()
     private val navigationReducer get() = NavigationReducerImpl()
@@ -188,6 +200,7 @@ internal class DependencyInjectionContainerImpl(
             participantStateReducer,
             localParticipantStateReducer,
             permissionStateReducer,
+            privilegeStateReducer,
             lifecycleReducer,
             errorReducer,
             navigationReducer,

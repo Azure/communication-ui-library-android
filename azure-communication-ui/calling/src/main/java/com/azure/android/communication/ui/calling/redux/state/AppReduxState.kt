@@ -3,9 +3,13 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
-internal class AppReduxState(displayName: String?) : ReduxState {
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole
 
-    override var callState: CallingState = CallingState(CallingStatus.NONE)
+internal class AppReduxState(
+    displayName: String? = null,
+    roomRole: CallCompositeRoomRole? = null,
+) : ReduxState {
+    override var callState: CallingState = CallingState(callingStatus = CallingStatus.NONE, roomRole = roomRole)
 
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
         HashMap(), 0
@@ -32,6 +36,8 @@ internal class AppReduxState(displayName: String?) : ReduxState {
 
     override var permissionState: PermissionState =
         PermissionState(PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN)
+
+    override var privilegeState: PrivilegeState = PrivilegeState(canUseCamera = true, canUseMicrophone = true)
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 
