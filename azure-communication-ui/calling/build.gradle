@@ -99,12 +99,16 @@ dependencies {
     implementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_transients:$microsoft_fluent_ui_version"
 
+    api 'com.jakewharton.threetenabp:threetenabp:1.4.4'
+
     testImplementation "androidx.arch.core:core-testing:$androidx_core_testing_version"
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$jetbrains_kotlinx_coroutines_test_version"
-
+    testImplementation('org.threeten:threetenbp:1.6.5') {
+        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
+    }
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"

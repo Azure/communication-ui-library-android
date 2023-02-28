@@ -61,7 +61,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
-    private val diagnosticsService get() = container.debugInfoManager
+    private val callHistoryService get() = container.callHistoryService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +117,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
 
         notificationService.start(lifecycleScope)
-        diagnosticsService.start(lifecycleScope)
+        callHistoryService.start(lifecycleScope)
     }
 
     override fun onStart() {

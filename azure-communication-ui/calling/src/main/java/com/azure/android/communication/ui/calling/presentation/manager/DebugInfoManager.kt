@@ -3,35 +3,40 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
+import com.azure.android.communication.ui.calling.data.CallHistoryRepository
+import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo
 import com.azure.android.communication.ui.calling.models.buildCallCompositeDebugInfo
-import com.azure.android.communication.ui.calling.models.setCallId
-import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import com.azure.android.communication.ui.calling.models.buildCallHistoryRecord
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 internal interface DebugInfoManager {
-    fun start(coroutineScope: CoroutineScope)
-    val debugInfo: CallCompositeDebugInfo
+    fun getDebugInfo(): CallCompositeDebugInfo
 }
 
 internal class DebugInfoManagerImpl(
-    private val store: Store<ReduxState>,
+    private val callHistoryRepository: CallHistoryRepository,
 ) : DebugInfoManager {
 
-    override var debugInfo = buildCallCompositeDebugInfo()
-
-    override fun start(coroutineScope: CoroutineScope) {
-        coroutineScope.launch {
-            store.getStateFlow().collect {
-                if (!it.callState.callId.isNullOrEmpty()) {
-                    val newDebugInfo = buildCallCompositeDebugInfo()
-                    newDebugInfo.setCallId(it.callState.callId)
-                    debugInfo = newDebugInfo
-                }
-            }
+    override fun getDebugInfo(): CallCompositeDebugInfo {
+        val callHistory = runBlocking {
+            withContext(Dispatchers.IO) { getCallHistory() }
         }
+        return buildCallCompositeDebugInfo(callHistory)
+    }
+
+    private suspend fun getCallHistory(): List<CallCompositeCallHistoryRecord> {
+        return callHistoryRepository.getAll()
+            .groupBy {
+                it.callStartedOn
+            }
+            .map { mapped ->
+                buildCallHistoryRecord(mapped.key, mapped.value.map { it.callId })
+            }
+            .sortedBy {
+                it.callStartedOn
+            }
     }
 }

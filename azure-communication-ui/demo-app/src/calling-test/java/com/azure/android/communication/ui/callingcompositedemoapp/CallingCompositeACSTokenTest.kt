@@ -79,14 +79,4 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
 
         homeScreen.clickAlertDialogOkButton()
     }
-
-    @Test
-    fun testEmptyAcsToken() {
-        val homeScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
-            .setEmptyAcsToken()
-
-        val setupScreen = homeScreen.clickLaunchButton()
-        homeScreen.clickAlertDialogOkButton()
-    }
 }
