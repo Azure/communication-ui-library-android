@@ -55,7 +55,9 @@ internal class CallHistoryRepositoryImpl(
             // Using a new db instance instead of caching one as we do not have a
             // reliable event when to dispose it.
             DbHelper(context).writableDatabase.use { db ->
-                cleanupOldRecords(db)
+                synchronized(dbAccessLock) {
+                    cleanupOldRecords(db)
+                }
                 val items = mutableListOf<CallHistoryRecordData>()
                 db.rawQuery(
                     "SELECT ${CallHistoryContract.COLUMN_NAME_ID}, " +
