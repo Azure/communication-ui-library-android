@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import android.util.Log
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
@@ -26,7 +27,8 @@ internal class CallingViewModel(
     val audioDeviceListViewModel = callingViewModelProvider.audioDeviceListViewModel
     val participantListViewModel = callingViewModelProvider.participantListViewModel
     val bannerViewModel = callingViewModelProvider.bannerViewModel
-    val lobbyOverlayViewModel = callingViewModelProvider.lobbyOverlayViewModel
+    val waitingLobbyOverlayViewModel = callingViewModelProvider.waitingLobbyOverlayViewModel
+    val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
 
@@ -40,7 +42,7 @@ internal class CallingViewModel(
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
-
+        Log.d("Mohtasim", "Calling screen:: state: ${state.callState.callingStatus}")
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
@@ -76,7 +78,10 @@ internal class CallingViewModel(
             state.localParticipantState
         )
 
-        lobbyOverlayViewModel.init(state.callState.callingStatus)
+        Log.d("Mohtasim", "CallingState = ${state.callState.callingStatus.name}")
+        waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
+        connectingLobbyOverlayViewModel.init(state.callState.callingStatus)
+
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
@@ -85,7 +90,7 @@ internal class CallingViewModel(
     }
 
     override suspend fun onStateChange(state: ReduxState) {
-
+        Log.d("Mohtasim", "Calling screen:: state: ${state.callState.callingStatus}")
         if (state.lifecycleState.state == LifecycleStatus.BACKGROUND) {
             participantGridViewModel.clear()
             localParticipantViewModel.clear()
@@ -113,7 +118,9 @@ internal class CallingViewModel(
             state.localParticipantState.audioState,
         )
 
-        lobbyOverlayViewModel.update(state.callState.callingStatus)
+        Log.d("Mohtasim", "CallingState = ${state.callState.callingStatus.name}")
+        waitingLobbyOverlayViewModel.update(state.callState.callingStatus)
+        connectingLobbyOverlayViewModel.update(state.callState.callingStatus)
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)

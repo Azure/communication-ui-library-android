@@ -25,7 +25,7 @@ internal class SetupViewModelFactory(
         PreviewAreaViewModel(store::dispatch)
     }
 
-    val setupControlsViewModel by lazy {
+    val setupControlBarViewModel by lazy {
         SetupControlBarViewModel(store::dispatch)
     }
 
