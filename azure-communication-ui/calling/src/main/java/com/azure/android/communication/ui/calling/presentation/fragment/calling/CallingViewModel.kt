@@ -7,10 +7,17 @@ import android.util.Log
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 internal class CallingViewModel(
     store: Store<ReduxState>,
@@ -31,18 +38,41 @@ internal class CallingViewModel(
     val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
+    val singleThreadedContext = newSingleThreadContext("SingleThreadedContext")
+    var track = false
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
     }
 
     fun requestCallEnd() {
+        // drop connecting overlay as well.
         confirmLeaveOverlayViewModel.requestExitConfirmation()
+    }
+
+    fun exitComposite() {
+        dispatchAction(action = NavigationAction.Exit())
     }
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
+
+        defaultCallInit()
+        if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+            runBlocking {
+                withContext(singleThreadedContext) {
+                    track = false
+                }
+            }
+        }
+
+        super.init(coroutineScope)
+    }
+
+    private fun defaultCallInit() {
+        val state = store.getCurrentState()
         Log.d("Mohtasim", "Calling screen:: state: ${state.callState.callingStatus}")
+
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
@@ -78,19 +108,46 @@ internal class CallingViewModel(
             state.localParticipantState
         )
 
-        Log.d("Mohtasim", "CallingState = ${state.callState.callingStatus.name}")
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
-        connectingLobbyOverlayViewModel.init(state.callState.callingStatus)
-
+        connectingLobbyOverlayViewModel.init(
+            state.callState.callingStatus,
+            state.permissionState
+        )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
-
-        super.init(coroutineScope)
     }
 
     override suspend fun onStateChange(state: ReduxState) {
-        Log.d("Mohtasim", "Calling screen:: state: ${state.callState.callingStatus}")
+
+        if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+
+            if (state.permissionState.audioPermissionState == PermissionStatus.GRANTED) {
+
+                if (state.callState.callingStatus == CallingStatus.CONNECTED) {
+                    defaultCallingStateChange(state)
+                } else if (!track && state.callState.callingStatus == CallingStatus.NONE) {
+                    runBlocking {
+                        withContext(singleThreadedContext) {
+                            track = true
+                            dispatchAction(action = CallingAction.CallStartRequested())
+                        }
+                    }
+                }
+
+            } else if (state.permissionState.audioPermissionState == PermissionStatus.DENIED) {
+                exitComposite()
+            } else {
+                Log.d("Mohtasim", "onStateChange:: Case for ambigiuos permission state")
+            }
+        } else {
+            defaultCallingStateChange(state)
+        }
+
+    }
+
+    private fun defaultCallingStateChange(state: ReduxState) {
+
         if (state.lifecycleState.state == LifecycleStatus.BACKGROUND) {
             participantGridViewModel.clear()
             localParticipantViewModel.clear()
@@ -118,7 +175,6 @@ internal class CallingViewModel(
             state.localParticipantState.audioState,
         )
 
-        Log.d("Mohtasim", "CallingState = ${state.callState.callingStatus.name}")
         waitingLobbyOverlayViewModel.update(state.callState.callingStatus)
         connectingLobbyOverlayViewModel.update(state.callState.callingStatus)
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
@@ -175,4 +231,25 @@ internal class CallingViewModel(
         bannerViewModel.updateIsOverlayDisplayed(callingStatus)
         localParticipantViewModel.updateIsOverlayDisplayed(callingStatus)
     }
+
+    private fun hasSkippedSetupScreenWithAudioGranted(state: ReduxState) = (
+                state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+                    state.permissionState.audioPermissionState == PermissionStatus.GRANTED
+            )
+
+
+    private fun hasSkippedSetupScreenWithAudioDenied(state: ReduxState) = (
+                state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+                    state.permissionState.audioPermissionState == PermissionStatus.DENIED
+            )
+
+    private fun hasSkippedSetupScreenWithAudioRequesting(state: ReduxState) = (
+                state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+                    state.permissionState.audioPermissionState == PermissionStatus.REQUESTING
+            )
+
+    private fun shouldRequestForCallJoin(state: ReduxState) = (
+                hasSkippedSetupScreenWithAudioGranted(state) &&
+                    state.callState.callingStatus == CallingStatus.NONE
+            )
 }

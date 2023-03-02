@@ -25,7 +25,7 @@ internal class CallingViewModelFactory(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager
-) {
+) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(debugInfoManager)
@@ -71,6 +71,7 @@ internal class CallingViewModelFactory(
 
     val connectingLobbyOverlayViewModel by lazy {
         ConnectingLobbyOverlayViewModel()
+        ConnectingLobbyOverlayViewModel(store::dispatch)
     }
 
     val onHoldOverlayViewModel by lazy {

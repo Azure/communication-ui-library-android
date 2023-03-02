@@ -36,8 +36,7 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
 
         waitingIcon.contentDescription = "waiting to be connected!!"
         overlayTitle.text = "Waiting to be connected!!"
-
-        overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_lobby_view_text_waiting_details)
+        overlayInfo.text = "Please wait .. it is connecting..."
     }
 
     fun start(

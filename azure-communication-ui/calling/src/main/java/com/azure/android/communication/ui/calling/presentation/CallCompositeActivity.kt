@@ -30,7 +30,12 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.Se
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+<<<<<<< HEAD
+=======
+import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+>>>>>>> 1c5f6d20 (Navigation flow, Permission control implemented)
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
@@ -232,14 +237,16 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
             NavigationStatus.NONE -> {
+                Log.d("Mohtasim", "NAVIGATION:: NONE")
                 if (localOptions?.skipSetup == true) {
                     Log.d("Mohtasim", "Skip setup screen")
-
+                    store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
                 } else {
                     store.dispatch(action = NavigationAction.SetupLaunched())
                 }
             }
             NavigationStatus.EXIT -> {
+                Log.d("Mohtasim", "NAVIGATION:: EXIT")
                 notificationService.removeNotification()
                 store.end()
                 callingMiddlewareActionHandler.dispose()
@@ -247,12 +254,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 finish()
             }
             NavigationStatus.IN_CALL -> {
+                Log.d("Mohtasim", "NAVIGATION:: IN-CALL")
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
+                Log.d("Mohtasim", "NAVIGATION:: SETUP")
                 notificationService.removeNotification()
                 supportActionBar?.show()
                 requestedOrientation = if (isAndroidTV(this)) {

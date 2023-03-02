@@ -16,7 +16,8 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
-) {
+) : BaseViewModelFactory(store) {
+
     val audioDeviceListViewModel by lazy {
         AudioDeviceListViewModel(store::dispatch)
     }
@@ -27,10 +28,6 @@ internal class SetupViewModelFactory(
 
     val setupControlBarViewModel by lazy {
         SetupControlBarViewModel(store::dispatch)
-    }
-
-    val warningsViewModel by lazy {
-        PermissionWarningViewModel(store::dispatch)
     }
 
     val snackBarViewModel by lazy {

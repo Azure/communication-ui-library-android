@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
+import android.util.Log
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
@@ -15,10 +16,12 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+import com.azure.android.communication.ui.calling.redux.state.*
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
@@ -196,7 +199,11 @@ internal class CallingMiddlewareActionHandlerImpl(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
+            } else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN){
+                Log.i("communication.ui", "bypass setup worked")
+                store.dispatch(NavigationAction.CallLaunched())
             }
+
         }
     }
 

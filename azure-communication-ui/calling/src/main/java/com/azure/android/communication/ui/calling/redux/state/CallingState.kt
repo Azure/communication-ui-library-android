@@ -26,6 +26,7 @@ internal enum class OperationStatus {
 
 internal data class CallingState(
     val callingStatus: CallingStatus,
+    val operationStatus: OperationStatus,
     var callId: String? = null,
     // due to the async nature of the CallingStatus update we need to indicate joining call
     // until we receive CallingStatus.CONNECTING from the SDK.
