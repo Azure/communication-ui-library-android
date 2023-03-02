@@ -124,9 +124,7 @@ internal class CallingViewModel(
 
             if (state.permissionState.audioPermissionState == PermissionStatus.GRANTED) {
 
-                if (state.callState.callingStatus == CallingStatus.CONNECTED) {
-                    defaultCallingStateChange(state)
-                } else if (!track && state.callState.callingStatus == CallingStatus.NONE) {
+                if (!track && state.callState.callingStatus == CallingStatus.NONE) {
                     runBlocking {
                         withContext(singleThreadedContext) {
                             track = true
@@ -134,6 +132,7 @@ internal class CallingViewModel(
                         }
                     }
                 }
+                defaultCallingStateChange(state)
 
             } else if (state.permissionState.audioPermissionState == PermissionStatus.DENIED) {
                 exitComposite()
@@ -237,19 +236,4 @@ internal class CallingViewModel(
                     state.permissionState.audioPermissionState == PermissionStatus.GRANTED
             )
 
-
-    private fun hasSkippedSetupScreenWithAudioDenied(state: ReduxState) = (
-                state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-                    state.permissionState.audioPermissionState == PermissionStatus.DENIED
-            )
-
-    private fun hasSkippedSetupScreenWithAudioRequesting(state: ReduxState) = (
-                state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-                    state.permissionState.audioPermissionState == PermissionStatus.REQUESTING
-            )
-
-    private fun shouldRequestForCallJoin(state: ReduxState) = (
-                hasSkippedSetupScreenWithAudioGranted(state) &&
-                    state.callState.callingStatus == CallingStatus.NONE
-            )
 }

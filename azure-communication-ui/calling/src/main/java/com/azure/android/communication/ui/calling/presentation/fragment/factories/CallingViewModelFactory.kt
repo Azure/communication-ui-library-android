@@ -70,7 +70,6 @@ internal class CallingViewModelFactory(
     }
 
     val connectingLobbyOverlayViewModel by lazy {
-        ConnectingLobbyOverlayViewModel()
         ConnectingLobbyOverlayViewModel(store::dispatch)
     }
 
