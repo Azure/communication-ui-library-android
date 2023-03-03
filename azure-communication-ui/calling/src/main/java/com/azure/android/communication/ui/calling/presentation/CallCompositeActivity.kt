@@ -220,12 +220,19 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.first()
-        if (fragment !== null) {
-            (fragment as BackNavigation).onBackPressed()
+
+        if (!supportFragmentManager.fragments.isEmpty()) {
+            val fragment = supportFragmentManager.fragments.first()
+            if (fragment !== null) {
+                (fragment as BackNavigation).onBackPressed()
+            } else {
+                super.onBackPressed()
+            }
         } else {
             super.onBackPressed()
         }
+
+
     }
 
     @SuppressLint("SourceLockedOrientationActivity", "RestrictedApi")
@@ -235,7 +242,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 Log.d("Mohtasim", "NAVIGATION:: NONE")
                 if (localOptions?.skipSetup == true) {
                     Log.d("Mohtasim", "Skip setup screen")
-                    store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
+
+                    if (container.networkManager.isNetworkConnectionAvailable()) {
+                        store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
+                    } else {
+                        store.dispatch(action = NavigationAction.Exit())
+                    }
+
                 } else {
                     store.dispatch(action = NavigationAction.SetupLaunched())
                 }

@@ -39,7 +39,7 @@ public final class CallCompositeLocalOptions {
 
     private Boolean microphoneOnByDefault = false;
 
-    private Boolean skipSetup = false;
+    private Boolean skipSetup = true;
 
 
     /**

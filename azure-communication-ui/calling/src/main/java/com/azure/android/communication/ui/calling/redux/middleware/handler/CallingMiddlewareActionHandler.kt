@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
-import android.util.Log
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
@@ -54,7 +53,7 @@ internal interface CallingMiddlewareActionHandler {
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
-    coroutineContextProvider: CoroutineContextProvider,
+    coroutineContextProvider: CoroutineContextProvider
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -199,7 +198,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                     )
                 )
             } else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-                Log.i("communication.ui", "bypass setup worked")
                 store.dispatch(NavigationAction.CallLaunched())
             }
         }
@@ -369,7 +367,11 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (it.callCompositeEventCode == CallCompositeEventCode.CALL_EVICTED ||
                         it.callCompositeEventCode == CallCompositeEventCode.CALL_DECLINED
                     ) {
-                        store.dispatch(NavigationAction.SetupLaunched())
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                            store.dispatch(NavigationAction.Exit())
+                        } else {
+                            store.dispatch(NavigationAction.SetupLaunched())
+                        }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
                         it.errorCode == ErrorCode.CALL_JOIN_FAILED
                     ) {
@@ -377,7 +379,11 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        store.dispatch(NavigationAction.SetupLaunched())
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                            store.dispatch(NavigationAction.Exit())
+                        } else {
+                            store.dispatch(NavigationAction.SetupLaunched())
+                        }
                     }
                 }
 
