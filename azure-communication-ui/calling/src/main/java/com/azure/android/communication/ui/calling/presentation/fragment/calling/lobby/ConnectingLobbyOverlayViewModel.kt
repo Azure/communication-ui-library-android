@@ -43,6 +43,5 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
 
     private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
         (callingStatus == CallingStatus.NONE) ||
-        (callingStatus == CallingStatus.CONNECTING)
-
+            (callingStatus == CallingStatus.CONNECTING)
 }

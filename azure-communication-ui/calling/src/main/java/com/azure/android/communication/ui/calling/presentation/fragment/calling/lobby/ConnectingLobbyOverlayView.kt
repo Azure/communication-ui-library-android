@@ -64,5 +64,4 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
             }
         )
     }
-
 }

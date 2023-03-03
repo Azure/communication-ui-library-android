@@ -29,7 +29,7 @@ internal class CallStateReducerImpl : CallStateReducer {
             is CallingAction.CallIdUpdated -> {
                 callingState.copy(callId = action.callId)
             }
-            is CallingAction.CallRequestedWithoutSetup ->  {
+            is CallingAction.CallRequestedWithoutSetup -> {
                 callingState.copy(operationStatus = OperationStatus.SKIP_SETUP_SCREEN)
             }
             else -> callingState

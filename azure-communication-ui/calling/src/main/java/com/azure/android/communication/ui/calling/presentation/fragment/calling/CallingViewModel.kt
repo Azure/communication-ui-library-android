@@ -133,7 +133,6 @@ internal class CallingViewModel(
                     }
                 }
                 defaultCallingStateChange(state)
-
             } else if (state.permissionState.audioPermissionState == PermissionStatus.DENIED) {
                 exitComposite()
             } else {
@@ -142,7 +141,6 @@ internal class CallingViewModel(
         } else {
             defaultCallingStateChange(state)
         }
-
     }
 
     private fun defaultCallingStateChange(state: ReduxState) {
@@ -232,8 +230,7 @@ internal class CallingViewModel(
     }
 
     private fun hasSkippedSetupScreenWithAudioGranted(state: ReduxState) = (
-                state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-                    state.permissionState.audioPermissionState == PermissionStatus.GRANTED
-            )
-
+        state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+            state.permissionState.audioPermissionState == PermissionStatus.GRANTED
+        )
 }

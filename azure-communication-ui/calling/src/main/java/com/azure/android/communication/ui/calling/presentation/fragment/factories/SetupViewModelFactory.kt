@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientViewModel
