@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -20,23 +22,20 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    private lateinit var waitingIcon: ImageView
-    private lateinit var overlayTitle: TextView
-    private lateinit var overlayInfo: TextView
+    private lateinit var connectingProgressBar: ProgressBar
+    private lateinit var overlayInfo: AppCompatTextView
     private lateinit var viewModel: ConnectingLobbyOverlayViewModel
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        waitingIcon = findViewById(R.id.azure_communication_ui_call_connecting_overlay_wait_for_host_image)
-        overlayTitle = findViewById(R.id.azure_communication_ui_call_connecting_lobby_overlay_title)
-        overlayInfo = findViewById(R.id.azure_communication_ui_call_connecting_lobby_overlay_info)
+        connectingProgressBar = findViewById(R.id.azure_communication_ui_call_connecting_progress_bar)
+        overlayInfo = findViewById(R.id.azure_communication_ui_call_connecting_joining_text)
     }
 
     private fun setupUi() {
 
-        waitingIcon.contentDescription = "waiting to be connected!!"
-        overlayTitle.text = "Waiting to be connected!!"
-        overlayInfo.text = "Please wait .. it is connecting..."
+        connectingProgressBar.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
+        overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
     }
 
     fun start(
@@ -49,7 +48,6 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
-                Log.d("Mohtasim", "Connecting:: visibility " + it.toString())
             }
         }
 

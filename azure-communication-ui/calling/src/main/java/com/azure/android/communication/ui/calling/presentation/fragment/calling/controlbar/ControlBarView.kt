@@ -16,8 +16,10 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.redux.state.*
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
@@ -90,6 +92,21 @@ internal class ControlBarView : ConstraintLayout {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCallStateFlow().collect() {
+                if(it == CallingStatus.NONE || it == CallingStatus.CONNECTING) {
+                    cameraToggle.isEnabled = false
+                    micToggle.isEnabled = false
+                    callAudioDeviceButton.isEnabled = false
+                    moreButton.isEnabled = false
+                } else {
+                    updateCamera(viewModel.getCameraStateFlow().value)
+                    micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
+                    callAudioDeviceButton.isEnabled = true
+                }
+            }
+        }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
@@ -135,6 +152,9 @@ internal class ControlBarView : ConstraintLayout {
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
+
+
+
         val permissionIsNotDenied = cameraState.cameraPermissionState != PermissionStatus.DENIED
 
         when (cameraState.cameraState.operation) {

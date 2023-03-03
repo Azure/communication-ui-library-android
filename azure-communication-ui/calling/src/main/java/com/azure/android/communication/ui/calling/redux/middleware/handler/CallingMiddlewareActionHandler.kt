@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
+import android.util.Log
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
@@ -192,12 +193,14 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun setupCall(store: Store<ReduxState>) {
         callingService.setupCall().handle { _, error: Throwable? ->
             if (error != null) {
+                Log.d("Mohtasim", "callsetup had error")
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
             } else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+               Log.d("Mohtasim", "call launched from skip setup screen")
                 store.dispatch(NavigationAction.CallLaunched())
             }
         }
