@@ -41,4 +41,6 @@
     <string name="remote_participant_inject_avatar">Inject avatar\'s</string>
     <string name="call_title">Call title</string>
     <string name="call_subtitle">Call subtitle</string>
+    <string name="skip_setup_screen_option">Skip Setup Screen Option</string>
+    <string name="skip_setup_screen">Skip Setup Screen</string>
 </resources>

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
-import android.util.Log
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
@@ -41,7 +40,7 @@ internal class SetupViewModel(
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
-        Log.d("Mohtasim", "Setup screen:: state: ${state.callState.callingStatus}")
+
         warningsViewModel.init(state.permissionState)
         localParticipantRendererViewModel.init(
             state.localParticipantState.videoStreamID,
@@ -77,7 +76,6 @@ internal class SetupViewModel(
 
     override suspend fun onStateChange(state: ReduxState) {
 
-        Log.d("Mohtasim", "Setup screen:: state: ${state.callState.callingStatus}")
         setupControlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,

@@ -71,7 +71,6 @@ internal class CallingViewModel(
 
     private fun defaultCallInit() {
         val state = store.getCurrentState()
-        Log.d("Mohtasim", "Calling screen:: state: ${state.callState.callingStatus}")
 
         controlBarViewModel.init(
             state.permissionState,

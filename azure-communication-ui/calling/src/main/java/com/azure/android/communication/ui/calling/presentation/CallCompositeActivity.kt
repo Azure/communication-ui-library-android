@@ -242,13 +242,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 Log.d("Mohtasim", "NAVIGATION:: NONE")
                 if (localOptions?.skipSetup == true) {
                     Log.d("Mohtasim", "Skip setup screen")
-
-                    if (container.networkManager.isNetworkConnectionAvailable()) {
-                        store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
-                    } else {
-                        store.dispatch(action = NavigationAction.Exit())
-                    }
-
+                    store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
                 } else {
                     store.dispatch(action = NavigationAction.SetupLaunched())
                 }

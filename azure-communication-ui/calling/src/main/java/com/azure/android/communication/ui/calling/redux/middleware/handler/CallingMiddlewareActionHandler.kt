@@ -193,14 +193,12 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun setupCall(store: Store<ReduxState>) {
         callingService.setupCall().handle { _, error: Throwable? ->
             if (error != null) {
-                Log.d("Mohtasim", "callsetup had error")
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
             } else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-               Log.d("Mohtasim", "call launched from skip setup screen")
                 store.dispatch(NavigationAction.CallLaunched())
             }
         }
@@ -220,6 +218,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             store.getCurrentState().localParticipantState.audioState
         ).handle { _, error: Throwable? ->
             if (error != null) {
+                Log.d("Mohtasim", "call launched but error")
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
                         FatalError(error, ErrorCode.CALL_JOIN_FAILED)
