@@ -95,7 +95,7 @@ internal class ControlBarView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCallStateFlow().collect() {
-                if(it == CallingStatus.NONE || it == CallingStatus.CONNECTING) {
+                if (it == CallingStatus.NONE || it == CallingStatus.CONNECTING) {
                     cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
@@ -152,8 +152,6 @@ internal class ControlBarView : ConstraintLayout {
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
-
-
 
         val permissionIsNotDenied = cameraState.cameraPermissionState != PermissionStatus.DENIED
 

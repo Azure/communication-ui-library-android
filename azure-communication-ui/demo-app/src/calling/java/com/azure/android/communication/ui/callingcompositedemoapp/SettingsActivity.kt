@@ -103,7 +103,7 @@ class SettingsActivity : AppCompatActivity() {
                     sharedPreference.edit().putBoolean(
                         SKIP_SETUP_SCREEN_VALUE_KEY,
                         view.isChecked
-                    ).apply ()
+                    ).apply()
                 }
             }
         }

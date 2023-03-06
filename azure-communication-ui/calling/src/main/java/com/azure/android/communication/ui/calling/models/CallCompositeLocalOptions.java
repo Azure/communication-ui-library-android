@@ -35,9 +35,9 @@ public final class CallCompositeLocalOptions {
 
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
 
-    private Boolean cameraOnByDefault = false;
+    private Boolean cameraOnByDefaultIfPermissionIsGranted = true;
 
-    private Boolean microphoneOnByDefault = false;
+    private Boolean microphoneOnByDefaultIfPermissionIsGranted = true;
 
     private Boolean skipSetup = false;
 
@@ -118,17 +118,19 @@ public final class CallCompositeLocalOptions {
      * Get the {@link Boolean}.
      * @return The {@link Boolean} that is currently set.
      */
-    public Boolean getCameraOnByDefault() {
-        return this.cameraOnByDefault;
+    public Boolean getCameraOnByDefaultIfPermissionIsGranted() {
+        return this.cameraOnByDefaultIfPermissionIsGranted;
     }
 
     /**
      * Set a {@link Boolean} to be used.
-     * @param cameraOnByDefault The Boolean value to be used.
+     * @param cameraOnByDefaultIfPermissionIsGranted The Boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setCameraOnByDefault(final Boolean cameraOnByDefault) {
-        this.cameraOnByDefault = cameraOnByDefault;
+    public CallCompositeLocalOptions setCameraOnByDefaultIfPermissionIsGranted(
+            final Boolean cameraOnByDefaultIfPermissionIsGranted
+    ) {
+        this.cameraOnByDefaultIfPermissionIsGranted = cameraOnByDefaultIfPermissionIsGranted;
         return this;
     }
 
@@ -136,17 +138,19 @@ public final class CallCompositeLocalOptions {
      * Get the {@link Boolean}.
      * @return The {@link Boolean} that is currently set.
      */
-    public Boolean getMicrophoneOnByDefault() {
-        return this.microphoneOnByDefault;
+    public Boolean getMicrophoneOnByDefaultIfPermissionIsGranted() {
+        return this.microphoneOnByDefaultIfPermissionIsGranted;
     }
 
     /**
      * Set a {@link Boolean} to be used.
-     * @param microphoneOnByDefault The Boolean value to be used.
+     * @param microphoneOnByDefaultIfPermissionIsGranted The Boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setMicrophoneOnByDefault(final Boolean microphoneOnByDefault) {
-        this.microphoneOnByDefault = microphoneOnByDefault;
+    public CallCompositeLocalOptions setMicrophoneOnByDefaultIfPermissionIsGranted(
+            final Boolean microphoneOnByDefaultIfPermissionIsGranted
+    ) {
+        this.microphoneOnByDefaultIfPermissionIsGranted = microphoneOnByDefaultIfPermissionIsGranted;
         return this;
     }
 }

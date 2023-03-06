@@ -24,13 +24,17 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
@@ -231,8 +235,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
-
-
     }
 
     @SuppressLint("SourceLockedOrientationActivity", "RestrictedApi")
@@ -240,6 +242,37 @@ internal class CallCompositeActivity : AppCompatActivity() {
         when (navigationState) {
             NavigationStatus.NONE -> {
                 Log.d("Mohtasim", "NAVIGATION:: NONE")
+
+                if (store.getCurrentState().permissionState.audioPermissionState == PermissionStatus.GRANTED) {
+                    if (localOptions?.microphoneOnByDefaultIfPermissionIsGranted == true) {
+                        store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
+                    } else {
+                        store.dispatch(action = LocalParticipantAction.MicPreviewOffTriggered())
+                    }
+                } else {
+                    Log.d("Mohtasim", "Mic control failed due to permission")
+                    configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach {
+                        it.handle(
+                            CallCompositeErrorEvent(CallCompositeErrorCode.PERMISSION_REQUIRED, null)
+                        )
+                    }
+                }
+
+                if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.GRANTED) {
+                    if (localOptions?.cameraOnByDefaultIfPermissionIsGranted == true) {
+                        store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
+                    } else {
+                        store.dispatch(action = LocalParticipantAction.CameraPreviewOffTriggered())
+                    }
+                } else {
+                    Log.d("Mohtasim", "Camera control failed due to permission")
+                    configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach {
+                        it.handle(
+                            CallCompositeErrorEvent(CallCompositeErrorCode.PERMISSION_REQUIRED, null)
+                        )
+                    }
+                }
+
                 if (localOptions?.skipSetup == true) {
                     Log.d("Mohtasim", "Skip setup screen")
                     store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
