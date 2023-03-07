@@ -69,6 +69,8 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         }
 
         val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        val cameraOnByDefault = SettingsFeatures.getCameraOnByDefaultOption()
+        val micOnByDefault = SettingsFeatures.getMicOnByDefaultOption()
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions(tokenRefresher, true)
@@ -90,6 +92,8 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                     .setSubtitle(getSubtitle())
             )
             .setSkipSetup(skipSetup)
+            .setCameraOnByDefaultIfPermissionIsGranted(cameraOnByDefault)
+            .setMicrophoneOnByDefaultIfPermissionIsGranted(micOnByDefault)
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
 

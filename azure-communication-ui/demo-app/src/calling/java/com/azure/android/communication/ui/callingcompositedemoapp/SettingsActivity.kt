@@ -35,6 +35,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
     private lateinit var skipSetupScreenCheckBox: CheckBox
+    private lateinit var micOnByDefaultCheckBox: CheckBox
+    private lateinit var cameraOnByDefaultCheckBox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -71,6 +73,10 @@ class SettingsActivity : AppCompatActivity() {
 
         updateSkipSetupScreenCheckbox()
 
+        updateMicOnByDefaultCheckbox()
+
+        updateCameraOnByDefaultCheckbox()
+
         saveRenderedDisplayName()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
@@ -105,6 +111,18 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.mic_control_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        MIC_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.camera_control_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        CAMERA_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -121,6 +139,8 @@ class SettingsActivity : AppCompatActivity() {
         titleTextView = findViewById(R.id.call_title)
         subtitleTextView = findViewById(R.id.call_subtitle)
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
+        micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
+        cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -222,6 +242,20 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_SKIP_SETUP_SCREEN_VALUE
         )
     }
+
+    private fun updateMicOnByDefaultCheckbox() {
+        micOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
+            MIC_ON_BY_DEFAULT_KEY,
+            DEFAULT_MIC_ON_BY_DEFAULT_VALUE
+        )
+    }
+
+    private fun updateCameraOnByDefaultCheckbox() {
+        cameraOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
+            CAMERA_ON_BY_DEFAULT_KEY,
+            DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -242,3 +276,7 @@ const val CALL_TITLE = "CALL_TITLE"
 const val CALL_SUBTITLE = "CALL_SUBTITLE"
 const val SKIP_SETUP_SCREEN_VALUE_KEY = "SKIP_SETUP_SCREEN_VALUE_KEY"
 const val DEFAULT_SKIP_SETUP_SCREEN_VALUE = false
+const val MIC_ON_BY_DEFAULT_KEY = "MIC_ON_BY_DEFAULT_KEY"
+const val DEFAULT_MIC_ON_BY_DEFAULT_VALUE = false
+const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
+const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false

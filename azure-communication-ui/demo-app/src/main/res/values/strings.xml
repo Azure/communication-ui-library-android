@@ -43,4 +43,7 @@
     <string name="call_subtitle">Call subtitle</string>
     <string name="skip_setup_screen_option">Skip Setup Screen Option</string>
     <string name="skip_setup_screen">Skip Setup Screen</string>
+    <string name="call_control_option">Default Call Control Option</string>
+    <string name="mic_control">Microphone On By Default</string>
+    <string name="camera_control">Camera On By Default</string>
 </resources>

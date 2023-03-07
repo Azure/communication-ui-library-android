@@ -66,6 +66,8 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         }
 
         final Boolean skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption();
+        final Boolean micOnByDefault = SettingsFeatures.getMicOnByDefaultOption();
+        final Boolean cameraOnByDefault = SettingsFeatures.getCameraOnByDefaultOption();
 
         final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
                 new CommunicationTokenRefreshOptions(tokenRefresher, true);
@@ -86,7 +88,9 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                         new CallCompositeSetupScreenViewData()
                                 .setTitle(SettingsFeatures.getTitle())
                                 .setSubtitle(SettingsFeatures.getSubtitle()))
-                .setSkipSetup(skipSetup);
+                .setSkipSetup(skipSetup)
+                .setCameraOnByDefaultIfPermissionIsGranted(cameraOnByDefault)
+                .setMicrophoneOnByDefaultIfPermissionIsGranted(micOnByDefault);
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
         // For test purposes we will keep a static ref to CallComposite
