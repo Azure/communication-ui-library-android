@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -149,8 +150,11 @@ class CallLauncherActivity : AppCompatActivity() {
             }
             roomsMeetingRadioButton.setOnClickListener {
                 if (roomsMeetingRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
                     presenterRoleRadioButton.visibility = View.VISIBLE
                     attendeeRoleRadioButton.visibility = View.VISIBLE
+                    attendeeRoleRadioButton.isChecked = true
+                    callLauncherViewModel.setAttendeeRole()
                     groupCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
                 } else {
@@ -162,12 +166,14 @@ class CallLauncherActivity : AppCompatActivity() {
             presenterRoleRadioButton.setOnClickListener {
                 if (presenterRoleRadioButton.isChecked) {
                     callLauncherViewModel.setPresenterRole()
+                    attendeeRoleRadioButton.isChecked = false
                 }
             }
 
             attendeeRoleRadioButton.setOnClickListener {
                 if (attendeeRoleRadioButton.isChecked) {
                     callLauncherViewModel.setAttendeeRole()
+                    presenterRoleRadioButton.isChecked = false
                 }
             }
 
