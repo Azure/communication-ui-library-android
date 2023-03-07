@@ -33,13 +33,7 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode CAMERA_FAILURE = fromString("cameraFailure");
 
     /**
-     * Dispatched when default camera control API is accessed without camera permission being granted.
-     */
-    public static final CallCompositeErrorCode CAMERA_PERMISSION_REQUIRED =
-            fromString("cameraPermissionRequired");
-
-    /**
-     * Dispatched when default microphone control API is accessed without microphone permission being granted.
+     * Dispatched when call join fails due to microphone permission in case setup screen is skipped.
      */
     public static final CallCompositeErrorCode MICROPHONE_PERMISSION_REQUIRED =
             fromString("microphonePermissionRequired");
