@@ -253,7 +253,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     Log.d("Mohtasim", "Mic control failed due to permission")
                     configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach {
                         it.handle(
-                            CallCompositeErrorEvent(CallCompositeErrorCode.PERMISSION_REQUIRED, null)
+                            CallCompositeErrorEvent(CallCompositeErrorCode.MICROPHONE_PERMISSION_REQUIRED, null)
                         )
                     }
                 }
@@ -268,7 +268,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     Log.d("Mohtasim", "Camera control failed due to permission")
                     configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach {
                         it.handle(
-                            CallCompositeErrorEvent(CallCompositeErrorCode.PERMISSION_REQUIRED, null)
+                            CallCompositeErrorEvent(CallCompositeErrorCode.CAMERA_PERMISSION_REQUIRED, null)
                         )
                     }
                 }
