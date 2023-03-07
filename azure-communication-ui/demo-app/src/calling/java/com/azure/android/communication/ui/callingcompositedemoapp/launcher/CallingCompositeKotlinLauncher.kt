@@ -38,6 +38,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         displayName: String,
         groupId: UUID?,
         meetingLink: String?,
+        roomsId: String?,
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)

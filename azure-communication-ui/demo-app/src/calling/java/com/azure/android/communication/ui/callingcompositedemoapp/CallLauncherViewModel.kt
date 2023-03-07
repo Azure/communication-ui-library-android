@@ -20,6 +20,8 @@ class CallLauncherViewModel : ViewModel() {
     val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
     var isKotlinLauncher = true; private set
     var isTokenFunctionOptionSelected = false; private set
+    var isPresenterRole = false; private set
+    var isAttendeeRole = false; private set
 
     private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
         CallingCompositeKotlinLauncher(tokenRefresher)
@@ -37,6 +39,16 @@ class CallLauncherViewModel : ViewModel() {
 
     fun setKotlinLauncher() {
         isKotlinLauncher = true
+    }
+
+    fun setPresenterRole() {
+        isPresenterRole = true
+        isAttendeeRole = false
+    }
+
+    fun setAttendeeRole() {
+        isAttendeeRole = true
+        isPresenterRole = false
     }
 
     fun useTokenFunction() {

@@ -10,9 +10,11 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public interface CallingCompositeLauncher {
+
     void launch(CallLauncherActivity callLauncherActivity,
                 String userName,
                 UUID groupId,
                 String meetingLink,
+                String roomsId,
                 Function1<? super String, Unit> showAlert);
 }

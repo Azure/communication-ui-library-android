@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
+import android.util.Log;
+
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions;
 import com.azure.android.communication.ui.calling.CallComposite;
@@ -12,6 +14,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
@@ -41,7 +45,20 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final String displayName,
                        final UUID groupId,
                        final String meetingLink,
+                       final String roomsId,
                        final Function1<? super String, Unit> showAlert) {
+
+        if (groupId != null) {
+            Log.d("Mohtasim", "Group ID: " + groupId.toString());
+        }
+
+        if (meetingLink != null) {
+            Log.d("Mohtasim", "Teams ID: " + meetingLink.toString());
+        }
+
+        if (roomsId != null) {
+            Log.d("Mohtasim", "rooms ID: " + roomsId.toString());
+        }
 
         final CallCompositeBuilder builder = new CallCompositeBuilder();
 
@@ -70,9 +87,24 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
+/*
         final CallCompositeJoinLocator locator = groupId != null
                 ? new CallCompositeGroupCallLocator(groupId)
                 : new CallCompositeTeamsMeetingLinkLocator(meetingLink);
+*/
+
+        CallCompositeJoinLocator locator = new CallCompositeRoomLocator("123", CallCompositeRoomRole.ATTENDEE);
+        if (groupId != null) {
+            locator = new CallCompositeGroupCallLocator(groupId);
+        }
+
+        if (meetingLink != null) {
+            locator = new CallCompositeTeamsMeetingLinkLocator(meetingLink);
+        }
+
+        if (roomsId != null) {
+            locator = new CallCompositeRoomLocator(roomsId, CallCompositeRoomRole.ATTENDEE);
+        }
 
         final CallCompositeRemoteOptions remoteOptions =
                 new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);
