@@ -12,6 +12,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -256,6 +257,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupId,
                 null,
                 null,
+                null,
                 ::showAlert
             )
         }
@@ -275,6 +277,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 null,
                 meetingLink,
                 null,
+                null,
                 ::showAlert,
             )
         }
@@ -288,12 +291,19 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
 
+            var roomRole = CallCompositeRoomRole.ATTENDEE
+
+            if (callLauncherViewModel.isPresenterRole) {
+                roomRole = CallCompositeRoomRole.PRESENTER
+            }
+
             launcher.launch(
                 this@CallLauncherActivity,
                 userName,
                 null,
                 null,
                 roomsId,
+                roomRole,
                 ::showAlert
             )
         }

@@ -46,6 +46,7 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                        final UUID groupId,
                        final String meetingLink,
                        final String roomsId,
+                       final CallCompositeRoomRole roomRole,
                        final Function1<? super String, Unit> showAlert) {
 
         if (groupId != null) {
@@ -87,24 +88,10 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
         final CommunicationTokenCredential communicationTokenCredential =
                 new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-/*
         final CallCompositeJoinLocator locator = groupId != null
                 ? new CallCompositeGroupCallLocator(groupId)
-                : new CallCompositeTeamsMeetingLinkLocator(meetingLink);
-*/
-
-        CallCompositeJoinLocator locator = new CallCompositeRoomLocator("123", CallCompositeRoomRole.ATTENDEE);
-        if (groupId != null) {
-            locator = new CallCompositeGroupCallLocator(groupId);
-        }
-
-        if (meetingLink != null) {
-            locator = new CallCompositeTeamsMeetingLinkLocator(meetingLink);
-        }
-
-        if (roomsId != null) {
-            locator = new CallCompositeRoomLocator(roomsId, CallCompositeRoomRole.ATTENDEE);
-        }
+                : meetingLink != null ? new CallCompositeTeamsMeetingLinkLocator(meetingLink)
+                : new CallCompositeRoomLocator(roomsId, roomRole);
 
         final CallCompositeRemoteOptions remoteOptions =
                 new CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName);

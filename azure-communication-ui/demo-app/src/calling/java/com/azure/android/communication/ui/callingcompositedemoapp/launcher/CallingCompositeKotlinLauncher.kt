@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
@@ -39,6 +40,7 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
         groupId: UUID?,
         meetingLink: String?,
         roomsId: String?,
+        roomRole: CallCompositeRoomRole?,
         showAlert: ((String) -> Unit)?,
     ) {
         initialize(callLauncherActivity.applicationContext)

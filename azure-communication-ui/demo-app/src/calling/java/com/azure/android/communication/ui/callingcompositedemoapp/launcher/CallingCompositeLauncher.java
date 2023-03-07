@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 package com.azure.android.communication.ui.callingcompositedemoapp.launcher;
 
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole;
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity;
 
 import java.util.UUID;
@@ -16,5 +17,6 @@ public interface CallingCompositeLauncher {
                 UUID groupId,
                 String meetingLink,
                 String roomsId,
+                CallCompositeRoomRole roomRole,
                 Function1<? super String, Unit> showAlert);
 }
