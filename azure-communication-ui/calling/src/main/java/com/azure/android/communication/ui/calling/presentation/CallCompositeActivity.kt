@@ -251,11 +251,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     }
                 } else {
                     Log.d("Mohtasim", "Mic control failed due to permission")
-                    configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach {
-                        it.handle(
-                            CallCompositeErrorEvent(CallCompositeErrorCode.MICROPHONE_PERMISSION_REQUIRED, null)
-                        )
-                    }
                 }
 
                 if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.GRANTED) {
@@ -266,11 +261,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     }
                 } else {
                     Log.d("Mohtasim", "Camera control failed due to permission")
-                    configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach {
-                        it.handle(
-                            CallCompositeErrorEvent(CallCompositeErrorCode.CAMERA_PERMISSION_REQUIRED, null)
-                        )
-                    }
                 }
 
                 if (localOptions?.skipSetup == true) {

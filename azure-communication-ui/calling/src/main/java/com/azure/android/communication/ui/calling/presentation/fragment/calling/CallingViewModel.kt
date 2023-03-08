@@ -4,10 +4,13 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.util.Log
+import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -51,6 +54,7 @@ internal class CallingViewModel(
     }
 
     fun exitComposite() {
+        Log.d("Mohtasim", "exit fired!!")
         dispatchAction(action = NavigationAction.Exit())
     }
 
@@ -134,6 +138,11 @@ internal class CallingViewModel(
                 }
                 defaultCallingStateChange(state)
             } else if (state.permissionState.audioPermissionState == PermissionStatus.DENIED) {
+                dispatchAction(action = ErrorAction.FatalErrorOccurred(
+                    FatalError(
+                        Throwable(),
+                        ErrorCode.MIC_PERMISSION_DENIED)
+                ))
                 exitComposite()
             } else {
                 Log.d("Mohtasim", "onStateChange:: Case for ambigiuos permission state")
