@@ -138,11 +138,14 @@ internal class CallingViewModel(
                 }
                 defaultCallingStateChange(state)
             } else if (state.permissionState.audioPermissionState == PermissionStatus.DENIED) {
-                dispatchAction(action = ErrorAction.FatalErrorOccurred(
-                    FatalError(
-                        Throwable(),
-                        ErrorCode.MIC_PERMISSION_DENIED)
-                ))
+                dispatchAction(
+                    action = ErrorAction.FatalErrorOccurred(
+                        FatalError(
+                            Throwable(),
+                            ErrorCode.MIC_PERMISSION_DENIED
+                        )
+                    )
+                )
                 exitComposite()
             } else {
                 Log.d("Mohtasim", "onStateChange:: Case for ambigiuos permission state")

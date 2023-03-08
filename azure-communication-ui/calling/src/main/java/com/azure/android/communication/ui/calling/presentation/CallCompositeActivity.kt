@@ -24,8 +24,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
