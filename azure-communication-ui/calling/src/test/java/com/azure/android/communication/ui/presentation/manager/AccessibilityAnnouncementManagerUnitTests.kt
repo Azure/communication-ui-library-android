@@ -11,19 +11,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.MeetingJo
 import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
+import com.azure.android.communication.ui.calling.redux.state.*
 
 import org.junit.Assert
 import org.junit.Test
@@ -398,7 +386,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("")
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(AppReduxState(""), reduxState)
@@ -412,7 +400,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("")
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
@@ -429,7 +417,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected) } doAnswer { "You have joined the call" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         // Act
         val message = meetingJoinedHook.message(reduxState, reduxState, mockContext)
@@ -443,7 +431,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("")
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000)
         // Act
@@ -458,7 +446,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("")
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000)
         // Act
@@ -481,7 +469,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has joined the meeting" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState = RemoteParticipantsState(
             mapOf(
                 Pair(
@@ -515,7 +503,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has left the meeting" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState = RemoteParticipantsState(
             mapOf(
                 Pair(

@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.data.model.CallHistoryRecordData
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
+import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Test
@@ -43,6 +44,34 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
             Assert.assertNotNull(debugIndo)
             Assert.assertEquals(historyList.count(), debugIndo.callHistoryRecords.count())
             Assert.assertEquals(historyList.last().id, 4)
+
+            val diagnostics1 = debugInfoManager.debugInfo
+            Assert.assertNotNull(diagnostics1)
+            Assert.assertNull(diagnostics1.lastCallId)
+
+            // update state
+            val appState2 = AppReduxState("")
+            val callID = "callID"
+            appState2.callState = CallingState(CallingStatus.CONNECTING, OperationStatus.NONE, callID)
+            stateFlow.value = appState2
+
+            val diagnostics2 = debugInfoManager.debugInfo
+            Assert.assertNotSame(diagnostics1, diagnostics2)
+            Assert.assertNotNull(diagnostics2)
+            Assert.assertEquals(callID, diagnostics2.lastCallId)
+
+            // redux state loosing CallID
+
+            // update state
+            val appState3 = AppReduxState("")
+            appState3.callState = CallingState(CallingStatus.CONNECTING, OperationStatus.NONE, null)
+            stateFlow.value = appState3
+
+            val diagnostics3 = debugInfoManager.debugInfo
+            Assert.assertSame(diagnostics2, diagnostics3)
+            Assert.assertNotNull(diagnostics3)
+            Assert.assertEquals(callID, diagnostics3.lastCallId)
+            flowJob.cancel()
         }
     }
 }

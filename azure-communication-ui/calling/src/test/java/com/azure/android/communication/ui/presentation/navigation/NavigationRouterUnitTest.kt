@@ -71,10 +71,9 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
                 }
 
             // assert
-            Assert.assertEquals(3, receivedUpdates.count())
+            Assert.assertEquals(2, receivedUpdates.count())
             Assert.assertEquals(NavigationStatus.NONE, receivedUpdates[0])
-            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[1])
-            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[2])
+            Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[1])
 
             navigationRouterLaunchJob.cancel()
         }
@@ -99,9 +98,9 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
 
             // assert
-            Assert.assertEquals(3, receivedUpdates.count())
-            Assert.assertEquals(initialState.navigationState.navigationState, receivedUpdates[1])
-            Assert.assertEquals(appState.navigationState.navigationState, receivedUpdates[2])
+            Assert.assertEquals(2, receivedUpdates.count())
+            Assert.assertEquals(initialState.navigationState.navigationState, receivedUpdates[0])
+            Assert.assertEquals(appState.navigationState.navigationState, receivedUpdates[1])
 
             navigationRouterLaunchJob.cancel()
         }
@@ -175,7 +174,7 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val initialState = AppReduxState("")
             val appState = AppReduxState("").apply {
-                navigationState = NavigationState(NavigationStatus.IN_CALL)
+                navigationState = NavigationState(NavigationStatus.NONE)
             }
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(initialState)
@@ -193,12 +192,16 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
                     navigationState = NavigationState(NavigationStatus.SETUP)
                 }
 
+            stateFlow.value =
+                AppReduxState("").apply {
+                    navigationState = NavigationState(NavigationStatus.IN_CALL)
+                }
+
             // assert
-            Assert.assertEquals(4, receivedUpdates.count())
+            Assert.assertEquals(3, receivedUpdates.count())
             Assert.assertEquals(NavigationStatus.NONE, receivedUpdates[0])
             Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[1])
             Assert.assertEquals(NavigationStatus.IN_CALL, receivedUpdates[2])
-            Assert.assertEquals(NavigationStatus.SETUP, receivedUpdates[3])
 
             navigationRouterLaunchJob.cancel()
         }

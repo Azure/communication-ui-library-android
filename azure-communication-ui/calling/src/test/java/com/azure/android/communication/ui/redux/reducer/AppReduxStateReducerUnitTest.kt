@@ -14,26 +14,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducer
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
-import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
+import com.azure.android.communication.ui.calling.redux.state.*
 
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.PermissionState
-import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.LifecycleState
-import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -85,7 +67,7 @@ internal class AppReduxStateReducerUnitTest {
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("")
-        state.callState = CallingState(CallingStatus.CONNECTED)
+        state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0)
         state.localParticipantState = LocalUserState(
             CameraState(

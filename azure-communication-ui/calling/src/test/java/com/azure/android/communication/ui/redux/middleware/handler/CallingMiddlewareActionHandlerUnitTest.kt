@@ -14,23 +14,6 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.NavigationState
-import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.redux.state.PermissionState
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
@@ -41,6 +24,7 @@ import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.*
 
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -69,7 +53,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {
             on { turnCameraOff() } doReturn cameraStateCompletableFuture
@@ -115,7 +99,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username"
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {
             on { turnCameraOff() } doReturn cameraStateCompletableFuture
@@ -150,7 +134,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -282,7 +266,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.SETUP
         )
-        appState.callState = CallingState(CallingStatus.NONE)
+        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {}
 
@@ -315,7 +299,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.SETUP
         )
-        appState.callState = CallingState(CallingStatus.NONE)
+        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {}
 
@@ -345,7 +329,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.CONNECTED)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     CameraState(
@@ -424,7 +408,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.CONNECTED)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     CameraState(
@@ -489,7 +473,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_setupCall_fails_then_dispatchFatalError() =
         runScopedTest {
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.NONE)
+            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
             val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -524,7 +508,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.CONNECTED)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     CameraState(
@@ -605,7 +589,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.CONNECTED)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -669,7 +653,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.CONNECTED)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -733,7 +717,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.CONNECTED)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -797,7 +781,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("")
-            appState.callState = CallingState(CallingStatus.CONNECTED)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -864,7 +848,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<Void>()
 
@@ -916,7 +900,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             videoStreamID = null,
             displayName = "username"
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -968,7 +952,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             videoStreamID = null,
             displayName = "username"
         )
-        appState.callState = CallingState(CallingStatus.NONE)
+        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1021,7 +1005,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             videoStreamID = null,
             displayName = "username"
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1070,7 +1054,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username"
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1119,7 +1103,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username"
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
-        appState.callState = CallingState(CallingStatus.LOCAL_HOLD)
+        appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1165,7 +1149,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             videoStreamID = null,
             displayName = "username"
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1213,7 +1197,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             videoStreamID = null,
             displayName = "username"
         )
-        appState.callState = CallingState(CallingStatus.NONE)
+        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1255,7 +1239,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {
             on { turnCameraOn() } doReturn cameraStateCompletableFuture
@@ -1509,7 +1493,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 displayName = "username"
             )
-            appState.callState = CallingState(CallingStatus.LOCAL_HOLD)
+            appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
@@ -2078,7 +2062,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 videoStreamID = null,
                 displayName = "username"
             )
-            appState.callState = CallingState(CallingStatus.LOCAL_HOLD)
+            appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
