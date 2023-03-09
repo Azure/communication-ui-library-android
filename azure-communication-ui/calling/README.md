@@ -1,4 +1,4 @@
-![Hero Image](../../docs/media/mobile-ui-library-hero-image-calling.png)
+![A banner image that shows some use cases of the Calling library](../../docs/media/mobile-ui-library-calling-hero-image.png?raw=true)
 
 # Azure Communication UI Mobile Library for Android - Calling
 
