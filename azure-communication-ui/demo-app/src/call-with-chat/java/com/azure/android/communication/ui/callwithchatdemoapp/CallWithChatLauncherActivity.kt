@@ -70,7 +70,6 @@ class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
         }
 
         binding.run {
-            tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
 
             if (!deeplinkAcsToken.isNullOrEmpty()) {
                 acsTokenText.setText(deeplinkAcsToken)

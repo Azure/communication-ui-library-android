@@ -38,7 +38,7 @@ internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
     }
 }
 
-data class AvatarData(
+internal data class AvatarData(
     override var name: String,
     override var avatarContentDescriptionLabel: String = name,
     override var avatarBackgroundColor: Int? = null,

@@ -15,18 +15,16 @@ import com.azure.android.communication.ui.callingcompositedemoapp.databinding.Ac
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
+import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
-    private val isTokenFunctionOptionSelected: String = "isTokenFunctionOptionSelected"
-    private val isKotlinLauncherOptionSelected: String = "isKotlinLauncherOptionSelected"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,23 +54,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
 
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getBoolean(isTokenFunctionOptionSelected)) {
-                callLauncherViewModel.useTokenFunction()
-            } else {
-                callLauncherViewModel.useAcsToken()
-            }
-
-            if (savedInstanceState.getBoolean(isKotlinLauncherOptionSelected)) {
-                callLauncherViewModel.setKotlinLauncher()
-            } else {
-                callLauncherViewModel.setJavaLauncher()
-            }
-        }
-
         binding.run {
-            tokenFunctionUrlText.setText(BuildConfig.TOKEN_FUNCTION_URL)
-
             if (!deeplinkAcsToken.isNullOrEmpty()) {
                 acsTokenText.setText(deeplinkAcsToken)
             } else {
@@ -98,31 +80,9 @@ class CallLauncherActivity : AppCompatActivity() {
             }
 
             launchButton.setOnClickListener {
-                launchButton.isEnabled = false
-                callLauncherViewModel.doLaunch(
-                    tokenFunctionUrlText.text.toString(),
-                    acsTokenText.text.toString()
-                )
+                launch()
             }
 
-            tokenFunctionRadioButton.setOnClickListener {
-                if (tokenFunctionRadioButton.isChecked) {
-                    tokenFunctionUrlText.requestFocus()
-                    tokenFunctionUrlText.isEnabled = true
-                    acsTokenText.isEnabled = false
-                    acsTokenRadioButton.isChecked = false
-                    callLauncherViewModel.useTokenFunction()
-                }
-            }
-            acsTokenRadioButton.setOnClickListener {
-                if (acsTokenRadioButton.isChecked) {
-                    acsTokenText.requestFocus()
-                    acsTokenText.isEnabled = true
-                    tokenFunctionUrlText.isEnabled = false
-                    tokenFunctionRadioButton.isChecked = false
-                    callLauncherViewModel.useAcsToken()
-                }
-            }
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
@@ -136,43 +96,27 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
-            javaButton.setOnClickListener {
-                callLauncherViewModel.setJavaLauncher()
+            showCallHistoryButton.setOnClickListener {
+                showCallHistory()
             }
 
-            kotlinButton.setOnClickListener {
-                callLauncherViewModel.setKotlinLauncher()
-            }
-
-            if (!BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
+                versionText.text = "${BuildConfig.VERSION_NAME}"
+            } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
-
-        callLauncherViewModel.fetchResult.observe(this) {
-            processResult(it)
-        }
-    }
-
-    override fun onDestroy() {
-        callLauncherViewModel.destroy()
-        super.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        saveState(outState)
-        super.onSaveInstanceState(outState)
     }
 
     // check whether new Activity instance was brought to top of stack,
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
-    fun showAlert(message: String) {
+    private fun showAlert(message: String, title: String = "Alert") {
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
                 setMessage(message)
-                setTitle("Alert")
+                setTitle(title)
                 setPositiveButton("OK") { _, _ ->
                 }
             }
@@ -180,31 +124,12 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun processResult(result: Result<CallingCompositeLauncher?>) {
-        if (result.isFailure) {
-            result.exceptionOrNull()?.let {
-                if (it.message != null) {
-                    val causeMessage = it.cause?.message ?: ""
-                    showAlert(it.toString() + causeMessage)
-                    binding.launchButton.isEnabled = true
-                } else {
-                    showAlert("Unknown error")
-                }
-            }
-        }
-        if (result.isSuccess) {
-            result.getOrNull()?.let { launcherObject ->
-                launch(launcherObject)
-                binding.launchButton.isEnabled = true
-            }
-        }
-    }
-
-    private fun launch(launcher: CallingCompositeLauncher) {
+    private fun launch() {
         val userName = binding.userNameText.text.toString()
+        val acsToken = binding.acsTokenText.text.toString()
 
+        var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
-            val groupId: UUID
             try {
                 groupId =
                     UUID.fromString(binding.groupIdOrTeamsMeetingLinkText.text.toString().trim())
@@ -213,32 +138,41 @@ class CallLauncherActivity : AppCompatActivity() {
                 showAlert(message)
                 return
             }
-            launcher.launch(
-                this@CallLauncherActivity,
-                userName,
-                groupId,
-                null,
-                ::showAlert
-            )
         }
-
+        var meetingLink: String? = null
         if (binding.teamsMeetingRadioButton.isChecked) {
-            val meetingLink = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-
+            meetingLink = binding.groupIdOrTeamsMeetingLinkText.text.toString()
             if (meetingLink.isBlank()) {
                 val message = "Teams meeting link is invalid or empty."
                 showAlert(message)
                 return
             }
-
-            launcher.launch(
-                this@CallLauncherActivity,
-                userName,
-                null,
-                meetingLink,
-                ::showAlert,
-            )
         }
+
+        callLauncherViewModel.launch(
+            this@CallLauncherActivity,
+            acsToken,
+            userName,
+            groupId,
+            meetingLink,
+        )
+    }
+
+    private fun showCallHistory() {
+        val history = callLauncherViewModel
+            .getCallHistory(this@CallLauncherActivity)
+            .sortedBy { it.callStartedOn }
+
+        val title = "Total calls: ${history.count()}"
+        var message = "Last Call: none"
+        history.lastOrNull()?.let {
+            message = "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
+            it.callIds.forEach { callId ->
+                message += "\nCallId: $callId"
+            }
+        }
+
+        showAlert(message, title)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -253,13 +187,5 @@ class CallLauncherActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
-    }
-
-    private fun saveState(outState: Bundle?) {
-        outState?.putBoolean(
-            isTokenFunctionOptionSelected,
-            callLauncherViewModel.isTokenFunctionOptionSelected
-        )
-        outState?.putBoolean(isKotlinLauncherOptionSelected, callLauncherViewModel.isKotlinLauncher)
     }
 }

@@ -3,75 +3,90 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.webkit.URLUtil
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeJavaLauncher
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeKotlinLauncher
-import com.azure.android.communication.ui.callingcompositedemoapp.launcher.CallingCompositeLauncher
-import com.azure.android.communication.ui.demoapp.UrlTokenFetcher
-import java.util.concurrent.Callable
+import com.azure.android.communication.common.CommunicationTokenCredential
+import com.azure.android.communication.common.CommunicationTokenRefreshOptions
+import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.CallCompositeBuilder
+import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
+import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
+import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
-    private var token: String? = null
-    private val fetchResultInternal = MutableLiveData<Result<CallingCompositeLauncher?>>()
 
-    val fetchResult: LiveData<Result<CallingCompositeLauncher?>> = fetchResultInternal
-    var isKotlinLauncher = true; private set
-    var isTokenFunctionOptionSelected = false; private set
+    fun launch(
+        context: Context,
 
-    private fun launcher(tokenRefresher: Callable<String>) = if (isKotlinLauncher) {
-        CallingCompositeKotlinLauncher(tokenRefresher)
-    } else {
-        CallingCompositeJavaLauncher(tokenRefresher)
-    }
+        acsToken: String,
+        displayName: String,
+        groupId: UUID?,
+        meetingLink: String?,
+    ) {
+        val callComposite = createCallComposite(context)
+        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
-    fun destroy() {
-        fetchResultInternal.value = Result.success(null)
-    }
-
-    fun setJavaLauncher() {
-        isKotlinLauncher = false
-    }
-
-    fun setKotlinLauncher() {
-        isKotlinLauncher = true
-    }
-
-    fun useTokenFunction() {
-        isTokenFunctionOptionSelected = true
-    }
-
-    fun useAcsToken() {
-        isTokenFunctionOptionSelected = false
-    }
-
-    fun doLaunch(tokenFunctionURL: String, acsToken: String) {
-        when {
-            isTokenFunctionOptionSelected && urlIsValid(tokenFunctionURL) -> {
-                token = null
-                fetchResultInternal.postValue(
-                    Result.success(
-                        launcher(
-                            UrlTokenFetcher(tokenFunctionURL)
-                        )
-                    )
-                )
-            }
-            acsToken.isNotBlank() -> {
-                token = acsToken
-                fetchResultInternal.postValue(
-                    Result.success(launcher(CachedTokenFetcher(acsToken)))
-                )
-            }
-            else -> {
-                fetchResultInternal.postValue(
-                    Result.failure(IllegalStateException("Invalid Token function URL or acs Token"))
-                )
-            }
+        if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
+            callComposite.addOnRemoteParticipantJoinedEventHandler(
+                RemoteParticipantJoinedHandler(callComposite, context)
+            )
         }
+
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions({ acsToken }, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
+
+        val locator: CallCompositeJoinLocator =
+            if (groupId != null) CallCompositeGroupCallLocator(groupId)
+            else CallCompositeTeamsMeetingLinkLocator(meetingLink)
+
+        val remoteOptions =
+            CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+
+        val localOptions = CallCompositeLocalOptions()
+            .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
+            .setSetupScreenViewData(
+                CallCompositeSetupScreenViewData()
+                    .setTitle(SettingsFeatures.getTitle())
+                    .setSubtitle(SettingsFeatures.getSubtitle())
+            )
+
+        callComposite.launch(context, remoteOptions, localOptions)
     }
 
-    private fun urlIsValid(url: String) = url.isNotBlank() && URLUtil.isValidUrl(url.trim())
+    fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
+        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
+    }
+
+    private fun createCallComposite(context: Context): CallComposite {
+        SettingsFeatures.initialize(context.applicationContext)
+
+        val selectedLanguage = SettingsFeatures.language()
+        val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
+
+        val callCompositeBuilder = CallCompositeBuilder()
+            .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
+
+        if (AdditionalFeatures.secondaryThemeFeature.active)
+            callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
+
+        val callComposite = callCompositeBuilder.build()
+
+        // For test purposes we will keep a static ref to CallComposite
+        CallLauncherViewModel.callComposite = callComposite
+        return callComposite
+    }
+
+    companion object {
+        var callComposite: CallComposite? = null
+    }
 }

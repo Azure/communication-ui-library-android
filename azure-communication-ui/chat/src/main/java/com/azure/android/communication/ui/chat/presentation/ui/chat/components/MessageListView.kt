@@ -39,7 +39,7 @@ import com.azure.android.communication.ui.chat.utilities.outOfViewItemCount
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.launch
 
-const val MESSAGE_LIST_LOAD_MORE_THRESHOLD = 40
+internal const val MESSAGE_LIST_LOAD_MORE_THRESHOLD = 40
 
 @Composable
 internal fun MessageListView(

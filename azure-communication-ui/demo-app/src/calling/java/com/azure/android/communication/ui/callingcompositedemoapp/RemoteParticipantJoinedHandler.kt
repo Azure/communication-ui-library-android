@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationUserIdentifier
@@ -18,13 +19,13 @@ import java.net.URL
 
 class RemoteParticipantJoinedHandler(
     private val callComposite: CallComposite,
-    private val callLauncherActivity: CallLauncherActivity,
+    private val context: Context,
 ) :
     CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> {
 
     override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
         event.identifiers.forEach { communicationIdentifier ->
-            if (callLauncherActivity.resources.getBoolean(R.bool.remote_url_persona_injection)) {
+            if (context.resources.getBoolean(R.bool.remote_url_persona_injection)) {
                 getImageFromServer(communicationIdentifier)
             } else {
                 selectRandomAvatar(communicationIdentifier)
@@ -90,12 +91,12 @@ class RemoteParticipantJoinedHandler(
                     )
                     images[number].let {
                         val bitMap =
-                            BitmapFactory.decodeResource(callLauncherActivity.resources, it)
+                            BitmapFactory.decodeResource(context.resources, it)
                         val result = callComposite.setRemoteParticipantViewData(
                             communicationIdentifier,
                             CallCompositeParticipantViewData()
                                 .setDisplayName(
-                                    callLauncherActivity.resources.getResourceEntryName(
+                                    context.resources.getResourceEntryName(
                                         it
                                     )
                                 )
