@@ -13,9 +13,9 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.newSingleThreadContext
@@ -123,18 +123,16 @@ internal class CallingViewModel(
     }
 
     override suspend fun onStateChange(state: ReduxState) {
+        Log.d("Mohtasim", "Permission Status: ${state.permissionState}")
+        Log.d("Mohtasim", "Calling Status: ${state.callState.callingStatus}")
 
         if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
 
             if (state.permissionState.audioPermissionState == PermissionStatus.GRANTED) {
 
                 if (!track && state.callState.callingStatus == CallingStatus.NONE) {
-                    runBlocking {
-                        withContext(singleThreadedContext) {
-                            track = true
-                            dispatchAction(action = CallingAction.CallStartRequested())
-                        }
-                    }
+                    track = true
+                    dispatchAction(action = CallingAction.CallStartRequested())
                 }
                 defaultCallingStateChange(state)
             } else if (state.permissionState.audioPermissionState == PermissionStatus.DENIED) {
@@ -148,6 +146,7 @@ internal class CallingViewModel(
                 )
                 exitComposite()
             } else {
+                defaultCallingStateChange(state)
                 Log.d("Mohtasim", "onStateChange:: Case for ambigiuos permission state")
             }
         } else {
