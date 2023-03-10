@@ -11,13 +11,13 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
 
     private final String roomId;
-    private final CallCompositeRoomRole role;
+    private final CallCompositeRoomParticipantRole role;
 
     /**
      * Creates {@link CallCompositeRoomLocator}.
      * @param roomId   Room identifier.
      */
-    public CallCompositeRoomLocator(final String roomId, final CallCompositeRoomRole role) {
+    public CallCompositeRoomLocator(final String roomId, final CallCompositeRoomParticipantRole role) {
         this.roomId = roomId;
         this.role = role;
     }
@@ -34,9 +34,9 @@ public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
     /**
      * Get room role.
      *
-     * @return {@link CallCompositeRoomRole}
+     * @return {@link CallCompositeRoomParticipantRole}
      */
-    public CallCompositeRoomRole getRole() {
+    public CallCompositeRoomParticipantRole getRole() {
         return role;
     }
 }
