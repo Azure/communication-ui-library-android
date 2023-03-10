@@ -18,6 +18,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
     @Test
     fun selectDefaultAudioDevice() {
         joinGroupSetupScreen()
+            .tapSpeakerIcon()
             .selectSpeakerAudioDevice(true)
             .verifyIsSpeakerAudioDevice()
             .navigateUpFromSetupScreen()
@@ -26,6 +27,7 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
     @Test
     fun selectAndroidAudioDevice() {
         joinGroupSetupScreen()
+            .tapSpeakerIcon()
             .selectAndroidAudioDevice(false)
             .verifyIsAndroidAudioDevice()
             .navigateUpFromSetupScreen()
@@ -36,10 +38,6 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
             .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setAcsToken(CallIdentifiersHelper.getACSToken())
             .clickLaunchButton()
-
-        setupScreen
-            .turnCameraOn()
-            .tapSpeakerIcon()
 
         return setupScreen
     }

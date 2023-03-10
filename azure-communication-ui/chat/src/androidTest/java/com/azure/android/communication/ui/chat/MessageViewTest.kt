@@ -13,8 +13,8 @@ import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 internal class MessageViewTest : BaseUiTest() {
     @get:Rule

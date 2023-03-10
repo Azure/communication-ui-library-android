@@ -1,4 +1,4 @@
-![Hero Image](../../docs/media/mobile-ui-library-chat-hero-image.png)
+![A banner image that shows some use cases of the Chat UI library](../../docs/media/mobile-ui-library-chat-hero-image.png?raw=true)
 
 # Azure Communication UI Mobile Library for Android - Chat
 

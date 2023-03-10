@@ -1,5 +1,10 @@
 # Azure Communication UI Calling Release History
 
+## 1.2.0 (2023-03-09)
+
+### Features
+- Introduced a Call History available with `DebugInfo` on the `CallComposite`
+
 ## 1.2.0-beta.1 (2022-11-30)
 
 ### Features

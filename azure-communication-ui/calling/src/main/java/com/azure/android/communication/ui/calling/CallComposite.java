@@ -23,8 +23,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetPartici
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import static com.azure.android.communication.ui.calling.models.CallCompositeDebugInfoExtensionsKt.buildCallCompositeDebugInfo;
+import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
@@ -213,25 +214,32 @@ public final class CallComposite {
      *
      * @return {@link CallCompositeDebugInfo}
      */
-    public CallCompositeDebugInfo getDebugInfo() {
-        final DebugInfoManager debugInfoManager = getDebugInfoManager();
-        return debugInfoManager != null
-                ? debugInfoManager.getDebugInfo()
-                : buildCallCompositeDebugInfo();
+    public CallCompositeDebugInfo getDebugInfo(final Context context) {
+        AndroidThreeTen.init(context.getApplicationContext());
+        final DebugInfoManager debugInfoManager = getDebugInfoManager(context.getApplicationContext());
+        return debugInfoManager.getDebugInfo();
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
-        this.diContainer = new WeakReference<DependencyInjectionContainer>(diContainer);
+        this.diContainer = new WeakReference<>(diContainer);
     }
 
-    private DebugInfoManager getDebugInfoManager() {
-        return diContainer != null ? diContainer.get().getDebugInfoManager() : null;
+    private DebugInfoManager getDebugInfoManager(final Context context) {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                return container.getDebugInfoManager();
+            }
+        }
+
+        return createDebugInfoManager(context.getApplicationContext());
     }
 
     private void launchComposite(final Context context,
                             final CallCompositeRemoteOptions remoteOptions,
                             final CallCompositeLocalOptions localOptions,
                             final boolean isTest) {
+        AndroidThreeTen.init(context.getApplicationContext());
 
         UUID groupId = null;
         String meetingLink = null;
