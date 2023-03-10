@@ -355,7 +355,7 @@ class ParticipantsReducerUnitTest {
             mutableSetOf(),
         )
         val action =
-            ParticipantAction.ParticipantsRemoved(participants = listOf(userThree, userFour), false)
+            ParticipantAction.ParticipantsRemoved(participants = listOf(userThree, userFour))
 
         // act
         val newState = reducer.reduce(previousState, action)
