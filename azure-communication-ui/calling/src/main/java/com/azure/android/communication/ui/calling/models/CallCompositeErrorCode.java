@@ -35,8 +35,8 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     /**
      * Dispatched when call join fails due to microphone permission in case setup screen is skipped.
      */
-    public static final CallCompositeErrorCode MICROPHONE_PERMISSION_REQUIRED =
-            fromString("microphonePermissionRequired");
+    public static final CallCompositeErrorCode MICROPHONE_PERMISSION_NOT_GRANTED =
+            fromString("microphonePermissionNotGranted");
 
     /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
