@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-import android.util.Log
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -54,7 +53,7 @@ internal class CallingViewModel(
     }
 
     fun exitComposite() {
-        Log.d("Mohtasim", "exit fired!!")
+        // Log.d("Mohtasim", "exit fired!!")
         dispatchAction(action = NavigationAction.Exit())
     }
 
@@ -123,8 +122,8 @@ internal class CallingViewModel(
     }
 
     override suspend fun onStateChange(state: ReduxState) {
-        Log.d("Mohtasim", "Permission Status: ${state.permissionState}")
-        Log.d("Mohtasim", "Calling Status: ${state.callState.callingStatus}")
+        // Log.d("Mohtasim", "Permission Status: ${state.permissionState}")
+        // Log.d("Mohtasim", "Calling Status: ${state.callState.callingStatus}")
 
         if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
 
@@ -145,9 +144,6 @@ internal class CallingViewModel(
                     )
                 )
                 exitComposite()
-            } else {
-                defaultCallingStateChange(state)
-                Log.d("Mohtasim", "onStateChange:: Case for ambigiuos permission state")
             }
         } else {
             defaultCallingStateChange(state)
