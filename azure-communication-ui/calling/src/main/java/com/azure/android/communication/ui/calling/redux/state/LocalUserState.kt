@@ -67,6 +67,7 @@ internal data class BluetoothState(
 internal data class LocalUserState(
     val cameraState: CameraState,
     val audioState: AudioState,
+    val readyToJoinState: Boolean?,
     val videoStreamID: String?,
     val displayName: String?,
 )

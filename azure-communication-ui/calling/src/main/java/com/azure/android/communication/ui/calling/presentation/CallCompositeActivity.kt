@@ -239,9 +239,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
             NavigationStatus.NONE -> {
-                Log.d("Mohtasim", "NAVIGATION:: NONE")
-
-                if (store.getCurrentState().permissionState.audioPermissionState == PermissionStatus.GRANTED) {
+                /*if (store.getCurrentState().permissionState.audioPermissionState == PermissionStatus.GRANTED) {
                     if (localOptions?.microphoneOnByDefaultIfPermissionIsGranted == true) {
                         store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
                     } else {
@@ -259,17 +257,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     }
                 } else {
                     Log.d("Mohtasim", "Camera control failed due to permission")
-                }
+                }*/
 
                 if (localOptions?.skipSetup == true) {
-                    Log.d("Mohtasim", "Skip setup screen")
                     store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
                 } else {
                     store.dispatch(action = NavigationAction.SetupLaunched())
                 }
             }
             NavigationStatus.EXIT -> {
-                Log.d("Mohtasim", "NAVIGATION:: EXIT")
                 notificationService.removeNotification()
                 store.end()
                 callingMiddlewareActionHandler.dispose()
@@ -277,14 +273,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 finish()
             }
             NavigationStatus.IN_CALL -> {
-                Log.d("Mohtasim", "NAVIGATION:: IN-CALL")
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
-                Log.d("Mohtasim", "NAVIGATION:: SETUP")
                 notificationService.removeNotification()
                 supportActionBar?.show()
                 requestedOrientation = if (isAndroidTV(this)) {

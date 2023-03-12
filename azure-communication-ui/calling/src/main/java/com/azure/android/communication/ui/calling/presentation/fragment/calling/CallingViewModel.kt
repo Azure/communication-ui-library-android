@@ -3,13 +3,11 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-import com.azure.android.communication.ui.calling.error.ErrorCode
-import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
+import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
@@ -17,13 +15,11 @@ import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
+    private val networkManager: NetworkManager
 ) :
     BaseViewModel(store) {
 
@@ -40,16 +36,18 @@ internal class CallingViewModel(
     val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
-    val singleThreadedContext = newSingleThreadContext("SingleThreadedContext")
-    var track = false
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
     }
 
-    fun requestCallEnd() {
+    fun requestCallEnd(operationStatus: OperationStatus) {
         // drop connecting overlay as well.
-        confirmLeaveOverlayViewModel.requestExitConfirmation()
+        if(operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+            exitComposite()
+        } else {
+            confirmLeaveOverlayViewModel.requestExitConfirmation()
+        }
     }
 
     fun exitComposite() {
@@ -60,27 +58,23 @@ internal class CallingViewModel(
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
 
-        defaultCallInit()
         if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-            runBlocking {
-                withContext(singleThreadedContext) {
-                    track = false
-                }
-            }
+            store.dispatch(action = CallingAction.SetupCall())
         }
-
+        defaultCallInit()
         super.init(coroutineScope)
     }
 
     private fun defaultCallInit() {
         val state = store.getCurrentState()
+        val operationStatus = state.callState.operationStatus
 
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
             state.callState,
-            this::requestCallEnd,
+            { this.requestCallEnd(operationStatus) },
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
             moreCallOptionsListViewModel::display,
         )
@@ -112,9 +106,13 @@ internal class CallingViewModel(
         )
 
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
+
         connectingLobbyOverlayViewModel.init(
             state.callState.callingStatus,
-            state.permissionState
+            state.permissionState,
+            networkManager,
+            state.localParticipantState.cameraState,
+            state.localParticipantState.audioState
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
@@ -122,32 +120,7 @@ internal class CallingViewModel(
     }
 
     override suspend fun onStateChange(state: ReduxState) {
-        // Log.d("Mohtasim", "Permission Status: ${state.permissionState}")
-        // Log.d("Mohtasim", "Calling Status: ${state.callState.callingStatus}")
-
-        if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-
-            if (state.permissionState.audioPermissionState == PermissionStatus.GRANTED) {
-
-                if (!track && state.callState.callingStatus == CallingStatus.NONE) {
-                    track = true
-                    dispatchAction(action = CallingAction.CallStartRequested())
-                }
-                defaultCallingStateChange(state)
-            } else if (state.permissionState.audioPermissionState == PermissionStatus.DENIED) {
-                dispatchAction(
-                    action = ErrorAction.FatalErrorOccurred(
-                        FatalError(
-                            Throwable(),
-                            ErrorCode.MIC_PERMISSION_DENIED
-                        )
-                    )
-                )
-                exitComposite()
-            }
-        } else {
-            defaultCallingStateChange(state)
-        }
+        defaultCallingStateChange(state)
     }
 
     private fun defaultCallingStateChange(state: ReduxState) {
@@ -180,7 +153,13 @@ internal class CallingViewModel(
         )
 
         waitingLobbyOverlayViewModel.update(state.callState.callingStatus)
-        connectingLobbyOverlayViewModel.update(state.callState.callingStatus)
+        connectingLobbyOverlayViewModel.update(
+            state.callState.callingStatus,
+            state.localParticipantState.cameraState.operation,
+            state.permissionState,
+            state.localParticipantState.audioState.operation,
+            state.localParticipantState.readyToJoinState
+        )
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)

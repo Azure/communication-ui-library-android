@@ -101,8 +101,10 @@ internal class ControlBarView : ConstraintLayout {
                     moreButton.isEnabled = false
                 } else {
                     updateCamera(viewModel.getCameraStateFlow().value)
+                    //cameraToggle.isEnabled = true
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
+                    moreButton.isEnabled = true
                 }
             }
         }

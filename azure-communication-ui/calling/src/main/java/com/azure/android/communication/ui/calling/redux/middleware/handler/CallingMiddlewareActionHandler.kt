@@ -48,6 +48,7 @@ internal interface CallingMiddlewareActionHandler {
     fun turnMicOn(store: Store<ReduxState>)
     fun turnMicOff(store: Store<ReduxState>)
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
+    fun onCallScreenLaunch(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
     fun dispose()
 }
@@ -114,6 +115,11 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    override fun onCallScreenLaunch(store: Store<ReduxState>) {
+        val state = store.getCurrentState()
+        store.dispatch(action = NavigationAction.CallLaunched())
+    }
+
     override fun dispose() {
         coroutineScope.cancel()
         callingService.dispose()
@@ -172,7 +178,11 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(LocalParticipantAction.CameraPreviewOnSucceeded(newVideoStreamId))
             }
         }
+
+        callingService.turnLocalCameraOn()
     }
+
+
 
     override fun turnCameraOff(store: Store<ReduxState>) {
         if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
@@ -198,9 +208,12 @@ internal class CallingMiddlewareActionHandlerImpl(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
-            } else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-                store.dispatch(NavigationAction.CallLaunched())
+            } else  {
+                store.dispatch(LocalParticipantAction.ToggleReadyToJoinCall())
             }
+            /*else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                store.dispatch(NavigationAction.CallLaunched())
+            }*/
         }
     }
 

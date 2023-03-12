@@ -26,6 +26,7 @@ internal class AppReduxState(displayName: String?) : ReduxState {
                     deviceName = ""
                 )
             ),
+            readyToJoinState = false,
             videoStreamID = null,
             displayName = displayName,
         )

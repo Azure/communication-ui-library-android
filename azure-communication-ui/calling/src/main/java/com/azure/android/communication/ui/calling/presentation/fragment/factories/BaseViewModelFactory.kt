@@ -10,4 +10,5 @@ internal open class BaseViewModelFactory constructor(
     val warningsViewModel by lazy {
         PermissionWarningViewModel(store::dispatch)
     }
+
 }
