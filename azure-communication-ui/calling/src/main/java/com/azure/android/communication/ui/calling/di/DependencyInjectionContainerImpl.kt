@@ -5,10 +5,12 @@ package com.azure.android.communication.ui.calling.di
 
 import android.content.Context
 import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
@@ -45,6 +47,8 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
+import com.azure.android.communication.ui.calling.service.CallHistoryService
+import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
@@ -111,7 +115,14 @@ internal class DependencyInjectionContainerImpl(
     }
     override val debugInfoManager: DebugInfoManager by lazy {
         DebugInfoManagerImpl(
+            callHistoryRepository,
+        )
+    }
+
+    override val callHistoryService: CallHistoryService by lazy {
+        CallHistoryServiceImpl(
             appStore,
+            callHistoryRepository
         )
     }
 
@@ -158,6 +169,10 @@ internal class DependencyInjectionContainerImpl(
         RemoteParticipantHandler(configuration, appStore, callingSDKWrapper)
     }
 
+    override val callHistoryRepository by lazy {
+        CallHistoryRepositoryImpl(applicationContext, logger)
+    }
+
     //region Redux
     // Initial State
     private val initialState by lazy { AppReduxState(configuration.callConfig?.displayName) }
@@ -199,7 +214,7 @@ internal class DependencyInjectionContainerImpl(
     //region System
     private val applicationContext get() = parentContext.applicationContext
 
-    override val logger by lazy { DefaultLogger() }
+    override val logger: Logger by lazy { DefaultLogger() }
 
     private val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK

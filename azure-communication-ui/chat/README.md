@@ -1,10 +1,10 @@
-![Hero Image](../../docs/media/mobile-ui-library-chat-hero-image.png)
+![A banner image that shows some use cases of the Chat UI library](../../docs/media/mobile-ui-library-chat-hero-image.png?raw=true)
 
 # Azure Communication UI Mobile Library for Android - Chat
 
 ## Latest Release
 
-- Public Preview: [1.0.0-beta.1](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-1.0.0-beta.1)
+- Public Preview: [1.0.0-beta.2](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-1.0.0-beta.2)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-chat:1.0.0-beta.1'
+    implementation 'com.azure.android:azure-communication-ui-chat:1.0.0-beta.2'
     ...
 }
 ```

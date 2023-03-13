@@ -1,10 +1,10 @@
-![Hero Image](../../docs/media/mobile-ui-library-hero-image-calling.png)
+![A banner image that shows some use cases of the Calling library](../../docs/media/mobile-ui-library-calling-hero-image.png?raw=true)
 
 # Azure Communication UI Mobile Library for Android - Calling
 
 ## Latest Release
 
-- [1.1.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.1.0)
+- [1.2.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.2.0)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:1.1.0'
+    implementation 'com.azure.android:azure-communication-ui-calling:1.2.0'
     ...
 }
 ```

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (TBD)
+## 1.0.0-beta.2 (2023-03-01)
 
 ### Bugs Fixed
 - Fixed an issue in demo app where sendbox does not appear to have sufficient padding. [#714](https://github.com/Azure/communication-ui-library-android/pull/714)
