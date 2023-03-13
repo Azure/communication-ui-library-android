@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleState
@@ -57,7 +58,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("")
+            val appState = AppReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -91,6 +92,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
 
+            val mockNetworkManager = mock<NetworkManager>()
+
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
                 on { controlBarViewModel } doAnswer { mockControlBarViewModel }
@@ -108,10 +111,11 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val callingViewModel = CallingViewModel(
                 mockAppStore,
-                mockCallingViewModelProvider
+                mockCallingViewModelProvider,
+                mockNetworkManager
             )
 
-            val newBackgroundState = AppReduxState("")
+            val newBackgroundState = AppReduxState("", false, false)
             newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND)
             newBackgroundState.localParticipantState = getLocalUserState()
 
@@ -143,7 +147,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("")
+            val appState = AppReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -175,6 +179,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
+            val mockNetworkManager = mock<NetworkManager>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -193,10 +198,11 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val callingViewModel = CallingViewModel(
                 mockAppStore,
-                mockCallingViewModelProvider
+                mockCallingViewModelProvider,
+                mockNetworkManager
             )
 
-            val newForegroundState = AppReduxState("")
+            val newForegroundState = AppReduxState("", false, false)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -228,7 +234,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("")
+            val appState = AppReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -260,6 +266,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
+            val mockNetworkManager = mock<NetworkManager>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -278,10 +285,11 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val callingViewModel = CallingViewModel(
                 mockAppStore,
-                mockCallingViewModelProvider
+                mockCallingViewModelProvider,
+                mockNetworkManager
             )
 
-            val storeState = AppReduxState("")
+            val storeState = AppReduxState("", false, false)
             storeState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             storeState.localParticipantState = getLocalUserState()
             storeState.callState = CallingState(
@@ -322,7 +330,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("")
+            val appState = AppReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -353,6 +361,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
+            val mockNetworkManager = mock<NetworkManager>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -371,10 +380,11 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val callingViewModel = CallingViewModel(
                 mockAppStore,
-                mockCallingViewModelProvider
+                mockCallingViewModelProvider,
+                mockNetworkManager
             )
 
-            val newForegroundState = AppReduxState("")
+            val newForegroundState = AppReduxState("", false, false)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -414,6 +424,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED,
             BluetoothState(available = false, deviceName = "bluetooth")
         ),
+        false,
         "test",
         "test"
     )

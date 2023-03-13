@@ -95,6 +95,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
+                false,
                 "video_stream_id",
                 "local_user"
             )
@@ -154,6 +155,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
+                false,
                 "video_stream_id",
                 "local_user"
             )
@@ -179,6 +181,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
+                false,
                 "video_stream_id",
                 "local_user"
             )
@@ -256,6 +259,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
+                false,
                 "video_stream_id",
                 "local_user"
             )
@@ -315,6 +319,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
+                false,
                 "video_stream_id",
                 "local_user"
             )

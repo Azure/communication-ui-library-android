@@ -30,10 +30,6 @@ internal class AppReduxState(
                     deviceName = ""
                 )
             ),
-            CallControlDefaultState(
-                microphoneOnDefault,
-                cameraOnDefault
-            ),
             readyToJoinState = false,
             videoStreamID = null,
             displayName = displayName,

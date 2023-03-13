@@ -85,7 +85,7 @@ internal class AppReduxStateReducerUnitTest {
                 mockAudioSessionReducerImpl
             )
         val action = NavigationAction.CallLaunched()
-        val state = AppReduxState("")
+        val state = AppReduxState("", false, false)
         state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0)
         state.localParticipantState = LocalUserState(
@@ -99,6 +99,7 @@ internal class AppReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
+            false,
             "",
             ""
         )

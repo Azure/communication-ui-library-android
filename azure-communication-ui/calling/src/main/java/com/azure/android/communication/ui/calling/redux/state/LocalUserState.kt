@@ -72,7 +72,6 @@ internal data class CallControlDefaultState(
 internal data class LocalUserState(
     val cameraState: CameraState,
     val audioState: AudioState,
-    val callControlDefaultState: CallControlDefaultState,
     val readyToJoinState: Boolean?,
     val videoStreamID: String?,
     val displayName: String?,

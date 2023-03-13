@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.BaseView
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
@@ -43,11 +42,11 @@ internal class SetupViewModel(
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
 
-        if (state.localParticipantState.callControlDefaultState.cameraOnByDefault) {
+/*        if (state.localParticipantState.callControlDefaultState.cameraOnByDefault) {
             dispatchAction(action = LocalParticipantAction.CameraPreviewOnRequested())
-        }
+        }*/
 
-        warningsViewModel.init(state.permissionState, state.localParticipantState.callControlDefaultState)
+        warningsViewModel.init(state.permissionState)
         localParticipantRendererViewModel.init(
             state.localParticipantState.videoStreamID,
         )
@@ -57,7 +56,6 @@ internal class SetupViewModel(
             state.localParticipantState.audioState,
             state.callState,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-            state.localParticipantState.callControlDefaultState
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState,
@@ -88,9 +86,8 @@ internal class SetupViewModel(
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
             state.callState,
-            state.localParticipantState.callControlDefaultState
         )
-        warningsViewModel.update(state.permissionState, state.localParticipantState.callControlDefaultState)
+        warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(
             state.localParticipantState.videoStreamID,
         )

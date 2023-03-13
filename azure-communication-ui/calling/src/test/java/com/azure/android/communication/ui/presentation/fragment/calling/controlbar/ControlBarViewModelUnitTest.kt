@@ -43,7 +43,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
-        val appState = AppReduxState("")
+        val appState = AppReduxState("", false, false)
         appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
@@ -55,6 +55,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
+            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -75,7 +76,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOff() {
-        val appState = AppReduxState("")
+        val appState = AppReduxState("", false, false)
         appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
@@ -87,6 +88,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
+            false,
             videoStreamID = null,
             displayName = "username"
         )

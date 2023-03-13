@@ -102,7 +102,6 @@ internal class CallingViewModel(
             networkManager,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
-            state.localParticipantState.callControlDefaultState
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
@@ -148,8 +147,7 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.operation,
             state.permissionState,
             state.localParticipantState.audioState.operation,
-            state.localParticipantState.readyToJoinState,
-            state.localParticipantState.callControlDefaultState
+            state.localParticipantState.readyToJoinState
         )
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
