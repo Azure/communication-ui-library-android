@@ -19,7 +19,11 @@ internal class AppStateReducer(
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
 
-        val appState = AppReduxState(state.localParticipantState.displayName)
+        val appState = AppReduxState(
+            state.localParticipantState.displayName,
+            state.localParticipantState.callControlDefaultState.cameraOnByDefault,
+            state.localParticipantState.callControlDefaultState.microphoneOnByDefault
+        )
 
         appState.callState = callStateReducer.reduce(
             state.callState,

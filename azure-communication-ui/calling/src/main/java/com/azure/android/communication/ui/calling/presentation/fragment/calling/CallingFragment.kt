@@ -33,7 +33,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
-import com.azure.android.communication.ui.calling.redux.Store
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
@@ -78,7 +77,8 @@ internal class CallingFragment :
         confirmLeaveOverlayView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         confirmLeaveOverlayView.start(
-            viewLifecycleOwner
+            viewLifecycleOwner,
+            holder.container.appStore.getCurrentState().callState
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
@@ -247,7 +247,7 @@ internal class CallingFragment :
     }
 
     private fun requestCallEnd() {
-        viewModel.requestCallEnd(holder.container.appStore.getCurrentState().callState.operationStatus)
+        viewModel.requestCallEnd()
     }
 
     private fun displayParticipantList() {

@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -239,27 +238,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
             NavigationStatus.NONE -> {
-                /*if (store.getCurrentState().permissionState.audioPermissionState == PermissionStatus.GRANTED) {
-                    if (localOptions?.microphoneOnByDefaultIfPermissionIsGranted == true) {
-                        store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
-                    } else {
-                        store.dispatch(action = LocalParticipantAction.MicPreviewOffTriggered())
-                    }
-                } else {
-                    Log.d("Mohtasim", "Mic control failed due to permission")
+
+                if (localOptions?.microphoneOnByDefault == true &&
+                    store.getCurrentState().permissionState.audioPermissionState == PermissionStatus.GRANTED
+                ) {
+                    store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
                 }
 
-                if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.GRANTED) {
-                    if (localOptions?.cameraOnByDefaultIfPermissionIsGranted == true) {
-                        store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
-                    } else {
-                        store.dispatch(action = LocalParticipantAction.CameraPreviewOffTriggered())
-                    }
-                } else {
-                    Log.d("Mohtasim", "Camera control failed due to permission")
-                }*/
-
-                if (localOptions?.skipSetup == true) {
+                if (localOptions?.bypassSetupScreen == true) {
                     store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
                 } else {
                     store.dispatch(action = NavigationAction.SetupLaunched())

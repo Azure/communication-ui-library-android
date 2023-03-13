@@ -182,8 +182,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.turnLocalCameraOn()
     }
 
-
-
     override fun turnCameraOff(store: Store<ReduxState>) {
         if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
             callingService.turnCameraOff().whenComplete { _, error ->
@@ -208,7 +206,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
-            } else  {
+            } else {
                 store.dispatch(LocalParticipantAction.ToggleReadyToJoinCall())
             }
             /*else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {

@@ -91,9 +91,9 @@ class CallingCompositeKotlinLauncher(private val tokenRefresher: Callable<String
                     .setTitle(getTitle())
                     .setSubtitle(getSubtitle())
             )
-            .setSkipSetup(skipSetup)
-            .setCameraOnByDefaultIfPermissionIsGranted(cameraOnByDefault)
-            .setMicrophoneOnByDefaultIfPermissionIsGranted(micOnByDefault)
+            .setBypassSetupScreen(skipSetup)
+            .setCameraOnByDefault(cameraOnByDefault)
+            .setMicrophoneOnByDefault(micOnByDefault)
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions)
 

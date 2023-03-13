@@ -5,6 +5,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.CallingState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -16,8 +20,14 @@ internal class LeaveConfirmViewModel(private val dispatch: (Action) -> Unit) {
         return shouldDisplayLeaveConfirmStateFlow
     }
 
-    fun confirm() {
-        dispatchAction(action = CallingAction.CallEndRequested())
+    fun confirm(callingState: CallingState) {
+        if (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+            callingState.callingStatus != CallingStatus.CONNECTED
+        ) {
+            dispatchAction(action = NavigationAction.Exit())
+        } else {
+            dispatchAction(action = CallingAction.CallEndRequested())
+        }
     }
 
     fun cancel() {

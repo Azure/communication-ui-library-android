@@ -101,7 +101,7 @@ internal class ControlBarView : ConstraintLayout {
                     moreButton.isEnabled = false
                 } else {
                     updateCamera(viewModel.getCameraStateFlow().value)
-                    //cameraToggle.isEnabled = true
+                    // cameraToggle.isEnabled = true
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
                     moreButton.isEnabled = true
@@ -155,16 +155,14 @@ internal class ControlBarView : ConstraintLayout {
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
 
         val permissionIsNotDenied = cameraState.cameraPermissionState != PermissionStatus.DENIED
-
+        cameraToggle.isEnabled = permissionIsNotDenied
         when (cameraState.cameraState.operation) {
             CameraOperationalStatus.ON -> {
                 cameraToggle.isSelected = true
-                cameraToggle.isEnabled = permissionIsNotDenied
                 cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_on)
             }
             CameraOperationalStatus.OFF -> {
                 cameraToggle.isSelected = false
-                cameraToggle.isEnabled = permissionIsNotDenied
                 cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)
             }
             else -> {

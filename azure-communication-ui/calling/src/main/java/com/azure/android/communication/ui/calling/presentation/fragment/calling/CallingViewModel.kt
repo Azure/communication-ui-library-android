@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -41,18 +40,9 @@ internal class CallingViewModel(
         floatingHeaderViewModel.switchFloatingHeader()
     }
 
-    fun requestCallEnd(operationStatus: OperationStatus) {
+    fun requestCallEnd() {
         // drop connecting overlay as well.
-        if(operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-            exitComposite()
-        } else {
-            confirmLeaveOverlayViewModel.requestExitConfirmation()
-        }
-    }
-
-    fun exitComposite() {
-        // Log.d("Mohtasim", "exit fired!!")
-        dispatchAction(action = NavigationAction.Exit())
+        confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
     override fun init(coroutineScope: CoroutineScope) {
@@ -67,14 +57,13 @@ internal class CallingViewModel(
 
     private fun defaultCallInit() {
         val state = store.getCurrentState()
-        val operationStatus = state.callState.operationStatus
 
         controlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
             state.callState,
-            { this.requestCallEnd(operationStatus) },
+            this::requestCallEnd,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
             moreCallOptionsListViewModel::display,
         )
@@ -112,7 +101,8 @@ internal class CallingViewModel(
             state.permissionState,
             networkManager,
             state.localParticipantState.cameraState,
-            state.localParticipantState.audioState
+            state.localParticipantState.audioState,
+            state.localParticipantState.callControlDefaultState
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
@@ -158,7 +148,8 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.operation,
             state.permissionState,
             state.localParticipantState.audioState.operation,
-            state.localParticipantState.readyToJoinState
+            state.localParticipantState.readyToJoinState,
+            state.localParticipantState.callControlDefaultState
         )
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 

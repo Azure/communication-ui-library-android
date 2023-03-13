@@ -40,11 +40,17 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         viewModel: ConnectingLobbyOverlayViewModel,
     ) {
         this.viewModel = viewModel
+        // viewModel.turnCameraOnDefault()
 
         setupUi()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCameraStateFlow().collect {
             }
         }
 

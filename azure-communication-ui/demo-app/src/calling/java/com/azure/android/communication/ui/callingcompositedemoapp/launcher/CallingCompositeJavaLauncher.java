@@ -88,9 +88,9 @@ public class CallingCompositeJavaLauncher implements CallingCompositeLauncher {
                         new CallCompositeSetupScreenViewData()
                                 .setTitle(SettingsFeatures.getTitle())
                                 .setSubtitle(SettingsFeatures.getSubtitle()))
-                .setSkipSetup(skipSetup)
-                .setCameraOnByDefaultIfPermissionIsGranted(cameraOnByDefault)
-                .setMicrophoneOnByDefaultIfPermissionIsGranted(micOnByDefault);
+                .setBypassSetupScreen(skipSetup)
+                .setCameraOnByDefault(cameraOnByDefault)
+                .setMicrophoneOnByDefault(micOnByDefault);
 
         callComposite.launch(callLauncherActivity, remoteOptions, localOptions);
         // For test purposes we will keep a static ref to CallComposite
