@@ -11,15 +11,20 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
 
     private final String roomId;
-    private final CallCompositeRoomRole role;
+    private final CallCompositeRoomRole hintRole;
 
     /**
      * Creates {@link CallCompositeRoomLocator}.
      * @param roomId   Room identifier.
+     * @param hintRole Use this to hint the role of the user when the role is not available before a Rooms
+     *                 call is started.
+     *                 This value should be obtained using the Rooms API. This role will determine permissions in the
+     *                 Setup screen of the {@link CallComposite}.
+     *                 The true role of the user will be synced with ACS services when a Rooms call starts.
      */
-    public CallCompositeRoomLocator(final String roomId, final CallCompositeRoomRole role) {
+    public CallCompositeRoomLocator(final String roomId, final CallCompositeRoomRole hintRole) {
         this.roomId = roomId;
-        this.role = role;
+        this.hintRole = hintRole;
     }
 
     /**
@@ -32,10 +37,14 @@ public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
     }
 
     /**
-     * Get role.
+     * Get hint role. Use this to hint the role of the user when the role is not available before a Rooms
+     * call is started.
+     * This value should be obtained using the Rooms API. This role will determine permissions in the
+     * Setup screen of the {@link CallComposite}.
+     * The true role of the user will be synced with ACS services when a Rooms call starts.
      * @return {@link CallCompositeRoomRole}
      */
-    public CallCompositeRoomRole getRole() {
-        return role;
+    public CallCompositeRoomRole getHintRole() {
+        return hintRole;
     }
 }

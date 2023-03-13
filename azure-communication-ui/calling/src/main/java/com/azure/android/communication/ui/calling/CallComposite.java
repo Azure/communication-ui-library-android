@@ -252,7 +252,7 @@ public final class CallComposite {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
-            roomRole = roomLocator.getRole();
+            roomRole = roomLocator.getHintRole();
         } else {
             throw new CallCompositeException("Not supported Call Locator type");
         }
