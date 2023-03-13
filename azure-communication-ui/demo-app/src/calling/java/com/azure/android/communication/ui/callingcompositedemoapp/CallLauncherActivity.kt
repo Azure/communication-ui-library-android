@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,7 +12,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -171,8 +170,8 @@ class CallLauncherActivity : AppCompatActivity() {
         val acsToken = binding.acsTokenText.text.toString()
 
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeRoomRole.ATTENDEE
-        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeRoomRole.PRESENTER
+        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
         else {
             showAlert("Incorrect role selection.")
             return

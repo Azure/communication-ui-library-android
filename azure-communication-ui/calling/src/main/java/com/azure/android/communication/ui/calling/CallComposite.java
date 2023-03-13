@@ -19,7 +19,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
@@ -246,7 +246,7 @@ public final class CallComposite {
         UUID groupId = null;
         String meetingLink = null;
         String roomId = null;
-        CallCompositeRoomRole roomRole = null;
+        CallCompositeParticipantRole roomRole = null;
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();

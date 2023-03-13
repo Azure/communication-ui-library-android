@@ -16,7 +16,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptio
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomRole
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
@@ -32,7 +32,7 @@ class CallLauncherViewModel : ViewModel() {
         displayName: String,
         groupId: UUID?,
         roomId: String?,
-        roomRoleHint: CallCompositeRoomRole?,
+        roomRoleHint: CallCompositeParticipantRole?,
         meetingLink: String?,
     ) {
         val callComposite = createCallComposite(context)
