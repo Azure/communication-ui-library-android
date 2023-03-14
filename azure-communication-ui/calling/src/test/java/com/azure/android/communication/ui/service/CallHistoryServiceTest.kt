@@ -6,7 +6,11 @@ package com.azure.android.communication.ui.service
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.state.*
+import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.CallingState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
