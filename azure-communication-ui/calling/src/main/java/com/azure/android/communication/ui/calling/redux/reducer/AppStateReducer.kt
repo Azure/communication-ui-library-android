@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 
 internal class AppStateReducer(
@@ -17,6 +17,7 @@ internal class AppStateReducer(
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
     private val audioSessionReducer: AudioSessionReducer,
+    private val localOptions: CallCompositeLocalOptions,
 ) :
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
@@ -24,7 +25,7 @@ internal class AppStateReducer(
         val appState = AppReduxState(
             state.localParticipantState.displayName,
             state.localParticipantState.cameraState.operation.equals(CameraOperationalStatus.ON),
-            state.localParticipantState.audioState.operation.equals(AudioOperationalStatus.ON)
+            localOptions.microphoneOnByDefault
         )
 
         appState.callState = callStateReducer.reduce(

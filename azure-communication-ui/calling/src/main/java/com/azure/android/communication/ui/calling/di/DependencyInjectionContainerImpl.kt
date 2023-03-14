@@ -221,7 +221,8 @@ internal class DependencyInjectionContainerImpl(
             lifecycleReducer,
             errorReducer,
             navigationReducer,
-            audioSessionReducer
+            audioSessionReducer,
+            localOptions = localOptions!!
         ) as Reducer<ReduxState>
     }
     //endregion

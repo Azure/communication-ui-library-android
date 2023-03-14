@@ -15,7 +15,6 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.CallControlDefaultState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -31,8 +30,8 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
 
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
-    private lateinit var callControlDefaultState: CallControlDefaultState
     private var isCameraPermissionGranted: Boolean = false
+    private var firstTimeTryingToConnectCall: Boolean = true
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
 
@@ -73,16 +72,15 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         handlePermissionDeniedEvent(permissionState)
         handleOffline(this.networkManager)
 
-        if (readyToJoinCall == true && isAudioPermissionGranted(permissionState) &&
+        if (readyToJoinCall == true && firstTimeTryingToConnectCall &&
+            isAudioPermissionGranted(permissionState) &&
             cameraOperationalStatus != CameraOperationalStatus.PENDING &&
             shouldDisplayLobbyOverlay(callingState, permissionState) &&
             callingState == CallingStatus.NONE
         ) {
-
-            // Potential error: Might want to make these actions serialized.
-            dispatchAction(action = CallingAction.CallStartRequested())
-
+            firstTimeTryingToConnectCall = false
             dispatchAction(action = LocalParticipantAction.ToggleReadyToJoinCall())
+            dispatchAction(action = CallingAction.CallStartRequested())
         }
     }
 
