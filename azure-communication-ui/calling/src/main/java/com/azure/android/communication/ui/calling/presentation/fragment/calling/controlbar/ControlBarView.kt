@@ -36,6 +36,9 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var callAudioDeviceButton: ImageButton
     private lateinit var moreButton: ImageButton
 
+    private var cameraPermissionIsNotDenied: Boolean = false
+    private var callStatePassedConnecting: Boolean = false
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         endCallButton = findViewById(R.id.azure_communication_ui_call_end_call_button)
@@ -62,6 +65,7 @@ internal class ControlBarView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraStateFlow().collect {
+                cameraPermissionIsNotDenied = (it.cameraPermissionState != PermissionStatus.DENIED)
                 updateCamera(it)
             }
         }
@@ -99,7 +103,9 @@ internal class ControlBarView : ConstraintLayout {
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
                     moreButton.isEnabled = false
+                    callStatePassedConnecting = false
                 } else {
+                    callStatePassedConnecting = true
                     updateCamera(viewModel.getCameraStateFlow().value)
                     // cameraToggle.isEnabled = true
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
@@ -154,8 +160,9 @@ internal class ControlBarView : ConstraintLayout {
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
 
-        val permissionIsNotDenied = cameraState.cameraPermissionState != PermissionStatus.DENIED
-        cameraToggle.isEnabled = permissionIsNotDenied
+        val shouldBeEnabled = (cameraPermissionIsNotDenied && callStatePassedConnecting)
+        cameraToggle.isEnabled = shouldBeEnabled
+
         when (cameraState.cameraState.operation) {
             CameraOperationalStatus.ON -> {
                 cameraToggle.isSelected = true

@@ -230,11 +230,13 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     readyToJoinState = localUserState.readyToJoinState?.xor(true)
                 )
             }
-            /*is LocalParticipantAction.CallControlDefaultStateUpdated -> {
+            is LocalParticipantAction.CamerasOperationUpdated -> {
                 localUserState.copy(
-                    callControlDefaultState = action.callControlDefaultState
+                    cameraState = localUserState.cameraState.copy(
+                        operation = action.operation
+                    )
                 )
-            }*/
+            }
             is NavigationAction.CallLaunched -> {
                 localUserState.copy(
                     cameraState = localUserState.cameraState.copy(

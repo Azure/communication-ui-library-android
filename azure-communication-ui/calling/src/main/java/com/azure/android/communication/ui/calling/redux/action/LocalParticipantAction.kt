@@ -4,9 +4,9 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CallControlDefaultState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 
 internal sealed class LocalParticipantAction : Action {
@@ -41,6 +41,7 @@ internal sealed class LocalParticipantAction : Action {
     class CameraPauseFailed(val error: CallCompositeError) : LocalParticipantAction()
 
     class CamerasCountUpdated(val count: Int) : LocalParticipantAction()
+    class CamerasOperationUpdated(val operation: CameraOperationalStatus) : LocalParticipantAction()
 
     class MicPreviewOnTriggered : LocalParticipantAction()
     class MicPreviewOffTriggered : LocalParticipantAction()
@@ -71,5 +72,4 @@ internal sealed class LocalParticipantAction : Action {
 
     class DisplayNameIsSet(val displayName: String) : LocalParticipantAction()
     class ToggleReadyToJoinCall() : LocalParticipantAction()
-    class CallControlDefaultStateUpdated(val callControlDefaultState: CallControlDefaultState) : LocalParticipantAction()
 }

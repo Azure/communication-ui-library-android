@@ -7,7 +7,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.BaseView
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 
@@ -42,9 +44,9 @@ internal class SetupViewModel(
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
 
-/*        if (state.localParticipantState.callControlDefaultState.cameraOnByDefault) {
+        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.ON) {
             dispatchAction(action = LocalParticipantAction.CameraPreviewOnRequested())
-        }*/
+        }
 
         warningsViewModel.init(state.permissionState)
         localParticipantRendererViewModel.init(

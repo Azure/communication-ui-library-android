@@ -8,7 +8,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -49,6 +51,14 @@ internal class CallingViewModel(
         val state = store.getCurrentState()
 
         if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+            if (state.callControlDefaultState.cameraOnByDefault &&
+                state.permissionState.cameraPermissionState == PermissionStatus.GRANTED
+            ) {
+                store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
+            } else {
+                store.dispatch(action = LocalParticipantAction.CamerasOperationUpdated(CameraOperationalStatus.OFF))
+            }
+
             store.dispatch(action = CallingAction.SetupCall())
         }
         defaultCallInit()

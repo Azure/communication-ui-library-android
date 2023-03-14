@@ -35,9 +35,9 @@ public final class CallCompositeLocalOptions {
 
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
 
-    private Boolean cameraOnByDefault = true;
+    private Boolean cameraOnByDefault = false;
 
-    private Boolean microphoneOnByDefault = true;
+    private Boolean microphoneOnByDefault = false;
 
     private Boolean bypassSetupScreen = false;
 

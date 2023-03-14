@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
 import com.azure.android.communication.ui.calling.error.CallStateError
@@ -40,7 +43,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         cameraState: CameraState,
         audioState: AudioState,
     ) {
-        // this.callControlDefaultState = callControlDefaultState
         this.networkManager = networkManager
         isCameraPermissionGranted = (permissionState.cameraPermissionState == PermissionStatus.GRANTED)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
@@ -61,7 +63,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         audioOperationalStatus: AudioOperationalStatus,
         readyToJoinCall: Boolean?,
     ) {
-        // this.callControlDefaultState = callControlDefaultState
         isCameraPermissionGranted = (permissionState.cameraPermissionState == PermissionStatus.GRANTED)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
         displayLobbyOverlayFlow.value = displayLobbyOverlay
@@ -79,24 +80,14 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         ) {
 
             // Potential error: Might want to make these actions serialized.
-            dispatchAction(action = LocalParticipantAction.ToggleReadyToJoinCall())
             dispatchAction(action = CallingAction.CallStartRequested())
+
+            dispatchAction(action = LocalParticipantAction.ToggleReadyToJoinCall())
         }
     }
 
     fun getCameraStateFlow(): StateFlow<CameraOperationalStatus> {
         return cameraStateFlow
-    }
-
-    fun getAudioOperationStatusStateFlow(): StateFlow<AudioOperationalStatus> {
-        return audioOperationalStatusStateFlow
-    }
-
-    fun turnCameraOnDefault() {
-        /*if (callControlDefaultState.cameraOnByDefault &&
-                isCameraPermissionGranted) {
-            dispatchAction(action = LocalParticipantAction.CameraPreviewOnRequested())
-        }*/
     }
 
     private fun requestAudioPermission() {

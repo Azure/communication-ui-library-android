@@ -5,9 +5,12 @@ package com.azure.android.communication.ui.calling.redux.state
 
 internal class AppReduxState(
     displayName: String?,
-    cameraOnDefault: Boolean,
-    microphoneOnDefault: Boolean
+    cameraOnByDefault: Boolean?,
+    microphoneOnByDefault: Boolean?
 ) : ReduxState {
+
+    override var callControlDefaultState: CallControlDefaultState =
+        CallControlDefaultState(microphoneOnByDefault!!, cameraOnByDefault!!)
 
     override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
@@ -15,15 +18,27 @@ internal class AppReduxState(
         HashMap(), 0
     )
 
+    private val cameraOperationStatus = if (cameraOnByDefault == true) {
+        CameraOperationalStatus.ON
+    } else {
+        CameraOperationalStatus.OFF
+    }
+
+    private val audioOperationStatus = if (microphoneOnByDefault == true) {
+        AudioOperationalStatus.ON
+    } else {
+        AudioOperationalStatus.OFF
+    }
+
     override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
-                operation = CameraOperationalStatus.OFF,
+                operation = cameraOperationStatus,
                 device = CameraDeviceSelectionStatus.FRONT,
                 transmission = CameraTransmissionStatus.LOCAL
             ),
             AudioState(
-                operation = AudioOperationalStatus.OFF,
+                operation = audioOperationStatus,
                 device = AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 bluetoothState = BluetoothState(
                     available = false,
