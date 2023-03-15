@@ -181,7 +181,7 @@ class CallLauncherActivity : AppCompatActivity() {
         if (binding.groupCallRadioButton.isChecked) {
             try {
                 groupId =
-                        UUID.fromString(binding.groupIdOrTeamsMeetingLinkText.text.toString().trim())
+                    UUID.fromString(binding.groupIdOrTeamsMeetingLinkText.text.toString().trim())
             } catch (e: IllegalArgumentException) {
                 val message = "Group ID is invalid or empty."
                 showAlert(message)

@@ -260,9 +260,13 @@ public final class CallComposite {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
-            roomRole = roomLocator.getHintRole();
         } else {
             throw new CallCompositeException("Not supported Call Locator type");
+        }
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+            roomRole = localOptions.getRoleHint();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -274,9 +278,6 @@ public final class CallComposite {
                 roomRole,
                 callType));
 
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-        }
 
         CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
