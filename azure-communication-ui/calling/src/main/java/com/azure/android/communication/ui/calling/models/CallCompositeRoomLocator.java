@@ -7,6 +7,8 @@ import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
  * Room Call locator to start Room call experience using {@link CallComposite}.
+ *  You need to use LocalOptions parameter for
+ *  CallComposite.launch() method with roleHint provided.
  */
 public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
 
