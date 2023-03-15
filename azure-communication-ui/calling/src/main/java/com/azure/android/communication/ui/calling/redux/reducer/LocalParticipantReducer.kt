@@ -225,11 +225,6 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     displayName = action.displayName
                 )
             }
-            is LocalParticipantAction.ToggleReadyToJoinCall -> {
-                localUserState.copy(
-                    readyToJoinState = localUserState.readyToJoinState?.xor(true)
-                )
-            }
             is LocalParticipantAction.CamerasOperationUpdated -> {
                 localUserState.copy(
                     cameraState = localUserState.cameraState.copy(

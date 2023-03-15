@@ -55,7 +55,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -88,7 +87,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )

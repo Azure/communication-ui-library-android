@@ -424,7 +424,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED,
             BluetoothState(available = false, deviceName = "bluetooth")
         ),
-        false,
         "test",
         "test"
     )

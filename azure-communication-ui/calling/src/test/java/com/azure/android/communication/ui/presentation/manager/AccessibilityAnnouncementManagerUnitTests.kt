@@ -50,7 +50,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.BACK,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, false, "", ""
+            mockAudioState, "", ""
         )
 
         // Act
@@ -75,7 +75,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.BACK,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, false, "", ""
+            mockAudioState, "", ""
         )
 
         // Act
@@ -99,7 +99,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                mockAudioState, false, "", ""
+                mockAudioState, "", ""
             )
 
         // Act
@@ -121,7 +121,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                mockAudioState, false, "", ""
+                mockAudioState, "", ""
             )
         val cameraStatusHook = CameraStatusHook()
 
@@ -144,7 +144,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                mockAudioState, false, "", ""
+                mockAudioState, "", ""
             )
         val cameraStatusHook = CameraStatusHook()
 
@@ -170,7 +170,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
                 BluetoothState(true, "")
             ),
-            false,
             "",
             ""
         )
@@ -200,7 +199,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
                 BluetoothState(true, "")
             ),
-            false,
             "",
             ""
         )
@@ -229,7 +227,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
                 BluetoothState(true, "")
             ),
-            false,
             "",
             ""
         )
@@ -256,7 +253,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
                 BluetoothState(true, "")
             ),
-            false,
             "",
             ""
         )
@@ -280,7 +276,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
                 BluetoothState(true, "")
             ),
-            false,
             "",
             ""
         )
@@ -307,7 +302,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, false, "", ""
+            mockAudioState, "", ""
         )
 
         // Act
@@ -335,7 +330,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.BACK,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, false, "", ""
+            mockAudioState, "", ""
         )
 
         // Act
@@ -361,7 +356,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.SWITCHING,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, false, "", ""
+            mockAudioState, "", ""
         )
 
         // Act
@@ -383,7 +378,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.SWITCHING,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, false, "", ""
+            mockAudioState, "", ""
         )
 
         // Act
@@ -405,7 +400,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.SWITCHING,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, false, "", ""
+            mockAudioState, "", ""
         )
 
         // Act

@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -110,7 +111,7 @@ internal class CallingViewModel(
         ) {
             hasSetupCalled = true
 
-            if (state.callControlDefaultState.cameraOnByDefault) {
+            if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.ON) {
                 store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
             }
 
@@ -210,9 +211,4 @@ internal class CallingViewModel(
         bannerViewModel.updateIsOverlayDisplayed(callingStatus)
         localParticipantViewModel.updateIsOverlayDisplayed(callingStatus)
     }
-
-    private fun hasSkippedSetupScreenWithAudioGranted(state: ReduxState) = (
-        state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-            state.permissionState.audioPermissionState == PermissionStatus.GRANTED
-        )
 }

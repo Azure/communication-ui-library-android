@@ -9,9 +9,6 @@ internal class AppReduxState(
     microphoneOnByDefault: Boolean? = false
 ) : ReduxState {
 
-    override var callControlDefaultState: CallControlDefaultState =
-        CallControlDefaultState(microphoneOnByDefault == true, cameraOnByDefault == true)
-
     override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
@@ -45,7 +42,6 @@ internal class AppReduxState(
                     deviceName = ""
                 )
             ),
-            readyToJoinState = false,
             videoStreamID = null,
             displayName = displayName,
         )

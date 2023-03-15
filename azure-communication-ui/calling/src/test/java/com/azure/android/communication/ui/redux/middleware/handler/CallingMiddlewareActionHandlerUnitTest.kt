@@ -112,7 +112,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -361,7 +360,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                         BluetoothState(available = false, deviceName = "bluetooth")
                     ),
-                    false,
                     "",
                     ""
                 )
@@ -440,7 +438,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                         BluetoothState(available = false, deviceName = "bluetooth")
                     ),
-                    false,
                     "",
                     ""
                 )
@@ -542,7 +539,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                         BluetoothState(available = false, deviceName = "bluetooth")
                     ),
-                    false,
                     "",
                     ""
                 )
@@ -615,7 +611,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
-                    false,
                     "",
                     ""
                 )
@@ -680,7 +675,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
-                    false,
                     "",
                     ""
                 )
@@ -745,7 +739,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
-                    false,
                     "",
                     ""
                 )
@@ -810,7 +803,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
-                    false,
                     "",
                     ""
                 )
@@ -867,7 +859,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                false,
                 videoStreamID = null,
                 displayName = "username"
             )
@@ -923,7 +914,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -976,7 +966,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1030,7 +1019,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1079,7 +1067,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1129,7 +1116,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1177,7 +1163,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1226,7 +1211,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1321,7 +1305,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                false,
                 videoStreamID = null,
                 displayName = "username"
             )
@@ -1367,7 +1350,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1418,7 +1400,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = "username"
         )
@@ -1526,7 +1507,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                false,
                 videoStreamID = null,
                 displayName = "username"
             )
@@ -2096,7 +2076,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                false,
                 videoStreamID = null,
                 displayName = "username"
             )

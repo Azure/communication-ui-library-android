@@ -36,7 +36,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -65,7 +64,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -94,7 +92,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -126,7 +123,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -161,7 +157,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -191,7 +186,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -220,7 +214,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = "some video streamId",
             displayName = null
         )
@@ -252,7 +245,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamId,
             null
         )
@@ -287,7 +279,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -316,7 +307,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -345,7 +335,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -377,7 +366,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -412,7 +400,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -442,7 +429,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -475,7 +461,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -507,7 +492,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -537,7 +521,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = "some video stream id",
             displayName = null
         )
@@ -568,7 +551,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -605,7 +587,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -634,7 +615,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -665,7 +645,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -697,7 +676,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -726,7 +704,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
@@ -757,7 +734,6 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 audioDeviceSelectionStatus,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            false,
             videoStreamID = null,
             displayName = null
         )
