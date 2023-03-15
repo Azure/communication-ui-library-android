@@ -260,6 +260,9 @@ public final class CallComposite {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
+            if (localOptions == null || localOptions.getRoleHint() == null) {
+                throw new CallCompositeException("For room call localOptions with roleHint has to be provided.");
+            }
         } else {
             throw new CallCompositeException("Not supported Call Locator type");
         }
