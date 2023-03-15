@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.redux.reducer
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 
 internal class AppStateReducer(
     private val callStateReducer: CallStateReducer,
@@ -24,7 +23,7 @@ internal class AppStateReducer(
 
         val appState = AppReduxState(
             state.localParticipantState.displayName,
-            state.localParticipantState.cameraState.operation.equals(CameraOperationalStatus.ON),
+            localOptions.cameraOnByDefault,
             localOptions.microphoneOnByDefault
         )
 

@@ -43,7 +43,6 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         viewModel: ConnectingLobbyOverlayViewModel,
     ) {
         this.viewModel = viewModel
-        // viewModel.turnCameraOnDefault()
 
         setupUi()
         viewLifecycleOwner.lifecycleScope.launch {

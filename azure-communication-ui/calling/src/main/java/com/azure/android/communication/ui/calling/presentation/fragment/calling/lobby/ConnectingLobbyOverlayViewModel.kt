@@ -10,8 +10,6 @@ import com.azure.android.communication.ui.calling.presentation.manager.NetworkMa
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.Action
-import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -31,7 +29,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private var isCameraPermissionGranted: Boolean = false
-    private var firstTimeTryingToConnectCall: Boolean = true
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
 
@@ -60,7 +57,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         cameraOperationalStatus: CameraOperationalStatus,
         permissionState: PermissionState,
         audioOperationalStatus: AudioOperationalStatus,
-        readyToJoinCall: Boolean?,
     ) {
         isCameraPermissionGranted = (permissionState.cameraPermissionState == PermissionStatus.GRANTED)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
@@ -71,17 +67,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
 
         handlePermissionDeniedEvent(permissionState)
         handleOffline(this.networkManager)
-
-        if (readyToJoinCall == true && firstTimeTryingToConnectCall &&
-            isAudioPermissionGranted(permissionState) &&
-            cameraOperationalStatus != CameraOperationalStatus.PENDING &&
-            shouldDisplayLobbyOverlay(callingState, permissionState) &&
-            callingState == CallingStatus.NONE
-        ) {
-            firstTimeTryingToConnectCall = false
-            dispatchAction(action = LocalParticipantAction.ToggleReadyToJoinCall())
-            dispatchAction(action = CallingAction.CallStartRequested())
-        }
     }
 
     fun getCameraStateFlow(): StateFlow<CameraOperationalStatus> {
@@ -99,9 +84,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus, permissionState: PermissionState) =
         ((callingStatus == CallingStatus.NONE) || (callingStatus == CallingStatus.CONNECTING)) &&
             (permissionState.audioPermissionState != PermissionStatus.DENIED)
-
-    private fun isAudioPermissionGranted(permissionState: PermissionState) =
-        (permissionState.audioPermissionState == PermissionStatus.GRANTED)
 
     private fun handleOffline(networkManager: NetworkManager) {
         if (!networkManager.isNetworkConnectionAvailable()) {

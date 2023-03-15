@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
-import android.util.Log
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
@@ -161,7 +160,10 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun requestCameraPreviewOn(store: Store<ReduxState>) {
         val action =
             if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.NOT_ASKED)
-                PermissionAction.CameraPermissionRequested() else LocalParticipantAction.CameraPreviewOnTriggered()
+                PermissionAction.CameraPermissionRequested()
+            else if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.DENIED)
+                LocalParticipantAction.CameraOffTriggered()
+            else LocalParticipantAction.CameraPreviewOnTriggered()
 
         store.dispatch(action)
     }
@@ -207,15 +209,15 @@ internal class CallingMiddlewareActionHandlerImpl(
                     )
                 )
             } else {
-                store.dispatch(LocalParticipantAction.ToggleReadyToJoinCall())
+                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                    store.dispatch(action = CallingAction.CallStartRequested())
+                }
             }
-            /*else if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-                store.dispatch(NavigationAction.CallLaunched())
-            }*/
         }
     }
 
     override fun startCall(store: Store<ReduxState>) {
+
         subscribeRemoteParticipantsUpdate(store, coroutineScope)
         subscribeIsMutedUpdate(store)
         subscribeIsRecordingUpdate(store)
@@ -229,7 +231,6 @@ internal class CallingMiddlewareActionHandlerImpl(
             store.getCurrentState().localParticipantState.audioState
         ).handle { _, error: Throwable? ->
             if (error != null) {
-                Log.d("Mohtasim", "call launched but error")
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
                         FatalError(error, ErrorCode.CALL_JOIN_FAILED)

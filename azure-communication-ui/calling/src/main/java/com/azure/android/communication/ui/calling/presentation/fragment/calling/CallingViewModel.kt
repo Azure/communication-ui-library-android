@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -38,6 +37,8 @@ internal class CallingViewModel(
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
 
+    private var hasSetupCalled = false
+
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
     }
@@ -48,24 +49,6 @@ internal class CallingViewModel(
     }
 
     override fun init(coroutineScope: CoroutineScope) {
-        val state = store.getCurrentState()
-
-        if (state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-            if (state.callControlDefaultState.cameraOnByDefault &&
-                state.permissionState.cameraPermissionState == PermissionStatus.GRANTED
-            ) {
-                store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
-            } else {
-                store.dispatch(action = LocalParticipantAction.CamerasOperationUpdated(CameraOperationalStatus.OFF))
-            }
-
-            store.dispatch(action = CallingAction.SetupCall())
-        }
-        defaultCallInit()
-        super.init(coroutineScope)
-    }
-
-    private fun defaultCallInit() {
         val state = store.getCurrentState()
 
         controlBarViewModel.init(
@@ -116,9 +99,24 @@ internal class CallingViewModel(
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
+        super.init(coroutineScope)
     }
 
     override suspend fun onStateChange(state: ReduxState) {
+
+        if (!hasSetupCalled &&
+            state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+            state.permissionState.audioPermissionState == PermissionStatus.GRANTED
+        ) {
+            hasSetupCalled = true
+
+            if (state.callControlDefaultState.cameraOnByDefault) {
+                store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
+            }
+
+            store.dispatch(action = CallingAction.SetupCall())
+        }
+
         defaultCallingStateChange(state)
     }
 
@@ -157,7 +155,6 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.operation,
             state.permissionState,
             state.localParticipantState.audioState.operation,
-            state.localParticipantState.readyToJoinState
         )
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 

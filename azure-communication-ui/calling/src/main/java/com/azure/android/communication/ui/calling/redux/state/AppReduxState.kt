@@ -24,6 +24,12 @@ internal class AppReduxState(
         CameraOperationalStatus.OFF
     }
 
+    private val audioOperationStatus = if (microphoneOnByDefault == true) {
+        AudioOperationalStatus.ON
+    } else {
+        AudioOperationalStatus.OFF
+    }
+
     override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
@@ -32,7 +38,7 @@ internal class AppReduxState(
                 transmission = CameraTransmissionStatus.LOCAL
             ),
             AudioState(
-                operation = AudioOperationalStatus.OFF,
+                operation = audioOperationStatus,
                 device = AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 bluetoothState = BluetoothState(
                     available = false,

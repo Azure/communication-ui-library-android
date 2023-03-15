@@ -28,10 +28,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
@@ -238,13 +236,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
             NavigationStatus.NONE -> {
-
-                if (localOptions?.microphoneOnByDefault == true &&
-                    store.getCurrentState().permissionState.audioPermissionState == PermissionStatus.GRANTED
-                ) {
-                    store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
-                }
-
                 if (localOptions?.bypassSetupScreen == true) {
                     store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
                 } else {
