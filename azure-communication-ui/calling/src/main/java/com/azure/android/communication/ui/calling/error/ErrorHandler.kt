@@ -135,7 +135,7 @@ internal class ErrorHandler(
                     return CallCompositeErrorCode.MICROPHONE_PERMISSION_NOT_GRANTED
                 }
                 INTERNET_NOT_AVAILABLE -> {
-                    return CallCompositeErrorCode.INTERNET_DISCONNECTED
+                    return CallCompositeErrorCode.INTERNET_NOT_AVAILABLE
                 }
                 else -> {
                     return null
