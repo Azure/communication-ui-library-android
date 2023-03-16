@@ -35,8 +35,11 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     /**
      * Dispatched when default microphone control API is accessed without microphone permission being granted.
      */
-    public static final CallCompositeErrorCode MICROPHONE_PERMISSION_REQUIRED =
-            fromString("microphonePermissionRequired");
+    public static final CallCompositeErrorCode MICROPHONE_PERMISSION_NOT_GRANTED =
+            fromString("microphonePermissionNotGranted");
+
+    public static final CallCompositeErrorCode INTERNET_DISCONNECTED =
+            fromString("internetDisconnected");
 
     /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.

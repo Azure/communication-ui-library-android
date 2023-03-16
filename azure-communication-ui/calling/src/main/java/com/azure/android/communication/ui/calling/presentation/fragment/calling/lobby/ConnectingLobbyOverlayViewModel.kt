@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
-import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -88,8 +87,9 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     private fun handleOffline(networkManager: NetworkManager) {
         if (!networkManager.isNetworkConnectionAvailable()) {
             dispatchAction(
-                action = ErrorAction.CallStateErrorOccurred(
-                    CallStateError(
+                action = ErrorAction.FatalErrorOccurred(
+                    FatalError(
+                        Throwable(),
                         ErrorCode.NETWORK_NOT_AVAILABLE
                     )
                 )
@@ -104,7 +104,7 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
                 action = ErrorAction.FatalErrorOccurred(
                     FatalError(
                         Throwable(),
-                        ErrorCode.MIC_PERMISSION_DENIED
+                        ErrorCode.INTERNET_NOT_AVAILABLE
                     )
                 )
             )
