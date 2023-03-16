@@ -41,8 +41,8 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     /**
      * Dispatched when internet not available while trying to join a call bypassing the setup screen.
      */
-    public static final CallCompositeErrorCode INTERNET_DISCONNECTED =
-            fromString("internetDisconnected");
+    public static final CallCompositeErrorCode INTERNET_NOT_AVAILABLE =
+            fromString("internetNotAvailable");
 
     /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
