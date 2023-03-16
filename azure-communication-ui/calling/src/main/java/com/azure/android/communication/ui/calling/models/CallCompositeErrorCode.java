@@ -38,6 +38,9 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode MICROPHONE_PERMISSION_NOT_GRANTED =
             fromString("microphonePermissionNotGranted");
 
+    /**
+     * Dispatched when internet not available while trying to join a call bypassing the setup screen.
+     */
     public static final CallCompositeErrorCode INTERNET_DISCONNECTED =
             fromString("internetDisconnected");
 
