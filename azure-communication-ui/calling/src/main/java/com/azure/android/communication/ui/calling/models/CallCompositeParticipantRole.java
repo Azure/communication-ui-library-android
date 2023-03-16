@@ -16,6 +16,8 @@ public final class CallCompositeParticipantRole extends ExpandableStringEnum<Cal
      */
     public static final CallCompositeParticipantRole ATTENDEE = fromString("Attendee");
 
+    CallCompositeParticipantRole() { }
+
     private static CallCompositeParticipantRole fromString(final String name) {
         return fromString(name, CallCompositeParticipantRole.class);
     }
