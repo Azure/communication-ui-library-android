@@ -105,11 +105,11 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Set a {@link Boolean} to be used.
-     * @param bypassSetupScreen The Boolean value to be used.
+     * Set a boolean to be used.
+     * @param bypassSetupScreen The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setBypassSetupScreen(final Boolean bypassSetupScreen) {
+    public CallCompositeLocalOptions setBypassSetupScreen(final boolean bypassSetupScreen) {
         this.bypassSetupScreen = bypassSetupScreen;
         return this;
     }
@@ -123,12 +123,12 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Set a {@link Boolean} to be used.
-     * @param cameraOnByDefault The Boolean value to be used.
+     * Set a boolean to be used.
+     * @param cameraOnByDefault The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setCameraOnByDefault(
-            final Boolean cameraOnByDefault
+            final boolean cameraOnByDefault
     ) {
         this.cameraOnByDefault = cameraOnByDefault;
         return this;
@@ -143,12 +143,12 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Set a {@link Boolean} to be used.
-     * @param microphoneOnByDefault The Boolean value to be used.
+     * Set a boolean to be used.
+     * @param microphoneOnByDefault The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setMicrophoneOnByDefault(
-            final Boolean microphoneOnByDefault
+            final boolean microphoneOnByDefault
     ) {
         this.microphoneOnByDefault = microphoneOnByDefault;
         return this;
