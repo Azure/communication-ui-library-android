@@ -91,7 +91,7 @@ internal class CallingViewModel(
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
 
         connectingLobbyOverlayViewModel.init(
-            state.callState.callingStatus,
+            state.callState,
             state.permissionState,
             networkManager,
             state.localParticipantState.cameraState,
@@ -152,7 +152,7 @@ internal class CallingViewModel(
 
         waitingLobbyOverlayViewModel.update(state.callState.callingStatus)
         connectingLobbyOverlayViewModel.update(
-            state.callState.callingStatus,
+            state.callState,
             state.localParticipantState.cameraState.operation,
             state.permissionState,
             state.localParticipantState.audioState.operation,
