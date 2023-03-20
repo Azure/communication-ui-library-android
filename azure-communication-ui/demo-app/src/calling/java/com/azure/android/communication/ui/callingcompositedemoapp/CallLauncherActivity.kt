@@ -172,10 +172,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
         val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
         else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
-        else {
-            showAlert("Incorrect role selection.")
-            return
-        }
+        else null
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
