@@ -51,7 +51,7 @@ class CallLauncherViewModel : ViewModel() {
         val locator: CallCompositeJoinLocator =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
-            else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
+            else if (roomId != null) CallCompositeRoomLocator(roomId)
             else throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
 
         val remoteOptions =
