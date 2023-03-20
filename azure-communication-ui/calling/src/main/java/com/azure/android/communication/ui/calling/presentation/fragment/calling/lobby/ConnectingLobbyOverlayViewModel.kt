@@ -6,15 +6,16 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
-import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +33,7 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
 
     fun init(
-        callingState: CallingStatus,
+        callingState: CallingState,
         permissionState: PermissionState,
         networkManager: NetworkManager,
         cameraState: CameraState,
@@ -45,14 +46,16 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
 
         cameraStateFlow = MutableStateFlow(cameraState.operation)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
-        handleOffline(this.networkManager)
+        if (displayLobbyOverlay) {
+            handleOffline(this.networkManager)
+        }
         if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
             requestAudioPermission()
         }
     }
 
     fun update(
-        callingState: CallingStatus,
+        callingState: CallingState,
         cameraOperationalStatus: CameraOperationalStatus,
         permissionState: PermissionState,
         audioOperationalStatus: AudioOperationalStatus,
@@ -65,7 +68,9 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         cameraStateFlow.value = cameraOperationalStatus
 
         handlePermissionDeniedEvent(permissionState)
-        handleOffline(this.networkManager)
+        if (displayLobbyOverlay) {
+            handleOffline(this.networkManager)
+        }
     }
 
     fun getCameraStateFlow(): StateFlow<CameraOperationalStatus> {
@@ -80,9 +85,10 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         dispatch(action)
     }
 
-    private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus, permissionState: PermissionState) =
-        ((callingStatus == CallingStatus.NONE) || (callingStatus == CallingStatus.CONNECTING)) &&
-            (permissionState.audioPermissionState != PermissionStatus.DENIED)
+    private fun shouldDisplayLobbyOverlay(callingState: CallingState, permissionState: PermissionState) =
+        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
+            (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
+            (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
 
     private fun handleOffline(networkManager: NetworkManager) {
         if (!networkManager.isNetworkConnectionAvailable()) {
@@ -90,11 +96,10 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
                 action = ErrorAction.FatalErrorOccurred(
                     FatalError(
                         Throwable(),
-                        ErrorCode.NETWORK_NOT_AVAILABLE
+                        ErrorCode.INTERNET_NOT_AVAILABLE
                     )
                 )
             )
-            dispatchAction(action = NavigationAction.Exit())
         }
     }
 
@@ -104,7 +109,7 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
                 action = ErrorAction.FatalErrorOccurred(
                     FatalError(
                         Throwable(),
-                        ErrorCode.INTERNET_NOT_AVAILABLE
+                        ErrorCode.MIC_PERMISSION_DENIED
                     )
                 )
             )

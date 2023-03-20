@@ -225,13 +225,6 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     displayName = action.displayName
                 )
             }
-            is LocalParticipantAction.CamerasOperationUpdated -> {
-                localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        operation = action.operation
-                    )
-                )
-            }
             is NavigationAction.CallLaunched -> {
                 localUserState.copy(
                     cameraState = localUserState.cameraState.copy(
