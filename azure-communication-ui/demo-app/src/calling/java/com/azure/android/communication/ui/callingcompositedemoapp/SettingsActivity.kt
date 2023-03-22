@@ -8,10 +8,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
@@ -34,6 +37,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var titleTextView: TextView
     private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
+    private lateinit var logFileButton: Button
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -203,6 +207,17 @@ class SettingsActivity : AppCompatActivity() {
                 DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
                 REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE
             )
+    }
+
+    fun dumpLogFiles(view: View) {
+        val client = CallClient()
+        val files = client.getSupportFiles(this)
+        Toast.makeText(this, "Found ${files.size}", Toast.LENGTH_SHORT).show()
+        for (file in files) {
+            Toast.makeText(this, "Found ${file.name}", Toast.LENGTH_SHORT).show()
+        }
+
+
     }
 }
 

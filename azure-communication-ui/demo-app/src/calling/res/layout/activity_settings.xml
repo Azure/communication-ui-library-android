@@ -237,5 +237,13 @@
             tools:ignore="UsingOnClickInXml"
             />
 
+        <Button
+            android:id="@+id/dump_log_files"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="dumpLogFiles"
+            android:text="Dump Log files"
+            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>
