@@ -49,7 +49,6 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int
     ) {
-
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
