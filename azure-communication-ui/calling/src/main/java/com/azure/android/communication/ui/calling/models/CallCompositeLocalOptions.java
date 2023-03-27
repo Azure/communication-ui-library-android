@@ -32,9 +32,8 @@ import com.azure.android.communication.ui.calling.CallComposite;
  */
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
-
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
-
+    private CallCompositeParticipantRole roleHint = null;
 
     /**
      * Create LocalSettings.
@@ -87,6 +86,27 @@ public final class CallCompositeLocalOptions {
     public CallCompositeLocalOptions setSetupScreenViewData(
             final CallCompositeSetupScreenViewData setupScreenViewData) {
         this.setupScreenViewData = setupScreenViewData;
+        return this;
+    }
+
+    /**
+     * Get role hint.
+     * @return {@link CallCompositeParticipantRole}
+     */
+    public CallCompositeParticipantRole getRoleHint() {
+        return roleHint;
+    }
+
+    /**
+     * Get role hint. Use this to hint the role of the user when the role is not available before a Rooms
+     * call is started.
+     * This value should be obtained using the Rooms API. This role will determine permissions in the
+     * Setup screen of the {@link CallComposite}.
+     * The true role of the user will be synced with ACS services when a Rooms call starts.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setRoleHint(final CallCompositeParticipantRole roleHint) {
+        this.roleHint = roleHint;
         return this;
     }
 }

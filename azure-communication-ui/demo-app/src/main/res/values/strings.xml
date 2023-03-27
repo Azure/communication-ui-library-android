@@ -10,7 +10,7 @@
     <string name="identity_hint">Identity</string>
     <string name="group_call_label">Group call</string>
     <string name="teams_meeting_label">Teams meeting</string>
-    <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link</string>
+    <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link or Room Id</string>
     <string name="chat_thread_id_hint">Chat Thread ID</string>
     <string name="endpoint_url_hint">Endpoint</string>
     <string name="kotlin">Kotlin</string>
@@ -41,4 +41,7 @@
     <string name="remote_participant_inject_avatar">Inject avatar\'s</string>
     <string name="call_title">Call title</string>
     <string name="call_subtitle">Call subtitle</string>
+    <string name="rooms_meeting_label">Rooms Meeting</string>
+    <string name="rooms_attendee">Attendee</string>
+    <string name="rooms_presenter">Presenter</string>
 </resources>

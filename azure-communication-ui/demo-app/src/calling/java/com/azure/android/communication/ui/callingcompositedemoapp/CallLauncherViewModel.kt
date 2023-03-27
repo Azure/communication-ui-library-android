@@ -14,7 +14,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
@@ -25,10 +27,11 @@ class CallLauncherViewModel : ViewModel() {
 
     fun launch(
         context: Context,
-
         acsToken: String,
         displayName: String,
         groupId: UUID?,
+        roomId: String?,
+        roomRoleHint: CallCompositeParticipantRole?,
         meetingLink: String?,
     ) {
         val callComposite = createCallComposite(context)
@@ -47,7 +50,9 @@ class CallLauncherViewModel : ViewModel() {
 
         val locator: CallCompositeJoinLocator =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
-            else CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
+            else throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
 
         val remoteOptions =
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
@@ -59,6 +64,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
+            .setRoleHint(roomRoleHint)
 
         callComposite.launch(context, remoteOptions, localOptions)
     }
