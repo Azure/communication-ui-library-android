@@ -33,6 +33,18 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode CAMERA_FAILURE = fromString("cameraFailure");
 
     /**
+     * Dispatched when default microphone control API is accessed without microphone permission being granted.
+     */
+    public static final CallCompositeErrorCode MICROPHONE_PERMISSION_NOT_GRANTED =
+            fromString("microphonePermissionNotGranted");
+
+    /**
+     * Dispatched when internet not available while trying to join a call bypassing the setup screen.
+     */
+    public static final CallCompositeErrorCode NETWORK_CONNECTION_NOT_AVAILABLE =
+            fromString("networkConnectionNotAvailable");
+
+    /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
      *
      * @param name a name to look for.

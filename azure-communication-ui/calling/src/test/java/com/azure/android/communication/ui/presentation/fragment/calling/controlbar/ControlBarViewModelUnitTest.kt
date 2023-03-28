@@ -9,19 +9,21 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.LocalUserState
+import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -41,7 +43,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
-        val appState = AppReduxState("")
+        val appState = AppReduxState("", false, false)
         appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
@@ -73,7 +75,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOff() {
-        val appState = AppReduxState("")
+        val appState = AppReduxState("", false, false)
         appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
@@ -124,6 +126,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF,
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingState(
+                    CallingStatus.CONNECTED,
+                    OperationStatus.NONE
                 ),
                 {},
                 {},
@@ -211,6 +217,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF,
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingState(
+                    CallingStatus.CONNECTED,
+                    OperationStatus.NONE
                 ),
                 {},
                 {},
@@ -303,6 +313,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
+                CallingState(
+                    CallingStatus.CONNECTED,
+                    OperationStatus.NONE
+                ),
                 {},
                 {},
                 {},
@@ -386,6 +400,10 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.OFF,
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                CallingState(
+                    CallingStatus.CONNECTED,
+                    OperationStatus.NONE
                 ),
                 {},
                 {},

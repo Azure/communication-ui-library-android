@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
@@ -51,6 +52,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val navigationRouter get() = container.navigationRouter
     private val store get() = container.appStore
     private val configuration get() = container.configuration
+    private val localOptions get() = configuration.callCompositeLocalOptions
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
     private val audioFocusManager get() = container.audioFocusManager
@@ -217,9 +219,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.first()
-        if (fragment !== null) {
-            (fragment as BackNavigation).onBackPressed()
+
+        if (!supportFragmentManager.fragments.isEmpty()) {
+            val fragment = supportFragmentManager.fragments.first()
+            if (fragment !== null) {
+                (fragment as BackNavigation).onBackPressed()
+            } else {
+                super.onBackPressed()
+            }
         } else {
             super.onBackPressed()
         }
@@ -228,6 +235,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity", "RestrictedApi")
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
+            NavigationStatus.NONE -> {
+                if (localOptions?.bypassSetupScreen == true) {
+                    store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
+                } else {
+                    store.dispatch(action = NavigationAction.SetupLaunched())
+                }
+            }
             NavigationStatus.EXIT -> {
                 notificationService.removeNotification()
                 store.end()

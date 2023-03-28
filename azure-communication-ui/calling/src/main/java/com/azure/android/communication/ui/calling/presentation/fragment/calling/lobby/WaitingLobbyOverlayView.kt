@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -18,14 +19,14 @@ import com.azure.android.communication.ui.R
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class LobbyOverlayView : LinearLayout {
+internal class WaitingLobbyOverlayView : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var waitingIcon: ImageView
     private lateinit var overlayTitle: TextView
     private lateinit var overlayInfo: TextView
-    private lateinit var viewModel: LobbyOverlayViewModel
+    private lateinit var viewModel: WaitingLobbyOverlayViewModel
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -37,7 +38,7 @@ internal class LobbyOverlayView : LinearLayout {
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        viewModel: LobbyOverlayViewModel,
+        viewModel: WaitingLobbyOverlayViewModel,
     ) {
         this.viewModel = viewModel
 
@@ -45,6 +46,7 @@ internal class LobbyOverlayView : LinearLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
+                Log.d("Mohtasim", "Waiting:: visibility " + it.toString())
             }
         }
 

@@ -26,6 +26,7 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
+
             val historyList = mutableListOf(
                 CallHistoryRecordData(1, "callId1", OffsetDateTime.now().minusDays(6)),
                 CallHistoryRecordData(2, "callId2", OffsetDateTime.now().minusDays(4)),

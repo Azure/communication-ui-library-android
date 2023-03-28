@@ -3,23 +3,39 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
-internal class AppReduxState(displayName: String?) : ReduxState {
+internal class AppReduxState(
+    displayName: String?,
+    cameraOnByDefault: Boolean? = false,
+    microphoneOnByDefault: Boolean? = false
+) : ReduxState {
 
-    override var callState: CallingState = CallingState(CallingStatus.NONE)
+    override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
         HashMap(), 0
     )
 
+    private val cameraOperationStatus = if (cameraOnByDefault == true) {
+        CameraOperationalStatus.ON
+    } else {
+        CameraOperationalStatus.OFF
+    }
+
+    private val audioOperationStatus = if (microphoneOnByDefault == true) {
+        AudioOperationalStatus.ON
+    } else {
+        AudioOperationalStatus.OFF
+    }
+
     override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
-                operation = CameraOperationalStatus.OFF,
+                operation = cameraOperationStatus,
                 device = CameraDeviceSelectionStatus.FRONT,
                 transmission = CameraTransmissionStatus.LOCAL
             ),
             AudioState(
-                operation = AudioOperationalStatus.OFF,
+                operation = audioOperationStatus,
                 device = AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 bluetoothState = BluetoothState(
                     available = false,
@@ -37,7 +53,7 @@ internal class AppReduxState(displayName: String?) : ReduxState {
 
     override var errorState: ErrorState = ErrorState(fatalError = null, callStateError = null)
 
-    override var navigationState: NavigationState = NavigationState(NavigationStatus.SETUP)
+    override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 
     override var audioSessionState: AudioSessionState = AudioSessionState(audioFocusStatus = null)
 }
