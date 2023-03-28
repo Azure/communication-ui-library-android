@@ -23,8 +23,8 @@ internal class AppStateReducer(
 
         val appState = AppReduxState(
             state.localParticipantState.displayName,
-            localOptions.cameraOnByDefault,
-            localOptions.microphoneOnByDefault
+            localOptions.isCameraOn,
+            localOptions.isStartWithMicrophone
         )
 
         appState.callState = callStateReducer.reduce(
