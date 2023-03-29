@@ -4,9 +4,10 @@
 package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.core.util.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
- * Defines values for CallCompositeParticipantRole.
+ * Defines values for {@linkCallCompositeParticipantRole}.
  */
 public final class CallCompositeParticipantRole extends ExpandableStringEnum<CallCompositeParticipantRole> {
     /**
@@ -20,11 +21,24 @@ public final class CallCompositeParticipantRole extends ExpandableStringEnum<Cal
     public static final CallCompositeParticipantRole ATTENDEE = fromString("Attendee");
 
     /**
-     * Creates instance of CallCompositeParticipantRole.
+     * Creates instance of {@linkCallCompositeParticipantRole}.
      */
     public CallCompositeParticipantRole() { }
 
-    private static CallCompositeParticipantRole fromString(final String name) {
+    /**
+    * Creates or finds a {@linkCallCompositeParticipantRole} from it's string representation.
+    *
+    * @param name a name to look for.
+    * @return the corresponding {@linkCallCompositeParticipantRole}.
+    */
+    public static CallCompositeParticipantRole fromString(final String name) {
         return fromString(name, CallCompositeParticipantRole.class);
+    }
+
+    /**
+    * @return known {@linkCallCompositeParticipantRole} values.
+    */
+    public static Collection<CallCompositeParticipantRole> values() {
+        return values(CallCompositeParticipantRole.class);
     }
 }
