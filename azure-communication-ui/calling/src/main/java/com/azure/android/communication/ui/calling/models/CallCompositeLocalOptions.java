@@ -93,7 +93,7 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the boolean.
+     * Get the {@link Boolean}.
      * @return The boolean that is currently set.
      */
     public Boolean isSkipSetupScreen() {
@@ -101,8 +101,8 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Set a boolean to be used.
-     * @param skipSetupScreen The boolean value to be used.
+     * Set a {@link Boolean} to be used.
+     * @param skipSetupScreen The {@link Boolean} value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setSkipSetupScreen(final Boolean skipSetupScreen) {
@@ -111,16 +111,16 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the boolean.
-     * @return The boolean that is currently set.
+     * Get the {@link Boolean}.
+     * @return The {@link Boolean} that is currently set.
      */
     public Boolean isStartWithCameraOn() {
         return this.startWithCameraOn;
     }
 
     /**
-     * Set a boolean to be used.
-     * @param startWithCameraOn The boolean value to be used.
+     * Set a {@link Boolean} to be used.
+     * @param startWithCameraOn The {@link Boolean} value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setStartWithCameraOn(
@@ -131,15 +131,15 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the boolean.
-     * @return The boolean that is currently set.
+     * Get the {@link Boolean}.
+     * @return The {@link Boolean} that is currently set.
      */
     public Boolean isStartWithMicrophoneOn() {
         return this.startWithMicrophoneOn;
     }
 
     /**
-     * Set a boolean to be used.
+     * Set a {@link Boolean} to be used.
      * @param startWithMicrophoneOn The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
