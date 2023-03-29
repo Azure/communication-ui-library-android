@@ -236,7 +236,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
             NavigationStatus.NONE -> {
-                if (localOptions?.bypassSetupScreen == true) {
+                if (localOptions?.isSkipSetupScreen == true) {
                     store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
                 } else {
                     store.dispatch(action = NavigationAction.SetupLaunched())

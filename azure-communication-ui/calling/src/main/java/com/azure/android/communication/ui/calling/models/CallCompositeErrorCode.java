@@ -50,7 +50,7 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
      * @param name a name to look for.
      * @return the corresponding CallCompositeErrorCode.
      */
-    private static CallCompositeErrorCode fromString(final String name) {
+    public static CallCompositeErrorCode fromString(final String name) {
         return fromString(name, CallCompositeErrorCode.class);
     }
 
