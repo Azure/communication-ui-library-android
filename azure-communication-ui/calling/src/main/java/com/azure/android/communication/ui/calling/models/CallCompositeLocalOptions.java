@@ -94,7 +94,7 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Get the {@link Boolean}.
-     * @return The boolean that is currently set.
+     * @return The {@link Boolean} that is currently set.
      */
     public Boolean isSkipSetupScreen() {
         return this.skipSetupScreen;
