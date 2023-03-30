@@ -106,7 +106,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     store.dispatch(CallingAction.SetupCall())
 
                     // subscribe on the redux state "setupCallIsCompleted" and execute next:
-                    store.dispatch(CallingAction.CallStartRequested())
+
 
 //                    store.dispatch(NavigationAction.CallLaunched())
 

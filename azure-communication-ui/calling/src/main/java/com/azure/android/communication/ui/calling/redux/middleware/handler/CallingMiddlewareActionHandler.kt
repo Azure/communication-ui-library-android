@@ -196,6 +196,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
+            } else {
+                store.dispatch(CallingAction.CallStartRequested())
             }
         }
     }
