@@ -33,9 +33,9 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
-    private Boolean cameraOn = null;
-    private Boolean microphoneOn = null;
-    private Boolean skipSetupScreen = null;
+    private boolean cameraOn = false;
+    private boolean microphoneOn = false;
+    private boolean skipSetupScreen = false;
 
     /**
      * Create LocalSettings.
@@ -92,58 +92,58 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the {@link Boolean}.
-     * @return The {@link Boolean} that is currently set.
+     * Get the boolean.
+     * @return The boolean that is currently set.
      */
-    public Boolean isSkipSetupScreen() {
+    public boolean isSkipSetupScreen() {
         return this.skipSetupScreen;
     }
 
     /**
-     * Set a {@link Boolean} to be used.
-     * @param skipSetupScreen The {@link Boolean} value to be used.
+     * Set a boolean to be used.
+     * @param skipSetupScreen The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setSkipSetupScreen(final Boolean skipSetupScreen) {
+    public CallCompositeLocalOptions setSkipSetupScreen(final boolean skipSetupScreen) {
         this.skipSetupScreen = skipSetupScreen;
         return this;
     }
 
     /**
-     * Get the {@link Boolean}.
-     * @return The {@link Boolean} that is currently set.
+     * Get the boolean.
+     * @return The boolean that is currently set.
      */
-    public Boolean isCameraOn() {
+    public boolean isCameraOn() {
         return this.cameraOn;
     }
 
     /**
-     * Set a {@link Boolean} to be used.
-     * @param cameraOn The {@link Boolean} value to be used.
+     * Set a boolean to be used.
+     * @param cameraOn The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setCameraOn(
-            final Boolean cameraOn
+            final boolean cameraOn
     ) {
         this.cameraOn = cameraOn;
         return this;
     }
 
     /**
-     * Get the {@link Boolean}.
-     * @return The {@link Boolean} that is currently set.
+     * Get the boolean.
+     * @return The boolean that is currently set.
      */
-    public Boolean isMicrophoneOn() {
+    public boolean isMicrophoneOn() {
         return this.microphoneOn;
     }
 
     /**
-     * Set a {@link Boolean} to be used.
+     * Set a boolean to be used.
      * @param microphoneOn The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setMicrophoneOn(
-            final Boolean microphoneOn
+            final boolean microphoneOn
     ) {
         this.microphoneOn = microphoneOn;
         return this;
