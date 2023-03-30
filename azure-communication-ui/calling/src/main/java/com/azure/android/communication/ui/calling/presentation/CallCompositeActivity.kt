@@ -28,6 +28,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
@@ -77,6 +79,55 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch { errorHandler.start() }
+
+        // make sure to execute code in next block only once, when composite is launched for the first time
+        if (savedInstanceState == null) {
+
+            // TODO: 1
+            // if (skipSetupScreen && minimum criteria is met) {
+            //} else {
+//        final CallCompositeErrorEvent eventArgs =
+//                new CallCompositeErrorEvent(
+//                        CallCompositeErrorCode.CAMERA_FAILUREMICPERMISSION_IS_NOT_GRANTED, null);
+//
+//        configuration.getCallCompositeEventsHandler().getOnErrorHandlers().forEach( {
+//            handler -> handler(eventArgs)
+//        });
+            // give error to contoso
+            // }
+
+// TODO: 2
+            // if (skipSetupRequested) {
+
+                // if (check if minimum criteria matched) {
+                // store.dispatch(CallingAction.CallRequestedWithoutSetup())
+
+            // move to middleware:
+                    store.dispatch(CallingAction.SetupCall())
+
+                    // subscribe on the redux state "setupCallIsCompleted" and execute next:
+                    store.dispatch(CallingAction.CallStartRequested())
+
+//                    store.dispatch(NavigationAction.CallLaunched())
+
+                //} else {
+                // send error to contoso and exit
+                // }
+
+//            }
+
+//          if (configuration.callCompositeLocalOptions.isCameraON && state.permissionState.audioPermissionState == PermissionStatus.GRANTED)
+//            store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
+
+//          if (isMicON)
+//            store.dispatch(action = LocalParticipantAction.MicOnTriggered())
+
+//            if (micON)
+//                dispatchAction(action = LocalParticipantAction.())
+
+
+        }
+
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -118,6 +169,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+
+
     }
 
     override fun onStart() {
@@ -126,6 +179,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()
+
+        // if (first time start activity and if isCameraOn by Contoso)
+        store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
     }
 
     override fun onStop() {

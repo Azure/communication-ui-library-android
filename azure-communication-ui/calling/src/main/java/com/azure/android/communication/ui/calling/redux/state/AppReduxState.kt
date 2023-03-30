@@ -37,7 +37,7 @@ internal class AppReduxState(displayName: String?) : ReduxState {
 
     override var errorState: ErrorState = ErrorState(fatalError = null, callStateError = null)
 
-    override var navigationState: NavigationState = NavigationState(NavigationStatus.SETUP)
+    override var navigationState: NavigationState = NavigationState(NavigationStatus.IN_CALL)
 
     override var audioSessionState: AudioSessionState = AudioSessionState(audioFocusStatus = null)
 }
