@@ -32,10 +32,9 @@ import com.azure.android.communication.ui.calling.CallComposite;
  */
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
-
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
-    private Boolean startWithCameraOn = null;
-    private Boolean startWithMicrophoneOn = null;
+    private Boolean cameraOn = null;
+    private Boolean microphoneOn = null;
     private Boolean skipSetupScreen = null;
 
     /**
@@ -114,19 +113,19 @@ public final class CallCompositeLocalOptions {
      * Get the {@link Boolean}.
      * @return The {@link Boolean} that is currently set.
      */
-    public Boolean isStartWithCameraOn() {
-        return this.startWithCameraOn;
+    public Boolean isCameraOn() {
+        return this.cameraOn;
     }
 
     /**
      * Set a {@link Boolean} to be used.
-     * @param startWithCameraOn The {@link Boolean} value to be used.
+     * @param cameraOn The {@link Boolean} value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setStartWithCameraOn(
-            final Boolean startWithCameraOn
+    public CallCompositeLocalOptions setCameraOn(
+            final Boolean cameraOn
     ) {
-        this.startWithCameraOn = startWithCameraOn;
+        this.cameraOn = cameraOn;
         return this;
     }
 
@@ -134,19 +133,19 @@ public final class CallCompositeLocalOptions {
      * Get the {@link Boolean}.
      * @return The {@link Boolean} that is currently set.
      */
-    public Boolean isStartWithMicrophoneOn() {
-        return this.startWithMicrophoneOn;
+    public Boolean isMicrophoneOn() {
+        return this.microphoneOn;
     }
 
     /**
      * Set a {@link Boolean} to be used.
-     * @param startWithMicrophoneOn The boolean value to be used.
+     * @param microphoneOn The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setStartWithMicrophoneOn(
-            final Boolean startWithMicrophoneOn
+    public CallCompositeLocalOptions setMicrophoneOn(
+            final Boolean microphoneOn
     ) {
-        this.startWithMicrophoneOn = startWithMicrophoneOn;
+        this.microphoneOn = microphoneOn;
         return this;
     }
 }
