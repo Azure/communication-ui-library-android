@@ -92,7 +92,7 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the boolean.
+     * Get the boolean value for skip setup screen.
      * @return The boolean that is currently set.
      */
     public boolean isSkipSetupScreen() {
@@ -110,7 +110,7 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the boolean.
+     * Get the initial camera configuration boolean value.
      * @return The boolean that is currently set.
      */
     public boolean isCameraOn() {
@@ -119,7 +119,7 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Set a boolean to be used.
-     * @param cameraOn The boolean value to be used.
+     * @param cameraOn The boolean value to be used for initial camera configuration.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setCameraOn(
@@ -130,7 +130,7 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Get the boolean.
+     * Get the initial microphone configuration boolean value.
      * @return The boolean that is currently set.
      */
     public boolean isMicrophoneOn() {
@@ -139,7 +139,7 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Set a boolean to be used.
-     * @param microphoneOn The boolean value to be used.
+     * @param microphoneOn The boolean value to be used for initial microphone configuration.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
     public CallCompositeLocalOptions setMicrophoneOn(
