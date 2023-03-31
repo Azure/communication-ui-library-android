@@ -109,18 +109,11 @@ internal class CallingViewModel(
             state.permissionState.audioPermissionState == PermissionStatus.GRANTED
         ) {
             hasSetupCalled = true
-
             if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.ON) {
                 store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
             }
-
             store.dispatch(action = CallingAction.SetupCall())
         }
-
-        defaultCallingStateChange(state)
-    }
-
-    private fun defaultCallingStateChange(state: ReduxState) {
 
         if (state.lifecycleState.state == LifecycleStatus.BACKGROUND) {
             participantGridViewModel.clear()
