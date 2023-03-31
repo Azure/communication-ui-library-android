@@ -115,7 +115,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun onCallScreenLaunch(store: Store<ReduxState>) {
-         val state = store.getCurrentState()
+        val state = store.getCurrentState()
         store.dispatch(action = NavigationAction.CallLaunched())
     }
 
@@ -376,7 +376,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
 
                 if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-                        callInfoModel.callingStatus == CallingStatus.CONNECTED) {
+                    callInfoModel.callingStatus == CallingStatus.CONNECTED
+                ) {
                     tryCameraOn(store)
                 }
 
@@ -432,7 +433,8 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()
         if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED ||
-                state.localParticipantState.cameraState.operation == CameraOperationalStatus.PENDING) {
+            state.localParticipantState.cameraState.operation == CameraOperationalStatus.PENDING
+        ) {
             if (state.callState.callingStatus != CallingStatus.NONE) {
                 callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
                     if (error != null) {

@@ -51,11 +51,6 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCameraStateFlow().collect {
-            }
-        }
-
         ViewCompat.setAccessibilityDelegate(
             this,
             object : AccessibilityDelegateCompat() {

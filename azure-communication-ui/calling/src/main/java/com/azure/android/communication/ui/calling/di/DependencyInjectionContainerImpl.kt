@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
