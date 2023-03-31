@@ -45,7 +45,6 @@ internal class CallingViewModel(
     }
 
     fun requestCallEnd() {
-        // drop connecting overlay as well.
         confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 

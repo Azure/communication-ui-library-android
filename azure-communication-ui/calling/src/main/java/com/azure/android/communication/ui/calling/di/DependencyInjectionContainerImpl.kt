@@ -175,11 +175,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     private val localOptions by lazy {
-        if (configuration.callCompositeLocalOptions != null) {
-            configuration.callCompositeLocalOptions
-        } else {
-            CallCompositeLocalOptions()
-        }
+        configuration.callCompositeLocalOptions
     }
 
     //region Redux
@@ -187,8 +183,8 @@ internal class DependencyInjectionContainerImpl(
     private val initialState by lazy {
         AppReduxState(
             configuration.callConfig?.displayName,
-            localOptions?.isCameraOn,
-            localOptions?.isMicrophoneOn
+            localOptions?.isCameraOn == true,
+            localOptions?.isMicrophoneOn == true
         )
     }
 
@@ -222,7 +218,8 @@ internal class DependencyInjectionContainerImpl(
             errorReducer,
             navigationReducer,
             audioSessionReducer,
-            localOptions = localOptions!!
+            localOptions?.isCameraOn == true,
+            localOptions?.isMicrophoneOn == true
         ) as Reducer<ReduxState>
     }
     //endregion

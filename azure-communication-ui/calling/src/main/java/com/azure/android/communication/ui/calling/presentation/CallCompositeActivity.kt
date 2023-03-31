@@ -219,14 +219,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-
-        if (!supportFragmentManager.fragments.isEmpty()) {
-            val fragment = supportFragmentManager.fragments.first()
-            if (fragment !== null) {
-                (fragment as BackNavigation).onBackPressed()
-            } else {
-                super.onBackPressed()
-            }
+        val fragment = supportFragmentManager.fragments.firstOrNull()
+        if (fragment !== null) {
+            (fragment as BackNavigation).onBackPressed()
         } else {
             super.onBackPressed()
         }
