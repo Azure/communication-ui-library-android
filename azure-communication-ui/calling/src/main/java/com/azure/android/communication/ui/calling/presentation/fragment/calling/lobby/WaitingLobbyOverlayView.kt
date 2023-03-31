@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -46,7 +45,6 @@ internal class WaitingLobbyOverlayView : LinearLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
-                Log.d("Mohtasim", "Waiting:: visibility " + it.toString())
             }
         }
 

@@ -16,7 +16,6 @@ internal enum class CallingStatus {
     DISCONNECTED,
     IN_LOBBY,
     REMOTE_HOLD,
-    CONNECTION_LOBBY,
 }
 
 internal enum class OperationStatus {
