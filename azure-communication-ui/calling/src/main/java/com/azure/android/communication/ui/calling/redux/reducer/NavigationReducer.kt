@@ -16,14 +16,11 @@ internal class NavigationReducerImpl : NavigationReducer {
             is NavigationAction.Exit -> {
                 NavigationState(NavigationStatus.EXIT)
             }
-            is NavigationAction.CallLaunched -> {
+            is NavigationAction.CallLaunched, is NavigationAction.CallLaunchWithoutSetup -> {
                 NavigationState(NavigationStatus.IN_CALL)
             }
             is NavigationAction.SetupLaunched -> {
                 NavigationState(NavigationStatus.SETUP)
-            }
-            is NavigationAction.CallLaunchWithoutSetup -> {
-                NavigationState(NavigationStatus.IN_CALL)
             }
             else -> state
         }

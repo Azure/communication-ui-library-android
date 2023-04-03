@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
+import android.telecom.Call
 import android.util.Log
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
@@ -101,8 +102,6 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun onCameraPermissionIsSet(store: Store<ReduxState>) {
         val state = store.getCurrentState()
-        Log.d("Mohtasim", "onCameraPermissionIsSet:: ${state.localParticipantState.cameraState.operation}")
-        Log.d("Mohtasim", "onCameraPermissionIsSet:: ${state.localParticipantState.cameraState.transmission}")
         if ((state.permissionState.cameraPermissionState == PermissionStatus.GRANTED) &&
             (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PENDING)
         ) {
@@ -127,19 +126,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
         }
 
-        callingService.setupCall().handle { _, error: Throwable? ->
-            if (error != null) {
-                store.dispatch(
-                    ErrorAction.FatalErrorOccurred(
-                        FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
-                    )
-                )
-            } else {
-                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
-                    store.dispatch(action = CallingAction.CallStartRequested())
-                }
-            }
-        }
+        store.dispatch(action = CallingAction.SetupCall())
     }
 
     override fun dispose() {
@@ -231,6 +218,10 @@ internal class CallingMiddlewareActionHandlerImpl(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
+            } else {
+                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                    store.dispatch(action = CallingAction.CallStartRequested())
+                }
             }
         }
     }
