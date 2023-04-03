@@ -47,7 +47,7 @@ internal interface CallingMiddlewareActionHandler {
     fun turnMicOn(store: Store<ReduxState>)
     fun turnMicOff(store: Store<ReduxState>)
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
-    fun onCallScreenLaunch(store: Store<ReduxState>)
+    fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
     fun dispose()
 }
@@ -114,7 +114,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    override fun onCallScreenLaunch(store: Store<ReduxState>) {
+    override fun callSetupWithSkipSetupScreen(store: Store<ReduxState>) {
 
         if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
             store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())

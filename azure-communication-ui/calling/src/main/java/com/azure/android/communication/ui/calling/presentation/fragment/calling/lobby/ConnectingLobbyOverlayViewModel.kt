@@ -28,7 +28,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
 
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
-    private var isCameraPermissionGranted: Boolean = false
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
 
@@ -40,7 +39,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         audioState: AudioState,
     ) {
         this.networkManager = networkManager
-        isCameraPermissionGranted = (permissionState.cameraPermissionState == PermissionStatus.GRANTED)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
         displayLobbyOverlayFlow = MutableStateFlow(displayLobbyOverlay)
 
@@ -60,7 +58,6 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         permissionState: PermissionState,
         audioOperationalStatus: AudioOperationalStatus,
     ) {
-        isCameraPermissionGranted = (permissionState.cameraPermissionState == PermissionStatus.GRANTED)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
         displayLobbyOverlayFlow.value = displayLobbyOverlay
 

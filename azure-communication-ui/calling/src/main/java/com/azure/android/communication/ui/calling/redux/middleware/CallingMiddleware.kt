@@ -82,7 +82,7 @@ internal class CallingMiddlewareImpl(
                     callingMiddlewareActionHandler.startCall(store)
                 }
                 is CallingAction.CallRequestedWithoutSetup -> {
-                    callingMiddlewareActionHandler.onCallScreenLaunch(store)
+                    callingMiddlewareActionHandler.callSetupWithSkipSetupScreen(store)
                 }
                 is PermissionAction.CameraPermissionIsSet -> {
                     callingMiddlewareActionHandler.onCameraPermissionIsSet(store)

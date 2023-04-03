@@ -42,11 +42,9 @@ internal class SetupViewModel(
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
-
         if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
             store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
         }
-
         if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithCameraOn) {
             store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
         }
