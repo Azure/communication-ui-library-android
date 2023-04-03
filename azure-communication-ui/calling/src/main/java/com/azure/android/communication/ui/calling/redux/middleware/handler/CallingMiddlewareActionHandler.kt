@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
-import android.telecom.Call
-import android.util.Log
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
