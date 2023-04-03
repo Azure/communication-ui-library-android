@@ -32,19 +32,12 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         overlayInfo = findViewById(R.id.azure_communication_ui_call_connecting_joining_text)
     }
 
-    private fun setupUi() {
-
-        connectingProgressBar.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
-        overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
-    }
-
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: ConnectingLobbyOverlayViewModel,
     ) {
         this.viewModel = viewModel
 
-        setupUi()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
