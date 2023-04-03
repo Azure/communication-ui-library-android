@@ -55,7 +55,13 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
             }
 
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(AppReduxState("", false, false))
+            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
+                AppReduxState(
+                    "",
+                    false,
+                    false
+                )
+            )
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
 
             // act

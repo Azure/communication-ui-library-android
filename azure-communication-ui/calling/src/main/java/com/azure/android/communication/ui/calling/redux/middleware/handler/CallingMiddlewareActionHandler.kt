@@ -115,8 +115,16 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun onCallScreenLaunch(store: Store<ReduxState>) {
-        val state = store.getCurrentState()
-        store.dispatch(action = NavigationAction.CallLaunched())
+
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
+            store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
+        }
+
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithCameraOn) {
+            store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
+        }
+
+        store.dispatch(action = CallingAction.SetupCall())
     }
 
     override fun dispose() {

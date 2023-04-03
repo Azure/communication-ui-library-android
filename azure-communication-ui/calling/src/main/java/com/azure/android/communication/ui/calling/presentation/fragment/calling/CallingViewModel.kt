@@ -8,9 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -109,10 +107,7 @@ internal class CallingViewModel(
             state.permissionState.audioPermissionState == PermissionStatus.GRANTED
         ) {
             hasSetupCalled = true
-            if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.ON) {
-                store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
-            }
-            store.dispatch(action = CallingAction.SetupCall())
+            store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
         }
 
         if (state.lifecycleState.state == LifecycleStatus.BACKGROUND) {

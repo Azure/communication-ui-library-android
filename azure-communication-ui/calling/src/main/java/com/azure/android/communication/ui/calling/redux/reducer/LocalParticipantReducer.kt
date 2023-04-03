@@ -225,7 +225,7 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     displayName = action.displayName
                 )
             }
-            is NavigationAction.CallLaunched -> {
+            is NavigationAction.CallLaunched, is NavigationAction.CallLaunchWithoutSetup -> {
                 localUserState.copy(
                     cameraState = localUserState.cameraState.copy(
                         transmission = CameraTransmissionStatus.REMOTE

@@ -217,8 +217,6 @@ internal class DependencyInjectionContainerImpl(
             errorReducer,
             navigationReducer,
             audioSessionReducer,
-            localOptions?.isCameraOn == true,
-            localOptions?.isMicrophoneOn == true
         ) as Reducer<ReduxState>
     }
     //endregion
