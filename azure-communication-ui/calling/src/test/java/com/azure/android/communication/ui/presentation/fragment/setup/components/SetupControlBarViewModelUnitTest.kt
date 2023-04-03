@@ -153,7 +153,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallingStatus.NONE, OperationStatus.NONE)
         )
 
         Assert.assertFalse(setupControlBarViewModel.getIsVisibleState().value)
@@ -203,7 +203,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallingStatus.NONE, OperationStatus.NONE)
         )
 
         Assert.assertTrue(setupControlBarViewModel.getCameraIsEnabled().value)
@@ -253,7 +253,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallingStatus.NONE, OperationStatus.NONE)
         )
 
         Assert.assertFalse(setupControlBarViewModel.getCameraIsEnabled().value)
@@ -305,7 +305,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE, joinCallIsRequested = true),
+            CallingState(CallingStatus.NONE, OperationStatus.NONE, joinCallIsRequested = true)
         )
 
         Assert.assertFalse(setupControlBarViewModel.getCameraIsEnabled().value)
@@ -355,7 +355,7 @@ internal class SetupControlBarViewModelUnitTest {
             CallingState(
                 CallingStatus.CONNECTING,
                 OperationStatus.NONE
-            ),
+            )
         )
     }
 }

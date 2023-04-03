@@ -9,13 +9,12 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 
 internal class SetupViewModel(
     store: Store<ReduxState>,
-    private val setupViewModelProvider: SetupViewModelFactory,
+    setupViewModelProvider: SetupViewModelFactory,
 ) :
     BaseViewModel(store) {
 
@@ -44,8 +43,12 @@ internal class SetupViewModel(
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
 
-        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.ON) {
-            dispatchAction(action = LocalParticipantAction.CameraPreviewOnRequested())
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
+            store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
+        }
+
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithCameraOn) {
+            store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
         }
 
         warningsViewModel.init(state.permissionState)

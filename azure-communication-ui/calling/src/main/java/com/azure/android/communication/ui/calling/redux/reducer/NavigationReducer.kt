@@ -22,6 +22,9 @@ internal class NavigationReducerImpl : NavigationReducer {
             is NavigationAction.SetupLaunched -> {
                 NavigationState(NavigationStatus.SETUP)
             }
+            is NavigationAction.CallLaunchWithoutSetup -> {
+                NavigationState(NavigationStatus.IN_CALL)
+            }
             else -> state
         }
     }

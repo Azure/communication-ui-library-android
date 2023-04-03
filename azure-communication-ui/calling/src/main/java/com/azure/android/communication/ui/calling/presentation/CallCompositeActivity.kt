@@ -232,7 +232,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         when (navigationState) {
             NavigationStatus.NONE -> {
                 if (localOptions?.isSkipSetupScreen == true) {
-                    store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
+                    store.dispatch(action = NavigationAction.CallLaunchWithoutSetup())
                 } else {
                     store.dispatch(action = NavigationAction.SetupLaunched())
                 }

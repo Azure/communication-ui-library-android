@@ -159,13 +159,13 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 permissionState,
                 cameraState,
                 audioState1,
-                CallingStatus.CONNECTED
+                CallingStatus.CONNECTED,
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
                 audioState2,
-                CallingStatus.CONNECTED
+                CallingStatus.CONNECTED,
             )
 
             // assert
@@ -241,7 +241,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED
+                CallingStatus.CONNECTED,
             )
             callingViewModel.update(
                 permissionState2,
@@ -251,7 +251,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED
+                CallingStatus.CONNECTED,
             )
 
             // assert
@@ -336,7 +336,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED
+                CallingStatus.CONNECTED,
             )
             callingViewModel.update(
                 permissionState,
@@ -346,7 +346,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED
+                CallingStatus.CONNECTED,
             )
 
             // assert
@@ -424,7 +424,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED
+                CallingStatus.CONNECTED,
             )
             callingViewModel.update(
                 permissionState,
@@ -434,7 +434,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.LOCAL_HOLD
+                CallingStatus.LOCAL_HOLD,
             )
 
             // assert
