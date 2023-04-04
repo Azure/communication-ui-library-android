@@ -237,5 +237,66 @@
             tools:ignore="UsingOnClickInXml"
             />
 
+        <TextView
+            android:id="@+id/skipSetupScreenFeature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="@string/skip_setup_screen_option"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/azure_communication_ui_calling_color_on_surface"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+
+        <CheckBox
+            android:id="@+id/skip_setup_screen_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/skip_setup_screen"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+        <TextView
+            android:id="@+id/callControlOptionFeature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="@string/call_control_option"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/azure_communication_ui_calling_color_on_surface"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+
+        <CheckBox
+            android:id="@+id/mic_control_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/mic_control"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+        <CheckBox
+            android:id="@+id/camera_control_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/camera_control"
+            tools:ignore="UsingOnClickInXml"
+            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

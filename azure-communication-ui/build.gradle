@@ -8,7 +8,6 @@ buildscript {
         call_library_version_name = '1.2.0'
         chat_library_version_name = '1.0.0-beta.2'
 
-
         ui_library_version_code = getVersionCode()
 
         kotlin_version = '1.7.20'

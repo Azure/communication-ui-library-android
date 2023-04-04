@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class LobbyOverlayViewModel {
+internal class WaitingLobbyOverlayViewModel {
     private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
