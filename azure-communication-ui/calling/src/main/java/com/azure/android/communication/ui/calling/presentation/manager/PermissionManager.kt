@@ -130,18 +130,14 @@ internal class PermissionManager(
             Manifest.permission.MODIFY_AUDIO_SETTINGS,
         )
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
             permissions.add(Manifest.permission.FOREGROUND_SERVICE)
-        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            permissions.addAll(
-                arrayOf(
-                    Manifest.permission.BLUETOOTH_CONNECT,
-                    Manifest.permission.POST_NOTIFICATIONS,
-                )
-            )
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
 
         return permissions.toTypedArray()
     }
