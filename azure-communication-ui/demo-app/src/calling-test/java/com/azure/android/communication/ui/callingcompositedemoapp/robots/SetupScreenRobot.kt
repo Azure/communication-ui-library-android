@@ -104,10 +104,6 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
                 R.id.azure_communication_ui_setup_local_video_holder,
                 viewDisplayResource
             )
-            waitUntilViewIdIsNotDisplayed(
-                R.id.azure_communication_ui_setup_default_avatar,
-                viewDisplayResource
-            )
         }
         return this
     }

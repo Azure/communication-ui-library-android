@@ -7,18 +7,19 @@ import com.azure.android.communication.ui.calling.presentation.fragment.BaseView
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 
 internal class SetupViewModel(
     store: Store<ReduxState>,
-    private val setupViewModelProvider: SetupViewModelFactory,
+    setupViewModelProvider: SetupViewModelFactory,
 ) :
     BaseViewModel(store) {
 
     val warningsViewModel = setupViewModelProvider.warningsViewModel
-    val setupControlsViewModel = setupViewModelProvider.setupControlsViewModel
+    val setupControlBarViewModel = setupViewModelProvider.setupControlBarViewModel
     val localParticipantRendererViewModel = setupViewModelProvider.previewAreaViewModel
     val audioDeviceListViewModel = setupViewModelProvider.audioDeviceListViewModel
     val errorInfoViewModel = setupViewModelProvider.snackBarViewModel
@@ -34,22 +35,30 @@ internal class SetupViewModel(
     }
 
     fun exitComposite() {
+        // double check here if we need both the action to execute
         dispatchAction(action = CallingAction.CallEndRequested())
         dispatchAction(action = NavigationAction.Exit())
     }
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
+            store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
+        }
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithCameraOn) {
+            store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
+        }
+
         warningsViewModel.init(state.permissionState)
         localParticipantRendererViewModel.init(
             state.localParticipantState.videoStreamID,
         )
-        setupControlsViewModel.init(
+        setupControlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
             state.callState,
-            audioDeviceListViewModel::displayAudioDeviceSelectionMenu
+            audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState,
@@ -74,7 +83,8 @@ internal class SetupViewModel(
     }
 
     override suspend fun onStateChange(state: ReduxState) {
-        setupControlsViewModel.update(
+
+        setupControlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,

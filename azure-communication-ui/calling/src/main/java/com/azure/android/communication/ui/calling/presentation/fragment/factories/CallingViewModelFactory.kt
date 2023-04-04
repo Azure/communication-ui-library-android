@@ -8,13 +8,14 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -24,7 +25,7 @@ internal class CallingViewModelFactory(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager
-) {
+) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(debugInfoManager)
@@ -64,8 +65,12 @@ internal class CallingViewModelFactory(
         BannerViewModel()
     }
 
-    val lobbyOverlayViewModel by lazy {
-        LobbyOverlayViewModel()
+    val waitingLobbyOverlayViewModel by lazy {
+        WaitingLobbyOverlayViewModel()
+    }
+
+    val connectingLobbyOverlayViewModel by lazy {
+        ConnectingLobbyOverlayViewModel(store::dispatch)
     }
 
     val onHoldOverlayViewModel by lazy {

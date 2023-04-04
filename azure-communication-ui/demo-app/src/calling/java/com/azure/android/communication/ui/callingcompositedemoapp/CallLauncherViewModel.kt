@@ -25,7 +25,6 @@ class CallLauncherViewModel : ViewModel() {
 
     fun launch(
         context: Context,
-
         acsToken: String,
         displayName: String,
         groupId: UUID?,
@@ -59,6 +58,9 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
+            .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
+            .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
+            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callComposite.launch(context, remoteOptions, localOptions)
     }

@@ -42,8 +42,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <include
+        layout="@layout/azure_communication_ui_calling_connecting_lobby_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+   <include
         layout="@layout/azure_communication_ui_calling_call_lobby_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"

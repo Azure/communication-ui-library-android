@@ -6,6 +6,9 @@ package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.state.CallingState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Assert
 import org.junit.Test
@@ -29,8 +32,11 @@ internal class LeaveConfirmViewModelUnitTest {
         }
 
         val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore::dispatch)
-
-        leaveConfirmViewModel.confirm()
+        val callingState: CallingState = CallingState(
+            CallingStatus.CONNECTED,
+            OperationStatus.NONE
+        )
+        leaveConfirmViewModel.confirm(callingState)
 
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->

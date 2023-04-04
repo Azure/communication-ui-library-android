@@ -89,7 +89,8 @@ internal class DependencyInjectionContainerHolder(
                 ParticipantGridCellViewModelFactory(),
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager
-            )
+            ),
+            container.networkManager
         )
     }
 }

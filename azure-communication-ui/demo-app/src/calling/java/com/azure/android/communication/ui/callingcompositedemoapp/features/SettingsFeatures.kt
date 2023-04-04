@@ -12,13 +12,19 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
+import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.MIC_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
+import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.util.Locale
@@ -69,6 +75,21 @@ class SettingsFeatures {
         @JvmStatic
         fun getRemoteParticipantPersonaInjectionSelection(): Boolean {
             return sharedPrefs.getBoolean(DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY, false)
+        }
+
+        @JvmStatic
+        fun getSkipSetupScreenFeatureOption(): Boolean {
+            return sharedPrefs.getBoolean(SKIP_SETUP_SCREEN_VALUE_KEY, DEFAULT_SKIP_SETUP_SCREEN_VALUE)
+        }
+
+        @JvmStatic
+        fun getMicOnByDefaultOption(): Boolean {
+            return sharedPrefs.getBoolean(MIC_ON_BY_DEFAULT_KEY, DEFAULT_MIC_ON_BY_DEFAULT_VALUE)
+        }
+
+        @JvmStatic
+        fun getCameraOnByDefaultOption(): Boolean {
+            return sharedPrefs.getBoolean(CAMERA_ON_BY_DEFAULT_KEY, DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE)
         }
 
         @JvmStatic
