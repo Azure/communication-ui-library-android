@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 package com.azure.android.communication.ui.calling.presentation.manager
-
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -11,10 +9,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -24,8 +22,7 @@ internal class PermissionManager(
     private lateinit var activity: Activity
     private lateinit var audioPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
-    private lateinit var cameraPermissionFlow: MutableStateFlow<PermissionStatus>
-    private lateinit var audioPermissionFlow: MutableStateFlow<PermissionStatus>
+    private var previousPermissionState: PermissionState? = null
 
     fun start(
         activity: Activity,
@@ -36,31 +33,18 @@ internal class PermissionManager(
         this.activity = activity
         this.audioPermissionLauncher = audioPermissionLauncher
         this.cameraPermissionLauncher = cameraPermissionLauncher
-        val currentState = store.getCurrentState()
-        cameraPermissionFlow = MutableStateFlow(currentState.permissionState.cameraPermissionState)
-        audioPermissionFlow = MutableStateFlow(currentState.permissionState.audioPermissionState)
-
         coroutineScope.launch {
             store.getStateFlow().collect {
-                cameraPermissionFlow.value = it.permissionState.cameraPermissionState
-                audioPermissionFlow.value = it.permissionState.audioPermissionState
-            }
-        }
-
-        coroutineScope.launch {
-            cameraPermissionFlow.collect {
-                onCameraPermissionStateChange(it)
-            }
-        }
-        coroutineScope.launch {
-            audioPermissionFlow.collect {
-                onAudioPermissionStateChange(it)
+                if (previousPermissionState == null || previousPermissionState != it.permissionState) {
+                    onPermissionStateChange(it.permissionState)
+                }
+                previousPermissionState = it.permissionState
             }
         }
     }
 
     private fun createAudioPermissionRequest() {
-        if (getAudioPermissionState() == PermissionStatus.NOT_ASKED) {
+        if (getAudioPermissionState(activity) == PermissionStatus.NOT_ASKED) {
             audioPermissionLauncher.launch(getPermissionsList())
         } else {
             setAudioPermissionsState()
@@ -68,55 +52,65 @@ internal class PermissionManager(
     }
 
     private fun createCameraPermissionRequest() {
-        if (getCameraPermissionState() == PermissionStatus.NOT_ASKED) {
+        if (getCameraPermissionState(activity) == PermissionStatus.NOT_ASKED) {
             cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
         } else {
             setCameraPermissionsState()
         }
     }
 
-    private fun onAudioPermissionStateChange(permissionStatus: PermissionStatus) {
-        when (permissionStatus) {
+    private fun onPermissionStateChange(permissionState: PermissionState) {
+        when (permissionState.audioPermissionState) {
             PermissionStatus.REQUESTING -> createAudioPermissionRequest()
             PermissionStatus.UNKNOWN -> setAudioPermissionsState()
-            else -> { }
-        }
-    }
-
-    private fun onCameraPermissionStateChange(permissionStatus: PermissionStatus) {
-        when (permissionStatus) {
-            PermissionStatus.REQUESTING -> createCameraPermissionRequest()
-            PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
-                setCameraPermissionsState()
+            else -> when (permissionState.cameraPermissionState) {
+                PermissionStatus.REQUESTING -> createCameraPermissionRequest()
+                PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
+                    setCameraPermissionsState()
+                }
+                else -> {}
             }
-            else -> {}
         }
     }
 
-    private fun getAudioPermissionState(): PermissionStatus =
-        getPermissionState(Manifest.permission.RECORD_AUDIO)
-
-    private fun getCameraPermissionState(): PermissionStatus =
-        getPermissionState(Manifest.permission.CAMERA)
-
-    private fun getPermissionState(permission: String): PermissionStatus {
-        if (isPermissionGranted(permission))
-            return PermissionStatus.GRANTED
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val isPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(permission)
-            if (isPermissionPreviouslyDenied)
-                return PermissionStatus.DENIED
+    private fun getAudioPermissionState(activity: Activity): PermissionStatus {
+        val audioAccess = isPermissionGranted(Manifest.permission.RECORD_AUDIO)
+        var isAudioPermissionPreviouslyDenied = previousPermissionState?.audioPermissionState == PermissionStatus.REQUESTING ||
+            previousPermissionState?.audioPermissionState == PermissionStatus.DENIED
+        if (!audioAccess && !isAudioPermissionPreviouslyDenied && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            isAudioPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
+                Manifest.permission.RECORD_AUDIO
+            )
         }
-        return PermissionStatus.NOT_ASKED
+
+        return when {
+            audioAccess -> PermissionStatus.GRANTED
+            isAudioPermissionPreviouslyDenied -> PermissionStatus.DENIED
+            else -> PermissionStatus.NOT_ASKED
+        }
+    }
+
+    private fun getCameraPermissionState(activity: Activity): PermissionStatus {
+        val cameraAccess = isPermissionGranted(Manifest.permission.CAMERA)
+        var isCameraPermissionPreviouslyDenied = false
+        if (!cameraAccess && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            isCameraPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
+                Manifest.permission.CAMERA
+            )
+        }
+        return when {
+            cameraAccess -> PermissionStatus.GRANTED
+            isCameraPermissionPreviouslyDenied -> PermissionStatus.DENIED
+            else -> PermissionStatus.NOT_ASKED
+        }
     }
 
     fun setAudioPermissionsState() {
-        store.dispatch(PermissionAction.AudioPermissionIsSet(getAudioPermissionState()))
+        store.dispatch(PermissionAction.AudioPermissionIsSet(getAudioPermissionState(activity)))
     }
 
     fun setCameraPermissionsState() {
-        store.dispatch(PermissionAction.CameraPermissionIsSet(getCameraPermissionState()))
+        store.dispatch(PermissionAction.CameraPermissionIsSet(getCameraPermissionState(activity)))
     }
 
     private fun isPermissionGranted(permission: String) =
