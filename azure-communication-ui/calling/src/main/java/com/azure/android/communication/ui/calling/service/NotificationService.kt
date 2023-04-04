@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.service
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -18,7 +19,7 @@ internal class NotificationService(
     private val store: Store<ReduxState>,
 ) {
 
-    private var callingStatus = MutableStateFlow(CallingStatus.NONE)
+    private val callingStatus = MutableStateFlow(CallingStatus.NONE)
 
     fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
@@ -38,7 +39,11 @@ internal class NotificationService(
 
     private fun displayNotification() {
         val inCallServiceIntent = Intent(context, InCallService::class.java)
-        context.startService(inCallServiceIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(inCallServiceIntent)
+        } else {
+            context.startService(inCallServiceIntent)
+        }
     }
 
     fun removeNotification() {

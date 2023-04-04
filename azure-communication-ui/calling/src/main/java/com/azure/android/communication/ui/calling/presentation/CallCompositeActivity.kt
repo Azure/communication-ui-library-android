@@ -92,13 +92,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
 
         val activity = this
-        lifecycleScope.launch {
-            permissionManager.start(
-                activity,
-                getAudioPermissionLauncher(),
-                getCameraPermissionLauncher()
-            )
-        }
+        permissionManager.start(
+            activity,
+            getAudioPermissionLauncher(),
+            getCameraPermissionLauncher(),
+            lifecycleScope
+        )
 
         audioSessionManager.onCreate(savedInstanceState)
 
