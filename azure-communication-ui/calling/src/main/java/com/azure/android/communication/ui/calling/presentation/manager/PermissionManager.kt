@@ -94,11 +94,10 @@ internal class PermissionManager(
     }
 
     private fun getAudioPermissionState(): PermissionStatus =
-            getPermissionState(Manifest.permission.RECORD_AUDIO)
+        getPermissionState(Manifest.permission.RECORD_AUDIO)
 
     private fun getCameraPermissionState(): PermissionStatus =
-            getPermissionState(Manifest.permission.CAMERA)
-
+        getPermissionState(Manifest.permission.CAMERA)
 
     private fun getPermissionState(permission: String): PermissionStatus {
         if (isPermissionGranted(permission))
@@ -125,10 +124,10 @@ internal class PermissionManager(
 
     private fun getPermissionsList(): Array<String> {
         val permissions = mutableListOf(
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.WAKE_LOCK,
-                Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -137,10 +136,10 @@ internal class PermissionManager(
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions.addAll(
-                    arrayOf(
-                            Manifest.permission.BLUETOOTH_CONNECT,
-                            Manifest.permission.POST_NOTIFICATIONS,
-                    )
+                arrayOf(
+                    Manifest.permission.BLUETOOTH_CONNECT,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                )
             )
         }
 
