@@ -64,9 +64,18 @@ internal data class BluetoothState(
     val deviceName: String,
 )
 
+internal data class InitialCallControllerState(
+    val startWithCameraOn: Boolean,
+    val startWithMicrophoneOn: Boolean
+)
+
 internal data class LocalUserState(
     val cameraState: CameraState,
     val audioState: AudioState,
     val videoStreamID: String?,
     val displayName: String?,
+    val initialCallJoinState: InitialCallControllerState = InitialCallControllerState(
+        false,
+        false
+    ),
 )

@@ -24,12 +24,13 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
@@ -58,7 +59,8 @@ internal class CallingFragment :
     private lateinit var participantListView: ParticipantListView
     private lateinit var bannerView: BannerView
     private lateinit var errorInfoView: ErrorInfoView
-    private lateinit var lobbyOverlay: LobbyOverlayView
+    private lateinit var waitingLobbyOverlay: WaitingLobbyOverlayView
+    private lateinit var connectingLobbyOverlay: ConnectingLobbyOverlayView
     private lateinit var holdOverlay: OnHoldOverlayView
     private lateinit var sensorManager: SensorManager
     private lateinit var powerManager: PowerManager
@@ -75,7 +77,8 @@ internal class CallingFragment :
         confirmLeaveOverlayView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         confirmLeaveOverlayView.start(
-            viewLifecycleOwner
+            viewLifecycleOwner,
+            holder.container.appStore.getCurrentState().callState
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)
@@ -91,8 +94,11 @@ internal class CallingFragment :
             avatarViewManager
         )
 
-        lobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
-        lobbyOverlay.start(viewLifecycleOwner, viewModel.lobbyOverlayViewModel)
+        connectingLobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_connecting_lobby_overlay)
+        connectingLobbyOverlay.start(viewLifecycleOwner, viewModel.connectingLobbyOverlayViewModel)
+
+        waitingLobbyOverlay = view.findViewById(R.id.azure_communication_ui_call_lobby_overlay)
+        waitingLobbyOverlay.start(viewLifecycleOwner, viewModel.waitingLobbyOverlayViewModel)
 
         holdOverlay = view.findViewById(R.id.azure_communication_ui_call_hold_overlay)
         holdOverlay.start(viewLifecycleOwner, viewModel.holdOverlayViewModel)

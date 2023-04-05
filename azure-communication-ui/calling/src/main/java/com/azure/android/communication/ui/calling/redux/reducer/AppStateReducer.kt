@@ -14,12 +14,16 @@ internal class AppStateReducer(
     private val lifecycleReducer: LifecycleReducer,
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
-    private val audioSessionReducer: AudioSessionReducer,
+    private val audioSessionReducer: AudioSessionReducer
 ) :
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
 
-        val appState = AppReduxState(state.localParticipantState.displayName)
+        val appState = AppReduxState(
+            state.localParticipantState.displayName,
+            cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
+            microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+        )
 
         appState.callState = callStateReducer.reduce(
             state.callState,

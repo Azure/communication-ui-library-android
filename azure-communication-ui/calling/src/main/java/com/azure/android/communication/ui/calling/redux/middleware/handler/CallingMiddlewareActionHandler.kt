@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
@@ -46,13 +47,14 @@ internal interface CallingMiddlewareActionHandler {
     fun turnMicOn(store: Store<ReduxState>)
     fun turnMicOff(store: Store<ReduxState>)
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
+    fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
     fun dispose()
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
-    coroutineContextProvider: CoroutineContextProvider,
+    coroutineContextProvider: CoroutineContextProvider
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -112,6 +114,19 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    override fun callSetupWithSkipSetupScreen(store: Store<ReduxState>) {
+
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
+            store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
+        }
+
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithCameraOn) {
+            store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
+        }
+
+        store.dispatch(action = CallingAction.SetupCall())
+    }
+
     override fun dispose() {
         coroutineScope.cancel()
         callingService.dispose()
@@ -153,7 +168,10 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun requestCameraPreviewOn(store: Store<ReduxState>) {
         val action =
             if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.NOT_ASKED)
-                PermissionAction.CameraPermissionRequested() else LocalParticipantAction.CameraPreviewOnTriggered()
+                PermissionAction.CameraPermissionRequested()
+            else if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.DENIED)
+                LocalParticipantAction.CameraOffTriggered()
+            else LocalParticipantAction.CameraPreviewOnTriggered()
 
         store.dispatch(action)
     }
@@ -170,6 +188,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(LocalParticipantAction.CameraPreviewOnSucceeded(newVideoStreamId))
             }
         }
+
+        callingService.turnLocalCameraOn()
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
@@ -196,11 +216,16 @@ internal class CallingMiddlewareActionHandlerImpl(
                         FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
                     )
                 )
+            } else {
+                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                    store.dispatch(action = CallingAction.CallStartRequested())
+                }
             }
         }
     }
 
     override fun startCall(store: Store<ReduxState>) {
+
         subscribeRemoteParticipantsUpdate(store, coroutineScope)
         subscribeIsMutedUpdate(store)
         subscribeIsRecordingUpdate(store)
@@ -358,13 +383,23 @@ internal class CallingMiddlewareActionHandlerImpl(
                     tryCameraOn(store)
                 }
 
+                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+                    callInfoModel.callingStatus == CallingStatus.CONNECTED
+                ) {
+                    tryCameraOn(store)
+                }
+
                 callInfoModel.callStateError?.let {
                     val action = ErrorAction.CallStateErrorOccurred(it)
                     store.dispatch(action)
                     if (it.callCompositeEventCode == CallCompositeEventCode.CALL_EVICTED ||
                         it.callCompositeEventCode == CallCompositeEventCode.CALL_DECLINED
                     ) {
-                        store.dispatch(NavigationAction.SetupLaunched())
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                            store.dispatch(NavigationAction.Exit())
+                        } else {
+                            store.dispatch(NavigationAction.SetupLaunched())
+                        }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
                         it.errorCode == ErrorCode.CALL_JOIN_FAILED
                     ) {
@@ -372,7 +407,11 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        store.dispatch(NavigationAction.SetupLaunched())
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                            store.dispatch(NavigationAction.Exit())
+                        } else {
+                            store.dispatch(NavigationAction.SetupLaunched())
+                        }
                     }
                 }
 
@@ -401,7 +440,9 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()
-        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED) {
+        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED ||
+            state.localParticipantState.cameraState.operation == CameraOperationalStatus.PENDING
+        ) {
             if (state.callState.callingStatus != CallingStatus.NONE) {
                 callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
                     if (error != null) {

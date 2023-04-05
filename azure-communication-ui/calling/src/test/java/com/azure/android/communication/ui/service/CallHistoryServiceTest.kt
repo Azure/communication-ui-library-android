@@ -7,9 +7,10 @@ import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,8 +36,8 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState1 = AppReduxState("")
-            appState1.callState = CallingState(CallingStatus.NONE)
+            val appState1 = AppReduxState("", false, false)
+            appState1.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
             val stateFlow = MutableStateFlow<ReduxState>(appState1)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -54,9 +55,14 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             }
 
             // update state
-            val appState2 = AppReduxState("")
+            val appState2 = AppReduxState("", false, false)
             val callID = "callID"
-            appState2.callState = CallingState(CallingStatus.CONNECTING, callID, callStartDateTime = OffsetDateTime.now())
+            appState2.callState = CallingState(
+                CallingStatus.CONNECTING,
+                OperationStatus.NONE,
+                callID,
+                callStartDateTime = OffsetDateTime.now()
+            )
             stateFlow.value = appState2
 
             verify(callHistoryRepository, times(1)).insert(eq(callID), any())

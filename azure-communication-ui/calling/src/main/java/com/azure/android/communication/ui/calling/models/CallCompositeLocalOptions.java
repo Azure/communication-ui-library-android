@@ -34,6 +34,9 @@ public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
     private CallCompositeParticipantRole roleHint = null;
+    private boolean cameraOn = false;
+    private boolean microphoneOn = false;
+    private boolean skipSetupScreen = false;
 
     /**
      * Create LocalSettings.
@@ -107,6 +110,64 @@ public final class CallCompositeLocalOptions {
      */
     public CallCompositeLocalOptions setRoleHint(final CallCompositeParticipantRole roleHint) {
         this.roleHint = roleHint;
+        return this;
+    }
+
+    /**
+     * Get the boolean value for skip setup screen.
+     * @return The boolean that is currently set.
+     */
+    public boolean isSkipSetupScreen() {
+        return this.skipSetupScreen;
+    }
+
+    /**
+     * Set a boolean to be used.
+     * @param skipSetupScreen The boolean value to be used.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setSkipSetupScreen(final boolean skipSetupScreen) {
+        this.skipSetupScreen = skipSetupScreen;
+        return this;
+    }
+
+    /**
+     * Get the initial camera configuration boolean value.
+     * @return The boolean that is currently set.
+     */
+    public boolean isCameraOn() {
+        return this.cameraOn;
+    }
+
+    /**
+     * Set a boolean to be used.
+     * @param cameraOn The boolean value to be used for initial camera configuration.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setCameraOn(
+            final boolean cameraOn
+    ) {
+        this.cameraOn = cameraOn;
+        return this;
+    }
+
+    /**
+     * Get the initial microphone configuration boolean value.
+     * @return The boolean that is currently set.
+     */
+    public boolean isMicrophoneOn() {
+        return this.microphoneOn;
+    }
+
+    /**
+     * Set a boolean to be used.
+     * @param microphoneOn The boolean value to be used for initial microphone configuration.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setMicrophoneOn(
+            final boolean microphoneOn
+    ) {
+        this.microphoneOn = microphoneOn;
         return this;
     }
 }

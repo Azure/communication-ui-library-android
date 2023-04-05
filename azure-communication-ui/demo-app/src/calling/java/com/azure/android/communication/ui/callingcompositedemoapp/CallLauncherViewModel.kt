@@ -65,6 +65,9 @@ class CallLauncherViewModel : ViewModel() {
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
             .setRoleHint(roomRoleHint)
+            .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
+            .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
+            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callComposite.launch(context, remoteOptions, localOptions)
     }

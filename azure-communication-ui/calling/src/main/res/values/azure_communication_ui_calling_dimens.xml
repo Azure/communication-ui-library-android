@@ -10,6 +10,7 @@
     <dimen name="azure_communication_ui_calling_box_inset_layout_padding">0dp</dimen>
     <dimen name="azure_communication_ui_calling_actionbar_title_textsize">17sp</dimen>
     <dimen name="azure_communication_ui_calling_actionbar_subtitle_textsize">12sp</dimen>
+    <dimen name="azure_communication_ui_calling_connecting_textsize">22sp</dimen>
 
     <!--
     This padding applies to both square and round screens. The total padding between the buttons
