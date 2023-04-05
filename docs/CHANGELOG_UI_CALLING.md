@@ -1,5 +1,12 @@
 # Azure Communication UI Calling Release History
 
+## 1.3.0-beta.1 (2023-04-05)
+
+### Features
+- Skip setup screen `CallCompositeLocalOptions().setSkipSetupScreen`
+- API to set camera and mic on/off before call join `CallCompositeLocalOptions().setCameraOn` `CallCompositeLocalOptions().setMicrophoneOn`
+- Capability to support Rooms join `CallCompositeRoomLocator`
+  
 ## 1.2.0 (2023-03-09)
 
 ### Features
