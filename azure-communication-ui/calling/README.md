@@ -4,7 +4,7 @@
 
 ## Latest Release
 
-- [1.2.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.2.0)
+- [1.3.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.3.0)
 
 ## Getting Started
 
