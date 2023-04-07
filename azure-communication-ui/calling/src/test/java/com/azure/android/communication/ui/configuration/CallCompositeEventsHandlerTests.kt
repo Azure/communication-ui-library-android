@@ -22,7 +22,7 @@ internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() = runScopedTest {
 
         // arrange
-        val appState = AppReduxState("")
+        val appState = AppReduxState("", false, false)
         appState.errorState = ErrorState(null, null)
 
         val handler1 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }

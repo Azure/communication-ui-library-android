@@ -71,7 +71,8 @@ internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineC
                             participants = message.content.participants.map {
                                 RemoteParticipantInfoModel(
                                     userIdentifier = it.communicationIdentifier.into(),
-                                    displayName = it.displayName
+                                    displayName = it.displayName,
+                                    isLocalUser = it.communicationIdentifier.into().id == this.localParticipantIdentifier
                                 )
                             }
                         )
@@ -88,7 +89,8 @@ internal class ChatFetchNotificationHandler(coroutineContextProvider: CoroutineC
                             participants = message.content.participants.map {
                                 RemoteParticipantInfoModel(
                                     userIdentifier = it.communicationIdentifier.into(),
-                                    displayName = it.displayName
+                                    displayName = it.displayName,
+                                    isLocalUser = it.communicationIdentifier.into().id == this.localParticipantIdentifier
                                 )
                             }
                         )

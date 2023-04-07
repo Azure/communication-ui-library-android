@@ -173,9 +173,19 @@ internal class DependencyInjectionContainerImpl(
         CallHistoryRepositoryImpl(applicationContext, logger)
     }
 
+    private val localOptions by lazy {
+        configuration.callCompositeLocalOptions
+    }
+
     //region Redux
     // Initial State
-    private val initialState by lazy { AppReduxState(configuration.callConfig?.displayName) }
+    private val initialState by lazy {
+        AppReduxState(
+            configuration.callConfig?.displayName,
+            localOptions?.isCameraOn == true,
+            localOptions?.isMicrophoneOn == true
+        )
+    }
 
     // Reducers
     private val callStateReducer get() = CallStateReducerImpl()
@@ -206,7 +216,7 @@ internal class DependencyInjectionContainerImpl(
             lifecycleReducer,
             errorReducer,
             navigationReducer,
-            audioSessionReducer
+            audioSessionReducer,
         ) as Reducer<ReduxState>
     }
     //endregion

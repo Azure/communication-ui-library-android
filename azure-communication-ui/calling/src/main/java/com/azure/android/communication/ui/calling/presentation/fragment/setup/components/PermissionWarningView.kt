@@ -72,7 +72,6 @@ internal class PermissionWarningView : LinearLayout {
             cameraPermissionGranted = false
         } else if (permissionState == PermissionStatus.GRANTED) {
             cameraPermissionGranted = true
-            viewModel.turnCameraOn()
         }
         updateSetupPermissionHolder()
     }

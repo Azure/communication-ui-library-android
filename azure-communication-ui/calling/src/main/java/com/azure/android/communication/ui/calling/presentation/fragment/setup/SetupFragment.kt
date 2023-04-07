@@ -95,7 +95,7 @@ internal class SetupFragment :
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)
         setupControlsView.start(
             viewLifecycleOwner,
-            viewModel.setupControlsViewModel,
+            viewModel.setupControlBarViewModel,
         )
 
         errorInfoView = ErrorInfoView(view)

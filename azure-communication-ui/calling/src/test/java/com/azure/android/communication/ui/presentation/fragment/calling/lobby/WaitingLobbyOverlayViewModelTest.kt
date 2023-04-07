@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling.lobby
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -14,14 +14,14 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class LobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
+internal class WaitingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
 
     @Test
     fun lobbyOverlayViewModel_when_callingStateChange_then_notifyLobbyState() =
         runScopedTest {
 
             // arrange
-            val viewModel = LobbyOverlayViewModel()
+            val viewModel = WaitingLobbyOverlayViewModel()
             viewModel.init(
                 CallingStatus.CONNECTED,
             )

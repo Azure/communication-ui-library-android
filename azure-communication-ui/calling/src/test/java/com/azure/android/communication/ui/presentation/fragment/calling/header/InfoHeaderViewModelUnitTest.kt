@@ -7,9 +7,10 @@ import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_update_then_numberOfParticipantsFlowReflectsUpdate() {
         runScopedTest {
 
-            val appState = AppReduxState("")
+            val appState = AppReduxState("", false, false)
 
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}
@@ -45,6 +46,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             )
             appState.callState = CallingState(
                 CallingStatus.CONNECTED,
+                OperationStatus.NONE,
                 joinCallIsRequested = false,
                 isRecording = false,
                 isTranscribing = false
@@ -82,7 +84,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_updateIsLobbyOverlayDisplayed_then_isLobbyOverlayDisplayedFlowReflectsUpdate() {
         runScopedTest {
 
-            val appState = AppReduxState("")
+            val appState = AppReduxState("", false, false)
 
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}
@@ -100,6 +102,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             )
             appState.callState = CallingState(
                 CallingStatus.CONNECTED,
+                OperationStatus.NONE,
                 joinCallIsRequested = false,
                 isRecording = false,
                 isTranscribing = false

@@ -51,6 +51,7 @@ internal class SetupControlBarView : LinearLayout {
         setupControlBarViewModel: SetupControlBarViewModel,
     ) {
         viewModel = setupControlBarViewModel
+        // viewModel.turnCameraOnDefault()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraIsEnabled().collect {

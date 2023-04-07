@@ -18,7 +18,7 @@ internal class NotificationService(
     private val store: Store<ReduxState>,
 ) {
 
-    private var callingStatus = MutableStateFlow(CallingStatus.NONE)
+    private val callingStatus = MutableStateFlow(CallingStatus.NONE)
 
     fun start(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch {
