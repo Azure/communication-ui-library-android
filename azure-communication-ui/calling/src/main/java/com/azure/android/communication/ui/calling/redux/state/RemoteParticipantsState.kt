@@ -10,4 +10,5 @@ internal data class RemoteParticipantsState(
     val participantMap: Map<String, ParticipantInfoModel>,
     val participantMapModifiedTimestamp: Number,
     val dominantSpeakersInfo: DominantSpeakersInfoModel,
+    val dominantSpeakersModifiedTimestamp: Number,
 )

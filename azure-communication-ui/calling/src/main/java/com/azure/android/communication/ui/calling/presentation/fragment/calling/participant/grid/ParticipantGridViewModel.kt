@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid
 
+import com.azure.android.communication.ui.calling.models.DominantSpeakersInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -22,6 +23,7 @@ internal class ParticipantGridViewModel(
 
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
+    private var dominantSpeakersStateModifiedTimestamp: Number = 0
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(
@@ -32,6 +34,7 @@ internal class ParticipantGridViewModel(
 
     fun clear() {
         remoteParticipantStateModifiedTimeStamp = 0
+        dominantSpeakersStateModifiedTimestamp = 0
         displayedRemoteParticipantsViewModelMap.clear()
         remoteParticipantsUpdatedStateFlow.value = mutableListOf()
     }
@@ -55,14 +58,19 @@ internal class ParticipantGridViewModel(
     }
 
     fun update(
-        participantStateUpdatedTimestamp: Number,
+        remoteParticipantsMapUpdatedTimestamp: Number,
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
+        dominantSpeakersInfoModel: DominantSpeakersInfoModel,
+        dominantSpeakersModifiedTimestamp: Number,
     ) {
-        if (participantStateUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp) {
+        if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
+            dominantSpeakersModifiedTimestamp == dominantSpeakersStateModifiedTimestamp
+        ) {
             return
         }
 
-        remoteParticipantStateModifiedTimeStamp = participantStateUpdatedTimestamp
+        remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
+        dominantSpeakersStateModifiedTimestamp = dominantSpeakersStateModifiedTimestamp
 
         var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)

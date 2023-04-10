@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.models.DominantSpeakersInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -150,8 +151,10 @@ internal class CallingViewModel(
 
         if (state.callState.callingStatus == CallingStatus.LOCAL_HOLD) {
             participantGridViewModel.update(
-                System.currentTimeMillis(),
-                mapOf(),
+                remoteParticipantsMapUpdatedTimestamp = System.currentTimeMillis(),
+                remoteParticipantsMap = mapOf(),
+                dominantSpeakersInfoModel = DominantSpeakersInfoModel(listOf()),
+                dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
             )
             floatingHeaderViewModel.dismiss()
             participantListViewModel.closeParticipantList()
@@ -170,6 +173,8 @@ internal class CallingViewModel(
             participantGridViewModel.update(
                 state.remoteParticipantState.participantMapModifiedTimestamp,
                 state.remoteParticipantState.participantMap,
+                state.remoteParticipantState.dominantSpeakersInfo,
+                state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
             )
 
             floatingHeaderViewModel.update(
