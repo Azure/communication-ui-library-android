@@ -168,7 +168,7 @@ internal class CallingViewModel(
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
-                state.remoteParticipantState.modifiedTimestamp,
+                state.remoteParticipantState.participantMapModifiedTimestamp,
                 state.remoteParticipantState.participantMap,
             )
 

@@ -63,3 +63,7 @@ internal fun ParticipantState.into(): ParticipantStatus {
 internal fun com.azure.android.communication.calling.StreamSize.into(): StreamSize {
     return StreamSize(this.width, this.height)
 }
+
+internal fun com.azure.android.communication.calling.DominantSpeakersInfo.into(): DominantSpeakersInfo {
+    return DominantSpeakersInfoWrapper(this)
+}

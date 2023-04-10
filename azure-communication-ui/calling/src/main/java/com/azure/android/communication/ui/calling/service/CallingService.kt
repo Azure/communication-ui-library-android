@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.DominantSpeakersInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -36,6 +37,7 @@ internal class CallingService(
     private val isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+    private val dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfoModel>()
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
     private var callIdStateFlow = MutableStateFlow<String?>(null)
@@ -76,6 +78,10 @@ internal class CallingService(
 
     fun getParticipantsInfoModelSharedFlow(): SharedFlow<Map<String, ParticipantInfoModel>> {
         return participantsInfoModelSharedFlow
+    }
+
+    fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfoModel> {
+        return dominantSpeakersSharedFlow
     }
 
     fun getIsMutedSharedFlow(): Flow<Boolean> {
@@ -154,6 +160,12 @@ internal class CallingService(
         coroutineScope.launch {
             callingSdk.getIsTranscribingSharedFlow().collect {
                 isTranscribingSharedFlow.emit(it)
+            }
+        }
+
+        coroutineScope.launch {
+            callingSdk.getDominantSpeakersSharedFlow().collect {
+                dominantSpeakersSharedFlow.emit(DominantSpeakersInfoModel(speakers = it.speakers))
             }
         }
 
