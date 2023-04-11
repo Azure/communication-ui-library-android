@@ -1,5 +1,12 @@
 # Azure Communication UI Calling Release History
 
+## 1.3.0 (2023-04-06)
+
+### Features
+- Introducing skip setup screen call join experience with `skipSetupScreen` on `CallCompositeLocalOptions`
+- Introducing camera and microphone configuration capability for initial call join configuration with `cameraOn` and `microphoneOn` on `CallCompositeLocalOptions`
+- Ongoing call in background notification permission update for API 33
+
 ## 1.2.0 (2023-03-09)
 
 ### Features

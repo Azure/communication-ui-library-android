@@ -49,6 +49,8 @@ internal class InCallService : Service() {
             .setContentText(this.getText(R.string.azure_communication_ui_calling_service_notification_message))
             .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_call_16_filled)
             .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_CALL)
             .build()
 
         val notificationId = 1
@@ -64,8 +66,7 @@ internal class InCallService : Service() {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(IN_CALL_CHANNEL_ID, name, importance)
             channel.description = description
-            channel.setSound(null, null)
-            val notificationManager = getSystemService(NotificationManager::class.java)
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
