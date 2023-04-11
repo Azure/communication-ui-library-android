@@ -71,7 +71,7 @@ internal interface RemoteParticipant {
 }
 
 internal interface DominantSpeakersInfo {
-    val speakers: Collection<String>
+    val speakers: List<String>
 }
 
 internal sealed class CommunicationIdentifier(val id: String) {

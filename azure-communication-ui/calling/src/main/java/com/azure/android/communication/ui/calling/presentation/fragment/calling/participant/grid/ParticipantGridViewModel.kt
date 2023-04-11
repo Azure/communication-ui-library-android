@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.lang.Integer.min
 
 internal class ParticipantGridViewModel(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
@@ -70,7 +71,7 @@ internal class ParticipantGridViewModel(
         }
 
         remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
-        dominantSpeakersStateModifiedTimestamp = dominantSpeakersStateModifiedTimestamp
+        dominantSpeakersStateModifiedTimestamp = dominantSpeakersModifiedTimestamp
 
         var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)
@@ -78,7 +79,7 @@ internal class ParticipantGridViewModel(
         if (participantSharingScreen.isNullOrEmpty()) {
             if (remoteParticipantsMap.size > maxRemoteParticipantSize) {
                 remoteParticipantsMapSorted =
-                    sortRemoteParticipantsByTimestamp(remoteParticipantsMap)
+                   sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfoModel)
             }
         } else {
             remoteParticipantsMapSorted = mapOf(
@@ -169,11 +170,37 @@ internal class ParticipantGridViewModel(
         }
     }
 
-    private fun sortRemoteParticipantsByTimestamp(
+    private fun sortRemoteParticipants(
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
+        dominantSpeakersInfoModel: DominantSpeakersInfoModel,
     ): Map<String, ParticipantInfoModel> {
+
+        val dominantSpeakersOrder = mutableMapOf<String, Int>()
+
+        for (i in 0 until min(maxRemoteParticipantSize, dominantSpeakersInfoModel.speakers.count())) {
+            dominantSpeakersOrder[dominantSpeakersInfoModel.speakers[i]] = i
+        }
+
+        val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { part1, part2 ->
+            if (dominantSpeakersOrder.containsKey(part1.first)
+                    && dominantSpeakersOrder.containsKey(part2.first)) {
+                val order1 = dominantSpeakersOrder.getValue(part1.first)
+                val order2 = dominantSpeakersOrder.getValue(part2.first)
+                return@Comparator if (order1 > order2)
+                    1 else -1
+            }
+
+            if (dominantSpeakersOrder.containsKey(part1.first))
+                return@Comparator -1
+
+            if (dominantSpeakersOrder.containsKey(part2.first))
+                return@Comparator 1
+
+            return@Comparator if (part1.second.displayName > part2.second.displayName) 1 else -1
+        }
+
         return remoteParticipantsMap.toList()
-            .sortedByDescending { it.second.speakingTimestamp.toLong() }
+            .sortedWith(lengthComparator)
             .take(maxRemoteParticipantSize).toMap()
     }
 

@@ -4,5 +4,5 @@
 package com.azure.android.communication.ui.calling.models
 
 internal data class DominantSpeakersInfoModel(
-    val speakers: Collection<String>,
+    val speakers: List<String>,
 )
