@@ -70,18 +70,18 @@ internal class ParticipantGridViewModel(
             return
         }
 
+        remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
+        dominantSpeakersStateModifiedTimestamp = dominantSpeakersModifiedTimestamp
+
+
+        var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)
 
-        // If screen share is presented, then no need to react on dominant speaker order change
-        if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp
-                && !participantSharingScreen.isNullOrEmpty())
-            return
-
-        remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
-        dominantSpeakersStateModifiedTimestamp = dominantSpeakersStateModifiedTimestamp
-
-        val remoteParticipantsMapSorted = if (participantSharingScreen.isNullOrEmpty()) {
-            sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfoModel)
+        if (participantSharingScreen.isNullOrEmpty()) {
+            if (remoteParticipantsMap.size > maxRemoteParticipantSize) {
+                remoteParticipantsMapSorted =
+                   sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfoModel)
+            }
         } else {
             mapOf(
                     Pair(
@@ -136,7 +136,6 @@ internal class ParticipantGridViewModel(
         }
 
         val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { part1, part2 ->
-
             if (dominantSpeakersOrder.containsKey(part1.first)
                     && dominantSpeakersOrder.containsKey(part2.first)) {
                 val order1 = dominantSpeakersOrder.getValue(part1.first)
