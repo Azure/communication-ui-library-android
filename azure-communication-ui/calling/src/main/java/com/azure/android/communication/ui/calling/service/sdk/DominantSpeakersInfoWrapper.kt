@@ -9,9 +9,9 @@ internal class DominantSpeakersInfoWrapper(
     private val dominantSpeakersInfo: com.azure.android.communication.calling.DominantSpeakersInfo
 ) : DominantSpeakersInfo {
 
-    var identifiers: Collection<String>? = null
+    var identifiers: List<String>? = null
 
-    override val speakers: Collection<String>
+    override val speakers: List<String>
         get() {
             identifiers?.let { return it }
 

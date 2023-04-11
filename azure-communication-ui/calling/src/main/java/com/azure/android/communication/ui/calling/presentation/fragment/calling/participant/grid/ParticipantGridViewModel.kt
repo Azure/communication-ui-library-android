@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.lang.Integer.min
 
 internal class ParticipantGridViewModel(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
@@ -72,20 +73,16 @@ internal class ParticipantGridViewModel(
         remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
         dominantSpeakersStateModifiedTimestamp = dominantSpeakersStateModifiedTimestamp
 
-        var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)
 
-        if (participantSharingScreen.isNullOrEmpty()) {
-            if (remoteParticipantsMap.size > maxRemoteParticipantSize) {
-                remoteParticipantsMapSorted =
-                    sortRemoteParticipantsByTimestamp(remoteParticipantsMap)
-            }
+        val remoteParticipantsMapSorted = if (participantSharingScreen.isNullOrEmpty()) {
+            sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfoModel)
         } else {
-            remoteParticipantsMapSorted = mapOf(
-                Pair(
-                    participantSharingScreen,
-                    remoteParticipantsMap[participantSharingScreen]!!
-                )
+            mapOf(
+                    Pair(
+                            participantSharingScreen,
+                            remoteParticipantsMap[participantSharingScreen]!!
+                    )
             )
         }
 
@@ -108,54 +105,7 @@ internal class ParticipantGridViewModel(
     private fun updateDisplayedParticipants(
         remoteParticipantsMapSorted: MutableMap<String, ParticipantInfoModel>,
     ) {
-        val alreadyDisplayedParticipants =
-            displayedRemoteParticipantsViewModelMap.filter { (id, _) ->
-                remoteParticipantsMapSorted.containsKey(id)
-            }
-
-        val viewModelsThatCanBeRemoved = displayedRemoteParticipantsViewModelMap.keys.filter {
-            !remoteParticipantsMapSorted.containsKey(it)
-        }.toMutableList()
-
-        alreadyDisplayedParticipants.forEach { (id, participantViewModel) ->
-            if (participantViewModel.getParticipantModifiedTimestamp()
-                != remoteParticipantsMapSorted[id]!!.modifiedTimestamp
-            ) {
-                participantViewModel.update(
-                    remoteParticipantsMapSorted[id]!!,
-                )
-            }
-            remoteParticipantsMapSorted.remove(id)
-        }
-
-        val viewModelsToRemoveCount =
-            viewModelsThatCanBeRemoved.size - remoteParticipantsMapSorted.size
-
-        if (viewModelsToRemoveCount > 0) {
-            val keysToRemove = viewModelsThatCanBeRemoved.takeLast(viewModelsToRemoveCount)
-            displayedRemoteParticipantsViewModelMap.keys.removeAll(keysToRemove)
-            viewModelsThatCanBeRemoved.removeAll(keysToRemove)
-        }
-
-        if (viewModelsThatCanBeRemoved.isNotEmpty()) {
-            val listToPreserveOrder =
-                displayedRemoteParticipantsViewModelMap.toList().toMutableList()
-            viewModelsThatCanBeRemoved.forEach {
-                val indexToSwap = displayedRemoteParticipantsViewModelMap.keys.indexOf(it)
-                val viewModel = displayedRemoteParticipantsViewModelMap[it]
-                listToPreserveOrder.removeAt(indexToSwap)
-                val participantID = remoteParticipantsMapSorted.keys.first()
-                val participantInfoModel = remoteParticipantsMapSorted[participantID]
-                viewModel?.update(participantInfoModel!!)
-                listToPreserveOrder.add(indexToSwap, Pair(participantID, viewModel!!))
-                remoteParticipantsMapSorted.remove(participantID)
-            }
-            displayedRemoteParticipantsViewModelMap.clear()
-            listToPreserveOrder.forEach {
-                displayedRemoteParticipantsViewModelMap[it.first] = it.second
-            }
-        }
-
+        displayedRemoteParticipantsViewModelMap.clear()
         remoteParticipantsMapSorted.forEach { (id, participantInfoModel) ->
             displayedRemoteParticipantsViewModelMap[id] =
                 participantGridCellViewModelFactory.ParticipantGridCellViewModel(
@@ -163,17 +113,44 @@ internal class ParticipantGridViewModel(
                 )
         }
 
-        if (remoteParticipantsMapSorted.isNotEmpty() || viewModelsToRemoveCount > 0) {
+        if (remoteParticipantsMapSorted.isNotEmpty() /*|| viewModelsToRemoveCount > 0*/) {
             remoteParticipantsUpdatedStateFlow.value =
                 displayedRemoteParticipantsViewModelMap.values.toList()
         }
     }
 
-    private fun sortRemoteParticipantsByTimestamp(
+    private fun sortRemoteParticipants(
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
+        dominantSpeakersInfoModel: DominantSpeakersInfoModel,
     ): Map<String, ParticipantInfoModel> {
+
+        val dominantSpeakersOrder = mutableMapOf<String, Int>()
+
+        for (i in 0 until min(maxRemoteParticipantSize, dominantSpeakersInfoModel.speakers.count())) {
+            dominantSpeakersOrder[dominantSpeakersInfoModel.speakers[i]] = i
+        }
+
+        val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { part1, part2 ->
+
+            if (dominantSpeakersOrder.containsKey(part1.first)
+                    && dominantSpeakersOrder.containsKey(part2.first)) {
+                val order1 = dominantSpeakersOrder.getValue(part1.first)
+                val order2 = dominantSpeakersOrder.getValue(part2.first)
+                return@Comparator if (order1 > order2)
+                    1 else -1
+            }
+
+            if (dominantSpeakersOrder.containsKey(part1.first))
+                return@Comparator -1
+
+            if (dominantSpeakersOrder.containsKey(part2.first))
+                return@Comparator 1
+
+            return@Comparator if (part1.second.displayName > part2.second.displayName) 1 else -1
+        }
+
         return remoteParticipantsMap.toList()
-            .sortedByDescending { it.second.speakingTimestamp.toLong() }
+            .sortedWith(lengthComparator)
             .take(maxRemoteParticipantSize).toMap()
     }
 

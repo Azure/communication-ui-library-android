@@ -219,15 +219,6 @@ internal class CallingSDKEventHandler(
         }
     }
 
-    private fun onRemoteParticipantSpeakingEvent(id: String) {
-        val timestamp = System.currentTimeMillis()
-        if (!remoteParticipantsInfoModelMap[id]?.isMuted!! && remoteParticipantsInfoModelMap[id]?.isSpeaking!!) {
-            remoteParticipantsInfoModelMap[id]?.speakingTimestamp = timestamp
-        }
-        remoteParticipantsInfoModelMap[id]?.modifiedTimestamp = timestamp
-        onRemoteParticipantUpdated()
-    }
-
     private fun onRemoteParticipantPropertyChange(id: String) {
         remoteParticipantsInfoModelMap[id]?.modifiedTimestamp = System.currentTimeMillis()
         onRemoteParticipantUpdated()
@@ -247,7 +238,6 @@ internal class CallingSDKEventHandler(
             ),
             cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
-            speakingTimestamp = if (participant.isSpeaking) currentTimestamp else 0,
             participantStatus = participant.state.into()
         )
     }
@@ -325,7 +315,7 @@ internal class CallingSDKEventHandler(
 
                 remoteParticipantsInfoModelMap[id]?.isSpeaking =
                     !remoteParticipantsInfoModelMap[id]?.isMuted!! && remoteParticipantsInfoModelMap[id]?.isSpeaking!!
-                onRemoteParticipantSpeakingEvent(id)
+                onRemoteParticipantUpdated()
             }
 
         mutedChangedListenersMap[id] = addOnIsMutedChangedEvent
@@ -344,7 +334,7 @@ internal class CallingSDKEventHandler(
             PropertyChangedListener {
                 remoteParticipantsInfoModelMap[id]?.isSpeaking =
                     remoteParticipantsCacheMap[id]!!.isSpeaking
-                onRemoteParticipantSpeakingEvent(id)
+                onRemoteParticipantUpdated()
             }
 
         isSpeakingChangedListenerMap[id] = addOnIsSpeakingChangedEvent
