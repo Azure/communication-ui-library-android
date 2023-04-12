@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.error.ErrorHandler
+import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
@@ -41,6 +42,7 @@ internal interface DependencyInjectionContainer {
     val configuration: CallCompositeConfiguration
     val errorHandler: ErrorHandler
     val remoteParticipantHandler: RemoteParticipantHandler
+    val callStateHandler: CallStateHandler
 
     // System
     val permissionManager: PermissionManager

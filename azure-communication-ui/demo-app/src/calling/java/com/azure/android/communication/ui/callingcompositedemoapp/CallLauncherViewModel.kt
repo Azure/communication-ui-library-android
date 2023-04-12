@@ -20,8 +20,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeeti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import java.util.UUID
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class CallLauncherViewModel : ViewModel() {
+    val callCompositeCallStateStateFlow = MutableStateFlow("")
 
     fun launch(
         context: Context,
@@ -62,6 +64,10 @@ class CallLauncherViewModel : ViewModel() {
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
+        callComposite.addOnCallStateEventHandler {
+            callCompositeCallStateStateFlow.value = it.toString()
+        }
+
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
@@ -87,6 +93,8 @@ class CallLauncherViewModel : ViewModel() {
         CallLauncherViewModel.callComposite = callComposite
         return callComposite
     }
+
+    fun getCallState() = callComposite?.callCompositeCallState.toString()
 
     companion object {
         var callComposite: CallComposite? = null

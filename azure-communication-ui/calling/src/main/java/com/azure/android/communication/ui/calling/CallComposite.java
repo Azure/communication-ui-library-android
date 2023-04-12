@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallState;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
@@ -156,6 +157,50 @@ public final class CallComposite {
      */
     public void removeOnErrorEventHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
         configuration.getCallCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add call state change handler
+     * callComposite.addOnCallStateEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite call state
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnCallStateEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallState> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnCallStateEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnCallStateEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallState> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnCallStateEventHandler(eventHandler);
+    }
+
+    /**
+     * Get Call Composite Call State.
+     *
+     * @return {@link CallCompositeCallState}
+     */
+    public CallCompositeCallState getCallCompositeCallState() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                return container.getCallStateHandler().getCallCompositeCallState();
+            }
+        }
+        return CallCompositeCallState.NONE;
     }
 
     /**

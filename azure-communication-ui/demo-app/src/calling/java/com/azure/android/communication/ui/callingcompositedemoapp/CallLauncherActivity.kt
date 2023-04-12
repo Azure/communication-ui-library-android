@@ -11,6 +11,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -21,6 +22,8 @@ import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class CallLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCallLauncherBinding
@@ -98,6 +101,16 @@ class CallLauncherActivity : AppCompatActivity() {
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()
+            }
+
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeCallStateStateFlow.collect {
+                    runOnUiThread {
+                        if(it.isNotEmpty()) {
+                            callStateText.text = it
+                        }
+                    }
+                }
             }
 
             if (BuildConfig.DEBUG) {
