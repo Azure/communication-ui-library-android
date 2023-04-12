@@ -18,7 +18,7 @@ internal class ParticipantStateReducerImpl :
             }
             is ParticipantAction.DominantSpeakersUpdated -> {
                 state.copy(
-                    dominantSpeakersInfo = action.dominantSpeakersInfoModel,
+                    dominantSpeakersInfo = action.dominantSpeakersInfo,
                     dominantSpeakersModifiedTimestamp = System.currentTimeMillis()
                 )
             }

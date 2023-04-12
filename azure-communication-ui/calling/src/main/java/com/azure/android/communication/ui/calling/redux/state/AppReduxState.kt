@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
-import com.azure.android.communication.ui.calling.models.DominantSpeakersInfoModel
-
 internal class AppReduxState(
     displayName: String?,
     cameraOnByDefault: Boolean,
@@ -16,7 +14,7 @@ internal class AppReduxState(
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
         participantMap = HashMap(),
         participantMapModifiedTimestamp = 0,
-        dominantSpeakersInfo = DominantSpeakersInfoModel(emptyList()),
+        dominantSpeakersInfo = emptyList(),
         dominantSpeakersModifiedTimestamp = 0,
     )
 

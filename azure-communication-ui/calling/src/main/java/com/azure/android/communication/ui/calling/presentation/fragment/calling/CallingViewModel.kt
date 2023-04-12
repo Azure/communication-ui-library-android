@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-import com.azure.android.communication.ui.calling.models.DominantSpeakersInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -153,7 +152,7 @@ internal class CallingViewModel(
             participantGridViewModel.update(
                 remoteParticipantsMapUpdatedTimestamp = System.currentTimeMillis(),
                 remoteParticipantsMap = mapOf(),
-                dominantSpeakersInfoModel = DominantSpeakersInfoModel(listOf()),
+                dominantSpeakersInfo =listOf(),
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
             )
             floatingHeaderViewModel.dismiss()

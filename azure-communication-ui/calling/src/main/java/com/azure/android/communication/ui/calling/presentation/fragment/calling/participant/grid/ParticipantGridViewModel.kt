@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid
 
-import com.azure.android.communication.ui.calling.models.DominantSpeakersInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -61,7 +60,7 @@ internal class ParticipantGridViewModel(
     fun update(
         remoteParticipantsMapUpdatedTimestamp: Number,
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
-        dominantSpeakersInfoModel: DominantSpeakersInfoModel,
+        dominantSpeakersInfo: List<String>,
         dominantSpeakersModifiedTimestamp: Number,
     ) {
         if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
@@ -80,7 +79,7 @@ internal class ParticipantGridViewModel(
         if (participantSharingScreen.isNullOrEmpty()) {
             if (remoteParticipantsMap.size > maxRemoteParticipantSize) {
                 remoteParticipantsMapSorted =
-                   sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfoModel)
+                   sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfo)
             }
         } else {
             mapOf(
@@ -126,13 +125,13 @@ internal class ParticipantGridViewModel(
 
     private fun sortRemoteParticipants(
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
-        dominantSpeakersInfoModel: DominantSpeakersInfoModel,
+        dominantSpeakersInfo: List<String>,
     ): Map<String, ParticipantInfoModel> {
 
         val dominantSpeakersOrder = mutableMapOf<String, Int>()
 
-        for (i in 0 until min(maxRemoteParticipantSize, dominantSpeakersInfoModel.speakers.count())) {
-            dominantSpeakersOrder[dominantSpeakersInfoModel.speakers[i]] = i
+        for (i in 0 until min(maxRemoteParticipantSize, dominantSpeakersInfo.count())) {
+            dominantSpeakersOrder[dominantSpeakersInfo[i]] = i
         }
 
         val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { part1, part2 ->
