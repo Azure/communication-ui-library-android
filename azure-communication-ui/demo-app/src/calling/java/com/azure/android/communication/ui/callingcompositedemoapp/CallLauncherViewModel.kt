@@ -9,7 +9,9 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
+import com.azure.android.communication.ui.calling.models.CallCompositeCallState
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -64,9 +66,9 @@ class CallLauncherViewModel : ViewModel() {
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
-        callComposite.addOnCallStateEventHandler {
-            callCompositeCallStateStateFlow.value = it.toString()
-        }
+        val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
+
+        callComposite.addOnCallStateEventHandler(callStateEventHandler)
 
         callComposite.launch(context, remoteOptions, localOptions)
     }
@@ -98,5 +100,11 @@ class CallLauncherViewModel : ViewModel() {
 
     companion object {
         var callComposite: CallComposite? = null
+    }
+}
+
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallState> {
+    override fun handle(callState: CallCompositeCallState) {
+        callCompositeCallStateStateFlow.value = callState.toString()
     }
 }
