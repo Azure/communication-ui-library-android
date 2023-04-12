@@ -20,10 +20,10 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import org.threeten.bp.format.DateTimeFormatter
-import java.util.UUID
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCallLauncherBinding
@@ -106,7 +106,7 @@ class CallLauncherActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 callLauncherViewModel.callCompositeCallStateStateFlow.collect {
                     runOnUiThread {
-                        if(it.isNotEmpty()) {
+                        if (it.isNotEmpty()) {
                             callStateText.text = it
                         }
                     }

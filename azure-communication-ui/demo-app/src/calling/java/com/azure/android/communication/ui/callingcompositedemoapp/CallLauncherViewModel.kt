@@ -19,8 +19,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetupScree
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import java.util.UUID
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")

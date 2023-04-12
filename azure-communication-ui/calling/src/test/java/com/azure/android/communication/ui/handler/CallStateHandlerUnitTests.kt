@@ -97,8 +97,10 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             testScheduler.runCurrent()
 
             // assert
-            TestCase.assertEquals(CallCompositeCallState.CONNECTED,
-                handler.getCallCompositeCallState())
+            TestCase.assertEquals(
+                CallCompositeCallState.CONNECTED,
+                handler.getCallCompositeCallState()
+            )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
                     event == CallCompositeCallState.CONNECTED
@@ -138,8 +140,10 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             testScheduler.runCurrent()
 
             // assert
-            TestCase.assertEquals(CallCompositeCallState.CONNECTED,
-                handler.getCallCompositeCallState())
+            TestCase.assertEquals(
+                CallCompositeCallState.CONNECTED,
+                handler.getCallCompositeCallState()
+            )
             verify(mockHandler, times(0)).handle(any())
             job.cancel()
         }
@@ -180,8 +184,10 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             testScheduler.runCurrent()
 
             // assert
-            TestCase.assertEquals(CallCompositeCallState.CONNECTED,
-                handler.getCallCompositeCallState())
+            TestCase.assertEquals(
+                CallCompositeCallState.CONNECTED,
+                handler.getCallCompositeCallState()
+            )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
                     event == CallCompositeCallState.CONNECTED
@@ -202,37 +208,48 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // test all
             testCallState(
                 CallingStatus.CONNECTING,
-                CallCompositeCallState.CONNECTING)
+                CallCompositeCallState.CONNECTING
+            )
             testCallState(
                 CallingStatus.DISCONNECTED,
-                CallCompositeCallState.DISCONNECTED)
+                CallCompositeCallState.DISCONNECTED
+            )
             testCallState(
                 CallingStatus.CONNECTED,
-                CallCompositeCallState.CONNECTED)
+                CallCompositeCallState.CONNECTED
+            )
             testCallState(
                 CallingStatus.DISCONNECTING,
-                CallCompositeCallState.DISCONNECTING)
+                CallCompositeCallState.DISCONNECTING
+            )
             testCallState(
                 CallingStatus.EARLY_MEDIA,
-                CallCompositeCallState.EARLY_MEDIA)
+                CallCompositeCallState.EARLY_MEDIA
+            )
             testCallState(
                 CallingStatus.IN_LOBBY,
-                CallCompositeCallState.IN_LOBBY)
+                CallCompositeCallState.IN_LOBBY
+            )
             testCallState(
                 CallingStatus.LOCAL_HOLD,
-                CallCompositeCallState.LOCAL_HOLD)
+                CallCompositeCallState.LOCAL_HOLD
+            )
             testCallState(
                 CallingStatus.NONE,
-                CallCompositeCallState.NONE)
+                CallCompositeCallState.NONE
+            )
             testCallState(
                 CallingStatus.REMOTE_HOLD,
-                CallCompositeCallState.REMOTE_HOLD)
+                CallCompositeCallState.REMOTE_HOLD
+            )
             testCallState(
                 CallingStatus.RINGING,
-                CallCompositeCallState.RINGING)
+                CallCompositeCallState.RINGING
+            )
             testNotCallState(
                 CallingStatus.RINGING,
-                CallCompositeCallState.CONNECTING)
+                CallCompositeCallState.CONNECTING
+            )
         }
     }
 
@@ -265,8 +282,10 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         testScheduler.runCurrent()
 
         // assert
-        TestCase.assertEquals(callCompositeCallState,
-            handler.getCallCompositeCallState())
+        TestCase.assertEquals(
+            callCompositeCallState,
+            handler.getCallCompositeCallState()
+        )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
                 event == callCompositeCallState
@@ -304,8 +323,10 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         testScheduler.runCurrent()
 
         // assert
-        TestCase.assertNotSame(callCompositeCallState,
-            handler.getCallCompositeCallState())
+        TestCase.assertNotSame(
+            callCompositeCallState,
+            handler.getCallCompositeCallState()
+        )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
                 event != callCompositeCallState

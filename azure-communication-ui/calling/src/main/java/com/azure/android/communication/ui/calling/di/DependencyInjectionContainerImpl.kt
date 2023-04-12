@@ -79,7 +79,7 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    override val callStateHandler by lazy  {
+    override val callStateHandler by lazy {
         CallStateHandler(configuration, appStore)
     }
 

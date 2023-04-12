@@ -5,18 +5,14 @@ package com.azure.android.communication.ui.calling
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
-import com.azure.android.communication.calling.MediaStreamType
-import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapWhenDisplayed
-import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.CallCompositeCallState
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
 import com.azure.android.communication.waitUntilDisplayed
-import java.util.*
+import java.util.UUID
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
