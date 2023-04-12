@@ -152,7 +152,7 @@ internal class CallingViewModel(
             participantGridViewModel.update(
                 remoteParticipantsMapUpdatedTimestamp = System.currentTimeMillis(),
                 remoteParticipantsMap = mapOf(),
-                dominantSpeakersInfo =listOf(),
+                dominantSpeakersInfo = listOf(),
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
             )
             floatingHeaderViewModel.dismiss()
