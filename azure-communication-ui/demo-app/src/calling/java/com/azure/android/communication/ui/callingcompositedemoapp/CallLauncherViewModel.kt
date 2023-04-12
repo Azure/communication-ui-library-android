@@ -26,6 +26,7 @@ import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
+    private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
 
     fun launch(
         context: Context,
@@ -66,8 +67,6 @@ class CallLauncherViewModel : ViewModel() {
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
-        val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
-
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
 
         callComposite.launch(context, remoteOptions, localOptions)
@@ -97,6 +96,12 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun getCallState() = callComposite?.callCompositeCallState.toString()
+
+    fun unsubscribe() {
+        callComposite?.let {
+            it.removeOnCallStateEventHandler(callStateEventHandler)
+        }
+    }
 
     companion object {
         var callComposite: CallComposite? = null
