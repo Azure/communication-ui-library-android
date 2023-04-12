@@ -30,7 +30,10 @@
     <string name="language_setting_label">Language Settings</string>
     <string name="call_setting_label">Call Settings</string>
     <string name="chat_setting_label">Chat Settings</string>
+    <string name="composite_end_call_button">End Call</string>
     <string name="is_rtl_check_box_label">isRTL</string>
+    <string name="is_end_call_button_check_box_label">Show End Call Button</string>
+    <string name="launch_on_call_state_disconnected">Launch composite on call disconnected</string>
     <string name="language_dropdown_hint">Language</string>
     <string name="language_default_selection">ENGLISH</string>
     <string name="version">version:</string>

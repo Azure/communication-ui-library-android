@@ -6,15 +6,19 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.calling.models.CallCompositeCallState
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
@@ -108,6 +112,15 @@ class CallLauncherActivity : AppCompatActivity() {
                     runOnUiThread {
                         if (it.isNotEmpty()) {
                             callStateText.text = it
+                        }
+                        if (it == CallCompositeCallState.DISCONNECTED.toString() &&
+                            SettingsFeatures.getLaunchOnCallDisconnectedOnByDefaultOption()
+                        ) {
+                            Handler(Looper.getMainLooper()).post(
+                                Runnable {
+                                    launch()
+                                }
+                            )
                         }
                     }
                 }

@@ -37,6 +37,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var skipSetupScreenCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
+    private lateinit var endCallOnDefaultCheckBox: CheckBox
+    private lateinit var launchOnCallDisconnectedOnDefaultCheckBox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -76,6 +78,10 @@ class SettingsActivity : AppCompatActivity() {
         updateMicOnByDefaultCheckbox()
 
         updateCameraOnByDefaultCheckbox()
+
+        updateEndCallOnDefaultCheckBox()
+
+        launchOnCallDisconnectedOnDefaultCheckBox()
 
         saveRenderedDisplayName()
 
@@ -123,6 +129,18 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.composite_end_call_button_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        END_CALL_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.launch_on_call_disconnect -> {
+                    sharedPreference.edit().putBoolean(
+                        LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -141,6 +159,8 @@ class SettingsActivity : AppCompatActivity() {
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
+        endCallOnDefaultCheckBox = findViewById(R.id.composite_end_call_button_checkbox)
+        launchOnCallDisconnectedOnDefaultCheckBox = findViewById(R.id.launch_on_call_disconnect)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -256,6 +276,20 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
         )
     }
+
+    private fun updateEndCallOnDefaultCheckBox() {
+        endCallOnDefaultCheckBox.isChecked = sharedPreference.getBoolean(
+            END_CALL_ON_BY_DEFAULT_KEY,
+            DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
+        )
+    }
+
+    private fun launchOnCallDisconnectedOnDefaultCheckBox() {
+        launchOnCallDisconnectedOnDefaultCheckBox.isChecked = sharedPreference.getBoolean(
+            LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_KEY,
+            LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_VALUE
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -280,3 +314,7 @@ const val MIC_ON_BY_DEFAULT_KEY = "MIC_ON_BY_DEFAULT_KEY"
 const val DEFAULT_MIC_ON_BY_DEFAULT_VALUE = false
 const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false
+const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
+const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
+const val LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_KEY = "LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_KEY"
+const val LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_VALUE = false

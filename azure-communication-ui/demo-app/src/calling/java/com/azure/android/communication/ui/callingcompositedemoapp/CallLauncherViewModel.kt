@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetupScree
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
+import com.azure.android.communication.ui.callingcompositedemoapp.views.CompositeEndCallButtonView
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
@@ -42,6 +43,12 @@ class CallLauncherViewModel : ViewModel() {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
             )
+        }
+
+        if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
+            CompositeEndCallButtonView.get(context).hide()
+        } else {
+            CompositeEndCallButtonView.get(context).show(this)
         }
 
         val communicationTokenRefreshOptions =
@@ -101,6 +108,10 @@ class CallLauncherViewModel : ViewModel() {
         callComposite?.let {
             it.removeOnCallStateEventHandler(callStateEventHandler)
         }
+    }
+
+    fun callHangup() {
+        callComposite?.hangup()
     }
 
     companion object {
