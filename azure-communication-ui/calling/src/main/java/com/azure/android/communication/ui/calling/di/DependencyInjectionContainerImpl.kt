@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.Accessibi
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CallManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
@@ -93,6 +94,10 @@ internal class DependencyInjectionContainerImpl(
             applicationContext,
             customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
         )
+    }
+
+    override val callManager by lazy {
+        CallManager(errorHandler, appStore)
     }
 
     override val permissionManager by lazy {

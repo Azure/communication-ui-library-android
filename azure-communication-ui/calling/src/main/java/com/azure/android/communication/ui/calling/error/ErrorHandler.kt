@@ -36,6 +36,15 @@ internal class ErrorHandler(
         }
     }
 
+    fun notifyErrorEvent(eventArgs: CallCompositeErrorEvent) {
+        try {
+            configuration.callCompositeEventsHandler.getOnErrorHandlers()
+                .forEach { it.handle(eventArgs) }
+        } catch (error: Throwable) {
+            // suppress any possible application errors
+        }
+    }
+
     private fun onStateChanged(state: ReduxState) {
         val fireEmergencyExit = isEmergencyExit(state.errorState)
 
@@ -86,7 +95,8 @@ internal class ErrorHandler(
                     getCallCompositeErrorCode(callStateError.errorCode),
                     null,
                 )
-            configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach { it.handle(eventArgs) }
+            configuration.callCompositeEventsHandler.getOnErrorHandlers()
+                .forEach { it.handle(eventArgs) }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
@@ -110,7 +120,8 @@ internal class ErrorHandler(
                     getCallCompositeErrorCode(error.errorCode),
                     error.fatalError,
                 )
-            configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach { it.handle(eventArgs) }
+            configuration.callCompositeEventsHandler.getOnErrorHandlers()
+                .forEach { it.handle(eventArgs) }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }

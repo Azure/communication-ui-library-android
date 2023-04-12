@@ -126,6 +126,27 @@ public final class CallComposite {
     }
 
     /**
+     * End call
+     *
+     * <pre>
+     *
+     * &#47;&#47; add call state change event handler
+     * callComposite.addOnCallStateEventHandler&#40;event -> {
+     *     &#47;&#47; Use call state to get see hangup progress
+     * }&#41;;
+     *
+     * </pre>
+     */
+    public void hangup() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                container.getCallManager().hangup();
+            }
+        }
+    }
+
+    /**
      * Add {@link CallCompositeEventHandler}.
      *
      * <p> A callback for Call Composite Error Events.
