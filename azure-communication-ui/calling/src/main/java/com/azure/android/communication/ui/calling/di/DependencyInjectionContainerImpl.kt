@@ -19,7 +19,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.Accessibi
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.CallManager
+import com.azure.android.communication.ui.calling.presentation.manager.CompositeManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
@@ -62,7 +62,7 @@ internal class DependencyInjectionContainerImpl(
     override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
-    private val customCoroutineContextProvider: CoroutineContextProvider?
+    private val customCoroutineContextProvider: CoroutineContextProvider?,
 ) : DependencyInjectionContainer {
 
     override val configuration by lazy {
@@ -96,8 +96,8 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    override val callManager by lazy {
-        CallManager(errorHandler, appStore)
+    override val compositeManager by lazy {
+        CompositeManager(appStore, configuration, coroutineContextProvider)
     }
 
     override val permissionManager by lazy {
@@ -257,7 +257,11 @@ internal class DependencyInjectionContainerImpl(
     //endregion
 
     //region Threading
-    private val coroutineContextProvider by lazy { customCoroutineContextProvider ?: CoroutineContextProvider() }
-    private val storeDispatcher by lazy { customCoroutineContextProvider?.SingleThreaded ?: coroutineContextProvider.SingleThreaded }
+    private val coroutineContextProvider by lazy {
+        customCoroutineContextProvider ?: CoroutineContextProvider()
+    }
+    private val storeDispatcher by lazy {
+        customCoroutineContextProvider?.SingleThreaded ?: coroutineContextProvider.SingleThreaded
+    }
     //endregion
 }

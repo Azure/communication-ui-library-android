@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallState
+import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -21,13 +22,15 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetupScree
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
-import com.azure.android.communication.ui.callingcompositedemoapp.views.CompositeEndCallButtonView
+import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
+    val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
+    private val exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow)
 
     fun launch(
         context: Context,
@@ -46,9 +49,9 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
-            CompositeEndCallButtonView.get(context).hide()
+            EndCompositeButtonView.get(context).hide()
         } else {
-            CompositeEndCallButtonView.get(context).show(this)
+            EndCompositeButtonView.get(context).show(this)
         }
 
         val communicationTokenRefreshOptions =
@@ -75,6 +78,7 @@ class CallLauncherViewModel : ViewModel() {
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
+        callComposite.addOnExitEventHandler(exitEventHandler)
 
         callComposite.launch(context, remoteOptions, localOptions)
     }
@@ -107,11 +111,12 @@ class CallLauncherViewModel : ViewModel() {
     fun unsubscribe() {
         callComposite?.let {
             it.removeOnCallStateEventHandler(callStateEventHandler)
+            it.addOnExitEventHandler(exitEventHandler)
         }
     }
 
     fun callHangup() {
-        callComposite?.hangup()
+        callComposite?.exit()
     }
 
     companion object {
@@ -122,5 +127,11 @@ class CallLauncherViewModel : ViewModel() {
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallState> {
     override fun handle(callState: CallCompositeCallState) {
         callCompositeCallStateStateFlow.value = callState.toString()
+    }
+}
+
+class CallExitEventHandler(private val exitStateFlow: MutableStateFlow<Boolean>) : CallCompositeEventHandler<CallCompositeExitEvent> {
+    override fun handle(event: CallCompositeExitEvent) {
+        exitStateFlow.value = true
     }
 }

@@ -23,8 +23,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_S
 import com.azure.android.communication.ui.callingcompositedemoapp.END_CALL_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.MIC_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
@@ -102,8 +102,8 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun getLaunchOnCallDisconnectedOnByDefaultOption(): Boolean {
-            return sharedPrefs.getBoolean(LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_KEY, LAUNCH_ON_CALL_DISCONNECTED_ON_BY_DEFAULT_VALUE)
+        fun getReLaunchOnExitByDefaultOption(): Boolean {
+            return sharedPrefs.getBoolean(LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY, LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE)
         }
 
         @JvmStatic

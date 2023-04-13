@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallState;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
+import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -126,7 +127,38 @@ public final class CallComposite {
     }
 
     /**
-     * End call
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> A callback for Call Composite Exit Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add eit event handler
+     * callComposite.addOnExitEventHandler&#40;event -> {
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnExitEventHandler(final CallCompositeEventHandler<CallCompositeExitEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnExitEventHandler(handler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeExitEvent} for values.</p>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnExitEventHandler(final CallCompositeEventHandler<CallCompositeExitEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnExitEventHandler(handler);
+    }
+
+    /**
+     * Exit composite
      *
      * <pre>
      *
@@ -137,11 +169,11 @@ public final class CallComposite {
      *
      * </pre>
      */
-    public void hangup() {
+    public void exit() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
-                container.getCallManager().hangup();
+                container.getCompositeManager().exit();
             }
         }
     }

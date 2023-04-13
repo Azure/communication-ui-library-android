@@ -30,10 +30,10 @@
     <string name="language_setting_label">Language Settings</string>
     <string name="call_setting_label">Call Settings</string>
     <string name="chat_setting_label">Chat Settings</string>
-    <string name="composite_end_call_button">End Call</string>
+    <string name="exit_composite_button_text">Exit Composite</string>
     <string name="is_rtl_check_box_label">isRTL</string>
     <string name="is_end_call_button_check_box_label">Show End Call API Button</string>
-    <string name="launch_on_call_state_disconnected">Re-launch composite on call state disconnected</string>
+    <string name="launch_on_end_composite_success">Re-launch composite on end composite callback</string>
     <string name="language_dropdown_hint">Language</string>
     <string name="language_default_selection">ENGLISH</string>
     <string name="version">version:</string>

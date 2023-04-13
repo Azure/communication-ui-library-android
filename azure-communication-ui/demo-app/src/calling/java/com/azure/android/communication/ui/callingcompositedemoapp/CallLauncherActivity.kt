@@ -14,12 +14,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.models.CallCompositeCallState
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
+import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -113,8 +113,15 @@ class CallLauncherActivity : AppCompatActivity() {
                         if (it.isNotEmpty()) {
                             callStateText.text = it
                         }
-                        if (it == CallCompositeCallState.DISCONNECTED.toString() &&
-                            SettingsFeatures.getLaunchOnCallDisconnectedOnByDefaultOption()
+                    }
+                }
+            }
+
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
+                    runOnUiThread {
+                        if (it &&
+                            SettingsFeatures.getReLaunchOnExitByDefaultOption()
                         ) {
                             Handler(Looper.getMainLooper()).post(
                                 Runnable {
@@ -136,6 +143,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        EndCompositeButtonView.get(this).hide()
         callLauncherViewModel?.unsubscribe()
     }
 

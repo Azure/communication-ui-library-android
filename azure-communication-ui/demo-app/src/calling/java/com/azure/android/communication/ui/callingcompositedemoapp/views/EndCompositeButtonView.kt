@@ -20,26 +20,26 @@ import android.widget.Button
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherViewModel
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 
-internal class CompositeEndCallButtonView private constructor(
+internal class EndCompositeButtonView private constructor(
     private val context: Context,
 ) {
     companion object {
-        private var compositeEndCallButtonView: CompositeEndCallButtonView? = null
+        private var endCompositeButtonView: EndCompositeButtonView? = null
         private var isInitialized = false
         const val DEFAULT_GRAVITY = Gravity.TOP or Gravity.START
         const val POSITION_X = 500
         const val POSITION_L = 200
 
-        fun get(context: Context): CompositeEndCallButtonView {
-            if (compositeEndCallButtonView == null) {
-                compositeEndCallButtonView = CompositeEndCallButtonView(context)
+        fun get(context: Context): EndCompositeButtonView {
+            if (endCompositeButtonView == null) {
+                endCompositeButtonView = EndCompositeButtonView(context)
             }
-            return compositeEndCallButtonView!!
+            return endCompositeButtonView!!
         }
     }
 
     private val endCallButton: Button =
-        LayoutInflater.from(context).inflate(R.layout.composite_end_call_button, null) as Button
+        LayoutInflater.from(context).inflate(R.layout.end_composite_button, null) as Button
     private val windowManager: WindowManager =
         endCallButton.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
 

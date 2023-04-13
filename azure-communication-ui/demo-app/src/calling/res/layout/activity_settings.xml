@@ -77,11 +77,11 @@
             />
 
         <CheckBox
-            android:id="@+id/launch_on_call_disconnect"
+            android:id="@+id/re_launch_on_exit_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onCheckBoxTap"
-            android:text="@string/launch_on_call_state_disconnected"
+            android:text="@string/launch_on_end_composite_success"
             tools:ignore="UsingOnClickInXml"
             />
 

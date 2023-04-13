@@ -15,7 +15,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.Accessibi
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.CallManager
+import com.azure.android.communication.ui.calling.presentation.manager.CompositeManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
@@ -51,7 +51,7 @@ internal interface DependencyInjectionContainer {
     val audioSessionManager: AudioSessionManager
     val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
-    val callManager: CallManager
+    val compositeManager: CompositeManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager
