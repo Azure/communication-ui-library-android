@@ -29,8 +29,9 @@ import java.util.UUID
 class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
+    var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
-    private val exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow)
+    private var exitEventHandler: CallExitEventHandler? = null
 
     fun launch(
         context: Context,
@@ -40,7 +41,12 @@ class CallLauncherViewModel : ViewModel() {
         meetingLink: String?,
     ) {
         val callComposite = createCallComposite(context)
-        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
+        callComposite.addOnErrorEventHandler(
+            CallLauncherActivityErrorHandler(
+                context,
+                callComposite
+            )
+        )
 
         if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
@@ -78,14 +84,18 @@ class CallLauncherViewModel : ViewModel() {
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callCompositeExitSuccessStateFlow.value = false
+        exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, this)
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
         callComposite.addOnExitEventHandler(exitEventHandler)
-
+        isExitRequested = false
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
+        return (
+            callComposite
+                ?: createCallComposite(context)
+            ).getDebugInfo(context).callHistoryRecords
     }
 
     private fun createCallComposite(context: Context): CallComposite {
@@ -95,7 +105,12 @@ class CallLauncherViewModel : ViewModel() {
         val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
 
         val callCompositeBuilder = CallCompositeBuilder()
-            .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
+            .localization(
+                CallCompositeLocalizationOptions(
+                    locale!!,
+                    SettingsFeatures.getLayoutDirection()
+                )
+            )
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
@@ -110,13 +125,16 @@ class CallLauncherViewModel : ViewModel() {
     fun getCallState() = callComposite?.callCompositeCallState.toString()
 
     fun unsubscribe() {
-        callComposite?.let {
-            it.removeOnCallStateEventHandler(callStateEventHandler)
-            it.addOnExitEventHandler(exitEventHandler)
+        callComposite?.let { composite ->
+            composite.removeOnCallStateEventHandler(callStateEventHandler)
+            exitEventHandler?.let {
+                composite.removeOnExitEventHandler(exitEventHandler)
+            }
         }
     }
 
     fun callHangup() {
+        isExitRequested = true
         callComposite?.exit()
     }
 
@@ -125,14 +143,18 @@ class CallLauncherViewModel : ViewModel() {
     }
 }
 
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallState> {
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :
+    CallCompositeEventHandler<CallCompositeCallState> {
     override fun handle(callState: CallCompositeCallState) {
         callCompositeCallStateStateFlow.value = callState.toString()
     }
 }
 
-class CallExitEventHandler(private val exitStateFlow: MutableStateFlow<Boolean>) : CallCompositeEventHandler<CallCompositeExitEvent> {
+class CallExitEventHandler(
+    private val exitStateFlow: MutableStateFlow<Boolean>,
+    private val callLauncherViewModel: CallLauncherViewModel,
+) : CallCompositeEventHandler<CallCompositeExitEvent> {
     override fun handle(event: CallCompositeExitEvent) {
-        exitStateFlow.value = true
+        exitStateFlow.value = true && callLauncherViewModel.isExitRequested
     }
 }
