@@ -77,6 +77,7 @@ class CallLauncherViewModel : ViewModel() {
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
+        callCompositeExitSuccessStateFlow.value = false
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
         callComposite.addOnExitEventHandler(exitEventHandler)
 
