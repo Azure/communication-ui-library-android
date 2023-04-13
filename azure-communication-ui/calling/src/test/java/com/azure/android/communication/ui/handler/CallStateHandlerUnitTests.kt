@@ -52,7 +52,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // act
             val job = launch {
-                handler.start()
+                handler.start(this)
             }
 
             testScheduler.runCurrent()
@@ -91,10 +91,12 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // act
             val job = launch {
-                handler.start()
-                handler.start()
+                handler.start(this)
             }
             testScheduler.runCurrent()
+            val appStateNew = AppReduxState("", false, false)
+            appStateNew.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            storeStateFlow.value = appStateNew
 
             // assert
             TestCase.assertEquals(
@@ -135,7 +137,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // act
             configuration.callCompositeEventsHandler.removeOnCallStateEventHandler(mockHandler)
             val job = launch {
-                handler.start()
+                handler.start(this)
             }
             testScheduler.runCurrent()
 
@@ -178,8 +180,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // act
             val job = launch {
-                handler.start()
-                handler.start()
+                handler.start(this)
             }
             testScheduler.runCurrent()
 
@@ -277,7 +278,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         // act
         appState.callState = CallingState(callingStatus, OperationStatus.NONE)
         var job = launch {
-            handler.start()
+            handler.start(this)
         }
         testScheduler.runCurrent()
 
@@ -318,7 +319,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         // act
         appState.callState = CallingState(callingStatus, OperationStatus.NONE)
         var job = launch {
-            handler.start()
+            handler.start(this)
         }
         testScheduler.runCurrent()
 

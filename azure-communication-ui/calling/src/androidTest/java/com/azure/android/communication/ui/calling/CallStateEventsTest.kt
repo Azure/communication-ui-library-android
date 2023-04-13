@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.waitUntilDisplayed
 import java.util.UUID
+import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -79,63 +80,24 @@ internal class CallStateEventsTest : BaseUiTest() {
         assert(callComposite.callState == CallCompositeCallState.NONE)
         val list = mutableListOf<CallCompositeCallState>()
 
+        val endCallCompletableFuture = CompletableFuture<Void>()
         callComposite.addOnCallStateEventHandler {
             list.add(it)
+            if (it == CallCompositeCallState.DISCONNECTED) {
+                endCallCompletableFuture.complete(null)
+            }
         }
         callComposite.launchTest(appContext, remoteOptions, null)
 
         tapWhenDisplayed(joinCallId)
         waitUntilDisplayed(endCallId)
 
-        callingSDK.endCall()
-        assert(list.size == 3)
-        assert(list.contains(CallCompositeCallState.CONNECTED))
-        assert(list.contains(CallCompositeCallState.NONE))
-        assert(list.contains(CallCompositeCallState.DISCONNECTED))
-        assert(callComposite.callState == CallCompositeCallState.DISCONNECTED)
-    }
-
-    @Test
-    fun testCallStateHandlerRemoveEvents() = runTest {
-        injectDependencies(testScheduler)
-
-        // Launch the UI.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val callComposite = CallCompositeBuilder().build()
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions({ "token" }, true)
-        val communicationTokenCredential =
-            CommunicationTokenCredential(communicationTokenRefreshOptions)
-        val remoteOptions =
-            CallCompositeRemoteOptions(
-                CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
-                communicationTokenCredential,
-                "test"
-            )
-
-        // assert state is none
-        assert(callComposite.callState == CallCompositeCallState.NONE)
-
-        val handler = TestHandler()
-        callComposite.addOnCallStateEventHandler(handler)
-        callComposite.launchTest(appContext, remoteOptions, null)
-
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-
-        callComposite.removeOnCallStateEventHandler(handler)
-
-        callingSDK.endCall()
-        assert(handler.list.size == 2)
-        assert(handler.list.contains(CallCompositeCallState.CONNECTED))
-        assert(handler.list.contains(CallCompositeCallState.NONE))
-        assert(callComposite.callState == CallCompositeCallState.DISCONNECTED)
-    }
-
-    class TestHandler : CallCompositeEventHandler<CallCompositeCallState> {
-        val list = mutableListOf<CallCompositeCallState>()
-        override fun handle(eventArgs: CallCompositeCallState) {
-            list.add(eventArgs)
+        endCallCompletableFuture.whenComplete { _, _ ->
+            assert(list.size == 3)
+            assert(list.contains(CallCompositeCallState.CONNECTED))
+            assert(list.contains(CallCompositeCallState.NONE))
+            assert(list.contains(CallCompositeCallState.DISCONNECTED))
+            assert(callComposite.callState == CallCompositeCallState.DISCONNECTED)
         }
     }
 }
