@@ -82,7 +82,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         lifecycleScope.launch { errorHandler.start() }
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
-        lifecycleScope.launch { callStateHandler.start() }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureLocalization()
@@ -122,6 +121,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+        callStateHandler.start(lifecycleScope)
     }
 
     override fun onStart() {

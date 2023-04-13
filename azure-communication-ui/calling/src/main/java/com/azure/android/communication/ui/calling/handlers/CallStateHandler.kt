@@ -8,17 +8,29 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallState
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 internal class CallStateHandler(
     private val configuration: CallCompositeConfiguration,
     private val store: Store<ReduxState>,
 ) {
-    private var callingStatus: CallingStatus? = null
+    private var callingStatusStateFlow = MutableStateFlow<CallingStatus?>(null)
 
-    suspend fun start() {
-        store.getStateFlow().collect {
-            onStateChanged(it.callState.callingStatus)
+    fun start(coroutineScope: CoroutineScope) {
+        coroutineScope.launch {
+            store.getStateFlow().collect {
+                callingStatusStateFlow.value = it.callState.callingStatus
+            }
+        }
+        coroutineScope.launch {
+            callingStatusStateFlow.collect {
+                it?.let {
+                    sendCallStateChangedEvent(it)
+                }
+            }
         }
     }
 
@@ -26,16 +38,9 @@ internal class CallStateHandler(
         return store.getStateFlow().value.callState.callingStatus.callCompositeCallState()
     }
 
-    private fun onStateChanged(status: CallingStatus) {
-        if (callingStatus != status) {
-            callingStatus = status
-            sendCallStateChangedEvent(status)
-        }
-    }
-
     private fun sendCallStateChangedEvent(status: CallingStatus) {
         try {
-            configuration.callCompositeEventsHandler.getCallStateHandler()?.forEach {
+            configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
                 it.handle(status.callCompositeCallState())
             }
         } catch (error: Throwable) {

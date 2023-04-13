@@ -122,7 +122,7 @@ class CallLauncherViewModel : ViewModel() {
         return callComposite
     }
 
-    fun getCallState() = callComposite?.callCompositeCallState.toString()
+    fun getCallState() = callComposite?.callState.toString()
 
     fun unsubscribe() {
         callComposite?.let { composite ->
