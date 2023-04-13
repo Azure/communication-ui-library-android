@@ -219,6 +219,11 @@ internal class CallingSDKEventHandler(
         }
     }
 
+    private fun onRemoteParticipantSpeakingEvent(id: String) {
+        remoteParticipantsInfoModelMap[id]?.modifiedTimestamp = System.currentTimeMillis()
+        onRemoteParticipantUpdated()
+    }
+
     private fun onRemoteParticipantPropertyChange(id: String) {
         remoteParticipantsInfoModelMap[id]?.modifiedTimestamp = System.currentTimeMillis()
         onRemoteParticipantUpdated()
@@ -315,7 +320,7 @@ internal class CallingSDKEventHandler(
 
                 remoteParticipantsInfoModelMap[id]?.isSpeaking =
                     !remoteParticipantsInfoModelMap[id]?.isMuted!! && remoteParticipantsInfoModelMap[id]?.isSpeaking!!
-                onRemoteParticipantUpdated()
+                onRemoteParticipantSpeakingEvent(id)
             }
 
         mutedChangedListenersMap[id] = addOnIsMutedChangedEvent
@@ -334,7 +339,7 @@ internal class CallingSDKEventHandler(
             PropertyChangedListener {
                 remoteParticipantsInfoModelMap[id]?.isSpeaking =
                     remoteParticipantsCacheMap[id]!!.isSpeaking
-                onRemoteParticipantUpdated()
+                onRemoteParticipantSpeakingEvent(id)
             }
 
         isSpeakingChangedListenerMap[id] = addOnIsSpeakingChangedEvent

@@ -180,23 +180,33 @@ internal class ParticipantGridViewModel(
             dominantSpeakersOrder[dominantSpeakersInfo[i]] = i
         }
 
-        val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { part1, part2 ->
-            if (dominantSpeakersOrder.containsKey(part1.first) &&
-                dominantSpeakersOrder.containsKey(part2.first)
+        val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { keyValuePair1, keyValuePair2 ->
+            val participantId1 = keyValuePair1.first
+            val participantId2 = keyValuePair2.first
+            val participant1 = keyValuePair1.second
+            val participant2 = keyValuePair2.second
+
+            if (dominantSpeakersOrder.containsKey(participantId1) &&
+                dominantSpeakersOrder.containsKey(participantId2)
             ) {
-                val order1 = dominantSpeakersOrder.getValue(part1.first)
-                val order2 = dominantSpeakersOrder.getValue(part2.first)
+                val order1 = dominantSpeakersOrder.getValue(participantId1)
+                val order2 = dominantSpeakersOrder.getValue(participantId2)
                 return@Comparator if (order1 > order2)
                     1 else -1
             }
 
-            if (dominantSpeakersOrder.containsKey(part1.first))
+            if (dominantSpeakersOrder.containsKey(participantId1))
                 return@Comparator -1
 
-            if (dominantSpeakersOrder.containsKey(part2.first))
+            if (dominantSpeakersOrder.containsKey(participantId2))
                 return@Comparator 1
 
-            return@Comparator if (part1.second.displayName > part2.second.displayName) 1 else -1
+            if ((!participant1.isMuted && !participant2.isMuted) ||
+                (participant1.isMuted && participant2.isMuted)
+            )
+                return@Comparator if (participant1.displayName > participant2.displayName) 1 else -1
+
+            return@Comparator if (participant1.isMuted) 1 else -1
         }
 
         return remoteParticipantsMap.toList()
