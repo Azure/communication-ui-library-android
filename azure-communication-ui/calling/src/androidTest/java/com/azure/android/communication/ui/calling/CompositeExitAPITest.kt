@@ -9,7 +9,6 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.ui.calling.models.CallCompositeCallState
-import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.waitUntilDisplayed
@@ -40,11 +39,6 @@ internal class CompositeExitAPITest : BaseUiTest() {
         // assert state is none
         assert(callComposite.callCompositeCallState == CallCompositeCallState.NONE)
 
-        var isExitCallReceived = false
-        callComposite.addOnExitEventHandler {
-            isExitCallReceived = true
-        }
-
         callComposite.launchTest(appContext, remoteOptions, null)
 
         tapWhenDisplayed(joinCallId)
@@ -54,7 +48,6 @@ internal class CompositeExitAPITest : BaseUiTest() {
         // end call
         callComposite.exit()
 
-        assert(isExitCallReceived)
         assert(callComposite.callCompositeCallState == CallCompositeCallState.DISCONNECTED)
     }
 
@@ -79,9 +72,6 @@ internal class CompositeExitAPITest : BaseUiTest() {
         // assert state is none
         assert(callComposite.callCompositeCallState == CallCompositeCallState.NONE)
 
-        val handler = TestHandler()
-        callComposite.addOnExitEventHandler(handler)
-
         callComposite.launchTest(appContext, remoteOptions, null)
 
         waitUntilDisplayed(joinCallId)
@@ -90,7 +80,6 @@ internal class CompositeExitAPITest : BaseUiTest() {
         // end call
         callComposite.exit()
 
-        assert(handler.list.size == 1)
         assert(callComposite.callCompositeCallState == CallCompositeCallState.NONE)
     }
 
@@ -115,9 +104,6 @@ internal class CompositeExitAPITest : BaseUiTest() {
         // assert state is none
         assert(callComposite.callCompositeCallState == CallCompositeCallState.NONE)
 
-        val handler = TestHandler()
-        callComposite.addOnExitEventHandler(handler)
-        callComposite.removeOnExitEventHandler(handler)
         callComposite.launchTest(appContext, remoteOptions, null)
 
         tapWhenDisplayed(joinCallId)
@@ -127,14 +113,6 @@ internal class CompositeExitAPITest : BaseUiTest() {
         // end call
         callComposite.exit()
 
-        assert(handler.list.size == 0)
         assert(callComposite.callCompositeCallState == CallCompositeCallState.DISCONNECTED)
-    }
-
-    class TestHandler : CallCompositeEventHandler<CallCompositeExitEvent> {
-        val list = mutableListOf<CallCompositeExitEvent>()
-        override fun handle(eventArgs: CallCompositeExitEvent) {
-            list.add(eventArgs)
-        }
     }
 }

@@ -4,9 +4,7 @@
 package com.azure.android.communication.ui.presentation.manager
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -38,20 +36,12 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val state = AppReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
             state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(state)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
-                on { getStateFlow() } doReturn stateFlow
             }
 
-            val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeExitEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnExitEventHandler(
-                mockHandler
-            )
-
             val compositeManager =
                 CompositeManager(mockAppStore, configuration, StandardTestContextProvider())
 
@@ -64,11 +54,6 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
                     action is CallingAction.CallEndRequested
                 }
             )
-            verify(mockHandler, times(0)).handle(
-                argThat { action ->
-                    action is Any
-                }
-            )
         }
     }
 
@@ -78,21 +63,12 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val state = AppReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
             state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(state)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
-                on { getStateFlow() } doReturn stateFlow
             }
 
-            val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeExitEvent>>()
-
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnExitEventHandler(
-                mockHandler
-            )
-
             val compositeManager =
                 CompositeManager(mockAppStore, configuration, StandardTestContextProvider())
 
@@ -104,11 +80,6 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is NavigationAction.Exit
-                }
-            )
-            verify(mockHandler, times(1)).handle(
-                argThat { action ->
-                    action is CallCompositeExitEvent
                 }
             )
         }
@@ -124,17 +95,9 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
-                on { getStateFlow() } doReturn stateFlow
             }
 
-            val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeExitEvent>>()
-
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnExitEventHandler(
-                mockHandler
-            )
-
             val compositeManager =
                 CompositeManager(mockAppStore, configuration, StandardTestContextProvider())
 
@@ -151,11 +114,6 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
                     action is CallingAction.CallEndRequested
                 }
             )
-            verify(mockHandler, times(1)).handle(
-                argThat { action ->
-                    action is CallCompositeExitEvent
-                }
-            )
         }
     }
 
@@ -170,17 +128,7 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
                 on { dispatch(any()) } doAnswer { }
             }
 
-            val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeExitEvent>>()
-            val mockHandler2 =
-                mock<CallCompositeEventHandler<CallCompositeExitEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnExitEventHandler(
-                mockHandler
-            )
-            configuration.callCompositeEventsHandler.addOnExitEventHandler(
-                mockHandler2
-            )
             val compositeManager =
                 CompositeManager(mockAppStore, configuration, StandardTestContextProvider())
 
@@ -191,16 +139,6 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is NavigationAction.Exit
-                }
-            )
-            verify(mockHandler, times(1)).handle(
-                argThat { action ->
-                    action is CallCompositeExitEvent
-                }
-            )
-            verify(mockHandler2, times(1)).handle(
-                argThat { action ->
-                    action is CallCompositeExitEvent
                 }
             )
         }
@@ -212,25 +150,12 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val state = AppReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
             state.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(state)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
-                on { getStateFlow() } doReturn stateFlow
             }
 
-            val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeExitEvent>>()
-            val mockHandler2 =
-                mock<CallCompositeEventHandler<CallCompositeExitEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnExitEventHandler(
-                mockHandler
-            )
-            configuration.callCompositeEventsHandler.addOnExitEventHandler(
-                mockHandler2
-            )
-            configuration.callCompositeEventsHandler.removeOnExitEventHandler(mockHandler)
             val compositeManager =
                 CompositeManager(mockAppStore, configuration, StandardTestContextProvider())
 
@@ -241,16 +166,6 @@ internal class CompositeManagerUnitTests : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is NavigationAction.Exit
-                }
-            )
-            verify(mockHandler, times(0)).handle(
-                argThat { action ->
-                    action is Any
-                }
-            )
-            verify(mockHandler2, times(1)).handle(
-                argThat { action ->
-                    action is CallCompositeExitEvent
                 }
             )
         }

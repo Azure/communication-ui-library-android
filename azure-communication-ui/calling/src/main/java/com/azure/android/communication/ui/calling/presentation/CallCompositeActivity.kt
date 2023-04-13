@@ -65,6 +65,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
+    private val compositeManager get() = container.compositeManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,8 +150,11 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioSessionManager.onDestroy(this)
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
+                compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
+        } else {
+            compositeManager.onCompositeDestroy()
         }
         super.onDestroy()
     }

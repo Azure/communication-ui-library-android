@@ -14,8 +14,6 @@ import com.azure.android.communication.ui.calling.utilities.CoroutineContextProv
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class CompositeManager(
@@ -27,7 +25,11 @@ internal class CompositeManager(
         var MAX_WAIT_FOR_EXIT = 3000L
     }
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
-    private var callingStatusStateFlow = MutableStateFlow<CallingStatus?>(null)
+
+    fun onCompositeDestroy() {
+        notifyCompositeExit()
+        dispose()
+    }
 
     fun exit() {
         val callIsNotInProgress =
@@ -36,38 +38,16 @@ internal class CompositeManager(
 
         // if call state is none or Disconnected exit composite
         if (callIsNotInProgress) {
-            notifyCompositeExit()
             store.dispatch(action = NavigationAction.Exit())
         } else {
-            // subscribe to redux state change
-            coroutineScope.launch {
-                store.getStateFlow().collect {
-                    callingStatusStateFlow.value = it.callState.callingStatus
-                }
-            }
-
-            // subscribe to call state change
-            coroutineScope.launch {
-                callingStatusStateFlow.collect { callingStatus ->
-                    callingStatus?.let {
-                        if (callingStatus == CallingStatus.DISCONNECTED || callingStatus == CallingStatus.NONE) {
-                            notifyCompositeExit()
-                        }
-                    }
-                }
-            }
-
             // end call
             store.dispatch(action = CallingAction.CallEndRequested())
 
             // it is possible that because of any error like network errors etc call state is not received from SDK
-            // in this case force exit composite after 3 seconds
+            // in this case force exit composite
             coroutineScope.launch {
                 delay(MAX_WAIT_FOR_EXIT)
-                if (store.getCurrentState().callState.callingStatus != CallingStatus.DISCONNECTED) {
-                    store.dispatch(action = NavigationAction.Exit())
-                    notifyCompositeExit()
-                }
+                store.dispatch(action = NavigationAction.Exit())
             }
         }
     }
@@ -78,7 +58,6 @@ internal class CompositeManager(
                 CallCompositeExitEvent(null)
             it.handle(eventArgs)
         }
-        dispose()
     }
 
     private fun dispose() {
