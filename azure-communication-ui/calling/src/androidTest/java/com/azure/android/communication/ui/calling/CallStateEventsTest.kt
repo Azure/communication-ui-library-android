@@ -37,7 +37,7 @@ internal class CallStateEventsTest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callCompositeCallState == CallCompositeCallState.NONE)
+        assert(callComposite.callState == CallCompositeCallState.NONE)
 
         val list = mutableListOf<CallCompositeCallState>()
 
@@ -54,7 +54,7 @@ internal class CallStateEventsTest : BaseUiTest() {
         assert(size == 2)
         assert(list.contains(CallCompositeCallState.CONNECTED))
         assert(list.contains(CallCompositeCallState.NONE))
-        assert(callComposite.callCompositeCallState == CallCompositeCallState.CONNECTED)
+        assert(callComposite.callState == CallCompositeCallState.CONNECTED)
     }
 
     @Test
@@ -76,7 +76,7 @@ internal class CallStateEventsTest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callCompositeCallState == CallCompositeCallState.NONE)
+        assert(callComposite.callState == CallCompositeCallState.NONE)
         val list = mutableListOf<CallCompositeCallState>()
 
         callComposite.addOnCallStateEventHandler {
@@ -92,7 +92,7 @@ internal class CallStateEventsTest : BaseUiTest() {
         assert(list.contains(CallCompositeCallState.CONNECTED))
         assert(list.contains(CallCompositeCallState.NONE))
         assert(list.contains(CallCompositeCallState.DISCONNECTED))
-        assert(callComposite.callCompositeCallState == CallCompositeCallState.DISCONNECTED)
+        assert(callComposite.callState == CallCompositeCallState.DISCONNECTED)
     }
 
     @Test
@@ -114,7 +114,7 @@ internal class CallStateEventsTest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callCompositeCallState == CallCompositeCallState.NONE)
+        assert(callComposite.callState == CallCompositeCallState.NONE)
 
         val handler = TestHandler()
         callComposite.addOnCallStateEventHandler(handler)
@@ -129,7 +129,7 @@ internal class CallStateEventsTest : BaseUiTest() {
         assert(handler.list.size == 2)
         assert(handler.list.contains(CallCompositeCallState.CONNECTED))
         assert(handler.list.contains(CallCompositeCallState.NONE))
-        assert(callComposite.callCompositeCallState == CallCompositeCallState.DISCONNECTED)
+        assert(callComposite.callState == CallCompositeCallState.DISCONNECTED)
     }
 
     class TestHandler : CallCompositeEventHandler<CallCompositeCallState> {

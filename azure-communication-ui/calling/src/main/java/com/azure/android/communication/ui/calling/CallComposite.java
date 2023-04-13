@@ -193,7 +193,7 @@ public final class CallComposite {
      *
      * @return {@link CallCompositeCallState}
      */
-    public CallCompositeCallState getCallCompositeCallState() {
+    public CallCompositeCallState getCallState() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
