@@ -81,7 +81,7 @@ internal class ParticipantGridViewModel(
                     sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfo)
             }
         } else {
-            mapOf(
+            remoteParticipantsMapSorted = mapOf(
                 Pair(
                     participantSharingScreen,
                     remoteParticipantsMap[participantSharingScreen]!!

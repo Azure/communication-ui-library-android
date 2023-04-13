@@ -26,6 +26,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_EVICTED
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_SUB_CODE_DECLINED
+import com.azure.android.communication.ui.calling.service.sdk.DominantSpeakersInfo
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
 
 import java9.util.concurrent.CompletableFuture
@@ -64,6 +65,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         val isMutedSharedFlow = MutableSharedFlow<Boolean>()
         val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
         val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+        val dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
 
         Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
             .thenReturn(remoteParticipantsInfoModelSharedFlow)
@@ -80,6 +82,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
             any(), any()
         )
+        Mockito.`when`(mockCallingGateway.getDominantSpeakersSharedFlow())
+            .thenReturn(dominantSpeakersSharedFlow)
 
         return Pair(
             CallingService(mockCallingGateway, contextProvider),
@@ -280,6 +284,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
 
             Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
                 .thenReturn(remoteParticipantsInfoModelSharedFlow)
@@ -299,6 +304,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
                 any(), any()
             )
+            Mockito.`when`(mockCallingGateway.getDominantSpeakersSharedFlow())
+                .thenReturn(dominantSpeakersSharedFlow)
 
             remoteParticipantsInfoModelMap["id1"] = ParticipantInfoModel(
                 "user1", "id1",
@@ -307,7 +314,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
 
@@ -318,7 +324,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
 
@@ -329,7 +334,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
 
@@ -340,7 +344,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
 
@@ -351,7 +354,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
 
@@ -362,7 +364,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
 

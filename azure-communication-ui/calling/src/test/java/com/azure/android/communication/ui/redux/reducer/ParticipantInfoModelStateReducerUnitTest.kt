@@ -28,11 +28,10 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
         val reducer = ParticipantStateReducerImpl()
-        val oldState = RemoteParticipantsState(HashMap(), 0)
+        val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0)
 
         val action = ParticipantAction.ListUpdated(participantMap)
 
@@ -55,11 +54,10 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
-                speakingTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
             )
         val reducer = ParticipantStateReducerImpl()
-        val oldState = RemoteParticipantsState(HashMap(), 0)
+        val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0)
         val action = NavigationAction.CallLaunched()
 
         // act

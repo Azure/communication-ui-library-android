@@ -95,12 +95,13 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -174,12 +175,13 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -246,7 +248,6 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         ),
@@ -266,12 +267,13 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -355,7 +357,6 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         ),
@@ -375,12 +376,13 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -468,7 +470,6 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         ),
@@ -488,7 +489,6 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         ),
@@ -508,12 +508,13 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         )
                     ),
-                    123456
+                    123456,
+                    listOf(),
+                    0
                 )
 
             // act
@@ -560,7 +561,6 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         ),
@@ -580,12 +580,13 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -671,12 +672,13 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = null,
                             )
                         ),
                     ),
-                    123456
+                    123456,
+                    listOf(),
+                    0
                 )
 
             // act
