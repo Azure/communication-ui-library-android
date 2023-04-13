@@ -98,6 +98,7 @@ class SettingsFeatures {
 
         @JvmStatic
         fun getEndCallOnByDefaultOption(): Boolean {
+            if (!this::sharedPrefs.isInitialized) return false
             return sharedPrefs.getBoolean(END_CALL_ON_BY_DEFAULT_KEY, DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE)
         }
 

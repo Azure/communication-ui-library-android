@@ -112,6 +112,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     runOnUiThread {
                         if (it.isNotEmpty()) {
                             callStateText.text = it
+                            EndCompositeButtonView.get(application).updateText(it)
                         }
                     }
                 }
@@ -220,11 +221,21 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+
         R.id.azure_composite_show_settings -> {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
+            EndCompositeButtonView.get(this).hide()
+        } else {
+            EndCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
     }
 }

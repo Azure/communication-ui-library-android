@@ -62,6 +62,10 @@ internal class EndCompositeButtonView private constructor(
         }
     }
 
+    fun updateText(text: String) {
+        endCallButton.text = context.getText(R.string.exit_composite_button_text).toString() + "\n" + text
+    }
+
     private fun init() {
         val params = WindowManager.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
