@@ -845,62 +845,61 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob.cancel()
         }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun participantGridViewModel_update_when_dominantSpeakersArePartiallyPresent_then_notifyRemoteParticipantsGrid_by_dominantTheByIsSpeakingThenIsNotMutedThenAlphabet() =
+        runScopedTest {
+            // arrange
+            val participantGridViewModel = getParticipantGridViewModel()
+            val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-        @ExperimentalCoroutinesApi
-        @Test
-        fun participantGridViewModel_update_when_dominantSpeakersArePartiallyPresent_then_notifyRemoteParticipantsGrid_by_dominantTheByIsSpeakingThenIsNotMutedThenAlphabet() =
-                runScopedTest {
-                        // arrange
-                        val participantGridViewModel = getParticipantGridViewModel()
-                        val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5", isMuted = false)
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6", isSpeaking = true)
+            remoteParticipantsMap["user7"] = getParticipantInfoModel("user7", "user7")
+            remoteParticipantsMap["user8"] = getParticipantInfoModel("user8", "user8")
+            remoteParticipantsMap["user9"] = getParticipantInfoModel("user9", "user9")
 
-                        remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
-                        remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
-                        remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
-                        remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
-                        remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5", isMuted = false)
-                        remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6", isSpeaking = true)
-                        remoteParticipantsMap["user7"] = getParticipantInfoModel("user7", "user7")
-                        remoteParticipantsMap["user8"] = getParticipantInfoModel("user8", "user8")
-                        remoteParticipantsMap["user9"] = getParticipantInfoModel("user9", "user9")
+            val emitResultFromRemoteParticipantsSharedFlow =
+                mutableListOf<List<ParticipantGridCellViewModel>>()
+            val flowJob = launch {
+                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
+                    .toList(emitResultFromRemoteParticipantsSharedFlow)
+            }
 
-                        val emitResultFromRemoteParticipantsSharedFlow =
-                                mutableListOf<List<ParticipantGridCellViewModel>>()
-                        val flowJob = launch {
-                                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
-                                        .toList(emitResultFromRemoteParticipantsSharedFlow)
-                        }
+            val dominantSpeakersInfo = listOf("user7", "user8")
 
-                        val dominantSpeakersInfo = listOf("user7", "user8")
+            // act
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
 
-                        // act
-                        participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
+            // assert
 
-                        // assert
+            val emittedResult = emitResultFromRemoteParticipantsSharedFlow[1]
 
-                        val emittedResult = emitResultFromRemoteParticipantsSharedFlow[1]
+            assertEquals(
+                6,
+                emittedResult.size
+            )
 
-                        assertEquals(
-                                6,
-                                emittedResult.size
-                        )
+            val participantViewModelFirst = emittedResult[0]
+            val participantViewModelSecond = emittedResult[1]
+            val participantViewModelThird = emittedResult[2]
+            val participantViewModelFourth = emittedResult[3]
+            val participantViewModelFifth = emittedResult[4]
+            val participantViewModelSixth = emittedResult[5]
 
-                        val participantViewModelFirst = emittedResult[0]
-                        val participantViewModelSecond = emittedResult[1]
-                        val participantViewModelThird = emittedResult[2]
-                        val participantViewModelFourth = emittedResult[3]
-                        val participantViewModelFifth = emittedResult[4]
-                        val participantViewModelSixth = emittedResult[5]
+            assertTrue(participantViewModelFirst.getParticipantUserIdentifier() == "user7" && participantViewModelFirst.getDisplayNameStateFlow().value == "user7")
+            assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user8" && participantViewModelSecond.getDisplayNameStateFlow().value == "user8")
+            assertTrue(participantViewModelThird.getParticipantUserIdentifier() == "user6" && participantViewModelThird.getDisplayNameStateFlow().value == "user6")
+            assertTrue(participantViewModelFourth.getParticipantUserIdentifier() == "user5" && participantViewModelFourth.getDisplayNameStateFlow().value == "user5")
+            assertTrue(participantViewModelFifth.getParticipantUserIdentifier() == "user1" && participantViewModelFifth.getDisplayNameStateFlow().value == "user1")
+            assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user2" && participantViewModelSixth.getDisplayNameStateFlow().value == "user2")
 
-                        assertTrue(participantViewModelFirst.getParticipantUserIdentifier() == "user7" && participantViewModelFirst.getDisplayNameStateFlow().value == "user7")
-                        assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user8" && participantViewModelSecond.getDisplayNameStateFlow().value == "user8")
-                        assertTrue(participantViewModelThird.getParticipantUserIdentifier() == "user6" && participantViewModelThird.getDisplayNameStateFlow().value == "user6")
-                        assertTrue(participantViewModelFourth.getParticipantUserIdentifier() == "user5" && participantViewModelFourth.getDisplayNameStateFlow().value == "user5")
-                        assertTrue(participantViewModelFifth.getParticipantUserIdentifier() == "user1" && participantViewModelFifth.getDisplayNameStateFlow().value == "user1")
-                        assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user2" && participantViewModelSixth.getDisplayNameStateFlow().value == "user2")
-
-                        flowJob.cancel()
-                }
+            flowJob.cancel()
+        }
 
     private fun getParticipantGridViewModel() = ParticipantGridViewModel(
         ParticipantGridCellViewModelFactory(),
