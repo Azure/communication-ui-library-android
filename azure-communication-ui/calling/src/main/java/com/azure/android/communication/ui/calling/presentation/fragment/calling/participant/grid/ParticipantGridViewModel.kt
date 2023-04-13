@@ -201,6 +201,12 @@ internal class ParticipantGridViewModel(
             if (dominantSpeakersOrder.containsKey(participantId2))
                 return@Comparator 1
 
+            if (participant1.isSpeaking && !participant2.isSpeaking)
+                return@Comparator -1
+
+            if (!participant1.isSpeaking && participant2.isSpeaking)
+                return@Comparator 1
+
             if ((!participant1.isMuted && !participant2.isMuted) ||
                 (participant1.isMuted && participant2.isMuted)
             )
