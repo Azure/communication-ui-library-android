@@ -20,8 +20,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptio
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
@@ -343,28 +341,15 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
-        String roomId = null;
-        CallCompositeParticipantRole roomRole = null;
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-        } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
+        } else {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
-        } else if (locator instanceof CallCompositeRoomLocator) {
-            callType = CallType.ROOMS_CALL;
-            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
-            roomId = roomLocator.getRoomId();
-        } else {
-            throw new CallCompositeException("Not supported Call Locator type");
-        }
-
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-            roomRole = localOptions.getRoleHint();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -372,10 +357,11 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
-                roomId,
-                roomRole,
                 callType));
 
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+        }
 
         CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
