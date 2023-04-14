@@ -65,7 +65,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
-    private val compositeManager get() = container.compositeManager
+    private val compositeManager get() = container.compositeExitManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,8 +153,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
-        } else {
-            compositeManager.onCompositeDestroy()
         }
         super.onDestroy()
     }

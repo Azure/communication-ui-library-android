@@ -173,7 +173,7 @@ public final class CallComposite {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
-                container.getCompositeManager().exit();
+                container.getCompositeExitManager().exit();
             }
         }
     }

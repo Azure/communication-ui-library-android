@@ -10,25 +10,14 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-internal class CompositeManager(
+internal class CompositeExitManager(
     private val store: Store<ReduxState>,
-    private val configuration: CallCompositeConfiguration,
-    coroutineContextProvider: CoroutineContextProvider,
+    private val configuration: CallCompositeConfiguration
 ) {
-    companion object {
-        var MAX_WAIT_FOR_EXIT = 3000L
-    }
-    private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     fun onCompositeDestroy() {
         notifyCompositeExit()
-        dispose()
     }
 
     fun exit() {
@@ -42,13 +31,6 @@ internal class CompositeManager(
         } else {
             // end call
             store.dispatch(action = CallingAction.CallEndRequested())
-
-            // it is possible that because of any error like network errors etc call state is not received from SDK
-            // in this case force exit composite
-            coroutineScope.launch {
-                delay(MAX_WAIT_FOR_EXIT)
-                store.dispatch(action = NavigationAction.Exit())
-            }
         }
     }
 
@@ -58,9 +40,5 @@ internal class CompositeManager(
                 CallCompositeExitEvent(null)
             it.handle(eventArgs)
         }
-    }
-
-    private fun dispose() {
-        coroutineScope.cancel()
     }
 }

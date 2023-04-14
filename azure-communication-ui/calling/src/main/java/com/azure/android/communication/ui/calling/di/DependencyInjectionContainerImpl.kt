@@ -19,7 +19,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.Accessibi
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.CompositeManager
+import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
@@ -96,8 +96,8 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    override val compositeManager by lazy {
-        CompositeManager(appStore, configuration, coroutineContextProvider)
+    override val compositeExitManager by lazy {
+        CompositeExitManager(appStore, configuration)
     }
 
     override val permissionManager by lazy {
