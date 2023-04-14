@@ -139,6 +139,7 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         EndCompositeButtonView.get(this).hide()
+        EndCompositeButtonView.buttonView = null
         callLauncherViewModel?.unsubscribe()
     }
 

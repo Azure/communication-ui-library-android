@@ -24,17 +24,17 @@ internal class EndCompositeButtonView private constructor(
     private val context: Context,
 ) {
     companion object {
-        private var endCompositeButtonView: EndCompositeButtonView? = null
+        var buttonView: EndCompositeButtonView? = null
         private var isInitialized = false
         const val DEFAULT_GRAVITY = Gravity.TOP or Gravity.START
         const val POSITION_X = 500
         const val POSITION_L = 200
 
         fun get(context: Context): EndCompositeButtonView {
-            if (endCompositeButtonView == null) {
-                endCompositeButtonView = EndCompositeButtonView(context)
+            if (buttonView == null) {
+                buttonView = EndCompositeButtonView(context)
             }
-            return endCompositeButtonView!!
+            return buttonView!!
         }
     }
 
