@@ -7,24 +7,24 @@ package com.azure.android.communication.ui.calling.models;
  * Event with caused throwable.
  */
 public final class CallCompositeExitEvent {
-    private final CallCompositeErrorEvent errorEvent;
+    private final CallCompositeErrorCode errorCode;
 
     /**
-     * Create {@link CallCompositeExitEvent} with error event.
+     * Create {@link CallCompositeExitEvent} with error code.
      *
-     * @param errorEvent error event.
+     * @param errorCode error code.
      */
-    public CallCompositeExitEvent(final CallCompositeErrorEvent errorEvent) {
-        this.errorEvent = errorEvent;
+    public CallCompositeExitEvent(final CallCompositeErrorCode errorCode) {
+        this.errorCode = errorCode;
     }
 
     /**
      * Returns the cause of last call end or {@code null} if the
      * call end is success
      *
-     * @return {@link CallCompositeErrorEvent}
+     * @return {@link CallCompositeErrorCode}
      */
-    public CallCompositeErrorEvent getLastErrorEvent() {
-        return errorEvent;
+    public CallCompositeErrorCode getErrorCode() {
+        return errorCode;
     }
 }

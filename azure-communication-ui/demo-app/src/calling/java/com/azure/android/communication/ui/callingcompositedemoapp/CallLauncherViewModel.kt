@@ -154,8 +154,8 @@ class CallExitEventHandler(
 ) : CallCompositeEventHandler<CallCompositeExitEvent> {
     override fun handle(event: CallCompositeExitEvent) {
         exitStateFlow.value = true && callLauncherViewModel.isExitRequested
-        event.lastErrorEvent?.let {
-            callCompositeCallStateStateFlow.value = it.errorCode.toString()
+        event.errorCode?.let {
+            callCompositeCallStateStateFlow.value = it.toString()
         }
     }
 }

@@ -4,17 +4,7 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.SWITCH_CAMERA_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_OFF_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_ON_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CAMERA_INIT_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.INTERNET_NOT_AVAILABLE
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MIC_PERMISSION_DENIED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.NETWORK_NOT_AVAILABLE
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store
@@ -29,15 +19,12 @@ internal class ErrorHandler(
 ) {
     private var lastFatalError: FatalError? = null
     private var lastCallStateError: CallStateError? = null
-    private var lastErrorEvent: CallCompositeErrorEvent? = null
 
     suspend fun start() {
         store.getStateFlow().collect {
             onStateChanged(it)
         }
     }
-
-    fun getLastCallCompositeErrorEvent() = lastErrorEvent
 
     fun notifyErrorEvent(eventArgs: CallCompositeErrorEvent) {
         try {
@@ -95,10 +82,9 @@ internal class ErrorHandler(
         try {
             val eventArgs =
                 CallCompositeErrorEvent(
-                    getCallCompositeErrorCode(callStateError.errorCode),
+                    callStateError.errorCode?.toCallCompositeErrorCode(),
                     null,
                 )
-            lastErrorEvent = eventArgs
             configuration.callCompositeEventsHandler.getOnErrorHandlers()
                 .forEach { it.handle(eventArgs) }
         } catch (error: Throwable) {
@@ -121,43 +107,13 @@ internal class ErrorHandler(
         try {
             val eventArgs =
                 CallCompositeErrorEvent(
-                    getCallCompositeErrorCode(error.errorCode),
+                    error.errorCode?.toCallCompositeErrorCode(),
                     error.fatalError,
                 )
-            lastErrorEvent = eventArgs
             configuration.callCompositeEventsHandler.getOnErrorHandlers()
                 .forEach { it.handle(eventArgs) }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
-    }
-
-    private fun getCallCompositeErrorCode(errorCode: ErrorCode?): CallCompositeErrorCode? {
-        errorCode?.let {
-            when (it) {
-                TOKEN_EXPIRED -> {
-                    return CallCompositeErrorCode.TOKEN_EXPIRED
-                }
-                CALL_JOIN_FAILED, NETWORK_NOT_AVAILABLE -> {
-                    return CallCompositeErrorCode.CALL_JOIN_FAILED
-                }
-                CALL_END_FAILED -> {
-                    return CallCompositeErrorCode.CALL_END_FAILED
-                }
-                SWITCH_CAMERA_FAILED, TURN_CAMERA_ON_FAILED, TURN_CAMERA_OFF_FAILED, CAMERA_INIT_FAILED -> {
-                    return CallCompositeErrorCode.CAMERA_FAILURE
-                }
-                MIC_PERMISSION_DENIED -> {
-                    return CallCompositeErrorCode.MICROPHONE_PERMISSION_NOT_GRANTED
-                }
-                INTERNET_NOT_AVAILABLE -> {
-                    return CallCompositeErrorCode.NETWORK_CONNECTION_NOT_AVAILABLE
-                }
-                else -> {
-                    return null
-                }
-            }
-        }
-        return null
     }
 }
