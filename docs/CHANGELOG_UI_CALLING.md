@@ -7,6 +7,18 @@
 - API to set camera and mic on/off before call join `CallCompositeLocalOptions().setCameraOn` `CallCompositeLocalOptions().setMicrophoneOn`
 - Capability to support Rooms join `CallCompositeRoomLocator`
   
+## Next release
+
+### Features
+- Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
+
+## 1.3.0 (2023-04-06)
+
+### Features
+- Introducing skip setup screen call join experience with `skipSetupScreen` on `CallCompositeLocalOptions`
+- Introducing camera and microphone configuration capability for initial call join configuration with `cameraOn` and `microphoneOn` on `CallCompositeLocalOptions`
+- Ongoing call in background notification permission update for API 33
+
 ## 1.2.0 (2023-03-09)
 
 ### Features

@@ -56,14 +56,17 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
     private val audioFocusManager get() = container.audioFocusManager
+    private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
+    private val callStateHandler get() = container.callStateHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
+    private val compositeManager get() = container.compositeExitManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,8 +120,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.start()
         }
 
+        lifecycleScope.launch {
+            audioModeManager.start()
+        }
+
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+        callStateHandler.start(lifecycleScope)
     }
 
     override fun onStart() {
@@ -145,8 +153,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
         if (CallCompositeInstanceManager.hasCallComposite(instanceId)) {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
+            audioModeManager.onDestroy()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
+                compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }

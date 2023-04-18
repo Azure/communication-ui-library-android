@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.presentation.fragment.calling.hangup
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -17,6 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
@@ -27,16 +30,17 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchEndCall() {
 
+        val appState = AppReduxState("", false, false)
+        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+
         val mockAppStore = mock<AppStore<ReduxState>> {
+            on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
         }
 
-        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore::dispatch)
-        val callingState: CallingState = CallingState(
-            CallingStatus.CONNECTED,
-            OperationStatus.NONE
-        )
-        leaveConfirmViewModel.confirm(callingState)
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
+
+        leaveConfirmViewModel.confirm()
 
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
@@ -46,11 +50,32 @@ internal class LeaveConfirmViewModelUnitTest {
     }
 
     @Test
-    fun leaveConfirmViewModel_cancel_then_isLeaveConfirmDisplayed_updated() {
+    fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
 
+        val appState = AppReduxState("", false, false)
+        appState.callState = CallingState(CallingStatus.CONNECTING, OperationStatus.SKIP_SETUP_SCREEN)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { getCurrentState() } doReturn appState
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
+
+        leaveConfirmViewModel.confirm()
+
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action ->
+                action is NavigationAction.Exit
+            }
+        )
+    }
+
+    @Test
+    fun leaveConfirmViewModel_cancel_then_isLeaveConfirmDisplayed_updated() {
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore::dispatch)
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
 
         leaveConfirmViewModel.cancel()
 
@@ -62,10 +87,9 @@ internal class LeaveConfirmViewModelUnitTest {
 
     @Test
     fun leaveConfirmViewModel_requestExitConfirmation_then_isLeaveConfirmDisplayed_updated() {
+        val mockAppStore = mock<AppStore<ReduxState>> { }
 
-        val mockAppStore = mock<AppStore<ReduxState>> {}
-
-        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore::dispatch)
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
 
         leaveConfirmViewModel.requestExitConfirmation()
 
