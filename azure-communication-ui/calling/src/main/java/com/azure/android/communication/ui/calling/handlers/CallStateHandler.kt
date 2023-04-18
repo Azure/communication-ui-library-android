@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.handlers
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeCallState
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -41,7 +42,7 @@ internal class CallStateHandler(
     private fun sendCallStateChangedEvent(status: CallingStatus) {
         try {
             configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
-                it.handle(status.callCompositeCallState())
+                it.handle(CallCompositeCallStateEvent(status.callCompositeCallState()))
             }
         } catch (error: Throwable) {
             // suppress any possible application errors

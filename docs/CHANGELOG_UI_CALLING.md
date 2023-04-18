@@ -3,7 +3,7 @@
 ## Next release
 
 ### Features
-- Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
+- Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallStateEvent.callState`
 
 ## 1.3.0 (2023-04-06)
 
