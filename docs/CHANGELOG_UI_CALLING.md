@@ -4,7 +4,6 @@
 
 ### Features
 - Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
-- Introducing api to hangup call `CallComposite.hangup`
 
 ## 1.3.0 (2023-04-06)
 

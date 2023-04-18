@@ -43,7 +43,7 @@ internal class CallStateEventsTest : BaseUiTest() {
         val list = mutableListOf<CallCompositeCallState>()
 
         callComposite.addOnCallStateEventHandler {
-            list.add(it)
+            list.add(it.callState)
         }
 
         callComposite.launchTest(appContext, remoteOptions, null)
@@ -82,8 +82,8 @@ internal class CallStateEventsTest : BaseUiTest() {
 
         val endCallCompletableFuture = CompletableFuture<Void>()
         callComposite.addOnCallStateEventHandler {
-            list.add(it)
-            if (it == CallCompositeCallState.DISCONNECTED) {
+            list.add(it.callState)
+            if (it.callState == CallCompositeCallState.DISCONNECTED) {
                 endCallCompletableFuture.complete(null)
             }
         }
