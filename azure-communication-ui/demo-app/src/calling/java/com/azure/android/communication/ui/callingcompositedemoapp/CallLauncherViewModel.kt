@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -120,8 +121,6 @@ class CallLauncherViewModel : ViewModel() {
         CallLauncherViewModel.callComposite = callComposite
         return callComposite
     }
-
-    fun getCallState() = callComposite?.callState.toString()
 
     fun unsubscribe() {
         callComposite?.let { composite ->

@@ -97,7 +97,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val compositeExitManager by lazy {
-        CompositeExitManager(appStore, configuration)
+        CompositeExitManager(appStore, configuration, errorHandler)
     }
 
     override val permissionManager by lazy {

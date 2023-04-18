@@ -29,12 +29,15 @@ internal class ErrorHandler(
 ) {
     private var lastFatalError: FatalError? = null
     private var lastCallStateError: CallStateError? = null
+    private var lastErrorEvent: CallCompositeErrorEvent? = null
 
     suspend fun start() {
         store.getStateFlow().collect {
             onStateChanged(it)
         }
     }
+
+    fun getLastCallCompositeErrorEvent() = lastErrorEvent
 
     fun notifyErrorEvent(eventArgs: CallCompositeErrorEvent) {
         try {
@@ -95,6 +98,7 @@ internal class ErrorHandler(
                     getCallCompositeErrorCode(callStateError.errorCode),
                     null,
                 )
+            lastErrorEvent = eventArgs
             configuration.callCompositeEventsHandler.getOnErrorHandlers()
                 .forEach { it.handle(eventArgs) }
         } catch (error: Throwable) {
@@ -120,6 +124,7 @@ internal class ErrorHandler(
                     getCallCompositeErrorCode(error.errorCode),
                     error.fatalError,
                 )
+            lastErrorEvent = eventArgs
             configuration.callCompositeEventsHandler.getOnErrorHandlers()
                 .forEach { it.handle(eventArgs) }
         } catch (error: Throwable) {

@@ -7,26 +7,24 @@ package com.azure.android.communication.ui.calling.models;
  * Event with caused throwable.
  */
 public final class CallCompositeExitEvent {
-    private final Throwable cause;
+    private final CallCompositeErrorEvent errorEvent;
 
     /**
-     * Create {@link CallCompositeExitEvent} with throwable.
+     * Create {@link CallCompositeExitEvent} with error event.
      *
-     * @param cause Throwable that caused an exception.
+     * @param errorEvent error event.
      */
-    public CallCompositeExitEvent(final Throwable cause) {
-        this.cause = cause;
+    public CallCompositeExitEvent(final CallCompositeErrorEvent errorEvent) {
+        this.errorEvent = errorEvent;
     }
 
     /**
-     * Returns the cause of this throwable or {@code null} if the
-     * cause is nonexistent or unknown. (The cause is the throwable that
-     * caused this throwable to get thrown).
+     * Returns the cause of exit or {@code null} if the
+     * call end is expected
      *
-     * @return the cause of this throwable or {@code null} if the
-     * cause is nonexistent or unknown.
+     * @return {@link CallCompositeErrorEvent}
      */
-    public Throwable getCause() {
-        return cause;
+    public CallCompositeErrorEvent getErrorEvent() {
+        return errorEvent;
     }
 }

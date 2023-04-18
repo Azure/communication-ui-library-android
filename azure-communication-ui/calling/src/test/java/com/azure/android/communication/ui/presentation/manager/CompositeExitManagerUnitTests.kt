@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.presentation.manager
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -39,8 +40,9 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
                 on { dispatch(any()) } doAnswer { }
             }
             val configuration = CallCompositeConfiguration()
+            val mockErrorHandler = mock<ErrorHandler>()
             val compositeManager =
-                CompositeExitManager(mockAppStore, configuration)
+                CompositeExitManager(mockAppStore, configuration, mockErrorHandler)
             // Act
             compositeManager.exit()
             // Assert
@@ -51,6 +53,7 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
             )
         }
     }
+
     @Test
     fun lifecycleManager_callStateNotChanged_then_navigationActionTriggered() {
         runScopedTest {
@@ -61,9 +64,10 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
             }
+            val mockErrorHandler = mock<ErrorHandler>()
             val configuration = CallCompositeConfiguration()
             val compositeManager =
-                CompositeExitManager(mockAppStore, configuration)
+                CompositeExitManager(mockAppStore, configuration, mockErrorHandler)
 
             // Act
             compositeManager.exit()
