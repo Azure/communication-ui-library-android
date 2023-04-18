@@ -19,12 +19,12 @@ public final class CallCompositeExitEvent {
     }
 
     /**
-     * Returns the cause of exit or {@code null} if the
-     * call end is expected
+     * Returns the cause of last call end or {@code null} if the
+     * call end is success
      *
      * @return {@link CallCompositeErrorEvent}
      */
-    public CallCompositeErrorEvent getErrorEvent() {
+    public CallCompositeErrorEvent getLastErrorEvent() {
         return errorEvent;
     }
 }

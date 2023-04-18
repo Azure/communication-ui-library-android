@@ -84,7 +84,7 @@ class CallLauncherViewModel : ViewModel() {
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callCompositeExitSuccessStateFlow.value = false
-        exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, this)
+        exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
         callComposite.addOnExitEventHandler(exitEventHandler)
         isExitRequested = false
@@ -149,9 +149,13 @@ class CallStateEventHandler(private val callCompositeCallStateStateFlow: Mutable
 
 class CallExitEventHandler(
     private val exitStateFlow: MutableStateFlow<Boolean>,
+    private val callCompositeCallStateStateFlow: MutableStateFlow<String>,
     private val callLauncherViewModel: CallLauncherViewModel,
 ) : CallCompositeEventHandler<CallCompositeExitEvent> {
     override fun handle(event: CallCompositeExitEvent) {
         exitStateFlow.value = true && callLauncherViewModel.isExitRequested
+        event.lastErrorEvent?.let {
+            callCompositeCallStateStateFlow.value = it.errorCode.toString()
+        }
     }
 }
