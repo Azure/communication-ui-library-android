@@ -15,7 +15,9 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
-
+    private val exitEventHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeExitEvent>>()
+    
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
     fun addOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
