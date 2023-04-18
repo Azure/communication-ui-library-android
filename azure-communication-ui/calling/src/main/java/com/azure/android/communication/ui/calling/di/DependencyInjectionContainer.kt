@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
+import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
@@ -54,6 +55,7 @@ internal interface DependencyInjectionContainer {
     val networkManager: NetworkManager
     val debugInfoManager: DebugInfoManager
     val callHistoryService: CallHistoryService
+    val audioModeManager: AudioModeManager
 
     // UI
     val videoViewManager: VideoViewManager
