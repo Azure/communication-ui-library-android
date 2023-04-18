@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.manager
 import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
-import android.media.AudioManager.MODE_IN_COMMUNICATION
 import android.media.AudioManager.MODE_NORMAL
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -27,7 +26,6 @@ internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListe
     abstract fun getAudioFocus(): Boolean
     abstract fun releaseAudioFocus(): Boolean
     abstract fun getMode(): Int
-    abstract fun setMode(mode: Int)
 }
 
 // Newer API Version of AudioFocusHandler
@@ -42,9 +40,6 @@ internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
         audioManager().requestAudioFocus(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 
     override fun getMode() = audioManager().mode
-    override fun setMode(mode: Int) {
-        audioManager().mode = mode
-    }
 
     override fun releaseAudioFocus() =
         audioManager().abandonAudioFocusRequest(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
@@ -61,9 +56,6 @@ internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler
     ) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 
     override fun getMode() = audioManager().mode
-    override fun setMode(mode: Int) {
-        audioManager().mode = mode
-    }
 
     override fun releaseAudioFocus(): Boolean =
         audioManager().abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
@@ -128,19 +120,10 @@ internal class AudioFocusManager(
                     }
                 }
             }
-
-            audioFocusHandler?.let { focusHandler ->
-                if (focusHandler.getMode() != MODE_IN_COMMUNICATION && it.callState.callingStatus == CallingStatus.CONNECTED) {
-                    // to fix samsung device audio issue
-                    // MODE_IN_COMMUNICATION is used to let the system know that the app is in a VOIP call
-                    audioFocusHandler?.setMode(MODE_IN_COMMUNICATION)
-                }
-            }
         }
     }
 
     fun stop() {
-        audioFocusHandler?.setMode(MODE_NORMAL)
         audioFocusHandler?.onFocusChange = null
     }
 }
