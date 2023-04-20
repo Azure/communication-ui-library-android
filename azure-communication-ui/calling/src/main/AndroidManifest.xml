@@ -30,6 +30,8 @@
             android:launchMode="singleTask"
             android:theme="@style/AzureCommunicationUICalling.Theme"
             android:exported="false"
+
+            android:supportsPictureInPicture="true"
             />
         <service
             android:name="com.azure.android.communication.ui.calling.service.InCallService"

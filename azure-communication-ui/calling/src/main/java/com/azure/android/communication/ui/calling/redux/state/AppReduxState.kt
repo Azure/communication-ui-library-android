@@ -41,7 +41,7 @@ internal class AppReduxState(
     override var permissionState: PermissionState =
         PermissionState(PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN)
 
-    override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
+    override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND, inPipMode = false)
 
     override var errorState: ErrorState = ErrorState(fatalError = null, callStateError = null)
 

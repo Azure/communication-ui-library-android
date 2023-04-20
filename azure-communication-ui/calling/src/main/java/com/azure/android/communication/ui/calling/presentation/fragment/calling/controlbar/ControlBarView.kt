@@ -4,12 +4,16 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
+import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -22,6 +26,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
+import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -250,7 +255,24 @@ internal class ControlBarView : ConstraintLayout {
             viewModel.openAudioDeviceSelectionMenu()
         }
         moreButton.setOnClickListener {
-            viewModel.openMoreMenu()
+//            viewModel.openMoreMenu()
+
+            var hasPermission = ActivityCompat.checkSelfPermission(context.activity!!, PackageManager.FEATURE_PICTURE_IN_PICTURE) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS)
+//            context.activity?.packageManager?.checkPermission(PackageManager.FEATURE_PICTURE_IN_PICTURE, packageName) == PackageManager.PERMISSION_GRANTED
+            hasPermission = hasPermission || ActivityCompat.checkSelfPermission(context.activity!!, PackageManager.FEATURE_EXPANDED_PICTURE_IN_PICTURE) == PackageManager.PERMISSION_GRANTED
+            hasPermission = true
+
+            if (context.activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+                    && hasPermission) {
+                context.activity?.enterPictureInPictureMode()
+            }
+            else {
+                context.activity?.moveTaskToBack(true)
+            }
+
         }
     }
+
+
 }
