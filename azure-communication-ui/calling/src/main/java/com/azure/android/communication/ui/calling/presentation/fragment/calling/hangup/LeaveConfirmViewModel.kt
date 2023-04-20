@@ -3,16 +3,17 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup
 
+import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class LeaveConfirmViewModel(private val dispatch: (Action) -> Unit) {
+internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
     private val shouldDisplayLeaveConfirmMutableStateFlow = MutableStateFlow(false)
     var shouldDisplayLeaveConfirmStateFlow = shouldDisplayLeaveConfirmMutableStateFlow as StateFlow<Boolean>
 
@@ -20,9 +21,9 @@ internal class LeaveConfirmViewModel(private val dispatch: (Action) -> Unit) {
         return shouldDisplayLeaveConfirmStateFlow
     }
 
-    fun confirm(callingState: CallingState) {
-        if (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-            callingState.callingStatus != CallingStatus.CONNECTED
+    fun confirm() {
+        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+            store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED
         ) {
             dispatchAction(action = NavigationAction.Exit())
         } else {
@@ -39,6 +40,6 @@ internal class LeaveConfirmViewModel(private val dispatch: (Action) -> Unit) {
     }
 
     private fun dispatchAction(action: Action) {
-        dispatch(action)
+        store.dispatch(action)
     }
 }

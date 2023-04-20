@@ -56,6 +56,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
     private val audioFocusManager get() = container.audioFocusManager
+    private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -94,13 +95,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
 
         val activity = this
-        lifecycleScope.launch {
-            permissionManager.start(
-                activity,
-                getAudioPermissionLauncher(),
-                getCameraPermissionLauncher()
-            )
-        }
+        permissionManager.start(
+            activity,
+            getAudioPermissionLauncher(),
+            getCameraPermissionLauncher(),
+            lifecycleScope
+        )
 
         audioSessionManager.onCreate(savedInstanceState)
 
@@ -116,6 +116,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             audioFocusManager.start()
+        }
+
+        lifecycleScope.launch {
+            audioModeManager.start()
         }
 
         notificationService.start(lifecycleScope)
@@ -146,6 +150,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         if (CallCompositeInstanceManager.hasCallComposite(instanceId)) {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
+            audioModeManager.onDestroy()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
