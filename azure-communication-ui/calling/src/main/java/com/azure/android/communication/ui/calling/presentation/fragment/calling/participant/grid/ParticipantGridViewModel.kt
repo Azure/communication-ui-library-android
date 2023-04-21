@@ -201,18 +201,14 @@ internal class ParticipantGridViewModel(
             if (dominantSpeakersOrder.containsKey(participantId2))
                 return@Comparator 1
 
-            if (participant1.isSpeaking && !participant2.isSpeaking)
+            if ((participant1.cameraVideoStreamModel != null && participant2.cameraVideoStreamModel != null)
+                    || (participant1.cameraVideoStreamModel == null && participant2.cameraVideoStreamModel == null))
+                return@Comparator 0
+
+            if (participant1.cameraVideoStreamModel != null)
                 return@Comparator -1
-
-            if (!participant1.isSpeaking && participant2.isSpeaking)
+            else
                 return@Comparator 1
-
-            if ((!participant1.isMuted && !participant2.isMuted) ||
-                (participant1.isMuted && participant2.isMuted)
-            )
-                return@Comparator if (participant1.displayName > participant2.displayName) 1 else -1
-
-            return@Comparator if (participant1.isMuted) 1 else -1
         }
 
         return remoteParticipantsMap.toList()
