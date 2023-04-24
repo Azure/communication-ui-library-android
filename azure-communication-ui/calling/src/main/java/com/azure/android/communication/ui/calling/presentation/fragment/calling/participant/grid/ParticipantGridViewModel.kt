@@ -201,8 +201,9 @@ internal class ParticipantGridViewModel(
             if (dominantSpeakersOrder.containsKey(participantId2))
                 return@Comparator 1
 
-            if ((participant1.cameraVideoStreamModel != null && participant2.cameraVideoStreamModel != null)
-                    || (participant1.cameraVideoStreamModel == null && participant2.cameraVideoStreamModel == null))
+            if ((participant1.cameraVideoStreamModel != null && participant2.cameraVideoStreamModel != null) ||
+                (participant1.cameraVideoStreamModel == null && participant2.cameraVideoStreamModel == null)
+            )
                 return@Comparator 0
 
             if (participant1.cameraVideoStreamModel != null)

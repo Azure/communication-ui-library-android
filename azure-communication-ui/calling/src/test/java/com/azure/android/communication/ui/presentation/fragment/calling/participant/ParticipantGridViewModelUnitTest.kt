@@ -797,7 +797,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-                val videoStreamModel = VideoStreamModel("videoStreamId", StreamType.VIDEO)
+            val videoStreamModel = VideoStreamModel("videoStreamId", StreamType.VIDEO)
 
             remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
             remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
