@@ -94,6 +94,9 @@ internal class CallingSDKWrapper(
     override fun getIsTranscribingSharedFlow() =
         callingSDKEventHandler.getIsTranscribingSharedFlow()
 
+    override fun getDominantSpeakersSharedFlow() =
+        callingSDKEventHandler.getDominantSpeakersSharedFlow()
+
     override fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>> =
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
 
