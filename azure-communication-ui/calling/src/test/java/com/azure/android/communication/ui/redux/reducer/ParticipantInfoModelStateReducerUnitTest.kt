@@ -66,4 +66,32 @@ internal class ParticipantInfoModelStateReducerUnitTest {
         // assert
         assertEquals(oldState, newState)
     }
+
+    @Test
+    fun participantListStateReducer_reduce_when_actionDominantSpeakersUpdated_then_updateState() {
+        // arrange
+        val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
+        participantMap["user"] =
+                ParticipantInfoModel(
+                        "user", "id",
+                        isMuted = false,
+                        isSpeaking = false,
+                        screenShareVideoStreamModel = null,
+                        cameraVideoStreamModel = null,
+                        modifiedTimestamp = 0,
+                        participantStatus = ParticipantStatus.HOLD,
+                )
+        val dominantSpeakers = listOf<String>()
+        val reducer = ParticipantStateReducerImpl()
+        val oldState = RemoteParticipantsState(HashMap(), 0, dominantSpeakers, 0)
+
+        val updatedDominantSpeakers = listOf("id")
+        val action = ParticipantAction.DominantSpeakersUpdated(updatedDominantSpeakers)
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        assertEquals(updatedDominantSpeakers, newState.dominantSpeakersInfo)
+    }
 }

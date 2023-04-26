@@ -420,6 +420,77 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
         }
 
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_startCall_then_dispatchDominantSpeakersUpdatedActionToStore() =
+            runScopedTest {
+                // arrange
+                val appState = AppReduxState("", false, false)
+                appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+                appState.localParticipantState =
+                        LocalUserState(
+                                CameraState(
+                                        CameraOperationalStatus.OFF,
+                                        CameraDeviceSelectionStatus.FRONT,
+                                        CameraTransmissionStatus.REMOTE,
+                                        0
+                                ),
+                                AudioState(
+                                        AudioOperationalStatus.OFF,
+                                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                                        BluetoothState(available = false, deviceName = "bluetooth")
+                                ),
+                                "",
+                                ""
+                        )
+                val callingServiceParticipantsSharedFlow =
+                        MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+                val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+                val callIdFlow = MutableStateFlow<String?>(null)
+                val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+                val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+                val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+                val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+                val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+
+                val dominantSpeakers = listOf("userId")
+
+                val mockCallingService: CallingService = mock {
+                    on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                    on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                    on { getCallIdStateFlow() } doReturn callIdFlow
+                    on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                    on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                    on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                    on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                    on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                    on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                }
+
+                val handler = CallingMiddlewareActionHandlerImpl(
+                        mockCallingService,
+                        UnconfinedTestContextProvider()
+                )
+
+                val mockAppStore = mock<AppStore<ReduxState>> {
+                    on { dispatch(any()) } doAnswer { }
+                    on { getCurrentState() } doAnswer { appState }
+                }
+
+                // act
+                handler.startCall(mockAppStore)
+                dominantSpeakersSharedFlow.emit(dominantSpeakers)
+
+                // assert
+                verify(mockAppStore, times(1)).dispatch(
+                        argThat { action ->
+                            action is ParticipantAction.DominantSpeakersUpdated &&
+                                    action.dominantSpeakersInfo == dominantSpeakers
+                        }
+                )
+            }
+
     @ExperimentalCoroutinesApi
     @Test
     fun callingMiddlewareActionHandler_startCall_then_dispatchCallStateUpdateActionToStore() =
