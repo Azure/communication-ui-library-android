@@ -72,15 +72,15 @@ internal class ParticipantInfoModelStateReducerUnitTest {
         // arrange
         val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
         participantMap["user"] =
-                ParticipantInfoModel(
-                        "user", "id",
-                        isMuted = false,
-                        isSpeaking = false,
-                        screenShareVideoStreamModel = null,
-                        cameraVideoStreamModel = null,
-                        modifiedTimestamp = 0,
-                        participantStatus = ParticipantStatus.HOLD,
-                )
+            ParticipantInfoModel(
+                "user", "id",
+                isMuted = false,
+                isSpeaking = false,
+                screenShareVideoStreamModel = null,
+                cameraVideoStreamModel = null,
+                modifiedTimestamp = 0,
+                participantStatus = ParticipantStatus.HOLD,
+            )
         val dominantSpeakers = listOf<String>()
         val reducer = ParticipantStateReducerImpl()
         val oldState = RemoteParticipantsState(HashMap(), 0, dominantSpeakers, 0)
