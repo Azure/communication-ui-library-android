@@ -10,20 +10,20 @@
     android:layout_margin="15dp"
     android:background="@color/azure_communication_ui_calling_color_background">
 
-    <ImageButton
-        android:id="@+id/azure_communication_ui_call_cameraToggle"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
-        android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_video_accessibility_label"
-        android:src="@drawable/azure_communication_ui_calling_toggle_selector_camera_for_call"
-        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_call_audio"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+<!--    <ImageButton-->
+<!--        android:id="@+id/azure_communication_ui_call_cameraToggle"-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:background="@color/azure_communication_ui_calling_color_button_background_transparent"-->
+<!--        android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_video_accessibility_label"-->
+<!--        android:src="@drawable/azure_communication_ui_calling_toggle_selector_camera_for_call"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_call_audio"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintHorizontal_chainStyle="packed"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        />-->
 
     <ImageButton
         android:id="@+id/azure_communication_ui_call_call_audio"

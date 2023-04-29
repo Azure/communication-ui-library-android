@@ -12,7 +12,7 @@
     android:layout_margin="15dp"
     >
 
-        <ImageButton
+<!--        <ImageButton
             android:id="@+id/azure_communication_ui_call_cameraToggle"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            />-->
 
         <ImageButton
             android:id="@+id/azure_communication_ui_call_call_audio"
@@ -37,7 +37,8 @@
             android:src="@drawable/azure_communication_ui_calling_toggle_selector_mic_for_call"
             app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_audio_device_button"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/azure_communication_ui_call_cameraToggle"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             />

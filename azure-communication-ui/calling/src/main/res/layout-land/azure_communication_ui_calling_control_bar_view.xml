@@ -12,7 +12,7 @@
     android:background="@color/azure_communication_ui_calling_color_background"
     tools:targetApi="lollipop_mr1">
 
-    <ImageButton
+ <!--   <ImageButton
         android:id="@+id/azure_communication_ui_call_end_call_button"
         style="@style/Widget.FluentUI.Button"
         android:layout_width="60dp"
@@ -27,7 +27,7 @@
         app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        />-->
 
     <ImageButton
         android:id="@+id/azure_communication_ui_call_control_bar_more"
@@ -38,6 +38,8 @@
         android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
         android:contentDescription="@string/azure_communication_ui_calling_view_more_menu_accessibility_label"
         android:src="@drawable/azure_communication_ui_calling_selector_three_dot_button_22"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_call_audio_device_button"
         app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_end_call_button"
         app:layout_constraintStart_toStartOf="parent"
