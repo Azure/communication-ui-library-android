@@ -1,5 +1,10 @@
 # Azure Communication UI Calling Release History
 
+## Next release
+
+### Features
+- Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
+
 ## 1.3.0 (2023-04-06)
 
 ### Features
