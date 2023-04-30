@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.calling.models.CallCompositeCallState;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent;
@@ -245,16 +245,16 @@ public final class CallComposite {
     /**
      * Get Call Composite Call State.
      *
-     * @return {@link CallCompositeCallState}
+     * @return {@link CallCompositeCallStateCode}
      */
-    public CallCompositeCallState getCallState() {
+    public CallCompositeCallStateCode getCallStateCode() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
                 return container.getCallStateHandler().getCallCompositeCallState();
             }
         }
-        return CallCompositeCallState.NONE;
+        return CallCompositeCallStateCode.NONE;
     }
 
     /**

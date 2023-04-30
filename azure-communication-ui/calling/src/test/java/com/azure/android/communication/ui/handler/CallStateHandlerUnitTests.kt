@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeCallState
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -61,7 +61,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // assert
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.callState == CallCompositeCallState.NONE
+                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.NONE
                 }
             )
             job.cancel()
@@ -101,12 +101,12 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             TestCase.assertEquals(
-                CallCompositeCallState.CONNECTED,
+                CallCompositeCallStateCode.CONNECTED,
                 handler.getCallCompositeCallState()
             )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.callState == CallCompositeCallState.CONNECTED
+                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.CONNECTED
                 }
             )
             job.cancel()
@@ -144,7 +144,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             TestCase.assertEquals(
-                CallCompositeCallState.CONNECTED,
+                CallCompositeCallStateCode.CONNECTED,
                 handler.getCallCompositeCallState()
             )
             verify(mockHandler, times(0)).handle(any())
@@ -187,17 +187,17 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             TestCase.assertEquals(
-                CallCompositeCallState.CONNECTED,
+                CallCompositeCallStateCode.CONNECTED,
                 handler.getCallCompositeCallState()
             )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.callState == CallCompositeCallState.CONNECTED
+                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.CONNECTED
                 }
             )
             verify(mockHandler2, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.callState == CallCompositeCallState.CONNECTED
+                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.CONNECTED
                 }
             )
             job.cancel()
@@ -210,54 +210,54 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // test all
             testCallState(
                 CallingStatus.CONNECTING,
-                CallCompositeCallState.CONNECTING
+                CallCompositeCallStateCode.CONNECTING
             )
             testCallState(
                 CallingStatus.DISCONNECTED,
-                CallCompositeCallState.DISCONNECTED
+                CallCompositeCallStateCode.DISCONNECTED
             )
             testCallState(
                 CallingStatus.CONNECTED,
-                CallCompositeCallState.CONNECTED
+                CallCompositeCallStateCode.CONNECTED
             )
             testCallState(
                 CallingStatus.DISCONNECTING,
-                CallCompositeCallState.DISCONNECTING
+                CallCompositeCallStateCode.DISCONNECTING
             )
             testCallState(
                 CallingStatus.EARLY_MEDIA,
-                CallCompositeCallState.EARLY_MEDIA
+                CallCompositeCallStateCode.EARLY_MEDIA
             )
             testCallState(
                 CallingStatus.IN_LOBBY,
-                CallCompositeCallState.IN_LOBBY
+                CallCompositeCallStateCode.IN_LOBBY
             )
             testCallState(
                 CallingStatus.LOCAL_HOLD,
-                CallCompositeCallState.LOCAL_HOLD
+                CallCompositeCallStateCode.LOCAL_HOLD
             )
             testCallState(
                 CallingStatus.NONE,
-                CallCompositeCallState.NONE
+                CallCompositeCallStateCode.NONE
             )
             testCallState(
                 CallingStatus.REMOTE_HOLD,
-                CallCompositeCallState.REMOTE_HOLD
+                CallCompositeCallStateCode.REMOTE_HOLD
             )
             testCallState(
                 CallingStatus.RINGING,
-                CallCompositeCallState.RINGING
+                CallCompositeCallStateCode.RINGING
             )
             testNotCallState(
                 CallingStatus.RINGING,
-                CallCompositeCallState.CONNECTING
+                CallCompositeCallStateCode.CONNECTING
             )
         }
     }
 
     private fun TestScope.testCallState(
         callingStatus: CallingStatus,
-        callCompositeCallState: CallCompositeCallState,
+        callCompositeCallStateCode: CallCompositeCallStateCode,
     ) {
         // arrange
         val appState = AppReduxState("", false, false)
@@ -285,12 +285,12 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
         // assert
         TestCase.assertEquals(
-            callCompositeCallState,
+            callCompositeCallStateCode,
             handler.getCallCompositeCallState()
         )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
-                event is CallCompositeCallStateEvent && event.callState == callCompositeCallState
+                event is CallCompositeCallStateEvent && event.code == callCompositeCallStateCode
             }
         )
         job.cancel()
@@ -298,7 +298,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
     private fun TestScope.testNotCallState(
         callingStatus: CallingStatus,
-        callCompositeCallState: CallCompositeCallState,
+        callCompositeCallStateCode: CallCompositeCallStateCode,
     ) {
         // arrange
         val appState = AppReduxState("", false, false)
@@ -326,12 +326,12 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
         // assert
         TestCase.assertNotSame(
-            callCompositeCallState,
+            callCompositeCallStateCode,
             handler.getCallCompositeCallState()
         )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
-                event is CallCompositeCallStateEvent && event.callState != callCompositeCallState
+                event is CallCompositeCallStateEvent && event.code != callCompositeCallStateCode
             }
         )
         job.cancel()

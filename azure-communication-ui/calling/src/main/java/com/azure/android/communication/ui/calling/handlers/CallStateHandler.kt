@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.handlers
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CallCompositeCallState
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -35,7 +35,7 @@ internal class CallStateHandler(
         }
     }
 
-    fun getCallCompositeCallState(): CallCompositeCallState {
+    fun getCallCompositeCallState(): CallCompositeCallStateCode {
         return store.getStateFlow().value.callState.callingStatus.callCompositeCallState()
     }
 
@@ -50,17 +50,17 @@ internal class CallStateHandler(
     }
 }
 
-internal fun CallingStatus.callCompositeCallState(): CallCompositeCallState {
+internal fun CallingStatus.callCompositeCallState(): CallCompositeCallStateCode {
     return when (this) {
-        CallingStatus.CONNECTED -> CallCompositeCallState.CONNECTED
-        CallingStatus.CONNECTING -> CallCompositeCallState.CONNECTING
-        CallingStatus.DISCONNECTED -> CallCompositeCallState.DISCONNECTED
-        CallingStatus.DISCONNECTING -> CallCompositeCallState.DISCONNECTING
-        CallingStatus.EARLY_MEDIA -> CallCompositeCallState.EARLY_MEDIA
-        CallingStatus.RINGING -> CallCompositeCallState.RINGING
-        CallingStatus.LOCAL_HOLD -> CallCompositeCallState.LOCAL_HOLD
-        CallingStatus.IN_LOBBY -> CallCompositeCallState.IN_LOBBY
-        CallingStatus.REMOTE_HOLD -> CallCompositeCallState.REMOTE_HOLD
-        else -> CallCompositeCallState.NONE
+        CallingStatus.CONNECTED -> CallCompositeCallStateCode.CONNECTED
+        CallingStatus.CONNECTING -> CallCompositeCallStateCode.CONNECTING
+        CallingStatus.DISCONNECTED -> CallCompositeCallStateCode.DISCONNECTED
+        CallingStatus.DISCONNECTING -> CallCompositeCallStateCode.DISCONNECTING
+        CallingStatus.EARLY_MEDIA -> CallCompositeCallStateCode.EARLY_MEDIA
+        CallingStatus.RINGING -> CallCompositeCallStateCode.RINGING
+        CallingStatus.LOCAL_HOLD -> CallCompositeCallStateCode.LOCAL_HOLD
+        CallingStatus.IN_LOBBY -> CallCompositeCallStateCode.IN_LOBBY
+        CallingStatus.REMOTE_HOLD -> CallCompositeCallStateCode.REMOTE_HOLD
+        else -> CallCompositeCallStateCode.NONE
     }
 }

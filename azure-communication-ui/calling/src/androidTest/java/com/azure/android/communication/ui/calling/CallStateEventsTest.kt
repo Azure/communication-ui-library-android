@@ -8,7 +8,7 @@ import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapWhenDisplayed
-import com.azure.android.communication.ui.calling.models.CallCompositeCallState
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.waitUntilDisplayed
@@ -38,12 +38,12 @@ internal class CallStateEventsTest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callState == CallCompositeCallState.NONE)
+        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
 
-        val list = mutableListOf<CallCompositeCallState>()
+        val list = mutableListOf<CallCompositeCallStateCode>()
 
         callComposite.addOnCallStateEventHandler {
-            list.add(it.callState)
+            list.add(it.code)
         }
 
         callComposite.launchTest(appContext, remoteOptions, null)
@@ -53,9 +53,9 @@ internal class CallStateEventsTest : BaseUiTest() {
 
         var size = list.size
         assert(size == 2)
-        assert(list.contains(CallCompositeCallState.CONNECTED))
-        assert(list.contains(CallCompositeCallState.NONE))
-        assert(callComposite.callState == CallCompositeCallState.CONNECTED)
+        assert(list.contains(CallCompositeCallStateCode.CONNECTED))
+        assert(list.contains(CallCompositeCallStateCode.NONE))
+        assert(callComposite.callStateCode == CallCompositeCallStateCode.CONNECTED)
     }
 
     @Test
@@ -77,13 +77,13 @@ internal class CallStateEventsTest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callState == CallCompositeCallState.NONE)
-        val list = mutableListOf<CallCompositeCallState>()
+        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
+        val list = mutableListOf<CallCompositeCallStateCode>()
 
         val endCallCompletableFuture = CompletableFuture<Void>()
         callComposite.addOnCallStateEventHandler {
-            list.add(it.callState)
-            if (it.callState == CallCompositeCallState.DISCONNECTED) {
+            list.add(it.code)
+            if (it.code == CallCompositeCallStateCode.DISCONNECTED) {
                 endCallCompletableFuture.complete(null)
             }
         }
@@ -94,10 +94,10 @@ internal class CallStateEventsTest : BaseUiTest() {
 
         endCallCompletableFuture.whenComplete { _, _ ->
             assert(list.size == 3)
-            assert(list.contains(CallCompositeCallState.CONNECTED))
-            assert(list.contains(CallCompositeCallState.NONE))
-            assert(list.contains(CallCompositeCallState.DISCONNECTED))
-            assert(callComposite.callState == CallCompositeCallState.DISCONNECTED)
+            assert(list.contains(CallCompositeCallStateCode.CONNECTED))
+            assert(list.contains(CallCompositeCallStateCode.NONE))
+            assert(list.contains(CallCompositeCallStateCode.DISCONNECTED))
+            assert(callComposite.callStateCode == CallCompositeCallStateCode.DISCONNECTED)
         }
     }
 }

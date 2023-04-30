@@ -7,23 +7,23 @@ package com.azure.android.communication.ui.calling.models;
  * Event with call state.
  */
 public final class CallCompositeCallStateEvent {
-    private final CallCompositeCallState callState;
+    private final CallCompositeCallStateCode code;
 
     /**
      * Create {@link CallCompositeCallStateEvent} with call state.
      *
-     * @param callState call state {@link CallCompositeCallState}.
+     * @param code call state {@link CallCompositeCallStateCode}.
      */
-    public CallCompositeCallStateEvent(final CallCompositeCallState callState) {
-        this.callState = callState;
+    public CallCompositeCallStateEvent(final CallCompositeCallStateCode code) {
+        this.code = code;
     }
 
     /**
      * Returns the call state.
      *
-     * @return the call state {@link CallCompositeCallState} instance.
+     * @return the call state {@link CallCompositeCallStateCode} instance.
      */
-    public CallCompositeCallState getCallState() {
-        return callState;
+    public CallCompositeCallStateCode getCode() {
+        return code;
     }
 }

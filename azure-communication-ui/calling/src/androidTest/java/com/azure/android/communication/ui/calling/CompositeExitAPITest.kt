@@ -8,7 +8,7 @@ import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapWhenDisplayed
-import com.azure.android.communication.ui.calling.models.CallCompositeCallState
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.waitUntilDisplayed
@@ -38,7 +38,7 @@ internal class CompositeExitAPITest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callState == CallCompositeCallState.NONE)
+        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
 
         var isExitCompositeReceived = false
         val exitCallCompletableFuture = CompletableFuture<Void>()
@@ -52,13 +52,13 @@ internal class CompositeExitAPITest : BaseUiTest() {
         tapWhenDisplayed(joinCallId)
         waitUntilDisplayed(endCallId)
 
-        assert(callComposite.callState == CallCompositeCallState.CONNECTED)
+        assert(callComposite.callStateCode == CallCompositeCallStateCode.CONNECTED)
         // end call
         callComposite.exit()
 
         exitCallCompletableFuture.whenComplete { _, _ ->
             assert(isExitCompositeReceived)
-            assert(callComposite.callState == CallCompositeCallState.DISCONNECTED)
+            assert(callComposite.callStateCode == CallCompositeCallStateCode.DISCONNECTED)
         }
     }
 
@@ -81,7 +81,7 @@ internal class CompositeExitAPITest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callState == CallCompositeCallState.NONE)
+        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
         var isExitCompositeReceived = false
         val exitCallCompletableFuture = CompletableFuture<Void>()
         callComposite.addOnExitEventHandler {
@@ -92,13 +92,13 @@ internal class CompositeExitAPITest : BaseUiTest() {
 
         waitUntilDisplayed(joinCallId)
 
-        assert(callComposite.callState == CallCompositeCallState.NONE)
+        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
         // end call
         callComposite.exit()
 
         exitCallCompletableFuture.whenComplete { _, _ ->
             assert(isExitCompositeReceived)
-            assert(callComposite.callState == CallCompositeCallState.NONE)
+            assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
         }
     }
 }

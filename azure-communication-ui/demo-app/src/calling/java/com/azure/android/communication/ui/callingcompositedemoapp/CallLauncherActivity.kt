@@ -225,8 +225,22 @@ class CallLauncherActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    override fun onStart() {
+        super.onStart()
+        toggleEndCompositeButton()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        toggleEndCompositeButton()
+    }
+
     override fun onResume() {
         super.onResume()
+        toggleEndCompositeButton()
+    }
+
+    private fun toggleEndCompositeButton() {
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(this).hide()
         } else {
