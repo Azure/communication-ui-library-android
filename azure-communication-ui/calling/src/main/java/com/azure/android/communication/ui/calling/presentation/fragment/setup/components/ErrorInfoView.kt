@@ -76,9 +76,6 @@ internal class ErrorInfoView(private val rootView: View) {
         if (errorMessage.isBlank()) return
         snackBarTextView.text = errorMessage
         snackBar.run {
-            if (isShown) {
-                dismiss()
-            }
             show()
 
             view.contentDescription =
