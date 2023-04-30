@@ -256,7 +256,11 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                requestedOrientation = if (isAndroidTV(this)) {
+                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_USER
+                }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
