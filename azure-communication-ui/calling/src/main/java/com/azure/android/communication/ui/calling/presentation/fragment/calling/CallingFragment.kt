@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
+import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -33,6 +34,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
+import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
@@ -187,12 +189,12 @@ internal class CallingFragment :
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
-            if (CallCompositeInstanceManager.hasCallComposite(holder.instanceId)) {
+//            if (CallCompositeInstanceManager.hasCallComposite(holder.instanceId)) {
                 // Covers edge case where Android tries to recreate call activity after process death
                 // (e.g. due to revoked permission).
                 // If no configs are detected we can just exit without cleanup.
                 viewModel.bannerViewModel.dismissBanner()
-            }
+//            }
         }
         if (this::localParticipantView.isInitialized) localParticipantView.stop()
         if (this::participantListView.isInitialized) participantListView.stop()
@@ -244,6 +246,14 @@ internal class CallingFragment :
             ).forEach { (key, showDialog) -> if (it.getBoolean(key)) showDialog() }
         }
     }
+
+//     fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean,
+//                                               newConfig: Configuration) {
+////        viewModel.
+////                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
+////                else LifecycleAction.ExitPiPMode()
+////        )
+//    }
 
     private fun requestCallEnd() {
         viewModel.requestCallEnd()

@@ -10,6 +10,6 @@ internal sealed class LifecycleAction : Action {
     class EnterForegroundSucceeded : LifecycleAction()
     class EnterBackgroundSucceeded : LifecycleAction()
 
-    class enterPiPMode: LifecycleAction()
-    class exitPiPMode: LifecycleAction()
+    class EnterPiPMode: LifecycleAction()
+    class ExitPiPMode: LifecycleAction()
 }

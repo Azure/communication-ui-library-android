@@ -23,6 +23,8 @@ import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
 
+    var callComposite: CallComposite? = null
+
     fun launch(
         context: Context,
         acsToken: String,
@@ -84,11 +86,7 @@ class CallLauncherViewModel : ViewModel() {
         val callComposite = callCompositeBuilder.build()
 
         // For test purposes we will keep a static ref to CallComposite
-        CallLauncherViewModel.callComposite = callComposite
+        this.callComposite = callComposite
         return callComposite
-    }
-
-    companion object {
-        var callComposite: CallComposite? = null
     }
 }

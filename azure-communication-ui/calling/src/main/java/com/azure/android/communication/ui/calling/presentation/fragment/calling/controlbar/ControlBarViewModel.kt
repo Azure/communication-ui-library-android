@@ -26,6 +26,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     lateinit var requestCallEnd: () -> Unit
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
     lateinit var openMoreMenu: () -> Unit
+    private lateinit var isPiPMode: MutableStateFlow<Boolean>
 
     fun init(
         permissionState: PermissionState,
@@ -34,7 +35,8 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         callState: CallingState,
         requestCallEndCallback: () -> Unit,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
-        openMoreMenuCallback: () -> Unit
+        openMoreMenuCallback: () -> Unit,
+        isPiPMode: Boolean,
     ) {
         callStateFlow = MutableStateFlow(callState.callingStatus)
         cameraStateFlow =
@@ -47,6 +49,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
+        this.isPiPMode = MutableStateFlow(isPiPMode)
     }
 
     fun update(
@@ -54,6 +57,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         cameraState: CameraState,
         audioState: AudioState,
         callingStatus: CallingStatus,
+        isPiPMode: Boolean
     ) {
         callStateFlow.value = callingStatus
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
@@ -61,6 +65,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         audioDeviceSelectionStatusStateFlow.value = audioState.device
         shouldEnableMicButtonStateFlow.value = shouldEnableMicButton(audioState)
         onHoldCallStatusStateFlow.value = callingStatus == CallingStatus.LOCAL_HOLD
+        this.isPiPMode.value = isPiPMode
     }
 
     fun getCallStateFlow(): StateFlow<CallingStatus> {
@@ -102,6 +107,8 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     fun turnCameraOff() {
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
     }
+
+    val isPiPModeFlow: StateFlow<Boolean> get() = isPiPMode
 
     private fun shouldEnableMicButton(audioState: AudioState): Boolean {
         return (audioState.operation != AudioOperationalStatus.PENDING)

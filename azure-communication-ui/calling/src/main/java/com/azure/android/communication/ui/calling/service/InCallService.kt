@@ -3,16 +3,15 @@
 
 package com.azure.android.communication.ui.calling.service
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import androidx.core.os.bundleOf
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 
 internal class InCallService : Service() {
@@ -24,7 +23,9 @@ internal class InCallService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startInCallNotification()
+
+        val instanceId = intent?.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, -1) ?: -1
+        startInCallNotification(instanceId)
         return START_NOT_STICKY
     }
 
@@ -38,11 +39,16 @@ internal class InCallService : Service() {
         createInCallNotificationChannel()
     }
 
-    private fun startInCallNotification() {
-        val pendingIntent: PendingIntent =
-            Intent(this, CallCompositeActivity::class.java).let { notificationIntent ->
-                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
-            }
+    private fun startInCallNotification(instanceId: Int) {
+
+        val notificationIntent = Intent(this, CallCompositeActivity::class.java).apply {
+            putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
+            putExtra("fromnotification", true)
+            addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT )
+        }
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
             .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))

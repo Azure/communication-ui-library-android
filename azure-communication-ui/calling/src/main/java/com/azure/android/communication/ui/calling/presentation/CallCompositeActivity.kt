@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
+import android.app.PictureInPictureUiState
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
@@ -14,6 +16,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -22,12 +25,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
-import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
@@ -35,18 +39,20 @@ import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
-import java.util.Locale
+import java.util.*
+
 
 internal class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
+                callComposite,
             this@CallCompositeActivity.application,
             TestHelper.callingSDK,
             TestHelper.videoStreamRendererFactory,
             TestHelper.coroutineContextProvider
         )
     }
+    private lateinit var callComposite: CallComposite
     private val container by lazy { diContainerHolder.container }
 
     private val navigationRouter get() = container.navigationRouter
@@ -73,11 +79,18 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // Assign the Dependency Injection Container the appropriate instanceId,
         // so it can initialize it's container holding the dependencies
         try {
-            diContainerHolder.instanceId = instanceId
+            callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
         } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
+
+
+//        setPictureInPictureParams(PictureInPictureParams.Builder()
+////            .setAspectRatio(1)
+////            .setSourceRectHint(sourceRectHint)
+//            .setAutoEnterEnabled(true)
+//            .build())
 
         lifecycleScope.launch { errorHandler.start() }
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
@@ -124,6 +137,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+
+        store.dispatch(
+                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
+                else LifecycleAction.ExitPiPMode()
+        )
+
     }
 
     override fun onStart() {
@@ -151,10 +170,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
-            if (isFinishing) {
-                store.dispatch(CallingAction.CallEndRequested())
-                CallCompositeInstanceManager.removeCallComposite(instanceId)
-            }
+//            if (isFinishing) {
+//                store.dispatch(CallingAction.CallEndRequested())
+//                CallCompositeInstanceManager.removeCallComposite(instanceId)
+//            }
         }
         super.onDestroy()
     }
@@ -167,6 +186,23 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onUserLeaveHint() {
+        if (store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL)
+            enterPictureInPictureMode()
+    }
+
+    override fun onPictureInPictureUiStateChanged(pipState: PictureInPictureUiState) {
+        super.onPictureInPictureUiStateChanged(pipState)
+    }
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (!isInPictureInPictureMode) {
+            application.startActivity(Intent(this, javaClass)
+                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))
+        }
     }
 
     private fun configureActionBar() {
@@ -350,7 +386,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return Locale.US
     }
 
-    companion object {
+    internal companion object {
         const val KEY_INSTANCE_ID = "InstanceID"
     }
 }

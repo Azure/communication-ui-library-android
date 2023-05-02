@@ -116,6 +116,12 @@ internal class ControlBarView : ConstraintLayout {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isPiPModeFlow.collect {
+                visibility = if (it) View.GONE else View.VISIBLE
+            }
+        }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
@@ -257,22 +263,13 @@ internal class ControlBarView : ConstraintLayout {
         moreButton.setOnClickListener {
 //            viewModel.openMoreMenu()
 
-            var hasPermission = ActivityCompat.checkSelfPermission(context.activity!!, PackageManager.FEATURE_PICTURE_IN_PICTURE) == PackageManager.PERMISSION_GRANTED
-            ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS)
-//            context.activity?.packageManager?.checkPermission(PackageManager.FEATURE_PICTURE_IN_PICTURE, packageName) == PackageManager.PERMISSION_GRANTED
-            hasPermission = hasPermission || ActivityCompat.checkSelfPermission(context.activity!!, PackageManager.FEATURE_EXPANDED_PICTURE_IN_PICTURE) == PackageManager.PERMISSION_GRANTED
-            hasPermission = true
-
-            if (context.activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
-                    && hasPermission) {
+            if (context.activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
                 context.activity?.enterPictureInPictureMode()
             }
             else {
-                context.activity?.moveTaskToBack(true)
+                context.activity?.finish()
             }
-
         }
     }
-
 
 }
