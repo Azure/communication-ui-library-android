@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -35,6 +36,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
+import com.microsoft.fluentui.util.activity
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
@@ -223,7 +225,12 @@ internal class CallingFragment :
     }
 
     override fun onBackPressed() {
-        requestCallEnd()
+        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
+            activity?.enterPictureInPictureMode()
+        }
+        else {
+            activity?.finish()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -6,12 +6,9 @@ package com.azure.android.communication.ui.calling.service
 import android.app.*
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import androidx.core.os.bundleOf
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 
 internal class InCallService : Service() {
@@ -43,8 +40,6 @@ internal class InCallService : Service() {
 
         val notificationIntent = Intent(this, CallCompositeActivity::class.java).apply {
             putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
-            putExtra("fromnotification", true)
-            addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT )
         }
 
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,

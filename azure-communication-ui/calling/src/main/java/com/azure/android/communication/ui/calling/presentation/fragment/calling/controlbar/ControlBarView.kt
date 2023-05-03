@@ -261,14 +261,7 @@ internal class ControlBarView : ConstraintLayout {
             viewModel.openAudioDeviceSelectionMenu()
         }
         moreButton.setOnClickListener {
-//            viewModel.openMoreMenu()
-
-            if (context.activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
-                context.activity?.enterPictureInPictureMode()
-            }
-            else {
-                context.activity?.finish()
-            }
+            viewModel.openMoreMenu()
         }
     }
 

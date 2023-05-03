@@ -227,7 +227,7 @@ public final class CallComposite {
         return debugInfoManager.getDebugInfo();
     }
 
-    public void shawUI(final Context context) {
+    public void showUI(final Context context) {
         showUI(context, false);
     }
 

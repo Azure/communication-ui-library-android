@@ -138,10 +138,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
 
-        store.dispatch(
-                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
-                else LifecycleAction.ExitPiPMode()
-        )
+
 
     }
 
@@ -151,6 +148,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        store.dispatch(
+                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
+                else LifecycleAction.ExitPiPMode()
+        )
     }
 
     override fun onStop() {
@@ -199,10 +205,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
-        if (!isInPictureInPictureMode) {
-            application.startActivity(Intent(this, javaClass)
-                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))
-        }
+//        if (!isInPictureInPictureMode) {
+////            finish()
+//        }
     }
 
     private fun configureActionBar() {
