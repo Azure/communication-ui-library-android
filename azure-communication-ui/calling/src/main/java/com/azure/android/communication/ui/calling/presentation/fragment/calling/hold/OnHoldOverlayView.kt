@@ -92,7 +92,7 @@ internal class OnHoldOverlayView : LinearLayout {
                 if (!it) {
                     snackBar.dismiss()
                 } else {
-                    displaySnackBar()
+                    displayMicInUseSnackbar()
                 }
             }
         }
@@ -107,7 +107,7 @@ internal class OnHoldOverlayView : LinearLayout {
         snackBar.anchorView = null
     }
 
-    private fun displaySnackBar() {
+    private fun displayMicInUseSnackbar() {
         val errorMessage = context.getString(R.string.azure_communication_ui_calling_mic_used)
         if (errorMessage.isBlank()) return
         snackBarTextView.text = errorMessage
