@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 internal class DependencyInjectionContainerHolderFactory(
-        private val callComposite: CallComposite,
+    private val callComposite: CallComposite,
     private val application: Application,
     private val callingSDK: CallingSDK?,
     private val videoStreamRendererFactory: VideoStreamRendererFactory?,
@@ -19,7 +19,7 @@ internal class DependencyInjectionContainerHolderFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DependencyInjectionContainerHolder(
-                callComposite,
+            callComposite,
             application,
             callingSDK,
             videoStreamRendererFactory,

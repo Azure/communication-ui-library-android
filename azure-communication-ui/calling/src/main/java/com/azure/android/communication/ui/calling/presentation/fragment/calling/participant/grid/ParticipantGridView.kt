@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid
 
-import android.app.PictureInPictureParams
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Rect
@@ -22,7 +21,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
-import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -167,11 +165,12 @@ internal class ParticipantGridView : GridLayout {
         })
 
         addOnLayoutChangeListener { _, left, top, right, bottom,
-                                               oldLeft, oldTop, oldRight, oldBottom ->
-            if (left != oldLeft
-                    || right != oldRight
-                    || top != oldTop
-                    || bottom != oldBottom) {
+            oldLeft, oldTop, oldRight, oldBottom ->
+            if (left != oldLeft ||
+                right != oldRight ||
+                top != oldTop ||
+                bottom != oldBottom
+            ) {
                 // The playerView's bounds changed, update the source hint rect to
                 // reflect its new bounds.
                 val sourceRectHint = Rect()

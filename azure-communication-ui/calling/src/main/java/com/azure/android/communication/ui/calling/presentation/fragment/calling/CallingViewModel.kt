@@ -57,7 +57,7 @@ internal class CallingViewModel(
             this::requestCallEnd,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
             moreCallOptionsListViewModel::display,
-                state.lifecycleState.inPipMode,
+            state.lifecycleState.inPipMode,
         )
 
         localParticipantViewModel.init(
@@ -122,7 +122,7 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
             state.callState.callingStatus,
-                state.lifecycleState.inPipMode,
+            state.lifecycleState.inPipMode,
         )
 
         localParticipantViewModel.update(

@@ -40,13 +40,12 @@ import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
-
+import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
-                callComposite,
+            callComposite,
             this@CallCompositeActivity.application,
             TestHelper.callingSDK,
             TestHelper.videoStreamRendererFactory,
@@ -146,8 +145,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
             store.dispatch(
-                    if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
-                    else LifecycleAction.ExitPiPMode()
+                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
+                else LifecycleAction.ExitPiPMode()
             )
         }
     }
@@ -188,8 +187,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onUserLeaveHint() {
-        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
-                && store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL) {
+        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
             val params = PictureInPictureParams
                 .Builder()
                 .setAspectRatio(Rational(1, 1))

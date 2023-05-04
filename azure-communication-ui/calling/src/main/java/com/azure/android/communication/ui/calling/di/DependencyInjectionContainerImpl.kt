@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.getConfig
-import com.azure.android.communication.ui.calling.getDIContainer
 import com.azure.android.communication.ui.calling.getInstanceId
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger

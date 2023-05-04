@@ -4,22 +4,18 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.*
+import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
-import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl
+import com.azure.android.communication.ui.calling.getDIContainer
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
-//import com.azure.android.communication.ui.calling.setDependencyInjectionContainer
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-
-import java.lang.IllegalArgumentException
 
 /**
  * ViewModel for the CallCompositeActivity
@@ -31,8 +27,8 @@ import java.lang.IllegalArgumentException
  * Afterwards you can reference container, which holds the services.
  */
 internal class DependencyInjectionContainerHolder(
-        private val callComposite: CallComposite,
-        application: Application,
+    private val callComposite: CallComposite,
+    application: Application,
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?
@@ -63,7 +59,6 @@ internal class DependencyInjectionContainerHolder(
 
         // Generate a new instance
 
-
 //        callComposite.setDependencyInjectionContainer(container)
 
         return@lazy callComposite.getDIContainer()
@@ -82,7 +77,7 @@ internal class DependencyInjectionContainerHolder(
             CallingViewModelFactory(
                 container.appStore,
                 ParticipantGridCellViewModelFactory(),
-                    application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
+                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager
             ),
             container.networkManager

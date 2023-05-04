@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.service
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
