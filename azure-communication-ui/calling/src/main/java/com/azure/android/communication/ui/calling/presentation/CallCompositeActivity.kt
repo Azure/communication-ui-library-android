@@ -4,19 +4,20 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
+import android.app.PictureInPictureParams
 import android.app.PictureInPictureUiState
-import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Rational
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
-import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -85,13 +86,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             return
         }
 
-
-//        setPictureInPictureParams(PictureInPictureParams.Builder()
-////            .setAspectRatio(1)
-////            .setSourceRectHint(sourceRectHint)
-//            .setAutoEnterEnabled(true)
-//            .build())
-
         lifecycleScope.launch { errorHandler.start() }
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
@@ -137,9 +131,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
-
-
-
     }
 
     override fun onStart() {
@@ -153,10 +144,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        store.dispatch(
-                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
-                else LifecycleAction.ExitPiPMode()
-        )
+        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
+            store.dispatch(
+                    if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
+                    else LifecycleAction.ExitPiPMode()
+            )
+        }
     }
 
     override fun onStop() {
@@ -195,8 +188,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onUserLeaveHint() {
-        if (store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL)
-            enterPictureInPictureMode()
+        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+                && store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            enterPictureInPictureMode(params)
+        }
     }
 
     override fun onPictureInPictureUiStateChanged(pipState: PictureInPictureUiState) {
@@ -205,9 +204,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
-//        if (!isInPictureInPictureMode) {
-////            finish()
-//        }
     }
 
     private fun configureActionBar() {

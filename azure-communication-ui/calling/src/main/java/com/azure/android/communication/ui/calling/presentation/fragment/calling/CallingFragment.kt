@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import android.app.PictureInPictureParams
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -13,6 +14,7 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.LayoutDirection
+import android.util.Rational
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.fragment.app.Fragment
@@ -226,10 +228,14 @@ internal class CallingFragment :
 
     override fun onBackPressed() {
         if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
-            activity?.enterPictureInPictureMode()
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            activity?.enterPictureInPictureMode(params)
         }
         else {
-            activity?.finish()
+            activity?.moveTaskToBack (true)
         }
     }
 

@@ -32,6 +32,9 @@
             android:exported="false"
 
             android:supportsPictureInPicture="true"
+
+            android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
+            android:excludeFromRecents="true"
             />
         <service
             android:name="com.azure.android.communication.ui.calling.service.InCallService"

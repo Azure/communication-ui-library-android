@@ -176,11 +176,6 @@ internal class ParticipantGridView : GridLayout {
                 // reflect its new bounds.
                 val sourceRectHint = Rect()
                 getGlobalVisibleRect(sourceRectHint)
-                context.activity?.setPictureInPictureParams(
-                        PictureInPictureParams.Builder()
-                            .setSourceRectHint(sourceRectHint)
-                            .build()
-                )
             }
         }
     }
