@@ -32,6 +32,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSupportedL
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
@@ -168,10 +169,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
-//            if (isFinishing) {
-//                store.dispatch(CallingAction.CallEndRequested())
-//                CallCompositeInstanceManager.removeCallComposite(instanceId)
-//            }
+            if (isFinishing) {
+                store.dispatch(CallingAction.CallEndRequested())
+                CallCompositeInstanceManager.removeCallComposite(instanceId)
+            }
         }
         super.onDestroy()
     }

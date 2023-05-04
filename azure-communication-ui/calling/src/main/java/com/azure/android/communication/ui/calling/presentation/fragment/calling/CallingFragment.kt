@@ -258,18 +258,6 @@ internal class CallingFragment :
         }
     }
 
-//     fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean,
-//                                               newConfig: Configuration) {
-// //        viewModel.
-// //                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
-// //                else LifecycleAction.ExitPiPMode()
-// //        )
-//    }
-
-    private fun requestCallEnd() {
-        viewModel.requestCallEnd()
-    }
-
     private fun displayParticipantList() {
         viewModel.participantListViewModel.displayParticipantList()
     }
