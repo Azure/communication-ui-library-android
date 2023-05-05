@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
@@ -190,12 +191,12 @@ internal class CallingFragment :
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
-//            if (CallCompositeInstanceManager.hasCallComposite(holder.instanceId)) {
-            // Covers edge case where Android tries to recreate call activity after process death
-            // (e.g. due to revoked permission).
-            // If no configs are detected we can just exit without cleanup.
-            viewModel.bannerViewModel.dismissBanner()
-//            }
+            if (CallCompositeInstanceManager.hasCallComposite(holder.instanceId)) {
+                // Covers edge case where Android tries to recreate call activity after process death
+                // (e.g. due to revoked permission).
+                // If no configs are detected we can just exit without cleanup.
+                viewModel.bannerViewModel.dismissBanner()
+            }
         }
         if (this::localParticipantView.isInitialized) localParticipantView.stop()
         if (this::participantListView.isInitialized) participantListView.stop()
