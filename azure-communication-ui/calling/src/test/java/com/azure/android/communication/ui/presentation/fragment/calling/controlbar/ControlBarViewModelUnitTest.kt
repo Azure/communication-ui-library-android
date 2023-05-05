@@ -134,6 +134,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
+                    isPiPMode = false,
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -160,12 +161,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraState,
                 audioState1,
                 CallingStatus.CONNECTED,
+                    isPiPMode = false,
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
                 audioState2,
                 CallingStatus.CONNECTED,
+                    isPiPMode = false,
             )
 
             // assert
@@ -225,6 +228,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
+                    isPiPMode = false,
             )
 
             val flowJob = launch {
@@ -242,6 +246,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
+                    isPiPMode = false,
             )
             callingViewModel.update(
                 permissionState2,
@@ -252,6 +257,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
+                    isPiPMode = false,
             )
 
             // assert
@@ -320,6 +326,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
+                    isPiPMode = false,
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
@@ -337,6 +344,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
+                    isPiPMode = false,
             )
             callingViewModel.update(
                 permissionState,
@@ -347,6 +355,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
+                    isPiPMode = false,
             )
 
             // assert
@@ -408,6 +417,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
+                    isPiPMode = false,
             )
 
             val resultListFromOnHoldCallStatusStateFlow = mutableListOf<Boolean>()
@@ -425,6 +435,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
+                    isPiPMode = false,
             )
             callingViewModel.update(
                 permissionState,
@@ -435,6 +446,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.LOCAL_HOLD,
+                    isPiPMode = false,
             )
 
             // assert
