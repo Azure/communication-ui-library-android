@@ -26,10 +26,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarView
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class SetupFragment :
-    Fragment(R.layout.azure_communication_ui_calling_fragment_setup), BackNavigation {
+    Fragment(R.layout.azure_communication_ui_calling_fragment_setup) {
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
@@ -108,10 +107,6 @@ internal class SetupFragment :
         super.onDestroy()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
-    }
-
-    override fun onBackPressed() {
-        viewModel.exitComposite()
     }
 
     val callCompositeActivity

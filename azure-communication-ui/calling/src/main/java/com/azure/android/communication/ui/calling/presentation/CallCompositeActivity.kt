@@ -18,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -30,7 +31,6 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
@@ -128,6 +128,16 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(1000) {
+                onNavigationBack()
+            }
+        }
+
+        onBackPressedDispatcher.addCallback {
+            onNavigationBack()
+        }
     }
 
     override fun onStart() {
@@ -261,15 +271,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.firstOrNull()
-        if (fragment !== null) {
-            (fragment as BackNavigation).onBackPressed()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     @SuppressLint("SourceLockedOrientationActivity", "RestrictedApi")
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
@@ -290,7 +291,11 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                requestedOrientation = if (isAndroidTV(this)) {
+                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_USER
+                }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
@@ -386,6 +391,26 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return Locale.US
+    }
+
+    private fun onNavigationBack() {
+        if (store.getCurrentState().navigationState.navigationState == NavigationStatus.SETUP) {
+            // double check here if we need both the action to execute
+            store.dispatch(action = CallingAction.CallEndRequested())
+            store.dispatch(action = NavigationAction.Exit())
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            val enteredPiPSucceeded = activity?.enterPictureInPictureMode(params)
+            if (enteredPiPSucceeded == false)
+                activity?.moveTaskToBack(true)
+        } else {
+            activity?.moveTaskToBack(true)
+        }
     }
 
     internal companion object {

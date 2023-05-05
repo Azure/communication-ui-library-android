@@ -3,18 +3,14 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-import android.app.PictureInPictureParams
 import android.content.Context
-import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.LayoutDirection
-import android.util.Rational
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.fragment.app.Fragment
@@ -36,11 +32,10 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.microsoft.fluentui.util.activity
 
 internal class CallingFragment :
-    Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
+    Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
     companion object {
         private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
@@ -222,22 +217,6 @@ internal class CallingFragment :
                     wakeLock.release()
                 }
             }
-        }
-    }
-
-    override fun onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
-        ) {
-            val params = PictureInPictureParams
-                .Builder()
-                .setAspectRatio(Rational(1, 1))
-                .build()
-            val enteredPiPSucceeded = activity?.enterPictureInPictureMode(params)
-            if (enteredPiPSucceeded == false)
-                activity?.moveTaskToBack(true)
-        } else {
-            activity?.moveTaskToBack(true)
         }
     }
 
