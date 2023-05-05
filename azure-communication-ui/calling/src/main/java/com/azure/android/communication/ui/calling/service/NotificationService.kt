@@ -38,7 +38,7 @@ internal class NotificationService(
 
     private fun displayNotification() {
         val inCallServiceIntent = Intent(context.applicationContext, InCallService::class.java)
-        context.applicationContext.startForegroundService(inCallServiceIntent)
+        context.applicationContext.startService(inCallServiceIntent)
     }
 
     fun removeNotification() {

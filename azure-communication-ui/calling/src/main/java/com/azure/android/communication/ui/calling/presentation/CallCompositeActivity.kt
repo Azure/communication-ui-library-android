@@ -141,7 +141,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
             store.dispatch(
                 if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
                 else LifecycleAction.ExitPiPMode()
@@ -185,7 +187,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onUserLeaveHint() {
-        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
             store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
         ) {
             val params = PictureInPictureParams

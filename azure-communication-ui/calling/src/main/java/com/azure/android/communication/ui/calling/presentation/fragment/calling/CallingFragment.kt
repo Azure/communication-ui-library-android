@@ -10,6 +10,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.LayoutDirection
@@ -225,7 +226,9 @@ internal class CallingFragment :
     }
 
     override fun onBackPressed() {
-        if (activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
             val params = PictureInPictureParams
                 .Builder()
                 .setAspectRatio(Rational(1, 1))
