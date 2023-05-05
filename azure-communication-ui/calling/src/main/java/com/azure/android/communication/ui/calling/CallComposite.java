@@ -23,13 +23,12 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetPartici
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
-import com.azure.android.communication.ui.calling.redux.action.CallingAction;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
-import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDependencyInjectionContainer;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
+import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 /**
@@ -58,7 +57,7 @@ public final class CallComposite {
     private final int instanceId = instanceIdCounter++;
 
     private final CallCompositeConfiguration configuration;
-    private DependencyInjectionContainer diContainer;
+    private WeakReference<DependencyInjectionContainer> diContainer;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -124,11 +123,6 @@ public final class CallComposite {
                        final CallCompositeLocalOptions localOptions) {
 
         launchComposite(context, remoteOptions, localOptions, false);
-    }
-
-    public void exit() {
-        diContainer.getAppStore().dispatch(new CallingAction.CallEndRequested());
-        CallCompositeInstanceManager.removeCallComposite(instanceId);
     }
 
     /**
@@ -231,17 +225,16 @@ public final class CallComposite {
         showUI(context, false);
     }
 
-    DependencyInjectionContainer getDependencyInjectionContainer() {
-        return this.diContainer;
-    }
-
-    int getInstanceId() {
-        return instanceId;
+    void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
+        this.diContainer = new WeakReference<>(diContainer);
     }
 
     private DebugInfoManager getDebugInfoManager(final Context context) {
         if (diContainer != null) {
-            return diContainer.getDebugInfoManager();
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                return container.getDebugInfoManager();
+            }
         }
         return createDebugInfoManager(context.getApplicationContext());
     }
@@ -275,10 +268,6 @@ public final class CallComposite {
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
         }
-
-        diContainer = createDependencyInjectionContainer(this, context.getApplicationContext(),
-                null, null, null
-                );
 
         showUI(context, isTest);
     }

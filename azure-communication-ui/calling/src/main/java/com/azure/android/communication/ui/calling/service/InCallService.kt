@@ -24,14 +24,13 @@ internal class InCallService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        val instanceId = intent?.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, -1) ?: -1
-        startInCallNotification(instanceId)
+        startInCallNotification()
         return START_NOT_STICKY
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        stopSelf()
+        if (rootIntent?.component?.className == CallCompositeActivity::class.java.name)
+            stopSelf()
         super.onTaskRemoved(rootIntent)
     }
 
@@ -40,16 +39,11 @@ internal class InCallService : Service() {
         createInCallNotificationChannel()
     }
 
-    private fun startInCallNotification(instanceId: Int) {
-
-        val notificationIntent = Intent(this, CallCompositeActivity::class.java).apply {
-            putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
-        }
-
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0, notificationIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+    private fun startInCallNotification() {
+        val pendingIntent: PendingIntent =
+            Intent(this, CallCompositeActivity::class.java).let { notificationIntent ->
+                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
+            }
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
             .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))

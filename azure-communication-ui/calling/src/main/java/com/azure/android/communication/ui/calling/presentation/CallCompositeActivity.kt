@@ -26,7 +26,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
@@ -46,14 +45,12 @@ import java.util.Locale
 internal class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
-            callComposite,
             this@CallCompositeActivity.application,
             TestHelper.callingSDK,
             TestHelper.videoStreamRendererFactory,
             TestHelper.coroutineContextProvider
         )
     }
-    private lateinit var callComposite: CallComposite
     private val container by lazy { diContainerHolder.container }
 
     private val navigationRouter get() = container.navigationRouter
@@ -80,7 +77,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         // Assign the Dependency Injection Container the appropriate instanceId,
         // so it can initialize it's container holding the dependencies
         try {
-            callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
+            diContainerHolder.instanceId = instanceId
         } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
