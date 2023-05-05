@@ -116,7 +116,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             )
 
             val newBackgroundState = AppReduxState("", false, false)
-            newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND,false)
+            newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND, false)
             newBackgroundState.localParticipantState = getLocalUserState()
 
             // act
@@ -132,7 +132,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                    any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(1)).update(
                 any(), any(), any(), any(), any(), any(), any()
@@ -159,7 +159,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -220,7 +220,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                    any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any()
@@ -248,7 +248,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -317,7 +317,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                    any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any()
@@ -344,7 +344,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -407,7 +407,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                    any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any()
