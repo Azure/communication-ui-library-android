@@ -7,4 +7,5 @@ import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 
 internal sealed class ParticipantAction : Action {
     class ListUpdated(val participantMap: Map<String, ParticipantInfoModel>) : ParticipantAction()
+    class DominantSpeakersUpdated(val dominantSpeakersInfo: List<String>) : ParticipantAction()
 }

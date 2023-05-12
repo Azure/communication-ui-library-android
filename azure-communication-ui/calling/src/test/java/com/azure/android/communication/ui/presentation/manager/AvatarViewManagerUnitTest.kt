@@ -182,12 +182,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -242,12 +243,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -302,12 +304,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -371,12 +374,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -455,12 +459,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -530,12 +535,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -625,12 +631,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                     StreamType.SCREEN_SHARING
                                 ),
                                 modifiedTimestamp = 456,
-                                speakingTimestamp = 567,
                                 participantStatus = ParticipantStatus.HOLD,
                             )
                         )
                     ),
-                    123
+                    123,
+                    listOf(),
+                    0
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
