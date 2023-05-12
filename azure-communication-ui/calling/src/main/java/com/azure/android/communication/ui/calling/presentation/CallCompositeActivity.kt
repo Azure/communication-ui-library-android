@@ -14,7 +14,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -27,6 +26,7 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
+import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
@@ -59,12 +59,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
+    private val callStateHandler get() = container.callStateHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
+    private val compositeManager get() = container.compositeExitManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,12 +126,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        }
+        callStateHandler.start(lifecycleScope)
     }
 
     override fun onStart() {
@@ -159,6 +156,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.onDestroy()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
+                compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
@@ -226,6 +224,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             permissionManager.setAudioPermissionsState()
+        }
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.fragments.firstOrNull()
+        if (fragment !== null) {
+            (fragment as BackNavigation).onBackPressed()
+        } else {
+            super.onBackPressed()
         }
     }
 
