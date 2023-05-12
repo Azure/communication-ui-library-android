@@ -14,10 +14,10 @@ internal class LifecycleReducerImpl : LifecycleReducer {
     override fun reduce(state: LifecycleState, action: Action): LifecycleState {
         return when (action) {
             is LifecycleAction.EnterBackgroundSucceeded -> {
-                LifecycleState(LifecycleStatus.BACKGROUND)
+                state.copy(state = LifecycleStatus.BACKGROUND)
             }
             is LifecycleAction.EnterForegroundSucceeded -> {
-                LifecycleState(LifecycleStatus.FOREGROUND)
+                state.copy(state = LifecycleStatus.FOREGROUND)
             }
             else -> state
         }

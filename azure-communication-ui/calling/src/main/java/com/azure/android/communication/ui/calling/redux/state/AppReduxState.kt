@@ -12,7 +12,10 @@ internal class AppReduxState(
     override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
-        HashMap(), 0
+        participantMap = HashMap(),
+        participantMapModifiedTimestamp = 0,
+        dominantSpeakersInfo = emptyList(),
+        dominantSpeakersModifiedTimestamp = 0,
     )
 
     override var localParticipantState: LocalUserState =
