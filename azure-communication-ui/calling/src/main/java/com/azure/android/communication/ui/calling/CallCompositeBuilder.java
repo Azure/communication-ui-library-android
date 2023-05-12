@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling;
 
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
+import com.azure.android.communication.ui.calling.models.CallCompositeVideoEffectOptions;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -16,6 +17,7 @@ public final class CallCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
+    private CallCompositeVideoEffectOptions videoEffectConfig = null;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -40,6 +42,17 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * Sets an optional video effect for call-composite to use by {@link CallComposite}
+     *
+     * @param videoEffectOption {@link CallCompositeVideoEffectOptions}.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder videoEffectOption(final CallCompositeVideoEffectOptions videoEffectOption) {
+        this.videoEffectConfig = videoEffectOption;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
@@ -48,6 +61,7 @@ public final class CallCompositeBuilder {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
         config.setLocalizationConfig(localizationConfig);
+        config.setVideoEffectConfig(videoEffectConfig);
         return new CallComposite(config);
     }
 }

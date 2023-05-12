@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
 import com.azure.android.communication.calling.AudioOptions
+import com.azure.android.communication.calling.BackgroundBlurEffect
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
@@ -12,6 +13,7 @@ import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
+import com.azure.android.communication.calling.Features
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.HangUpOptions
@@ -19,11 +21,13 @@ import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
+import com.azure.android.communication.calling.VideoEffectsLocalVideoStreamFeature
 import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeVideoEffectOptions
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -42,6 +46,7 @@ internal class CallingSDKWrapper(
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
+    private val videoEffectOption: CallCompositeVideoEffectOptions?,
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -55,6 +60,9 @@ internal class CallingSDKWrapper(
 
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
     private var camerasCountStateFlow = MutableStateFlow(0)
+
+    private var videoEffectsFeature: VideoEffectsLocalVideoStreamFeature? = null
+    // private val backgroundBlurEffect: BackgroundBlurEffect? = BackgroundBlurEffect()
 
     private val callConfig: CallConfiguration
         get() {
@@ -132,7 +140,10 @@ internal class CallingSDKWrapper(
             // We can't access the call currently, return a no-op and exit
             return CompletableFuture.runAsync { }
         }
-
+        /*if (videoEffectsFeature != null) {
+            videoEffectsFeature?.disableEffect(backgroundBlurEffect)
+            videoEffectsFeature = null
+        }*/
         callingSDKEventHandler.onEndCall()
         endCallCompletableFuture = call.hangUp(HangUpOptions())
         return endCallCompletableFuture!!
@@ -178,11 +189,19 @@ internal class CallingSDKWrapper(
             // if camera on is in progress, the waiting will make sure for starting call with right state
             if (camerasCountStateFlow.value != 0 && cameraState.operation != CameraOperationalStatus.OFF) {
                 getLocalVideoStream().whenComplete { videoStream, error ->
+                    if (videoEffectOption?.isVideoEffectOn == true) {
+                        if (videoEffectsFeature == null) {
+                            videoEffectsFeature = (videoStream.native as NativeLocalVideoStream)
+                                .feature(Features.VIDEO_EFFECTS)
+                        }
+                        videoEffectsFeature?.enableEffect(BackgroundBlurEffect())
+                    }
                     if (error == null) {
                         val localVideoStreams =
                             arrayOf(videoStream.native as NativeLocalVideoStream)
                         videoOptions = VideoOptions(localVideoStreams)
                     }
+
                     joinCall(agent, audioOptions, videoOptions, callLocator)
                 }.exceptionally { error ->
                     onJoinCallFailed(startCallCompletableFuture, error)
@@ -206,6 +225,13 @@ internal class CallingSDKWrapper(
             .thenCompose { videoStream: LocalVideoStream ->
                 call.startVideo(context, videoStream.native as NativeLocalVideoStream)
                     .whenComplete { _, error: Throwable? ->
+                        /*if (videoEffectOption?.isVideoEffectOn == true) {
+                            if (videoEffectsFeature == null) {
+                                videoEffectsFeature = (videoStream.native as NativeLocalVideoStream)
+                                    .feature(Features.VIDEO_EFFECTS)
+                            }
+                            videoEffectsFeature?.enableEffect(backgroundBlurEffect)
+                        }*/
                         if (error != null) {
                             result.completeExceptionally(error)
                         } else {

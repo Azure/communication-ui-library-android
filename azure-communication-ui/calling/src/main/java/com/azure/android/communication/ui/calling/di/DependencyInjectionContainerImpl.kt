@@ -239,7 +239,8 @@ internal class DependencyInjectionContainerImpl(
             ?: CallingSDKWrapper(
                 applicationContext,
                 callingSDKEventHandler,
-                configuration.callConfig
+                configuration.callConfig,
+                videoEffectOption = configuration.videoEffectConfig,
             )
     }
 
