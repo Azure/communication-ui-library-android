@@ -1,5 +1,11 @@
 # Azure Communication UI Calling Release History
 
+
+## 1.4.0-beta.1 (2023-04-26)
+
+### Features
+- Use Dominant Speakers feature to determine which remove participants to display on the grid when number of participants more then 6.
+
 ## 1.3.0 (2023-04-06)
 
 ### Features

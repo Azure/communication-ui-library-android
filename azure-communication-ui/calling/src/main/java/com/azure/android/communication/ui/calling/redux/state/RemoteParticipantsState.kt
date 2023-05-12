@@ -7,5 +7,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 
 internal data class RemoteParticipantsState(
     val participantMap: Map<String, ParticipantInfoModel>,
-    val modifiedTimestamp: Number,
+    val participantMapModifiedTimestamp: Number,
+    val dominantSpeakersInfo: List<String>,
+    val dominantSpeakersModifiedTimestamp: Number,
 )

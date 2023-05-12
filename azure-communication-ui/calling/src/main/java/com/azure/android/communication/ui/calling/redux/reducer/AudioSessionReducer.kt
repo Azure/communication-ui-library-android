@@ -15,16 +15,16 @@ internal class AudioSessionStateReducerImpl :
     override fun reduce(state: AudioSessionState, action: Action): AudioSessionState {
         return when (action) {
             is AudioSessionAction.AudioFocusApproved -> {
-                AudioSessionState(AudioFocusStatus.APPROVED)
+                state.copy(audioFocusStatus = AudioFocusStatus.APPROVED)
             }
             is AudioSessionAction.AudioFocusRejected -> {
-                AudioSessionState(AudioFocusStatus.REJECTED)
+                state.copy(audioFocusStatus = AudioFocusStatus.REJECTED)
             }
             is AudioSessionAction.AudioFocusInterrupted -> {
-                AudioSessionState(AudioFocusStatus.INTERRUPTED)
+                state.copy(audioFocusStatus = AudioFocusStatus.INTERRUPTED)
             }
             is AudioSessionAction.AudioFocusRequesting -> {
-                AudioSessionState(AudioFocusStatus.REQUESTING)
+                state.copy(audioFocusStatus = AudioFocusStatus.REQUESTING)
             }
             else -> state
         }
