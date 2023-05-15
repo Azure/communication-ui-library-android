@@ -127,7 +127,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
         callStateHandler.start(lifecycleScope)
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
                 onBackPressedDispatcher.onBackPressed()
