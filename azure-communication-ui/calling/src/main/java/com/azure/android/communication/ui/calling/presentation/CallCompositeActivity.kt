@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -26,7 +27,6 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
@@ -127,6 +127,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
         callStateHandler.start(lifecycleScope)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 
     override fun onStart() {
@@ -224,15 +230,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             permissionManager.setAudioPermissionsState()
-        }
-    }
-
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.firstOrNull()
-        if (fragment !== null) {
-            (fragment as BackNavigation).onBackPressed()
-        } else {
-            super.onBackPressed()
         }
     }
 
