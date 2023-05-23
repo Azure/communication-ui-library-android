@@ -371,7 +371,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 return ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
-        Log.d("Mohtasim", "orientation: $orientation")
         return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
