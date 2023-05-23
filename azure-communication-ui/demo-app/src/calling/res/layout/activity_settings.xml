@@ -90,6 +90,50 @@
             android:layout_marginTop="@dimen/azure_communication_ui_calling_inner_space_padding"
             />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/call_screen_orientation_adapter_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/call_screen_orientation_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/call_screen_orientation_dropdown_hint"
+                android:inputType="none"
+                android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+                android:paddingBottom="@dimen/azure_communication_ui_calling_fab_margin"
+                android:text="@string/language_default_selection"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/setup_screen_orientation_adapter_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/setup_screen_orientation_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/setup_screen_orientation_dropdown_hint"
+                android:inputType="none"
+                android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+                android:paddingBottom="@dimen/azure_communication_ui_calling_fab_margin"
+                android:text="@string/language_default_selection"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/callSellingAvatarInjection"
             android:layout_width="match_parent"

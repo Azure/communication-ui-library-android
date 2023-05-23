@@ -4,19 +4,13 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.calling.models.*
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import java.util.UUID
@@ -74,9 +68,15 @@ class CallLauncherViewModel : ViewModel() {
 
         val selectedLanguage = SettingsFeatures.language()
         val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
+        val selectedCallScreenOrientation = SettingsFeatures.callScreenOrientation()
+        val callScreenOrientation = selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
+        val selectedSetupScreenOrientation = SettingsFeatures.setupScreenOrientation()
+        val setupScreenOrientation = selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
 
         val callCompositeBuilder = CallCompositeBuilder()
             .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
+            .setSetupScreenOrientation(setupScreenOrientation)
+            .setCallScreenOrientation(callScreenOrientation)
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
