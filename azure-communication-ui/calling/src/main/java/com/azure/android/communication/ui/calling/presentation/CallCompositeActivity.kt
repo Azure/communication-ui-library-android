@@ -59,12 +59,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
+    private val callStateHandler get() = container.callStateHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
+    private val compositeManager get() = container.compositeExitManager
+    private val callingSDKWrapper get() = container.callingSDKWrapper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +127,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+        callStateHandler.start(lifecycleScope)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
@@ -159,6 +163,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.onDestroy()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
+                notificationService.removeNotification()
+                callingSDKWrapper.dispose()
+                compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }

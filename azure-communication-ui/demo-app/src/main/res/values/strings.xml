@@ -10,7 +10,7 @@
     <string name="identity_hint">Identity</string>
     <string name="group_call_label">Group call</string>
     <string name="teams_meeting_label">Teams meeting</string>
-    <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link</string>
+    <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link or Room Id</string>
     <string name="chat_thread_id_hint">Chat Thread ID</string>
     <string name="endpoint_url_hint">Endpoint</string>
     <string name="kotlin">Kotlin</string>
@@ -30,7 +30,10 @@
     <string name="language_setting_label">Language Settings</string>
     <string name="call_setting_label">Call Settings</string>
     <string name="chat_setting_label">Chat Settings</string>
+    <string name="exit_composite_button_text">Exit Composite</string>
     <string name="is_rtl_check_box_label">isRTL</string>
+    <string name="is_exit_composite_button_check_box_label">Show Exit Composite Button</string>
+    <string name="launch_on_end_composite_success">Re-launch composite on end composite callback</string>
     <string name="language_dropdown_hint">Language</string>
     <string name="language_default_selection">ENGLISH</string>
     <string name="version">version:</string>
@@ -41,6 +44,9 @@
     <string name="remote_participant_inject_avatar">Inject avatar\'s</string>
     <string name="call_title">Call title</string>
     <string name="call_subtitle">Call subtitle</string>
+    <string name="rooms_meeting_label">Rooms Meeting</string>
+    <string name="rooms_attendee">Attendee</string>
+    <string name="rooms_presenter">Presenter</string>
     <string name="skip_setup_screen_option">Skip Setup Screen Option</string>
     <string name="skip_setup_screen">Skip Setup Screen</string>
     <string name="call_control_option">Default Call Control Option</string>
