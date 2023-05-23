@@ -17,10 +17,8 @@ public final class CallCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
-    private CallCompositeSupportedScreenOrientation callScreenOrientation =
-            CallCompositeSupportedScreenOrientation.USER;
-    private CallCompositeSupportedScreenOrientation setupScreenOrientation =
-            CallCompositeSupportedScreenOrientation.PORTRAIT;
+    private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
+    private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
