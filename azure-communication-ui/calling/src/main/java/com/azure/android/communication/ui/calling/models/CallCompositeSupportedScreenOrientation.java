@@ -3,22 +3,53 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import android.content.pm.ActivityInfo;
+import com.azure.android.core.util.ExpandableStringEnum;
 
-public enum CallCompositeSupportedScreenOrientation {
-    PORTRAIT(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT),
-    LANDSCAPE(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE),
-    REVERSE_LANDSCAPE(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE),
-    FULL_SENSOR(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR),
-    USER(ActivityInfo.SCREEN_ORIENTATION_USER);
+import java.util.Collection;
 
-    private final Integer screenOrientation;
+public class CallCompositeSupportedScreenOrientation
+        extends ExpandableStringEnum<CallCompositeSupportedScreenOrientation> {
 
-    CallCompositeSupportedScreenOrientation(final int screenOrientation) {
-        this.screenOrientation = screenOrientation;
+    /**
+     * To be used when screen needs to be set in portrait mode only.
+     */
+    public static final CallCompositeSupportedScreenOrientation PORTRAIT =
+            fromString("PORTRAIT");
+    /**
+     * To be used when screen needs to be set in landscape mode only.
+     */
+    public static final CallCompositeSupportedScreenOrientation LANDSCAPE =
+            fromString("LANDSCAPE");
+    /**
+     * To be used when screen needs to be set in reverse landscape only.
+     */
+    public static final CallCompositeSupportedScreenOrientation REVERSE_LANDSCAPE =
+            fromString("REVERSE_LANDSCAPE");
+    /**
+     * To be used when screen needs to be set in full sensor.
+     */
+    public static final CallCompositeSupportedScreenOrientation FULL_SENSOR =
+            fromString("FULL_SENSOR");
+    /**
+     * To be used when screen needs to be set as per user orientation of the handset.
+     */
+    public static final CallCompositeSupportedScreenOrientation USER =
+            fromString("USER");
+
+    /**
+     * Creates or finds a {@link CallCompositeSupportedScreenOrientation} from its string representation.
+     *
+     * @param name a name to look for.
+     * @return the corresponding CallCompositeSupportedScreenOrientation.
+     */
+    public static CallCompositeSupportedScreenOrientation fromString(final String name) {
+        return fromString(name, CallCompositeSupportedScreenOrientation.class);
     }
 
-    public int getSupportedScreenOrientation() {
-        return this.screenOrientation;
+    /**
+     * @return known {@link CallCompositeSupportedScreenOrientation} values.
+     */
+    public static Collection<CallCompositeSupportedScreenOrientation> values() {
+        return values(CallCompositeSupportedScreenOrientation.class);
     }
 }

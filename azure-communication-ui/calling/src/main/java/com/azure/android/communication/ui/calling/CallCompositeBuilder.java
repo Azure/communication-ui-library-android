@@ -44,12 +44,24 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /***
+     * Sets an optional orientation for call screen of the call-composite
+     *
+     * @param callScreenOrientation {@link CallCompositeSupportedScreenOrientation}
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
     public CallCompositeBuilder callScreenOrientation(
             final CallCompositeSupportedScreenOrientation callScreenOrientation) {
         this.callScreenOrientation = callScreenOrientation;
         return this;
     }
 
+    /***
+     * Sets an optional orientation for setup screen of the call-composite
+     *
+     * @param setupScreenOrientation {@link CallCompositeSupportedScreenOrientation}
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
     public CallCompositeBuilder setupScreenOrientation(
             final CallCompositeSupportedScreenOrientation setupScreenOrientation) {
         this.setupScreenOrientation = setupScreenOrientation;

@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -25,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -259,7 +261,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 requestedOrientation = if (isAndroidTV(this)) {
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
-                    configuration.callScreenOrientation.supportedScreenOrientation
+                    supportedOrientation(configuration.callScreenOrientation)
                 }
                 launchFragment(CallingFragment::class.java.name)
             }
@@ -269,7 +271,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 requestedOrientation = if (isAndroidTV(this)) {
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
-                    configuration.setupScreenOrientation.supportedScreenOrientation
+                    supportedOrientation(configuration.setupScreenOrientation)
                 }
                 launchFragment(SetupFragment::class.java.name)
             }
@@ -354,6 +356,23 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return Locale.US
+    }
+
+    private fun supportedOrientation(orientation: CallCompositeSupportedScreenOrientation): Int {
+        when (orientation) {
+            CallCompositeSupportedScreenOrientation.PORTRAIT ->
+                return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            CallCompositeSupportedScreenOrientation.LANDSCAPE ->
+                return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            CallCompositeSupportedScreenOrientation.REVERSE_LANDSCAPE ->
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+            CallCompositeSupportedScreenOrientation.USER ->
+                return ActivityInfo.SCREEN_ORIENTATION_USER
+            CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
+                return ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        }
+        Log.d("Mohtasim", "orientation: $orientation")
+        return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     companion object {

@@ -43,8 +43,6 @@ class SettingsFeatures {
     companion object {
         private lateinit var sharedPrefs: SharedPreferences
         private val defaultLocaleString = Gson().toJson(Locale.US)
-        private val defaultOrientationString = Gson()
-            .toJson(CallCompositeSupportedScreenOrientation.PORTRAIT)
 
         @JvmStatic
         fun initialize(context: Context) {
@@ -77,9 +75,7 @@ class SettingsFeatures {
 
         @JvmStatic
         fun orientation(orientationDisplayName: String): CallCompositeSupportedScreenOrientation {
-            val orientationString = sharedPrefs.getString(orientationDisplayName, defaultOrientationString)
-            return GsonBuilder().create()
-                .fromJson(orientationString, CallCompositeSupportedScreenOrientation::class.java)
+            return CallCompositeSupportedScreenOrientation.fromString(orientationDisplayName)
         }
 
         @JvmStatic
@@ -92,9 +88,7 @@ class SettingsFeatures {
 
         @JvmStatic
         fun displayOrientationName(orientation: CallCompositeSupportedScreenOrientation): String {
-            val displayName = orientation.name
-            val orientationString = Gson().toJson(orientation)
-            sharedPrefs.edit().putString(displayName, orientationString).apply()
+            val displayName = orientation.toString()
             return displayName
         }
 
