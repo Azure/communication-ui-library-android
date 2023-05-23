@@ -9,7 +9,8 @@ public enum CallCompositeSupportedScreenOrientation {
     PORTRAIT(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT),
     LANDSCAPE(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE),
     REVERSE_LANDSCAPE(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE),
-    ACS_DEFAULT(ActivityInfo.SCREEN_ORIENTATION_USER);
+    FULL_SENSOR(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR),
+    USER(ActivityInfo.SCREEN_ORIENTATION_USER);
 
     private final Integer screenOrientation;
 

@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
@@ -30,6 +31,7 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
+import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -247,13 +249,21 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                requestedOrientation = configuration.callScreenOrientation!!.supportedScreenOrientation
+                requestedOrientation = if (isAndroidTV(this)) {
+                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                } else {
+                    configuration.callScreenOrientation.supportedScreenOrientation
+                }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                requestedOrientation = configuration.setupScreenOrientation!!.supportedScreenOrientation
+                requestedOrientation = if (isAndroidTV(this)) {
+                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                } else {
+                    configuration.setupScreenOrientation.supportedScreenOrientation
+                }
                 launchFragment(SetupFragment::class.java.name)
             }
             else -> {}

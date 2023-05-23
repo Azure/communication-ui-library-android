@@ -15,6 +15,6 @@ internal class CallCompositeConfiguration {
     var callConfig: CallConfiguration? = null
     var callCompositeLocalOptions: CallCompositeLocalOptions? = null
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-    var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
-    var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
+    lateinit var callScreenOrientation: CallCompositeSupportedScreenOrientation
+    lateinit var setupScreenOrientation: CallCompositeSupportedScreenOrientation
 }

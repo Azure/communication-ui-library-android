@@ -81,8 +81,8 @@ class CallLauncherViewModel : ViewModel() {
 
         val callCompositeBuilder = CallCompositeBuilder()
             .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
-            .setSetupScreenOrientation(setupScreenOrientation)
-            .setCallScreenOrientation(callScreenOrientation)
+            .setupScreenOrientation(setupScreenOrientation)
+            .callScreenOrientation(callScreenOrientation)
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)

@@ -18,7 +18,7 @@ public final class CallCompositeBuilder {
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
     private CallCompositeSupportedScreenOrientation callScreenOrientation =
-            CallCompositeSupportedScreenOrientation.ACS_DEFAULT;
+            CallCompositeSupportedScreenOrientation.USER;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation =
             CallCompositeSupportedScreenOrientation.PORTRAIT;
 
@@ -44,13 +44,13 @@ public final class CallCompositeBuilder {
         return this;
     }
 
-    public CallCompositeBuilder setCallScreenOrientation(
+    public CallCompositeBuilder callScreenOrientation(
             final CallCompositeSupportedScreenOrientation callScreenOrientation) {
         this.callScreenOrientation = callScreenOrientation;
         return this;
     }
 
-    public CallCompositeBuilder setSetupScreenOrientation(
+    public CallCompositeBuilder setupScreenOrientation(
             final CallCompositeSupportedScreenOrientation setupScreenOrientation) {
         this.setupScreenOrientation = setupScreenOrientation;
         return this;
