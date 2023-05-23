@@ -259,7 +259,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 requestedOrientation = if (isAndroidTV(this)) {
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
-                    ActivityInfo.SCREEN_ORIENTATION_USER
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 }
                 launchFragment(CallingFragment::class.java.name)
             }
