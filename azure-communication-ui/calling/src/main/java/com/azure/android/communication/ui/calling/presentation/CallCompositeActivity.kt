@@ -25,6 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -252,7 +253,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 requestedOrientation = if (isAndroidTV(this)) {
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
-                    ActivityInfo.SCREEN_ORIENTATION_USER
+                    supportedOrientation(configuration.callScreenOrientation, navigationState)
                 }
                 launchFragment(CallingFragment::class.java.name)
             }
@@ -260,12 +261,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 notificationService.removeNotification()
                 supportActionBar?.show()
                 requestedOrientation = if (isAndroidTV(this)) {
-
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    supportedOrientation(configuration.setupScreenOrientation, navigationState)
                 }
-
                 launchFragment(SetupFragment::class.java.name)
             }
             else -> {}
@@ -349,6 +348,26 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return Locale.US
+    }
+
+    private fun supportedOrientation(orientation: CallCompositeSupportedScreenOrientation?, screen: NavigationStatus): Int {
+        when (orientation) {
+            CallCompositeSupportedScreenOrientation.PORTRAIT ->
+                return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            CallCompositeSupportedScreenOrientation.LANDSCAPE ->
+                return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            CallCompositeSupportedScreenOrientation.REVERSE_LANDSCAPE ->
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+            CallCompositeSupportedScreenOrientation.USER ->
+                return ActivityInfo.SCREEN_ORIENTATION_USER
+            CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
+                return ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        }
+        return if (screen == NavigationStatus.SETUP) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_USER
+        }
     }
 
     companion object {
