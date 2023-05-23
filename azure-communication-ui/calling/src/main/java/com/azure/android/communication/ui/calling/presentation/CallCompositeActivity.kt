@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -253,7 +254,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 requestedOrientation = if (isAndroidTV(this)) {
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
-                    supportedOrientation(configuration.callScreenOrientation, navigationState)
+                    supportedOrientation(configuration.callScreenOrientation)
                 }
                 launchFragment(CallingFragment::class.java.name)
             }
@@ -263,7 +264,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 requestedOrientation = if (isAndroidTV(this)) {
                     ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                 } else {
-                    supportedOrientation(configuration.setupScreenOrientation, navigationState)
+                    supportedOrientation(configuration.setupScreenOrientation)
                 }
                 launchFragment(SetupFragment::class.java.name)
             }
@@ -350,7 +351,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return Locale.US
     }
 
-    private fun supportedOrientation(orientation: CallCompositeSupportedScreenOrientation?, screen: NavigationStatus): Int {
+    private fun supportedOrientation(orientation: CallCompositeSupportedScreenOrientation): Int {
         when (orientation) {
             CallCompositeSupportedScreenOrientation.PORTRAIT ->
                 return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -363,11 +364,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 return ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
-        return if (screen == NavigationStatus.SETUP) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_USER
-        }
+        Log.d("Mohtasim", "orientation: $orientation")
+        return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     companion object {
