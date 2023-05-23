@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
@@ -257,24 +258,28 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                requestedOrientation = if (isAndroidTV(this)) {
-                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                } else {
-                    supportedOrientation(configuration.callScreenOrientation, navigationState)
-                }
+                requestedOrientation =
+                        when {
+                            isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                            else ->
+                                configuration.callScreenOrientation?.let { getScreenOrientation(it) } ?:
+                                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                        }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                requestedOrientation = if (isAndroidTV(this)) {
-                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                } else {
-                    supportedOrientation(configuration.setupScreenOrientation, navigationState)
-                }
+                configuration.setupScreenOrientation ?: kotlin.run {  }
+                requestedOrientation =
+                        when {
+                            isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                            else ->
+                                configuration.setupScreenOrientation?.let { getScreenOrientation(it) } ?:
+                                ActivityInfo.SCREEN_ORIENTATION_USER
+                        }
                 launchFragment(SetupFragment::class.java.name)
             }
-            else -> {}
         }
     }
 
@@ -357,23 +362,20 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return Locale.US
     }
 
-    private fun supportedOrientation(orientation: CallCompositeSupportedScreenOrientation?, screen: NavigationStatus): Int {
-        when (orientation) {
+    private fun getScreenOrientation(orientation: CallCompositeSupportedScreenOrientation): Int {
+        return when (orientation) {
             CallCompositeSupportedScreenOrientation.PORTRAIT ->
-                return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             CallCompositeSupportedScreenOrientation.LANDSCAPE ->
-                return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             CallCompositeSupportedScreenOrientation.REVERSE_LANDSCAPE ->
-                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
             CallCompositeSupportedScreenOrientation.USER ->
-                return ActivityInfo.SCREEN_ORIENTATION_USER
+                ActivityInfo.SCREEN_ORIENTATION_USER
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
-                return ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-        }
-        return if (screen == NavigationStatus.SETUP) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_USER
+                ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+
+            else -> { throw CallCompositeException("Not supported screen orientation") }
         }
     }
 
