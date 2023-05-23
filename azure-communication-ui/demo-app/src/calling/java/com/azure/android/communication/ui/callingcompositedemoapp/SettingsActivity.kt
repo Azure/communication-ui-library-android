@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
-import android.graphics.drawable.GradientDrawable.Orientation
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
