@@ -67,6 +67,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
     private val compositeManager get() = container.compositeExitManager
+    private val callingSDKWrapper get() = container.callingSDKWrapper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,6 +163,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.onDestroy()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
+                notificationService.removeNotification()
+                callingSDKWrapper.dispose()
                 compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
