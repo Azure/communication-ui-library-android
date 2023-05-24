@@ -69,7 +69,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val callHistoryService get() = container.callHistoryService
     private val compositeManager get() = container.compositeExitManager
     private val callingSDKWrapper get() = container.callingSDKWrapper
-    private val logger = container.logger
+    private val logger get() = container.logger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
