@@ -259,25 +259,25 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
                 requestedOrientation =
-                        when {
-                            isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                            else ->
-                                configuration.callScreenOrientation?.let { getScreenOrientation(it) } ?:
-                                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                        }
+                    when {
+                        isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                        else ->
+                            configuration.callScreenOrientation?.let { getScreenOrientation(it) }
+                                ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                configuration.setupScreenOrientation ?: kotlin.run {  }
+                configuration.setupScreenOrientation ?: kotlin.run { }
                 requestedOrientation =
-                        when {
-                            isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                            else ->
-                                configuration.setupScreenOrientation?.let { getScreenOrientation(it) } ?:
-                                ActivityInfo.SCREEN_ORIENTATION_USER
-                        }
+                    when {
+                        isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                        else ->
+                            configuration.setupScreenOrientation?.let { getScreenOrientation(it) }
+                                ?: ActivityInfo.SCREEN_ORIENTATION_USER
+                    }
                 launchFragment(SetupFragment::class.java.name)
             }
         }
