@@ -23,7 +23,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
@@ -70,6 +69,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val callHistoryService get() = container.callHistoryService
     private val compositeManager get() = container.compositeExitManager
     private val callingSDKWrapper get() = container.callingSDKWrapper
+    private val logger = container.logger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -262,7 +262,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     when {
                         isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                         else ->
-                            configuration.callScreenOrientation?.let { getScreenOrientation(it) }
+                            getScreenOrientation(configuration.callScreenOrientation)
                                 ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                     }
                 launchFragment(CallingFragment::class.java.name)
@@ -275,7 +275,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     when {
                         isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                         else ->
-                            configuration.setupScreenOrientation?.let { getScreenOrientation(it) }
+                            getScreenOrientation(configuration.setupScreenOrientation)
                                 ?: ActivityInfo.SCREEN_ORIENTATION_USER
                     }
                 launchFragment(SetupFragment::class.java.name)
@@ -362,7 +362,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return Locale.US
     }
 
-    private fun getScreenOrientation(orientation: CallCompositeSupportedScreenOrientation): Int {
+    private fun getScreenOrientation(orientation: CallCompositeSupportedScreenOrientation?): Int? {
         return when (orientation) {
             CallCompositeSupportedScreenOrientation.PORTRAIT ->
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -374,8 +374,11 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 ActivityInfo.SCREEN_ORIENTATION_USER
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-
-            else -> { throw CallCompositeException("Not supported screen orientation") }
+            null -> null
+            else -> {
+                logger.warning("Not supported screen orientation")
+                null
+            }
         }
     }
 
