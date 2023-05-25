@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import android.util.Log
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.BackgroundBlurEffect
 import com.azure.android.communication.calling.Call
@@ -62,7 +63,7 @@ internal class CallingSDKWrapper(
     private var camerasCountStateFlow = MutableStateFlow(0)
 
     private var videoEffectsFeature: VideoEffectsLocalVideoStreamFeature? = null
-    // private val backgroundBlurEffect: BackgroundBlurEffect? = BackgroundBlurEffect()
+    private var backgroundBlurEffect: BackgroundBlurEffect? = null
 
     private val callConfig: CallConfiguration
         get() {
@@ -189,13 +190,6 @@ internal class CallingSDKWrapper(
             // if camera on is in progress, the waiting will make sure for starting call with right state
             if (camerasCountStateFlow.value != 0 && cameraState.operation != CameraOperationalStatus.OFF) {
                 getLocalVideoStream().whenComplete { videoStream, error ->
-                    if (videoEffectOption?.isVideoEffectOn == true) {
-                        if (videoEffectsFeature == null) {
-                            videoEffectsFeature = (videoStream.native as NativeLocalVideoStream)
-                                .feature(Features.VIDEO_EFFECTS)
-                        }
-                        videoEffectsFeature?.enableEffect(BackgroundBlurEffect())
-                    }
                     if (error == null) {
                         val localVideoStreams =
                             arrayOf(videoStream.native as NativeLocalVideoStream)
@@ -225,13 +219,7 @@ internal class CallingSDKWrapper(
             .thenCompose { videoStream: LocalVideoStream ->
                 call.startVideo(context, videoStream.native as NativeLocalVideoStream)
                     .whenComplete { _, error: Throwable? ->
-                        /*if (videoEffectOption?.isVideoEffectOn == true) {
-                            if (videoEffectsFeature == null) {
-                                videoEffectsFeature = (videoStream.native as NativeLocalVideoStream)
-                                    .feature(Features.VIDEO_EFFECTS)
-                            }
-                            videoEffectsFeature?.enableEffect(backgroundBlurEffect)
-                        }*/
+
                         if (error != null) {
                             result.completeExceptionally(error)
                         } else {
@@ -295,6 +283,7 @@ internal class CallingSDKWrapper(
                     // alright to call initializeCameras()
                     result.complete(null)
                 } else {
+                    Log.d("Mohtasim", "Initializing local video stream")
                     initializeCameras().whenComplete { _, error ->
                         if (error != null) {
                             localVideoStreamCompletableFuture.completeExceptionally(error)
@@ -305,13 +294,16 @@ internal class CallingSDKWrapper(
                             } else {
                                 getCamera(CameraFacing.FRONT)
                             }
+                            val nativeLocalVideoStream = NativeLocalVideoStream(
+                                desiredCamera,
+                                context
+                            )
+
+
 
                             localVideoStreamCompletableFuture.complete(
                                 LocalVideoStreamWrapper(
-                                    NativeLocalVideoStream(
-                                        desiredCamera,
-                                        context
-                                    )
+                                    nativeLocalVideoStream
                                 )
                             )
                             result.complete(localVideoStreamCompletableFuture.get())
@@ -322,6 +314,32 @@ internal class CallingSDKWrapper(
         }
 
         return result
+    }
+
+    override fun applyBackgroundBlurEffect() {
+
+        createCallAgent().whenComplete { agent, error ->
+            if (error == null) {
+                this.getLocalVideoStream().whenComplete { videoStream, error ->
+                    if (error == null) {
+                        if (videoEffectsFeature == null) {
+                            videoEffectsFeature = (videoStream.native as NativeLocalVideoStream)
+                                .feature(Features.VIDEO_EFFECTS)
+                        }
+                        Log.d("Mohtasim", "Applying background blur effect")
+                        if (backgroundBlurEffect == null) {
+                            backgroundBlurEffect = BackgroundBlurEffect()
+                        }
+                        videoEffectsFeature?.enableEffect(backgroundBlurEffect)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun disableBackgroundBlurEffect() {
+        videoEffectsFeature?.disableEffect(backgroundBlurEffect)
+        backgroundBlurEffect = null
     }
 
     private fun createCallAgent(): CompletableFuture<CallAgent> {

@@ -50,6 +50,8 @@ internal interface CallingMiddlewareActionHandler {
     fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
     fun dispose()
+    fun applyVideoEffect(store: Store<ReduxState>)
+    fun disableVideoEffect(store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -190,6 +192,17 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
 
         callingService.turnLocalCameraOn()
+        if (store.getCurrentState().localParticipantState.cameraState.videoEffect) {
+            callingService.applyBackgroundBlur()
+        }
+    }
+
+    override fun applyVideoEffect(store: Store<ReduxState>) {
+        callingService.applyBackgroundBlur()
+    }
+
+    override fun disableVideoEffect(store: Store<ReduxState>) {
+        callingService.disableBackgroundBlur()
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
@@ -220,6 +233,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
                     store.dispatch(action = CallingAction.CallStartRequested())
                 }
+
+                //callingService.applyBackgroundBlur()
             }
         }
     }
@@ -269,6 +284,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                     store.dispatch(LocalParticipantAction.CameraOnSucceeded(newVideoStreamId))
                 }
             }
+        }
+        if (store.getCurrentState().localParticipantState.cameraState.videoEffect) {
+            callingService.applyBackgroundBlur()
         }
     }
 

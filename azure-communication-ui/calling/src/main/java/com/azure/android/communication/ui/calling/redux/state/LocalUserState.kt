@@ -49,6 +49,7 @@ internal data class CameraState(
     val transmission: CameraTransmissionStatus,
     val camerasCount: Int = 0,
     val error: CallCompositeError? = null,
+    val videoEffect: Boolean = false
 )
 
 internal data class AudioState(

@@ -29,12 +29,14 @@ internal class SetupControlBarView : LinearLayout {
     private lateinit var micButton: SetupButton
     private lateinit var cameraButton: SetupButton
     private lateinit var audioDeviceButton: AudioDeviceSetupButton
+    private lateinit var backgroundBlurButton: SetupButton
 
     override fun onFinishInflate() {
         super.onFinishInflate()
         micButton = findViewById(R.id.azure_communication_ui_setup_audio_button)
         cameraButton = findViewById(R.id.azure_communication_ui_setup_camera_button)
         audioDeviceButton = findViewById(R.id.azure_communication_ui_setup_audio_device_button)
+        backgroundBlurButton = findViewById(R.id.azure_communication_ui_setup_video_effect_button)
         micButton.setOnClickListener {
             toggleAudio()
         }
@@ -43,6 +45,9 @@ internal class SetupControlBarView : LinearLayout {
         }
         audioDeviceButton.setOnClickListener {
             viewModel.openAudioDeviceSelectionMenu()
+        }
+        backgroundBlurButton.setOnClickListener {
+            toggleBackgroundBlur()
         }
     }
 
@@ -101,6 +106,12 @@ internal class SetupControlBarView : LinearLayout {
                 audioDeviceButton.isEnabled = it
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getVideoEffectStateFlow().collect() {
+                setBackgroundBlurButtonState(it)
+            }
+        }
     }
 
     private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {
@@ -134,19 +145,35 @@ internal class SetupControlBarView : LinearLayout {
         cameraButton.refreshDrawableState()
     }
 
+    private fun setBackgroundBlurButtonState(videoEffect: Boolean) {
+        backgroundBlurButton.isON = videoEffect
+        when (videoEffect) {
+            true -> {
+                backgroundBlurButton.text = "BackgroundBlur ON"
+            }
+            false -> {
+                backgroundBlurButton.text = "BackgroundBlur OFF"
+            }
+        }
+        backgroundBlurButton.refreshDrawableState()
+    }
+
     private fun setButtonColorOnCameraState(cameraOperationalStatus: CameraOperationalStatus) {
         cameraButton.isCameraON = cameraOperationalStatus == CameraOperationalStatus.ON
         micButton.isCameraON = cameraOperationalStatus == CameraOperationalStatus.ON
         audioDeviceButton.isCameraON = cameraOperationalStatus == CameraOperationalStatus.ON
+        backgroundBlurButton.isCameraON = cameraOperationalStatus == CameraOperationalStatus.ON
 
         cameraButton.refreshDrawableState()
         micButton.refreshDrawableState()
         audioDeviceButton.refreshDrawableState()
+        backgroundBlurButton.refreshDrawableState()
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             setOldAPIButtonColor(cameraButton)
             setOldAPIButtonColor(micButton)
             setOldAPIButtonColor(audioDeviceButton)
+            setOldAPIButtonColor(backgroundBlurButton)
         }
     }
 
@@ -213,6 +240,14 @@ internal class SetupControlBarView : LinearLayout {
             viewModel.turnCameraOff()
         } else {
             viewModel.turnCameraOn()
+        }
+    }
+
+    private fun toggleBackgroundBlur() {
+        if (backgroundBlurButton.isON) {
+            viewModel.turnVideoEffectOff()
+        } else {
+            viewModel.turnVideoEffectOn()
         }
     }
 }

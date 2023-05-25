@@ -239,6 +239,20 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     )
                 )
             }
+            is LocalParticipantAction.ApplyBackgroundBlur -> {
+                localUserState.copy(
+                    cameraState = localUserState.cameraState.copy(
+                        videoEffect = true
+                    )
+                )
+            }
+            is LocalParticipantAction.DisableBackgroundBlur -> {
+                localUserState.copy(
+                    cameraState = localUserState.cameraState.copy(
+                        videoEffect = false
+                    )
+                )
+            }
             else -> localUserState
         }
     }

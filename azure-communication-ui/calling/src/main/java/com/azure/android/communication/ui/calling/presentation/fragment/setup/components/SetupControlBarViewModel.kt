@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
+import android.util.Log
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
@@ -29,6 +30,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioState>
     private lateinit var callingStatusStateFlow: MutableStateFlow<CallingStatus>
+    private lateinit var videoEffectStateFlow: MutableStateFlow<Boolean>
 
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
 
@@ -50,6 +52,8 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         callingStatusStateFlow = MutableStateFlow(callingState.callingStatus)
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState)
 
+        videoEffectStateFlow = MutableStateFlow(cameraState.videoEffect)
+
         if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
             requestAudioPermission()
         }
@@ -70,6 +74,8 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState
         callingStatusStateFlow.value = callingState.callingStatus
+        Log.d("Mohtasim", "Video effect state updated to be ${cameraState.videoEffect}")
+        videoEffectStateFlow.value = cameraState.videoEffect
     }
 
     private fun isVisible(audioPermissionState: PermissionStatus): Boolean {
@@ -96,6 +102,10 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         return audioDeviceSelectionStatusStateFlow
     }
 
+    fun getVideoEffectStateFlow(): StateFlow<Boolean> {
+        return videoEffectStateFlow
+    }
+
     fun turnCameraOn() {
         dispatchAction(
             action = LocalParticipantAction.CameraPreviewOnRequested()
@@ -117,6 +127,18 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
     fun turnMicOff() {
         dispatchAction(
             action = LocalParticipantAction.MicPreviewOffTriggered()
+        )
+    }
+
+    fun turnVideoEffectOn() {
+        dispatchAction(
+            action = LocalParticipantAction.ApplyBackgroundBlur()
+        )
+    }
+
+    fun turnVideoEffectOff() {
+        dispatchAction(
+            action = LocalParticipantAction.DisableBackgroundBlur()
         )
     }
 

@@ -57,6 +57,12 @@ internal class CallingMiddlewareImpl(
                 is LocalParticipantAction.MicOffTriggered -> {
                     callingMiddlewareActionHandler.turnMicOff(store)
                 }
+                is LocalParticipantAction.ApplyBackgroundBlur -> {
+                    callingMiddlewareActionHandler.applyVideoEffect(store)
+                }
+                is LocalParticipantAction.DisableBackgroundBlur -> {
+                    callingMiddlewareActionHandler.disableVideoEffect(store)
+                }
                 is AudioSessionAction.AudioFocusApproved -> {
                     store.dispatch(CallingAction.ResumeRequested())
                 }

@@ -74,6 +74,14 @@ internal class CallingService(
         }
     }
 
+    fun applyBackgroundBlur() {
+        callingSdk.applyBackgroundBlurEffect()
+    }
+
+    fun disableBackgroundBlur() {
+        callingSdk.disableBackgroundBlurEffect()
+    }
+
     fun getParticipantsInfoModelSharedFlow(): SharedFlow<Map<String, ParticipantInfoModel>> {
         return participantsInfoModelSharedFlow
     }

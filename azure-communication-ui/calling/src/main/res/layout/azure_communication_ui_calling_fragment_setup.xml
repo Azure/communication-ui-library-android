@@ -180,6 +180,24 @@
                 android:textAllCaps="false"
                 android:textColor="@color/azure_communication_ui_calling_toggle_selector"
                 />
+
+            <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupButton
+                android:id="@+id/azure_communication_ui_setup_video_effect_button"
+                style="@style/Widget.FluentUI.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/azure_communication_ui_calling_toggle_selector_video_effect_for_setup"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/azure_communication_ui_calling_toggle_selector"
+                android:ellipsize="end"
+                android:gravity="center|top"
+                android:maxLines="3"
+                android:text="BackgroundBlur OFF"
+                android:textAllCaps="false"
+                android:textColor="@color/azure_communication_ui_calling_toggle_selector"
+                />
         </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

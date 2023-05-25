@@ -50,6 +50,9 @@ internal interface CallingSDK {
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
     fun getCamerasCountStateFlow(): StateFlow<Int>
+
+    fun applyBackgroundBlurEffect()
+    fun disableBackgroundBlurEffect()
 }
 
 internal interface RemoteParticipant {
