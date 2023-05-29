@@ -15,8 +15,7 @@ pr:
   - develop
   - release/*
 
-pool:
-  vmImage: 'macos-latest'
+pool: ess-buster-a
 
 steps:
 - task: servicetree-link-build-task@1
