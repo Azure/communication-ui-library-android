@@ -16,7 +16,7 @@ pr:
   - release/*
 
 pool:
-  name: vsts-mac-131-xcode-142
+  vmImage: 'macos-latest'
 
 steps:
 - task: servicetree-link-build-task@1
