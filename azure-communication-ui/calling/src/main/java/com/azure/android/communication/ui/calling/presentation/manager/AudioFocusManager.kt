@@ -96,12 +96,10 @@ internal class AudioFocusManager(
         audioFocusHandler?.onFocusChange = {
             // Todo: AudioFocus can be resumed as well (e.g. transient is temporary, we will get back.
             // I.e. like how spotify can continue playing after a call is done.
-            Log.d("Mohtasim", "Audio Focus changed with " + it.toString())
             if (it == AudioManager.AUDIOFOCUS_LOSS ||
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
-                Log.d("Mohtasim", "Audio focus interrupted.")
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
             }
 
@@ -110,8 +108,6 @@ internal class AudioFocusManager(
             }
         }
         store.getStateFlow().collect {
-            Log.d("Mohtasim", "previous ad focus " + previousAudioFocusStatus);
-            Log.d("Mohtasim", "Current ad focus " + it.audioSessionState.audioFocusStatus);
             if (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus) {
                 previousAudioFocusStatus = it.audioSessionState.audioFocusStatus
                 if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
@@ -131,8 +127,6 @@ internal class AudioFocusManager(
                 }
             } else if (previousCallState != it.callState.callingStatus) {
                 previousCallState = it.callState.callingStatus
-                Log.d("Mohtasim", "Call state " + previousCallState);
-                Log.d("Mohtasim", "Call state and audio focus" + audioFocusHandler?.getAudioFocus());
                 if (it.callState.callingStatus == CallingStatus.CONNECTED) {
                     isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                     if (!isAudioFocused) {
