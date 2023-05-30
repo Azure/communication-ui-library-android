@@ -9,7 +9,6 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.MODE_NORMAL
 import android.os.Build
-import android.provider.MediaStore.Audio
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Store
@@ -38,9 +37,11 @@ internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
 
     private val audioFocusRequest26 = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
         .setOnAudioFocusChangeListener(this)
-        .setAudioAttributes(AudioAttributes.Builder()
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-            .build())
+        .setAudioAttributes(
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build()
+        )
         .build()
 
     override fun getAudioFocus() =

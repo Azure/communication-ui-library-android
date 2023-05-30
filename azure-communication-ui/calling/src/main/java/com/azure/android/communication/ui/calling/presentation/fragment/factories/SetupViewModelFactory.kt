@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarViewModel

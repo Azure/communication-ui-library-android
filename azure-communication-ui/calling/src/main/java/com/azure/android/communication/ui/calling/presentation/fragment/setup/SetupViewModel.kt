@@ -102,7 +102,7 @@ internal class SetupViewModel(
         errorInfoViewModel.updateCallStateError(state.errorState)
         errorInfoViewModel.updateAudioFocusRejectedState(
             state.audioSessionState.audioFocusStatus == AudioFocusStatus.REJECTED ||
-                    state.audioSessionState.audioFocusStatus == AudioFocusStatus.INTERRUPTED
+                state.audioSessionState.audioFocusStatus == AudioFocusStatus.INTERRUPTED
         )
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)

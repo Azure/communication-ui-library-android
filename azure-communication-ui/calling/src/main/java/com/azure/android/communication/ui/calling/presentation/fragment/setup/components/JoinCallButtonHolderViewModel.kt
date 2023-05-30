@@ -56,7 +56,7 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
         audioFocusStatus: AudioFocusStatus?,
     ) {
         disableJoinCallButtonFlow.value =
-                callingState.callingStatus != CallingStatus.NONE
+            callingState.callingStatus != CallingStatus.NONE
 
         joinCallButtonEnabledFlow.value =
             audioPermissionState == PermissionStatus.GRANTED &&
@@ -76,7 +76,9 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
     }
 
     private fun isAudioFocusLost(audioFocusStatus: AudioFocusStatus?): Boolean {
-        return audioFocusStatus != null && (audioFocusStatus == AudioFocusStatus.REJECTED ||
-                audioFocusStatus == AudioFocusStatus.INTERRUPTED)
+        return audioFocusStatus != null && (
+            audioFocusStatus == AudioFocusStatus.REJECTED ||
+                audioFocusStatus == AudioFocusStatus.INTERRUPTED
+            )
     }
 }
