@@ -55,6 +55,21 @@ internal class ErrorInfoView(private val rootView: View) {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            snackBarViewModel.getAudioFocusRejectedFlow().collect {
+                if (it == null || !it) {
+                    snackBar.dismiss()
+                } else {
+                    it?.let {
+                        displaySnackBar(
+                            null,
+                            rootView.context.getString(R.string.azure_communication_ui_calling_mic_used)
+                        )
+                    }
+                }
+            }
+        }
     }
 
     fun stop() {

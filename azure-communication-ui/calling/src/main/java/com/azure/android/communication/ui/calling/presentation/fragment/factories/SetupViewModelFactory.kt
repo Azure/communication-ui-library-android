@@ -29,10 +29,6 @@ internal class SetupViewModelFactory(
         SetupControlBarViewModel(store::dispatch)
     }
 
-    val snackBarViewModel by lazy {
-        ErrorInfoViewModel()
-    }
-
     val setupGradientViewModel by lazy {
         SetupGradientViewModel()
     }

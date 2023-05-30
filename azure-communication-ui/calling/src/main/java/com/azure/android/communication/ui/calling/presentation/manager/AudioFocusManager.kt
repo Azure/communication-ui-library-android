@@ -4,10 +4,13 @@
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import android.content.Context
+import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.MODE_NORMAL
 import android.os.Build
+import android.provider.MediaStore.Audio
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
@@ -34,7 +37,11 @@ internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
     private fun audioManager() = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     private val audioFocusRequest26 = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-        .setOnAudioFocusChangeListener(this).build()
+        .setOnAudioFocusChangeListener(this)
+        .setAudioAttributes(AudioAttributes.Builder()
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build())
+        .build()
 
     override fun getAudioFocus() =
         audioManager().requestAudioFocus(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
@@ -79,17 +86,32 @@ internal class AudioFocusManager(
     }
 
     suspend fun start() {
+        Log.d("Mohtasim", "Get Audio Focus " + audioFocusHandler?.getAudioFocus())
+        Log.d("Mohtasim", "Get Audio Mode " + audioFocusHandler?.getMode())
+
+        if (audioFocusHandler?.getAudioFocus() == false) {
+            store.dispatch(AudioSessionAction.AudioFocusRejected())
+        }
+
         audioFocusHandler?.onFocusChange = {
             // Todo: AudioFocus can be resumed as well (e.g. transient is temporary, we will get back.
             // I.e. like how spotify can continue playing after a call is done.
+            Log.d("Mohtasim", "Audio Focus changed with " + it.toString())
             if (it == AudioManager.AUDIOFOCUS_LOSS ||
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
+                Log.d("Mohtasim", "Audio focus interrupted.")
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
+            }
+
+            if (it == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                store.dispatch(AudioSessionAction.AudioFocusApproved())
             }
         }
         store.getStateFlow().collect {
+            Log.d("Mohtasim", "previous ad focus " + previousAudioFocusStatus);
+            Log.d("Mohtasim", "Current ad focus " + it.audioSessionState.audioFocusStatus);
             if (previousAudioFocusStatus != it.audioSessionState.audioFocusStatus) {
                 previousAudioFocusStatus = it.audioSessionState.audioFocusStatus
                 if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
@@ -104,9 +126,13 @@ internal class AudioFocusManager(
                             store.dispatch(AudioSessionAction.AudioFocusApproved())
                         }
                     }
+                } else if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.APPROVED) {
+                    store.dispatch(AudioSessionAction.AudioFocusApproved())
                 }
             } else if (previousCallState != it.callState.callingStatus) {
                 previousCallState = it.callState.callingStatus
+                Log.d("Mohtasim", "Call state " + previousCallState);
+                Log.d("Mohtasim", "Call state and audio focus" + audioFocusHandler?.getAudioFocus());
                 if (it.callState.callingStatus == CallingStatus.CONNECTED) {
                     isAudioFocused = audioFocusHandler?.getAudioFocus() == true
                     if (!isAudioFocused) {
