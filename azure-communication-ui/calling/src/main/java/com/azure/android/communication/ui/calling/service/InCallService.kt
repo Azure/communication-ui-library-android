@@ -51,6 +51,7 @@ internal class InCallService : Service() {
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_CALL)
+            .setOngoing(true)
             .build()
 
         val notificationId = 1
