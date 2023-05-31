@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -52,7 +53,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
+                AudioFocusStatus.APPROVED
             )
 
             // assert
@@ -97,7 +99,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
+                AudioFocusStatus.APPROVED
             )
 
             // assert
@@ -147,7 +150,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.CONNECTING, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
+                AudioFocusStatus.APPROVED
             )
 
             // assert
@@ -161,7 +165,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
+                AudioFocusStatus.APPROVED
             )
 
             // assert
@@ -199,7 +204,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.UNKNOWN,
                 CameraOperationalStatus.ON,
-                2
+                2,
+                AudioFocusStatus.APPROVED
             )
 
             // assert
@@ -244,7 +250,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.UNKNOWN,
                 CameraOperationalStatus.PENDING,
-                2
+                2,
+                AudioFocusStatus.APPROVED
             )
 
             // assert

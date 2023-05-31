@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 
@@ -22,7 +23,7 @@ internal class SetupViewModel(
     val setupControlBarViewModel = setupViewModelProvider.setupControlBarViewModel
     val localParticipantRendererViewModel = setupViewModelProvider.previewAreaViewModel
     val audioDeviceListViewModel = setupViewModelProvider.audioDeviceListViewModel
-    val errorInfoViewModel = setupViewModelProvider.snackBarViewModel
+    val errorInfoViewModel = setupViewModelProvider.errorInfoViewModel
     val setupGradientViewModel = setupViewModelProvider.setupGradientViewModel
     val participantAvatarViewModel = setupViewModelProvider.participantAvatarViewModel
     val joinCallButtonHolderViewModel = setupViewModelProvider.joinCallButtonHolderViewModel
@@ -98,6 +99,9 @@ internal class SetupViewModel(
             state.localParticipantState.audioState
         )
         errorInfoViewModel.updateCallStateError(state.errorState)
+        errorInfoViewModel.updateAudioFocusRejectedState(
+            state.audioSessionState.audioFocusStatus == AudioFocusStatus.REJECTED
+        )
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)
         }
@@ -114,7 +118,8 @@ internal class SetupViewModel(
             state.callState,
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
-            state.localParticipantState.cameraState.camerasCount
+            state.localParticipantState.cameraState.camerasCount,
+            state.audioSessionState.audioFocusStatus
         )
     }
 }

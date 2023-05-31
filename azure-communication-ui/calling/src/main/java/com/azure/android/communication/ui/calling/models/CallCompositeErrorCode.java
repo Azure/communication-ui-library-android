@@ -44,6 +44,11 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode NETWORK_CONNECTION_NOT_AVAILABLE =
             fromString("networkConnectionNotAvailable");
 
+    /***
+     * Dispatched when microphone is being used
+     */
+    public static final CallCompositeErrorCode MICROPHONE_NOT_AVAILABLE = fromString("microphoneNotAvailable");
+
     /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
      *
