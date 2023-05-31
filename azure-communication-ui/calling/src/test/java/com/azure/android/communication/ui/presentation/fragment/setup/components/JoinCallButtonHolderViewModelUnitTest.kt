@@ -37,8 +37,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.DENIED,
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2,
-                AudioFocusStatus.APPROVED
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -84,8 +83,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2,
-                AudioFocusStatus.APPROVED
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -131,8 +129,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2,
-                AudioFocusStatus.APPROVED
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -191,8 +188,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2,
-                AudioFocusStatus.APPROVED
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -238,8 +234,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2,
-                AudioFocusStatus.APPROVED
+                2
             )
 
             val emitResult = mutableListOf<Boolean>()

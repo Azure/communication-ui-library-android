@@ -9,7 +9,6 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.MODE_NORMAL
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
@@ -18,11 +17,19 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
-internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListener {
+@RequiresApi(Build.VERSION_CODES.S)
+internal abstract class AudioFocusHandler :
+    AudioManager.OnAudioFocusChangeListener,
+    AudioManager.OnModeChangedListener {
     var onFocusChange: ((Int) -> Unit)? = null
+    var onModeChange: ((Int) -> Unit)? = null
 
     override fun onAudioFocusChange(focusChange: Int) {
         onFocusChange?.let { it(focusChange) }
+    }
+
+    override fun onModeChanged(modeChange: Int) {
+        onModeChange?.let { it(modeChange) }
     }
 
     abstract fun getAudioFocus(): Boolean
@@ -87,9 +94,6 @@ internal class AudioFocusManager(
     }
 
     suspend fun start() {
-        Log.d("Mohtasim", "Get Audio Focus " + audioFocusHandler?.getAudioFocus())
-        Log.d("Mohtasim", "Get Audio Mode " + audioFocusHandler?.getMode())
-
         if (audioFocusHandler?.getAudioFocus() == false) {
             store.dispatch(AudioSessionAction.AudioFocusRejected())
         }

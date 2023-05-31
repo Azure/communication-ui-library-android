@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.content.Context
+import android.media.AudioManager
 import android.util.AttributeSet
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
@@ -55,10 +56,19 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
-            if (networkManager.isNetworkConnectionAvailable()) {
+            if (networkManager.isNetworkConnectionAvailable() &&
+                this.isMicrophoneAvailable() &&
+                !viewModel.getAudioFocusLostStatusFlow().value
+            ) {
                 viewModel.launchCallScreen()
             } else {
-                viewModel.handleOffline()
+                if (!this.isMicrophoneAvailable() ||
+                    !viewModel.getAudioFocusLostStatusFlow().value
+                ) {
+                    viewModel.handleMicrophoneUnavailability()
+                } else {
+                    viewModel.handleOffline()
+                }
             }
         }
 
@@ -91,5 +101,10 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             progressBar.visibility = GONE
             joiningCallText.visibility = GONE
         }
+    }
+
+    private fun isMicrophoneAvailable(): Boolean {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        return am.mode == AudioManager.MODE_NORMAL
     }
 }

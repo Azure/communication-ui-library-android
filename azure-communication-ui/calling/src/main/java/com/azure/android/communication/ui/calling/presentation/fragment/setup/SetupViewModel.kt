@@ -77,8 +77,7 @@ internal class SetupViewModel(
             state.permissionState.audioPermissionState,
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
-            state.localParticipantState.cameraState.camerasCount,
-            state.audioSessionState.audioFocusStatus
+            state.localParticipantState.cameraState.camerasCount
         )
 
         super.init(coroutineScope)
@@ -101,8 +100,7 @@ internal class SetupViewModel(
         )
         errorInfoViewModel.updateCallStateError(state.errorState)
         errorInfoViewModel.updateAudioFocusRejectedState(
-            state.audioSessionState.audioFocusStatus == AudioFocusStatus.REJECTED ||
-                state.audioSessionState.audioFocusStatus == AudioFocusStatus.INTERRUPTED
+            state.audioSessionState.audioFocusStatus == AudioFocusStatus.REJECTED
         )
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)
