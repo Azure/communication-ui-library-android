@@ -55,21 +55,6 @@ internal class ErrorInfoView(private val rootView: View) {
                 }
             }
         }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            snackBarViewModel.getAudioFocusRejectedFlow().collect {
-                if (it == null || !it) {
-                    snackBar.dismiss()
-                } else {
-                    it?.let {
-                        displaySnackBar(
-                            null,
-                            rootView.context.getString(R.string.azure_communication_ui_calling_mic_used)
-                        )
-                    }
-                }
-            }
-        }
     }
 
     fun stop() {
@@ -110,7 +95,7 @@ internal class ErrorInfoView(private val rootView: View) {
             ErrorCode.CALL_END_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_call_state_error_call_end)
             ErrorCode.CALL_JOIN_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_text_error_call_join)
             ErrorCode.NETWORK_NOT_AVAILABLE -> rootView.context.getString(R.string.azure_communication_ui_calling_no_connection_available)
-            ErrorCode.AUDIO_FOCUS_REJECTED -> rootView.context.getString(R.string.azure_communication_ui_calling_mic_used)
+            ErrorCode.MICROPHONE_BEING_USED_BY_OTHERS -> rootView.context.getString(R.string.azure_communication_ui_calling_mic_used)
             else -> ""
         }
     }

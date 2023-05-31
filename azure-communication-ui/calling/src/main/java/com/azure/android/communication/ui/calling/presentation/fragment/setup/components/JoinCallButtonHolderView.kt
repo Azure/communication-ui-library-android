@@ -56,19 +56,15 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
-            if (networkManager.isNetworkConnectionAvailable() &&
-                this.isMicrophoneAvailable() &&
-                !viewModel.getAudioFocusLostStatusFlow().value
-            ) {
-                viewModel.launchCallScreen()
+            val networkAvailable = networkManager.isNetworkConnectionAvailable()
+            val microphoneAvailable = this.isMicrophoneAvailable()
+
+            if (!networkAvailable) {
+                viewModel.handleOffline()
+            } else if (!microphoneAvailable) {
+                viewModel.handleMicrophoneUnavailability()
             } else {
-                if (!this.isMicrophoneAvailable() ||
-                    !viewModel.getAudioFocusLostStatusFlow().value
-                ) {
-                    viewModel.handleMicrophoneUnavailability()
-                } else {
-                    viewModel.handleOffline()
-                }
+                viewModel.launchCallScreen()
             }
         }
 

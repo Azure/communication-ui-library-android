@@ -18,7 +18,7 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
         val CAMERA_INIT_FAILED = fromString("cameraInitiationFailure")
         val MIC_PERMISSION_DENIED = fromString("micPermissionDenied")
         val INTERNET_NOT_AVAILABLE = fromString("internetNotAvailable")
-        val AUDIO_FOCUS_REJECTED = fromString("audioFocusRejected")
+        val MICROPHONE_BEING_USED_BY_OTHERS = fromString("microphoneBeingUsedByOthers")
 
         private fun fromString(name: String): ErrorCode {
             return fromString(name, ErrorCode::class.java)

@@ -79,7 +79,7 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
     }
 
     fun handleMicrophoneUnavailability() {
-        dispatch(ErrorAction.CallStateErrorOccurred(CallStateError(ErrorCode.AUDIO_FOCUS_REJECTED)))
+        dispatch(ErrorAction.CallStateErrorOccurred(CallStateError(ErrorCode.MICROPHONE_BEING_USED_BY_OTHERS)))
     }
 
     private fun isAudioFocusLost(audioFocusStatus: AudioFocusStatus?): Boolean {
