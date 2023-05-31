@@ -17,19 +17,11 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
-@RequiresApi(Build.VERSION_CODES.S)
-internal abstract class AudioFocusHandler :
-    AudioManager.OnAudioFocusChangeListener,
-    AudioManager.OnModeChangedListener {
+internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListener {
     var onFocusChange: ((Int) -> Unit)? = null
-    var onModeChange: ((Int) -> Unit)? = null
 
     override fun onAudioFocusChange(focusChange: Int) {
         onFocusChange?.let { it(focusChange) }
-    }
-
-    override fun onModeChanged(modeChange: Int) {
-        onModeChange?.let { it(modeChange) }
     }
 
     abstract fun getAudioFocus(): Boolean
@@ -106,10 +98,6 @@ internal class AudioFocusManager(
                 it == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
             ) {
                 store.dispatch(AudioSessionAction.AudioFocusInterrupted())
-            }
-
-            if (it == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                store.dispatch(AudioSessionAction.AudioFocusApproved())
             }
         }
         store.getStateFlow().collect {
