@@ -57,7 +57,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
 
         setupJoinCallButton.setOnClickListener {
             val networkAvailable = networkManager.isNetworkConnectionAvailable()
-            val microphoneAvailable = this.isMicrophoneAvailable()
+            val microphoneAvailable = this.isAudioModeNormal()
 
             if (!networkAvailable) {
                 viewModel.handleOffline()
@@ -99,7 +99,8 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         }
     }
 
-    private fun isMicrophoneAvailable(): Boolean {
+    // We try to check for mic availability for the current application through current audio mode
+    private fun isAudioModeNormal(): Boolean {
         val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         return am.mode == AudioManager.MODE_NORMAL
     }
