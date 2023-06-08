@@ -58,6 +58,7 @@ internal class ParticipantGridViewModel(
         participantStateUpdatedTimestamp: Number,
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
     ) {
+
         if (participantStateUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp) {
             return
         }

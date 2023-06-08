@@ -29,6 +29,7 @@ internal class InfoHeaderViewModel {
     fun update(
         numberOfRemoteParticipants: Int,
     ) {
+
         numberOfParticipantsFlow.value = numberOfRemoteParticipants
         if (!displayedOnLaunch) {
             displayedOnLaunch = true
