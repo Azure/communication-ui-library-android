@@ -5,10 +5,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
-import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -21,13 +21,11 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
 
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
     private var disableJoinCallButtonFlow = MutableStateFlow(false)
-    private var audioFocusLostStatus = MutableStateFlow(false)
+    private lateinit var networkManager: NetworkManager
 
     fun getJoinCallButtonEnabledFlow(): StateFlow<Boolean> = joinCallButtonEnabledFlow
 
     fun getDisableJoinCallButtonFlow(): StateFlow<Boolean> = disableJoinCallButtonFlow
-
-    fun getAudioFocusLostStatusFlow(): StateFlow<Boolean> = audioFocusLostStatus
 
     fun launchCallScreen() {
         dispatch(CallingAction.CallStartRequested())
@@ -39,6 +37,7 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
         cameraPermissionState: PermissionStatus,
         cameraOperationalStatus: CameraOperationalStatus,
         camerasCount: Int,
+        networkManager: NetworkManager,
     ) {
         joinCallButtonEnabledFlow =
             MutableStateFlow(
@@ -47,6 +46,7 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
                     (camerasCount == 0 || cameraOperationalStatus != CameraOperationalStatus.PENDING)
             )
         disableJoinCallButtonFlow.value = false
+        this.networkManager = networkManager
     }
 
     fun update(
@@ -55,7 +55,6 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
         cameraPermissionState: PermissionStatus,
         cameraOperationalStatus: CameraOperationalStatus,
         camerasCount: Int,
-        audioFocusStatus: AudioFocusStatus?,
     ) {
         disableJoinCallButtonFlow.value =
             callingState.callingStatus != CallingStatus.NONE
@@ -65,7 +64,6 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
             cameraPermissionState != PermissionStatus.UNKNOWN &&
             (camerasCount == 0 || cameraOperationalStatus != CameraOperationalStatus.PENDING)
 
-        audioFocusLostStatus.value = isAudioFocusLost(audioFocusStatus)
         if (callingState.isDisconnected()) {
             disableJoinCallButtonFlow.value = false
         } else {
@@ -79,13 +77,10 @@ internal class JoinCallButtonHolderViewModel(private val dispatch: (Action) -> U
     }
 
     fun handleMicrophoneUnavailability() {
-        dispatch(ErrorAction.CallStateErrorOccurred(CallStateError(ErrorCode.MICROPHONE_BEING_USED_BY_OTHERS)))
+        dispatch(ErrorAction.CallStateErrorOccurred(CallStateError(ErrorCode.MICROPHONE_NOT_AVAILABLE)))
     }
 
-    private fun isAudioFocusLost(audioFocusStatus: AudioFocusStatus?): Boolean {
-        return audioFocusStatus != null && (
-            audioFocusStatus == AudioFocusStatus.REJECTED ||
-                audioFocusStatus == AudioFocusStatus.INTERRUPTED
-            )
+    fun isNetworkAvailable(): Boolean {
+        return this.networkManager.isNetworkConnectionAvailable()
     }
 }

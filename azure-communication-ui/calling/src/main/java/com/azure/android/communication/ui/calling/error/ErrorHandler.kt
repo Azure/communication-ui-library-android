@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_ON_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CAMERA_INIT_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.INTERNET_NOT_AVAILABLE
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MICROPHONE_BEING_USED_BY_OTHERS
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MICROPHONE_NOT_AVAILABLE
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MIC_PERMISSION_DENIED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.NETWORK_NOT_AVAILABLE
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
@@ -142,7 +142,7 @@ internal class ErrorHandler(
                 INTERNET_NOT_AVAILABLE -> {
                     return CallCompositeErrorCode.NETWORK_CONNECTION_NOT_AVAILABLE
                 }
-                MICROPHONE_BEING_USED_BY_OTHERS -> {
+                MICROPHONE_NOT_AVAILABLE -> {
                     return CallCompositeErrorCode.MICROPHONE_NOT_AVAILABLE
                 }
                 else -> {

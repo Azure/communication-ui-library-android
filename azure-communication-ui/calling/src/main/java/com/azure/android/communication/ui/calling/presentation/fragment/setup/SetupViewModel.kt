@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
+import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
@@ -16,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 internal class SetupViewModel(
     store: Store<ReduxState>,
     setupViewModelProvider: SetupViewModelFactory,
+    private val networkManager: NetworkManager,
 ) :
     BaseViewModel(store) {
 
@@ -77,7 +79,8 @@ internal class SetupViewModel(
             state.permissionState.audioPermissionState,
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
-            state.localParticipantState.cameraState.camerasCount
+            state.localParticipantState.cameraState.camerasCount,
+            networkManager
         )
 
         super.init(coroutineScope)
@@ -118,8 +121,7 @@ internal class SetupViewModel(
             state.callState,
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
-            state.localParticipantState.cameraState.camerasCount,
-            state.audioSessionState.audioFocusStatus
+            state.localParticipantState.cameraState.camerasCount
         )
     }
 }
