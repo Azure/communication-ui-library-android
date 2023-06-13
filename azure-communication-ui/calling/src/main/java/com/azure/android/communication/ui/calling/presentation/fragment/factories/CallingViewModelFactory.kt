@@ -47,7 +47,7 @@ internal class CallingViewModelFactory(
     }
 
     val confirmLeaveOverlayViewModel by lazy {
-        LeaveConfirmViewModel(store::dispatch)
+        LeaveConfirmViewModel(store)
     }
 
     val localParticipantViewModel by lazy {

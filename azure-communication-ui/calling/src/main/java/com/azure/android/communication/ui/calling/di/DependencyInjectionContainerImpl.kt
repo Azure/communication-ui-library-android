@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.presentation.VideoStreamRender
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
+import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
@@ -103,6 +104,13 @@ internal class DependencyInjectionContainerImpl(
 
     override val audioFocusManager by lazy {
         AudioFocusManager(
+            appStore,
+            applicationContext,
+        )
+    }
+
+    override val audioModeManager by lazy {
+        AudioModeManager(
             appStore,
             applicationContext,
         )
