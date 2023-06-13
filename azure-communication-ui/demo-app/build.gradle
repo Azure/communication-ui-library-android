@@ -90,11 +90,6 @@ android {
             res.srcDirs = ['src/main/res', 'src/chat/res']
             manifest.srcFile 'src/chat/AndroidManifest.xml'
         }
-        callwithchat {
-            java.srcDirs = ['src/main/java', 'src/call-with-chat/java']
-            res.srcDirs = ['src/main/res', 'src/call-with-chat/res']
-            manifest.srcFile 'src/call-with-chat/AndroidManifest.xml'
-        }
     }
 
     flavorDimensions "product"
@@ -157,33 +152,8 @@ android {
                 }
             }
         }
-        callwithchat {
-            minSdkVersion 23
-            dimension "product"
-            matchingFallbacks = ["callwithchat"]
-            buildTypes {
-                release {
-                    minifyEnabled false
-                    shrinkResources false
-                    manifestPlaceholders = [
-                            appIcon     : "@mipmap/ic_launcher",
-                            appIconRound: "@mipmap/ic_launcher_round"
-                    ]
-                    if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
-                        signingConfig signingConfigs.release
-                    }
-                }
-
-                debug {
-                    applicationIdSuffix = ".debug"
-                    manifestPlaceholders = [
-                            appIcon     : "@mipmap/ic_launcher_debug",
-                            appIconRound: "@mipmap/ic_launcher_debug_round"
-                    ]
-                }
-            }
-        }
     }
+
     packagingOptions {
         resources.excludes.add("META-INF/*")
     }
@@ -193,8 +163,6 @@ dependencies {
     def app_center_sdk_version = '4.1.0'
     callingImplementation project(path: ':calling')
     chatImplementation project(path: ':chat')
-    callwithchatImplementation project(path: ':call-with-chat')
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
