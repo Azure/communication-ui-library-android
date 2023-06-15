@@ -87,9 +87,7 @@ internal class ErrorHandler(
                     getCallCompositeErrorCode(callStateError.errorCode),
                     null,
                 )
-            if (eventArgs.errorCode != null) {
                 configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach { it.handle(eventArgs) }
-            }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
@@ -113,9 +111,7 @@ internal class ErrorHandler(
                     getCallCompositeErrorCode(error.errorCode),
                     error.fatalError,
                 )
-            if (eventArgs.errorCode != null) {
                 configuration.callCompositeEventsHandler.getOnErrorHandlers().forEach { it.handle(eventArgs) }
-            }
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
