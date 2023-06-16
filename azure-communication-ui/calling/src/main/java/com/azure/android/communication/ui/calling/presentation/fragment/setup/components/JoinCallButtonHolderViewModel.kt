@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
+import android.content.Context
 import android.media.AudioManager
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class JoinCallButtonHolderViewModel(
     private val dispatch: (Action) -> Unit,
-    private val audioManager: AudioManager
+    private val context: Context
 ) {
 
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
@@ -34,7 +35,7 @@ internal class JoinCallButtonHolderViewModel(
     fun launchCallScreen() {
         val networkAvailable = isNetworkAvailable()
         // We try to check for mic availability for the current application through current audio mode
-        val normalAudioMode = audioManager.mode == AudioManager.MODE_NORMAL
+        val normalAudioMode = (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager).mode == AudioManager.MODE_NORMAL
 
         if (!networkAvailable) {
             handleOffline()

@@ -40,7 +40,8 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         this.viewModel = viewModel
 
         val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (audioManager.mode != AudioManager.MODE_NORMAL) {
+        // This checks before joining the call, the microphone is free to use or not
+        if (viewModel.getDisplayLobbyOverlayFlow().value && (audioManager.mode != AudioManager.MODE_NORMAL)) {
             viewModel.handleMicrophoneAccessFailed()
         }
 
