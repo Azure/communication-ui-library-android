@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -28,7 +27,6 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     private lateinit var progressBar: ProgressBar
     private lateinit var joiningCallText: AppCompatTextView
 
-    private lateinit var networkManager: NetworkManager
     private lateinit var viewModel: JoinCallButtonHolderViewModel
 
     override fun onFinishInflate() {
@@ -46,20 +44,14 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        viewModel: JoinCallButtonHolderViewModel,
-        networkManager: NetworkManager
+        viewModel: JoinCallButtonHolderViewModel
     ) {
         this.viewModel = viewModel
-        this.networkManager = networkManager
         setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
         joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
-            if (networkManager.isNetworkConnectionAvailable()) {
-                viewModel.launchCallScreen()
-            } else {
-                viewModel.handleOffline()
-            }
+            viewModel.launchCallScreen()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -67,6 +59,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
                 onJoinCallEnabledChanged(it)
             }
         }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisableJoinCallButtonFlow().collect { onDisableJoinCallButtonChanged(it) }
         }
