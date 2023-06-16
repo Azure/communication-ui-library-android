@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.presentation.fragment.setup.components
 
-import android.app.Application
-import android.content.Context
 import android.media.AudioManager
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
