@@ -20,6 +20,8 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioMode
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
 import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
@@ -46,8 +48,6 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -121,6 +121,7 @@ internal class DependencyInjectionContainerImpl(
             applicationContext,
         )
     }
+
     override val debugInfoManager: DebugInfoManager by lazy {
         DebugInfoManagerImpl(
             callHistoryRepository,
