@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
 import android.content.Context
+import android.media.AudioManager
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaViewModel
@@ -41,7 +42,7 @@ internal class SetupViewModelFactory(
     val joinCallButtonHolderViewModel by lazy {
         JoinCallButtonHolderViewModel(
             store::dispatch,
-            context
+            context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         )
     }
 }
