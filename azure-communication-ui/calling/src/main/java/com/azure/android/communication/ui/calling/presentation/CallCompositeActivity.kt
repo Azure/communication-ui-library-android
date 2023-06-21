@@ -18,7 +18,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -426,7 +425,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             store.dispatch(action = CallingAction.CallEndRequested())
             store.dispatch(action = NavigationAction.Exit())
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
         ) {
             val params = PictureInPictureParams
                 .Builder()
