@@ -30,11 +30,16 @@
             android:launchMode="singleTask"
             android:theme="@style/AzureCommunicationUICalling.Theme"
             android:exported="false"
+
+            android:supportsPictureInPicture="true"
+
+            android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
+            android:excludeFromRecents="true"
             />
         <service
             android:name="com.azure.android.communication.ui.calling.service.InCallService"
             android:foregroundServiceType="microphone"
-            android:stopWithTask="true"
+            android:stopWithTask="false"
             android:exported="false"
             />
 

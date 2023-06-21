@@ -8,4 +8,4 @@ internal enum class LifecycleStatus {
     BACKGROUND,
 }
 
-internal data class LifecycleState(val state: LifecycleStatus)
+internal data class LifecycleState(val state: LifecycleStatus, val inPipMode: Boolean)

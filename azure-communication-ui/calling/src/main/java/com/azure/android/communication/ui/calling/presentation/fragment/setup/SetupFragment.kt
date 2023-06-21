@@ -10,7 +10,6 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
-import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -102,14 +101,6 @@ internal class SetupFragment :
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
         viewModel.setupCall()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            viewModel.exitComposite()
-        }
     }
 
     override fun onDestroy() {

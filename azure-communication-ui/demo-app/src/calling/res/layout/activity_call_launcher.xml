@@ -127,15 +127,25 @@
             app:layout_constraintTop_toBottomOf="@+id/showCallHistoryButton"
             />
 
-        <TextView
-            android:id="@+id/callStateText"
+        <Button
+            android:id="@+id/showUIButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:text="@string/re_open_ui_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/launchButton"
             />
+
+            <TextView
+                android:id="@+id/callStateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/showUIButton"
+                />
 
         <LinearLayout
             android:layout_width="wrap_content"

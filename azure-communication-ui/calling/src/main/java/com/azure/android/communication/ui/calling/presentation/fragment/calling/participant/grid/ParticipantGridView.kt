@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -162,6 +163,20 @@ internal class ParticipantGridView : GridLayout {
                 }
             }
         })
+
+        addOnLayoutChangeListener { _, left, top, right, bottom,
+            oldLeft, oldTop, oldRight, oldBottom ->
+            if (left != oldLeft ||
+                right != oldRight ||
+                top != oldTop ||
+                bottom != oldBottom
+            ) {
+                // The playerView's bounds changed, update the source hint rect to
+                // reflect its new bounds.
+                val sourceRectHint = Rect()
+                getGlobalVisibleRect(sourceRectHint)
+            }
+        }
     }
 
     fun stop() {

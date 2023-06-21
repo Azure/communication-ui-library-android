@@ -104,7 +104,7 @@ internal class AppReduxStateReducerUnitTest {
         )
         state.permissionState =
             PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
-        state.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
+        state.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND, inPipMode = false)
         state.audioSessionState = AudioSessionState(AudioFocusStatus.REJECTED)
 
         Mockito.`when`(mockCallStateReducerImplementation.reduce(state.callState, action))

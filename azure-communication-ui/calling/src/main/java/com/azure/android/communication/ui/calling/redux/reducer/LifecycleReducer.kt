@@ -19,6 +19,12 @@ internal class LifecycleReducerImpl : LifecycleReducer {
             is LifecycleAction.EnterForegroundSucceeded -> {
                 state.copy(state = LifecycleStatus.FOREGROUND)
             }
+            is LifecycleAction.EnterPiPMode -> {
+                state.copy(inPipMode = true)
+            }
+            is LifecycleAction.ExitPiPMode -> {
+                state.copy(inPipMode = false)
+            }
             else -> state
         }
     }
