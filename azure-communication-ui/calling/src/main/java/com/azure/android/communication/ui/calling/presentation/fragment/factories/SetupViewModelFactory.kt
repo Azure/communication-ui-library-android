@@ -3,8 +3,9 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
+import android.content.Context
+import android.media.AudioManager
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarViewModel
@@ -15,6 +16,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
+    private val context: Context,
 ) : BaseViewModelFactory(store) {
 
     val audioDeviceListViewModel by lazy {
@@ -29,10 +31,6 @@ internal class SetupViewModelFactory(
         SetupControlBarViewModel(store::dispatch)
     }
 
-    val snackBarViewModel by lazy {
-        ErrorInfoViewModel()
-    }
-
     val setupGradientViewModel by lazy {
         SetupGradientViewModel()
     }
@@ -42,6 +40,9 @@ internal class SetupViewModelFactory(
     }
 
     val joinCallButtonHolderViewModel by lazy {
-        JoinCallButtonHolderViewModel(store::dispatch)
+        JoinCallButtonHolderViewModel(
+            store::dispatch,
+            context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        )
     }
 }
