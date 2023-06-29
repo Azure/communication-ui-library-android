@@ -16,6 +16,8 @@ public final class CallCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
+    private Boolean enableMultitasking = false;
+    private Boolean enableSystemPiPWhenMultitasking = false;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -39,6 +41,32 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+
+    /***
+     * While on the call, user can go back to previous activity from the call composite.
+     *
+     * @param enable enable Multitasking.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder enableMultitasking(
+            final Boolean enable) {
+        this.enableMultitasking = enable;
+        return this;
+    }
+
+    /***
+     * When enableMultitasking is set to true, enables a system Picture-in-picture mode when user
+     * navigates away from call composite.
+     *
+     * @param enable enable system Picture-in-picture mode.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder enableSystemPictureInPictureWhenMultitasking(
+            final Boolean enable) {
+        this.enableSystemPiPWhenMultitasking = enable;
+        return this;
+    }
+
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
@@ -48,6 +76,8 @@ public final class CallCompositeBuilder {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
         config.setLocalizationConfig(localizationConfig);
+        config.setEnableMultitasking(enableMultitasking);
+        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         return new CallComposite(config);
     }
 }
