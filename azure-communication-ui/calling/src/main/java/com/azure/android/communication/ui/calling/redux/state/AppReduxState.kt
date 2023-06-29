@@ -44,11 +44,13 @@ internal class AppReduxState(
     override var permissionState: PermissionState =
         PermissionState(PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN)
 
-    override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND, inPipMode = false)
+    override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 
     override var errorState: ErrorState = ErrorState(fatalError = null, callStateError = null)
 
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 
     override var audioSessionState: AudioSessionState = AudioSessionState(audioFocusStatus = null)
+
+    override var pipState: PictureInPictureState = PictureInPictureState(status = PictureInPictureStatus.NONE)
 }

@@ -322,7 +322,11 @@ public final class CallComposite {
         return debugInfoManager.getDebugInfo();
     }
 
-    public void showUI(final Context context) {
+    /**
+     * Display Call Composite if it was hidden by user going Back in navigation while on the call.
+     * @param context
+     */
+    public void displayCallCompositeIfWasHidden(final Context context) {
         showUI(context, false);
     }
 

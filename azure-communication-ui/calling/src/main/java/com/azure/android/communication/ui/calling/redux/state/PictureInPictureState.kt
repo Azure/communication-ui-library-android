@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
-internal enum class LifecycleStatus {
-    FOREGROUND,
-    BACKGROUND,
+internal enum class PictureInPictureStatus {
+    NONE,
+    PIP_MODE_ENTERED
 }
 
-internal data class LifecycleState(val state: LifecycleStatus)
+internal data class PictureInPictureState(val status: PictureInPictureStatus)

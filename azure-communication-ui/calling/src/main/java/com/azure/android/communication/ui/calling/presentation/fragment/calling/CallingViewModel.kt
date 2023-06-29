@@ -57,7 +57,7 @@ internal class CallingViewModel(
             this::requestCallEnd,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
             moreCallOptionsListViewModel::display,
-            state.lifecycleState.inPipMode,
+            state.pipState,
         )
 
         localParticipantViewModel.init(
@@ -68,6 +68,7 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
+            state.pipState.status,
         )
 
         floatingHeaderViewModel.init(
@@ -97,7 +98,7 @@ internal class CallingViewModel(
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
-        participantGridViewModel.init(state.callState.callingStatus)
+        participantGridViewModel.init(state.callState.callingStatus, state.pipState)
         super.init(coroutineScope)
     }
 
@@ -122,7 +123,7 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
             state.callState.callingStatus,
-            state.lifecycleState.inPipMode,
+            state.pipState,
         )
 
         localParticipantViewModel.update(
@@ -133,6 +134,7 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
+            state.pipState.status,
         )
 
         audioDeviceListViewModel.update(
@@ -156,6 +158,7 @@ internal class CallingViewModel(
                 remoteParticipantsMap = mapOf(),
                 dominantSpeakersInfo = listOf(),
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
+                state.pipState,
             )
             floatingHeaderViewModel.dismiss()
             participantListViewModel.closeParticipantList()
@@ -167,6 +170,7 @@ internal class CallingViewModel(
                 state.callState.callingStatus,
                 state.localParticipantState.cameraState.device,
                 state.localParticipantState.cameraState.camerasCount,
+                state.pipState.status,
             )
         }
 
@@ -176,6 +180,7 @@ internal class CallingViewModel(
                 state.remoteParticipantState.participantMap,
                 state.remoteParticipantState.dominantSpeakersInfo,
                 state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
+                state.pipState,
             )
 
             floatingHeaderViewModel.update(

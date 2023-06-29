@@ -51,6 +51,13 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var displayedRemoteParticipantsView: MutableList<ParticipantGridCellView>
     private lateinit var getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        post {
+            updateGrid(participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value)
+        }
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         gridView = findViewById(R.id.azure_communication_ui_call_participant_container)
