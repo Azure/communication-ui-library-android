@@ -24,6 +24,8 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -116,6 +118,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraTransmissionStatus.REMOTE
             )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
 
             val appStore = mock<AppStore<ReduxState>> { }
             val callingViewModel = ControlBarViewModel(appStore::dispatch)
@@ -134,7 +137,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                isPiPMode = false,
+                pipState,
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -161,14 +164,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraState,
                 audioState1,
                 CallingStatus.CONNECTED,
-                isPiPMode = false,
+                pipState,
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
                 audioState2,
                 CallingStatus.CONNECTED,
-                isPiPMode = false,
+                pipState,
             )
 
             // assert
@@ -206,6 +209,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultListFromCameraPermissionStateFlow =
                 mutableListOf<ControlBarViewModel.CameraModel>()
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
 
             val appStore = mock<AppStore<ReduxState>>()
             val callingViewModel = ControlBarViewModel(appStore::dispatch)
@@ -228,7 +232,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                isPiPMode = false,
+                pipState,
             )
 
             val flowJob = launch {
@@ -246,7 +250,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                isPiPMode = false,
+                pipState,
             )
             callingViewModel.update(
                 permissionState2,
@@ -257,7 +261,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                isPiPMode = false,
+                pipState,
             )
 
             // assert
@@ -311,6 +315,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraDeviceSelectionStatus,
                 cameraTransmissionStatus
             )
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
+
             callingViewModel.init(
                 permissionState,
                 initialCameraState,
@@ -326,7 +332,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                isPiPMode = false,
+                pipState,
             )
 
             val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
@@ -344,7 +350,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                isPiPMode = false,
+                pipState,
             )
             callingViewModel.update(
                 permissionState,
@@ -355,7 +361,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                isPiPMode = false,
+                pipState,
             )
 
             // assert
@@ -402,6 +408,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraDeviceSelectionStatus,
                 cameraTransmissionStatus
             )
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
+
             callingViewModel.init(
                 permissionState,
                 initialCameraState,
@@ -417,7 +425,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                isPiPMode = false,
+                pipState,
             )
 
             val resultListFromOnHoldCallStatusStateFlow = mutableListOf<Boolean>()
@@ -435,7 +443,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                isPiPMode = false,
+                pipState,
             )
             callingViewModel.update(
                 permissionState,
@@ -446,7 +454,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.LOCAL_HOLD,
-                isPiPMode = false,
+                pipState,
             )
 
             // assert

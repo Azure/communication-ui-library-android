@@ -163,7 +163,7 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showUI() {
-        callLauncherViewModel.callComposite?.showUI(this)
+        callLauncherViewModel.callComposite?.displayCallCompositeIfWasHidden(this)
     }
 
     private fun showCallHistory() {

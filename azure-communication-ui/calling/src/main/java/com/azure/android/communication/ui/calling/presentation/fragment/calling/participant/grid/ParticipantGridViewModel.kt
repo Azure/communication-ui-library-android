@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -22,12 +24,15 @@ internal class ParticipantGridViewModel(
 
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
+    private lateinit var pipState: PictureInPictureState
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(
         callingStatus: CallingStatus,
+        pipState: PictureInPictureState,
     ) {
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
+        this.pipState = pipState
     }
 
     fun clear() {
@@ -45,7 +50,8 @@ internal class ParticipantGridViewModel(
     }
 
     fun getMaxRemoteParticipantsSize(): Int {
-        return maxRemoteParticipantSize
+        return if (pipState.status == PictureInPictureStatus.NONE)
+            maxRemoteParticipantSize else 1
     }
 
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
@@ -57,18 +63,22 @@ internal class ParticipantGridViewModel(
     fun update(
         participantStateUpdatedTimestamp: Number,
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
+        pipState: PictureInPictureState,
     ) {
-        if (participantStateUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp) {
+        if (participantStateUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
+            this.pipState == pipState
+        ) {
             return
         }
 
         remoteParticipantStateModifiedTimeStamp = participantStateUpdatedTimestamp
+        this.pipState = pipState
 
         var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)
 
         if (participantSharingScreen.isNullOrEmpty()) {
-            if (remoteParticipantsMap.size > maxRemoteParticipantSize) {
+            if (remoteParticipantsMap.size > getMaxRemoteParticipantsSize()) {
                 remoteParticipantsMapSorted =
                     sortRemoteParticipantsByTimestamp(remoteParticipantsMap)
             }
@@ -166,7 +176,7 @@ internal class ParticipantGridViewModel(
     ): Map<String, ParticipantInfoModel> {
         return remoteParticipantsMap.toList()
             .sortedByDescending { it.second.speakingTimestamp.toLong() }
-            .take(maxRemoteParticipantSize).toMap()
+            .take(getMaxRemoteParticipantsSize()).toMap()
     }
 
     private fun updateRemoteParticipantsVideoStreams(

@@ -13,6 +13,8 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -36,7 +38,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         requestCallEndCallback: () -> Unit,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
         openMoreMenuCallback: () -> Unit,
-        isPiPMode: Boolean,
+        pipState: PictureInPictureState,
     ) {
         callStateFlow = MutableStateFlow(callState.callingStatus)
         cameraStateFlow =
@@ -49,7 +51,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
-        this.isPiPMode = MutableStateFlow(isPiPMode)
+        this.isPiPMode = MutableStateFlow(pipState.status == PictureInPictureStatus.PIP_MODE_ENTERED)
     }
 
     fun update(
@@ -57,7 +59,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         cameraState: CameraState,
         audioState: AudioState,
         callingStatus: CallingStatus,
-        isPiPMode: Boolean
+        pipState: PictureInPictureState,
     ) {
         callStateFlow.value = callingStatus
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
@@ -65,7 +67,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         audioDeviceSelectionStatusStateFlow.value = audioState.device
         shouldEnableMicButtonStateFlow.value = shouldEnableMicButton(audioState)
         onHoldCallStatusStateFlow.value = callingStatus == CallingStatus.LOCAL_HOLD
-        this.isPiPMode.value = isPiPMode
+        this.isPiPMode.value = pipState.status == PictureInPictureStatus.PIP_MODE_ENTERED
     }
 
     fun getCallStateFlow(): StateFlow<CallingStatus> {

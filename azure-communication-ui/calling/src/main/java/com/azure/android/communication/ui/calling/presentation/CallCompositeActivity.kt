@@ -32,8 +32,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSupportedL
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
@@ -155,8 +155,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
         ) {
             store.dispatch(
-                if (isInPictureInPictureMode) LifecycleAction.EnterPiPMode()
-                else LifecycleAction.ExitPiPMode()
+                if (isInPictureInPictureMode) PipAction.PipModeEntered()
+                else PipAction.PipModeExited()
             )
         }
     }
