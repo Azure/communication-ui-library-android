@@ -25,6 +25,11 @@ internal class AudioModeManager(
                 // MODE_IN_COMMUNICATION is used to let the system know that the app is in a VOIP call
                 audioManager?.mode = MODE_IN_COMMUNICATION
             }
+            if (it.callState.callingStatus == CallingStatus.LOCAL_HOLD) {
+                // To fix audio focus retrieval after returning from other call, we need to
+                // assign ourselves as mode_normal when we go to hold
+                audioManager?.mode = MODE_NORMAL
+            }
         }
     }
 
