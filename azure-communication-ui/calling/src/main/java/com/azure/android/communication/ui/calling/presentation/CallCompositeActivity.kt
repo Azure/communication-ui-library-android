@@ -374,6 +374,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 ActivityInfo.SCREEN_ORIENTATION_USER
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+            CallCompositeSupportedScreenOrientation.USER_LANDSCAPE ->
+                ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
             null -> null
             else -> {
                 logger.warning("Not supported screen orientation")
