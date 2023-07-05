@@ -369,6 +369,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 return ActivityInfo.SCREEN_ORIENTATION_USER
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 return ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+            CallCompositeSupportedScreenOrientation.USER_LANDSCAPE ->
+                return ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
         }
         return if (screen == NavigationStatus.SETUP) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
