@@ -25,6 +25,9 @@ public class CallCompositeSupportedScreenOrientation
      */
     public static final CallCompositeSupportedScreenOrientation REVERSE_LANDSCAPE =
             fromString("REVERSE_LANDSCAPE");
+
+    public static final CallCompositeSupportedScreenOrientation USER_LANDSCAPE = fromString("USER_LANDSCAPE");
+
     /**
      * To be used when screen needs to be set in full sensor.
      */
