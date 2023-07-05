@@ -17,4 +17,6 @@ internal class CallCompositeConfiguration {
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
+    var enableMultitasking: Boolean = false
+    var enableSystemPiPWhenMultitasking: Boolean = false
 }

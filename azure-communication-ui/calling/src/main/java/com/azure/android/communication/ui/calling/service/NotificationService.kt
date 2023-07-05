@@ -37,12 +37,12 @@ internal class NotificationService(
     }
 
     private fun displayNotification() {
-        val inCallServiceIntent = Intent(context, InCallService::class.java)
-        context.startService(inCallServiceIntent)
+        val inCallServiceIntent = Intent(context.applicationContext, InCallService::class.java)
+        context.applicationContext.startService(inCallServiceIntent)
     }
 
     fun removeNotification() {
-        val inCallServiceIntent = Intent(context, InCallService::class.java)
-        context.stopService(inCallServiceIntent)
+        val inCallServiceIntent = Intent(context.applicationContext, InCallService::class.java)
+        context.applicationContext.stopService(inCallServiceIntent)
     }
 }

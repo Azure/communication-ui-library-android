@@ -111,6 +111,12 @@ internal class ControlBarView : ConstraintLayout {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isPiPModeFlow.collect {
+                visibility = if (it) View.GONE else View.VISIBLE
+            }
+        }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)

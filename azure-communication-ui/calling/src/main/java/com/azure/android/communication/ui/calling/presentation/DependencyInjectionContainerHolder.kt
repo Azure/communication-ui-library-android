@@ -19,8 +19,6 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.setDependencyInjectionContainer
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
-import java.lang.IllegalArgumentException
-
 /**
  * ViewModel for the CallCompositeActivity
  *
@@ -80,7 +78,6 @@ internal class DependencyInjectionContainerHolder(
             SetupViewModelFactory(container.appStore)
         )
     }
-
     val callingViewModel by lazy {
         CallingViewModel(
             container.appStore,
