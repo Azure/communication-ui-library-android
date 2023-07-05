@@ -26,6 +26,9 @@ public class CallCompositeSupportedScreenOrientation
     public static final CallCompositeSupportedScreenOrientation REVERSE_LANDSCAPE =
             fromString("REVERSE_LANDSCAPE");
 
+    /***
+     * To be used when screen needs to be in landscape in either direction.
+     */
     public static final CallCompositeSupportedScreenOrientation USER_LANDSCAPE = fromString("USER_LANDSCAPE");
 
     /**
