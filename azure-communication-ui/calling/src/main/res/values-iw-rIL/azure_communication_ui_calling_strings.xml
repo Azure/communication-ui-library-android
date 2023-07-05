@@ -44,6 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">מחכה שאחרים יצטרפו</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">שיחה עם אדם אחד</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">שיחה עם %1$d אנשים</string>
+    <string name="azure_communication_ui_calling_view_go_back">Go back</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(אני)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">משתתף ללא שם</string>
     <string name="azure_communication_ui_calling_view_leave_call">לעזוב שיחה?</string>

@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
+import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -25,6 +26,7 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var headerView: View
     private lateinit var participantNumberText: TextView
     private lateinit var displayParticipantsImageButton: ImageButton
+    private lateinit var backButton: ImageButton
     private lateinit var infoHeaderViewModel: InfoHeaderViewModel
     private lateinit var displayParticipantListCallback: () -> Unit
 
@@ -38,6 +40,11 @@ internal class InfoHeaderView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
         displayParticipantsImageButton.setOnClickListener {
             displayParticipantListCallback()
+        }
+        backButton = findViewById(R.id.azure_communication_ui_call_header_back_button)
+
+        backButton.setOnClickListener {
+            context.activity?.moveTaskToBack(true)
         }
     }
 
@@ -92,5 +99,6 @@ internal class InfoHeaderView : ConstraintLayout {
 
     private fun setupAccessibility() {
         displayParticipantsImageButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label)
+        backButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_go_back)
     }
 }
