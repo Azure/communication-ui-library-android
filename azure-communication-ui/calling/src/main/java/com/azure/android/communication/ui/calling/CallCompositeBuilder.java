@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling;
 
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
+import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -45,25 +46,13 @@ public final class CallCompositeBuilder {
     /***
      * While on the call, user can go back to previous activity from the call composite.
      *
-     * @param enable enable Multitasking.
+     * @param options Multitasking options.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    public CallCompositeBuilder enableMultitasking(
-            final Boolean enable) {
-        this.enableMultitasking = enable;
-        return this;
-    }
-
-    /***
-     * When enableMultitasking is set to true, enables a system Picture-in-picture mode when user
-     * navigates away from call composite.
-     *
-     * @param enable enable system Picture-in-picture mode.
-     * @return {@link CallCompositeBuilder} for chaining options.
-     */
-    public CallCompositeBuilder enableSystemPictureInPictureWhenMultitasking(
-            final Boolean enable) {
-        this.enableSystemPiPWhenMultitasking = enable;
+    public CallCompositeBuilder multitasking(
+            final CallCompositeMultitaskingOptions options) {
+        this.enableMultitasking = options.isEnableMultitasking();
+        this.enableSystemPiPWhenMultitasking = options.isEnableSystemPictureInPictureWhenMultitasking();
         return this;
     }
 
