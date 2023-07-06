@@ -58,7 +58,8 @@ import java.util.UUID;
 public final class CallComposite {
 
     // on each launch, an InstanceID will be assigned and incremented.
-    private static int instanceId = 0;
+    private static int instanceIdCounter = 0;
+    private final int instanceId = instanceIdCounter++;
 
     private final CallCompositeConfiguration configuration;
     private WeakReference<DependencyInjectionContainer> diContainer;
@@ -321,6 +322,14 @@ public final class CallComposite {
         return debugInfoManager.getDebugInfo();
     }
 
+    /**
+     * Display Call Composite if it was hidden by user going Back in navigation while on the call.
+     * @param context
+     */
+    public void displayCallCompositeIfWasHidden(final Context context) {
+        showUI(context, false);
+    }
+
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
         this.diContainer = new WeakReference<>(diContainer);
     }
@@ -332,7 +341,6 @@ public final class CallComposite {
                 return container.getDebugInfoManager();
             }
         }
-
         return createDebugInfoManager(context.getApplicationContext());
     }
 
@@ -378,10 +386,16 @@ public final class CallComposite {
                 callType));
 
 
+        showUI(context, isTest);
+    }
+
+    private void showUI(final Context context,
+                        final boolean isTest) {
+
         CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
         final Intent intent = new Intent(context, CallCompositeActivity.class);
-        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
+        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId);
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }

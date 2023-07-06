@@ -4,17 +4,21 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
+import android.app.PictureInPictureParams
+import android.app.PictureInPictureUiState
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Rational
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
-import android.window.OnBackInvokedDispatcher
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -30,13 +34,13 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 import java.util.Locale
 
 internal class CallCompositeActivity : AppCompatActivity() {
@@ -132,9 +136,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
         callStateHandler.start(lifecycleScope)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
-                onBackPressedDispatcher.onBackPressed()
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(1000) {
+                onNavigationBack()
             }
+        }
+
+        onBackPressedDispatcher.addCallback {
+            onNavigationBack()
         }
     }
 
@@ -144,6 +152,19 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            store.dispatch(
+                if (isInPictureInPictureMode) PipAction.PipModeEntered()
+                else PipAction.PipModeExited()
+            )
+        }
     }
 
     override fun onStop() {
@@ -182,6 +203,27 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onUserLeaveHint() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            enterPictureInPictureMode(params)
+        }
+    }
+
+    override fun onPictureInPictureUiStateChanged(pipState: PictureInPictureUiState) {
+        super.onPictureInPictureUiStateChanged(pipState)
+    }
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
     }
 
     private fun configureActionBar() {
@@ -384,7 +426,27 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
+    private fun onNavigationBack() {
+        if (store.getCurrentState().navigationState.navigationState == NavigationStatus.SETUP) {
+            // double check here if we need both the action to execute
+            store.dispatch(action = CallingAction.CallEndRequested())
+            store.dispatch(action = NavigationAction.Exit())
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            val enteredPiPSucceeded = activity?.enterPictureInPictureMode(params)
+            if (enteredPiPSucceeded == false)
+                activity?.moveTaskToBack(true)
+        } else {
+            activity?.moveTaskToBack(true)
+        }
+    }
+
+    internal companion object {
         const val KEY_INSTANCE_ID = "InstanceID"
     }
 }

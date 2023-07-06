@@ -51,4 +51,6 @@ internal class AppReduxState(
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 
     override var audioSessionState: AudioSessionState = AudioSessionState(audioFocusStatus = null)
+
+    override var pipState: PictureInPictureState = PictureInPictureState(status = PictureInPictureStatus.NONE)
 }

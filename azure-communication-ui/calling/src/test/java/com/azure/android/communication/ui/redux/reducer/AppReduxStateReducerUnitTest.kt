@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducer
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -69,6 +70,9 @@ internal class AppReduxStateReducerUnitTest {
     @Mock
     private lateinit var mockAudioSessionReducerImpl: AudioSessionStateReducerImpl
 
+    @Mock
+    private lateinit var pipReducer: PipReducerImpl
+
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
 
@@ -83,6 +87,7 @@ internal class AppReduxStateReducerUnitTest {
                 mockErrorReducer,
                 mockNavigationReducerImpl,
                 mockAudioSessionReducerImpl,
+                pipReducer,
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
@@ -157,6 +162,13 @@ internal class AppReduxStateReducerUnitTest {
                 action
             )
         ).thenReturn(state.audioSessionState)
+
+        Mockito.`when`(
+            pipReducer.reduce(
+                state.pipState,
+                action
+            )
+        ).thenReturn(state.pipState)
 
         // act
         reducer.reduce(state, action)

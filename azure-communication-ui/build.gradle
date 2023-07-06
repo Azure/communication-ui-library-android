@@ -5,7 +5,7 @@ buildscript {
     }
 
     ext {
-        call_library_version_name = '1.4.0-beta.2'
+        call_library_version_name = '1.5.0-alpha.1'
         chat_library_version_name = '1.0.0-beta.2'
 
         ui_library_version_code = getVersionCode()
@@ -68,7 +68,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
 

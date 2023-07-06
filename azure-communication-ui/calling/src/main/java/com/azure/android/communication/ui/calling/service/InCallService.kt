@@ -29,7 +29,8 @@ internal class InCallService : Service() {
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        stopSelf()
+        if (rootIntent?.component?.className == CallCompositeActivity::class.java.name)
+            stopSelf()
         super.onTaskRemoved(rootIntent)
     }
 

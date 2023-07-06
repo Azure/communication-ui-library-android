@@ -69,13 +69,13 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -126,15 +126,17 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             stateFlow.emit(newBackgroundState)
 
             // assert
-            verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any())
+
+            verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockControlBarViewModel, times(1)).update(
+                any(),
                 any(),
                 any(),
                 any(),
                 any(),
             )
             verify(mockLocalParticipantViewModel, times(1)).update(
-                any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
@@ -158,13 +160,13 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -202,7 +204,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val newForegroundState = AppReduxState("", false, false)
+            val newForegroundState = AppReduxState("", false, false,)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -213,15 +215,16 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             stateFlow.emit(newForegroundState)
 
             // assert
-            verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any())
+            verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockControlBarViewModel, times(2)).update(
+                any(),
                 any(),
                 any(),
                 any(),
                 any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
-                any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
@@ -242,17 +245,17 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { getCurrentState() } doAnswer { appState }
             }
             val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {
-                on { update(any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -306,7 +309,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             stateFlow.emit(storeState)
 
             // assert
-            verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any())
+            verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
             verify(mockParticipantListViewModel, times(1)).update(any(), any())
             verify(mockBannerViewModel, times(1)).update(any())
@@ -315,9 +318,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
-                any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
@@ -341,13 +345,13 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -395,7 +399,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             stateFlow.emit(newForegroundState)
 
             // assert
-            verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any())
+            verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(0)).update(any())
             verify(mockParticipantListViewModel, times(0)).update(any(), any())
             verify(mockBannerViewModel, times(0)).update(any())
@@ -404,9 +408,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
-                any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
