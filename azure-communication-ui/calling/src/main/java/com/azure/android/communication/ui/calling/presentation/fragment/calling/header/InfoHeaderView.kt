@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
@@ -44,7 +45,11 @@ internal class InfoHeaderView : ConstraintLayout {
         backButton = findViewById(R.id.azure_communication_ui_call_header_back_button)
 
         backButton.setOnClickListener {
-            context.activity?.moveTaskToBack(true)
+            if (infoHeaderViewModel.multitaskingEnabled) {
+                (context.activity as? MultitaskingCallCompositeActivity)?.hide()
+            } else {
+                infoHeaderViewModel.requestCallEnd()
+            }
         }
     }
 

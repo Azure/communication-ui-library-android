@@ -22,6 +22,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
+import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
+import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
@@ -58,6 +60,8 @@ public final class CallComposite {
 
     private final CallCompositeConfiguration configuration;
     private WeakReference<DependencyInjectionContainer> diContainer;
+
+    private WeakReference<CallCompositeActivity> activity;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -229,8 +233,24 @@ public final class CallComposite {
         showUI(context, false);
     }
 
+    /**
+     * Hide call composite.
+     */
+    public void hide() {
+        if (diContainer != null) {
+            final CallCompositeActivity activity = this.activity.get();
+            if (activity != null) {
+                activity.hide();
+            }
+        }
+    }
+
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
         this.diContainer = new WeakReference<>(diContainer);
+    }
+
+    void setActivity(final CallCompositeActivity activity) {
+        this.activity = new WeakReference<>(activity);
     }
 
     private DebugInfoManager getDebugInfoManager(final Context context) {
@@ -279,9 +299,18 @@ public final class CallComposite {
     private void showUI(final Context context,
                         final boolean isTest) {
 
+        Class activityClass = CallCompositeActivity.class;
+
+        if (configuration.getEnableMultitasking()) {
+            activityClass = MultitaskingCallCompositeActivity.class;
+        }
+        if (configuration.getEnableSystemPiPWhenMultitasking()) {
+            activityClass = PiPCallCompositeActivity.class;
+        }
+
         CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
-        final Intent intent = new Intent(context, CallCompositeActivity.class);
+        final Intent intent = new Intent(context, activityClass);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId);
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

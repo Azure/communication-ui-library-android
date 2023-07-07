@@ -18,7 +18,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
-import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -35,6 +34,7 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.setActivity
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-internal class CallCompositeActivity : AppCompatActivity() {
+internal open class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
@@ -92,6 +92,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         setStatusBarColor()
         setActionBarVisibility()
 
+        diContainerHolder.container.callComposite.setActivity(this)
+
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
         }
@@ -128,16 +130,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(1000) {
-                onNavigationBack()
-            }
-        }
-
-        onBackPressedDispatcher.addCallback {
-            onNavigationBack()
-        }
     }
 
     override fun onStart() {
@@ -151,7 +143,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
         ) {
             store.dispatch(
@@ -197,7 +190,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onUserLeaveHint() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
             store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
         ) {
@@ -215,6 +209,26 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+    }
+
+    fun hide() {
+        if (!configuration.enableMultitasking)
+            return
+
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            val enteredPiPSucceeded = activity?.enterPictureInPictureMode(params)
+            if (enteredPiPSucceeded == false)
+                activity?.moveTaskToBack(true)
+        } else {
+            activity?.moveTaskToBack(true)
+        }
     }
 
     private fun configureActionBar() {
@@ -391,26 +405,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return Locale.US
-    }
-
-    private fun onNavigationBack() {
-        if (store.getCurrentState().navigationState.navigationState == NavigationStatus.SETUP) {
-            // double check here if we need both the action to execute
-            store.dispatch(action = CallingAction.CallEndRequested())
-            store.dispatch(action = NavigationAction.Exit())
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
-        ) {
-            val params = PictureInPictureParams
-                .Builder()
-                .setAspectRatio(Rational(1, 1))
-                .build()
-            val enteredPiPSucceeded = activity?.enterPictureInPictureMode(params)
-            if (enteredPiPSucceeded == false)
-                activity?.moveTaskToBack(true)
-        } else {
-            activity?.moveTaskToBack(true)
-        }
     }
 
     internal companion object {

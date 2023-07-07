@@ -18,7 +18,8 @@ import kotlinx.coroutines.CoroutineScope
 internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    val multitaskingEnabled: Boolean
 ) :
     BaseViewModel(store) {
 
@@ -73,7 +74,8 @@ internal class CallingViewModel(
 
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
-            state.remoteParticipantState.participantMap.count()
+            state.remoteParticipantState.participantMap.count(),
+            this::requestCallEnd,
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState

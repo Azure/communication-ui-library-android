@@ -8,17 +8,20 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
+import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
@@ -154,6 +157,28 @@ internal class CallingFragment :
         moreCallOptionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000) {
+                onBackPressed()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            onBackPressed()
+        }
+    }
+
+    private fun onBackPressed() {
+        if (viewModel.multitaskingEnabled) {
+            (activity as? MultitaskingCallCompositeActivity)?.hide()
+        } else {
+            viewModel.requestCallEnd()
+        }
     }
 
     override fun onResume() {
