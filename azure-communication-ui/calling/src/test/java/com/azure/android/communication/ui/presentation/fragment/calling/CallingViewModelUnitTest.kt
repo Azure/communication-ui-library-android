@@ -113,6 +113,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                false,
             )
 
             val newBackgroundState = AppReduxState("", false, false)
@@ -201,6 +202,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                false,
             )
 
             val newForegroundState = AppReduxState("", false, false,)
@@ -289,6 +291,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                false,
             )
 
             val storeState = AppReduxState("", false, false)
@@ -385,6 +388,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                false,
             )
 
             val newForegroundState = AppReduxState("", false, false)
