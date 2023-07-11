@@ -24,7 +24,8 @@ internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
-    private val debugInfoManager: DebugInfoManager
+    private val debugInfoManager: DebugInfoManager,
+    private val enableMultitasking: Boolean,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
@@ -40,7 +41,7 @@ internal class CallingViewModelFactory(
     }
 
     val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel()
+        InfoHeaderViewModel(enableMultitasking)
     }
 
     val audioDeviceListViewModel by lazy {

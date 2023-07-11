@@ -181,7 +181,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val notificationService by lazy {
-        NotificationService(parentContext, appStore)
+        NotificationService(parentContext, appStore, configuration)
     }
 
     override val remoteParticipantHandler by lazy {

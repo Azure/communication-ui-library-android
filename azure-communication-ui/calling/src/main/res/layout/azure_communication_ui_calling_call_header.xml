@@ -21,6 +21,20 @@
     app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner"
     >
 
+    <ImageButton
+        android:id="@+id/azure_communication_ui_call_header_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
+        android:contentDescription="@string/azure_communication_ui_calling_view_go_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled"
+        app:tint="@color/azure_communication_ui_calling_color_white"
+        />
+
     <TextView
         android:id="@+id/azure_communication_ui_call_participant_number_text"
         android:layout_width="wrap_content"
@@ -31,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/azure_communication_ui_call_header_back_button"
         app:layout_constraintTop_toTopOf="parent"
         />
 

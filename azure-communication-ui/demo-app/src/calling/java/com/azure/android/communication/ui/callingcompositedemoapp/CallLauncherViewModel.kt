@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
@@ -124,6 +125,8 @@ class CallLauncherViewModel : ViewModel() {
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
+
+        callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(true, true))
 
         val callComposite = callCompositeBuilder.build()
 
