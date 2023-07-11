@@ -80,7 +80,16 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
         numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
 
-        isVisibleFlow.value = displayVideo || pipStatus == PictureInPictureStatus.NONE
+        isVisibleFlow.value = isVisible(displayVideo, pipStatus, displayFullScreenAvatar)
+    }
+
+    private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean): Boolean {
+        return if (pipStatus == PictureInPictureStatus.PIP_MODE_ENTERED) {
+            displayVideo || displayFullScreenAvatar
+        }
+        else {
+            true
+        }
     }
 
     fun clear() {
@@ -121,7 +130,7 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState))
         numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        isVisibleFlow = MutableStateFlow(displayVideo || pipStatus == PictureInPictureStatus.NONE)
+        isVisibleFlow = MutableStateFlow(isVisible(displayVideo, pipStatus, displayFullScreenAvatar))
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())
