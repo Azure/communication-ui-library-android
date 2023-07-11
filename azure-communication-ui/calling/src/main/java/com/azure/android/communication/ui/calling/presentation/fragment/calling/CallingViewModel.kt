@@ -100,7 +100,7 @@ internal class CallingViewModel(
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
-        participantGridViewModel.init(state.callState.callingStatus, state.pipState)
+        participantGridViewModel.init(state.callState.callingStatus)
         super.init(coroutineScope)
     }
 
@@ -158,7 +158,7 @@ internal class CallingViewModel(
             participantGridViewModel.update(
                 System.currentTimeMillis(),
                 mapOf(),
-                state.pipState,
+                state.pipState.status,
             )
             floatingHeaderViewModel.dismiss()
             participantListViewModel.closeParticipantList()
@@ -178,7 +178,7 @@ internal class CallingViewModel(
             participantGridViewModel.update(
                 state.remoteParticipantState.modifiedTimestamp,
                 state.remoteParticipantState.participantMap,
-                state.pipState,
+                state.pipState.status,
             )
 
             floatingHeaderViewModel.update(
