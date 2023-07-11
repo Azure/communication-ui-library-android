@@ -71,17 +71,30 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val callHistoryService get() = container.callHistoryService
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        volumeControlStream = AudioManager.STREAM_VOICE_CALL
-
-        // Assign the Dependency Injection Container the appropriate instanceId,
-        // so it can initialize it's container holding the dependencies
+        // Before super, we'll set up the DI injector and check the PiP state
         try {
             diContainerHolder.instanceId = instanceId
         } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
+
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            store.dispatch(
+                if (isInPictureInPictureMode) PipAction.PipModeEntered()
+                else PipAction.PipModeExited()
+            )
+        }
+
+        // Call super
+        super.onCreate(savedInstanceState)
+
+        // Inflate everything else
+        volumeControlStream = AudioManager.STREAM_VOICE_CALL
+
 
         lifecycleScope.launch { errorHandler.start() }
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
@@ -138,20 +151,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (configuration.enableSystemPiPWhenMultitasking &&
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
-        ) {
-            store.dispatch(
-                if (isInPictureInPictureMode) PipAction.PipModeEntered()
-                else PipAction.PipModeExited()
-            )
-        }
     }
 
     override fun onStop() {
