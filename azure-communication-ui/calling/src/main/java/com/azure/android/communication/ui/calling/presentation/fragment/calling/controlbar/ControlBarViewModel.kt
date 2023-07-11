@@ -113,7 +113,6 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
     }
 
-
     private fun shouldEnableMicButton(audioState: AudioState): Boolean {
         return (audioState.operation != AudioOperationalStatus.PENDING)
     }

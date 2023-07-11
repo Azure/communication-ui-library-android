@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -42,10 +41,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipState)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipStatus)
 
             // assert
             assertEquals(
@@ -91,10 +90,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipState)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipStatus)
 
             // assert
             assertEquals(
@@ -130,10 +129,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipState)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipStatus)
 
             // assert
             assertEquals(
@@ -170,11 +169,11 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipState)
-            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, pipStatus)
+            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert
             assertEquals(
@@ -216,10 +215,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert
             assertEquals(
@@ -237,7 +236,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             participantGridViewModel.update(
                 modifiedTimestamp,
                 remoteParticipantsMapNew.toMutableMap(),
-                pipState,
+                pipStatus,
             )
 
             // assert state flow called only once
@@ -277,10 +276,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert first update
             assertEquals(
@@ -295,7 +294,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user2" && participantViewModelSecond.getDisplayNameStateFlow().value == "user2")
 
             // act again with modified timestamp
-            participantGridViewModel.update(100, remoteParticipantsMapNew.toMutableMap(), pipState)
+            participantGridViewModel.update(100, remoteParticipantsMapNew.toMutableMap(), pipStatus)
 
             // assert state flow called only once
             assertEquals(
@@ -337,10 +336,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert first update
             assertEquals(
@@ -355,7 +354,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user2" && participantViewModelSecond.getDisplayNameStateFlow().value == "user2")
 
             // act with new list
-            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap(), pipState)
+            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap(), pipStatus)
 
             // assert state updated count
             assertEquals(
@@ -397,10 +396,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(89, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(89, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert
             assertEquals(
@@ -419,7 +418,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelFourth.getParticipantUserIdentifier() == "user12" && participantViewModelFourth.getDisplayNameStateFlow().value == "user12")
 
             // act for new list
-            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap(), pipState)
+            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap(), pipStatus)
 
             // assert new list
             assertEquals(
@@ -466,10 +465,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert
             assertEquals(
@@ -528,10 +527,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert
             assertEquals(
@@ -554,7 +553,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user4" && participantViewModelSixth.getDisplayNameStateFlow().value == "user4")
 
             // act with new list
-            participantGridViewModel.update(2, remoteParticipantsMapNew.toMutableMap(), pipState)
+            participantGridViewModel.update(2, remoteParticipantsMapNew.toMutableMap(), pipStatus)
 
             // assert new list
             participantViewModelFirst = emitResultFromRemoteParticipantsSharedFlow[1][0]
@@ -622,10 +621,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipState = PictureInPictureState(PictureInPictureStatus.NONE)
+            val pipStatus = PictureInPictureStatus.NONE
 
             // act
-            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), pipState)
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), pipStatus)
 
             // assert
             assertEquals(
@@ -648,7 +647,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user4" && participantViewModelSixth.getDisplayNameStateFlow().value == "user4")
 
             // act with new list
-            participantGridViewModel.update(2, remoteParticipantsMapNew.toMutableMap(), pipState)
+            participantGridViewModel.update(2, remoteParticipantsMapNew.toMutableMap(), pipStatus)
 
             // assert new list
 

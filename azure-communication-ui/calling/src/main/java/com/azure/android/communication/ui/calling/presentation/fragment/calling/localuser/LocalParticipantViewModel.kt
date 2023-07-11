@@ -86,8 +86,7 @@ internal class LocalParticipantViewModel(
     private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean): Boolean {
         return if (pipStatus == PictureInPictureStatus.PIP_MODE_ENTERED) {
             displayVideo || displayFullScreenAvatar
-        }
-        else {
+        } else {
             true
         }
     }
@@ -119,9 +118,11 @@ internal class LocalParticipantViewModel(
             MutableStateFlow(audioOperationalStatus == AudioOperationalStatus.OFF)
         displayFullScreenAvatarFlow = MutableStateFlow(displayFullScreenAvatar)
         displaySwitchCameraButtonFlow =
-            MutableStateFlow(displayVideo
-                    && viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
-                    pipStatus == PictureInPictureStatus.NONE)
+            MutableStateFlow(
+                displayVideo &&
+                    viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
+                    pipStatus == PictureInPictureStatus.NONE
+            )
         displayPipSwitchCameraButtonFlow =
             MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.SELFIE_PIP && camerasCount > 1)
         enableCameraSwitchFlow = MutableStateFlow(
