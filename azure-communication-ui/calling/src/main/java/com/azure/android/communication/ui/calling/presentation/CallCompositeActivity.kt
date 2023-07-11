@@ -99,7 +99,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Inflate everything else
         volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
-
         lifecycleScope.launch { errorHandler.start() }
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
 
