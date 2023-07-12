@@ -88,6 +88,8 @@ class CallLauncherActivity : AppCompatActivity() {
                 launch()
             }
 
+            closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
+
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)

@@ -91,6 +91,10 @@ class CallLauncherViewModel : ViewModel() {
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
+    fun close() {
+        callComposite?.exit()
+    }
+
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
         return (
             callComposite
