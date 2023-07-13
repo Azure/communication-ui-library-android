@@ -84,15 +84,6 @@ internal class DependencyInjectionContainerImpl(
         ErrorHandler(configuration, appStore)
     }
 
-    /*
-    override val videoViewManager by lazy {
-        VideoViewManager(
-            callingSDKWrapper,
-            applicationContext,
-            customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
-        )
-    }*/
-
     override val permissionManager by lazy {
         PermissionManager(appStore)
     }

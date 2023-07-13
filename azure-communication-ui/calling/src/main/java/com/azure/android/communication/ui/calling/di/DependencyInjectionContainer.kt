@@ -37,7 +37,6 @@ internal interface DependencyInjectionContainer {
     // Redux Store
     val appStore: Store<ReduxState>
     val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
-    val customVideoStreamRendererFactory: VideoStreamRendererFactory?
     val callComposite: CallComposite
 
     // Config
@@ -58,6 +57,9 @@ internal interface DependencyInjectionContainer {
     val debugInfoManager: DebugInfoManager
     val callHistoryService: CallHistoryService
     val audioModeManager: AudioModeManager
+
+    // UI Mocking
+    val customVideoStreamRendererFactory: VideoStreamRendererFactory?
 
     // Data
     val callHistoryRepository: CallHistoryRepository

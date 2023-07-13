@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Locale
 
+
 internal open class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
