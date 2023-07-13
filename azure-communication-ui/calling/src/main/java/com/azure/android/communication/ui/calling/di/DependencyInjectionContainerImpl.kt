@@ -61,7 +61,7 @@ internal class DependencyInjectionContainerImpl(
     private val parentContext: Context,
     override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,
-    private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
+    override val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : DependencyInjectionContainer {
 
@@ -84,13 +84,14 @@ internal class DependencyInjectionContainerImpl(
         ErrorHandler(configuration, appStore)
     }
 
+    /*
     override val videoViewManager by lazy {
         VideoViewManager(
             callingSDKWrapper,
             applicationContext,
             customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
         )
-    }
+    }*/
 
     override val permissionManager by lazy {
         PermissionManager(appStore)
@@ -237,7 +238,7 @@ internal class DependencyInjectionContainerImpl(
 
     override val logger: Logger by lazy { DefaultLogger() }
 
-    private val callingSDKWrapper: CallingSDK by lazy {
+    override val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK
             ?: CallingSDKWrapper(
                 applicationContext,

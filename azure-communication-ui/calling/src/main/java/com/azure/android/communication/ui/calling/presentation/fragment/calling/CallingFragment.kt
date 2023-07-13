@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
+import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
@@ -48,7 +49,7 @@ internal class CallingFragment :
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
 
-    private val videoViewManager get() = holder.container.videoViewManager
+    private val videoViewManager get() = (requireActivity() as CallCompositeActivity).videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
     private val viewModel get() = holder.callingViewModel
 

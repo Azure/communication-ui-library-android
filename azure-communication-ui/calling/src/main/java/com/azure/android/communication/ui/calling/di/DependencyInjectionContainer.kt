@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
@@ -25,6 +26,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.NotificationService
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
 // Dependency Container for the Call Composite Activity
 // For implementation
@@ -35,7 +37,7 @@ internal interface DependencyInjectionContainer {
     // Redux Store
     val appStore: Store<ReduxState>
     val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
-
+    val customVideoStreamRendererFactory: VideoStreamRendererFactory?
     val callComposite: CallComposite
 
     // Config
@@ -57,9 +59,7 @@ internal interface DependencyInjectionContainer {
     val callHistoryService: CallHistoryService
     val audioModeManager: AudioModeManager
 
-    // UI
-    val videoViewManager: VideoViewManager
-
     // Data
     val callHistoryRepository: CallHistoryRepository
+    val callingSDKWrapper: CallingSDK
 }

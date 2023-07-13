@@ -66,7 +66,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
-    private val videoViewManager get() = container.videoViewManager
+    lateinit var videoViewManager : VideoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
 
@@ -83,6 +83,13 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         // Call super
         super.onCreate(savedInstanceState)
+
+        // Create VideoViewManager
+        videoViewManager = VideoViewManager(
+            diContainerHolder.container.callingSDKWrapper,
+            this,
+            diContainerHolder.container.customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
+        )
 
         // Inflate everything else
         volumeControlStream = AudioManager.STREAM_VOICE_CALL
@@ -177,6 +184,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Covers edge case where Android tries to recreate call activity after process death
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
+        videoViewManager.destroy()
         if (CallCompositeInstanceManager.hasCallComposite(instanceId)) {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
@@ -309,7 +317,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 notificationService.removeNotification()
                 store.end()
                 callingMiddlewareActionHandler.dispose()
-                videoViewManager.destroy()
                 finish()
             }
             NavigationStatus.IN_CALL -> {
