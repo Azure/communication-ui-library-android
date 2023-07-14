@@ -30,13 +30,13 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
+import com.azure.android.communication.ui.calling.presentation.manager.RotationManager
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.setActivity
 import com.azure.android.communication.ui.calling.utilities.TestHelper
-import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -84,6 +84,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         // Call super
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch{
+            RotationManager(navigationRouter).start(this@CallCompositeActivity);
+        }
 
         // Create VideoViewManager
         videoViewManager = VideoViewManager(
@@ -323,22 +327,11 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                requestedOrientation = if (isAndroidTV(this)) {
-                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                } else {
-                    ActivityInfo.SCREEN_ORIENTATION_USER
-                }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                requestedOrientation = if (isAndroidTV(this)) {
-
-                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                } else {
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                }
 
                 launchFragment(SetupFragment::class.java.name)
             }
