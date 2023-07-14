@@ -163,9 +163,7 @@ internal class CallingFragment :
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000) {
-                onBackPressed()
-            }
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000, ::onBackPressed)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback {
@@ -174,6 +172,7 @@ internal class CallingFragment :
     }
 
     private fun onBackPressed() {
+
         if (viewModel.multitaskingEnabled) {
             (activity as? MultitaskingCallCompositeActivity)?.hide()
         } else {
@@ -209,6 +208,9 @@ internal class CallingFragment :
     }
 
     override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.unregisterOnBackInvokedCallback(::onBackPressed)
+        }
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
