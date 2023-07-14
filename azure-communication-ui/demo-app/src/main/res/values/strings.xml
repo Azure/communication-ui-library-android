@@ -17,6 +17,7 @@
     <string name="java">Java</string>
     <string name="launch_button_text">Launch</string>
     <string name="re_open_ui_button_text">Re Open Call UI</string>
+    <string name="close_button_text">Close</string>
     <string name="open_ui_button_text">Open partial view</string>
     <string name="open_full_screen_ui_button_text">Open Full Screen UI</string>
     <string name="close_composite_button_text">Stop Composite</string>
