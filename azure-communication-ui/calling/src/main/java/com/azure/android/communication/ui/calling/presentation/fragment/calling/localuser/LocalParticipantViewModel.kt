@@ -65,7 +65,9 @@ internal class LocalParticipantViewModel(
         localUserMutedStateFlow.value = audioOperationalStatus == AudioOperationalStatus.OFF
         displayFullScreenAvatarFlow.value = displayFullScreenAvatar
         displaySwitchCameraButtonFlow.value =
-            displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1
+            displayVideo &&
+            viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
+            pipStatus == PictureInPictureStatus.NONE
         displayPipSwitchCameraButtonFlow.value =
             displayVideo &&
             viewMode == LocalParticipantViewMode.SELFIE_PIP &&
@@ -78,7 +80,15 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
         numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
 
-        isVisibleFlow.value = displayVideo || pipStatus == PictureInPictureStatus.NONE
+        isVisibleFlow.value = isVisible(displayVideo, pipStatus, displayFullScreenAvatar)
+    }
+
+    private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean): Boolean {
+        return if (pipStatus == PictureInPictureStatus.PIP_MODE_ENTERED) {
+            displayVideo || displayFullScreenAvatar
+        } else {
+            true
+        }
     }
 
     fun clear() {
@@ -108,7 +118,11 @@ internal class LocalParticipantViewModel(
             MutableStateFlow(audioOperationalStatus == AudioOperationalStatus.OFF)
         displayFullScreenAvatarFlow = MutableStateFlow(displayFullScreenAvatar)
         displaySwitchCameraButtonFlow =
-            MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1)
+            MutableStateFlow(
+                displayVideo &&
+                    viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
+                    pipStatus == PictureInPictureStatus.NONE
+            )
         displayPipSwitchCameraButtonFlow =
             MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.SELFIE_PIP && camerasCount > 1)
         enableCameraSwitchFlow = MutableStateFlow(
@@ -117,7 +131,7 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState))
         numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        isVisibleFlow = MutableStateFlow(displayVideo || pipStatus == PictureInPictureStatus.NONE)
+        isVisibleFlow = MutableStateFlow(isVisible(displayVideo, pipStatus, displayFullScreenAvatar))
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())

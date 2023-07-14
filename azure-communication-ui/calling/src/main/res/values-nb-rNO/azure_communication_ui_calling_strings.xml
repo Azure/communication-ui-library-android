@@ -44,6 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Venter på at andre skal bli med</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Samtale med 1 person</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ring med %1$d personer</string>
+    <string name="azure_communication_ui_calling_view_go_back">Go back</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Deltaker uten navn</string>
     <string name="azure_communication_ui_calling_view_leave_call">Vil du forlate samtalen?</string>

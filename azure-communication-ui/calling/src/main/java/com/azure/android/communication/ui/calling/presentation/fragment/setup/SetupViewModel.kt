@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 
@@ -31,6 +32,12 @@ internal class SetupViewModel(
 
     fun setupCall() {
         dispatchAction(action = CallingAction.SetupCall())
+    }
+
+    fun exitComposite() {
+        // double check here if we need both the action to execute
+        dispatchAction(action = CallingAction.CallEndRequested())
+        dispatchAction(action = NavigationAction.Exit())
     }
 
     override fun init(coroutineScope: CoroutineScope) {

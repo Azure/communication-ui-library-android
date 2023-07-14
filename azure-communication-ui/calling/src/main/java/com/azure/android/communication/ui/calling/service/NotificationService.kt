@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.service
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 internal class NotificationService(
     private val context: Context,
     private val store: Store<ReduxState>,
+    private val configuration: CallCompositeConfiguration,
 ) {
 
     private val callingStatus = MutableStateFlow(CallingStatus.NONE)
@@ -38,6 +40,8 @@ internal class NotificationService(
 
     private fun displayNotification() {
         val inCallServiceIntent = Intent(context.applicationContext, InCallService::class.java)
+        inCallServiceIntent.putExtra("enableMultitasking", configuration.enableMultitasking)
+        inCallServiceIntent.putExtra("enableSystemPiPWhenMultitasking", configuration.enableSystemPiPWhenMultitasking)
         context.applicationContext.startService(inCallServiceIntent)
     }
 

@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -18,18 +17,14 @@ internal class CallStateHandler(
     private val configuration: CallCompositeConfiguration,
     private val store: Store<ReduxState>,
 ) {
-    private var callingStatusStateFlow = MutableStateFlow<CallingStatus?>(null)
+    private var lastSentCallingStatus: CallingStatus? = null
 
     fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
-            store.getStateFlow().collect {
-                callingStatusStateFlow.value = it.callState.callingStatus
-            }
-        }
-        coroutineScope.launch {
-            callingStatusStateFlow.collect {
-                it?.let {
-                    sendCallStateChangedEvent(it)
+            store.getStateFlow().collect { state ->
+                if (lastSentCallingStatus != state.callState.callingStatus) {
+                    lastSentCallingStatus = state.callState.callingStatus
+                    lastSentCallingStatus?.let { sendCallStateChangedEvent(it) }
                 }
             }
         }

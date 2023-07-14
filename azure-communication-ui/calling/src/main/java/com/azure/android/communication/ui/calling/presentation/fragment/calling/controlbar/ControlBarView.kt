@@ -113,7 +113,7 @@ internal class ControlBarView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isPiPModeFlow.collect {
+            viewModel.isVisible.collect {
                 visibility = if (it) View.GONE else View.VISIBLE
             }
         }

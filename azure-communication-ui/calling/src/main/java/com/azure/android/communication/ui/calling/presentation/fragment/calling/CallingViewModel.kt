@@ -18,7 +18,8 @@ import kotlinx.coroutines.CoroutineScope
 internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    val multitaskingEnabled: Boolean
 ) :
     BaseViewModel(store) {
 
@@ -73,7 +74,8 @@ internal class CallingViewModel(
 
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
-            state.remoteParticipantState.participantMap.count()
+            state.remoteParticipantState.participantMap.count(),
+            this::requestCallEnd,
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
@@ -98,7 +100,7 @@ internal class CallingViewModel(
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
-        participantGridViewModel.init(state.callState.callingStatus, state.pipState)
+        participantGridViewModel.init(state.callState.callingStatus)
         super.init(coroutineScope)
     }
 
@@ -158,7 +160,7 @@ internal class CallingViewModel(
                 remoteParticipantsMap = mapOf(),
                 dominantSpeakersInfo = listOf(),
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
-                state.pipState,
+                state.pipState.status,
             )
             floatingHeaderViewModel.dismiss()
             participantListViewModel.closeParticipantList()
@@ -180,7 +182,7 @@ internal class CallingViewModel(
                 state.remoteParticipantState.participantMap,
                 state.remoteParticipantState.dominantSpeakersInfo,
                 state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
-                state.pipState,
+                state.pipState.status,
             )
 
             floatingHeaderViewModel.update(

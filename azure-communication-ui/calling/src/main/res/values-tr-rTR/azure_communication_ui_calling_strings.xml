@@ -44,6 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Diğerlerinin katılması bekleniyor</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 kişi ile arama</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d kişi ile arama</string>
+    <string name="azure_communication_ui_calling_view_go_back">Go back</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ben)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Adsız katılımcı</string>
     <string name="azure_communication_ui_calling_view_leave_call">Aramadan ayrıl?</string>

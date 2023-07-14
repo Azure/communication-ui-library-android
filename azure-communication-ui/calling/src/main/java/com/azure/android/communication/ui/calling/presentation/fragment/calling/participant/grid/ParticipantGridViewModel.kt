@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,15 +25,14 @@ internal class ParticipantGridViewModel(
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private var dominantSpeakersStateModifiedTimestamp: Number = 0
-    private lateinit var pipState: PictureInPictureState
+    private var pipStatus: PictureInPictureStatus = PictureInPictureStatus.NONE
+
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(
         callingStatus: CallingStatus,
-        pipState: PictureInPictureState,
     ) {
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
-        this.pipState = pipState
     }
 
     fun clear() {
@@ -53,7 +51,7 @@ internal class ParticipantGridViewModel(
     }
 
     fun getMaxRemoteParticipantsSize(): Int {
-        return if (pipState.status == PictureInPictureStatus.NONE)
+        return if (pipStatus == PictureInPictureStatus.NONE)
             maxRemoteParticipantSize else 1
     }
 
@@ -68,18 +66,18 @@ internal class ParticipantGridViewModel(
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
         dominantSpeakersInfo: List<String>,
         dominantSpeakersModifiedTimestamp: Number,
-        pipState: PictureInPictureState,
+        pipStatus: PictureInPictureStatus,
     ) {
         if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
             dominantSpeakersModifiedTimestamp == dominantSpeakersStateModifiedTimestamp &&
-            this.pipState == pipState
+            this.pipStatus == pipStatus
         ) {
             return
         }
 
         remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
         dominantSpeakersStateModifiedTimestamp = dominantSpeakersModifiedTimestamp
-        this.pipState = pipState
+        this.pipStatus = pipStatus
 
         var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)

@@ -17,9 +17,28 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application android:hardwareAccelerated="true">
+
+        <activity
+            android:name=".calling.presentation.MultitaskingCallCompositeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
+            android:theme="@style/AzureCommunicationUICalling.Theme"
+            />
+
+        <activity
+            android:name=".calling.presentation.PiPCallCompositeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:supportsPictureInPicture="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
+            android:theme="@style/AzureCommunicationUICalling.Theme"
+            />
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false"
@@ -27,15 +46,11 @@
 
         <activity
             android:name="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:theme="@style/AzureCommunicationUICalling.Theme"
             android:exported="false"
-
-            android:supportsPictureInPicture="true"
-
-            android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
-            android:excludeFromRecents="true"
             />
+
         <service
             android:name="com.azure.android.communication.ui.calling.service.InCallService"
             android:foregroundServiceType="microphone"

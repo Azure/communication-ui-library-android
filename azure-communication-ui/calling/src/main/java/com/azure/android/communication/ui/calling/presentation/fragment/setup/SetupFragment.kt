@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -10,6 +11,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
+import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -103,7 +105,23 @@ internal class SetupFragment :
         viewModel.setupCall()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000, viewModel::exitComposite)
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            viewModel.exitComposite()
+        }
+    }
+
     override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.unregisterOnBackInvokedCallback(viewModel::exitComposite)
+        }
+
         super.onDestroy()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
