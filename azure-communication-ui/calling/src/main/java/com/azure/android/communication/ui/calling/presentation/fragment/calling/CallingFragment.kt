@@ -14,6 +14,7 @@ import android.os.PowerManager
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -44,6 +45,8 @@ internal class CallingFragment :
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
         private const val PARTICIPANT_LIST_VIEW_KEY = "ParticipantListView"
     }
+
+    private lateinit var backPressedCallback: OnBackPressedCallback
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
@@ -168,10 +171,12 @@ internal class CallingFragment :
             }
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback {
+        backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             onBackPressed()
         }
+
     }
+
 
     private fun onBackPressed() {
         if (viewModel.multitaskingEnabled) {
@@ -210,6 +215,7 @@ internal class CallingFragment :
 
     override fun onDestroy() {
         super.onDestroy()
+        backPressedCallback.remove()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
             if (CallCompositeInstanceManager.hasCallComposite(holder.instanceId)) {

@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 
 internal class SetupFragment :
     Fragment(R.layout.azure_communication_ui_calling_fragment_setup) {
+
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
@@ -109,20 +112,25 @@ internal class SetupFragment :
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000) {
-                viewModel.exitComposite()
-            }
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000, viewModel::exitComposite)
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback {
+        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             viewModel.exitComposite()
         }
     }
 
     override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.unregisterOnBackInvokedCallback(viewModel::exitComposite)
+        }
+        onBackPressedCallback.remove()
+
         super.onDestroy()
+
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
+
     }
 
     val callCompositeActivity
