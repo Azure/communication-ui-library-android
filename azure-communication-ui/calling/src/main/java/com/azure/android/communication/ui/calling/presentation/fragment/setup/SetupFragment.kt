@@ -109,9 +109,7 @@ internal class SetupFragment :
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000) {
-                viewModel.exitComposite()
-            }
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000, viewModel::exitComposite)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback {
@@ -120,6 +118,10 @@ internal class SetupFragment :
     }
 
     override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.unregisterOnBackInvokedCallback(viewModel::exitComposite)
+        }
+
         super.onDestroy()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()

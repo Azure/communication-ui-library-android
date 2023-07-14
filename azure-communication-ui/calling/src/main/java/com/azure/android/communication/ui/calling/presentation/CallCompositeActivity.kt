@@ -83,15 +83,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             return
         }
 
-        if (configuration.enableSystemPiPWhenMultitasking &&
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
-        ) {
-            store.dispatch(
-                if (isInPictureInPictureMode) PipAction.PipModeEntered()
-                else PipAction.PipModeExited()
-            )
-        }
+        initPipMode()
 
         // Call super
         super.onCreate(savedInstanceState)
@@ -155,6 +147,26 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // when PiP is closed, Activity is not re-created, so onCreate is not called,
+        // need to call initPipMode from onResume as well
+        initPipMode()
+    }
+
+    private fun initPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            store.dispatch(
+                if (isInPictureInPictureMode) PipAction.PipModeEntered()
+                else PipAction.PipModeExited()
+            )
+        }
     }
 
     override fun onStop() {
