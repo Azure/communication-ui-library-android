@@ -17,3 +17,12 @@ ext {
 
 }
 
+task printFeatures {
+    doLast {
+        println '\n\033[1mDetected Features:\033[0m'
+        println '\033[32mGA features: \033[0m' + GA.toString()
+        println '\033[33mBETA features: \033[0m' + BETA.toString()
+        println '\033[34mINTERNAL features: \033[0m' + INTERNAL.toString()
+    }
+}
+
