@@ -63,6 +63,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val audioFocusManager get() = container.audioFocusManager
     private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
+    private val multitaskingManager get() = container.multitaskingManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService

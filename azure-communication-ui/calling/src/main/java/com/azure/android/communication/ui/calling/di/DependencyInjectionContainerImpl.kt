@@ -48,6 +48,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
@@ -159,6 +160,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val lifecycleManager by lazy {
         LifecycleManagerImpl(appStore)
+    }
+
+    override val multitaskingManager by lazy {
+        MultitaskingManager(appStore, configuration)
     }
 
     override val appStore by lazy {

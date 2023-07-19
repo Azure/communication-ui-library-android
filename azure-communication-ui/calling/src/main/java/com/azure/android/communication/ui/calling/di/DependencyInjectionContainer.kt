@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.NotificationService
 
@@ -49,6 +50,7 @@ internal interface DependencyInjectionContainer {
     val audioSessionManager: AudioSessionManager
     val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
+    val multitaskingManager: MultitaskingManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager
