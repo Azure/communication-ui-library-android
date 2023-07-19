@@ -13,6 +13,7 @@ import android.os.PowerManager
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,10 +33,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class CallingFragment :
-    Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
+    Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
     companion object {
         private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
@@ -156,6 +156,14 @@ internal class CallingFragment :
         moreCallOptionsListView.start(viewLifecycleOwner)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.requestCallEnd()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         sensorManager =
@@ -220,10 +228,6 @@ internal class CallingFragment :
         }
     }
 
-    override fun onBackPressed() {
-        requestCallEnd()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         mapOf(
             LEAVE_CONFIRM_VIEW_KEY to viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow(),
@@ -243,10 +247,6 @@ internal class CallingFragment :
                 PARTICIPANT_LIST_VIEW_KEY to viewModel.participantListViewModel::displayParticipantList
             ).forEach { (key, showDialog) -> if (it.getBoolean(key)) showDialog() }
         }
-    }
-
-    private fun requestCallEnd() {
-        viewModel.requestCallEnd()
     }
 
     private fun displayParticipantList() {
