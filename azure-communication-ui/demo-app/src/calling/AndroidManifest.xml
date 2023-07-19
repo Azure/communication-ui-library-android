@@ -12,7 +12,7 @@
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
-android:enableOnBackInvokedCallback="true"
+        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.AppCompat">
         <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.SettingsActivity"

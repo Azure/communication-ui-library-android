@@ -42,7 +42,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             appState.remoteParticipantState = RemoteParticipantsState(
                 expectedParticipantMap,
-                timestamp
+                timestamp,
+                listOf(),
+                0
             )
             appState.callState = CallingState(
                 CallingStatus.CONNECTED,
@@ -99,7 +101,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             appState.remoteParticipantState = RemoteParticipantsState(
                 expectedParticipantMap,
-                timestamp
+                timestamp,
+                listOf(),
+                0
             )
             appState.callState = CallingState(
                 CallingStatus.CONNECTED,

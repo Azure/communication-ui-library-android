@@ -462,7 +462,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val meetingJoinedHook = MeetingJoinedHook()
         reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
-            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000)
+            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0)
         // Act
         val result = meetingJoinedHook.shouldTrigger(AppReduxState("", false, false), reduxState)
 
@@ -477,7 +477,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val meetingJoinedHook = MeetingJoinedHook()
         reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
-            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000)
+            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0)
         // Act
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
 
@@ -508,7 +508,9 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     }
                 )
             ),
-            5000
+            5000,
+            listOf(),
+            0
         )
 
         // Act
@@ -542,7 +544,9 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     }
                 )
             ),
-            5000
+            5000,
+            listOf(),
+            0
         )
 
         // Act

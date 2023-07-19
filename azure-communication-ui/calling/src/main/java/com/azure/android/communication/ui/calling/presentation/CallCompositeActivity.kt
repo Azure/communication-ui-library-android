@@ -18,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -134,6 +135,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 
     override fun onStart() {
@@ -154,8 +161,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     private fun initPipMode() {
         if (configuration.enableSystemPiPWhenMultitasking &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
         ) {
             store.dispatch(
                 if (isInPictureInPictureMode) PipAction.PipModeEntered()
