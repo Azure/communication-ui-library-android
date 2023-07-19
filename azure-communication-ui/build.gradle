@@ -221,11 +221,23 @@ task localLinking {
             }
         }
         
-        // Output the detected libraries
-        println "Target ABI: ${targetAbi}"
-        println "Alpha Lib: ${alphaLib}"
-        println "Beta Lib: ${betaLib}"
-        println "GA Lib: ${gaLib}"
+        // Define ANSI colors
+        def ANSI_RESET = "\u001B[0m"
+        def ANSI_RED = "\u001B[31m"
+        def ANSI_GREEN = "\u001B[32m"
+        def ANSI_BLUE = "\u001B[34m"
+        def ANSI_BLACK = "\u001B[30m"
+        def ANSI_WHITE_BACKGROUND = "\u001B[47m"
+
+        // Output header
+        println "${ANSI_BLACK}${ANSI_WHITE_BACKGROUND}---=== Calling SDK Local Linking Status ===---${ANSI_RESET}"
+
+        // Output the detected libraries with colors
+        println "${ANSI_BLUE}Target ABI: ${targetAbi}${ANSI_RESET}"
+        println "${alphaLib != null ? ANSI_GREEN : ANSI_RED}Alpha Lib: ${alphaLib}${ANSI_RESET}"
+        println "${betaLib != null ? ANSI_GREEN : ANSI_RED}Beta Lib: ${betaLib}${ANSI_RESET}"
+        println "${gaLib != null ? ANSI_GREEN : ANSI_RED}GA Lib: ${gaLib}${ANSI_RESET}"
+
 
         // Set the properties to be used later in the build script
         ext.targetAbi = targetAbi
