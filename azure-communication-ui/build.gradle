@@ -69,6 +69,8 @@ buildscript {
 
     repositories {
         google()
+        mavenCentral()        
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.2'
@@ -118,12 +120,17 @@ allprojects {
 
 subprojects {
     apply plugin: "org.jlleitschuh.gradle.ktlint"
-    apply from: "../checkstyle.gradle"
-    afterEvaluate {
-        preBuild.dependsOn 'checkstyle'
-        check.dependsOn 'checkstyle'
+    if (file("../checkstyle.gradle").exists()) {
+        apply from: "../checkstyle.gradle"
+        afterEvaluate {
+            preBuild.dependsOn 'checkstyle'
+            check.dependsOn 'checkstyle'
+        }
+    } else {
+        println "Checkstyle configuration not found, checkstyle will not be applied."
     }
 }
+
 
 tasks.register("combinedCoverageReport", JacocoReport) {
     group = "Reporting"
@@ -178,3 +185,53 @@ tasks.register("combinedCoverageReport", JacocoReport) {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+// Define localLinking task
+task localLinking {
+    doLast {
+        // Set TARGET_ABI, defaulting to x86_64
+        def targetAbi = 'x86_64'
+
+        // Define empty variables for holding paths to .aar files
+        def alphaLib = null
+        def betaLib = null
+        def gaLib = null
+
+        // List of stages
+        def stages = ['ALPHA', 'BETA', 'GA']
+
+        // Loop over stages and check if the file exists
+        stages.each { stage ->
+            def path = "../../staging.d/release/${stage}/sdk/${targetAbi}"
+            if (file(path).exists()) {
+                def aarFile = fileTree(path).find { it.name.endsWith('.aar') }
+                if (aarFile) {
+                    switch(stage) {
+                        case 'ALPHA':
+                            alphaLib = aarFile
+                            break
+                        case 'BETA':
+                            betaLib = aarFile
+                            break
+                        case 'GA':
+                            gaLib = aarFile
+                            break
+                    }
+                }
+            }
+        }
+        
+        // Output the detected libraries
+        println "Target ABI: ${targetAbi}"
+        println "Alpha Lib: ${alphaLib}"
+        println "Beta Lib: ${betaLib}"
+        println "GA Lib: ${gaLib}"
+
+        // Set the properties to be used later in the build script
+        ext.targetAbi = targetAbi
+        ext.alphaLib = alphaLib
+        ext.betaLib = betaLib
+        ext.gaLib = gaLib
+    }
+}
+
