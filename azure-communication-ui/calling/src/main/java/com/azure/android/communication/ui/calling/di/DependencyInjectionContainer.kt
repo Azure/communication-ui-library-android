@@ -12,8 +12,10 @@ import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
+import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
@@ -21,7 +23,6 @@ import com.azure.android.communication.ui.calling.presentation.navigation.Naviga
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.NotificationService
 
@@ -54,6 +55,7 @@ internal interface DependencyInjectionContainer {
     val networkManager: NetworkManager
     val debugInfoManager: DebugInfoManager
     val callHistoryService: CallHistoryService
+    val audioModeManager: AudioModeManager
 
     // UI
     val videoViewManager: VideoViewManager
