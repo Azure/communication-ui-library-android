@@ -1,0 +1,19 @@
+ext {
+    // GA
+    GA = [
+        "FeatureGA",
+    ]
+
+    // GA + Beta Features
+    BETA = GA + [
+        "FeatureBeta"
+    ]
+    
+    // GA + Internal Features
+    // NOTE: Only for Feature Branches / Private Integrations
+    INTERNAL = GA + [
+        "FeatureInternal"
+    ]
+
+}
+

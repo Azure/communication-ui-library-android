@@ -1,8 +1,7 @@
 package com.azure.android.communication.ui.calling.features.implementations
 
-import com.azure.android.communication.ui.calling.features.FeatureInterfaces
+import com.azure.android.communication.ui.calling.features.stubs.TestFeatureA
 
-class TestFeatureAImpl : FeatureInterfaces.TestFeatureA() {
-    override val value: String
-        get() = "Feature A"
+class TestFeatureAImpl : TestFeatureA() {
+    override val testValue get() = "Enabled"
 }

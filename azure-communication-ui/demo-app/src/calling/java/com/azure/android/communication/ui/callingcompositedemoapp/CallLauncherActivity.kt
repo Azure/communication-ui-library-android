@@ -8,9 +8,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.azure.android.communication.ui.calling.features.FeatureFactory
+import com.azure.android.communication.ui.calling.features.stubs.TestFeatureA
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -28,6 +31,10 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FeatureTest()
+
+
         if (shouldFinish()) {
             finish()
             return
@@ -106,6 +113,11 @@ class CallLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+    }
+
+    private fun FeatureTest() {
+        val featA = FeatureFactory.get<TestFeatureA>()
+        Toast.makeText(this, "${featA.testValue}", Toast.LENGTH_LONG).show()
     }
 
     // check whether new Activity instance was brought to top of stack,

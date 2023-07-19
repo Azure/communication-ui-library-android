@@ -6,6 +6,7 @@ plugins {
 
 apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
+apply from: file('features.gradle')
 
 android {
     compileSdkVersion 33
@@ -91,7 +92,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
-
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.0"
     api ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
     implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"

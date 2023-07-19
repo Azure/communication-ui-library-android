@@ -10,7 +10,7 @@ buildscript {
 
         ui_library_version_code = getVersionCode()
 
-        kotlin_version = '1.7.20'
+        kotlin_version = '1.8.20'
         jacoco_version = '0.8.8'
         junit_version = '4.13.2'
 
@@ -42,7 +42,7 @@ buildscript {
         azure_chat_sdk_version = '2.0.0'
         azure_common_sdk_version = '1.0.2'
 
-        jetbrains_kotlinx_coroutines_test_version = '1.6.0-native-mt'
+        jetbrains_kotlinx_coroutines_test_version = '1.6.1-native-mt'
 
         microsoft_dualscreen_layout_version = '1.0.0-alpha01'
         microsoft_fluent_ui_version = '0.0.21'
@@ -78,7 +78,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
 }
 
