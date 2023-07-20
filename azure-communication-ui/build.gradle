@@ -115,6 +115,27 @@ allprojects {
                 }
             }
         }
+
+        // For looking for calling SDK
+        flatDir {
+            dirs '../../../staging.d/release/ALPHA/sdk/x86_64/',
+                '../../../staging.d/release/BETA/sdk/x86_64/',
+                '../../../staging.d/release/GA/sdk/x86_64/',
+                '../../../staging.d/release/ALPHA/sdk/ARMv7/',
+                '../../../staging.d/release/BETA/sdk/ARMv7/',
+                '../../../staging.d/release/GA/sdk/ARMv7/',
+                '../../../staging.d/release/ALPHA/sdk/ARMv8A64/',
+                '../../../staging.d/release/BETA/sdk/ARMv8A64/',
+                '../../../staging.d/release/GA/sdk/ARMv8A64/',
+                '../../../staging.d/release/ALPHA/sdk/x86/',
+                '../../../staging.d/release/BETA/sdk/x86/',
+                '../../../staging.d/release/GA/sdk/x86/',
+                '../../../staging.d/release/ALPHA/sdk/x64/',
+                '../../../staging.d/release/BETA/sdk/x64/',
+                '../../../staging.d/release/GA/sdk/x64/'
+        }
+
+
     }
 }
 
@@ -186,64 +207,4 @@ tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
 
-// Define localLinking task
-task localLinking {
-    doLast {
-        // Set TARGET_ABI, defaulting to x86_64
-        def targetAbi = 'x86_64'
-
-        // Define empty variables for holding paths to .aar files
-        def alphaLib = null
-        def betaLib = null
-        def gaLib = null
-
-        // List of stages
-        def stages = ['ALPHA', 'BETA', 'GA']
-
-        // Loop over stages and check if the file exists
-        stages.each { stage ->
-            def path = "../../staging.d/release/${stage}/sdk/${targetAbi}"
-            if (file(path).exists()) {
-                def aarFile = fileTree(path).find { it.name.endsWith('.aar') }
-                if (aarFile) {
-                    switch(stage) {
-                        case 'ALPHA':
-                            alphaLib = aarFile
-                            break
-                        case 'BETA':
-                            betaLib = aarFile
-                            break
-                        case 'GA':
-                            gaLib = aarFile
-                            break
-                    }
-                }
-            }
-        }
-        
-        // Define ANSI colors
-        def ANSI_RESET = "\u001B[0m"
-        def ANSI_RED = "\u001B[31m"
-        def ANSI_GREEN = "\u001B[32m"
-        def ANSI_BLUE = "\u001B[34m"
-        def ANSI_BLACK = "\u001B[30m"
-        def ANSI_WHITE_BACKGROUND = "\u001B[47m"
-
-        // Output header
-        println "${ANSI_BLACK}${ANSI_WHITE_BACKGROUND}---=== Calling SDK Local Linking Status ===---${ANSI_RESET}"
-
-        // Output the detected libraries with colors
-        println "${ANSI_BLUE}Target ABI: ${targetAbi}${ANSI_RESET}"
-        println "${alphaLib != null ? ANSI_GREEN : ANSI_RED}Alpha Lib: ${alphaLib}${ANSI_RESET}"
-        println "${betaLib != null ? ANSI_GREEN : ANSI_RED}Beta Lib: ${betaLib}${ANSI_RESET}"
-        println "${gaLib != null ? ANSI_GREEN : ANSI_RED}GA Lib: ${gaLib}${ANSI_RESET}"
-
-
-        // Set the properties to be used later in the build script
-        ext.targetAbi = targetAbi
-        ext.alphaLib = alphaLib
-        ext.betaLib = betaLib
-        ext.gaLib = gaLib
-    }
-}
 

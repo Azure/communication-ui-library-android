@@ -7,6 +7,7 @@ plugins {
 // apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
 apply from: file('features.gradle')
+apply from: file('local_linking.gradle')
 
 android {
     compileSdkVersion 33
@@ -108,10 +109,16 @@ android {
 
 
 dependencies {
-    alphaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
     betaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
     gaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
 
+    if(hasLocalAlpha != null) {
+        alphaApi(name: alphaLib, ext: 'aar')
+        alphaApi 'com.azure.android:azure-communication-common:1.1.0'
+    }
+    else {
+        alphaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
+    }
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
