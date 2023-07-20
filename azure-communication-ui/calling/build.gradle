@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
 }
 
-apply from: file('publish.gradle')
+// apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
 apply from: file('features.gradle')
 
@@ -30,6 +30,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "releaseType"
+
+    productFlavors {
+        alpha {
+            dimension "releaseType"
+            // configuration specific to this flavor
+        }
+
+        beta {
+            dimension "releaseType"
+            // configuration specific to this flavor
+        }
+
+        ga {
+            dimension "releaseType"
+            // configuration specific to this flavor
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -87,13 +107,17 @@ android {
 
 
 dependencies {
+    alphaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
+    betaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
+    gaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
+
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.0"
-    api ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
+
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
     implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"
