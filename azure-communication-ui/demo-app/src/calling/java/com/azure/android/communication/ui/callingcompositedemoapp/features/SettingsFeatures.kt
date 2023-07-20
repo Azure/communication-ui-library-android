@@ -17,14 +17,18 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.END_CALL_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.MIC_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
@@ -106,6 +110,17 @@ class SettingsFeatures {
         @JvmStatic
         fun getCameraOnByDefaultOption(): Boolean {
             return sharedPrefs.getBoolean(CAMERA_ON_BY_DEFAULT_KEY, DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE)
+        }
+
+        @JvmStatic
+        fun getEndCallOnByDefaultOption(): Boolean {
+            if (!this::sharedPrefs.isInitialized) return false
+            return sharedPrefs.getBoolean(END_CALL_ON_BY_DEFAULT_KEY, DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE)
+        }
+
+        @JvmStatic
+        fun getReLaunchOnExitByDefaultOption(): Boolean {
+            return sharedPrefs.getBoolean(LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY, LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE)
         }
 
         @JvmStatic

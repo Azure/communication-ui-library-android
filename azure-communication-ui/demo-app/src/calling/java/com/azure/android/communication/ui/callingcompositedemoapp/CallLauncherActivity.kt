@@ -11,14 +11,19 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
+import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
@@ -83,6 +88,8 @@ class CallLauncherActivity : AppCompatActivity() {
                 launch()
             }
 
+            closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
+
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
@@ -100,12 +107,42 @@ class CallLauncherActivity : AppCompatActivity() {
                 showCallHistory()
             }
 
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeCallStateStateFlow.collect {
+                    runOnUiThread {
+                        if (it.isNotEmpty()) {
+                            callStateText.text = it
+                            EndCompositeButtonView.get(application).updateText(it)
+                        }
+                    }
+                }
+            }
+
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
+                    runOnUiThread {
+                        if (it &&
+                            SettingsFeatures.getReLaunchOnExitByDefaultOption()
+                        ) {
+                            launch()
+                        }
+                    }
+                }
+            }
+
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EndCompositeButtonView.get(this).hide()
+        EndCompositeButtonView.buttonView = null
+        callLauncherViewModel?.unsubscribe()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -181,11 +218,35 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+
         R.id.azure_composite_show_settings -> {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        toggleEndCompositeButton()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        toggleEndCompositeButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        toggleEndCompositeButton()
+    }
+
+    private fun toggleEndCompositeButton() {
+        if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
+            EndCompositeButtonView.get(this).hide()
+        } else {
+            EndCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
     }
 }

@@ -5,6 +5,7 @@
 
 ### Features
 - Use Dominant Speakers feature to determine which remove participants to display on the grid when number of participants more then 6.
+- Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
 
 ## 1.3.1 (2023-07-18)
 
