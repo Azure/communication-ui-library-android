@@ -94,6 +94,7 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
+
     if (!shouldByPassMavenPublish()) {
         publishing {
             multipleVariants('release') {

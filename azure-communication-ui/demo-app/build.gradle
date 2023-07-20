@@ -92,8 +92,26 @@ android {
         }
     }
 
-    flavorDimensions "product"
+    flavorDimensions "product", "releaseType"
+
+
     productFlavors {
+        // Release Type
+        alpha {
+            dimension "releaseType"
+            // configuration specific to this flavor
+        }
+
+        beta {
+            dimension "releaseType"
+            // configuration specific to this flavor
+        }
+
+        ga {
+            dimension "releaseType"
+            // configuration specific to this flavor
+        }
+        // Calling or Chat
         calling {
             minSdkVersion 21
             dimension "product"
