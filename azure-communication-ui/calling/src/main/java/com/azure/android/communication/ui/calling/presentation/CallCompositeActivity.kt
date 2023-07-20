@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -364,7 +363,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 return ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
-        Log.d("Mohtasim", "orientation: $orientation")
         return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
