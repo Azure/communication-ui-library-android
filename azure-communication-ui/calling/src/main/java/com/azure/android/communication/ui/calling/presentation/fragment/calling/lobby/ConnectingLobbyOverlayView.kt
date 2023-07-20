@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
 import android.content.Context
+import android.media.AudioManager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -37,6 +38,12 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         viewModel: ConnectingLobbyOverlayViewModel,
     ) {
         this.viewModel = viewModel
+
+        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        // This checks before joining the call, the microphone is free to use or not
+        if (viewModel.getDisplayLobbyOverlayFlow().value && (audioManager.mode != AudioManager.MODE_NORMAL)) {
+            viewModel.handleMicrophoneAccessFailed()
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {

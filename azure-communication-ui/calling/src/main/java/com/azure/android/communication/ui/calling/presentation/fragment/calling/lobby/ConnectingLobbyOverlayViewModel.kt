@@ -74,6 +74,17 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         return cameraStateFlow
     }
 
+    fun handleMicrophoneAccessFailed() {
+        dispatchAction(
+            action = ErrorAction.FatalErrorOccurred(
+                FatalError(
+                    Throwable(),
+                    ErrorCode.MICROPHONE_NOT_AVAILABLE
+                )
+            )
+        )
+    }
+
     private fun requestAudioPermission() {
         dispatchAction(action = PermissionAction.AudioPermissionRequested())
     }
