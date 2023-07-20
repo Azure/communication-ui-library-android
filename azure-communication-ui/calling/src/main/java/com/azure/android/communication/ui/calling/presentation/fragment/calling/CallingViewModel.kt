@@ -34,7 +34,7 @@ internal class CallingViewModel(
     val waitingLobbyOverlayViewModel = callingViewModelProvider.waitingLobbyOverlayViewModel
     val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
-    val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
+    val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
 
     private var hasSetupCalled = false
 
@@ -150,8 +150,10 @@ internal class CallingViewModel(
 
         if (state.callState.callingStatus == CallingStatus.LOCAL_HOLD) {
             participantGridViewModel.update(
-                System.currentTimeMillis(),
-                mapOf(),
+                remoteParticipantsMapUpdatedTimestamp = System.currentTimeMillis(),
+                remoteParticipantsMap = mapOf(),
+                dominantSpeakersInfo = listOf(),
+                dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
             )
             floatingHeaderViewModel.dismiss()
             participantListViewModel.closeParticipantList()
@@ -168,8 +170,10 @@ internal class CallingViewModel(
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
-                state.remoteParticipantState.modifiedTimestamp,
+                state.remoteParticipantState.participantMapModifiedTimestamp,
                 state.remoteParticipantState.participantMap,
+                state.remoteParticipantState.dominantSpeakersInfo,
+                state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
             )
 
             floatingHeaderViewModel.update(

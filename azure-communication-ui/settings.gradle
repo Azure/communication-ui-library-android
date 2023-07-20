@@ -1,4 +1,3 @@
 include ':calling'
 include ':chat'
-include ':call-with-chat'
 include ':demo-app'
