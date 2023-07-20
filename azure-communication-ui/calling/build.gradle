@@ -112,7 +112,7 @@ dependencies {
     betaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
     gaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
 
-    if(hasLocalAlpha != null) {
+    if(hasLocalAlpha) {
         alphaApi(name: alphaLib, ext: 'aar')
         alphaApi 'com.azure.android:azure-communication-common:1.1.0'
     }
