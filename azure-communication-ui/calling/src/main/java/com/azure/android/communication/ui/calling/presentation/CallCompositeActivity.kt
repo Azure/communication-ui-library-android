@@ -66,8 +66,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
-    private val compositeManager get() = container.compositeExitManager
-    private val callingSDKWrapper get() = container.callingSDKWrapper
     private val logger get() = container.logger
 
     override fun onCreate(savedInstanceState: Bundle?) {
