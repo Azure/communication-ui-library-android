@@ -4,9 +4,13 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def FEATURE_SHARE_SUPPORT_FILES = 'ShareSupportFilesFeature'
+
+// AVAILABLE_FEATURES contains the superset of Features present in the TestApp.
+def AVAILABLE_FEATURES = [FEATURE_SHARE_SUPPORT_FILES]
+
 // apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
-apply from: file('features.gradle')
 apply from: file('local_linking.gradle')
 
 android {
@@ -37,17 +41,42 @@ android {
     productFlavors {
         alpha {
             dimension "releaseType"
-            // configuration specific to this flavor
         }
 
         beta {
             dimension "releaseType"
-            // configuration specific to this flavor
+            ext.enabledFeatures = [
+                    FEATURE_SHARE_SUPPORT_FILES
+            ]
         }
 
         ga {
-            dimension "releaseType"
-            // configuration specific to this flavor
+            dimension "releaseType"            
+        }
+    }
+
+    // Using the ext.enabledFeatures property for each flavor, assign the correct implementation
+    // for each Feature, whether it's implemented or a dummy.
+    // This applies to code, resources and assets if available.
+    productFlavors.all { flavor ->
+        if (flavor.hasProperty('enabledFeatures')) {
+            def flavorSourceSets = project.android.sourceSets.getByName(flavor.name)
+            // Iterate through the list of all the available features in the TestApp
+            for (String featureName : AVAILABLE_FEATURES) {
+                // By default, use dummy implementations for the feature.
+                def implFolder = "dummy"
+                if (flavor.enabledFeatures.contains(featureName)) {
+                    // If the android flavor (release channel) indicates it contains the
+                    // feature through ext.enabledFeatures, add the full implementation
+                    // instead of the dummy one
+                    implFolder = "features"
+                }
+
+                // Add the SourceSets for the feature to the android flavor.
+                flavorSourceSets.java.srcDirs "src/${implFolder}/${featureName}/java"
+                flavorSourceSets.res.srcDirs "src/${implFolder}/${featureName}/res"
+                flavorSourceSets.assets.srcDirs "src/${implFolder}/${featureName}/assets"
+            }
         }
     }
 
@@ -109,8 +138,6 @@ android {
 
 
 dependencies {
-    betaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
-    gaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
 
     if(hasLocalAlpha) {
         alphaApi(name: alphaLib, ext: 'aar')
@@ -119,6 +146,22 @@ dependencies {
     else {
         alphaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
     }
+
+    if(hasLocalBeta) {
+        betaApi(name: betaLib, ext: 'aar')
+        betaApi 'com.azure.android:azure-communication-common:1.1.0'
+    }
+    else {
+        betaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version_beta")
+    }
+
+    if(hasLocalGA) {
+        gaApi(name: gaLib, ext: 'aar')
+        gaApi 'com.azure.android:azure-communication-common:1.1.0'
+    } else {
+        gaApi ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version")
+    }
+
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"

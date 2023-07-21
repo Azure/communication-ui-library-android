@@ -13,7 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.calling.features.FeatureFactory
-import com.azure.android.communication.ui.calling.features.stubs.TestFeatureA
+import com.azure.android.communication.ui.calling.features.stubs.ShareSupportFilesFeature
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -116,7 +116,7 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun FeatureTest() {
-        val featA = FeatureFactory.get<TestFeatureA>()
+        val featA = FeatureFactory.get<ShareSupportFilesFeature>()
         Toast.makeText(this, "${featA.testValue}", Toast.LENGTH_LONG).show()
     }
 

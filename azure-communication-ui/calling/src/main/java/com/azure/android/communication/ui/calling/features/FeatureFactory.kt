@@ -1,6 +1,6 @@
 package com.azure.android.communication.ui.calling.features
 
-import com.azure.android.communication.ui.calling.features.stubs.TestFeatureA
+import com.azure.android.communication.ui.calling.features.stubs.ShareSupportFilesFeature
 
 class FeatureFactory {
     companion object {
@@ -8,11 +8,10 @@ class FeatureFactory {
 
         init {
             listOf(
-                TestFeatureA::class.java
+                // Add All features stubs here
+                ShareSupportFilesFeature::class.java
             ).forEach { stub ->
                 val implClassName = "com.azure.android.communication.ui.calling.features.implementations.${stub.simpleName}Impl"
-
-
                 try {
                     // Try and install the implementation
                     val implClass = Class.forName(implClassName)

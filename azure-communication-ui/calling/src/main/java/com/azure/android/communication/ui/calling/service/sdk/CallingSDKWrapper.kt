@@ -23,6 +23,8 @@ import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.features.FeatureFactory
+import com.azure.android.communication.ui.calling.features.stubs.ShareSupportFilesFeature
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -149,6 +151,8 @@ internal class CallingSDKWrapper(
                 it.setTags(callConfig.diagnosticConfig.tags, logger)
             }
             callClient = CallClient(callClientOptions)
+
+            FeatureFactory.get<ShareSupportFilesFeature>().toastValues(context, callClient!!)
         }
         createDeviceManager().handle { _, error: Throwable? ->
             if (error != null) {

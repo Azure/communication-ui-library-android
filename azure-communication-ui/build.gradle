@@ -11,7 +11,7 @@ buildscript {
 
         ui_library_version_code = getVersionCode()
 
-        kotlin_version = '1.8.20'
+        kotlin_version = '1.9.0'
         jacoco_version = '0.8.8'
         junit_version = '4.13.2'
 
@@ -61,7 +61,7 @@ buildscript {
 
         androidx_activity_compose_version = '1.5.1'
         compose_version = '1.2.1'
-        kotlin_compiler_extension_version = '1.3.2'
+        kotlin_compiler_extension_version = '1.5.0'
         shouldByPassMavenPublish = {
             return rootProject.hasProperty("bypassMavenPublish") && rootProject.getProperty("bypassMavenPublish")
         }
