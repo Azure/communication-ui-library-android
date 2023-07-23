@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.configuration.events
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 
 internal class CallCompositeEventsHandler {
@@ -16,7 +16,7 @@ internal class CallCompositeEventsHandler {
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
     private val exitEventHandlers =
-        mutableSetOf<CallCompositeEventHandler<CallCompositeExitEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -39,16 +39,16 @@ internal class CallCompositeEventsHandler {
     fun removeOnCallStateEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateEvent>) =
         callStateHandlers.remove(eventHandler)
 
-    fun addOnCallStateEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateEvent>) =
+    fun addOnCallStateChangedEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateEvent>) =
         callStateHandlers.add(eventHandler)
 
     fun getOnExitEventHandlers() = exitEventHandlers.asIterable()
 
-    fun addOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeExitEvent>) {
+    fun addOnDismissedEventHandler(handler: CallCompositeEventHandler<CallCompositeDismissedEvent>) {
         exitEventHandlers.add(handler)
     }
 
-    fun removeOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeExitEvent>) {
+    fun removeOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeDismissedEvent>) {
         exitEventHandlers.remove(handler)
     }
 }

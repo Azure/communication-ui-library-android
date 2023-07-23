@@ -38,11 +38,11 @@ internal class CallStateEventsTest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
+        assert(callComposite.callState == CallCompositeCallStateCode.NONE)
 
         val list = mutableListOf<CallCompositeCallStateCode>()
 
-        callComposite.addOnCallStateEventHandler {
+        callComposite.addOnCallStateChangedEventHandler {
             list.add(it.code)
         }
 
@@ -55,7 +55,7 @@ internal class CallStateEventsTest : BaseUiTest() {
         assert(size == 2)
         assert(list.contains(CallCompositeCallStateCode.CONNECTED))
         assert(list.contains(CallCompositeCallStateCode.NONE))
-        assert(callComposite.callStateCode == CallCompositeCallStateCode.CONNECTED)
+        assert(callComposite.callState == CallCompositeCallStateCode.CONNECTED)
     }
 
     @Test
@@ -77,11 +77,11 @@ internal class CallStateEventsTest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
+        assert(callComposite.callState == CallCompositeCallStateCode.NONE)
         val list = mutableListOf<CallCompositeCallStateCode>()
 
         val endCallCompletableFuture = CompletableFuture<Void>()
-        callComposite.addOnCallStateEventHandler {
+        callComposite.addOnCallStateChangedEventHandler {
             list.add(it.code)
             if (it.code == CallCompositeCallStateCode.DISCONNECTED) {
                 endCallCompletableFuture.complete(null)
@@ -97,7 +97,7 @@ internal class CallStateEventsTest : BaseUiTest() {
             assert(list.contains(CallCompositeCallStateCode.CONNECTED))
             assert(list.contains(CallCompositeCallStateCode.NONE))
             assert(list.contains(CallCompositeCallStateCode.DISCONNECTED))
-            assert(callComposite.callStateCode == CallCompositeCallStateCode.DISCONNECTED)
+            assert(callComposite.callState == CallCompositeCallStateCode.DISCONNECTED)
         }
     }
 }

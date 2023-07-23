@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
@@ -37,7 +37,8 @@ internal class CompositeExitManager(
     private fun notifyCompositeExit() {
         configuration.callCompositeEventsHandler.getOnExitEventHandlers().forEach {
             val eventArgs =
-                CallCompositeExitEvent(store.getCurrentState().errorState.fatalError?.errorCode?.toCallCompositeErrorCode())
+                    CallCompositeDismissedEvent(store.getCurrentState().errorState.fatalError?.errorCode?.toCallCompositeErrorCode(),
+                            store.getCurrentState().errorState.fatalError?.fatalError)
             it.handle(eventArgs)
         }
     }
