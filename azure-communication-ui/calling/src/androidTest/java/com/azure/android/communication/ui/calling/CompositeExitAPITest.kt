@@ -38,11 +38,11 @@ internal class CompositeExitAPITest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
+        assert(callComposite.callState == CallCompositeCallStateCode.NONE)
 
         var isExitCompositeReceived = false
         val exitCallCompletableFuture = CompletableFuture<Void>()
-        callComposite.addOnExitEventHandler {
+        callComposite.addOnDismissedEventHandler {
             isExitCompositeReceived = true
             exitCallCompletableFuture.complete(null)
         }
@@ -52,13 +52,13 @@ internal class CompositeExitAPITest : BaseUiTest() {
         tapWhenDisplayed(joinCallId)
         waitUntilDisplayed(endCallId)
 
-        assert(callComposite.callStateCode == CallCompositeCallStateCode.CONNECTED)
+        assert(callComposite.callState == CallCompositeCallStateCode.CONNECTED)
         // end call
-        callComposite.exit()
+        callComposite.dismiss()
 
         exitCallCompletableFuture.whenComplete { _, _ ->
             assert(isExitCompositeReceived)
-            assert(callComposite.callStateCode == CallCompositeCallStateCode.DISCONNECTED)
+            assert(callComposite.callState == CallCompositeCallStateCode.DISCONNECTED)
         }
     }
 
@@ -81,10 +81,10 @@ internal class CompositeExitAPITest : BaseUiTest() {
             )
 
         // assert state is none
-        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
+        assert(callComposite.callState == CallCompositeCallStateCode.NONE)
         var isExitCompositeReceived = false
         val exitCallCompletableFuture = CompletableFuture<Void>()
-        callComposite.addOnExitEventHandler {
+        callComposite.addOnDismissedEventHandler {
             isExitCompositeReceived = true
             exitCallCompletableFuture.complete(null)
         }
@@ -92,13 +92,13 @@ internal class CompositeExitAPITest : BaseUiTest() {
 
         waitUntilDisplayed(joinCallId)
 
-        assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
+        assert(callComposite.callState == CallCompositeCallStateCode.NONE)
         // end call
-        callComposite.exit()
+        callComposite.dismiss()
 
         exitCallCompletableFuture.whenComplete { _, _ ->
             assert(isExitCompositeReceived)
-            assert(callComposite.callStateCode == CallCompositeCallStateCode.NONE)
+            assert(callComposite.callState == CallCompositeCallStateCode.NONE)
         }
     }
 }
