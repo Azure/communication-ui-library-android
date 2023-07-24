@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -85,14 +85,14 @@ class CallLauncherViewModel : ViewModel() {
 
         callCompositeExitSuccessStateFlow.value = false
         exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)
-        callComposite.addOnCallStateEventHandler(callStateEventHandler)
-        callComposite.addOnExitEventHandler(exitEventHandler)
+        callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
+        callComposite.addOnDismissedEventHandler(exitEventHandler)
         isExitRequested = false
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
     fun close() {
-        callComposite?.exit()
+        callComposite?.dismiss()
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
@@ -128,16 +128,16 @@ class CallLauncherViewModel : ViewModel() {
 
     fun unsubscribe() {
         callComposite?.let { composite ->
-            composite.removeOnCallStateEventHandler(callStateEventHandler)
+            composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             exitEventHandler?.let {
-                composite.removeOnExitEventHandler(exitEventHandler)
+                composite.removeOnDismissedEventHandler(exitEventHandler)
             }
         }
     }
 
     fun callHangup() {
         isExitRequested = true
-        callComposite?.exit()
+        callComposite?.dismiss()
     }
 
     companion object {
@@ -155,8 +155,8 @@ class CallExitEventHandler(
     private val exitStateFlow: MutableStateFlow<Boolean>,
     private val callCompositeCallStateStateFlow: MutableStateFlow<String>,
     private val callLauncherViewModel: CallLauncherViewModel,
-) : CallCompositeEventHandler<CallCompositeExitEvent> {
-    override fun handle(event: CallCompositeExitEvent) {
+) : CallCompositeEventHandler<CallCompositeDismissedEvent> {
+    override fun handle(event: CallCompositeDismissedEvent) {
         exitStateFlow.value = true && callLauncherViewModel.isExitRequested
         event.errorCode?.let {
             callCompositeCallStateStateFlow.value = it.toString()

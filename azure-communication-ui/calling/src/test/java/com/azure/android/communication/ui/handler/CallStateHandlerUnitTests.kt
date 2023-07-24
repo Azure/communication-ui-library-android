@@ -43,7 +43,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockHandler =
                 mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
             val handler = CallStateHandler(
@@ -82,7 +82,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockHandler =
                 mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
             val handler = CallStateHandler(
@@ -127,7 +127,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockHandler =
                 mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
             val handler = CallStateHandler(
@@ -168,10 +168,10 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockHandler2 =
                 mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler2
             )
             val handler = CallStateHandler(
@@ -268,7 +268,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         var mockHandler =
             mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
         var configuration = CallCompositeConfiguration()
-        configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+        configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
             mockHandler
         )
         var handler = CallStateHandler(
@@ -309,7 +309,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         var mockHandler =
             mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
         var configuration = CallCompositeConfiguration()
-        configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+        configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
             mockHandler
         )
         var handler = CallStateHandler(
