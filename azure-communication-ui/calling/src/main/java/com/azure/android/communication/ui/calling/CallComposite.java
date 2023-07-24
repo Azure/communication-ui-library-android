@@ -130,11 +130,11 @@ public final class CallComposite {
     /**
      * Add {@link CallCompositeEventHandler}.
      *
-     * <p> A callback for Call Composite Exit Event.
+     * <p> Add a callback for Call Composite dismissed Event.
      * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
      * <pre>
      *
-     * &#47;&#47; add eit event handler
+     * &#47;&#47; add on dismissed event handler.
      * callComposite.addOnDismissedEventHandler&#40;event -> {
      * }&#41;;
      *
@@ -149,7 +149,7 @@ public final class CallComposite {
     /**
      * Remove {@link CallCompositeEventHandler}.
      *
-     * <p> A callback for Call Composite Error Events.
+     * <p> Remove a callback for Call Composite dismissed Event.
      * See {@link CallCompositeDismissedEvent} for values.</p>
      *
      * @param handler The {@link CallCompositeEventHandler}.
@@ -174,7 +174,7 @@ public final class CallComposite {
     /**
      * Add {@link CallCompositeEventHandler}.
      *
-     * <p> A callback for Call Composite Error Events.
+     * <p> Add a callback for Call Composite Error Events.
      * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
      * <pre>
      *
@@ -196,7 +196,7 @@ public final class CallComposite {
     /**
      * Remove {@link CallCompositeEventHandler}.
      *
-     * <p> A callback for Call Composite Error Events.
+     * <p> Remove a callback for Call Composite Error Events.
      * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent} for values.</p>
      *
      * @param errorHandler The {@link CallCompositeEventHandler}.
@@ -210,7 +210,7 @@ public final class CallComposite {
      *
      * <pre>
      *
-     * &#47;&#47; add call state change handler
+     * &#47;&#47; add call state changed handler
      * callComposite.addOnCallStateChangedEventHandler&#40;event -> {
      *     &#47;&#47; Use call composite call state
      * }&#41;;
