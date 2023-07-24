@@ -44,7 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Aguardando o ingresso de outros participantes</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Chamada com 1 pessoa</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ligar com %1$d pessoas</string>
-    <string name="azure_communication_ui_calling_view_go_back">Go back</string>
+    <string name="azure_communication_ui_calling_view_go_back">Voltar</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(eu)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participante Sem Nome</string>
     <string name="azure_communication_ui_calling_view_leave_call">Sair da chamada?</string>

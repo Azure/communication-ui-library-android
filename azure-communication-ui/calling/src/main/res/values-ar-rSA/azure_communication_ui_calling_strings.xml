@@ -44,7 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">في انتظار انضمام الآخرين</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">الاتصال مع شخص</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">الاتصال بـ %1$d من الأشخاص</string>
-    <string name="azure_communication_ui_calling_view_go_back">Go back</string>
+    <string name="azure_communication_ui_calling_view_go_back">رجوع</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(أنا)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">مشارك غير مسمى</string>
     <string name="azure_communication_ui_calling_view_leave_call">هل تريد مغادرة المكالمة؟</string>
