@@ -37,8 +37,10 @@ internal class CompositeExitManager(
     private fun notifyCompositeExit() {
         configuration.callCompositeEventsHandler.getOnExitEventHandlers().forEach {
             val eventArgs =
-                    CallCompositeDismissedEvent(store.getCurrentState().errorState.fatalError?.errorCode?.toCallCompositeErrorCode(),
-                            store.getCurrentState().errorState.fatalError?.fatalError)
+                CallCompositeDismissedEvent(
+                    store.getCurrentState().errorState.fatalError?.errorCode?.toCallCompositeErrorCode(),
+                    store.getCurrentState().errorState.fatalError?.fatalError
+                )
             it.handle(eventArgs)
         }
     }
