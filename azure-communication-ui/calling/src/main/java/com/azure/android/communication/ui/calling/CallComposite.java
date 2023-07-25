@@ -16,7 +16,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingStateChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
@@ -194,8 +194,8 @@ public final class CallComposite {
     }
 
 
-    public void addOnMultitaskingStateChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeMultitaskingStateChangedEvent> eventHandler) {
+    public void addOnPictureInPictureChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnMultitaskingStateChangedEventHandler(eventHandler);
     }
 
@@ -204,8 +204,8 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void removeOnMultitaskingStateChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeMultitaskingStateChangedEvent> eventHandler) {
+    public void removeOnPictureInPictureChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnMultitaskingStateChangedEventHandler(eventHandler);
     }
 

@@ -42,6 +42,10 @@ class CallLauncherViewModel : ViewModel() {
             )
         }
 
+        callComposite.addOnPictureInPictureChangedEventHandler {
+            println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: " + it.isInPictureInPicture)
+        }
+
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ acsToken }, true)
         val communicationTokenCredential =

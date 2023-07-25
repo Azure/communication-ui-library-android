@@ -134,6 +134,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.start()
         }
 
+        multitaskingManager.start(lifecycleScope)
+
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
 
