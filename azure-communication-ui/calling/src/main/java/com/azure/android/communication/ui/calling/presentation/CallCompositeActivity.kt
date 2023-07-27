@@ -251,9 +251,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
+                val callScreenOrientation: Int? = getScreenOrientation(configuration.callScreenOrientation)
                 requestedOrientation =
                     when {
-                        (configuration.callScreenOrientation != null) -> getScreenOrientation(configuration.callScreenOrientation)
+                        (callScreenOrientation != null) -> callScreenOrientation
                         isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                         else -> ActivityInfo.SCREEN_ORIENTATION_USER
                     }
@@ -262,10 +263,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                configuration.setupScreenOrientation ?: kotlin.run { }
+                val setupScreenOrientation: Int? = getScreenOrientation(configuration.setupScreenOrientation)
                 requestedOrientation =
                     when {
-                        (configuration.callScreenOrientation != null) -> getScreenOrientation(configuration.callScreenOrientation)
+                        (setupScreenOrientation != null) -> setupScreenOrientation
                         isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                         else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                     }
@@ -353,7 +354,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return Locale.US
     }
 
-    private fun getScreenOrientation(orientation: CallCompositeSupportedScreenOrientation?): Int {
+    private fun getScreenOrientation(orientation: CallCompositeSupportedScreenOrientation?): Int? {
         return when (orientation) {
             CallCompositeSupportedScreenOrientation.PORTRAIT ->
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -367,9 +368,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
             CallCompositeSupportedScreenOrientation.USER_LANDSCAPE ->
                 ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+            null -> null
             else -> {
                 logger.warning("Not supported screen orientation")
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                null
             }
         }
     }
