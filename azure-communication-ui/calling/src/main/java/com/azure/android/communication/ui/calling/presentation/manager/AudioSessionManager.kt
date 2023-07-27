@@ -117,6 +117,7 @@ internal class AudioSessionManager(
             }
             audioManager.isBluetoothScoOn = false
             audioManager.isSpeakerphoneOn = false
+
             bluetoothAudioProxy = null
             context.unregisterReceiver(this@AudioSessionManager)
         }
@@ -301,19 +302,14 @@ internal class AudioSessionManager(
         }
     }
 
-    private fun closeProfileProxy() {
-        btAdapter?.run {
-            closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
-            bluetoothAudioProxy = null
-        }
-    }
-
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
         bluetoothAudioProxy = proxy as BluetoothHeadset
         updateBluetoothStatus()
     }
 
     override fun onServiceDisconnected(profile: Int) {
-        closeProfileProxy()
+        // Do Nothing
+        // Proxy is cleaned up in destroy
     }
+
 }
