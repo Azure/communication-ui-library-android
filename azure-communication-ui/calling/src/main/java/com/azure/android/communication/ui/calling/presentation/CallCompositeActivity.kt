@@ -198,9 +198,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 .setAspectRatio(Rational(1, 1))
                 .build()
 
-            if (enterPictureInPictureMode(params)) {
+            if (enterPictureInPictureMode(params))
                 reduxStartPipMode()
-            }
+
         }
     }
 
@@ -243,11 +243,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 .Builder()
                 .setAspectRatio(Rational(1, 1))
                 .build()
-            val enteredPiPSucceeded = activity?.enterPictureInPictureMode(params)
-            if (enteredPiPSucceeded == false) {
+            val enteredPiPSucceeded = enterPictureInPictureMode(params)
+            if (enteredPiPSucceeded)
                 reduxStartPipMode()
+            else
                 activity?.moveTaskToBack(true)
-            }
+
         } else {
             activity?.moveTaskToBack(true)
         }
