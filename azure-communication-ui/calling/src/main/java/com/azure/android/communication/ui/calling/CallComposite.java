@@ -26,6 +26,7 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
@@ -87,9 +88,9 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context          The android context used to start the Composite.
-     * @param remoteOptions    The {@link CallCompositeRemoteOptions} has remote parameters to
-     *                         launch call experience.
+     * @param context       The android context used to start the Composite.
+     * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
+     *                      launch call experience.
      */
     public void launch(final Context context, final CallCompositeRemoteOptions remoteOptions) {
         launch(context, remoteOptions, null);
@@ -117,11 +118,11 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context           The android context used to start the Composite.
-     * @param remoteOptions     The {@link CallCompositeRemoteOptions} has remote parameters to
-     *                              launch group call experience.
-     * @param localOptions      The {@link CallCompositeLocalOptions} has local parameters to
-     *                              launch group call experience.
+     * @param context       The android context used to start the Composite.
+     * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
+     *                      launch group call experience.
+     * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
+     *                      launch group call experience.
      */
     public void launch(final Context context,
                        final CallCompositeRemoteOptions remoteOptions,
@@ -213,15 +214,15 @@ public final class CallComposite {
      * Set {@link CallCompositeParticipantViewData}.
      *
      * <p>
-     *     Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
+     * Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
      * </p>
      * <p>
-     *     This should be called from {@link #addOnRemoteParticipantJoinedEventHandler(CallCompositeEventHandler)}
-     *     to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
-     *     Participants view data.
+     * This should be called from {@link #addOnRemoteParticipantJoinedEventHandler(CallCompositeEventHandler)}
+     * to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
+     * Participants view data.
      * </p>
      *
-     * @param identifier  The {@link CommunicationIdentifier}.
+     * @param identifier          The {@link CommunicationIdentifier}.
      * @param participantViewData The {@link CallCompositeParticipantViewData}.
      * @return {@link CallCompositeSetParticipantViewDataResult}.
      */
@@ -244,6 +245,7 @@ public final class CallComposite {
 
     /**
      * Display Call Composite if it was hidden by user going Back in navigation while on the call.
+     *
      * @param context
      */
     public void displayCallCompositeIfWasHidden(final Context context) {
@@ -281,9 +283,9 @@ public final class CallComposite {
     }
 
     private void launchComposite(final Context context,
-                            final CallCompositeRemoteOptions remoteOptions,
-                            final CallCompositeLocalOptions localOptions,
-                            final boolean isTest) {
+                                 final CallCompositeRemoteOptions remoteOptions,
+                                 final CallCompositeLocalOptions localOptions,
+                                 final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
 
         UUID groupId = null;
@@ -332,6 +334,16 @@ public final class CallComposite {
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
+
+        // Bringing to front, so lets make sure PiPMode is exited
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                container.getAppStore().dispatch(new PipAction.PipModeExited());
+            }
+        }
+
+
         context.startActivity(intent);
     }
 
