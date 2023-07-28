@@ -26,7 +26,6 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
-import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
@@ -334,15 +333,6 @@ public final class CallComposite {
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-
-        // Bringing to front, so lets make sure PiPMode is exited
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
-            if (container != null) {
-                container.getAppStore().dispatch(new PipAction.PipModeExited());
-            }
-        }
-
 
         context.startActivity(intent);
     }
