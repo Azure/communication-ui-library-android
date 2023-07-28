@@ -5,6 +5,14 @@
 ### Features
 - Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
 
+## 1.3.1 (2023-07-18)
+
+### Bug Fixes
+- Call join being blocked when microphone is unavailable to use for UI Composite at the moment
+- API Level 29, call resume from hold bug is fixed
+- Audio Speaker issue fix for Samsung devices
+
+
 ## 1.4.0-beta.1 (2023-04-26)
 
 ### Features

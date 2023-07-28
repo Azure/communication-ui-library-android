@@ -4,7 +4,18 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_OFF_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_ON_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CAMERA_INIT_FAILED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.INTERNET_NOT_AVAILABLE
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MICROPHONE_NOT_AVAILABLE
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MIC_PERMISSION_DENIED
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.NETWORK_NOT_AVAILABLE
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.SWITCH_CAMERA_FAILED
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store
@@ -115,5 +126,37 @@ internal class ErrorHandler(
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
+    }
+
+    private fun getCallCompositeErrorCode(errorCode: ErrorCode?): CallCompositeErrorCode? {
+        errorCode?.let {
+            when (it) {
+                TOKEN_EXPIRED -> {
+                    return CallCompositeErrorCode.TOKEN_EXPIRED
+                }
+                CALL_JOIN_FAILED, NETWORK_NOT_AVAILABLE -> {
+                    return CallCompositeErrorCode.CALL_JOIN_FAILED
+                }
+                CALL_END_FAILED -> {
+                    return CallCompositeErrorCode.CALL_END_FAILED
+                }
+                SWITCH_CAMERA_FAILED, TURN_CAMERA_ON_FAILED, TURN_CAMERA_OFF_FAILED, CAMERA_INIT_FAILED -> {
+                    return CallCompositeErrorCode.CAMERA_FAILURE
+                }
+                MIC_PERMISSION_DENIED -> {
+                    return CallCompositeErrorCode.MICROPHONE_PERMISSION_NOT_GRANTED
+                }
+                INTERNET_NOT_AVAILABLE -> {
+                    return CallCompositeErrorCode.NETWORK_CONNECTION_NOT_AVAILABLE
+                }
+                MICROPHONE_NOT_AVAILABLE -> {
+                    return CallCompositeErrorCode.MICROPHONE_NOT_AVAILABLE
+                }
+                else -> {
+                    return null
+                }
+            }
+        }
+        return null
     }
 }

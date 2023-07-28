@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
+import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 
 internal class CallCompositeEventsHandler {
@@ -17,6 +18,9 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
     private val exitEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeExitEvent>>()
+
+    private val multitaskingStateChangedEvent =
+        mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -51,4 +55,11 @@ internal class CallCompositeEventsHandler {
     fun removeOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeExitEvent>) {
         exitEventHandlers.remove(handler)
     }
+
+    fun getOnMultitaskingStateChangedEventHandlers() = multitaskingStateChangedEvent.asIterable()
+    fun addOnMultitaskingStateChangedEventHandler(handler: CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>) =
+        multitaskingStateChangedEvent.add(handler)
+
+    fun removeOnMultitaskingStateChangedEventHandler(handler: CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>) =
+        multitaskingStateChangedEvent.remove(handler)
 }

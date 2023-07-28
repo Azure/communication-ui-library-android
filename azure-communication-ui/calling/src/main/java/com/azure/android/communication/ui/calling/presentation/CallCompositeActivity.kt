@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
 import android.app.PictureInPictureParams
-import android.app.PictureInPictureUiState
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -63,6 +62,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val audioFocusManager get() = container.audioFocusManager
     private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
+    private val multitaskingManager get() = container.multitaskingManager
     private val errorHandler get() = container.errorHandler
     private val callStateHandler get() = container.callStateHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -84,11 +84,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             return
         }
 
-        initPipMode()
-
         // Call super
         super.onCreate(savedInstanceState)
-
+        syncPipMode()
         // Inflate everything else
         volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
@@ -136,6 +134,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch {
             audioModeManager.start()
         }
+
+        multitaskingManager.start(lifecycleScope)
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
@@ -195,6 +195,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
+
         super.onDestroy()
     }
 
@@ -218,16 +219,36 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 .Builder()
                 .setAspectRatio(Rational(1, 1))
                 .build()
-            enterPictureInPictureMode(params)
+
+            if (enterPictureInPictureMode(params))
+                reduxStartPipMode()
         }
     }
 
-    override fun onPictureInPictureUiStateChanged(pipState: PictureInPictureUiState) {
-        super.onPictureInPictureUiStateChanged(pipState)
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration?
+    ) {
+        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+    }
+    private fun syncPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+        }
     }
 
-    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
-        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+    private fun reduxStartPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+        }
     }
 
     fun hide() {
@@ -242,8 +263,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 .Builder()
                 .setAspectRatio(Rational(1, 1))
                 .build()
-            val enteredPiPSucceeded = activity?.enterPictureInPictureMode(params)
-            if (enteredPiPSucceeded == false)
+            val enteredPiPSucceeded = enterPictureInPictureMode(params)
+            if (enteredPiPSucceeded)
+                reduxStartPipMode()
+            else
                 activity?.moveTaskToBack(true)
         } else {
             activity?.moveTaskToBack(true)

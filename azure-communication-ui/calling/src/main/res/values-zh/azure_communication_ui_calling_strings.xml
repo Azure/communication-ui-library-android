@@ -44,7 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">与 1 个人通话</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">与 %1$d 人通话</string>
-    <string name="azure_communication_ui_calling_view_go_back">Go back</string>
+    <string name="azure_communication_ui_calling_view_go_back">返回</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的参与者</string>
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>

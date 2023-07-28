@@ -127,7 +127,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             stateFlow.emit(newBackgroundState)
 
             // assert
-
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockControlBarViewModel, times(1)).update(
                 any(),

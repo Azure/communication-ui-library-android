@@ -44,7 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Wachten tot anderen deelnemen</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Gesprek met 1 persoon</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Bellen met %1$d personen</string>
-    <string name="azure_communication_ui_calling_view_go_back">Go back</string>
+    <string name="azure_communication_ui_calling_view_go_back">Terug</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ik)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Naamloze deelnemer</string>
     <string name="azure_communication_ui_calling_view_leave_call">Gesprek verlaten?</string>

@@ -17,6 +17,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioMode
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
@@ -24,7 +25,7 @@ import com.azure.android.communication.ui.calling.presentation.navigation.Naviga
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
@@ -55,6 +56,7 @@ internal interface DependencyInjectionContainer {
     val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
     val compositeExitManager: CompositeExitManager
+    val multitaskingManager: MultitaskingManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager

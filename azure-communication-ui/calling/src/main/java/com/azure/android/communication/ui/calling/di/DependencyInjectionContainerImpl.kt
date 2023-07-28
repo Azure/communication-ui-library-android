@@ -22,6 +22,8 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioSess
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
 import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
@@ -48,8 +50,7 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
-import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
@@ -132,6 +133,7 @@ internal class DependencyInjectionContainerImpl(
             applicationContext,
         )
     }
+
     override val debugInfoManager: DebugInfoManager by lazy {
         DebugInfoManagerImpl(
             callHistoryRepository,
@@ -169,6 +171,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val lifecycleManager by lazy {
         LifecycleManagerImpl(appStore)
+    }
+
+    override val multitaskingManager by lazy {
+        MultitaskingManager(appStore, configuration)
     }
 
     override val appStore by lazy {

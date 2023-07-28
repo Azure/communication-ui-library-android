@@ -136,7 +136,6 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun participantViewModel_update_when_isCalledWithParticipantInfoModel_then_participantGridViewModelReceiveStateChangeForSameParticipantWithSameModifiedTimestamp() =
         runScopedTest {
-
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()

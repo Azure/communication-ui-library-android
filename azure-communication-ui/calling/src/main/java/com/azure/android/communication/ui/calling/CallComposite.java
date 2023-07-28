@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
@@ -91,9 +92,9 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context          The android context used to start the Composite.
-     * @param remoteOptions    The {@link CallCompositeRemoteOptions} has remote parameters to
-     *                         launch call experience.
+     * @param context       The android context used to start the Composite.
+     * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
+     *                      launch call experience.
      */
     public void launch(final Context context, final CallCompositeRemoteOptions remoteOptions) {
         launch(context, remoteOptions, null);
@@ -121,11 +122,11 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context           The android context used to start the Composite.
-     * @param remoteOptions     The {@link CallCompositeRemoteOptions} has remote parameters to
-     *                              launch group call experience.
-     * @param localOptions      The {@link CallCompositeLocalOptions} has local parameters to
-     *                              launch group call experience.
+     * @param context       The android context used to start the Composite.
+     * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
+     *                      launch group call experience.
+     * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
+     *                      launch group call experience.
      */
     public void launch(final Context context,
                        final CallCompositeRemoteOptions remoteOptions,
@@ -293,19 +294,35 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
 
+
+    public void addOnPictureInPictureChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnMultitaskingStateChangedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnPictureInPictureChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnMultitaskingStateChangedEventHandler(eventHandler);
+    }
+
     /**
      * Set {@link CallCompositeParticipantViewData}.
      *
      * <p>
-     *     Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
+     * Used to set Participant View Data (E.g. Avatar and displayName) to be used on this device only.
      * </p>
      * <p>
-     *     This should be called from {@link #addOnRemoteParticipantJoinedEventHandler(CallCompositeEventHandler)}
-     *     to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
-     *     Participants view data.
+     * This should be called from {@link #addOnRemoteParticipantJoinedEventHandler(CallCompositeEventHandler)}
+     * to assign Participant View Data when a Participant joins the meeting if you'd like to modify the
+     * Participants view data.
      * </p>
      *
-     * @param identifier  The {@link CommunicationIdentifier}.
+     * @param identifier          The {@link CommunicationIdentifier}.
      * @param participantViewData The {@link CallCompositeParticipantViewData}.
      * @return {@link CallCompositeSetParticipantViewDataResult}.
      */
@@ -328,6 +345,7 @@ public final class CallComposite {
 
     /**
      * Display Call Composite if it was hidden by user going Back in navigation while on the call.
+     *
      * @param context
      */
     public void displayCallCompositeIfWasHidden(final Context context) {
@@ -365,9 +383,9 @@ public final class CallComposite {
     }
 
     private void launchComposite(final Context context,
-                            final CallCompositeRemoteOptions remoteOptions,
-                            final CallCompositeLocalOptions localOptions,
-                            final boolean isTest) {
+                                 final CallCompositeRemoteOptions remoteOptions,
+                                 final CallCompositeLocalOptions localOptions,
+                                 final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
 
         UUID groupId = null;
@@ -428,6 +446,7 @@ public final class CallComposite {
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
+
         context.startActivity(intent);
     }
 
