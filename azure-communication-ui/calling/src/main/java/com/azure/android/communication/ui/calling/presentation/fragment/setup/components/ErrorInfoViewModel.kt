@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ErrorInfoViewModel {
     private val callStateErrorFlow: MutableStateFlow<CallStateError?> = MutableStateFlow(null)
-
     private val _callCompositeErrorFlow: MutableStateFlow<CallCompositeError?> = MutableStateFlow(null)
+    private val audioFocusRejectedFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     var callCompositeErrorFlow = _callCompositeErrorFlow
     fun updateCallStateError(errorState: ErrorState) {
         callStateErrorFlow.value = errorState.callStateError
@@ -22,7 +22,15 @@ internal class ErrorInfoViewModel {
         callCompositeErrorFlow.value = error
     }
 
+    fun updateAudioFocusRejectedState(isAudioFocusRejected: Boolean) {
+        audioFocusRejectedFlow.value = isAudioFocusRejected
+    }
+
     fun getCallStateErrorStateFlow(): StateFlow<CallStateError?> {
         return callStateErrorFlow
+    }
+
+    fun getAudioFocusRejectedFlow(): MutableStateFlow<Boolean> {
+        return audioFocusRejectedFlow
     }
 }

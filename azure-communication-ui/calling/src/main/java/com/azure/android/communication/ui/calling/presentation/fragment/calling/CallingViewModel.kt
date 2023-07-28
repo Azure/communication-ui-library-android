@@ -35,7 +35,7 @@ internal class CallingViewModel(
     val waitingLobbyOverlayViewModel = callingViewModelProvider.waitingLobbyOverlayViewModel
     val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
-    val errorInfoViewModel = callingViewModelProvider.snackBarViewModel
+    val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
 
     private var hasSetupCalled = false
 

@@ -200,16 +200,14 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
             if (enterPictureInPictureMode(params))
                 reduxStartPipMode()
-
         }
     }
-
 
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
         newConfig: Configuration?
     ) {
-            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
     }
     private fun syncPipMode() {
         if (configuration.enableSystemPiPWhenMultitasking &&
@@ -248,7 +246,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 reduxStartPipMode()
             else
                 activity?.moveTaskToBack(true)
-
         } else {
             activity?.moveTaskToBack(true)
         }
