@@ -11,47 +11,65 @@ import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.os.IInterface
+import android.os.Parcel
 import androidx.core.app.NotificationCompat
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity
+import java.io.FileDescriptor
 
 internal class InCallService : Service() {
 
     private val IN_CALL_CHANNEL_ID = "com.azure.android.communication.ui.service.calling.in_call"
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
+    override fun onBind(intent: Intent): IBinder? {
+        println("InCallService onBind")
+        startInCallNotification(intent)
+        return InCallServiceBinder()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        var enableMultitasking = false
-        var enableSystemPiPWhenMultitasking = false
-        intent?.let {
-            enableMultitasking = it.getBooleanExtra("enableMultitasking", false)
-            enableSystemPiPWhenMultitasking = it.getBooleanExtra("enableSystemPiPWhenMultitasking", false)
-        }
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        println("InCallService onStartCommand")
 
-        startInCallNotification(enableMultitasking, enableSystemPiPWhenMultitasking)
-        return START_NOT_STICKY
+        startInCallNotification(intent)
+        return START_STICKY
+    }
+
+    override fun onDestroy() {
+        println("InCallService onDestroy")
+        super.onDestroy()
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        if (rootIntent?.component?.className == CallCompositeActivity::class.java.name)
-            stopSelf()
+        println("InCallService onTaskRemoved")
+//        if (rootIntent?.component?.className == CallCompositeActivity::class.java.name) {
+//            println("InCallService onTaskRemoved stopSelf")
+//            stopSelf()
+//        }
+
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onCreate() {
+        println("InCallService onCreate")
         super.onCreate()
         createInCallNotificationChannel()
     }
 
     private fun startInCallNotification(
-        enableMultitasking: Boolean,
-        enableSystemPiPWhenMultitasking: Boolean,
+            intent: Intent,
     ) {
+
+        var enableMultitasking = false
+        var enableSystemPiPWhenMultitasking = false
+
+        intent?.let {
+            enableMultitasking = it.getBooleanExtra("enableMultitasking", false)
+            enableSystemPiPWhenMultitasking = it.getBooleanExtra("enableSystemPiPWhenMultitasking", false)
+        }
+        val instanceId = intent.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, 0)
 
         var activityClass: Class<*> = CallCompositeActivity::class.java
 
@@ -64,8 +82,11 @@ internal class InCallService : Service() {
 
         val pendingIntent: PendingIntent =
             Intent(this, activityClass).let { notificationIntent ->
+                notificationIntent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
                 PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             }
+
+
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
             .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))
@@ -94,4 +115,44 @@ internal class InCallService : Service() {
             notificationManager.createNotificationChannel(channel)
         }
     }
+}
+
+
+class InCallServiceBinder: IBinder {
+    override fun getInterfaceDescriptor(): String? {
+        TODO("Not yet implemented")
+    }
+
+    override fun pingBinder(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isBinderAlive(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun queryLocalInterface(descriptor: String): IInterface? {
+        TODO("Not yet implemented")
+    }
+
+    override fun dump(fd: FileDescriptor, args: Array<out String>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun dumpAsync(fd: FileDescriptor, args: Array<out String>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun transact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun linkToDeath(recipient: IBinder.DeathRecipient, flags: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun unlinkToDeath(recipient: IBinder.DeathRecipient, flags: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
 }

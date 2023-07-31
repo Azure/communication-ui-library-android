@@ -156,6 +156,10 @@ class CallLauncherViewModel : ViewModel() {
         isExitRequested = true
         callComposite?.exit()
     }
+
+    fun displayCallCompositeIfWasHidden(context: Context) {
+        this.callComposite?.displayCallCompositeIfWasHidden(context)
+    }
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateEvent> {

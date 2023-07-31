@@ -58,8 +58,10 @@ internal class DependencyInjectionContainerHolder(
 
         val callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
 
+
         // Generate a new instance
         val container = DependencyInjectionContainerImpl(
+                instanceId,
             application,
             callComposite,
             customCallingSDK,
