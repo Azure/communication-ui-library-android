@@ -19,8 +19,6 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.setDependencyInjectionContainer
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
-import java.lang.IllegalArgumentException
-
 /**
  * ViewModel for the CallCompositeActivity
  *
@@ -81,7 +79,6 @@ internal class DependencyInjectionContainerHolder(
             container.networkManager
         )
     }
-
     val callingViewModel by lazy {
         CallingViewModel(
             container.appStore,
@@ -89,9 +86,11 @@ internal class DependencyInjectionContainerHolder(
                 container.appStore,
                 ParticipantGridCellViewModelFactory(),
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
-                container.debugInfoManager
+                container.debugInfoManager,
+                container.configuration.enableMultitasking
             ),
-            container.networkManager
+            container.networkManager,
+            container.configuration.enableMultitasking
         )
     }
 }

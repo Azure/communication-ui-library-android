@@ -54,10 +54,11 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isTranscribing = false
             )
 
-            val floatingHeaderViewModel = InfoHeaderViewModel()
+            val floatingHeaderViewModel = InfoHeaderViewModel(false)
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
-                expectedParticipantMap.count()
+                expectedParticipantMap.count(),
+                { }
             )
 
             val resultListFromNumberOfParticipantsFlow =
@@ -112,10 +113,11 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isTranscribing = false
             )
 
-            val floatingHeaderViewModel = InfoHeaderViewModel()
+            val floatingHeaderViewModel = InfoHeaderViewModel(false)
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
-                expectedParticipantMap.count()
+                expectedParticipantMap.count(),
+                {}
             )
 
             val resultListFromIsLobbyOverlayDisplayedFlow =

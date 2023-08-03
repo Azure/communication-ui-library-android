@@ -14,6 +14,8 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
+import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
+import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity
 
 internal class InCallService : Service() {
 
@@ -24,12 +26,20 @@ internal class InCallService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startInCallNotification()
+        var enableMultitasking = false
+        var enableSystemPiPWhenMultitasking = false
+        intent?.let {
+            enableMultitasking = it.getBooleanExtra("enableMultitasking", false)
+            enableSystemPiPWhenMultitasking = it.getBooleanExtra("enableSystemPiPWhenMultitasking", false)
+        }
+
+        startInCallNotification(enableMultitasking, enableSystemPiPWhenMultitasking)
         return START_NOT_STICKY
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        stopSelf()
+        if (rootIntent?.component?.className == CallCompositeActivity::class.java.name)
+            stopSelf()
         super.onTaskRemoved(rootIntent)
     }
 
@@ -38,9 +48,22 @@ internal class InCallService : Service() {
         createInCallNotificationChannel()
     }
 
-    private fun startInCallNotification() {
+    private fun startInCallNotification(
+        enableMultitasking: Boolean,
+        enableSystemPiPWhenMultitasking: Boolean,
+    ) {
+
+        var activityClass: Class<*> = CallCompositeActivity::class.java
+
+        if (enableMultitasking) {
+            activityClass = MultitaskingCallCompositeActivity::class.java
+        }
+        if (enableSystemPiPWhenMultitasking) {
+            activityClass = PiPCallCompositeActivity::class.java
+        }
+
         val pendingIntent: PendingIntent =
-            Intent(this, CallCompositeActivity::class.java).let { notificationIntent ->
+            Intent(this, activityClass).let { notificationIntent ->
                 PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             }
 

@@ -48,6 +48,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -161,6 +163,10 @@ internal class DependencyInjectionContainerImpl(
         LifecycleManagerImpl(appStore)
     }
 
+    override val multitaskingManager by lazy {
+        MultitaskingManager(appStore, configuration)
+    }
+
     override val appStore by lazy {
         AppStore(
             initialState,
@@ -171,7 +177,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val notificationService by lazy {
-        NotificationService(parentContext, appStore)
+        NotificationService(parentContext, appStore, configuration)
     }
 
     override val remoteParticipantHandler by lazy {
@@ -205,6 +211,7 @@ internal class DependencyInjectionContainerImpl(
     private val errorReducer get() = ErrorReducerImpl()
     private val navigationReducer get() = NavigationReducerImpl()
     private val audioSessionReducer get() = AudioSessionStateReducerImpl()
+    private val pipReducer get() = PipReducerImpl()
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
@@ -226,6 +233,7 @@ internal class DependencyInjectionContainerImpl(
             errorReducer,
             navigationReducer,
             audioSessionReducer,
+            pipReducer,
         ) as Reducer<ReduxState>
     }
     //endregion

@@ -83,6 +83,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 launch()
             }
 
+            showUIButton.setOnClickListener {
+                showUI()
+            }
+
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
@@ -156,6 +160,10 @@ class CallLauncherActivity : AppCompatActivity() {
             groupId,
             meetingLink,
         )
+    }
+
+    private fun showUI() {
+        callLauncherViewModel.callComposite?.displayCallCompositeIfWasHidden(this)
     }
 
     private fun showCallHistory() {

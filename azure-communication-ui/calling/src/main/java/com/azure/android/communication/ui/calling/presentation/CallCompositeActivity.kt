@@ -4,12 +4,15 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
+import android.app.PictureInPictureParams
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Rational
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -29,16 +32,17 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.setActivity
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 import java.util.Locale
 
-internal class CallCompositeActivity : AppCompatActivity() {
+internal open class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
@@ -58,6 +62,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioFocusManager get() = container.audioFocusManager
     private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
+    private val multitaskingManager get() = container.multitaskingManager
     private val errorHandler get() = container.errorHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
@@ -67,17 +72,19 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val callHistoryService get() = container.callHistoryService
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        volumeControlStream = AudioManager.STREAM_VOICE_CALL
-
-        // Assign the Dependency Injection Container the appropriate instanceId,
-        // so it can initialize it's container holding the dependencies
+        // Before super, we'll set up the DI injector and check the PiP state
         try {
             diContainerHolder.instanceId = instanceId
         } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
+
+        // Call super
+        super.onCreate(savedInstanceState)
+        syncPipMode()
+        // Inflate everything else
+        volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
         lifecycleScope.launch { errorHandler.start() }
         lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
@@ -87,6 +94,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         configureActionBar()
         setStatusBarColor()
         setActionBarVisibility()
+
+        diContainerHolder.container.callComposite.setActivity(this)
 
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
@@ -121,6 +130,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch {
             audioModeManager.start()
         }
+
+        multitaskingManager.start(lifecycleScope)
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
@@ -162,6 +173,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
+
         super.onDestroy()
     }
 
@@ -173,6 +185,70 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onUserLeaveHint() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+
+            if (enterPictureInPictureMode(params))
+                reduxStartPipMode()
+        }
+    }
+
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration?
+    ) {
+        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+    }
+    private fun syncPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+        }
+    }
+
+    private fun reduxStartPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+        }
+    }
+
+    fun hide() {
+        if (!configuration.enableMultitasking)
+            return
+
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            val enteredPiPSucceeded = enterPictureInPictureMode(params)
+            if (enteredPiPSucceeded)
+                reduxStartPipMode()
+            else
+                activity?.moveTaskToBack(true)
+        } else {
+            activity?.moveTaskToBack(true)
+        }
     }
 
     private fun configureActionBar() {
@@ -351,7 +427,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return Locale.US
     }
 
-    companion object {
+    internal companion object {
         const val KEY_INSTANCE_ID = "InstanceID"
     }
 }

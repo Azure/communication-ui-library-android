@@ -8,6 +8,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.LayoutDirection
@@ -20,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
+import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
@@ -33,6 +35,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
+import com.microsoft.fluentui.util.activity
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
@@ -159,7 +162,20 @@ internal class CallingFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000, ::onBackPressed)
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            onBackPressed()
+        }
+    }
+
+    private fun onBackPressed() {
+
+        if (viewModel.multitaskingEnabled) {
+            (activity as? MultitaskingCallCompositeActivity)?.hide()
+        } else {
             viewModel.requestCallEnd()
         }
     }
@@ -192,6 +208,9 @@ internal class CallingFragment :
     }
 
     override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.unregisterOnBackInvokedCallback(::onBackPressed)
+        }
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
