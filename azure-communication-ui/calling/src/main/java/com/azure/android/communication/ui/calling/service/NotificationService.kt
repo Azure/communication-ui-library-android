@@ -46,30 +46,35 @@ internal class NotificationService(
     }
 
     private fun displayNotification() {
+        if (inCallServiceConnection != null)
+            return
+
         val inCallServiceIntent = Intent(context.applicationContext, InCallService::class.java)
         inCallServiceIntent.putExtra("enableMultitasking", configuration.enableMultitasking)
         inCallServiceIntent.putExtra("enableSystemPiPWhenMultitasking", configuration.enableSystemPiPWhenMultitasking)
         inCallServiceIntent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
         val inCallServiceConnection = InCallServiceConnection()
         this.inCallServiceConnection = inCallServiceConnection
+        println("InCallService bindService")
         context.applicationContext.bindService(inCallServiceIntent, inCallServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
     fun removeNotification() {
-        val inCallServiceIntent = Intent(context.applicationContext, InCallService::class.java)
+        println("InCallService removeNotification")
+
         inCallServiceConnection?.let {
+            inCallServiceConnection = null
             context.applicationContext.unbindService(it)
         }
     }
 }
 
-class InCallServiceConnection: ServiceConnection {
+class InCallServiceConnection : ServiceConnection {
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-
+        println("InCallService InCallServiceConnection.onServiceConnected")
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
-
+        println("InCallService InCallServiceConnection.onServiceDisconnected")
     }
-
 }

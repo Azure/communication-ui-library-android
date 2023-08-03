@@ -36,7 +36,9 @@ class CallLauncherViewModel : ViewModel() {
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
 
-    var callComposite: CallComposite? = null
+    companion object {
+        var callComposite: CallComposite? = null
+    }
 
     fun launch(
         context: Context,
@@ -50,10 +52,13 @@ class CallLauncherViewModel : ViewModel() {
         val callComposite = createCallComposite(context)
         callComposite.addOnErrorEventHandler(
             CallLauncherActivityErrorHandler(
-                context,
+                context.applicationContext,
                 callComposite
             )
         )
+        callComposite.addOnExitEventHandler {
+            CallLauncherViewModel.callComposite = null
+        }
 
         if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
@@ -136,11 +141,10 @@ class CallLauncherViewModel : ViewModel() {
 
         callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(true, true))
 
-        val callComposite = callCompositeBuilder.build()
+        val newCallComposite = callCompositeBuilder.build()
 
-        // For test purposes we will keep a static ref to CallComposite
-        this.callComposite = callComposite
-        return callComposite
+        callComposite = newCallComposite
+        return newCallComposite
     }
 
     fun unsubscribe() {
@@ -158,7 +162,7 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun displayCallCompositeIfWasHidden(context: Context) {
-        this.callComposite?.displayCallCompositeIfWasHidden(context)
+        callComposite?.displayCallCompositeIfWasHidden(context)
     }
 }
 

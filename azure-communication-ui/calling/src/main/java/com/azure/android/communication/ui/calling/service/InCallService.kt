@@ -32,8 +32,6 @@ internal class InCallService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         println("InCallService onStartCommand")
-
-        startInCallNotification(intent)
         return START_STICKY
     }
 
@@ -44,11 +42,6 @@ internal class InCallService : Service() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         println("InCallService onTaskRemoved")
-//        if (rootIntent?.component?.className == CallCompositeActivity::class.java.name) {
-//            println("InCallService onTaskRemoved stopSelf")
-//            stopSelf()
-//        }
-
         super.onTaskRemoved(rootIntent)
     }
 
@@ -59,7 +52,7 @@ internal class InCallService : Service() {
     }
 
     private fun startInCallNotification(
-            intent: Intent,
+        intent: Intent,
     ) {
 
         var enableMultitasking = false
@@ -86,14 +79,12 @@ internal class InCallService : Service() {
                 PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             }
 
-
-
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
             .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))
             .setContentText(this.getText(R.string.azure_communication_ui_calling_service_notification_message))
             .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_call_16_filled)
             .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
             .setCategory(NotificationCompat.CATEGORY_CALL)
             .setOngoing(true)
             .build()
@@ -117,8 +108,7 @@ internal class InCallService : Service() {
     }
 }
 
-
-class InCallServiceBinder: IBinder {
+class InCallServiceBinder : IBinder {
     override fun getInterfaceDescriptor(): String? {
         TODO("Not yet implemented")
     }
@@ -154,5 +144,4 @@ class InCallServiceBinder: IBinder {
     override fun unlinkToDeath(recipient: IBinder.DeathRecipient, flags: Int): Boolean {
         TODO("Not yet implemented")
     }
-
 }

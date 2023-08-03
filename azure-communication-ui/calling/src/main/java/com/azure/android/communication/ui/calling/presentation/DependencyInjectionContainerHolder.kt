@@ -9,15 +9,12 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
-import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl
+import com.azure.android.communication.ui.calling.getDiContainer
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
-import com.azure.android.communication.ui.calling.setDependencyInjectionContainer
-import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 /**
  * ViewModel for the CallCompositeActivity
@@ -30,9 +27,6 @@ import com.azure.android.communication.ui.calling.utilities.CoroutineContextProv
  */
 internal class DependencyInjectionContainerHolder(
     application: Application,
-    private val customCallingSDK: CallingSDK?,
-    private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
-    private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : AndroidViewModel(application) {
     companion object {
         private const val commonMessage =
@@ -56,22 +50,7 @@ internal class DependencyInjectionContainerHolder(
             throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
-        val callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
-
-
-        // Generate a new instance
-        val container = DependencyInjectionContainerImpl(
-                instanceId,
-            application,
-            callComposite,
-            customCallingSDK,
-            customVideoStreamRendererFactory,
-            customCoroutineContextProvider
-        )
-
-        callComposite.setDependencyInjectionContainer(container)
-
-        return@lazy container
+        return@lazy CallCompositeInstanceManager.getCallComposite(instanceId).getDiContainer()
     }
 
     val setupViewModel by lazy {
