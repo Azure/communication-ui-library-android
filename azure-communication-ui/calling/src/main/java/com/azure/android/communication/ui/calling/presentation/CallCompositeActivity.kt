@@ -210,18 +210,22 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     }
 
     override fun onUserLeaveHint() {
-        if (configuration.enableSystemPiPWhenMultitasking &&
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
-            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
-        ) {
-            val params = PictureInPictureParams
-                .Builder()
-                .setAspectRatio(Rational(1, 1))
-                .build()
+        try {
+            if (configuration.enableSystemPiPWhenMultitasking &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+                store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+            ) {
+                val params = PictureInPictureParams
+                    .Builder()
+                    .setAspectRatio(Rational(1, 1))
+                    .build()
 
-            if (enterPictureInPictureMode(params))
-                reduxStartPipMode()
+                if (enterPictureInPictureMode(params))
+                    reduxStartPipMode()
+            }
+        } catch (_: Exception) {
+            // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
         }
     }
 
@@ -263,7 +267,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 .Builder()
                 .setAspectRatio(Rational(1, 1))
                 .build()
-            val enteredPiPSucceeded = enterPictureInPictureMode(params)
+            var enteredPiPSucceeded = false
+            try {
+                enteredPiPSucceeded = enterPictureInPictureMode(params)
+            } catch (_: Exception) {
+                // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
+            }
             if (enteredPiPSucceeded)
                 reduxStartPipMode()
             else
