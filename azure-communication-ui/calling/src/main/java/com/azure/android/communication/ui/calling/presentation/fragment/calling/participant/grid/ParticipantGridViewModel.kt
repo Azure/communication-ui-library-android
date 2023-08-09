@@ -26,6 +26,7 @@ internal class ParticipantGridViewModel(
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private var dominantSpeakersStateModifiedTimestamp: Number = 0
     private var pipStatus: PictureInPictureStatus = PictureInPictureStatus.NONE
+
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(

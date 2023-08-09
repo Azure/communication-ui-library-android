@@ -101,6 +101,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
+
             remoteParticipantsMap["user1"]!!.modifiedTimestamp = 555
             remoteParticipantsMap["user1"]!!.isMuted = false
 
