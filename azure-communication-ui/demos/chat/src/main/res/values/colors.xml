@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <color name="app_primary_color">#6200EE</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="ACS_light">#FF3AA0F3</color>
+    <color name="ACS_dark">#FF0086F0</color>
+    <color name="Teams_light">#FF6264A7</color>
+    <color name="Teams_dark">#FF7A7FEA</color>
+    <color name="transparent">#00000000</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>

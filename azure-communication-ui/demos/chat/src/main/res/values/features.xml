@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<resources>
+    <!-- This flag enabled/disables diagnostics (feature will be omitted if false) -->
+    <bool name="diagnostics">false</bool>
+    <bool name="remote_url_persona_injection">false</bool>
+</resources>

@@ -1,3 +1,4 @@
 include ':calling'
 include ':chat'
-include ':demo-app'
+include ':demos:calling'
+include ':demos:chat'

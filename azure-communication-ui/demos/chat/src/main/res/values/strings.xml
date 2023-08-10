@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="azure_communication_ui_chat_demo_app_title">Chat Demo</string>
+    <string name="app_name">Azure Communication Demo</string>
+    <string name="token_url_hint">Token function URL</string>
+    <string name="acs_endpoint_hint">ACS Endpoint</string>
+    <string name="name_hint">Your Name</string>
+    <string name="identity_hint">Identity</string>
+    <string name="group_call_label">Group call</string>
+    <string name="teams_meeting_label">Teams meeting</string>
+    <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link</string>
+    <string name="chat_thread_id_hint">Chat Thread ID</string>
+    <string name="endpoint_url_hint">Endpoint</string>
+    <string name="kotlin">Kotlin</string>
+    <string name="java">Java</string>
+    <string name="launch_button_text">Launch</string>
+    <string name="open_ui_button_text">Open partial view</string>
+    <string name="open_full_screen_ui_button_text">Open Full Screen UI</string>
+    <string name="close_composite_button_text">Stop Composite</string>
+    <string name="acs_token_hint">ACS Token</string>
+    <string name="acs_user_id_hint">Communication User Id</string>
+    <string name="launch_type_text">Launch In:</string>
+    <string name="token_function_radio_button_text">Token Function</string>
+    <string name="acs_token_radio_button_text">@string/acs_token_hint</string>
+    <string name="diagnostics">FPS, Memory Diagnostics</string>
+    <string name="secondary_theme">Secondary theme</string>
+    <string name="launch_settings_button_text">Settings</string>
+    <string name="language_setting_label">Language Settings</string>
+    <string name="call_setting_label">Call Settings</string>
+    <string name="chat_setting_label">Chat Settings</string>
+    <string name="is_rtl_check_box_label">isRTL</string>
+    <string name="language_dropdown_hint">Language</string>
+    <string name="language_default_selection">ENGLISH</string>
+    <string name="version">version:</string>
+    <string name="debug">Debug</string>
+    <string name="rendered_display_name">Rendered Display Name</string>
+    <string name="local_avatar_injection">Local Avatar Injection</string>
+    <string name="remote_avatar_injection">Remote Avatar Injection</string>
+    <string name="remote_participant_inject_avatar">Inject avatar\'s</string>
+    <string name="call_title">Call title</string>
+    <string name="call_subtitle">Call subtitle</string>
+    <string name="skip_setup_screen_option">Skip Setup Screen Option</string>
+    <string name="skip_setup_screen">Skip Setup Screen</string>
+    <string name="call_control_option">Default Call Control Option</string>
+    <string name="mic_control">Microphone On By Default</string>
+    <string name="camera_control">Camera On By Default</string>
+</resources>

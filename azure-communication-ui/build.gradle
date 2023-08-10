@@ -115,12 +115,14 @@ allprojects {
 
 subprojects {
     apply plugin: "org.jlleitschuh.gradle.ktlint"
-    apply from: "../checkstyle.gradle"
+    apply from: "${rootProject.rootDir}/checkstyle.gradle"
+
     afterEvaluate {
-        preBuild.dependsOn 'checkstyle'
-        check.dependsOn 'checkstyle'
+        tasks.findByName('preBuild')?.dependsOn 'checkstyle'
+        tasks.findByName('check')?.dependsOn 'checkstyle'
     }
 }
+
 
 tasks.register("combinedCoverageReport", JacocoReport) {
     group = "Reporting"

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.azure.android.communication.ui.callingcompositedemoapp"
+    >
+
+    <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+
+    <application
+
+        android:theme="@style/Theme.AppCompat">
+        <activity
+            android:name="chatdemoapp.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Launcher.Theme"
+            />
+        <activity
+            android:name="chatdemoapp.ChatLauncherActivity"
+            android:exported="true"
+            android:label="@string/azure_communication_ui_chat_demo_app_title"
+            android:theme="@style/Launcher.Theme"
+            android:windowSoftInputMode="adjustResize"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="calling"
+                    android:scheme="acsui"
+                    />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="https://test"
+                    android:pathPrefix="/calling"
+                    android:scheme="https"
+                    />
+                <data
+                    android:host="https://test"
+                    android:pathPrefix="/calling"
+                    android:scheme="http"
+                    />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,127 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+Properties properties = new Properties()
+if (project.rootProject.file('local.properties').canRead()) {
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "com.azure.android.communication.ui.chatcompositedemoapp"
+        minSdkVersion 23
+        targetSdkVersion 33
+        versionCode ui_library_version_code
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField 'String', 'TOKEN_FUNCTION_URL', properties.getProperty('TOKEN_FUNCTION_URL', '""')
+        buildConfigField 'String', 'USER_NAME', properties.getProperty('USER_NAME', '""')
+        buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
+        buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
+        buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        release {
+            storeFile file(String.valueOf(System.getenv("KEYSTORE_FILEPATH")))
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    testOptions {
+        animationsDisabled = true
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+        unitTests {
+            returnDefaultValues = true
+            all {
+                failFast = true
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            manifestPlaceholders = [
+                    appIcon     : "@mipmap/ic_launcher",
+                    appIconRound: "@mipmap/ic_launcher_round"
+            ]
+            if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
+                signingConfig signingConfigs.release
+            }
+        }
+
+        debug {
+            applicationIdSuffix = ".debug"
+            manifestPlaceholders = [
+                    appIcon     : "@mipmap/ic_launcher_debug",
+                    appIconRound: "@mipmap/ic_launcher_debug_round"
+            ]
+        }
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+}
+
+dependencies {
+    def app_center_sdk_version = '4.3.1'
+    implementation project(path: ':chat')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.activity:activity-ktx:$androidx_activity_ktx_version"
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
+    implementation "com.microsoft.appcenter:appcenter-analytics:$app_center_sdk_version"
+    implementation "com.microsoft.appcenter:appcenter-crashes:$app_center_sdk_version"
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation "com.microsoft.appcenter:appcenter-distribute:$app_center_sdk_version"
+    implementation files('lib/magnifier-0.0.17.aar')
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'net.java.dev.jna:jna:5.10.0'
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$jetbrains_kotlinx_coroutines_test_version") {
+        exclude group: "net.java.dev.jna", module: "jna"
+    }
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
+    androidTestImplementation "androidx.test:rules:$androidx_test_rules_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"
+    androidTestImplementation "com.squareup.leakcanary:leakcanary-android-instrumentation:2.9.1"
+}
