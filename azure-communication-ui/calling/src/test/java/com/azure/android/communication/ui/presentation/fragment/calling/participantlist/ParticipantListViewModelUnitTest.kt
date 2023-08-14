@@ -364,6 +364,5 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
         screenShareVideoStreamModel,
         cameraVideoStreamModel,
         modifiedTimestamp,
-        speakingTimestamp
     )
 }

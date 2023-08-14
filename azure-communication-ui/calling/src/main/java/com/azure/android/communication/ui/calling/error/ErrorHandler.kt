@@ -82,7 +82,7 @@ internal class ErrorHandler(
         try {
             val eventArgs =
                 CallCompositeErrorEvent(
-                    callStateError.errorCode?.toCallCompositeErrorCode(),
+                    callStateError.errorCode.toCallCompositeErrorCode(),
                     null,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandlers()

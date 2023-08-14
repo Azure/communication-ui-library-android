@@ -371,6 +371,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
@@ -381,7 +382,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     screenShareVideoStreamModel = null,
                     cameraVideoStreamModel = null,
                     modifiedTimestamp = 0,
-                    speakingTimestamp = 0,
                     participantStatus = ParticipantStatus.HOLD,
                 )
 
@@ -394,6 +394,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -415,6 +416,76 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 argThat { action ->
                     action is ParticipantAction.ListUpdated &&
                         action.participantMap == participantMap
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_startCall_then_dispatchDominantSpeakersUpdatedActionToStore() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                        0
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
+                    "",
+                    ""
+                )
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableStateFlow<String?>(null)
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+
+            val dominantSpeakers = listOf("userId")
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdStateFlow() } doReturn callIdFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            dominantSpeakersSharedFlow.emit(dominantSpeakers)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ParticipantAction.DominantSpeakersUpdated &&
+                        action.dominantSpeakersInfo == dominantSpeakers
                 }
             )
         }
@@ -450,6 +521,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -460,6 +532,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -552,6 +625,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -562,6 +636,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1448,6 +1523,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1458,6 +1534,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1522,6 +1599,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val cameraStateCompletableFuture = CompletableFuture<String>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1536,6 +1614,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { turnCameraOn() } doReturn cameraStateCompletableFuture
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1578,6 +1657,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1588,6 +1668,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1646,6 +1727,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1656,6 +1738,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1710,6 +1793,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1720,6 +1804,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1778,6 +1863,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1788,6 +1874,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1844,6 +1931,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1854,6 +1942,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1926,6 +2015,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1936,6 +2026,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1996,6 +2087,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2006,6 +2098,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -2091,6 +2184,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val cameraStateCompletableFuture = CompletableFuture<String>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2102,6 +2196,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(

@@ -19,6 +19,7 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
         val CAMERA_INIT_FAILED = fromString("cameraInitiationFailure")
         val MIC_PERMISSION_DENIED = fromString("micPermissionDenied")
         val INTERNET_NOT_AVAILABLE = fromString("internetNotAvailable")
+        val MICROPHONE_NOT_AVAILABLE = fromString("microphoneNotAvailable")
 
         private fun fromString(name: String): ErrorCode {
             return fromString(name, ErrorCode::class.java)
@@ -26,7 +27,7 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
     }
 
     internal fun toCallCompositeErrorCode(): CallCompositeErrorCode? {
-        this?.let {
+        this.let {
             when (it) {
                 ErrorCode.TOKEN_EXPIRED -> {
                     return CallCompositeErrorCode.TOKEN_EXPIRED
@@ -46,11 +47,13 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
                 ErrorCode.INTERNET_NOT_AVAILABLE -> {
                     return CallCompositeErrorCode.NETWORK_CONNECTION_NOT_AVAILABLE
                 }
+                MICROPHONE_NOT_AVAILABLE -> {
+                    return CallCompositeErrorCode.MICROPHONE_NOT_AVAILABLE
+                }
                 else -> {
                     return null
                 }
             }
         }
-        return null
     }
 }

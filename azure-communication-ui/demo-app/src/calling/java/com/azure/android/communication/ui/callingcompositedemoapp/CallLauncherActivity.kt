@@ -143,7 +143,7 @@ class CallLauncherActivity : AppCompatActivity() {
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
         callLauncherViewModel.unsubscribe()
-        
+
         if (isFinishing) {
             callLauncherViewModel.callComposite?.exit()
         }
