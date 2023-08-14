@@ -63,6 +63,12 @@ class HomeScreenRobot : ScreenRobot<HomeScreenRobot>() {
         return this
     }
 
+    fun clickGroupCallRadioButton(): HomeScreenRobot {
+        waitUntilTextOnViewIsDisplayed(R.id.groupCallRadioButton, R.string.group_call_label)
+        UiTestUtils.clickViewWithId(R.id.groupCallRadioButton)
+        return this
+    }
+
     fun clickLaunchButton(): SetupScreenRobot {
         waitUntilViewIdIsDisplayed(R.id.launchButton)
         UiTestUtils.clickViewWithId(R.id.launchButton)

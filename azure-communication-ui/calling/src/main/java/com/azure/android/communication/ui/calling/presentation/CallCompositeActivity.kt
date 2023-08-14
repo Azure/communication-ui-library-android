@@ -258,25 +258,24 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
+                val callScreenOrientation: Int? = getScreenOrientation(configuration.callScreenOrientation)
                 requestedOrientation =
                     when {
+                        (callScreenOrientation != null) -> callScreenOrientation
                         isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                        else ->
-                            getScreenOrientation(configuration.callScreenOrientation)
-                                ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                        else -> ActivityInfo.SCREEN_ORIENTATION_USER
                     }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                configuration.setupScreenOrientation ?: kotlin.run { }
+                val setupScreenOrientation: Int? = getScreenOrientation(configuration.setupScreenOrientation)
                 requestedOrientation =
                     when {
+                        (setupScreenOrientation != null) -> setupScreenOrientation
                         isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                        else ->
-                            getScreenOrientation(configuration.setupScreenOrientation)
-                                ?: ActivityInfo.SCREEN_ORIENTATION_USER
+                        else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                     }
                 launchFragment(SetupFragment::class.java.name)
             }
