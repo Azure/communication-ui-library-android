@@ -145,7 +145,7 @@ class CallLauncherActivity : AppCompatActivity() {
         callLauncherViewModel.unsubscribe()
 
         if (isFinishing) {
-            callLauncherViewModel.callComposite?.exit()
+            callLauncherViewModel.close()
         }
     }
 
