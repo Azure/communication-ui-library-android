@@ -38,6 +38,13 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var skipSetupScreenCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
+    private lateinit var supportedScreenOrientations: List<String>
+    private lateinit var callScreenOrientationAdapterLayout: TextInputLayout
+    private lateinit var setupScreenOrientationAdapterLayout: TextInputLayout
+    private lateinit var callScreenOrientationAutoCompleteTextView: AutoCompleteTextView
+    private lateinit var setupScreenOrientationAutoCompleteTextView: AutoCompleteTextView
+    private lateinit var callScreenOrientationArrayAdapter: ArrayAdapter<String>
+    private lateinit var setupScreenOrientationArrayAdapter: ArrayAdapter<String>
     private lateinit var endCallOnDefaultCheckBox: CheckBox
     private lateinit var relaunchCompositeOnExitCheckbox: CheckBox
     private lateinit var supportedScreenOrientations: List<String>
@@ -195,6 +202,10 @@ class SettingsActivity : AppCompatActivity() {
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
+        callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
+        setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
+        callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
+        setupScreenOrientationAutoCompleteTextView = findViewById(R.id.setup_screen_orientation_auto_complete_text_view)
         endCallOnDefaultCheckBox = findViewById(R.id.composite_end_call_button_checkbox)
         relaunchCompositeOnExitCheckbox = findViewById(R.id.re_launch_on_exit_success)
         callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
