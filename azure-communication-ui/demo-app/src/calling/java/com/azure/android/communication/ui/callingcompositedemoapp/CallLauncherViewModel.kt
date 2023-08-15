@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
@@ -113,7 +113,13 @@ class CallLauncherViewModel : ViewModel() {
         val setupScreenOrientation = selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
 
         val callCompositeBuilder = CallCompositeBuilder()
-            .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
+            .localization(
+                CallCompositeLocalizationOptions(
+                    locale!!,
+                    SettingsFeatures.getLayoutDirection()
+                )
+            )
+            .localization(CallCompositeLocalizationOptions(locale, SettingsFeatures.getLayoutDirection()))
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
 
@@ -146,8 +152,8 @@ class CallLauncherViewModel : ViewModel() {
     }
 }
 
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateEvent> {
-    override fun handle(callStateEvent: CallCompositeCallStateEvent) {
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+    override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
     }
 }

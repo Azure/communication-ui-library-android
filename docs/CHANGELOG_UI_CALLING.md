@@ -1,10 +1,8 @@
 # Azure Communication UI Calling Release History
 
-
-## 1.4.0-beta.1 (2023-04-26)
+## Next release
 
 ### Features
-- Use Dominant Speakers feature to determine which remove participants to display on the grid when number of participants more then 6.
 - Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
 
 ## 1.3.1 (2023-07-18)
@@ -13,6 +11,11 @@
 - Call join being blocked when microphone is unavailable to use for UI Composite at the moment
 - API Level 29, call resume from hold bug is fixed
 - Audio Speaker issue fix for Samsung devices
+
+## 1.4.0-beta.1 (2023-04-26)
+
+### Features
+- Use Dominant Speakers feature to determine which remove participants to display on the grid when number of participants more then 6.
 
 
 ## 1.3.0 (2023-04-06)
