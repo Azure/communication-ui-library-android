@@ -14,7 +14,17 @@ public final class CallCompositeDismissedEvent {
     /**
      * Create {@link CallCompositeDismissedEvent} with error code.
      *
+     */
+    public CallCompositeDismissedEvent() {
+        errorCode = null;
+        cause = null;
+    }
+
+    /**
+     * Create {@link CallCompositeDismissedEvent} with error code.
+     *
      * @param errorCode error code.
+     * @param cause Throwable that caused an exception and CallComposite dismissal.
      */
     public CallCompositeDismissedEvent(final CallCompositeErrorCode errorCode, final Throwable cause) {
         this.errorCode = errorCode;

@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
@@ -220,7 +220,7 @@ public final class CallComposite {
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
     public void addOnCallStateChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeCallStateEvent> eventHandler) {
+            final CallCompositeEventHandler<CallCompositeCallStateChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnCallStateChangedEventHandler(eventHandler);
     }
 
@@ -230,7 +230,7 @@ public final class CallComposite {
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
     public void removeOnCallStateChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeCallStateEvent> eventHandler) {
+            final CallCompositeEventHandler<CallCompositeCallStateChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnCallStateEventHandler(eventHandler);
     }
 
