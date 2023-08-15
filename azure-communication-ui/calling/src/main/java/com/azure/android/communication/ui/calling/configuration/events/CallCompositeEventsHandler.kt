@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration.events
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
@@ -14,7 +14,7 @@ internal class CallCompositeEventsHandler {
     private val remoteParticipantJoinedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
     private val callStateHandlers =
-        mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
 
@@ -36,10 +36,10 @@ internal class CallCompositeEventsHandler {
 
     fun getCallStateHandler() = callStateHandlers.asIterable()
 
-    fun removeOnCallStateEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateEvent>) =
+    fun removeOnCallStateEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateChangedEvent>) =
         callStateHandlers.remove(eventHandler)
 
-    fun addOnCallStateChangedEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateEvent>) =
+    fun addOnCallStateChangedEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateChangedEvent>) =
         callStateHandlers.add(eventHandler)
 
     fun getOnExitEventHandlers() = exitEventHandlers.asIterable()
