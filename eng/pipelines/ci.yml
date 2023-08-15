@@ -67,16 +67,6 @@ steps:
     tasks: ':chat:build --stacktrace'
 
 - task: Gradle@2
-  displayName: 'call-with-chat compile, lint, test'
-  inputs:
-    workingDirectory: 'azure-communication-ui'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: ':call-with-chat:build --stacktrace'
-
-- task: Gradle@2
   displayName: 'build (compile, lint, test)'
   inputs:
     workingDirectory: 'azure-communication-ui'
@@ -99,4 +89,8 @@ steps:
   inputs:
     summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/report.xml
     reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/index.html
+    
+- task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+  displayName: 'Component Detection'
+    
 

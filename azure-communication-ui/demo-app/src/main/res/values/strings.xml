@@ -46,4 +46,6 @@
     <string name="call_control_option">Default Call Control Option</string>
     <string name="mic_control">Microphone On By Default</string>
     <string name="camera_control">Camera On By Default</string>
+    <string name="call_screen_orientation_dropdown_hint">Call Screen Orientation</string>
+    <string name="setup_screen_orientation_dropdown_hint">Setup Screen Orientation</string>
 </resources>

@@ -27,4 +27,9 @@ object TestFixture {
         InstrumentationRegistry.getArguments().getString("expiredToken")
             ?: BuildConfig.ACS_TOKEN_EXPIRED
     }
+
+    val groupId by lazy {
+        InstrumentationRegistry.getArguments().getString("groupId")
+            ?: BuildConfig.GROUP_CALL_ID
+    }
 }

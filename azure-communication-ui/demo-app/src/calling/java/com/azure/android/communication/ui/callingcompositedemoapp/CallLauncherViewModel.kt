@@ -74,9 +74,15 @@ class CallLauncherViewModel : ViewModel() {
 
         val selectedLanguage = SettingsFeatures.language()
         val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
+        val selectedCallScreenOrientation = SettingsFeatures.callScreenOrientation()
+        val callScreenOrientation = selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
+        val selectedSetupScreenOrientation = SettingsFeatures.setupScreenOrientation()
+        val setupScreenOrientation = selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
 
         val callCompositeBuilder = CallCompositeBuilder()
             .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
+            .setupScreenOrientation(setupScreenOrientation)
+            .callScreenOrientation(callScreenOrientation)
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
