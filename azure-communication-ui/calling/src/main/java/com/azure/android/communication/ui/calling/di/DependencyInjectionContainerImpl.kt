@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.getConfig
+import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
@@ -19,6 +20,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
@@ -63,7 +65,7 @@ internal class DependencyInjectionContainerImpl(
     override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
-    private val customCoroutineContextProvider: CoroutineContextProvider?
+    private val customCoroutineContextProvider: CoroutineContextProvider?,
 ) : DependencyInjectionContainer {
 
     override val configuration by lazy {
@@ -81,6 +83,10 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
+    override val callStateHandler by lazy {
+        CallStateHandler(configuration, appStore)
+    }
+
     override val errorHandler by lazy {
         ErrorHandler(configuration, appStore)
     }
@@ -91,6 +97,10 @@ internal class DependencyInjectionContainerImpl(
             applicationContext,
             customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
         )
+    }
+
+    override val compositeExitManager by lazy {
+        CompositeExitManager(appStore, configuration)
     }
 
     override val permissionManager by lazy {
@@ -264,7 +274,11 @@ internal class DependencyInjectionContainerImpl(
     //endregion
 
     //region Threading
-    private val coroutineContextProvider by lazy { customCoroutineContextProvider ?: CoroutineContextProvider() }
-    private val storeDispatcher by lazy { customCoroutineContextProvider?.SingleThreaded ?: coroutineContextProvider.SingleThreaded }
+    private val coroutineContextProvider by lazy {
+        customCoroutineContextProvider ?: CoroutineContextProvider()
+    }
+    private val storeDispatcher by lazy {
+        customCoroutineContextProvider?.SingleThreaded ?: coroutineContextProvider.SingleThreaded
+    }
     //endregion
 }

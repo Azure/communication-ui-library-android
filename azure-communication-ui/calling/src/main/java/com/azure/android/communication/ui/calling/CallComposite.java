@@ -11,7 +11,10 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
+import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -133,7 +136,51 @@ public final class CallComposite {
     /**
      * Add {@link CallCompositeEventHandler}.
      *
-     * <p> A callback for Call Composite Error Events.
+     * <p> Add a callback for Call Composite dismissed Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add on dismissed event handler.
+     * callComposite.addOnDismissedEventHandler&#40;event -> {
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnDismissedEventHandler(final CallCompositeEventHandler<CallCompositeDismissedEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnDismissedEventHandler(handler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> Remove a callback for Call Composite dismissed Event.
+     * See {@link CallCompositeDismissedEvent} for values.</p>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnDismissedEventHandler(final CallCompositeEventHandler<CallCompositeDismissedEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnExitEventHandler(handler);
+    }
+
+    /**
+     * Dismiss composite. If call is in progress, user will leave a call.
+     *
+     */
+    public void dismiss() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                container.getCompositeExitManager().exit();
+            }
+        }
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite Error Events.
      * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
      * <pre>
      *
@@ -155,13 +202,57 @@ public final class CallComposite {
     /**
      * Remove {@link CallCompositeEventHandler}.
      *
-     * <p> A callback for Call Composite Error Events.
+     * <p> Remove a callback for Call Composite Error Events.
      * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent} for values.</p>
      *
      * @param errorHandler The {@link CallCompositeEventHandler}.
      */
     public void removeOnErrorEventHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
         configuration.getCallCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
+    }
+
+    /**
+     * Add on call state changed event handler {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add call state changed handler
+     * callComposite.addOnCallStateChangedEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite call state
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnCallStateChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallStateChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnCallStateChangedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove on call state changed event handler {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnCallStateChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallStateChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnCallStateEventHandler(eventHandler);
+    }
+
+    /**
+     * Get Call State.
+     *
+     * @return {@link CallCompositeCallStateCode}
+     */
+    public CallCompositeCallStateCode getCallState() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                return container.getCallStateHandler().getCallCompositeCallState();
+            }
+        }
+        return CallCompositeCallStateCode.NONE;
     }
 
     /**
