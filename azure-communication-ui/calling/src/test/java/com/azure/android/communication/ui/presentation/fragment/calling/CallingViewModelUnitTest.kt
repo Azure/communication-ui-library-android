@@ -16,6 +16,10 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.redux.AppStore
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.models.StreamType
+import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
@@ -37,13 +41,16 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
@@ -420,6 +427,244 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob.cancel()
         }
     }
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun callingViewModel_onParticipantListChange_then_showAllUsersIfNoLobbyUserExists() {
+
+        runScopedTest {
+            // one lobby participant and two connected participants
+            val expectedParticipantCountOnGridView = 3
+            val expectedParticipantCountOnParticipantList = 3
+            val expectedParticipantCountOnFloatingHeader = 3
+
+            val participantInfoModel1 = getParticipantInfoModel(
+                "user one",
+                "user1",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+                modifiedTimestamp = 111,
+                speakingTimestamp = 222
+            )
+            val participantInfoModel2 = getParticipantInfoModel(
+                "user two",
+                "user2",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+                modifiedTimestamp = 111,
+                speakingTimestamp = 222
+            )
+            val participantInfoModel3 = getParticipantInfoModel(
+                "user three",
+                "user3",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+                modifiedTimestamp = 111,
+                speakingTimestamp = 222,
+                participantStatus = ParticipantStatus.CONNECTED
+            )
+            val participantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+
+            callViewOptionsTests(
+                participantMap,
+                expectedParticipantCountOnGridView,
+                expectedParticipantCountOnFloatingHeader,
+                expectedParticipantCountOnParticipantList
+            )
+        }
+    }
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun callingViewModel_onParticipantListChange_then_hideLobbyParticipantsOnGridAndParticipantList() {
+
+        runScopedTest {
+            // one lobby participant and two connected participants
+            val expectedParticipantCountOnGridView = 2
+            val expectedParticipantCountOnParticipantList = 2
+            val expectedParticipantCountOnFloatingHeader = 2
+
+            val participantInfoModel1 = getParticipantInfoModel(
+                "user one",
+                "user1",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+                modifiedTimestamp = 111,
+                speakingTimestamp = 222
+            )
+            val participantInfoModel2 = getParticipantInfoModel(
+                "user two",
+                "user2",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+                modifiedTimestamp = 111,
+                speakingTimestamp = 222
+            )
+            val participantInfoModel3 = getParticipantInfoModel(
+                "user three",
+                "user3",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+                modifiedTimestamp = 111,
+                speakingTimestamp = 222,
+                participantStatus = ParticipantStatus.IN_LOBBY
+            )
+            val participantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+
+            callViewOptionsTests(
+                participantMap,
+                expectedParticipantCountOnGridView,
+                expectedParticipantCountOnFloatingHeader,
+                expectedParticipantCountOnParticipantList
+            )
+        }
+    }
+
+    private suspend fun TestScope.callViewOptionsTests(
+        participantMap: Map<String, ParticipantInfoModel>,
+        expectedParticipantCountOnGridView: Int,
+        expectedParticipantCountOnFloatingHeader: Int,
+        expectedParticipantCountOnParticipantList: Int
+    ) {
+        // arrange
+        val appState = AppReduxState("", false, false)
+        appState.localParticipantState = getLocalUserState()
+
+        val timestamp: Number = System.currentTimeMillis()
+
+        val stateFlow = MutableStateFlow<ReduxState>(appState)
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { getStateFlow() } doAnswer { stateFlow }
+            on { getCurrentState() } doAnswer { appState }
+        }
+
+        val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
+        val mockParticipantListViewModel = mock<ParticipantListViewModel>()
+        val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {}
+
+        val mockControlBarViewModel = mock<ControlBarViewModel> {
+            on { update(any(), any(), any(), any(), any()) } doAnswer { }
+        }
+        val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
+        val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
+            on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+        }
+        val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
+        val mockBannerViewModel = mock<BannerViewModel>()
+        val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
+        val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+        val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
+        val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
+        val mockNetworkManager = mock<NetworkManager>()
+
+        val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
+            on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
+            on { controlBarViewModel } doAnswer { mockControlBarViewModel }
+            on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
+            on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
+            on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
+            on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
+            on { participantListViewModel } doAnswer { mockParticipantListViewModel }
+            on { bannerViewModel } doAnswer { mockBannerViewModel }
+            on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
+            on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+            on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
+            on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
+        }
+
+        val callingViewModel = CallingViewModel(
+            mockAppStore,
+            mockCallingViewModelProvider,
+            mockNetworkManager,
+            false
+        )
+
+        val newState = AppReduxState("", false, false)
+        newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
+        newState.localParticipantState = getLocalUserState()
+        newState.callState = CallingState(
+            CallingStatus.CONNECTED,
+            OperationStatus.NONE,
+            isRecording = false,
+            isTranscribing = false
+        )
+        newState.remoteParticipantState = RemoteParticipantsState(
+            participantMap,
+            timestamp,
+            listOf(),
+            0
+        )
+
+        // act
+        val flowJob = launch {
+            callingViewModel.init(this)
+        }
+        stateFlow.emit(newState)
+
+        // assert
+        verify(mockParticipantGridViewModel, times(1)).update(
+            any(),
+            argThat { map -> map.size == expectedParticipantCountOnGridView },
+            any(),
+            any(),
+            any(),
+        )
+        verify(mockFloatingHeaderViewModel, times(1)).update(
+            expectedParticipantCountOnFloatingHeader
+        )
+        verify(
+            mockParticipantListViewModel,
+            times(1)
+        ).update(argThat { map -> map.size == expectedParticipantCountOnParticipantList }, any())
+        verify(mockBannerViewModel, times(1)).update(any())
+        verify(mockControlBarViewModel, times(2)).update(
+            any(),
+            any(),
+            any(),
+            any(),
+            any(),
+        )
+        verify(mockLocalParticipantViewModel, times(2)).update(
+            any(), any(), any(), any(), any(), any(), any(), any()
+        )
+
+        flowJob.cancel()
+    }
+
+    private fun getParticipantInfoModel(
+        displayName: String,
+        userIdentifier: String,
+        isMuted: Boolean,
+        isSpeaking: Boolean,
+        screenShareVideoStreamModel: VideoStreamModel? = null,
+        cameraVideoStreamModel: VideoStreamModel? = null,
+        modifiedTimestamp: Number,
+        speakingTimestamp: Number,
+        participantStatus: ParticipantStatus = ParticipantStatus.CONNECTED
+    ) = ParticipantInfoModel(
+        displayName,
+        userIdentifier,
+        isMuted,
+        isSpeaking,
+        participantStatus,
+        screenShareVideoStreamModel,
+        cameraVideoStreamModel,
+        modifiedTimestamp,
+    )
 
     private fun getLocalUserState() = LocalUserState(
         CameraState(
