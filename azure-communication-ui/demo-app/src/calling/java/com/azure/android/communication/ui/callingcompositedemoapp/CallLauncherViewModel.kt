@@ -42,9 +42,6 @@ class CallLauncherViewModel : ViewModel() {
                 callComposite
             )
         )
-        callComposite.addOnExitEventHandler {
-            CallLauncherViewModel.callComposite = null
-        }
 
         if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
