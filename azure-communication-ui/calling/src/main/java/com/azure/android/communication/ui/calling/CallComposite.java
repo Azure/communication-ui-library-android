@@ -62,6 +62,8 @@ import java.util.UUID;
  */
 public final class CallComposite {
 
+    static DependencyInjectionContainer diContainer;
+
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
     private final int instanceId = instanceIdCounter++;
@@ -69,8 +71,6 @@ public final class CallComposite {
     private final CallCompositeConfiguration configuration;
 
     private WeakReference<CallCompositeActivity> activity;
-
-    static DependencyInjectionContainer diContainer;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
