@@ -1,9 +1,9 @@
 # Azure Communication UI Calling Release History
 
-## Next release
+## 1.5.0-beta.1 (2023-08-31)
 
 ### Features
-- Introducing call state change event `CallComposite.addOnCallStateEventHandler` and `CallComposite.callCompositeCallState`
+- Introducing ability for user to multitask in the App while on the call.
 
 ## 1.3.1 (2023-07-18)
 
