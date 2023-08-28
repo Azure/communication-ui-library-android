@@ -32,6 +32,7 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
@@ -69,8 +70,6 @@ public final class CallComposite {
     private final int instanceId = instanceIdCounter++;
 
     private final CallCompositeConfiguration configuration;
-
-    private WeakReference<CallCompositeActivity> activity;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -360,15 +359,8 @@ public final class CallComposite {
      */
     public void hide() {
         if (diContainer != null) {
-            final CallCompositeActivity activity = this.activity.get();
-            if (activity != null) {
-                activity.hide();
-            }
+            diContainer.getAppStore().dispatch(new PipAction.HideRequested());
         }
-    }
-
-    void setActivity(final CallCompositeActivity activity) {
-        this.activity = new WeakReference<>(activity);
     }
 
     private DebugInfoManager getDebugInfoManager(final Context context) {

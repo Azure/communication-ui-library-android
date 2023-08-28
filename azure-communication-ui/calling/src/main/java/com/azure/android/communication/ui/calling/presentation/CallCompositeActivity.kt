@@ -33,9 +33,11 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.Se
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import com.azure.android.communication.ui.calling.setActivity
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -71,6 +73,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val callingSDKWrapper get() = container.callingSDKWrapper
     private val logger get() = container.logger
 
+    private lateinit var visibilityStatusFlow: MutableStateFlow<PictureInPictureStatus>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Before super, we'll set up the DI injector and check the PiP state
         try {
@@ -79,6 +83,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
+
+        visibilityStatusFlow = MutableStateFlow(store.getCurrentState().pipState.status)
 
         // Call super
         super.onCreate(savedInstanceState)
@@ -136,6 +142,21 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope, instanceId)
         callHistoryService.start(lifecycleScope)
         callStateHandler.start(lifecycleScope)
+
+        lifecycleScope.launch {
+            visibilityStatusFlow.collect {
+                if (it == PictureInPictureStatus.HIDE_REQUESTED) {
+                    hide()
+                    store.dispatch(PipAction.HideEntered())
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            store.getStateFlow().collect {
+                visibilityStatusFlow.value = it.pipState.status
+            }
+        }
     }
 
     override fun onStart() {
@@ -161,7 +182,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         ) {
             store.dispatch(
                 if (isInPictureInPictureMode) PipAction.PipModeEntered()
-                else PipAction.PipModeExited()
+                else PipAction.ShowNormalEntered()
             )
         }
     }
@@ -226,7 +247,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         isInPictureInPictureMode: Boolean,
         newConfig: Configuration?
     ) {
-        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
     }
     private fun syncPipMode() {
         if (configuration.enableSystemPiPWhenMultitasking &&
@@ -234,7 +255,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
             store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
         ) {
-            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
         }
     }
 
@@ -244,7 +265,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
             store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
         ) {
-            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
         }
     }
 
@@ -252,6 +273,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         if (!configuration.enableMultitasking)
             return
 
+        // TODO: should we enter PiP if we are on the setup screen?
         if (configuration.enableSystemPiPWhenMultitasking &&
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true

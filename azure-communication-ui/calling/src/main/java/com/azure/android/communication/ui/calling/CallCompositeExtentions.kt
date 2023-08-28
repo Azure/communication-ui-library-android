@@ -14,9 +14,5 @@ internal fun createDebugInfoManager(context: Context): DebugInfoManager {
     return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()))
 }
 
-internal fun CallComposite.setActivity(activity: CallCompositeActivity) {
-    setActivity(activity)
-}
-
 internal fun CallComposite.getDiContainer() =
     CallComposite.diContainer
