@@ -8,17 +8,24 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
+import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
@@ -53,6 +60,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkName = data?.getQueryParameter("name")
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
+        val deepLinkRoomsId = data?.getQueryParameter("roomsid")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -71,10 +79,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
+                roomsMeetingRadioButton.isChecked = false
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
+                roomsMeetingRadioButton.isChecked = false
+            } else if (!deepLinkRoomsId.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(deepLinkRoomsId)
+                groupCallRadioButton.isChecked = false
+                teamsMeetingRadioButton.isChecked = false
+                roomsMeetingRadioButton.isChecked = true
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
@@ -86,22 +101,77 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
+            closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
 
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
+                }
+            }
+            roomsMeetingRadioButton.setOnClickListener {
+                if (roomsMeetingRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
+                    presenterRoleRadioButton.visibility = View.VISIBLE
+                    attendeeRoleRadioButton.visibility = View.VISIBLE
+                    attendeeRoleRadioButton.isChecked = true
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
+                } else {
+                    presenterRoleRadioButton.visibility = View.GONE
+                    attendeeRoleRadioButton.visibility = View.GONE
+                }
+            }
+
+            presenterRoleRadioButton.setOnClickListener {
+                if (presenterRoleRadioButton.isChecked) {
+                    attendeeRoleRadioButton.isChecked = false
+                }
+            }
+
+            attendeeRoleRadioButton.setOnClickListener {
+                if (attendeeRoleRadioButton.isChecked) {
+                    presenterRoleRadioButton.isChecked = false
                 }
             }
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()
+            }
+
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeCallStateStateFlow.collect {
+                    runOnUiThread {
+                        if (it.isNotEmpty()) {
+                            callStateText.text = it
+                            EndCompositeButtonView.get(application).updateText(it)
+                        }
+                    }
+                }
+            }
+
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
+                    runOnUiThread {
+                        if (it &&
+                            SettingsFeatures.getReLaunchOnExitByDefaultOption()
+                        ) {
+                            launch()
+                        }
+                    }
+                }
             }
 
             if (BuildConfig.DEBUG) {
@@ -110,6 +180,14 @@ class CallLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EndCompositeButtonView.get(this).hide()
+        EndCompositeButtonView.buttonView = null
+        callLauncherViewModel?.unsubscribe()
+        println("InCallService launcher onDestroy $isFinishing")
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -131,6 +209,11 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun launch() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
+
+        val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+        else null
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -158,12 +241,14 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken,
             userName,
             groupId,
+            roomId,
+            roomRole,
             meetingLink,
         )
     }
 
     private fun showUI() {
-        callLauncherViewModel.callComposite?.displayCallCompositeIfWasHidden(this)
+        callLauncherViewModel.displayCallCompositeIfWasHidden(this)
     }
 
     private fun showCallHistory() {
@@ -189,11 +274,35 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+
         R.id.azure_composite_show_settings -> {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        toggleEndCompositeButton()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        toggleEndCompositeButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        toggleEndCompositeButton()
+    }
+
+    private fun toggleEndCompositeButton() {
+        if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
+            EndCompositeButtonView.get(this).hide()
+        } else {
+            EndCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
     }
 }

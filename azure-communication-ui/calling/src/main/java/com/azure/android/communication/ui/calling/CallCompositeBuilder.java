@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling;
 
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 
 /**
@@ -17,6 +18,8 @@ public final class CallCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
+    private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
+    private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
     private Boolean enableMultitasking = false;
     private Boolean enableSystemPiPWhenMultitasking = false;
 
@@ -42,6 +45,29 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /***
+     * Sets an optional orientation for call screen of the call-composite
+     *
+     * @param callScreenOrientation {@link CallCompositeSupportedScreenOrientation}
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder callScreenOrientation(
+            final CallCompositeSupportedScreenOrientation callScreenOrientation) {
+        this.callScreenOrientation = callScreenOrientation;
+        return this;
+    }
+
+    /***
+     * Sets an optional orientation for setup screen of the call-composite
+     *
+     * @param setupScreenOrientation {@link CallCompositeSupportedScreenOrientation}
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder setupScreenOrientation(
+            final CallCompositeSupportedScreenOrientation setupScreenOrientation) {
+        this.setupScreenOrientation = setupScreenOrientation;
+        return this;
+    }
 
     /***
      * While on the call, user can go back to previous activity from the call composite.
@@ -65,6 +91,8 @@ public final class CallCompositeBuilder {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
         config.setLocalizationConfig(localizationConfig);
+        config.setCallScreenOrientation(this.callScreenOrientation);
+        config.setSetupScreenOrientation(this.setupScreenOrientation);
         config.setEnableMultitasking(enableMultitasking);
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         return new CallComposite(config);

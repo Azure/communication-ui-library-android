@@ -50,7 +50,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             // act
             participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
@@ -97,10 +97,11 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             // act
             participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
+
             remoteParticipantsMap["user1"]!!.modifiedTimestamp = 555
             remoteParticipantsMap["user1"]!!.isMuted = false
 
@@ -155,7 +156,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             // act
             participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)

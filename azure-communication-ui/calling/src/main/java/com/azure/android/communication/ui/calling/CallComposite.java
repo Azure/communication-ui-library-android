@@ -11,7 +11,11 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
+import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -19,6 +23,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
@@ -26,6 +32,8 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.azure.android.communication.ui.calling.redux.action.PipAction;
+import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
@@ -55,14 +63,13 @@ import java.util.UUID;
  */
 public final class CallComposite {
 
+    static DependencyInjectionContainer diContainer;
+
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
     private final int instanceId = instanceIdCounter++;
 
     private final CallCompositeConfiguration configuration;
-    private WeakReference<DependencyInjectionContainer> diContainer;
-
-    private WeakReference<CallCompositeActivity> activity;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -133,6 +140,58 @@ public final class CallComposite {
     /**
      * Add {@link CallCompositeEventHandler}.
      *
+     * <p> A callback for Call Composite Exit Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add eit event handler
+     * callComposite.addOnExitEventHandler&#40;event -> {
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnExitEventHandler(final CallCompositeEventHandler<CallCompositeExitEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnExitEventHandler(handler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> A callback for Call Composite Error Events.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeExitEvent} for values.</p>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnExitEventHandler(final CallCompositeEventHandler<CallCompositeExitEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnExitEventHandler(handler);
+    }
+
+    /**
+     * Exit composite
+     *
+     * <pre>
+     *
+     * &#47;&#47; add call state change event handler
+     * callComposite.addOnCallStateEventHandler&#40;event -> {
+     *     &#47;&#47; Use call state to get see hangup progress
+     * }&#41;;
+     *
+     * </pre>
+     */
+    public void exit() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            if (container != null) {
+                container.getCompositeExitManager().exit();
+            }
+        }
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
      * <p> A callback for Call Composite Error Events.
      * See {@link com.azure.android.communication.ui.calling.models.CallCompositeErrorCode} for values.</p>
      * <pre>
@@ -162,6 +221,50 @@ public final class CallComposite {
      */
     public void removeOnErrorEventHandler(final CallCompositeEventHandler<CallCompositeErrorEvent> errorHandler) {
         configuration.getCallCompositeEventsHandler().removeOnErrorEventHandler(errorHandler);
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add call state change handler
+     * callComposite.addOnCallStateEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite call state
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnCallStateEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallStateEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnCallStateEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnCallStateEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallStateEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnCallStateEventHandler(eventHandler);
+    }
+
+    /**
+     * Get Call Composite Call State.
+     *
+     * @return {@link CallCompositeCallStateCode}
+     */
+    public CallCompositeCallStateCode getCallStateCode() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            if (container != null) {
+                return container.getCallStateHandler().getCallCompositeCallState();
+            }
+        }
+        return CallCompositeCallStateCode.NONE;
     }
 
     /**
@@ -256,24 +359,13 @@ public final class CallComposite {
      */
     public void hide() {
         if (diContainer != null) {
-            final CallCompositeActivity activity = this.activity.get();
-            if (activity != null) {
-                activity.hide();
-            }
+            diContainer.getAppStore().dispatch(new PipAction.HideRequested());
         }
-    }
-
-    void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
-        this.diContainer = new WeakReference<>(diContainer);
-    }
-
-    void setActivity(final CallCompositeActivity activity) {
-        this.activity = new WeakReference<>(activity);
     }
 
     private DebugInfoManager getDebugInfoManager(final Context context) {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 return container.getDebugInfoManager();
             }
@@ -289,15 +381,28 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
+        String roomId = null;
+        CallCompositeParticipantRole roomRole = null;
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-        } else {
+        } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+        } else if (locator instanceof CallCompositeRoomLocator) {
+            callType = CallType.ROOMS_CALL;
+            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
+            roomId = roomLocator.getRoomId();
+        } else {
+            throw new CallCompositeException("Not supported Call Locator type");
+        }
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+            roomRole = localOptions.getRoleHint();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -305,11 +410,18 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
+                roomId,
+                roomRole,
                 callType));
 
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-        }
+        diContainer = new DependencyInjectionContainerImpl(
+                instanceId,
+                context.getApplicationContext(),
+                this,
+                TestHelper.INSTANCE.getCallingSDK(),
+                TestHelper.INSTANCE.getVideoStreamRendererFactory(),
+                TestHelper.INSTANCE.getCoroutineContextProvider()
+        );
 
         showUI(context, isTest);
     }

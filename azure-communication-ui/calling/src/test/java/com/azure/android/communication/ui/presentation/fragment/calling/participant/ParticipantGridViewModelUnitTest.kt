@@ -41,7 +41,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             // act
             participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, listOf(), 0, pipStatus)
@@ -90,7 +90,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             val dominantSpeakersInfo = listOf("user8", "user7", "user6", "user5", "user4", "user3", "user2", "user1")
 
@@ -131,7 +131,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
             val dominantSpeakersInfo = listOf("user9", "user8", "user1", "user4", "user5", "user7", "user6", "user3", "user2")
 
             // act
@@ -172,7 +172,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
             val dominantSpeakersInfo = listOf("user1", "user2")
 
             // act
@@ -219,7 +219,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
             val dominantSpeakersInfo = listOf("user1", "user2")
             val dominantSpeakersInfoNew = listOf("user8", "user2")
 
@@ -244,7 +244,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 remoteParticipantsMapNew.toMutableMap(),
                 dominantSpeakersInfoNew,
                 modifiedTimestamp,
-                pipStatus
+                pipStatus,
             )
 
             // assert state flow called only once
@@ -284,7 +284,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             // act
             participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
@@ -344,7 +344,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             val dominantSpeakersInfo = listOf("user2", "user1")
             val dominantSpeakersInfoNew = listOf("user8", "user3", "user2")
@@ -407,7 +407,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
             val dominantSpeakersInfo = listOf("user12", "user11", "user2", "user1")
             val dominantSpeakersInfoNew = listOf("user1", "user3", "user2")
 
@@ -478,7 +478,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
+
             val dominantSpeakersInfo = listOf("user22", "user23", "user21", "user6", "user5", "user4", "user3", "user1",)
 
             // act
@@ -541,7 +542,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
+
             val dominantSpeakersInfo = listOf("user22", "user23", "user21", "user6", "user5", "user4", "user3", "user1")
             val dominantSpeakersInfoNew = listOf("user1", "user23", "user4", "user3", "user22", "user21", "user6", "user5")
 
@@ -637,7 +639,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.NONE
+            val pipStatus = PictureInPictureStatus.VISIBLE
 
             val dominantSpeakersInfo = listOf("user22", "user23", "user21", "user6", "user5", "user4", "user3", "user1")
             val dominantSpeakersInfoNew = listOf("user1", "user23", "user4", "user3", "user22", "user21", "user6", "user5")
@@ -713,9 +715,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-
+            val pipStatus = PictureInPictureStatus.VISIBLE
             val dominantSpeakersInfo = listOf<String>()
-            val pipStatus = PictureInPictureStatus.NONE
 
             // act
             participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5, pipStatus)
@@ -769,9 +770,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-
+            val pipStatus = PictureInPictureStatus.VISIBLE
             val dominantSpeakersInfo = listOf("user6", "user7")
-            val pipStatus = PictureInPictureStatus.NONE
 
             // act
             participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5, pipStatus)
@@ -828,9 +828,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-
+            val pipStatus = PictureInPictureStatus.VISIBLE
             val dominantSpeakersInfo = listOf("user7", "user8")
-            val pipStatus = PictureInPictureStatus.NONE
 
             // act
             participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5, pipStatus)

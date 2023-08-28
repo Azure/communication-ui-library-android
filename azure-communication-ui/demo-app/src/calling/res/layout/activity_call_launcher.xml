@@ -62,6 +62,40 @@
             app:layout_constraintTop_toBottomOf="@id/userNameText"
             />
 
+        <RadioButton
+            android:id="@+id/roomsMeetingRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/rooms_meeting_label"
+            app:layout_constraintStart_toEndOf="@+id/teamsMeetingRadioButton"
+            app:layout_constraintTop_toBottomOf="@id/userNameText"
+            />
+
+        <RadioButton
+            android:id="@+id/presenterRoleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/rooms_presenter"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/groupCallRadioButton"
+            app:layout_constraintTop_toBottomOf="@id/groupCallRadioButton"
+            />
+
+        <RadioButton
+            android:id="@+id/attendeeRoleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/rooms_attendee"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/presenterRoleRadioButton"
+            app:layout_constraintTop_toBottomOf="@id/groupCallRadioButton"
+            />
+
         <EditText
             android:id="@+id/groupIdOrTeamsMeetingLinkText"
             android:layout_width="match_parent"
@@ -69,8 +103,8 @@
             android:ems="10"
             android:hint="@string/group_call_id_or_teams_meeting_hint"
             android:inputType="textNoSuggestions"
-            app:layout_constraintStart_toStartOf="@id/groupCallRadioButton"
-            app:layout_constraintTop_toBottomOf="@id/teamsMeetingRadioButton"
+            app:layout_constraintStart_toStartOf="@id/presenterRoleRadioButton"
+            app:layout_constraintTop_toBottomOf="@id/presenterRoleRadioButton"
             />
 
         <Button
@@ -103,13 +137,33 @@
             app:layout_constraintTop_toBottomOf="@+id/launchButton"
             />
 
+        <Button
+            android:id="@+id/closeCompositeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close_button_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/showUIButton"
+            />
+
+        <TextView
+            android:id="@+id/callStateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeCompositeButton"
+            />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/showUIButton"
+            app:layout_constraintTop_toBottomOf="@+id/callStateText"
             >
 
             <TextView

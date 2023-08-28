@@ -25,7 +25,8 @@ internal class ParticipantGridViewModel(
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private var dominantSpeakersStateModifiedTimestamp: Number = 0
-    private var pipStatus: PictureInPictureStatus = PictureInPictureStatus.NONE
+    private var pipStatus: PictureInPictureStatus = PictureInPictureStatus.VISIBLE
+
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(
@@ -50,7 +51,7 @@ internal class ParticipantGridViewModel(
     }
 
     fun getMaxRemoteParticipantsSize(): Int {
-        return if (pipStatus == PictureInPictureStatus.NONE)
+        return if (pipStatus == PictureInPictureStatus.VISIBLE)
             maxRemoteParticipantSize else 1
     }
 
