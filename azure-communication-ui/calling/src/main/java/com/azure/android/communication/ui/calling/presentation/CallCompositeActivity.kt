@@ -28,8 +28,10 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.onExit
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
@@ -199,14 +201,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
-            if (isFinishing) {
-                println("InCallService Activity onDestroy")
-//                store.dispatch(CallingAction.CallEndRequested())
-//                notificationService.removeNotification()
-//                callingSDKWrapper.dispose()
-//                compositeManager.onCompositeDestroy()
-//                CallCompositeInstanceManager.removeCallComposite(instanceId)
-            }
         }
 
         super.onDestroy()
@@ -365,6 +359,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
+                store.dispatch(CallingAction.CallEndRequested())
+                notificationService.removeNotification()
+                callingSDKWrapper.dispose()
+                compositeManager.onCompositeDestroy()
+                CallCompositeInstanceManager.removeCallComposite(instanceId)
+                container.callComposite.onExit()
                 finish()
             }
             NavigationStatus.IN_CALL -> {

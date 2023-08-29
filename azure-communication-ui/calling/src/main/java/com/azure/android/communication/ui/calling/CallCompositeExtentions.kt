@@ -15,3 +15,7 @@ internal fun createDebugInfoManager(context: Context): DebugInfoManager {
 
 internal fun CallComposite.getDiContainer() =
     CallComposite.diContainer
+
+internal fun CallComposite.onExit() {
+    CallComposite.diContainer = null
+}
