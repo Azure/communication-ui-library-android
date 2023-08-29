@@ -3,7 +3,7 @@
 ## 1.5.0-beta.1 (2023-08-31)
 
 ### Features
-- Introducing ability for user to multitask in the App while on the call.
+- Introducing Picture in Picture which allows video call to continue when navigating away from calling screen.
 
 ## 1.3.1 (2023-07-18)
 
