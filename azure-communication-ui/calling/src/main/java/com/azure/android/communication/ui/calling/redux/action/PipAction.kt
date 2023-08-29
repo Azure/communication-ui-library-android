@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.action
 
-//TODO: rename to VisibilityAction
+// TODO: rename to VisibilityAction
 internal sealed class PipAction : Action {
     class HideRequested : PipAction()
 

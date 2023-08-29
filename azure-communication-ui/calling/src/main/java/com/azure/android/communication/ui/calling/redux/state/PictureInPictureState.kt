@@ -11,5 +11,5 @@ internal enum class PictureInPictureStatus {
     PIP_MODE_ENTERED,
 }
 
-//TODO: rename to VisibilityState
+// TODO: rename to VisibilityState
 internal data class PictureInPictureState(val status: PictureInPictureStatus)
