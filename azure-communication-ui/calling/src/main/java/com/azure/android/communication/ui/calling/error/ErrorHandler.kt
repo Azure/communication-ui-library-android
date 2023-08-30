@@ -4,18 +4,7 @@
 package com.azure.android.communication.ui.calling.error
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_JOIN_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TOKEN_EXPIRED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_OFF_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.TURN_CAMERA_ON_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CAMERA_INIT_FAILED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.INTERNET_NOT_AVAILABLE
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MICROPHONE_NOT_AVAILABLE
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.MIC_PERMISSION_DENIED
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.NETWORK_NOT_AVAILABLE
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.SWITCH_CAMERA_FAILED
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store

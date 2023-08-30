@@ -9,7 +9,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.media.AudioAttributes
 import android.os.Build
 import android.os.IBinder
 import android.os.IInterface
@@ -57,9 +56,9 @@ internal class InCallService : Service() {
     }
 
     private fun startInCallNotification(
-            instanceId: Int,
-            enableMultitasking: Boolean,
-            enableSystemPiPWhenMultitasking: Boolean,
+        instanceId: Int,
+        enableMultitasking: Boolean,
+        enableSystemPiPWhenMultitasking: Boolean,
     ) {
         var activityClass: Class<*> = CallCompositeActivity::class.java
 
@@ -74,8 +73,10 @@ internal class InCallService : Service() {
             .putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
 
         val pendingIntent: PendingIntent =
-                PendingIntent.getActivity(this, 0, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getActivity(
+                this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
             .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))
