@@ -17,6 +17,7 @@
     <string name="java">Java</string>
     <string name="launch_button_text">Launch</string>
     <string name="re_open_ui_button_text">Re Open Call UI</string>
+    <string name="close_button_text">Close</string>
     <string name="open_ui_button_text">Open partial view</string>
     <string name="open_full_screen_ui_button_text">Open Full Screen UI</string>
     <string name="close_composite_button_text">Stop Composite</string>
@@ -31,7 +32,10 @@
     <string name="language_setting_label">Language Settings</string>
     <string name="call_setting_label">Call Settings</string>
     <string name="chat_setting_label">Chat Settings</string>
+    <string name="exit_composite_button_text">Exit Composite</string>
     <string name="is_rtl_check_box_label">isRTL</string>
+    <string name="is_exit_composite_button_check_box_label">Show Exit Composite Button</string>
+    <string name="launch_on_end_composite_success">Re-launch composite on end composite callback</string>
     <string name="language_dropdown_hint">Language</string>
     <string name="language_default_selection">ENGLISH</string>
     <string name="version">version:</string>
@@ -47,4 +51,6 @@
     <string name="call_control_option">Default Call Control Option</string>
     <string name="mic_control">Microphone On By Default</string>
     <string name="camera_control">Camera On By Default</string>
+    <string name="call_screen_orientation_dropdown_hint">Call Screen Orientation</string>
+    <string name="setup_screen_orientation_dropdown_hint">Setup Screen Orientation</string>
 </resources>

@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.error.ErrorHandler
+import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
@@ -15,6 +16,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -43,6 +45,7 @@ internal interface DependencyInjectionContainer {
     val configuration: CallCompositeConfiguration
     val errorHandler: ErrorHandler
     val remoteParticipantHandler: RemoteParticipantHandler
+    val callStateHandler: CallStateHandler
 
     // System
     val permissionManager: PermissionManager
@@ -51,6 +54,7 @@ internal interface DependencyInjectionContainer {
     val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
     val multitaskingManager: MultitaskingManager
+    val compositeExitManager: CompositeExitManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager
