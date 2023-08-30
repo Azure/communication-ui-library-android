@@ -96,4 +96,8 @@ class CallLauncherViewModel : ViewModel() {
         this.callComposite = callComposite
         return callComposite
     }
+
+    fun displayCallCompositeIfWasHidden(context: Context) {
+        this.callComposite?.displayCallCompositeIfWasHidden(context)
+    }
 }

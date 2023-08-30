@@ -133,7 +133,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         multitaskingManager.start(lifecycleScope)
 
-        notificationService.start(lifecycleScope)
+        notificationService.start(lifecycleScope, instanceId)
         callHistoryService.start(lifecycleScope)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -169,8 +169,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
             if (isFinishing) {
-                store.dispatch(CallingAction.CallEndRequested())
-                CallCompositeInstanceManager.removeCallComposite(instanceId)
+                println("InCallService Activity onDestroy")
+//                store.dispatch(CallingAction.CallEndRequested())
+//                notificationService.removeNotification()
+//                callingSDKWrapper.dispose()
+//                compositeManager.onCompositeDestroy()
+//                CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
 

@@ -59,6 +59,7 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 internal class DependencyInjectionContainerImpl(
+        private val instanceId: Int,
     private val parentContext: Context,
     override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,
@@ -177,7 +178,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val notificationService by lazy {
-        NotificationService(parentContext, appStore, configuration)
+        NotificationService(parentContext, appStore, configuration, instanceId)
     }
 
     override val remoteParticipantHandler by lazy {
