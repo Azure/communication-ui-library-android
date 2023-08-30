@@ -9,6 +9,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.media.AudioAttributes
 import android.os.Build
 import android.os.IBinder
 import android.os.IInterface
@@ -26,7 +27,11 @@ internal class InCallService : Service() {
 
     override fun onBind(intent: Intent): IBinder? {
         println("InCallService onBind")
-        startInCallNotification(intent)
+        val enableMultitasking = intent.getBooleanExtra("enableMultitasking", false)
+        val enableSystemPiPWhenMultitasking = intent.getBooleanExtra("enableSystemPiPWhenMultitasking", false)
+        val instanceId = intent.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, 0)
+
+        startInCallNotification(instanceId, enableMultitasking, enableSystemPiPWhenMultitasking)
         return InCallServiceBinder()
     }
 
@@ -52,18 +57,10 @@ internal class InCallService : Service() {
     }
 
     private fun startInCallNotification(
-        intent: Intent,
+            instanceId: Int,
+            enableMultitasking: Boolean,
+            enableSystemPiPWhenMultitasking: Boolean,
     ) {
-
-        var enableMultitasking = false
-        var enableSystemPiPWhenMultitasking = false
-
-        intent?.let {
-            enableMultitasking = it.getBooleanExtra("enableMultitasking", false)
-            enableSystemPiPWhenMultitasking = it.getBooleanExtra("enableSystemPiPWhenMultitasking", false)
-        }
-        val instanceId = intent.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, 0)
-
         var activityClass: Class<*> = CallCompositeActivity::class.java
 
         if (enableMultitasking) {
@@ -73,20 +70,22 @@ internal class InCallService : Service() {
             activityClass = PiPCallCompositeActivity::class.java
         }
 
+        val intent = Intent(this, activityClass)
+            .putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
+
         val pendingIntent: PendingIntent =
-            Intent(this, activityClass).let { notificationIntent ->
-                notificationIntent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
-                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
-            }
+                PendingIntent.getActivity(this, 0, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
             .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))
             .setContentText(this.getText(R.string.azure_communication_ui_calling_service_notification_message))
             .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_call_16_filled)
-            .setContentIntent(pendingIntent)
+            .setFullScreenIntent(pendingIntent, true)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setCategory(NotificationCompat.CATEGORY_CALL)
             .setOngoing(true)
+            .setSound(null)
             .build()
 
         val notificationId = 1
@@ -102,6 +101,7 @@ internal class InCallService : Service() {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(IN_CALL_CHANNEL_ID, name, importance)
             channel.description = description
+            channel.setSound(null, null)
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
