@@ -30,12 +30,10 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
-import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.setActivity
-import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
@@ -46,11 +44,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
-            TestHelper.callingSDK,
-            TestHelper.videoStreamRendererFactory,
-            TestHelper.coroutineContextProvider
         )
     }
+
     private val container by lazy { diContainerHolder.container }
 
     private val navigationRouter get() = container.navigationRouter

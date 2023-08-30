@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
@@ -26,6 +27,7 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
@@ -60,9 +62,10 @@ public final class CallComposite {
     private final int instanceId = instanceIdCounter++;
 
     private final CallCompositeConfiguration configuration;
-    private WeakReference<DependencyInjectionContainer> diContainer;
 
     private WeakReference<CallCompositeActivity> activity;
+
+    static DependencyInjectionContainer diContainer;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -263,17 +266,13 @@ public final class CallComposite {
         }
     }
 
-    void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
-        this.diContainer = new WeakReference<>(diContainer);
-    }
-
     void setActivity(final CallCompositeActivity activity) {
         this.activity = new WeakReference<>(activity);
     }
 
     private DebugInfoManager getDebugInfoManager(final Context context) {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 return container.getDebugInfoManager();
             }
@@ -310,6 +309,15 @@ public final class CallComposite {
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
         }
+
+        diContainer = new DependencyInjectionContainerImpl(
+                instanceId,
+                context.getApplicationContext(),
+                this,
+                TestHelper.INSTANCE.getCallingSDK(),
+                TestHelper.INSTANCE.getVideoStreamRendererFactory(),
+                TestHelper.INSTANCE.getCoroutineContextProvider()
+        );
 
         showUI(context, isTest);
     }

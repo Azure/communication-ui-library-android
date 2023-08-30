@@ -59,7 +59,7 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 internal class DependencyInjectionContainerImpl(
-        private val instanceId: Int,
+    private val instanceId: Int,
     private val parentContext: Context,
     override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,

@@ -24,7 +24,9 @@ import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
 
-    var callComposite: CallComposite? = null
+    companion object {
+        var callComposite: CallComposite? = null
+    }
 
     fun launch(
         context: Context,
@@ -34,7 +36,15 @@ class CallLauncherViewModel : ViewModel() {
         meetingLink: String?,
     ) {
         val callComposite = createCallComposite(context)
-        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
+        callComposite.addOnErrorEventHandler(
+            CallLauncherActivityErrorHandler(
+                context.applicationContext,
+                callComposite
+            )
+        )
+        callComposite.addOnExitEventHandler {
+            CallLauncherViewModel.callComposite = null
+        }
 
         if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
@@ -90,14 +100,13 @@ class CallLauncherViewModel : ViewModel() {
 
         callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(true, true))
 
-        val callComposite = callCompositeBuilder.build()
+        val newCallComposite = callCompositeBuilder.build()
 
-        // For test purposes we will keep a static ref to CallComposite
-        this.callComposite = callComposite
-        return callComposite
+        callComposite = newCallComposite
+        return newCallComposite
     }
 
     fun displayCallCompositeIfWasHidden(context: Context) {
-        this.callComposite?.displayCallCompositeIfWasHidden(context)
+        callComposite?.displayCallCompositeIfWasHidden(context)
     }
 }
