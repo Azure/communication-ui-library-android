@@ -93,7 +93,7 @@ internal class ErrorHandler(
         try {
             val eventArgs =
                 CallCompositeErrorEvent(
-                    callStateError.errorCode?.toCallCompositeErrorCode(),
+                    callStateError.errorCode.toCallCompositeErrorCode(),
                     null,
                 )
             configuration.callCompositeEventsHandler.getOnErrorHandlers()
@@ -126,37 +126,5 @@ internal class ErrorHandler(
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
-    }
-
-    private fun getCallCompositeErrorCode(errorCode: ErrorCode?): CallCompositeErrorCode? {
-        errorCode?.let {
-            when (it) {
-                TOKEN_EXPIRED -> {
-                    return CallCompositeErrorCode.TOKEN_EXPIRED
-                }
-                CALL_JOIN_FAILED, NETWORK_NOT_AVAILABLE -> {
-                    return CallCompositeErrorCode.CALL_JOIN_FAILED
-                }
-                CALL_END_FAILED -> {
-                    return CallCompositeErrorCode.CALL_END_FAILED
-                }
-                SWITCH_CAMERA_FAILED, TURN_CAMERA_ON_FAILED, TURN_CAMERA_OFF_FAILED, CAMERA_INIT_FAILED -> {
-                    return CallCompositeErrorCode.CAMERA_FAILURE
-                }
-                MIC_PERMISSION_DENIED -> {
-                    return CallCompositeErrorCode.MICROPHONE_PERMISSION_NOT_GRANTED
-                }
-                INTERNET_NOT_AVAILABLE -> {
-                    return CallCompositeErrorCode.NETWORK_CONNECTION_NOT_AVAILABLE
-                }
-                MICROPHONE_NOT_AVAILABLE -> {
-                    return CallCompositeErrorCode.MICROPHONE_NOT_AVAILABLE
-                }
-                else -> {
-                    return null
-                }
-            }
-        }
-        return null
     }
 }

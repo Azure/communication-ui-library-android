@@ -35,7 +35,7 @@ buildscript {
             azure_calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
         }
         else {
-            azure_calling_sdk_version = '2.6.0.beta-1'
+            azure_calling_sdk_version = '2.5.0'
         }
 
         // while modifying this version, make sure to modify in ChatContainer

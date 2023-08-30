@@ -186,8 +186,11 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onDestroy()
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
-        callLauncherViewModel?.unsubscribe()
-        println("InCallService launcher onDestroy $isFinishing")
+        callLauncherViewModel.unsubscribe()
+
+        if (isFinishing) {
+            callLauncherViewModel.close()
+        }
     }
 
     // check whether new Activity instance was brought to top of stack,
