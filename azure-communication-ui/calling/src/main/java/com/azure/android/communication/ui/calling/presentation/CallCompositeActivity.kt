@@ -361,7 +361,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 videoViewManager.destroy()
                 store.dispatch(CallingAction.CallEndRequested())
                 notificationService.removeNotification()
-                callingSDKWrapper.dispose()
                 compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
                 container.callComposite.onExit()
