@@ -118,7 +118,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraTransmissionStatus.REMOTE
             )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.VISIBLE)
 
             val appStore = mock<AppStore<ReduxState>> { }
             val callingViewModel = ControlBarViewModel(appStore::dispatch)
@@ -209,7 +209,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultListFromCameraPermissionStateFlow =
                 mutableListOf<ControlBarViewModel.CameraModel>()
-            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.VISIBLE)
 
             val appStore = mock<AppStore<ReduxState>>()
             val callingViewModel = ControlBarViewModel(appStore::dispatch)
@@ -315,7 +315,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraDeviceSelectionStatus,
                 cameraTransmissionStatus
             )
-            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.VISIBLE)
 
             callingViewModel.init(
                 permissionState,
@@ -408,7 +408,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraDeviceSelectionStatus,
                 cameraTransmissionStatus
             )
-            val pipState = PictureInPictureState(status = PictureInPictureStatus.NONE)
+            val pipState = PictureInPictureState(status = PictureInPictureStatus.VISIBLE)
 
             callingViewModel.init(
                 permissionState,

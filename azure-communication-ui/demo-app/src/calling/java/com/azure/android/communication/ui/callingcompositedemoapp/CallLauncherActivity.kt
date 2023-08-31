@@ -147,10 +147,6 @@ class CallLauncherActivity : AppCompatActivity() {
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
         callLauncherViewModel.unsubscribe()
-
-        if (isFinishing) {
-            callLauncherViewModel.close()
-        }
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -204,7 +200,7 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showUI() {
-        callLauncherViewModel.callComposite?.displayCallCompositeIfWasHidden(this)
+        callLauncherViewModel.displayCallCompositeIfWasHidden(this)
     }
 
     private fun showCallHistory() {

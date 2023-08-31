@@ -35,7 +35,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
-import com.microsoft.fluentui.util.activity
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {

@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 
+// TODO: VisibilityReducer
 internal interface PipReducer : Reducer<PictureInPictureState>
 
 internal class PipReducerImpl : PipReducer {
@@ -16,8 +17,14 @@ internal class PipReducerImpl : PipReducer {
             is PipAction.PipModeEntered -> {
                 state.copy(status = PictureInPictureStatus.PIP_MODE_ENTERED)
             }
-            is PipAction.PipModeExited -> {
-                state.copy(status = PictureInPictureStatus.NONE)
+            is PipAction.ShowNormalEntered -> {
+                state.copy(status = PictureInPictureStatus.VISIBLE)
+            }
+            is PipAction.HideRequested -> {
+                state.copy(status = PictureInPictureStatus.HIDE_REQUESTED)
+            }
+            is PipAction.HideEntered -> {
+                state.copy(status = PictureInPictureStatus.HIDDEN)
             }
             else -> state
         }
