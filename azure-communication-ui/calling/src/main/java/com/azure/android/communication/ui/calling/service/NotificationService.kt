@@ -56,25 +56,24 @@ internal class NotificationService(
         val inCallServiceConnection = InCallServiceConnection()
         this.inCallServiceConnection = inCallServiceConnection
         println("InCallService bindService")
-        context.applicationContext.bindService(inCallServiceIntent, inCallServiceConnection, Context.BIND_AUTO_CREATE)
+        context.bindService(inCallServiceIntent, inCallServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
     fun removeNotification() {
         println("InCallService removeNotification")
 
         inCallServiceConnection?.let {
-            it.destroyNotification();
-            context.applicationContext.unbindService(it)
+            it.destroyNotification()
+            context.unbindService(it)
         }
         inCallServiceConnection = null
-
     }
 }
 
 internal class InCallServiceConnection : ServiceConnection {
-    internal var inCallServiceBinding : InCallService.InCallServiceBinder? = null
+    internal var inCallServiceBinding : InCallServiceBinder? = null
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        inCallServiceBinding = service as InCallService.InCallServiceBinder
+        inCallServiceBinding = service as InCallServiceBinder
         println("InCallService InCallServiceConnection.onServiceConnected")
     }
 

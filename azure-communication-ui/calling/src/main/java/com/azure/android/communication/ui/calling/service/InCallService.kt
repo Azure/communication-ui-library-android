@@ -25,6 +25,7 @@ import java.lang.ref.WeakReference
 internal class InCallService : Service() {
 
     private val IN_CALL_CHANNEL_ID = "com.azure.android.communication.ui.service.calling.in_call"
+    private val binder = WeakReference(InCallServiceBinder(WeakReference(this)))
 
     override fun onBind(intent: Intent): IBinder? {
         println("InCallService onBind")
@@ -33,7 +34,7 @@ internal class InCallService : Service() {
         val instanceId = intent.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, 0)
 
         startInCallNotification(instanceId, enableMultitasking, enableSystemPiPWhenMultitasking)
-        return InCallServiceBinder(WeakReference(this))
+        return binder.get()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -118,14 +119,13 @@ internal class InCallService : Service() {
         }
     }
 
-    class InCallServiceBinder(val mInCallService : WeakReference<InCallService>) : Binder() {
 
-        internal fun getService(): InCallService? {
-            return mInCallService.get();
-        }
+}
 
+internal class InCallServiceBinder(val mInCallService : WeakReference<InCallService>) : Binder() {
 
+    internal fun getService(): InCallService? {
+        return mInCallService.get();
     }
-
 }
 
