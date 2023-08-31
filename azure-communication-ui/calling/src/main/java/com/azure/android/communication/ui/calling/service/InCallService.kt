@@ -9,6 +9,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.IInterface
@@ -31,7 +32,7 @@ internal class InCallService : Service() {
         val instanceId = intent.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, 0)
 
         startInCallNotification(instanceId, enableMultitasking, enableSystemPiPWhenMultitasking)
-        return InCallServiceBinder()
+        return InCallServiceBinder(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -107,42 +108,21 @@ internal class InCallService : Service() {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+    fun destroyNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } else {
+            stopForeground(true)
+        }
+    }
+
+    class InCallServiceBinder(val mInCallService : InCallService) : Binder() {
+
+        internal fun getService(): InCallService {
+            return mInCallService;
+        }
+    }
+
 }
 
-class InCallServiceBinder : IBinder {
-    override fun getInterfaceDescriptor(): String? {
-        TODO("Not yet implemented")
-    }
-
-    override fun pingBinder(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun isBinderAlive(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun queryLocalInterface(descriptor: String): IInterface? {
-        TODO("Not yet implemented")
-    }
-
-    override fun dump(fd: FileDescriptor, args: Array<out String>?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun dumpAsync(fd: FileDescriptor, args: Array<out String>?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun transact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun linkToDeath(recipient: IBinder.DeathRecipient, flags: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun unlinkToDeath(recipient: IBinder.DeathRecipient, flags: Int): Boolean {
-        TODO("Not yet implemented")
-    }
-}

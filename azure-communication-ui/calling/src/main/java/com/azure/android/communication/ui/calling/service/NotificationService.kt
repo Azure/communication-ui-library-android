@@ -63,18 +63,25 @@ internal class NotificationService(
         println("InCallService removeNotification")
 
         inCallServiceConnection?.let {
+            it.destroyNotification();
             inCallServiceConnection = null
             context.applicationContext.unbindService(it)
         }
     }
 }
 
-class InCallServiceConnection : ServiceConnection {
+internal class InCallServiceConnection : ServiceConnection {
+    internal var inCallServiceBinding : InCallService.InCallServiceBinder? = null
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+        inCallServiceBinding = service as InCallService.InCallServiceBinder
         println("InCallService InCallServiceConnection.onServiceConnected")
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
         println("InCallService InCallServiceConnection.onServiceDisconnected")
+    }
+
+    fun destroyNotification() {
+        inCallServiceBinding?.getService()?.destroyNotification()
     }
 }
