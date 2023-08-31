@@ -64,9 +64,10 @@ internal class NotificationService(
 
         inCallServiceConnection?.let {
             it.destroyNotification();
-            inCallServiceConnection = null
             context.applicationContext.unbindService(it)
         }
+        inCallServiceConnection = null
+
     }
 }
 
@@ -78,7 +79,7 @@ internal class InCallServiceConnection : ServiceConnection {
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
-        println("InCallService InCallServiceConnection.onServiceDisconnected")
+        inCallServiceBinding = null
     }
 
     fun destroyNotification() {

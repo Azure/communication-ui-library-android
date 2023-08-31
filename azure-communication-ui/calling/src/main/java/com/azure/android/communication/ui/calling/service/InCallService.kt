@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity
 import java.io.FileDescriptor
+import java.lang.ref.WeakReference
 
 internal class InCallService : Service() {
 
@@ -32,7 +33,7 @@ internal class InCallService : Service() {
         val instanceId = intent.getIntExtra(CallCompositeActivity.KEY_INSTANCE_ID, 0)
 
         startInCallNotification(instanceId, enableMultitasking, enableSystemPiPWhenMultitasking)
-        return InCallServiceBinder(this)
+        return InCallServiceBinder(WeakReference(this))
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -117,11 +118,13 @@ internal class InCallService : Service() {
         }
     }
 
-    class InCallServiceBinder(val mInCallService : InCallService) : Binder() {
+    class InCallServiceBinder(val mInCallService : WeakReference<InCallService>) : Binder() {
 
-        internal fun getService(): InCallService {
-            return mInCallService;
+        internal fun getService(): InCallService? {
+            return mInCallService.get();
         }
+
+
     }
 
 }
