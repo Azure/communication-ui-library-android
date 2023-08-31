@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling;
 
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
-import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -18,10 +18,10 @@ public final class CallCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
-    private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
-    private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
     private Boolean enableMultitasking = false;
     private Boolean enableSystemPiPWhenMultitasking = false;
+    private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
+    private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.

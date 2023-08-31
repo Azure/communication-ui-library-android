@@ -34,7 +34,9 @@ class CallLauncherViewModel : ViewModel() {
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
 
-    var callComposite: CallComposite? = null
+    companion object {
+        var callComposite: CallComposite? = null
+    }
 
     fun launch(
         context: Context,
@@ -126,10 +128,14 @@ class CallLauncherViewModel : ViewModel() {
 
         callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(true, true))
 
-        val callComposite = callCompositeBuilder.build()
+        val newCallComposite = callCompositeBuilder.build()
 
-        this.callComposite = callComposite
-        return callComposite
+        callComposite = newCallComposite
+        return newCallComposite
+    }
+
+    fun displayCallCompositeIfWasHidden(context: Context) {
+        callComposite?.displayCallCompositeIfWasHidden(context)
     }
 
     fun unsubscribe() {
