@@ -70,6 +70,7 @@ public final class CallComposite {
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
+        diContainer = null;
     }
 
     /**
