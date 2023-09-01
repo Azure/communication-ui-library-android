@@ -70,6 +70,7 @@ public final class CallComposite {
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
+        diContainer = null;
     }
 
     /**
@@ -350,11 +351,10 @@ public final class CallComposite {
     }
 
     private DebugInfoManager getDebugInfoManager(final Context context) {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                return container.getDebugInfoManager();
-            }
+        final DependencyInjectionContainer container = diContainer;
+
+        if (container != null) {
+            return container.getDebugInfoManager();
         }
         return createDebugInfoManager(context.getApplicationContext());
     }
