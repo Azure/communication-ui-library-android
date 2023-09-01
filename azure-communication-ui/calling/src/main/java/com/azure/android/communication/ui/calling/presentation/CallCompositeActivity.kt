@@ -355,7 +355,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 }
             }
             NavigationStatus.EXIT -> {
-                store.dispatch(CallingAction.CallEndRequested())
                 notificationService.removeNotification()
                 store.end()
                 callingMiddlewareActionHandler.dispose()
