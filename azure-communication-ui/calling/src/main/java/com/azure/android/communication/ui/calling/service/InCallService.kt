@@ -12,14 +12,11 @@ import android.content.Intent
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.os.IInterface
-import android.os.Parcel
 import androidx.core.app.NotificationCompat
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity
-import java.io.FileDescriptor
 import java.lang.ref.WeakReference
 
 internal class InCallService : Service() {
@@ -118,14 +115,11 @@ internal class InCallService : Service() {
             stopForeground(true)
         }
     }
-
-
 }
 
-internal class InCallServiceBinder(val mInCallService : WeakReference<InCallService>) : Binder() {
+internal class InCallServiceBinder(val mInCallService: WeakReference<InCallService>) : Binder() {
 
     internal fun getService(): InCallService? {
-        return mInCallService.get();
+        return mInCallService.get()
     }
 }
-

@@ -71,7 +71,7 @@ internal class NotificationService(
 }
 
 internal class InCallServiceConnection : ServiceConnection {
-    internal var inCallServiceBinding : InCallServiceBinder? = null
+    internal var inCallServiceBinding: InCallServiceBinder? = null
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
         inCallServiceBinding = service as InCallServiceBinder
         println("InCallService InCallServiceConnection.onServiceConnected")
