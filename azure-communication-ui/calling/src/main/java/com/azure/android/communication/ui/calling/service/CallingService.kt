@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -169,5 +170,9 @@ internal class CallingService(
         }
 
         return callingSdk.startCall(cameraState, audioState)
+    }
+
+    fun registerIncomingCallPushNotification(notificationOptions: CallCompositeIncomingCallNotificationOptions) {
+        callingSdk?.registerIncomingCallPushNotification(notificationOptions.deviceToken)
     }
 }

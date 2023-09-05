@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling;
 import android.content.Context;
 import android.content.Intent;
 
+import com.azure.android.communication.calling.PushNotificationInfo;
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
@@ -16,9 +17,12 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateE
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantDialLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
@@ -31,10 +35,13 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.azure.android.communication.ui.calling.service.CallNotificationManager;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 import java.util.UUID;
@@ -364,6 +371,20 @@ public final class CallComposite {
         }
     }
 
+    public void registerIncomingCallPushNotification(@NotNull final Context context,
+        @NotNull final CallCompositeIncomingCallNotificationOptions notificationOptions) {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                container.getCallNotificationManager().registerIncomingCallPushNotification(context,
+                        notificationOptions);
+            }
+        } else {
+            final CallNotificationManager callNotificationManager = new CallNotificationManager(null);
+            callNotificationManager.registerIncomingCallPushNotification(context, notificationOptions);
+        }
+    }
+
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
         this.diContainer = new WeakReference<>(diContainer);
     }
@@ -392,7 +413,10 @@ public final class CallComposite {
         String meetingLink = null;
         String roomId = null;
         CallCompositeParticipantRole roomRole = null;
+        PushNotificationInfo pushNotificationInfo = null;
+        Boolean acceptIncomingCall = false;
         final CallType callType;
+        String participantMri = null;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
@@ -401,12 +425,17 @@ public final class CallComposite {
         } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+        } else if (locator instanceof CallCompositeIncomingCallLocator) {
+            callType = CallType.INCOMING_CALL;
+            pushNotificationInfo = ((CallCompositeIncomingCallLocator) locator).getPushNotificationInfo();
+            acceptIncomingCall = ((CallCompositeIncomingCallLocator) locator).getAcceptIncomingCall();
         } else if (locator instanceof CallCompositeRoomLocator) {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
         } else {
-            throw new CallCompositeException("Not supported Call Locator type");
+            callType = CallType.DIAL_CALL;
+            participantMri = ((CallCompositeParticipantDialLocator) locator).getMri();
         }
 
         if (localOptions != null) {
@@ -421,8 +450,10 @@ public final class CallComposite {
                 meetingLink,
                 roomId,
                 roomRole,
-                callType));
-
+                callType,
+                pushNotificationInfo,
+                participantMri,
+                acceptIncomingCall));
 
         showUI(context, isTest);
     }

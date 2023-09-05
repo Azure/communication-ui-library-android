@@ -54,6 +54,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.Multitask
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
+import com.azure.android.communication.ui.calling.service.CallNotificationManager
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
@@ -192,6 +193,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val remoteParticipantHandler by lazy {
         RemoteParticipantHandler(configuration, appStore, callingSDKWrapper)
+    }
+
+    override val callNotificationManager by lazy {
+        CallNotificationManager(callingService)
     }
 
     override val callHistoryRepository by lazy {

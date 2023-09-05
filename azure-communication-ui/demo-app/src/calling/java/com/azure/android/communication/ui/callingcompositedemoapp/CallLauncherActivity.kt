@@ -3,8 +3,11 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -24,17 +27,28 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
+    
+    companion object {
+        var callLauncherActivity: CallLauncherActivity? = null
+    }
+
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
 
+    fun answerCall() {
+        //callLauncherViewModel.incomingCallAccept(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        createNotificationChannels()
+
         if (shouldFinish()) {
             finish()
             return
@@ -54,6 +68,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
         binding = ActivityCallLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        callLauncherActivity = this
 
         val data: Uri? = intent?.data
         val deeplinkAcsToken = data?.getQueryParameter("acstoken")
@@ -108,6 +123,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
                     roomsMeetingRadioButton.isChecked = false
+                    participantDialRadioButton.isChecked = false
                     attendeeRoleRadioButton.visibility = View.GONE
                     presenterRoleRadioButton.visibility = View.GONE
                 }
@@ -117,6 +133,17 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
                     roomsMeetingRadioButton.isChecked = false
+                    participantDialRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
+                }
+            }
+            participantDialRadioButton.setOnClickListener {
+                if (participantDialRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRI)
+                    groupCallRadioButton.isChecked = false
+                    roomsMeetingRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
                     attendeeRoleRadioButton.visibility = View.GONE
                     presenterRoleRadioButton.visibility = View.GONE
                 }
@@ -129,6 +156,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     attendeeRoleRadioButton.isChecked = true
                     groupCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
+                    participantDialRadioButton.isChecked = false
                 } else {
                     presenterRoleRadioButton.visibility = View.GONE
                     attendeeRoleRadioButton.visibility = View.GONE
@@ -205,6 +233,21 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
+    private fun createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = "acs"
+            val description = "acs"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel =
+                NotificationChannel("acs", name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
     private fun launch() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
@@ -234,6 +277,15 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
         }
+        var participantMri: String? = null
+        if (binding.participantDialRadioButton.isChecked) {
+            participantMri = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+            if (participantMri.isBlank()) {
+                val message = "Mri is invalid or empty."
+                showAlert(message)
+                return
+            }
+        }
 
         callLauncherViewModel.launch(
             this@CallLauncherActivity,
@@ -243,6 +295,7 @@ class CallLauncherActivity : AppCompatActivity() {
             roomId,
             roomRole,
             meetingLink,
+            participantMri
         )
     }
 

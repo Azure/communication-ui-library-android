@@ -14,10 +14,12 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallHistor
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantDialLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
@@ -46,6 +48,7 @@ class CallLauncherViewModel : ViewModel() {
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
         meetingLink: String?,
+        participantMri: String?,
     ) {
         val callComposite = createCallComposite(context)
         callComposite.addOnErrorEventHandler(
@@ -80,6 +83,7 @@ class CallLauncherViewModel : ViewModel() {
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
             else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
+            else if (participantMri != null) CallCompositeParticipantDialLocator(participantMri)
             else throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
 
         val remoteOptions =
@@ -102,6 +106,8 @@ class CallLauncherViewModel : ViewModel() {
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
         callComposite.addOnExitEventHandler(exitEventHandler)
         isExitRequested = false
+        val incomingCallNotificationOptions = CallCompositeIncomingCallNotificationOptions(communicationTokenCredential, "")
+        callComposite.registerIncomingCallPushNotification(context, incomingCallNotificationOptions)
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
