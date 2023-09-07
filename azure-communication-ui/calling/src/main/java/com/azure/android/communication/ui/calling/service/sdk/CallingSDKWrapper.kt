@@ -224,7 +224,7 @@ internal class CallingSDKWrapper(
                         } else if (callConfig.callType == CallType.INCOMING_CALL) {
 
                             if (callConfig.pushNotificationInfo == null) {
-                                if (callConfig.acceptIncomingCall) {
+                                if (callConfig.acceptIncomingCall == true) {
                                     val acceptCallOptions = AcceptCallOptions()
                                     videoOptions?.let { acceptCallOptions.videoOptions = it }
                                     nullableCall = incomingCall?.accept(context, acceptCallOptions)?.get()
@@ -264,7 +264,7 @@ internal class CallingSDKWrapper(
                     } else if (callConfig.callType == CallType.INCOMING_CALL) {
 
                         if (callConfig.pushNotificationInfo == null) {
-                            if (callConfig.acceptIncomingCall) {
+                            if (callConfig.acceptIncomingCall == true) {
                                 val acceptCallOptions = AcceptCallOptions()
                                 videoOptions?.let { acceptCallOptions.videoOptions = it }
                                 nullableCall = incomingCall?.accept(context, acceptCallOptions)?.get()

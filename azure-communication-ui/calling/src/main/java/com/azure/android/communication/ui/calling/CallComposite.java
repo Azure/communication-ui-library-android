@@ -373,15 +373,15 @@ public final class CallComposite {
 
     public void registerIncomingCallPushNotification(@NotNull final Context context,
         @NotNull final CallCompositeIncomingCallNotificationOptions notificationOptions) {
-        if (diContainer != null) {
+        if (diContainer != null && diContainer.get().getCallingService() != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
                 container.getCallNotificationManager().registerIncomingCallPushNotification(context,
-                        notificationOptions);
+                        notificationOptions, diContainer.get().getCallingService());
             }
         } else {
-            final CallNotificationManager callNotificationManager = new CallNotificationManager(null);
-            callNotificationManager.registerIncomingCallPushNotification(context, notificationOptions);
+            final CallNotificationManager callNotificationManager = new CallNotificationManager();
+            callNotificationManager.registerIncomingCallPushNotification(context, notificationOptions, null);
         }
     }
 

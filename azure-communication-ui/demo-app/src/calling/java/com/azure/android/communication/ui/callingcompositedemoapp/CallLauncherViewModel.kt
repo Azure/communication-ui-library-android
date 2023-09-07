@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
@@ -14,6 +15,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallHistor
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeExitEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -49,6 +51,7 @@ class CallLauncherViewModel : ViewModel() {
         roomRoleHint: CallCompositeParticipantRole?,
         meetingLink: String?,
         participantMri: String?,
+        pushNotificationInfo: PushNotificationInfo? = null
     ) {
         val callComposite = createCallComposite(context)
         callComposite.addOnErrorEventHandler(
@@ -80,7 +83,8 @@ class CallLauncherViewModel : ViewModel() {
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         val locator: CallCompositeJoinLocator =
-            if (groupId != null) CallCompositeGroupCallLocator(groupId)
+            if (pushNotificationInfo != null) CallCompositeIncomingCallLocator(pushNotificationInfo, true)
+            else if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
             else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
             else if (participantMri != null) CallCompositeParticipantDialLocator(participantMri)
@@ -106,8 +110,6 @@ class CallLauncherViewModel : ViewModel() {
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
         callComposite.addOnExitEventHandler(exitEventHandler)
         isExitRequested = false
-        val incomingCallNotificationOptions = CallCompositeIncomingCallNotificationOptions(communicationTokenCredential, "")
-        callComposite.registerIncomingCallPushNotification(context, incomingCallNotificationOptions)
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
@@ -161,6 +163,10 @@ class CallLauncherViewModel : ViewModel() {
     fun callHangup() {
         isExitRequested = true
         callComposite?.exit()
+    }
+
+    companion object {
+        var notificationData: PushNotificationInfo? = null
     }
 }
 

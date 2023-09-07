@@ -196,7 +196,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val callNotificationManager by lazy {
-        CallNotificationManager(callingService)
+        CallNotificationManager()
     }
 
     override val callHistoryRepository by lazy {
@@ -273,7 +273,7 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    private val callingService by lazy {
+    override val callingService by lazy {
         CallingService(callingSDKWrapper, coroutineContextProvider)
     }
     //endregion

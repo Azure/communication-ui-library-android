@@ -36,7 +36,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService()
             try {
                 val notification = PushNotificationInfo.fromMap(messageData)
 
-                //CallLauncherViewModel.notificationData = notification
+                CallLauncherViewModel.notificationData = notification
                 showNotificationForIncomingCall(notification)
             } catch (e: Exception) {
 

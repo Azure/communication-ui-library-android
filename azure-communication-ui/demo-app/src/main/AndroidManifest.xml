@@ -10,6 +10,7 @@
     >
 
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:allowBackup="true"

@@ -25,8 +25,8 @@ internal data class CallConfiguration(
     val roomRoleHint: CallCompositeParticipantRole?,
     val callType: CallType,
     val pushNotificationInfo: PushNotificationInfo?,
-    val participantMri: String,
-    val acceptIncomingCall: Boolean = false,
+    val participantMri: String?,
+    val acceptIncomingCall: Boolean? = false,
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }

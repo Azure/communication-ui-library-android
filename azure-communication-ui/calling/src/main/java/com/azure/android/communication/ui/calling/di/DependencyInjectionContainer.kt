@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallNotificationManager
+import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
@@ -43,6 +44,7 @@ internal interface DependencyInjectionContainer {
 
     val callComposite: CallComposite
     val callingSDKWrapper: CallingSDK
+    val callingService: CallingService
 
     // Config
     val configuration: CallCompositeConfiguration

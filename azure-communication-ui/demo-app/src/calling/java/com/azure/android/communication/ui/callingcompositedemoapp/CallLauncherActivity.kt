@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +17,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.common.CommunicationTokenCredential
+import com.azure.android.communication.common.CommunicationTokenRefreshOptions
+import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.CallCompositeBuilder
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
@@ -23,6 +29,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Featu
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -41,7 +49,7 @@ class CallLauncherActivity : AppCompatActivity() {
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
 
     fun answerCall() {
-        //callLauncherViewModel.incomingCallAccept(this)
+        launch()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +84,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
         val deepLinkRoomsId = data?.getQueryParameter("roomsid")
+        var acsToken = ""
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -83,6 +92,8 @@ class CallLauncherActivity : AppCompatActivity() {
             } else {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
             }
+
+            acsToken = acsTokenText.text.toString()
 
             if (!deeplinkName.isNullOrEmpty()) {
                 userNameText.setText(deeplinkName)
@@ -208,6 +219,28 @@ class CallLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("FirebaseTest ", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Log.d("FirebaseTest ", token)
+
+            val callComposite = CallCompositeBuilder().build()
+            val communicationTokenRefreshOptions =
+                CommunicationTokenRefreshOptions({ acsToken }, true)
+            val communicationTokenCredential =
+                CommunicationTokenCredential(communicationTokenRefreshOptions)
+
+            var options = CallCompositeIncomingCallNotificationOptions(communicationTokenCredential, token)
+            callComposite.registerIncomingCallPushNotification(applicationContext, options)
+        })
     }
 
     override fun onDestroy() {
@@ -295,7 +328,8 @@ class CallLauncherActivity : AppCompatActivity() {
             roomId,
             roomRole,
             meetingLink,
-            participantMri
+            participantMri,
+            CallLauncherViewModel.notificationData
         )
     }
 
