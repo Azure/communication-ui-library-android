@@ -20,11 +20,12 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
-import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
-import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
-import com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo
+import com.azure.android.communication.ui.calling.service.sdk.DominantSpeakersInfo
 import com.azure.android.communication.ui.calling.service.sdk.into
+import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
@@ -72,6 +73,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private var isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+    private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
 
@@ -235,6 +237,10 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return isTranscribingSharedFlow
     }
 
+    override fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> {
+        return dominantSpeakersSharedFlow
+    }
+
     override fun getIsRecordingSharedFlow(): SharedFlow<Boolean> {
         return isRecordingSharedFlow
     }
@@ -293,7 +299,6 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             }?.asVideoStreamModel(),
 
             modifiedTimestamp = System.currentTimeMillis(),
-            speakingTimestamp = System.currentTimeMillis()
         )
     }
 }

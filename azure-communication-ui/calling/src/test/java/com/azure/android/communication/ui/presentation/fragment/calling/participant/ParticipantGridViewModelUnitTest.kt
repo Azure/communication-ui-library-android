@@ -42,7 +42,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, listOf(), 0)
 
             // assert
             assertEquals(
@@ -68,29 +68,31 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<List<ParticipantGridCellViewModel>>()
             var i = 0
             remoteParticipantsMap["user1"] =
-                getParticipantInfoModel("user1", "user1", System.currentTimeMillis() + i++)
+                getParticipantInfoModel("user1", "user1")
             remoteParticipantsMap["user2"] =
-                getParticipantInfoModel("user2", "user2", System.currentTimeMillis() + i++)
+                getParticipantInfoModel("user2", "user2")
             remoteParticipantsMap["user3"] =
-                getParticipantInfoModel("user3", "user3", System.currentTimeMillis() + i++)
+                getParticipantInfoModel("user3", "user3")
             remoteParticipantsMap["user4"] =
-                getParticipantInfoModel("user4", "user4", System.currentTimeMillis() + i++)
+                getParticipantInfoModel("user4", "user4")
             remoteParticipantsMap["user5"] =
-                getParticipantInfoModel("user5", "user5", System.currentTimeMillis() + i++)
+                getParticipantInfoModel("user5", "user5")
             remoteParticipantsMap["user6"] =
-                getParticipantInfoModel("user6", "user6", System.currentTimeMillis() + i++)
+                getParticipantInfoModel("user6", "user6")
             remoteParticipantsMap["user7"] =
-                getParticipantInfoModel("user7", "user7", System.currentTimeMillis() + i++)
+                getParticipantInfoModel("user7", "user7")
             remoteParticipantsMap["user8"] =
-                getParticipantInfoModel("user8", "user8", System.currentTimeMillis() + i)
+                getParticipantInfoModel("user8", "user8")
 
             val flowJob = launch {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
+            val dominantSpeakersInfo = listOf("user8", "user7", "user6", "user5", "user4", "user3", "user2", "user1")
+
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, dominantSpeakersInfo, System.currentTimeMillis())
 
             // assert
             assertEquals(
@@ -111,24 +113,25 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val modifiedTimestamp: Number = System.currentTimeMillis()
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 7)
-            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2", 1)
-            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3", 2)
-            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4", 6)
-            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5", 5)
-            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6", 3)
-            remoteParticipantsMap["user7"] = getParticipantInfoModel("user7", "user7", 4)
-            remoteParticipantsMap["user8"] = getParticipantInfoModel("user8", "user8", 8)
-            remoteParticipantsMap["user9"] = getParticipantInfoModel("user9", "user9", 9)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5")
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6")
+            remoteParticipantsMap["user7"] = getParticipantInfoModel("user7", "user7")
+            remoteParticipantsMap["user8"] = getParticipantInfoModel("user8", "user8")
+            remoteParticipantsMap["user9"] = getParticipantInfoModel("user9", "user9")
             val expected = mutableListOf("user9", "user8", "user1", "user4", "user5", "user7")
 
             val flowJob = launch {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
+            val dominantSpeakersInfo = listOf("user9", "user8", "user1", "user4", "user5", "user7", "user6", "user3", "user2")
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap)
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, dominantSpeakersInfo, System.currentTimeMillis())
 
             // assert
             assertEquals(
@@ -155,8 +158,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
             val modifiedTimestamp: Number = System.currentTimeMillis()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 7)
-            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2", 1)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
@@ -165,10 +168,11 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
+            val dominantSpeakersInfo = listOf("user1", "user2")
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap)
-            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap, dominantSpeakersInfo, System.currentTimeMillis())
+            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 100)
 
             // assert
             assertEquals(
@@ -200,19 +204,21 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val modifiedTimestamp: Number = System.currentTimeMillis()
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 7)
-            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2", 1)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
             val remoteParticipantsMapNew: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMapNew["user8"] = getParticipantInfoModel("user8", "user8", 7)
-            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2", 1)
+            remoteParticipantsMapNew["user8"] = getParticipantInfoModel("user8", "user8")
+            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2")
 
             val flowJob = launch {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
+            val dominantSpeakersInfo = listOf("user1", "user2")
+            val dominantSpeakersInfoNew = listOf("user8", "user2")
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, modifiedTimestamp)
 
             // assert
             assertEquals(
@@ -229,7 +235,9 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             participantGridViewModel.update(
                 modifiedTimestamp,
-                remoteParticipantsMapNew.toMutableMap()
+                remoteParticipantsMapNew.toMutableMap(),
+                dominantSpeakersInfoNew,
+                modifiedTimestamp
             )
 
             // assert state flow called only once
@@ -259,11 +267,11 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val modifiedTimestamp: Number = System.currentTimeMillis()
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 7)
-            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2", 1)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
             val remoteParticipantsMapNew: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMapNew["user8"] = getParticipantInfoModel("user8", "user8", 7)
-            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2", 1)
+            remoteParticipantsMapNew["user8"] = getParticipantInfoModel("user8", "user8")
+            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2")
 
             val flowJob = launch {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
@@ -271,7 +279,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(modifiedTimestamp, remoteParticipantsMap.toMutableMap(), listOf(), 0)
 
             // assert first update
             assertEquals(
@@ -286,7 +294,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user2" && participantViewModelSecond.getDisplayNameStateFlow().value == "user2")
 
             // act again with modified timestamp
-            participantGridViewModel.update(100, remoteParticipantsMapNew.toMutableMap())
+            participantGridViewModel.update(100, remoteParticipantsMapNew.toMutableMap(), listOf(), 0)
 
             // assert state flow called only once
             assertEquals(
@@ -313,13 +321,13 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 9)
-            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2", 10)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
 
             val remoteParticipantsMapNew: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMapNew["user8"] = getParticipantInfoModel("user8", "user8", 7)
-            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2", 1)
-            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3", 4)
+            remoteParticipantsMapNew["user8"] = getParticipantInfoModel("user8", "user8")
+            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3")
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
@@ -329,8 +337,11 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
+            val dominantSpeakersInfo = listOf("user2", "user1")
+            val dominantSpeakersInfoNew = listOf("user8", "user3", "user2")
+
             // act
-            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(100, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 100)
 
             // assert first update
             assertEquals(
@@ -345,7 +356,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user2" && participantViewModelSecond.getDisplayNameStateFlow().value == "user2")
 
             // act with new list
-            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap())
+            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap(), dominantSpeakersInfoNew, 300)
 
             // assert state updated count
             assertEquals(
@@ -371,15 +382,15 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 9)
-            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2", 10)
-            remoteParticipantsMap["user11"] = getParticipantInfoModel("user11", "user11", 91)
-            remoteParticipantsMap["user12"] = getParticipantInfoModel("user12", "user12", 101)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMap["user11"] = getParticipantInfoModel("user11", "user11")
+            remoteParticipantsMap["user12"] = getParticipantInfoModel("user12", "user12")
 
             val remoteParticipantsMapNew: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMapNew["user1"] = getParticipantInfoModel("user1", "user1", 7)
-            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2", 1)
-            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3", 4)
+            remoteParticipantsMapNew["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMapNew["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3")
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
@@ -387,9 +398,11 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
+            val dominantSpeakersInfo = listOf("user12", "user11", "user2", "user1")
+            val dominantSpeakersInfoNew = listOf("user1", "user3", "user2")
 
             // act
-            participantGridViewModel.update(89, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(89, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 89)
 
             // assert
             assertEquals(
@@ -408,7 +421,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelFourth.getParticipantUserIdentifier() == "user12" && participantViewModelFourth.getDisplayNameStateFlow().value == "user12")
 
             // act for new list
-            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap())
+            participantGridViewModel.update(300, remoteParticipantsMapNew.toMutableMap(), dominantSpeakersInfoNew, 300)
 
             // assert new list
             assertEquals(
@@ -440,14 +453,14 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 9)
-            remoteParticipantsMap["user21"] = getParticipantInfoModel("user21", "user21", 91)
-            remoteParticipantsMap["user23"] = getParticipantInfoModel("user23", "user23", 92)
-            remoteParticipantsMap["user22"] = getParticipantInfoModel("user22", "user22", 93)
-            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3", 11)
-            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4", 12)
-            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5", 13)
-            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6", 14)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user21"] = getParticipantInfoModel("user21", "user21")
+            remoteParticipantsMap["user23"] = getParticipantInfoModel("user23", "user23")
+            remoteParticipantsMap["user22"] = getParticipantInfoModel("user22", "user22")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5")
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6")
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
@@ -456,8 +469,10 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
+            val dominantSpeakersInfo = listOf("user22", "user23", "user21", "user6", "user5", "user4", "user3", "user1",)
+
             // act
-            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
 
             // assert
             assertEquals(
@@ -490,25 +505,25 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 9)
-            remoteParticipantsMap["user21"] = getParticipantInfoModel("user21", "user21", 91)
-            remoteParticipantsMap["user23"] = getParticipantInfoModel("user23", "user23", 92)
-            remoteParticipantsMap["user22"] = getParticipantInfoModel("user22", "user22", 93)
-            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3", 11)
-            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4", 12)
-            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5", 13)
-            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6", 14)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user21"] = getParticipantInfoModel("user21", "user21")
+            remoteParticipantsMap["user23"] = getParticipantInfoModel("user23", "user23")
+            remoteParticipantsMap["user22"] = getParticipantInfoModel("user22", "user22")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5")
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6")
 
             val remoteParticipantsMapNew: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-            remoteParticipantsMapNew["user1"] = getParticipantInfoModel("user1", "user1", 900)
-            remoteParticipantsMapNew["user21"] = getParticipantInfoModel("user21", "user21", 91)
-            remoteParticipantsMapNew["user23"] = getParticipantInfoModel("user23", "user23", 192)
-            remoteParticipantsMapNew["user22"] = getParticipantInfoModel("user22", "user22", 93)
-            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3", 111)
-            remoteParticipantsMapNew["user4"] = getParticipantInfoModel("user4", "user4", 112)
-            remoteParticipantsMapNew["user5"] = getParticipantInfoModel("user5", "user5", 13)
-            remoteParticipantsMapNew["user6"] = getParticipantInfoModel("user6", "user6", 14)
+            remoteParticipantsMapNew["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMapNew["user21"] = getParticipantInfoModel("user21", "user21")
+            remoteParticipantsMapNew["user23"] = getParticipantInfoModel("user23", "user23")
+            remoteParticipantsMapNew["user22"] = getParticipantInfoModel("user22", "user22")
+            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMapNew["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMapNew["user5"] = getParticipantInfoModel("user5", "user5")
+            remoteParticipantsMapNew["user6"] = getParticipantInfoModel("user6", "user6")
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
@@ -517,8 +532,11 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
+            val dominantSpeakersInfo = listOf("user22", "user23", "user21", "user6", "user5", "user4", "user3", "user1")
+            val dominantSpeakersInfoNew = listOf("user1", "user23", "user4", "user3", "user22", "user21", "user6", "user5")
+
             // act
-            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
 
             // assert
             assertEquals(
@@ -541,7 +559,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user4" && participantViewModelSixth.getDisplayNameStateFlow().value == "user4")
 
             // act with new list
-            participantGridViewModel.update(2, remoteParticipantsMapNew.toMutableMap())
+            participantGridViewModel.update(10, remoteParticipantsMapNew.toMutableMap(), dominantSpeakersInfoNew, 10)
 
             // assert new list
             participantViewModelFirst = emitResultFromRemoteParticipantsSharedFlow[1][0]
@@ -575,33 +593,33 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1", 9)
-            remoteParticipantsMap["user21"] = getParticipantInfoModel("user21", "user21", 91)
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user21"] = getParticipantInfoModel("user21", "user21")
             remoteParticipantsMap["user23"] = getParticipantInfoModel(
-                "user23", "user23", 92,
+                "user23", "user23",
                 null,
                 VideoStreamModel("123", StreamType.VIDEO)
 
             )
-            remoteParticipantsMap["user22"] = getParticipantInfoModel("user22", "user22", 93)
-            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3", 11)
-            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4", 12)
-            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5", 13)
-            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6", 14)
+            remoteParticipantsMap["user22"] = getParticipantInfoModel("user22", "user22")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5")
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6")
 
             val remoteParticipantsMapNew: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
 
-            remoteParticipantsMapNew["user1"] = getParticipantInfoModel("user1", "user1", 900)
-            remoteParticipantsMapNew["user21"] = getParticipantInfoModel("user21", "user21", 91)
+            remoteParticipantsMapNew["user1"] = getParticipantInfoModel("user1", "user1")
             remoteParticipantsMapNew["user23"] = getParticipantInfoModel(
-                "user23", "user23", 192,
+                "user23", "user23",
                 screenShareVideoStreamModel = VideoStreamModel("123", StreamType.SCREEN_SHARING)
             )
-            remoteParticipantsMapNew["user22"] = getParticipantInfoModel("user22", "user22", 93)
-            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3", 111)
-            remoteParticipantsMapNew["user4"] = getParticipantInfoModel("user4", "user4", 112)
-            remoteParticipantsMapNew["user5"] = getParticipantInfoModel("user5", "user5", 13)
-            remoteParticipantsMapNew["user6"] = getParticipantInfoModel("user6", "user6", 14)
+            remoteParticipantsMapNew["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMapNew["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMapNew["user22"] = getParticipantInfoModel("user22", "user22")
+            remoteParticipantsMapNew["user21"] = getParticipantInfoModel("user21", "user21")
+            remoteParticipantsMapNew["user6"] = getParticipantInfoModel("user6", "user6")
+            remoteParticipantsMapNew["user5"] = getParticipantInfoModel("user5", "user5")
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
@@ -610,8 +628,11 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
+            val dominantSpeakersInfo = listOf("user22", "user23", "user21", "user6", "user5", "user4", "user3", "user1")
+            val dominantSpeakersInfoNew = listOf("user1", "user23", "user4", "user3", "user22", "user21", "user6", "user5")
+
             // act
-            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap())
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
 
             // assert
             assertEquals(
@@ -634,7 +655,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user4" && participantViewModelSixth.getDisplayNameStateFlow().value == "user4")
 
             // act with new list
-            participantGridViewModel.update(2, remoteParticipantsMapNew.toMutableMap())
+            participantGridViewModel.update(10, remoteParticipantsMapNew.toMutableMap(), dominantSpeakersInfoNew, 10)
 
             // assert new list
 
@@ -658,6 +679,174 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob.cancel()
         }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun participantGridViewModel_update_when_dominantSpeakersAreNotPresent_then_notifyRemoteParticipantsGrid_by_alphabet() =
+        runScopedTest {
+            // arrange
+            val participantGridViewModel = getParticipantGridViewModel()
+            val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
+
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5")
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6")
+            remoteParticipantsMap["user7"] = getParticipantInfoModel("user7", "user7")
+            remoteParticipantsMap["user8"] = getParticipantInfoModel("user8", "user8")
+
+            val emitResultFromRemoteParticipantsSharedFlow =
+                mutableListOf<List<ParticipantGridCellViewModel>>()
+            val flowJob = launch {
+                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
+                    .toList(emitResultFromRemoteParticipantsSharedFlow)
+            }
+
+            val dominantSpeakersInfo = listOf<String>()
+
+            // act
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
+
+            // assert
+
+            val emittedResult = emitResultFromRemoteParticipantsSharedFlow[1]
+
+            assertEquals(
+                6,
+                emittedResult.size
+            )
+
+            val participantViewModelFirst = emittedResult[0]
+            val participantViewModelSecond = emittedResult[1]
+            val participantViewModelThird = emittedResult[2]
+            val participantViewModelFourth = emittedResult[3]
+            val participantViewModelFifth = emittedResult[4]
+            val participantViewModelSixth = emittedResult[5]
+
+            assertTrue(participantViewModelFirst.getParticipantUserIdentifier() == "user1" && participantViewModelFirst.getDisplayNameStateFlow().value == "user1")
+            assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user2" && participantViewModelSecond.getDisplayNameStateFlow().value == "user2")
+            assertTrue(participantViewModelThird.getParticipantUserIdentifier() == "user3" && participantViewModelThird.getDisplayNameStateFlow().value == "user3")
+            assertTrue(participantViewModelFourth.getParticipantUserIdentifier() == "user4" && participantViewModelFourth.getDisplayNameStateFlow().value == "user4")
+            assertTrue(participantViewModelFifth.getParticipantUserIdentifier() == "user5" && participantViewModelFifth.getDisplayNameStateFlow().value == "user5")
+            assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user6" && participantViewModelSixth.getDisplayNameStateFlow().value == "user6")
+
+            flowJob.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun participantGridViewModel_update_when_dominantSpeakersArePartiallyPresent_then_notifyRemoteParticipantsGrid_by_dominantTheByAlphabet() =
+        runScopedTest {
+            // arrange
+            val participantGridViewModel = getParticipantGridViewModel()
+            val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
+
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5")
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6")
+            remoteParticipantsMap["user7"] = getParticipantInfoModel("user7", "user7")
+            remoteParticipantsMap["user8"] = getParticipantInfoModel("user8", "user8")
+
+            val emitResultFromRemoteParticipantsSharedFlow =
+                mutableListOf<List<ParticipantGridCellViewModel>>()
+            val flowJob = launch {
+                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
+                    .toList(emitResultFromRemoteParticipantsSharedFlow)
+            }
+
+            val dominantSpeakersInfo = listOf("user6", "user7")
+
+            // act
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
+
+            // assert
+
+            val emittedResult = emitResultFromRemoteParticipantsSharedFlow[1]
+
+            assertEquals(
+                6,
+                emittedResult.size
+            )
+
+            val participantViewModelFirst = emittedResult[0]
+            val participantViewModelSecond = emittedResult[1]
+            val participantViewModelThird = emittedResult[2]
+            val participantViewModelFourth = emittedResult[3]
+            val participantViewModelFifth = emittedResult[4]
+            val participantViewModelSixth = emittedResult[5]
+
+            assertTrue(participantViewModelFirst.getParticipantUserIdentifier() == "user6" && participantViewModelFirst.getDisplayNameStateFlow().value == "user6")
+            assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user7" && participantViewModelSecond.getDisplayNameStateFlow().value == "user7")
+            assertTrue(participantViewModelThird.getParticipantUserIdentifier() == "user1" && participantViewModelThird.getDisplayNameStateFlow().value == "user1")
+            assertTrue(participantViewModelFourth.getParticipantUserIdentifier() == "user2" && participantViewModelFourth.getDisplayNameStateFlow().value == "user2")
+            assertTrue(participantViewModelFifth.getParticipantUserIdentifier() == "user3" && participantViewModelFifth.getDisplayNameStateFlow().value == "user3")
+            assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user4" && participantViewModelSixth.getDisplayNameStateFlow().value == "user4")
+
+            flowJob.cancel()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun participantGridViewModel_update_when_dominantSpeakersArePartiallyPresent_then_notifyRemoteParticipantsGrid_by_dominantTheByIsVideoOn() =
+        runScopedTest {
+            // arrange
+            val participantGridViewModel = getParticipantGridViewModel()
+            val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
+
+            val videoStreamModel = VideoStreamModel("videoStreamId", StreamType.VIDEO)
+
+            remoteParticipantsMap["user1"] = getParticipantInfoModel("user1", "user1")
+            remoteParticipantsMap["user2"] = getParticipantInfoModel("user2", "user2")
+            remoteParticipantsMap["user3"] = getParticipantInfoModel("user3", "user3")
+            remoteParticipantsMap["user4"] = getParticipantInfoModel("user4", "user4")
+            remoteParticipantsMap["user5"] = getParticipantInfoModel("user5", "user5", cameraVideoStreamModel = videoStreamModel)
+            remoteParticipantsMap["user6"] = getParticipantInfoModel("user6", "user6")
+            remoteParticipantsMap["user7"] = getParticipantInfoModel("user7", "user7")
+            remoteParticipantsMap["user8"] = getParticipantInfoModel("user8", "user8")
+            remoteParticipantsMap["user9"] = getParticipantInfoModel("user9", "user9")
+
+            val emitResultFromRemoteParticipantsSharedFlow =
+                mutableListOf<List<ParticipantGridCellViewModel>>()
+            val flowJob = launch {
+                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
+                    .toList(emitResultFromRemoteParticipantsSharedFlow)
+            }
+
+            val dominantSpeakersInfo = listOf("user7", "user8")
+
+            // act
+            participantGridViewModel.update(5, remoteParticipantsMap.toMutableMap(), dominantSpeakersInfo, 5)
+
+            // assert
+
+            val emittedResult = emitResultFromRemoteParticipantsSharedFlow[1]
+
+            assertEquals(
+                6,
+                emittedResult.size
+            )
+
+            val participantViewModelFirst = emittedResult[0]
+            val participantViewModelSecond = emittedResult[1]
+            val participantViewModelThird = emittedResult[2]
+            val participantViewModelFourth = emittedResult[3]
+            val participantViewModelFifth = emittedResult[4]
+            val participantViewModelSixth = emittedResult[5]
+
+            assertTrue(participantViewModelFirst.getParticipantUserIdentifier() == "user7" && participantViewModelFirst.getDisplayNameStateFlow().value == "user7")
+            assertTrue(participantViewModelSecond.getParticipantUserIdentifier() == "user8" && participantViewModelSecond.getDisplayNameStateFlow().value == "user8")
+            assertTrue(participantViewModelThird.getParticipantUserIdentifier() == "user5" && participantViewModelThird.getDisplayNameStateFlow().value == "user5")
+            assertTrue(participantViewModelFourth.getParticipantUserIdentifier() == "user1" && participantViewModelFourth.getDisplayNameStateFlow().value == "user1")
+            assertTrue(participantViewModelFifth.getParticipantUserIdentifier() == "user2" && participantViewModelFifth.getDisplayNameStateFlow().value == "user2")
+            assertTrue(participantViewModelSixth.getParticipantUserIdentifier() == "user3" && participantViewModelSixth.getDisplayNameStateFlow().value == "user3")
+
+            flowJob.cancel()
+        }
+
     private fun getParticipantGridViewModel() = ParticipantGridViewModel(
         ParticipantGridCellViewModelFactory(),
         6
@@ -666,18 +855,18 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
     private fun getParticipantInfoModel(
         displayName: String,
         id: String,
-        timestamp: Number = 0,
         screenShareVideoStreamModel: VideoStreamModel? = null,
         cameraVideoStreamModel: VideoStreamModel? = null,
+        isMuted: Boolean = true,
+        isSpeaking: Boolean = false,
     ) = ParticipantInfoModel(
         displayName,
         id,
-        isMuted = true,
-        isSpeaking = true,
+        isMuted = isMuted,
+        isSpeaking = isSpeaking,
         ParticipantStatus.CONNECTED,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,
-        modifiedTimestamp = timestamp,
-        speakingTimestamp = timestamp
+        modifiedTimestamp = 0,
     )
 }
