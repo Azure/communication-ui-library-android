@@ -67,13 +67,13 @@ steps:
     tasks: ':chat:build --stacktrace'
 
 - task: Gradle@2
-  displayName: 'demo-app assembleDebug'
+  displayName: 'build (compile, lint, test)'
   inputs:
     workingDirectory: 'azure-communication-ui'
     gradleWrapperFile: 'azure-communication-ui/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
-    tasks: ':demo-app:assembleDebug --stacktrace'
+    tasks: 'build --stacktrace'
 
 - task: Gradle@2
   displayName: 'Coverage report for all packages'
