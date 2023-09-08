@@ -38,6 +38,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var skipSetupScreenCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
+    private lateinit var endCallOnDefaultCheckBox: CheckBox
+    private lateinit var relaunchCompositeOnExitCheckbox: CheckBox
     private lateinit var supportedScreenOrientations: List<String>
     private lateinit var callScreenOrientationAdapterLayout: TextInputLayout
     private lateinit var setupScreenOrientationAdapterLayout: TextInputLayout
@@ -103,6 +105,10 @@ class SettingsActivity : AppCompatActivity() {
 
         updateCameraOnByDefaultCheckbox()
 
+        updateEndCallOnDefaultCheckBox()
+
+        relaunchCompositeOnExitCheckbox()
+
         saveRenderedDisplayName()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
@@ -159,6 +165,18 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.composite_end_call_button_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        END_CALL_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.re_launch_on_exit_success -> {
+                    sharedPreference.edit().putBoolean(
+                        LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -177,6 +195,12 @@ class SettingsActivity : AppCompatActivity() {
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
+        callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
+        setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
+        callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
+        setupScreenOrientationAutoCompleteTextView = findViewById(R.id.setup_screen_orientation_auto_complete_text_view)
+        endCallOnDefaultCheckBox = findViewById(R.id.composite_end_call_button_checkbox)
+        relaunchCompositeOnExitCheckbox = findViewById(R.id.re_launch_on_exit_success)
         callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
         setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
         callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
@@ -336,6 +360,20 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
         )
     }
+
+    private fun updateEndCallOnDefaultCheckBox() {
+        endCallOnDefaultCheckBox.isChecked = sharedPreference.getBoolean(
+            END_CALL_ON_BY_DEFAULT_KEY,
+            DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
+        )
+    }
+
+    private fun relaunchCompositeOnExitCheckbox() {
+        relaunchCompositeOnExitCheckbox.isChecked = sharedPreference.getBoolean(
+            LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY,
+            LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -366,3 +404,7 @@ const val MIC_ON_BY_DEFAULT_KEY = "MIC_ON_BY_DEFAULT_KEY"
 const val DEFAULT_MIC_ON_BY_DEFAULT_VALUE = false
 const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false
+const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
+const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
+const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
+const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false

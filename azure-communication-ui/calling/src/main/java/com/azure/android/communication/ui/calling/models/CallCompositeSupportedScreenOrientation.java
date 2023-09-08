@@ -7,7 +7,22 @@ import com.azure.android.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
-public class CallCompositeSupportedScreenOrientation
+/**
+ * A call composite screen orientation.
+ *
+ * <pre>
+ *
+ * &#47;&#47; Initialize the call composite builder with different parameters
+ * final CallCompositeBuilder builder = new CallCompositeBuilder&#40;&#41;
+ *     .setupScreenOrientation&#40;CallCompositeSupportedScreenOrientation.PORTRAIT&#41;
+ *     .callScreenOrientation&#40;CallCompositeSupportedScreenOrientation.LANDSCAPE&#41;;
+ *
+ * &#47;&#47; Build the call composite
+ * CallComposite callComposite = builder.build&#40;&#41;;
+ *
+ * </pre>
+ */
+public final class CallCompositeSupportedScreenOrientation
         extends ExpandableStringEnum<CallCompositeSupportedScreenOrientation> {
 
     /**

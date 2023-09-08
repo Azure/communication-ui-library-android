@@ -116,6 +116,8 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.removeOnIsTranscriptionActiveChangedListener(
             onTranscriptionChanged
         )
+        dominantSpeakersCallFeature.removeOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
     }
 
