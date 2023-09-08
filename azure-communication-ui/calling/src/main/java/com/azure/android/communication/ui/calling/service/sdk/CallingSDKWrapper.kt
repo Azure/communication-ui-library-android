@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import android.util.Log
 import com.azure.android.communication.calling.AcceptCallOptions
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
@@ -27,6 +28,7 @@ import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.ui.calling.CallCompositeException
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
@@ -94,7 +96,13 @@ internal class CallingSDKWrapper(
 
     override fun getCamerasCountStateFlow() = camerasCountStateFlow
     override fun registerIncomingCallPushNotification(token: String) {
-        callAgentCompletableFuture?.get()?.registerPushNotification(token)
+        callAgentCompletableFuture?.get()?.registerPushNotification(token)?.whenComplete { t, u ->
+            if (u!= null) {
+                Log.d("CallingSDKWrapper", "registerIncomingCallPushNotification: fail")
+            } else {
+                Log.d("CallingSDKWrapper", "registerIncomingCallPushNotification: success")
+            }
+        }
     }
 
     override fun getCallingStateWrapperSharedFlow() =
@@ -403,6 +411,7 @@ internal class CallingSDKWrapper(
                     if (error != null) {
                         callAgentCompletableFuture!!.completeExceptionally(error)
                     } else {
+                        callAgent.registerPushNotification(CallCompositeConfiguration.deviceToken)
                         callAgentCompletableFuture!!.complete(callAgent)
                         callAgent.addOnIncomingCallListener { incomingCall ->
                             this.incomingCall = incomingCall
@@ -558,9 +567,10 @@ internal class CallingSDKWrapper(
         videoDevicesUpdatedListener?.let {
             deviceManagerCompletableFuture?.get()?.removeOnCamerasUpdatedListener(it)
         }
-        callAgentCompletableFuture?.get()?.dispose()
-        callClient = null
+        //callAgentCompletableFuture?.get()?.dispose()
+        //callClient = null
         nullableCall = null
+        incomingCall = null
         callAgentCompletableFuture = null
         localVideoStreamCompletableFuture = null
         camerasInitializedCompletableFuture = null

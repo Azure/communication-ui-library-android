@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
@@ -32,7 +33,9 @@ class CallLauncherActivityErrorHandler(
             println("call id: $lastCallId")
             println(it.cause)
             println(it.errorCode)
-
+            Log.d("Message N Inder", it.cause.toString())
+            Log.d("Message N Inder", it.errorCode.toString())
+            Log.d("Message N Inder", lastCallId)
             runOnUiThread {
                 val builder = AlertDialog.Builder(context).apply {
                     setMessage("${it.errorCode} ${it.cause?.message}. Call id: $lastCallId")

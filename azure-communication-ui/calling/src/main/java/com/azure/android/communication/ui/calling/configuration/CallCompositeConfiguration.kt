@@ -9,6 +9,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 
 internal class CallCompositeConfiguration {
+    companion object {
+        var deviceToken: String? = null
+    }
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()

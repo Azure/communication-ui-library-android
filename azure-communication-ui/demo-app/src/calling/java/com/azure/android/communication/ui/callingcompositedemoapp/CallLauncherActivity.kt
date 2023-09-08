@@ -43,6 +43,7 @@ class CallLauncherActivity : AppCompatActivity() {
     
     companion object {
         var callLauncherActivity: CallLauncherActivity? = null
+        var deviceToken: String? = null
     }
 
     private lateinit var binding: ActivityCallLauncherBinding
@@ -230,7 +231,9 @@ class CallLauncherActivity : AppCompatActivity() {
             val token = task.result
 
             // Log and toast
-            Log.d("FirebaseTest ", token)
+            Log.d("FirebaseToken ", token)
+
+            deviceToken = token
 
             val callComposite = CallCompositeBuilder().build()
             val communicationTokenRefreshOptions =
@@ -255,8 +258,11 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
     private fun showAlert(message: String, title: String = "Alert") {
+        Log.d("Message N Inder", message)
+        Log.d("Message N Inder", title)
         runOnUiThread {
             val builder = AlertDialog.Builder(this).apply {
+
                 setMessage(message)
                 setTitle(title)
                 setPositiveButton("OK") { _, _ ->

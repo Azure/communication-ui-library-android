@@ -23,6 +23,8 @@ public final class CallCompositeBuilder {
     private Boolean enableMultitasking = false;
     private Boolean enableSystemPiPWhenMultitasking = false;
 
+    private String deviceToken = null;
+
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
@@ -82,6 +84,11 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    public CallCompositeBuilder deviceToken(final String s) {
+        deviceToken = s;
+        return this;
+    }
+
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
@@ -95,6 +102,7 @@ public final class CallCompositeBuilder {
         config.setSetupScreenOrientation(this.setupScreenOrientation);
         config.setEnableMultitasking(enableMultitasking);
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
+        CallCompositeConfiguration.Companion.setDeviceToken(deviceToken);
         return new CallComposite(config);
     }
 }

@@ -110,6 +110,7 @@ class CallLauncherViewModel : ViewModel() {
         callComposite.addOnCallStateEventHandler(callStateEventHandler)
         callComposite.addOnExitEventHandler(exitEventHandler)
         isExitRequested = false
+        notificationData = null
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
@@ -138,6 +139,7 @@ class CallLauncherViewModel : ViewModel() {
             .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
+            .deviceToken(CallLauncherActivity.deviceToken!!)
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
