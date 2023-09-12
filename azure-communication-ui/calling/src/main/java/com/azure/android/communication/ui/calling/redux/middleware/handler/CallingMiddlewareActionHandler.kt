@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -230,6 +231,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeIsMutedUpdate(store)
         subscribeIsRecordingUpdate(store)
         subscribeIsTranscribingUpdate(store)
+        subscribeToUserFacingDiagnosticsUpdates(store)
         subscribeCallInfoModelEventUpdate(store)
         subscribeCallIdUpdate(store)
         subscribeCamerasCountUpdate(store)
@@ -365,6 +367,29 @@ internal class CallingMiddlewareActionHandlerImpl(
         coroutineScope.launch {
             callingService.getIsTranscribingSharedFlow().collect {
                 val action = CallingAction.IsTranscribingUpdated(it)
+                store.dispatch(action)
+            }
+        }
+    }
+
+    private fun subscribeToUserFacingDiagnosticsUpdates(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getNetworkQualityCallDiagnosticsFlow().collect {
+                val action = CallDiagnosticsAction.NetworkQualityCallDiagnosticsUpdated(it)
+                store.dispatch(action)
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getNetworkCallDiagnosticsFlow().collect {
+                val action = CallDiagnosticsAction.NetworkCallDiagnosticsUpdated(it)
+                store.dispatch(action)
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getMediaCallDiagnosticsFlow().collect {
+                val action = CallDiagnosticsAction.MediaCallDiagnosticsUpdated(it)
                 store.dispatch(action)
             }
         }

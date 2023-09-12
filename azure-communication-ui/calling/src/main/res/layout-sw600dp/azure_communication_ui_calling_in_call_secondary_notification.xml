@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.InCallSecondaryNotificationView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/azure_communication_ui_in_call_secondary_notification"
+    android:layout_width="380dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:alpha="0.8"
+    android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_6dp_floating_header"
+    android:importantForAccessibility="yes"
+    android:visibility="gone"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_floating_header"
+    >
+
+    <ImageView
+        android:id="@+id/azure_communication_ui_in_call_notification_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
+        android:contentDescription="@string/azure_communication_ui_calling_view_participant_list_open_accessibility_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_filled_grey"
+        />
+
+    <TextView
+        android:id="@+id/azure_communication_ui_in_call_notification_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/azure_communication_ui_calling_color_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/azure_communication_ui_in_call_notification_dismiss_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
+        android:contentDescription="@string/azure_communication_ui_calling_view_participant_list_open_accessibility_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_dismiss_12_regular"
+        />
+</com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.InCallSecondaryNotificationView>
+

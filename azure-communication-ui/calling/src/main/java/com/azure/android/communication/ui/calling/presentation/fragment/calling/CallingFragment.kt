@@ -31,6 +31,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.InCallPrimaryNotificationView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.InCallSecondaryNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
@@ -54,6 +56,8 @@ internal class CallingFragment :
     private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
     private lateinit var infoHeaderView: InfoHeaderView
+    private lateinit var inCallPrimaryNotificationView: InCallPrimaryNotificationView
+    private lateinit var inCallSecondaryNotificationView: InCallSecondaryNotificationView
     private lateinit var participantGridView: ParticipantGridView
     private lateinit var audioDeviceListView: AudioDeviceListView
     private lateinit var participantListView: ParticipantListView
@@ -118,6 +122,20 @@ internal class CallingFragment :
             viewLifecycleOwner,
             viewModel.floatingHeaderViewModel,
             this::displayParticipantList,
+            accessibilityManager.isEnabled
+        )
+
+        inCallPrimaryNotificationView = view.findViewById(R.id.azure_communication_ui_in_call_primary_notification)
+        inCallPrimaryNotificationView.start(
+            viewLifecycleOwner,
+            viewModel.inCallPrimaryNotificationViewModel,
+            accessibilityManager.isEnabled
+        )
+
+        inCallSecondaryNotificationView = view.findViewById(R.id.azure_communication_ui_in_call_secondary_notification)
+        inCallSecondaryNotificationView.start(
+            viewLifecycleOwner,
+            viewModel.inCallSecondaryNotificationViewModel,
             accessibilityManager.isEnabled
         )
 

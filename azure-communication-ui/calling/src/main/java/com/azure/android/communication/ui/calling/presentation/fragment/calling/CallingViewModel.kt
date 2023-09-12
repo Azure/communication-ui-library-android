@@ -28,6 +28,8 @@ internal class CallingViewModel(
     val confirmLeaveOverlayViewModel = callingViewModelProvider.confirmLeaveOverlayViewModel
     val localParticipantViewModel = callingViewModelProvider.localParticipantViewModel
     val floatingHeaderViewModel = callingViewModelProvider.floatingHeaderViewModel
+    val inCallPrimaryNotificationViewModel = callingViewModelProvider.inCallPrimaryNotificationViewModel
+    val inCallSecondaryNotificationViewModel = callingViewModelProvider.inCallSecondaryNotificationViewModel
     val audioDeviceListViewModel = callingViewModelProvider.audioDeviceListViewModel
     val participantListViewModel = callingViewModelProvider.participantListViewModel
     val bannerViewModel = callingViewModelProvider.bannerViewModel
@@ -73,6 +75,17 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             state.remoteParticipantState.participantMap.count()
         )
+
+        inCallPrimaryNotificationViewModel.init(
+            state.callState.callingStatus,
+            state.remoteParticipantState.participantMap.count()
+        )
+
+        inCallSecondaryNotificationViewModel.init(
+            state.callState.callingStatus,
+            state.remoteParticipantState.participantMap.count()
+        )
+
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
         )
@@ -154,6 +167,8 @@ internal class CallingViewModel(
                 mapOf(),
             )
             floatingHeaderViewModel.dismiss()
+            inCallPrimaryNotificationViewModel.dismiss()
+            inCallSecondaryNotificationViewModel.dismiss()
             participantListViewModel.closeParticipantList()
             localParticipantViewModel.update(
                 state.localParticipantState.displayName,
@@ -174,6 +189,14 @@ internal class CallingViewModel(
 
             floatingHeaderViewModel.update(
                 state.remoteParticipantState.participantMap.count()
+            )
+
+            inCallPrimaryNotificationViewModel.update(
+                state.callDiagnosticsState
+            )
+
+            inCallSecondaryNotificationViewModel.update(
+                state.callDiagnosticsState
             )
 
             participantListViewModel.update(

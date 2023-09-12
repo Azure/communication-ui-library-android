@@ -37,6 +37,7 @@ import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddle
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
@@ -205,6 +206,7 @@ internal class DependencyInjectionContainerImpl(
     private val errorReducer get() = ErrorReducerImpl()
     private val navigationReducer get() = NavigationReducerImpl()
     private val audioSessionReducer get() = AudioSessionStateReducerImpl()
+    private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
@@ -226,6 +228,7 @@ internal class DependencyInjectionContainerImpl(
             errorReducer,
             navigationReducer,
             audioSessionReducer,
+            callDiagnosticsReducer
         ) as Reducer<ReduxState>
     }
     //endregion
