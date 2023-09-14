@@ -259,7 +259,8 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
-                callType));
+                callType,
+                localOptions != null ? localOptions.isDisplayCallDiagnosticsOn() : false));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);

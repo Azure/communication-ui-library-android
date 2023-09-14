@@ -3,12 +3,12 @@
    Licensed under the MIT License.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/settings_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -90,6 +90,15 @@
             android:layout_marginTop="@dimen/azure_communication_ui_calling_inner_space_padding"
             />
 
+        <CheckBox
+            android:id="@+id/call_diagnostics_control_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/call_diagnostics_control"
+            tools:ignore="UsingOnClickInXml"
+            />
+
         <TextView
             android:id="@+id/callSellingAvatarInjection"
             android:layout_width="match_parent"
@@ -97,8 +106,7 @@
             android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
             android:text="@string/local_avatar_injection"
             android:textSize="24sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"

@@ -28,6 +28,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var isRTLCheckBox: CheckBox
     private lateinit var languageSettingLabelView: TextView
     private lateinit var callSettingLabelView: TextView
+    private lateinit var callDiagnosticsEnabledCheckBox: CheckBox
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
@@ -77,6 +78,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateCameraOnByDefaultCheckbox()
 
+        updateCallDiagnosticsEnabledCheckbox()
+
         saveRenderedDisplayName()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
@@ -123,6 +126,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.call_diagnostics_control_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -141,6 +150,7 @@ class SettingsActivity : AppCompatActivity() {
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
+        callDiagnosticsEnabledCheckBox = findViewById(R.id.call_diagnostics_control_check_box)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -256,6 +266,13 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
         )
     }
+
+    private fun updateCallDiagnosticsEnabledCheckbox() {
+        callDiagnosticsEnabledCheckBox.isChecked = sharedPreference.getBoolean(
+            CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY,
+            DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -280,3 +297,5 @@ const val MIC_ON_BY_DEFAULT_KEY = "MIC_ON_BY_DEFAULT_KEY"
 const val DEFAULT_MIC_ON_BY_DEFAULT_VALUE = false
 const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false
+const val CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY = "CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY"
+const val DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE = false

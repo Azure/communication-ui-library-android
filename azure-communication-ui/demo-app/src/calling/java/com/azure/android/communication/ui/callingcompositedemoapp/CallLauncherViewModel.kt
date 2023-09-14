@@ -61,6 +61,7 @@ class CallLauncherViewModel : ViewModel() {
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
+            .setDisplayCallDiagnosticsOn(SettingsFeatures.getCallDiagnosticsOnByDefaultOption())
 
         callComposite.launch(context, remoteOptions, localOptions)
     }

@@ -77,8 +77,8 @@ internal class CallingSDKEventHandler(
     private lateinit var recordingFeature: RecordingCallFeature
     private lateinit var transcriptionFeature: TranscriptionCallFeature
 
-    private lateinit var networkDiagnostics: NetworkDiagnostics
-    private lateinit var mediaDiagnostics: MediaDiagnostics
+    private var networkDiagnostics: NetworkDiagnostics? = null
+    private var mediaDiagnostics: MediaDiagnostics? = null
 
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> = remoteParticipantsCacheMap
 
@@ -108,6 +108,10 @@ internal class CallingSDKEventHandler(
         call = null
     }
 
+    fun enableCallDiagnostics() {
+        subscribeToUserFacingDiagnosticsEvents()
+    }
+
     fun onJoinCall(call: Call) {
         this.call = call
         call.addOnStateChangedListener(onCallStateChanged)
@@ -117,7 +121,7 @@ internal class CallingSDKEventHandler(
         recordingFeature.addOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
-        subscribeToUserFacingDiagnosticsEvents(call)
+        //subscribeToUserFacingDiagnosticsEvents(call)
     }
 
     fun onEndCall() {
@@ -542,51 +546,51 @@ internal class CallingSDKEventHandler(
         //endregion
     }
 
-    private fun subscribeToUserFacingDiagnosticsEvents(call : Call) {
-        networkDiagnostics = call.feature{ LocalUserDiagnosticsCallFeature::class.java }.networkDiagnostics
-        networkDiagnostics.addOnNetworkReconnectionQualityChangedListener(onNetworkReconnectionQualityChanged)
-        networkDiagnostics.addOnNetworkReceiveQualityChangedListener(onNetworkReceiveQualityChanged)
-        networkDiagnostics.addOnNetworkSendQualityChangedListener(onNetworkSendQualityChanged)
-        networkDiagnostics.addOnIsNetworkUnavailableChangedListener(onIsNetworkUnavailableChanged)
-        networkDiagnostics.addOnIsNetworkRelaysUnreachableChangedListener(onIsNetworkRelaysUnreachableChanged)
+    private fun subscribeToUserFacingDiagnosticsEvents() {
+        networkDiagnostics = this.call?.feature{ LocalUserDiagnosticsCallFeature::class.java }?.networkDiagnostics
+        networkDiagnostics?.addOnNetworkReconnectionQualityChangedListener(onNetworkReconnectionQualityChanged)
+        networkDiagnostics?.addOnNetworkReceiveQualityChangedListener(onNetworkReceiveQualityChanged)
+        networkDiagnostics?.addOnNetworkSendQualityChangedListener(onNetworkSendQualityChanged)
+        networkDiagnostics?.addOnIsNetworkUnavailableChangedListener(onIsNetworkUnavailableChanged)
+        networkDiagnostics?.addOnIsNetworkRelaysUnreachableChangedListener(onIsNetworkRelaysUnreachableChanged)
 
-        mediaDiagnostics = call.feature{ LocalUserDiagnosticsCallFeature::class.java }.mediaDiagnostics
-        mediaDiagnostics.addOnIsSpeakerNotFunctioningChangedListener(onIsSpeakerNotFunctioningChanged)
-        mediaDiagnostics.addOnIsSpeakerBusyChangedListener(onIsSpeakerBusyChanged)
-        mediaDiagnostics.addOnIsSpeakerMutedChangedListener(onIsSpeakerMutedChanged)
-        mediaDiagnostics.addOnIsSpeakerVolumeZeroChangedListener(onIsSpeakerVolumeZeroChanged)
-        mediaDiagnostics.addOnIsNoSpeakerDevicesAvailableChangedListener(onIsNoSpeakerDevicesAvailableChanged)
-        mediaDiagnostics.addOnIsSpeakingWhileMicrophoneIsMutedChangedListener(onIsSpeakingWhileMicrophoneIsMutedChanged)
-        mediaDiagnostics.addOnIsMicrophoneNotFunctioningChangedListener(onIsMicrophoneNotFunctioningChanged)
-        mediaDiagnostics.addOnIsMicrophoneBusyChangedListener(onIsMicrophoneBusyChanged)
-        mediaDiagnostics.addOnIsMicrophoneMutedUnexpectedlyChangedListener(onIsMicrophoneMutedUnexpectedlyChanged)
-        mediaDiagnostics.addOnIsNoMicrophoneDevicesAvailableChangedListener(onIsNoMicrophoneDevicesAvailableChanged)
-        mediaDiagnostics.addOnIsCameraFrozenChangedListener(onIsCameraFrozenChanged)
-        mediaDiagnostics.addOnIsCameraStartFailedChangedListener(onIsCameraStartFailedChanged)
-        mediaDiagnostics.addOnIsCameraStartTimedOutChangedListener(onIsCameraStartTimedOutChanged)
-        mediaDiagnostics.addOnIsCameraPermissionDeniedChangedListener(onIsCameraPermissionDeniedChanged)
+        mediaDiagnostics = call?.feature{ LocalUserDiagnosticsCallFeature::class.java }?.mediaDiagnostics
+        mediaDiagnostics?.addOnIsSpeakerNotFunctioningChangedListener(onIsSpeakerNotFunctioningChanged)
+        mediaDiagnostics?.addOnIsSpeakerBusyChangedListener(onIsSpeakerBusyChanged)
+        mediaDiagnostics?.addOnIsSpeakerMutedChangedListener(onIsSpeakerMutedChanged)
+        mediaDiagnostics?.addOnIsSpeakerVolumeZeroChangedListener(onIsSpeakerVolumeZeroChanged)
+        mediaDiagnostics?.addOnIsNoSpeakerDevicesAvailableChangedListener(onIsNoSpeakerDevicesAvailableChanged)
+        mediaDiagnostics?.addOnIsSpeakingWhileMicrophoneIsMutedChangedListener(onIsSpeakingWhileMicrophoneIsMutedChanged)
+        mediaDiagnostics?.addOnIsMicrophoneNotFunctioningChangedListener(onIsMicrophoneNotFunctioningChanged)
+        mediaDiagnostics?.addOnIsMicrophoneBusyChangedListener(onIsMicrophoneBusyChanged)
+        mediaDiagnostics?.addOnIsMicrophoneMutedUnexpectedlyChangedListener(onIsMicrophoneMutedUnexpectedlyChanged)
+        mediaDiagnostics?.addOnIsNoMicrophoneDevicesAvailableChangedListener(onIsNoMicrophoneDevicesAvailableChanged)
+        mediaDiagnostics?.addOnIsCameraFrozenChangedListener(onIsCameraFrozenChanged)
+        mediaDiagnostics?.addOnIsCameraStartFailedChangedListener(onIsCameraStartFailedChanged)
+        mediaDiagnostics?.addOnIsCameraStartTimedOutChangedListener(onIsCameraStartTimedOutChanged)
+        mediaDiagnostics?.addOnIsCameraPermissionDeniedChangedListener(onIsCameraPermissionDeniedChanged)
     }
 
     private fun unsubscribeFromUserFacingDiagnosticsEvents() {
-        networkDiagnostics.removeOnNetworkReconnectionQualityChangedListener(onNetworkReconnectionQualityChanged)
-        networkDiagnostics.removeOnNetworkReceiveQualityChangedListener(onNetworkReceiveQualityChanged)
-        networkDiagnostics.removeOnNetworkSendQualityChangedListener(onNetworkSendQualityChanged)
-        networkDiagnostics.removeOnIsNetworkUnavailableChangedListener(onIsNetworkUnavailableChanged)
-        networkDiagnostics.removeOnIsNetworkRelaysUnreachableChangedListener(onIsNetworkRelaysUnreachableChanged)
+        networkDiagnostics?.removeOnNetworkReconnectionQualityChangedListener(onNetworkReconnectionQualityChanged)
+        networkDiagnostics?.removeOnNetworkReceiveQualityChangedListener(onNetworkReceiveQualityChanged)
+        networkDiagnostics?.removeOnNetworkSendQualityChangedListener(onNetworkSendQualityChanged)
+        networkDiagnostics?.removeOnIsNetworkUnavailableChangedListener(onIsNetworkUnavailableChanged)
+        networkDiagnostics?.removeOnIsNetworkRelaysUnreachableChangedListener(onIsNetworkRelaysUnreachableChanged)
 
-        mediaDiagnostics.removeOnIsSpeakerNotFunctioningChangedListener(onIsSpeakerNotFunctioningChanged)
-        mediaDiagnostics.removeOnIsSpeakerBusyChangedListener(onIsSpeakerBusyChanged)
-        mediaDiagnostics.removeOnIsSpeakerMutedChangedListener(onIsSpeakerMutedChanged)
-        mediaDiagnostics.removeOnIsSpeakerVolumeZeroChangedListener(onIsSpeakerVolumeZeroChanged)
-        mediaDiagnostics.removeOnIsNoSpeakerDevicesAvailableChangedListener(onIsNoSpeakerDevicesAvailableChanged)
-        mediaDiagnostics.removeOnIsSpeakingWhileMicrophoneIsMutedChangedListener(onIsSpeakingWhileMicrophoneIsMutedChanged)
-        mediaDiagnostics.removeOnIsMicrophoneNotFunctioningChangedListener(onIsMicrophoneNotFunctioningChanged)
-        mediaDiagnostics.removeOnIsMicrophoneBusyChangedListener(onIsMicrophoneBusyChanged)
-        mediaDiagnostics.removeOnIsMicrophoneMutedUnexpectedlyChangedListener(onIsMicrophoneMutedUnexpectedlyChanged)
-        mediaDiagnostics.removeOnIsNoMicrophoneDevicesAvailableChangedListener(onIsNoMicrophoneDevicesAvailableChanged)
-        mediaDiagnostics.removeOnIsCameraFrozenChangedListener(onIsCameraFrozenChanged)
-        mediaDiagnostics.removeOnIsCameraStartFailedChangedListener(onIsCameraStartFailedChanged)
-        mediaDiagnostics.removeOnIsCameraStartTimedOutChangedListener(onIsCameraStartTimedOutChanged)
-        mediaDiagnostics.removeOnIsCameraPermissionDeniedChangedListener(onIsCameraPermissionDeniedChanged)
+        mediaDiagnostics?.removeOnIsSpeakerNotFunctioningChangedListener(onIsSpeakerNotFunctioningChanged)
+        mediaDiagnostics?.removeOnIsSpeakerBusyChangedListener(onIsSpeakerBusyChanged)
+        mediaDiagnostics?.removeOnIsSpeakerMutedChangedListener(onIsSpeakerMutedChanged)
+        mediaDiagnostics?.removeOnIsSpeakerVolumeZeroChangedListener(onIsSpeakerVolumeZeroChanged)
+        mediaDiagnostics?.removeOnIsNoSpeakerDevicesAvailableChangedListener(onIsNoSpeakerDevicesAvailableChanged)
+        mediaDiagnostics?.removeOnIsSpeakingWhileMicrophoneIsMutedChangedListener(onIsSpeakingWhileMicrophoneIsMutedChanged)
+        mediaDiagnostics?.removeOnIsMicrophoneNotFunctioningChangedListener(onIsMicrophoneNotFunctioningChanged)
+        mediaDiagnostics?.removeOnIsMicrophoneBusyChangedListener(onIsMicrophoneBusyChanged)
+        mediaDiagnostics?.removeOnIsMicrophoneMutedUnexpectedlyChangedListener(onIsMicrophoneMutedUnexpectedlyChanged)
+        mediaDiagnostics?.removeOnIsNoMicrophoneDevicesAvailableChangedListener(onIsNoMicrophoneDevicesAvailableChanged)
+        mediaDiagnostics?.removeOnIsCameraFrozenChangedListener(onIsCameraFrozenChanged)
+        mediaDiagnostics?.removeOnIsCameraStartFailedChangedListener(onIsCameraStartFailedChanged)
+        mediaDiagnostics?.removeOnIsCameraStartTimedOutChangedListener(onIsCameraStartTimedOutChanged)
+        mediaDiagnostics?.removeOnIsCameraPermissionDeniedChangedListener(onIsCameraPermissionDeniedChanged)
     }
 }

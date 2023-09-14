@@ -46,4 +46,5 @@
     <string name="call_control_option">Default Call Control Option</string>
     <string name="mic_control">Microphone On By Default</string>
     <string name="camera_control">Camera On By Default</string>
+    <string name="call_diagnostics_control">Call Diagnostics (UFDs) enabled</string>
 </resources>

@@ -36,6 +36,7 @@ public final class CallCompositeLocalOptions {
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
+    private boolean displayCallDiagnosticsOn = false;
 
     /**
      * Create LocalSettings.
@@ -146,6 +147,26 @@ public final class CallCompositeLocalOptions {
             final boolean microphoneOn
     ) {
         this.microphoneOn = microphoneOn;
+        return this;
+    }
+
+    /**
+     * Get the display call diagnostics enabled boolean value.
+     * @return The boolean that is currently set.
+     */
+    public boolean isDisplayCallDiagnosticsOn() {
+        return this.displayCallDiagnosticsOn;
+    }
+
+    /**
+     * Set a boolean to be used.
+     * @param displayCallDiagnosticsOn The boolean value to be enable or disable the display call diagnostics.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setDisplayCallDiagnosticsOn(
+            final boolean displayCallDiagnosticsOn
+    ) {
+        this.displayCallDiagnosticsOn = displayCallDiagnosticsOn;
         return this;
     }
 }
