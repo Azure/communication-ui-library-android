@@ -74,8 +74,7 @@ internal class CallingViewModel(
 
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
-            remoteParticipantsExcludingLobbyStatus.count(),
-            this::requestCallEnd,
+            remoteParticipantsExcludingLobbyStatus.count()
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
