@@ -1,5 +1,10 @@
 # Azure Communication UI Calling Release History
 
+## Upcoming
+
+### Bug Fixes
+- Hide lobby users in GridView and Participant List
+
 ## 1.4.0 (2023-08-30)
 
 ### Features
