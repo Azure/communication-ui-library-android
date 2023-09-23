@@ -28,8 +28,8 @@ internal class CallingViewModel(
     val confirmLeaveOverlayViewModel = callingViewModelProvider.confirmLeaveOverlayViewModel
     val localParticipantViewModel = callingViewModelProvider.localParticipantViewModel
     val floatingHeaderViewModel = callingViewModelProvider.floatingHeaderViewModel
-    val inCallPrimaryNotificationViewModel = callingViewModelProvider.inCallPrimaryNotificationViewModel
-    val inCallSecondaryNotificationViewModel = callingViewModelProvider.inCallSecondaryNotificationViewModel
+    val upperMessageBarNotificationLayoutViewModel = callingViewModelProvider.upperMessageBarNotificationLayoutViewModel
+    val toastNotificationViewModel = callingViewModelProvider.toastNotificationViewModel
     val audioDeviceListViewModel = callingViewModelProvider.audioDeviceListViewModel
     val participantListViewModel = callingViewModelProvider.participantListViewModel
     val bannerViewModel = callingViewModelProvider.bannerViewModel
@@ -76,14 +76,12 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count()
         )
 
-        inCallPrimaryNotificationViewModel.init(
-            state.callState.callingStatus,
-            state.remoteParticipantState.participantMap.count()
+        upperMessageBarNotificationLayoutViewModel.init(
+            state.callState.callingStatus
         )
 
-        inCallSecondaryNotificationViewModel.init(
-            state.callState.callingStatus,
-            state.remoteParticipantState.participantMap.count()
+        toastNotificationViewModel.init(
+            state.callState.callingStatus
         )
 
         audioDeviceListViewModel.init(
@@ -167,8 +165,7 @@ internal class CallingViewModel(
                 mapOf(),
             )
             floatingHeaderViewModel.dismiss()
-            inCallPrimaryNotificationViewModel.dismiss()
-            inCallSecondaryNotificationViewModel.dismiss()
+            toastNotificationViewModel.dismiss()
             participantListViewModel.closeParticipantList()
             localParticipantViewModel.update(
                 state.localParticipantState.displayName,
@@ -191,11 +188,11 @@ internal class CallingViewModel(
                 state.remoteParticipantState.participantMap.count()
             )
 
-            inCallPrimaryNotificationViewModel.update(
+            upperMessageBarNotificationLayoutViewModel.update(
                 state.callDiagnosticsState
             )
 
-            inCallSecondaryNotificationViewModel.update(
+            toastNotificationViewModel.update(
                 state.callDiagnosticsState
             )
 

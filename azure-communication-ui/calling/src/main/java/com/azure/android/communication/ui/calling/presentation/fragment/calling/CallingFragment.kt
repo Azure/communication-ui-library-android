@@ -31,8 +31,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.InCallPrimaryNotificationView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.InCallSecondaryNotificationView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
@@ -56,8 +56,8 @@ internal class CallingFragment :
     private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
     private lateinit var infoHeaderView: InfoHeaderView
-    private lateinit var inCallPrimaryNotificationView: InCallPrimaryNotificationView
-    private lateinit var inCallSecondaryNotificationView: InCallSecondaryNotificationView
+    private lateinit var upperMessageBarNotificationLayoutView : UpperMessageBarNotificationLayoutView
+    private lateinit var toastNotificationView: ToastNotificationView
     private lateinit var participantGridView: ParticipantGridView
     private lateinit var audioDeviceListView: AudioDeviceListView
     private lateinit var participantListView: ParticipantListView
@@ -125,17 +125,17 @@ internal class CallingFragment :
             accessibilityManager.isEnabled
         )
 
-        inCallPrimaryNotificationView = view.findViewById(R.id.azure_communication_ui_in_call_primary_notification)
-        inCallPrimaryNotificationView.start(
+        upperMessageBarNotificationLayoutView = view.findViewById(R.id.azure_communication_ui_upper_message_bar_notifications_layout)
+        upperMessageBarNotificationLayoutView.start(
             viewLifecycleOwner,
-            viewModel.inCallPrimaryNotificationViewModel,
+            viewModel.upperMessageBarNotificationLayoutViewModel,
             accessibilityManager.isEnabled
         )
 
-        inCallSecondaryNotificationView = view.findViewById(R.id.azure_communication_ui_in_call_secondary_notification)
-        inCallSecondaryNotificationView.start(
+        toastNotificationView = view.findViewById(R.id.azure_communication_ui_toast_notification)
+        toastNotificationView.start(
             viewLifecycleOwner,
-            viewModel.inCallSecondaryNotificationViewModel,
+            viewModel.toastNotificationViewModel,
             accessibilityManager.isEnabled
         )
 
