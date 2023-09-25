@@ -75,7 +75,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <include layout="@layout/azure_communication_ui_calling_in_call_toast_notification" />
+    <include layout="@layout/azure_communication_ui_calling_toast_notification" />
 
     <LinearLayout
         android:id="@+id/azure_communication_ui_calling_control_bar_view_wrapper"

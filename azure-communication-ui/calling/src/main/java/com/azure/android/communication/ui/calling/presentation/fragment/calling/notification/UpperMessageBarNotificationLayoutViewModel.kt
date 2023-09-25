@@ -40,7 +40,7 @@ internal class UpperMessageBarNotificationLayoutViewModel {
     fun update(callDiagnosticsState: CallDiagnosticsState) {
 
         when(callDiagnosticsState.mediaCallDiagnostic?.diagnosticKind) {
-            MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> {
+            /*MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> {
                 if (mediaDiagnosticNotificationViews[MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED] == null &&
                     callDiagnosticsState.mediaCallDiagnostic.diagnosticValue) {
                     var upperMessageBarNotificationModel = UpperMessageBarNotificationModel()
@@ -53,7 +53,7 @@ internal class UpperMessageBarNotificationLayoutViewModel {
                     dismissUpperMessageBarNotificationFlow.value = mediaDiagnosticNotificationViews[MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED]!!
                     mediaDiagnosticNotificationViews.remove(MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED)
                 }
-            }
+            }*/
             MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE -> {
                 if (mediaDiagnosticNotificationViews[MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE] == null &&
                     callDiagnosticsState.mediaCallDiagnostic.diagnosticValue) {

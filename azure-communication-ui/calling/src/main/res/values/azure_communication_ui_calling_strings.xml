@@ -122,6 +122,6 @@
     <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Unable to locate microphone</string>
     <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Speaker is muted</string>
 
-    <!--    In Call Top Notification -->
+    <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Dismiss</string>
 </resources>
