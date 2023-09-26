@@ -39,6 +39,7 @@ internal class CallingService(
     private val isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+    private val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
     private var callIdStateFlow = MutableStateFlow<String?>(null)
@@ -85,6 +86,10 @@ internal class CallingService(
 
     fun getParticipantsInfoModelSharedFlow(): SharedFlow<Map<String, ParticipantInfoModel>> {
         return participantsInfoModelSharedFlow
+    }
+
+    fun getDominantSpeakersSharedFlow(): SharedFlow<List<String>> {
+        return dominantSpeakersSharedFlow
     }
 
     fun getIsMutedSharedFlow(): Flow<Boolean> {
@@ -199,6 +204,12 @@ internal class CallingService(
             }
         }
         //endregion
+
+        coroutineScope.launch {
+            callingSdk.getDominantSpeakersSharedFlow().collect {
+                dominantSpeakersSharedFlow.emit(it.speakers)
+            }
+        }
 
         return callingSdk.startCall(cameraState, audioState)
     }

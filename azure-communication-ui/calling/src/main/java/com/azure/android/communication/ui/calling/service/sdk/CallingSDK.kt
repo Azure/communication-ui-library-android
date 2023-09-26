@@ -47,6 +47,7 @@ internal interface CallingSDK {
     fun getLocalVideoStream(): CompletableFuture<LocalVideoStream>
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant>
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean>
+    fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo>
     fun getIsRecordingSharedFlow(): SharedFlow<Boolean>
     fun getIsMutedSharedFlow(): SharedFlow<Boolean>
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
@@ -76,6 +77,10 @@ internal interface RemoteParticipant {
     fun removeOnIsSpeakingChangedListener(listener: PropertyChangedListener?)
     fun addOnStateChangedListener(listener: PropertyChangedListener?)
     fun removeOnStateChangedListener(listener: PropertyChangedListener?)
+}
+
+internal interface DominantSpeakersInfo {
+    val speakers: List<String>
 }
 
 internal sealed class CommunicationIdentifier(val id: String) {

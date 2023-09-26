@@ -1,3 +1,13 @@
-# These owners will be the default owners for everything in
-# the repo. Unless a later match takes precedence
-* @Azure/acs-ui-android-reviewer-1 @Azure/acs-ui-android-reviewer-2 @Azure/acs-ui-android-reviewer-3
+# Instructions for CODEOWNERS file format:
+ # https://github.com/Azure/azure-sdk/blob/main/docs/policies/opensource.md#codeowners
+
+ # These owners will be the default owners for everything in the repository unless a later match takes precedencet.
+ *                                                           @Azure/acs-ui-mobile-calling-reviewer-1 @Azure/acs-ui-mobile-calling-reviewer-2 @Azure/acs-ui-mobile-chat-reviewer-1 @Azure/acs-ui-mobile-chat-reviewer-2
+
+ # azure-communication-ui-calling
+ /azure-communication-ui/calling/                            @Azure/acs-ui-mobile-calling-reviewer-1 @Azure/acs-ui-mobile-calling-reviewer-2
+ /azure-communication-ui/demo-app/src/calling/               @Azure/acs-ui-mobile-calling-reviewer-1 @Azure/acs-ui-mobile-calling-reviewer-2
+
+ # azure-communication-ui-chat
+ /azure-communication-ui/chat/                               @Azure/acs-ui-mobile-chat-reviewer-1 @Azure/acs-ui-mobile-chat-reviewer-2
+ /azure-communication-ui/demo-app/src/chat/                  @Azure/acs-ui-mobile-chat-reviewer-1 @Azure/acs-ui-mobile-chat-reviewer-2

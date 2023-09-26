@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
@@ -38,6 +39,15 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var skipSetupScreenCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
+    private lateinit var endCallOnDefaultCheckBox: CheckBox
+    private lateinit var relaunchCompositeOnExitCheckbox: CheckBox
+    private lateinit var supportedScreenOrientations: List<String>
+    private lateinit var callScreenOrientationAdapterLayout: TextInputLayout
+    private lateinit var setupScreenOrientationAdapterLayout: TextInputLayout
+    private lateinit var callScreenOrientationAutoCompleteTextView: AutoCompleteTextView
+    private lateinit var setupScreenOrientationAutoCompleteTextView: AutoCompleteTextView
+    private lateinit var callScreenOrientationArrayAdapter: ArrayAdapter<String>
+    private lateinit var setupScreenOrientationArrayAdapter: ArrayAdapter<String>
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -52,7 +62,11 @@ class SettingsActivity : AppCompatActivity() {
         supportedLanguages = CallCompositeSupportedLocale.getSupportedLocales().map {
             SettingsFeatures.displayLanguageName(it)
         }
+        supportedScreenOrientations = CallCompositeSupportedScreenOrientation.values().map {
+            SettingsFeatures.displayOrientationName(it)
+        }
         setLanguageInSharedPrefForFirstTime()
+        setScreenOrientationInSharedPrefForFirstTime()
         updateRenderedDisplayNameText()
         updateTitle()
         updateSubtitle()
@@ -68,6 +82,20 @@ class SettingsActivity : AppCompatActivity() {
 
         setLanguageInAdapter()
 
+        callScreenOrientationArrayAdapter =
+            ArrayAdapter(applicationContext, R.layout.screen_orientation_dropdown_item, supportedScreenOrientations)
+        callScreenOrientationAutoCompleteTextView.setAdapter(callScreenOrientationArrayAdapter)
+        callScreenOrientationArrayAdapter.filter.filter(null)
+
+        setOrientationInCallScreenOrientationAdapter()
+
+        setupScreenOrientationArrayAdapter =
+            ArrayAdapter(applicationContext, R.layout.screen_orientation_dropdown_item, supportedScreenOrientations)
+        setupScreenOrientationAutoCompleteTextView.setAdapter(setupScreenOrientationArrayAdapter)
+        setupScreenOrientationArrayAdapter.filter.filter(null)
+
+        setOrientationInSetupScreenOrientationAdapter()
+
         updateRTLCheckbox()
 
         updateAvatarInjectionCheckbox()
@@ -79,6 +107,10 @@ class SettingsActivity : AppCompatActivity() {
         updateCameraOnByDefaultCheckbox()
 
         updateCallDiagnosticsEnabledCheckbox()
+        
+        updateEndCallOnDefaultCheckBox()
+
+        relaunchCompositeOnExitCheckbox()
 
         saveRenderedDisplayName()
 
@@ -86,6 +118,16 @@ class SettingsActivity : AppCompatActivity() {
             val selectedItem: String = supportedLanguages[position]
             setLanguageValueInSharedPref(selectedItem)
             updateRTLCheckbox()
+        }
+
+        callScreenOrientationAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem: String = supportedScreenOrientations[position]
+            saveCallScreenOrientationInSharedPref(selectedItem)
+        }
+
+        setupScreenOrientationAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem: String = supportedScreenOrientations[position]
+            saveSetupScreenOrientationInSharedPref(selectedItem)
         }
     }
 
@@ -131,6 +173,17 @@ class SettingsActivity : AppCompatActivity() {
                         CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY,
                         view.isChecked
                     ).apply()
+                R.id.composite_end_call_button_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        END_CALL_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.re_launch_on_exit_success -> {
+                    sharedPreference.edit().putBoolean(
+                        LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY,
+                        view.isChecked
+                    ).apply()
                 }
             }
         }
@@ -151,6 +204,16 @@ class SettingsActivity : AppCompatActivity() {
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
         callDiagnosticsEnabledCheckBox = findViewById(R.id.call_diagnostics_control_check_box)
+        callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
+        setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
+        callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
+        setupScreenOrientationAutoCompleteTextView = findViewById(R.id.setup_screen_orientation_auto_complete_text_view)
+        endCallOnDefaultCheckBox = findViewById(R.id.composite_end_call_button_checkbox)
+        relaunchCompositeOnExitCheckbox = findViewById(R.id.re_launch_on_exit_success)
+        callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
+        setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
+        callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
+        setupScreenOrientationAutoCompleteTextView = findViewById(R.id.setup_screen_orientation_auto_complete_text_view)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -178,6 +241,13 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    private fun setScreenOrientationInSharedPrefForFirstTime() {
+        if (isFirstRun()) {
+            saveCallScreenOrientationInSharedPref(DEFAULT_CALL_SCREEN_ORIENTATION_VALUE)
+            saveSetupScreenOrientationInSharedPref(DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE)
+        }
+    }
+
     private fun setLanguageInAdapter() {
 
         autoCompleteTextView.setText(
@@ -188,6 +258,29 @@ class SettingsActivity : AppCompatActivity() {
             true
         )
         languageArrayAdapter.filter.filter(null)
+    }
+
+    private fun setOrientationInCallScreenOrientationAdapter() {
+
+        callScreenOrientationAutoCompleteTextView.setText(
+            sharedPreference.getString(
+                CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY,
+                DEFAULT_CALL_SCREEN_ORIENTATION_VALUE
+            ),
+            true
+        )
+        callScreenOrientationArrayAdapter.filter.filter(null)
+    }
+
+    private fun setOrientationInSetupScreenOrientationAdapter() {
+        setupScreenOrientationAutoCompleteTextView.setText(
+            sharedPreference.getString(
+                SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY,
+                DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
+            ),
+            true
+        )
+        setupScreenOrientationArrayAdapter.filter.filter(null)
     }
 
     private fun isFirstRun(): Boolean {
@@ -209,6 +302,16 @@ class SettingsActivity : AppCompatActivity() {
             LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
             DEFAULT_LANGUAGE_VALUE
         )
+    }
+
+    private fun saveCallScreenOrientationInSharedPref(orientationValue: String) {
+        sharedPreference.edit().putString(CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY, orientationValue)
+            .apply()
+    }
+
+    private fun saveSetupScreenOrientationInSharedPref(orientationValue: String) {
+        sharedPreference.edit().putString(SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY, orientationValue)
+            .apply()
     }
 
     private fun saveRenderedDisplayName() {
@@ -273,12 +376,32 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE
         )
     }
+    
+    private fun updateEndCallOnDefaultCheckBox() {
+        endCallOnDefaultCheckBox.isChecked = sharedPreference.getBoolean(
+            END_CALL_ON_BY_DEFAULT_KEY,
+            DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
+        )
+    }
+
+    private fun relaunchCompositeOnExitCheckbox() {
+        relaunchCompositeOnExitCheckbox.isChecked = sharedPreference.getBoolean(
+            LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY,
+            LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
 const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
 const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "RTL_VALUE_OF_"
 const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
+
+// Shared pref keys for screen orientation settings
+const val CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY = "CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY"
+const val SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY = "SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY"
+const val DEFAULT_CALL_SCREEN_ORIENTATION_VALUE = "ACS_DEFAULT"
+const val DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE = "PORTRAIT"
 
 // Shared pref default values for language & rtl settings
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
@@ -299,3 +422,7 @@ const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false
 const val CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY = "CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE = false
+const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
+const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
+const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
+const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false

@@ -227,7 +227,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun startCall(store: Store<ReduxState>) {
 
-        subscribeRemoteParticipantsUpdate(store, coroutineScope)
+        subscribeRemoteParticipantsUpdate(store)
         subscribeIsMutedUpdate(store)
         subscribeIsRecordingUpdate(store)
         subscribeIsTranscribingUpdate(store)
@@ -235,6 +235,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeCallInfoModelEventUpdate(store)
         subscribeCallIdUpdate(store)
         subscribeCamerasCountUpdate(store)
+        subscribeDominantSpeakersUpdate(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -342,13 +343,24 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeRemoteParticipantsUpdate(
         store: Store<ReduxState>,
-        coroutineScope: CoroutineScope,
     ) {
         coroutineScope.launch {
             callingService.getParticipantsInfoModelSharedFlow().collect {
                 if (isActive) {
                     val participantUpdateAction = ParticipantAction.ListUpdated(HashMap(it))
                     store.dispatch(participantUpdateAction)
+                }
+            }
+        }
+    }
+
+    private fun subscribeDominantSpeakersUpdate(
+        store: Store<ReduxState>,
+    ) {
+        coroutineScope.launch {
+            callingService.getDominantSpeakersSharedFlow().collect {
+                if (isActive) {
+                    store.dispatch(ParticipantAction.DominantSpeakersUpdated(it))
                 }
             }
         }

@@ -81,8 +81,7 @@ internal class CallingFragment :
         confirmLeaveOverlayView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         confirmLeaveOverlayView.start(
-            viewLifecycleOwner,
-            holder.container.appStore.getCurrentState().callState
+            viewLifecycleOwner
         )
 
         controlBarView = view.findViewById(R.id.azure_communication_ui_call_call_buttons)

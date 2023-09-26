@@ -9,6 +9,7 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
 import com.azure.android.communication.calling.DiagnosticQuality
 import com.azure.android.communication.calling.DiagnosticQualityChangedListener
+import com.azure.android.communication.calling.DominantSpeakersCallFeature
 import com.azure.android.communication.calling.LocalUserDiagnosticsCallFeature
 import com.azure.android.communication.calling.MediaDiagnostics
 import com.azure.android.communication.calling.MediaStreamType
@@ -52,6 +53,7 @@ internal class CallingSDKEventHandler(
     private var isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+    private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow =
@@ -76,6 +78,7 @@ internal class CallingSDKEventHandler(
 
     private lateinit var recordingFeature: RecordingCallFeature
     private lateinit var transcriptionFeature: TranscriptionCallFeature
+    private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
 
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
@@ -98,6 +101,8 @@ internal class CallingSDKEventHandler(
     fun getNetworkCallDiagnosticsSharedFlow() : SharedFlow<NetworkCallDiagnosticModel> = networkCallDiagnosticsSharedFlow
     fun getMediaCallDiagnosticsSharedFlow() : SharedFlow<MediaCallDiagnosticModel> = mediaCallDiagnosticsSharedFlow
     //endregion
+    
+    fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
     @OptIn(FlowPreview::class)
     fun getRemoteParticipantInfoModelFlow(): Flow<Map<String, ParticipantInfoModel>> =
@@ -122,6 +127,8 @@ internal class CallingSDKEventHandler(
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         //subscribeToUserFacingDiagnosticsEvents(call)
+        dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
+        dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
     }
 
     fun onEndCall() {
@@ -142,6 +149,8 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.removeOnIsTranscriptionActiveChangedListener(
             onTranscriptionChanged
         )
+        dominantSpeakersCallFeature.removeOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
         unsubscribeFromUserFacingDiagnosticsEvents()
     }
@@ -320,6 +329,10 @@ internal class CallingSDKEventHandler(
         }
     }
     //endregion
+    private val onDominantSpeakersChanged =
+        PropertyChangedListener {
+            onDominantSpeakersChanged()
+        }
 
     private val onParticipantsUpdated =
         ParticipantsUpdatedListener {
@@ -381,6 +394,12 @@ internal class CallingSDKEventHandler(
         }
     }
 
+    private fun onDominantSpeakersChanged() {
+        coroutineScope.launch {
+            dominantSpeakersSharedFlow.emit(dominantSpeakersCallFeature.dominantSpeakersInfo.into())
+        }
+    }
+
     private fun addParticipants(remoteParticipantValue: List<RemoteParticipant>) {
         remoteParticipantValue.forEach { addedParticipant ->
             val id = ParticipantIdentifierHelper.getRemoteParticipantId(addedParticipant.identifier)
@@ -391,11 +410,7 @@ internal class CallingSDKEventHandler(
     }
 
     private fun onRemoteParticipantSpeakingEvent(id: String) {
-        val timestamp = System.currentTimeMillis()
-        if (!remoteParticipantsInfoModelMap[id]?.isMuted!! && remoteParticipantsInfoModelMap[id]?.isSpeaking!!) {
-            remoteParticipantsInfoModelMap[id]?.speakingTimestamp = timestamp
-        }
-        remoteParticipantsInfoModelMap[id]?.modifiedTimestamp = timestamp
+        remoteParticipantsInfoModelMap[id]?.modifiedTimestamp = System.currentTimeMillis()
         onRemoteParticipantUpdated()
     }
 
@@ -418,7 +433,6 @@ internal class CallingSDKEventHandler(
             ),
             cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
-            speakingTimestamp = if (participant.isSpeaking) currentTimestamp else 0,
             participantStatus = participant.state.into()
         )
     }
@@ -535,6 +549,7 @@ internal class CallingSDKEventHandler(
         isMutedSharedFlow = MutableSharedFlow()
         isRecordingSharedFlow = MutableSharedFlow()
         isTranscribingSharedFlow = MutableSharedFlow()
+        dominantSpeakersSharedFlow = MutableSharedFlow()
         callingStateWrapperSharedFlow = MutableSharedFlow()
         callIdSharedFlow = MutableStateFlow(null)
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
