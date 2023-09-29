@@ -173,6 +173,7 @@ class SettingsActivity : AppCompatActivity() {
                         CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY,
                         view.isChecked
                     ).apply()
+                }
                 R.id.composite_end_call_button_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         END_CALL_ON_BY_DEFAULT_KEY,
@@ -421,7 +422,7 @@ const val DEFAULT_MIC_ON_BY_DEFAULT_VALUE = false
 const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false
 const val CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY = "CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY"
-const val DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE = false
+const val DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE = true
 const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
 const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"

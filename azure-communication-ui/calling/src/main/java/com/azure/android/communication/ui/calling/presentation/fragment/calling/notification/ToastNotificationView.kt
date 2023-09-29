@@ -66,4 +66,8 @@ internal class ToastNotificationView : ConstraintLayout {
             }
         }
     }
+
+    fun stop() {
+        this.removeAllViews()
+    }
 }

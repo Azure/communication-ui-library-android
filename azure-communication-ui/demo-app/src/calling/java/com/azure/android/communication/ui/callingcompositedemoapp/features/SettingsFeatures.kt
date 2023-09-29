@@ -11,13 +11,13 @@ import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
+import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
-import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
@@ -152,7 +152,9 @@ class SettingsFeatures {
 
         @JvmStatic
         fun getCallDiagnosticsOnByDefaultOption(): Boolean {
-            return sharedPrefs.getBoolean(CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY, DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE)
+            return sharedPrefs.getBoolean(
+                CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY,
+                DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE
             )
         }
 

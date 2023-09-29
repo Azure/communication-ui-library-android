@@ -11,11 +11,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
-import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -41,7 +39,7 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
         dismissImageButton =
             findViewById(R.id.azure_communication_ui_upper_message_bar_notification_dismiss_button)
         dismissImageButton.setOnClickListener {
-            upperMessageBarNotificationViewModel.dismiss()
+            upperMessageBarNotificationViewModel.dismissNotification()
         }
     }
 
@@ -52,20 +50,8 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
     ) {
         this.upperMessageBarNotificationViewModel = upperMessageBarNotificationViewModel
         setupAccessibility()
-        viewLifecycleOwner.lifecycleScope.launch {
-            if (accessibilityEnabled) {
-                upperMessageBarNotificationLayout.visibility = View.VISIBLE
-            } else {
-                upperMessageBarNotificationViewModel.getDisplayUpperMessageBarNotificationFlow().collect {
-                    upperMessageBarNotificationLayout.visibility = if (it) View.VISIBLE else View.GONE
-                    // If we are on television, set the focus to the participants button
-                    if (it && isAndroidTV(context)) {
-                        dismissImageButton.requestFocus()
-                    }
-                }
-            }
-        }
 
+        upperMessageBarNotificationLayout.visibility = View.VISIBLE
         viewLifecycleOwner.lifecycleScope.launch {
             upperMessageBarNotificationViewModel.getUpperMessageBarNotificationModelFlow().collect {
                 if (!it.isEmpty()) {
@@ -76,17 +62,6 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
                         )
                     )
                     upperMessageBarNotificationMessage.text = context.getString(it.notificationMessageId)
-                }
-
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            upperMessageBarNotificationViewModel.getIsOverlayDisplayedFlow().collect {
-                if (it) {
-                    ViewCompat.setImportantForAccessibility(upperMessageBarNotificationView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
-                } else {
-                    ViewCompat.setImportantForAccessibility(upperMessageBarNotificationView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
                 }
             }
         }

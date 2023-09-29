@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -32,19 +32,7 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
         accessibilityEnabled: Boolean
     ) {
         this.upperMessageBarNotificationLayoutViewModel = upperMessageBarNotificationLayoutViewModel
-        viewLifecycleOwner.lifecycleScope.launch {
-            /*if (accessibilityEnabled) {
-                inCallTopNotificationLayout.visibility = View.VISIBLE
-            } else {
-                inCallTopNotificationLayoutViewModel.getDisplayInCallTopNotificationFlow().collect {
-                    inCallTopNotificationLayout.visibility = if (it) View.VISIBLE else View.GONE
-                    // If we are on television, set the focus to the participants button
-                    if (it && isAndroidTV(context)) {
-                        dismissImageButton.requestFocus()
-                    }
-                }
-            }*/
-        }
+        upperMessageBarNotificationLayout.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
             upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow()?.collect() {
@@ -55,8 +43,7 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
                         null
                     ) as UpperMessageBarNotificationView
                     val upperMessageBarNotificationViewModel = UpperMessageBarNotificationViewModel()
-                    upperMessageBarNotificationViewModel.init()
-                    upperMessageBarNotificationViewModel.setUpperMessageBarNotificationModel(it)
+                    upperMessageBarNotificationViewModel.init (it) { upperMessageBarNotificationLayoutViewModel.dismissNotification(it.mediaCallDiagnostic) }
                     upperMessageBarNotificationView.start(
                         viewLifecycleOwner,
                         upperMessageBarNotificationViewModel,
@@ -78,15 +65,9 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
                 }
             }
         }
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            upperMessageBarNotificationLayoutViewModel.getIsOverlayDisplayedFlow().collect {
-                if (it) {
-                    ViewCompat.setImportantForAccessibility(upperMessageBarNotificationLayout, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
-                } else {
-                    ViewCompat.setImportantForAccessibility(upperMessageBarNotificationLayout, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
-                }
-            }
-        }
+    fun stop() {
+        this.removeAllViews()
     }
 }

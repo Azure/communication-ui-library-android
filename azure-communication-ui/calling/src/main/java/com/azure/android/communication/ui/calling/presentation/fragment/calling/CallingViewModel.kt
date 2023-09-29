@@ -76,14 +76,6 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.count()
         )
 
-        upperMessageBarNotificationLayoutViewModel.init(
-            state.callState.callingStatus
-        )
-
-        toastNotificationViewModel.init(
-            state.callState.callingStatus
-        )
-
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
         )

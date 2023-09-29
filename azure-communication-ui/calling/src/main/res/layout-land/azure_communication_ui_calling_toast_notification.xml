@@ -16,9 +16,6 @@
     android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_6dp_floating_header"
     android:importantForAccessibility="yes"
     android:visibility="gone"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
     tools:visibility="visible"
     >
     <ImageView

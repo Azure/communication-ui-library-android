@@ -27,9 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginVertical="12dp"
         android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
-        android:contentDescription="@string/azure_communication_ui_calling_view_participant_list_open_accessibility_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -48,6 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/azure_communication_ui_upper_message_bar_notification_icon"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         />
 
     <ImageButton
@@ -55,9 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="12dp"
         android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
         android:contentDescription="@string/azure_communication_ui_calling_notification_dismiss_accessibility_label"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -7,7 +7,6 @@ import android.util.Log
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
-import com.azure.android.communication.calling.DiagnosticQuality
 import com.azure.android.communication.calling.DiagnosticQualityChangedListener
 import com.azure.android.communication.calling.DominantSpeakersCallFeature
 import com.azure.android.communication.calling.LocalUserDiagnosticsCallFeature
@@ -59,7 +58,6 @@ internal class CallingSDKEventHandler(
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
 
-
     //region Call Diagnostics
     private var networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private var networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
@@ -97,11 +95,10 @@ internal class CallingSDKEventHandler(
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean> = isTranscribingSharedFlow
 
     // region Call Diagnostics
-    fun getNetworkQualityCallDiagnosticsSharedFlow() : SharedFlow<NetworkQualityCallDiagnosticModel> = networkQualityCallDiagnosticsSharedFlow
-    fun getNetworkCallDiagnosticsSharedFlow() : SharedFlow<NetworkCallDiagnosticModel> = networkCallDiagnosticsSharedFlow
-    fun getMediaCallDiagnosticsSharedFlow() : SharedFlow<MediaCallDiagnosticModel> = mediaCallDiagnosticsSharedFlow
+    fun getNetworkQualityCallDiagnosticsSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> = networkQualityCallDiagnosticsSharedFlow
+    fun getNetworkCallDiagnosticsSharedFlow(): SharedFlow<NetworkCallDiagnosticModel> = networkCallDiagnosticsSharedFlow
+    fun getMediaCallDiagnosticsSharedFlow(): SharedFlow<MediaCallDiagnosticModel> = mediaCallDiagnosticsSharedFlow
     //endregion
-    
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
     @OptIn(FlowPreview::class)
@@ -126,7 +123,6 @@ internal class CallingSDKEventHandler(
         recordingFeature.addOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
-        //subscribeToUserFacingDiagnosticsEvents(call)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
     }
@@ -562,14 +558,14 @@ internal class CallingSDKEventHandler(
     }
 
     private fun subscribeToUserFacingDiagnosticsEvents() {
-        networkDiagnostics = this.call?.feature{ LocalUserDiagnosticsCallFeature::class.java }?.networkDiagnostics
+        networkDiagnostics = this.call?.feature { LocalUserDiagnosticsCallFeature::class.java }?.networkDiagnostics
         networkDiagnostics?.addOnNetworkReconnectionQualityChangedListener(onNetworkReconnectionQualityChanged)
         networkDiagnostics?.addOnNetworkReceiveQualityChangedListener(onNetworkReceiveQualityChanged)
         networkDiagnostics?.addOnNetworkSendQualityChangedListener(onNetworkSendQualityChanged)
         networkDiagnostics?.addOnIsNetworkUnavailableChangedListener(onIsNetworkUnavailableChanged)
         networkDiagnostics?.addOnIsNetworkRelaysUnreachableChangedListener(onIsNetworkRelaysUnreachableChanged)
 
-        mediaDiagnostics = call?.feature{ LocalUserDiagnosticsCallFeature::class.java }?.mediaDiagnostics
+        mediaDiagnostics = call?.feature { LocalUserDiagnosticsCallFeature::class.java }?.mediaDiagnostics
         mediaDiagnostics?.addOnIsSpeakerNotFunctioningChangedListener(onIsSpeakerNotFunctioningChanged)
         mediaDiagnostics?.addOnIsSpeakerBusyChangedListener(onIsSpeakerBusyChanged)
         mediaDiagnostics?.addOnIsSpeakerMutedChangedListener(onIsSpeakerMutedChanged)

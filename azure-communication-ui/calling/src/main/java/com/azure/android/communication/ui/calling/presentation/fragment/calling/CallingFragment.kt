@@ -56,7 +56,7 @@ internal class CallingFragment :
     private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
     private lateinit var infoHeaderView: InfoHeaderView
-    private lateinit var upperMessageBarNotificationLayoutView : UpperMessageBarNotificationLayoutView
+    private lateinit var upperMessageBarNotificationLayoutView: UpperMessageBarNotificationLayoutView
     private lateinit var toastNotificationView: ToastNotificationView
     private lateinit var participantGridView: ParticipantGridView
     private lateinit var audioDeviceListView: AudioDeviceListView
@@ -219,6 +219,8 @@ internal class CallingFragment :
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
         if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
+        if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
+        if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
