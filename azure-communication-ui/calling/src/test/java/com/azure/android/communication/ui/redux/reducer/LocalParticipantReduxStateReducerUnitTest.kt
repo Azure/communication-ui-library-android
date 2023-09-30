@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.redux.reducer
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -773,6 +774,40 @@ internal class LocalParticipantReduxStateReducerUnitTest {
             audioDeviceSelectionStatus,
             newState.audioState.device
         )
+    }
+
+    @Test
+    fun localUserState_reduce_when_RoleChanged_then_changeState() {
+        // arrange
+        val reducer = LocalParticipantStateReducerImpl()
+        val oldState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.PENDING,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.LOCAL
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = "some video stream id",
+            displayName = null,
+            localParticipantRole = null
+        )
+
+        val action = LocalParticipantAction.RoleChanged(
+            callCompositeParticipantRole = CallCompositeParticipantRole.PRESENTER,
+        )
+
+        // assert
+        Assert.assertEquals(null, oldState.localParticipantRole)
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(CallCompositeParticipantRole.PRESENTER, newState.localParticipantRole)
     }
 
     @Test

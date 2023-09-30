@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
@@ -2254,6 +2255,262 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 argThat { action ->
                     action is LocalParticipantAction.CamerasCountUpdated &&
                         action.count == 8
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_admitAll_then_callServiceAdmitAll_testWithErrorCode() =
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+
+            val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
+            val mockCallingService: CallingService = mock {
+                on { admitAll() } doReturn resultCompletableFuture
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+
+            val error = CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+            handler.admitAll(mockAppStore)
+            resultCompletableFuture.complete(error)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ParticipantAction.LobbyError &&
+                        action.code == error
+                }
+            )
+            verify(mockCallingService, times(1)).admitAll()
+        }
+
+    @Test
+    fun callingMiddlewareActionHandler_admitAll_then_callServiceAdmitAll_testWithNoErrorCode() =
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+
+            val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
+            val mockCallingService: CallingService = mock {
+                on { admitAll() } doReturn resultCompletableFuture
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+            }
+
+            handler.admitAll(mockAppStore)
+            resultCompletableFuture.complete(null)
+
+            // assert
+            verify(mockAppStore, times(0)).dispatch(any())
+            verify(mockCallingService, times(1)).admitAll()
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_admit_then_callServiceAdmit_testWithErrorCode() =
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+
+            val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
+            val mockCallingService: CallingService = mock {
+                on { admit(any()) } doReturn resultCompletableFuture
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+
+            val error = CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+            handler.admit("id", mockAppStore)
+            resultCompletableFuture.complete(error)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ParticipantAction.LobbyError &&
+                        action.code == error
+                }
+            )
+            verify(mockCallingService, times(1)).admit(
+                argThat { action ->
+                    action == "id"
+                }
+            )
+        }
+
+    @Test
+    fun callingMiddlewareActionHandler_admit_then_callServiceAdmit_testWithNoErrorCode() =
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+
+            val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
+            val mockCallingService: CallingService = mock {
+                on { admit(any()) } doReturn resultCompletableFuture
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+            }
+
+            handler.admit("id", mockAppStore)
+            resultCompletableFuture.complete(null)
+
+            // assert
+            verify(mockAppStore, times(0)).dispatch(any())
+            verify(mockCallingService, times(1)).admit(
+                argThat { action ->
+                    action == "id"
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_decline_then_callServiceDecline_testWithErrorCode() =
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+
+            val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
+            val mockCallingService: CallingService = mock {
+                on { decline(any()) } doReturn resultCompletableFuture
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
+
+            val error = CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+            handler.decline("id", mockAppStore)
+            resultCompletableFuture.complete(error)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is ParticipantAction.LobbyError &&
+                        action.code == error
+                }
+            )
+            verify(mockCallingService, times(1)).decline(
+                argThat { action ->
+                    action == "id"
+                }
+            )
+        }
+
+    @Test
+    fun callingMiddlewareActionHandler_decline_then_callServiceDecline_testWithNoErrorCode() =
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+
+            val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
+            val mockCallingService: CallingService = mock {
+                on { decline(any()) } doReturn resultCompletableFuture
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+            }
+
+            handler.decline("id", mockAppStore)
+            resultCompletableFuture.complete(null)
+
+            // assert
+            verify(mockAppStore, times(0)).dispatch(any())
+            verify(mockCallingService, times(1)).decline(
+                argThat { action ->
+                    action == "id"
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_subscribeOnLocalParticipantRoleChanged_then_notifyRoleChanged() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableStateFlow<String?>(null)
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+            val localParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeParticipantRole?>()
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCallIdStateFlow() } doReturn callIdFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn localParticipantRoleSharedFlow
+            }
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider()
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            localParticipantRoleSharedFlow.emit(CallCompositeParticipantRole.PRESENTER)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is LocalParticipantAction.RoleChanged &&
+                        action.callCompositeParticipantRole == CallCompositeParticipantRole.PRESENTER
                 }
             )
         }

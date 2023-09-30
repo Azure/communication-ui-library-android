@@ -12,7 +12,6 @@ import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallBase
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
-import com.azure.android.communication.calling.CallingCommunicationErrors
 import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
@@ -643,26 +642,4 @@ internal class CallingSDKWrapper(
         startCallCompletableFuture.completeExceptionally(error)
         return null
     }
-
-    private fun getLobbyErrorCode(error: CallingCommunicationException) =
-        when (error.errorCode) {
-            CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS -> {
-                CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
-            }
-
-            CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> {
-                CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED
-            }
-
-            CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED -> {
-                CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED
-            }
-
-            CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE -> {
-                CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE
-            }
-            else -> {
-                CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-            }
-        }
 }
