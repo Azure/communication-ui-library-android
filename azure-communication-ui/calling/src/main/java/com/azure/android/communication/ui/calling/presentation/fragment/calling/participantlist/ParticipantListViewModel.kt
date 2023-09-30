@@ -40,7 +40,7 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
-            }.filter { participantListRemoveParticipantVisibility(it, canShowLobby) }
+            }.filter { participantListRemoteParticipantVisibility(it, canShowLobby) }
         remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
 
         localParticipantListCellStateFlow =
@@ -51,13 +51,13 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         val remoteParticipantList: MutableList<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
-            }.filter { participantListRemoveParticipantVisibility(it, canShowLobby) }.toMutableList()
+            }.filter { participantListRemoteParticipantVisibility(it, canShowLobby) }.toMutableList()
         remoteParticipantListCellStateFlow.value = remoteParticipantList
 
         localParticipantListCellStateFlow.value = getLocalParticipantListCellModel(localUserState)
     }
 
-    private fun participantListRemoveParticipantVisibility(
+    private fun participantListRemoteParticipantVisibility(
         it: ParticipantListCellModel,
         canShowLobby: Boolean,
     ) = (
