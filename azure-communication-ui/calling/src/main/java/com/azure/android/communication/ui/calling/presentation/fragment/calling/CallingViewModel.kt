@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -40,7 +39,7 @@ internal class CallingViewModel(
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
-    val lobbyErrorHeaderViewModel: LobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
+    val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
 
     private var hasSetupCalled = false
 
@@ -180,6 +179,7 @@ internal class CallingViewModel(
             )
             floatingHeaderViewModel.dismiss()
             lobbyHeaderViewModel.close()
+            lobbyErrorHeaderViewModel.dismiss()
             participantListViewModel.closeParticipantList()
             localParticipantViewModel.update(
                 state.localParticipantState.displayName,

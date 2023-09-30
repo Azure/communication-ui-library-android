@@ -45,4 +45,8 @@ internal class LobbyErrorHeaderViewModel(private val dispatch: (Action) -> Unit)
     fun close() {
         dispatch(ParticipantAction.ClearLobbyError())
     }
+
+    fun dismiss() {
+        displayLobbyErrorHeaderFlow.value = false
+    }
 }
